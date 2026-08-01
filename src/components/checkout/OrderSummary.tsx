@@ -2,22 +2,12 @@
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-
-const LINE_ITEMS = [
-  { key: "itemMofu" as const, qty: 2, unit: 48 },
-  { key: "itemMatcha" as const, qty: 1, unit: 58 },
-  { key: "itemMango" as const, qty: 1, unit: 62 },
-];
-
-const SHIPPING = 25;
+import { calcSubtotal, LINE_ITEMS, SHIPPING } from "@/lib/order";
 
 export function OrderSummary() {
   const { locale, t } = useI18n();
 
-  const subtotal = LINE_ITEMS.reduce(
-    (sum, item) => sum + item.qty * item.unit,
-    0,
-  );
+  const subtotal = calcSubtotal(LINE_ITEMS);
   const total = subtotal + SHIPPING;
 
   return (

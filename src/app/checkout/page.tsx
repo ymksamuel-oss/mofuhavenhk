@@ -2,6 +2,7 @@
 
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { PaymentMethods } from "@/components/checkout/PaymentMethods";
+import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function CheckoutPage() {
@@ -30,6 +31,10 @@ export default function CheckoutPage() {
             {t("secureNote")}
           </p>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <WhatsAppOrder />
       </div>
     </div>
   );

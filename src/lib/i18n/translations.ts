@@ -28,11 +28,18 @@ export const translations = {
     paymentTitle: "付款方式",
     paymentHint: "請選擇一種付款方式完成訂單",
     payOctopus: "八達通",
-    payFps: "轉數快",
+    payFps: "轉數快 (FPS)",
     payCard: "信用卡 / 扣帳卡",
-    payPayme: "PayMe",
+    payApplePay: "Apple Pay",
+    payAlipay: "支付寶 (Alipay)",
     placeOrder: "確認付款",
     secureNote: "付款資料經加密處理，安全可靠。",
+    whatsappOrderTitle: "透過 WhatsApp 落單",
+    whatsappOrderHint:
+      "按下按鈕會自動生成訂單編號，並整理已選商品名稱、價錢及總金額，方便你直接傳送給我們落單。",
+    whatsappOrderCta: "以 WhatsApp 落單",
+    orderNumber: "訂單編號",
+    whatsappGreeting: "你好，我想落單，訂單編號：",
   },
   en: {
     brand: "Mofu Haven",
@@ -61,9 +68,16 @@ export const translations = {
     payOctopus: "Octopus",
     payFps: "FPS",
     payCard: "Credit / debit card",
-    payPayme: "PayMe",
+    payApplePay: "Apple Pay",
+    payAlipay: "Alipay",
     placeOrder: "Place order",
     secureNote: "Your payment details are encrypted and secure.",
+    whatsappOrderTitle: "Order via WhatsApp",
+    whatsappOrderHint:
+      "Tap the button to generate an order number and prepare your selected items, prices and total so you can send it to us directly.",
+    whatsappOrderCta: "Order on WhatsApp",
+    orderNumber: "Order number",
+    whatsappGreeting: "Hi, I'd like to place an order. Order number:",
   },
 } as const;
 

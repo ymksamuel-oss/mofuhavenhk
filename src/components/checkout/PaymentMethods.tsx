@@ -3,28 +3,30 @@
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
+  AlipayLogo,
+  ApplePayLogo,
   CardLogo,
   FpsLogo,
   OctopusLogo,
-  PayMeLogo,
 } from "@/components/icons/PaymentIcons";
 
-type MethodId = "octopus" | "fps" | "card" | "payme";
+type MethodId = "card" | "applepay" | "fps" | "alipay" | "octopus";
 
 const methods: {
   id: MethodId;
-  labelKey: "payOctopus" | "payFps" | "payCard" | "payPayme";
+  labelKey: "payCard" | "payApplePay" | "payFps" | "payAlipay" | "payOctopus";
   Icon: typeof OctopusLogo;
 }[] = [
-  { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
-  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },
-  { id: "payme", labelKey: "payPayme", Icon: PayMeLogo },
+  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
+  { id: "alipay", labelKey: "payAlipay", Icon: AlipayLogo },
+  { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
 ];
 
 export function PaymentMethods() {
   const { t } = useI18n();
-  const [selected, setSelected] = useState<MethodId>("octopus");
+  const [selected, setSelected] = useState<MethodId>("card");
 
   return (
     <section aria-labelledby="payment-title" className="space-y-4">

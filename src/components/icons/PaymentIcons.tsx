@@ -82,3 +82,74 @@ export function PayMeLogo({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+export function ApplePayLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 48 24"
+      height={ICON_H}
+      className={`h-6 w-auto ${className}`}
+      aria-label="Apple Pay"
+      role="img"
+    >
+      <rect width="48" height="24" rx="3" fill="#000" />
+      <path
+        d="M13.6 8.9c-.4.5-1.1.9-1.7.8-.1-.7.2-1.4.6-1.8.4-.5 1.1-.9 1.7-.9.1.7-.2 1.3-.6 1.9zm.6 1c-1-.1-1.8.6-2.3.6-.5 0-1.2-.5-1.9-.5-1 0-1.9.6-2.4 1.4-1 1.8-.3 4.4.7 5.9.5.7 1.1 1.5 1.9 1.5.7 0 1-.5 1.9-.5s1.2.5 1.9.5c.8 0 1.4-.7 1.9-1.5.5-.8.8-1.6.8-1.6-.1 0-1.6-.6-1.6-2.4 0-1.5 1.2-2.2 1.3-2.3-.7-1-1.8-1.1-2.2-1.1z"
+        fill="#fff"
+      />
+      <text
+        x="34"
+        y="16"
+        textAnchor="middle"
+        fill="#fff"
+        fontSize="9"
+        fontFamily="Arial, sans-serif"
+        fontWeight="600"
+      >
+        Pay
+      </text>
+    </svg>
+  );
+}
+
+export function AlipayLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 48 24"
+      height={ICON_H}
+      className={`h-6 w-auto ${className}`}
+      aria-label="Alipay"
+      role="img"
+    >
+      <rect width="48" height="24" rx="3" fill="#1677FF" />
+      <text
+        x="24"
+        y="16"
+        textAnchor="middle"
+        fill="#fff"
+        fontSize="9"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+      >
+        Alipay
+      </text>
+    </svg>
+  );
+}
+
+export function WhatsAppLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      height={20}
+      className={`h-5 w-auto ${className}`}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="12" fill="#25D366" />
+      <path
+        d="M16.4 14.1c-.2-.1-1.3-.6-1.5-.7-.2-.1-.3-.1-.5.1-.1.2-.5.7-.6.8-.1.1-.2.1-.4 0-.2-.1-.9-.3-1.7-1.1-.6-.6-1-1.3-1.2-1.5-.1-.2 0-.3.1-.4l.3-.4c.1-.1.1-.2.2-.3.1-.1 0-.2 0-.3 0-.1-.5-1.1-.6-1.5-.2-.4-.3-.3-.5-.3h-.4c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.3c.1.2 1.6 2.5 3.9 3.4.5.2.9.4 1.3.5.5.2 1 .1 1.3 0 .4-.1 1.3-.5 1.4-1 .2-.5.2-.9.1-1z"
+        fill="#fff"
+      />
+    </svg>
+  );
+}
