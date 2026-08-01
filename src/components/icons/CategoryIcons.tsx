@@ -6,10 +6,10 @@ export function CatIcon({ className = "" }: IconProps) {
       <path d="M10 14 14 5 18 13Z" />
       <path d="M30 14 26 5 22 13Z" />
       <circle cx="20" cy="22" r="12" />
-      <circle cx="15.5" cy="21" r="1.8" fill="#fff" />
-      <circle cx="24.5" cy="21" r="1.8" fill="#fff" />
-      <path d="M20 24.5 18.4 26.5 21.6 26.5Z" fill="#fff" />
-      <g stroke="#fff" strokeWidth="1.1" strokeLinecap="round">
+      <circle cx="15.5" cy="21" r="1.8" fill="var(--category-bg)" />
+      <circle cx="24.5" cy="21" r="1.8" fill="var(--category-bg)" />
+      <path d="M20 24.5 18.4 26.5 21.6 26.5Z" fill="var(--category-bg)" />
+      <g stroke="var(--category-bg)" strokeWidth="1.1" strokeLinecap="round">
         <path d="M9 26h6M9 29h5.3" />
         <path d="M31 26h-6M31 29h-5.3" />
       </g>
@@ -23,9 +23,9 @@ export function DogIcon({ className = "" }: IconProps) {
       <path d="M11 12c-5.5-0.5-8 5.6-4.5 10.8L13 19Z" />
       <path d="M29 12c5.5-0.5 8 5.6 4.5 10.8L27 19Z" />
       <circle cx="20" cy="23" r="11" />
-      <circle cx="16" cy="22" r="1.7" fill="#fff" />
-      <circle cx="24" cy="22" r="1.7" fill="#fff" />
-      <ellipse cx="20" cy="27" rx="2.1" ry="1.5" fill="#fff" />
+      <circle cx="16" cy="22" r="1.7" fill="var(--category-bg)" />
+      <circle cx="24" cy="22" r="1.7" fill="var(--category-bg)" />
+      <ellipse cx="20" cy="27" rx="2.1" ry="1.5" fill="var(--category-bg)" />
     </svg>
   );
 }
@@ -51,8 +51,8 @@ export function HealthIcon({ className = "" }: IconProps) {
         d="M20 30.5C10.5 23.6 6 17.7 6 12.9 6 9 9 6 12.7 6c2.8 0 5.1 1.6 7.3 4.5C22.2 7.6 24.5 6 27.3 6 31 6 34 9 34 12.9c0 4.8-4.5 10.7-14 17.6Z"
         fill="currentColor"
       />
-      <rect x="17.4" y="12.5" width="5.2" height="12.5" rx="1.3" fill="#fff" />
-      <rect x="13" y="16.9" width="14" height="5.2" rx="1.3" fill="#fff" />
+      <rect x="17.4" y="12.5" width="5.2" height="12.5" rx="1.3" fill="var(--category-bg)" />
+      <rect x="13" y="16.9" width="14" height="5.2" rx="1.3" fill="var(--category-bg)" />
     </svg>
   );
 }
@@ -75,7 +75,7 @@ export function ClockIcon({ className = "" }: IconProps) {
       <circle cx="20" cy="22" r="13" fill="currentColor" />
       <path
         d="M20 13v9l6 4"
-        stroke="#fff"
+        stroke="var(--category-bg)"
         strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -94,8 +94,8 @@ export function FireIcon({ className = "" }: IconProps) {
       />
       <path
         d="M20 15c3.4 4.4 5 7.2 5 9.9a5 5 0 0 1-10 0c0-2.7 1.6-5.5 5-9.9Z"
-        fill="#fff"
-        opacity="0.5"
+        fill="var(--category-bg)"
+        opacity="0.85"
       />
     </svg>
   );
@@ -115,8 +115,8 @@ export function BagIcon({ className = "" }: IconProps) {
         d="M8.5 14h23l-1.8 18a2.2 2.2 0 0 1-2.2 2H12.5a2.2 2.2 0 0 1-2.2-2Z"
         fill="currentColor"
       />
-      <circle cx="14.5" cy="18.5" r="1.3" fill="#fff" />
-      <circle cx="25.5" cy="18.5" r="1.3" fill="#fff" />
+      <circle cx="14.5" cy="18.5" r="1.3" fill="var(--category-bg)" />
+      <circle cx="25.5" cy="18.5" r="1.3" fill="var(--category-bg)" />
     </svg>
   );
 }

@@ -10,10 +10,10 @@
   --accent-soft: #e4f1eb;
   --hero-deep: #18483c;
   --foreground: var(--ink);
-  --category-bg: #fbd88a;
-  --category-bg-light: #ffedbf;
-  --category-bg-hover: #f8c968;
-  --category-ink: #7a4a1e;
+  --category-bg: #f5a742;
+  --category-bg-light: #ffc978;
+  --category-bg-hover: #ef9526;
+  --category-ink: #ffffff;
 }
 
 @theme inline {

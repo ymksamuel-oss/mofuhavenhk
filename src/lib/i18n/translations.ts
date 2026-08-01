@@ -51,6 +51,7 @@ export const translations = {
     categoryBestsellers: "熱賣商品",
     categoryOutdoor: "外出用品",
     categorySelectedPrefix: "已選分類：",
+    selectedPaymentPrefix: "付款方式：",
   },
   en: {
     brand: "Mofu Haven",
@@ -100,6 +101,7 @@ export const translations = {
     categoryBestsellers: "Best Sellers",
     categoryOutdoor: "Outdoor Gear",
     categorySelectedPrefix: "Selected category:",
+    selectedPaymentPrefix: "Payment method:",
   },
 } as const;
 
