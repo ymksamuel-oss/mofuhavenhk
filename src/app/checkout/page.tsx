@@ -2,6 +2,7 @@
 
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { PaymentMethods } from "@/components/checkout/PaymentMethods";
+import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -15,6 +16,7 @@ export default function CheckoutPage() {
           {t("checkoutTitle")}
         </h1>
         <p className="mt-2 text-[color:var(--muted)]">{t("checkoutSubtitle")}</p>
+        <SelectedCategoryNotice />
       </header>
 
       <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">

@@ -1,0 +1,45 @@
+import type { TranslationKey } from "@/lib/i18n/translations";
+
+export type CategoryIconName =
+  | "cat"
+  | "dog"
+  | "bone"
+  | "health"
+  | "cleaning"
+  | "clock"
+  | "fire"
+  | "bag";
+
+export type CategoryLabelKey = Extract<
+  TranslationKey,
+  | "categoryCats"
+  | "categoryDogs"
+  | "categorySnacks"
+  | "categoryHealth"
+  | "categoryCleaning"
+  | "categoryDeals"
+  | "categoryBestsellers"
+  | "categoryOutdoor"
+>;
+
+export type Category = {
+  slug: string;
+  labelKey: CategoryLabelKey;
+  icon: CategoryIconName;
+};
+
+export const CATEGORIES: Category[] = [
+  { slug: "cats", labelKey: "categoryCats", icon: "cat" },
+  { slug: "dogs", labelKey: "categoryDogs", icon: "dog" },
+  { slug: "snacks", labelKey: "categorySnacks", icon: "bone" },
+  { slug: "health", labelKey: "categoryHealth", icon: "health" },
+  { slug: "cleaning", labelKey: "categoryCleaning", icon: "cleaning" },
+  { slug: "deals", labelKey: "categoryDeals", icon: "clock" },
+  { slug: "bestsellers", labelKey: "categoryBestsellers", icon: "fire" },
+  { slug: "outdoor", labelKey: "categoryOutdoor", icon: "bag" },
+];
+
+export function getCategoryLabelKey(slug: string | null): CategoryLabelKey | null {
+  if (!slug) return null;
+  return CATEGORIES.find((category) => category.slug === slug)?.labelKey ?? null;
+}
