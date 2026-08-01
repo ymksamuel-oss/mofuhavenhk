@@ -2,16 +2,12 @@
 
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import {
-  AlipayLogo,
-  ApplePayLogo,
-  CardLogo,
-  FpsLogo,
-  OctopusLogo,
-} from "@/components/icons/PaymentIcons";
+import { ApplePayLogo, CardLogo, OctopusLogo } from "@/components/icons/PaymentIcons";
 
 type MethodId = "card" | "applepay" | "fps" | "alipay" | "octopus";
 
+// Temporarily only Credit Card and Apple Pay are offered. FPS, Alipay and
+// Octopus are commented out (not removed) so they can be re-enabled later.
 const methods: {
   id: MethodId;
   labelKey: "payCard" | "payApplePay" | "payFps" | "payAlipay" | "payOctopus";
@@ -19,9 +15,9 @@ const methods: {
 }[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
-  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
-  { id: "alipay", labelKey: "payAlipay", Icon: AlipayLogo },
-  { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
+  // { id: "fps", labelKey: "payFps", Icon: FpsLogo },
+  // { id: "alipay", labelKey: "payAlipay", Icon: AlipayLogo },
+  // { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
 ];
 
 export function PaymentMethods() {
