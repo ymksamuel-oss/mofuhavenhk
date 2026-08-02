@@ -61,6 +61,12 @@ export const translations = {
     productModalClose: "關閉",
     productDiscountBadge: "限時優惠",
     productOriginalPriceLabel: "原價",
+    customerNameLabel: "顧客姓名",
+    customerNamePlaceholder: "請輸入姓名",
+    customerNameRequired: "請先填寫顧客姓名。",
+    orderNotifySending: "正在同步通知店主…",
+    orderNotifySuccess: "已透過 WhatsApp 通知店主，並可再手動發送完整訂單。",
+    orderNotifyError: "自動通知未能送達，請改用下方按鈕手動 WhatsApp 通知店主。",
   },
   en: {
     brand: "Mofu Haven",
@@ -120,6 +126,12 @@ export const translations = {
     productModalClose: "Close",
     productDiscountBadge: "Limited-Time Deal",
     productOriginalPriceLabel: "Was",
+    customerNameLabel: "Customer name",
+    customerNamePlaceholder: "Your name",
+    customerNameRequired: "Please enter your name.",
+    orderNotifySending: "Notifying the shop via WhatsApp…",
+    orderNotifySuccess: "Shop notified on WhatsApp. You can also send the full order manually below.",
+    orderNotifyError: "Auto-notify failed — please use the button below to message the shop on WhatsApp.",
   },
 } as const;
 
