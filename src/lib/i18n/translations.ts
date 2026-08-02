@@ -49,6 +49,11 @@ export const translations = {
     categoryOutdoor: "外出用品",
     categorySelectedPrefix: "已選分類：",
     selectedPaymentPrefix: "付款方式：",
+    menuTitle: "商品目錄",
+    menuSubtitle: "瀏覽我哋嚴選嘅日本寵物用品，揀啱心水即刻落單！",
+    menuAllCategories: "全部",
+    menuAddToCheckout: "前往結帳",
+    menuEmpty: "呢個分類暫時未有商品，請揀選其他分類。",
   },
   en: {
     brand: "Mofu Haven",
@@ -96,6 +101,11 @@ export const translations = {
     categoryOutdoor: "Outdoor Gear",
     categorySelectedPrefix: "Selected category:",
     selectedPaymentPrefix: "Payment method:",
+    menuTitle: "Product Catalog",
+    menuSubtitle: "Browse our curated Japanese pet supplies and check out your favorites.",
+    menuAllCategories: "All",
+    menuAddToCheckout: "Go to Checkout",
+    menuEmpty: "No products in this category yet — try another one.",
   },
 } as const;
 
