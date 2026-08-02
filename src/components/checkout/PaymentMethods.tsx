@@ -1,24 +1,20 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { ApplePayLogo, CardLogo, OctopusLogo } from "@/components/icons/PaymentIcons";
+import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay" | "fps" | "alipay" | "octopus";
+export type MethodId = "card" | "applepay";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay" | "payFps" | "payAlipay" | "payOctopus";
-  Icon: typeof OctopusLogo;
+  labelKey: "payCard" | "payApplePay";
+  Icon: typeof CardLogo;
 };
 
-// Only Credit Card and Apple Pay are offered for now. FPS, Alipay and
-// Octopus are commented out (not removed) so they can be re-enabled later.
+// Only Credit Card (Stripe) and Apple Pay are supported.
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
-  // { id: "fps", labelKey: "payFps", Icon: FpsLogo },
-  // { id: "alipay", labelKey: "payAlipay", Icon: AlipayLogo },
-  // { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
 ];
 
 type PaymentMethodsProps = {
