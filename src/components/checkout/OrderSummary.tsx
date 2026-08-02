@@ -3,17 +3,30 @@
 import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { calcSubtotal, SHIPPING, type OrderItem } from "@/lib/order";
+import {
+  calcSubtotal,
+  MAX_QTY,
+  MIN_QTY,
+  SHIPPING,
+  type OrderItem,
+} from "@/lib/order";
 
 type OrderSummaryProps = {
   items: OrderItem[];
+  onQtyChange?: (id: string, qty: number) => void;
+  qtyDisabled?: boolean;
 };
 
-export function OrderSummary({ items }: OrderSummaryProps) {
+export function OrderSummary({
+  items,
+  onQtyChange,
+  qtyDisabled = false,
+}: OrderSummaryProps) {
   const { locale, t } = useI18n();
 
   const subtotal = calcSubtotal(items);
   const total = subtotal + SHIPPING;
+  const editable = Boolean(onQtyChange) && !qtyDisabled;
 
   return (
     <section aria-labelledby="summary-title" className="space-y-4">
@@ -40,13 +53,47 @@ export function OrderSummary({ items }: OrderSummaryProps) {
                   className="object-cover"
                 />
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 space-y-2">
                 <p className="font-medium text-[color:var(--ink)]">
                   {item.name[locale]}
                 </p>
-                <p className="text-[color:var(--muted)]">
-                  {t("qty")} {item.qty}
-                </p>
+                {editable ? (
+                  <div
+                    className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] bg-white p-0.5"
+                    role="group"
+                    aria-label={`${t("qty")} ${item.name[locale]}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onQtyChange?.(item.id, Math.max(MIN_QTY, item.qty - 1))
+                      }
+                      disabled={item.qty <= MIN_QTY}
+                      className="flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)] disabled:cursor-not-allowed disabled:opacity-40"
+                      aria-label={t("qtyDecrease")}
+                    >
+                      −
+                    </button>
+                    <span className="min-w-8 text-center tabular-nums font-medium text-[color:var(--ink)]">
+                      {item.qty}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onQtyChange?.(item.id, Math.min(MAX_QTY, item.qty + 1))
+                      }
+                      disabled={item.qty >= MAX_QTY}
+                      className="flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)] disabled:cursor-not-allowed disabled:opacity-40"
+                      aria-label={t("qtyIncrease")}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-[color:var(--muted)]">
+                    {t("qty")} {item.qty}
+                  </p>
+                )}
               </div>
             </div>
             <p className="shrink-0 tabular-nums text-[color:var(--ink)]">

@@ -67,8 +67,7 @@ export async function POST(request: Request) {
     }
 
     const orderNumber = intent.metadata?.orderNumber?.trim();
-    const customerName = intent.metadata?.customerName?.trim();
-    if (!orderNumber || !customerName) {
+    if (!orderNumber) {
       return NextResponse.json(
         { ok: false, error: "missing_order_metadata" },
         { status: 400 },
@@ -79,6 +78,17 @@ export async function POST(request: Request) {
       intent.payment_method && typeof intent.payment_method !== "string"
         ? intent.payment_method
         : null;
+    const customerName =
+      intent.metadata?.customerName?.trim() ||
+      paymentMethod?.billing_details?.name?.trim() ||
+      "";
+    if (!customerName) {
+      return NextResponse.json(
+        { ok: false, error: "missing_customer_name" },
+        { status: 400 },
+      );
+    }
+
     const paymentLabel = paymentLabelFromIntent(intent, paymentMethod);
     const total = fromStripeAmountHkd(intent.amount);
 
@@ -107,6 +117,7 @@ export async function POST(request: Request) {
       await stripe.paymentIntents.update(intent.id, {
         metadata: {
           ...intent.metadata,
+          customerName,
           whatsapp_notified: "true",
           paymentLabel,
         },

@@ -30,7 +30,6 @@ type StripePaymentFormProps = {
   clientSecret: string;
   publishableKey: string;
   preferredMethod: MethodId;
-  customerName: string;
   amountHkd: number;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
@@ -81,14 +80,12 @@ function FieldShell({
 
 function CheckoutPayForm({
   preferredMethod,
-  customerName,
   amountHkd,
   clientSecret,
   onPaid,
   onError,
 }: {
   preferredMethod: MethodId;
-  customerName: string;
   amountHkd: number;
   clientSecret: string;
   onPaid: (paymentIntentId: string) => Promise<void>;
@@ -97,6 +94,8 @@ function CheckoutPayForm({
   const stripe = useStripe();
   const elements = useElements();
   const { t } = useI18n();
+  const [cardholderName, setCardholderName] = useState("");
+  const [nameError, setNameError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [cardComplete, setCardComplete] = useState({
     number: false,
@@ -108,7 +107,6 @@ function CheckoutPayForm({
   );
   const [applePayAvailable, setApplePayAvailable] = useState(false);
 
-  // Apple Pay / Payment Request Button when wallet is preferred or available.
   useEffect(() => {
     if (!stripe || amountHkd <= 0) return;
 
@@ -137,9 +135,21 @@ function CheckoutPayForm({
     pr.on("paymentmethod", async (event) => {
       setSubmitting(true);
       onError("");
+      const payerName =
+        event.payerName?.trim() ||
+        event.paymentMethod.billing_details?.name?.trim() ||
+        "";
+
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         clientSecret,
-        { payment_method: event.paymentMethod.id },
+        {
+          payment_method: event.paymentMethod.id,
+          ...(payerName
+            ? {
+                shipping: undefined,
+              }
+            : {}),
+        },
         { handleActions: false },
       );
 
@@ -151,6 +161,22 @@ function CheckoutPayForm({
       }
 
       event.complete("success");
+
+      // Persist payer name onto the PaymentIntent metadata for WhatsApp notify.
+      if (payerName && paymentIntent?.id) {
+        try {
+          await fetch("/api/stripe/update-customer-name", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              paymentIntentId: paymentIntent.id,
+              customerName: payerName,
+            }),
+          });
+        } catch {
+          // complete-order can still read billing_details.name
+        }
+      }
 
       if (paymentIntent?.status === "requires_action") {
         const confirmed = await stripe.confirmCardPayment(clientSecret);
@@ -183,6 +209,12 @@ function CheckoutPayForm({
     event.preventDefault();
     if (!stripe || !elements || submitting) return;
 
+    if (!cardholderName.trim()) {
+      setNameError(true);
+      onError(t("customerNameRequired"));
+      return;
+    }
+
     const cardNumber = elements.getElement(CardNumberElement);
     if (!cardNumber) {
       onError(t("stripePayFailed"));
@@ -195,16 +227,31 @@ function CheckoutPayForm({
     }
 
     setSubmitting(true);
+    setNameError(false);
     onError("");
+
+    const name = cardholderName.trim();
+
+    // Store name on the PaymentIntent before confirm so WhatsApp notify has it.
+    try {
+      await fetch("/api/stripe/update-customer-name", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentIntentId: clientSecret.split("_secret")[0],
+          customerName: name,
+        }),
+      });
+    } catch {
+      // billing_details below is the fallback source of truth
+    }
 
     const { error, paymentIntent } = await stripe.confirmCardPayment(
       clientSecret,
       {
         payment_method: {
           card: cardNumber,
-          billing_details: {
-            name: customerName.trim() || undefined,
-          },
+          billing_details: { name },
         },
       },
     );
@@ -261,6 +308,26 @@ function CheckoutPayForm({
         <p className="text-sm font-semibold text-[color:var(--ink)]">
           {t("stripeCardFieldsTitle")}
         </p>
+
+        <label className="block space-y-1.5">
+          <span className="text-sm font-medium text-[color:var(--ink)]">
+            {t("stripeCardholderName")}
+          </span>
+          <input
+            type="text"
+            value={cardholderName}
+            onChange={(event) => {
+              setCardholderName(event.target.value);
+              if (nameError) setNameError(false);
+            }}
+            placeholder={t("customerNamePlaceholder")}
+            autoComplete="cc-name"
+            className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] ${
+              nameError ? "border-red-400" : "border-[color:var(--line)]"
+            }`}
+          />
+        </label>
+
         <FieldShell label={t("stripeCardNumber")}>
           <CardNumberElement
             options={FIELD_STYLE}
@@ -327,7 +394,6 @@ export function StripePaymentForm({
   clientSecret,
   publishableKey,
   preferredMethod,
-  customerName,
   amountHkd,
   onPaid,
   onError,
@@ -339,8 +405,6 @@ export function StripePaymentForm({
 
   const options: StripeElementsOptions = useMemo(
     () => ({
-      // Card Element group does not need clientSecret on Elements root;
-      // confirmCardPayment uses the PaymentIntent client secret directly.
       appearance: {
         theme: "stripe",
         variables: {
@@ -362,14 +426,9 @@ export function StripePaymentForm({
   }, [clientSecret, onError]);
 
   return (
-    <Elements
-      key={clientSecret}
-      stripe={stripePromise}
-      options={options}
-    >
+    <Elements key={clientSecret} stripe={stripePromise} options={options}>
       <CheckoutPayForm
         preferredMethod={preferredMethod}
-        customerName={customerName}
         amountHkd={amountHkd}
         clientSecret={clientSecret}
         onPaid={onPaid}

@@ -33,6 +33,40 @@ export function getOrderItems(categorySlug: string | null): OrderItem[] {
   }));
 }
 
+export const MIN_QTY = 1;
+export const MAX_QTY = 20;
+
+/**
+ * Rebuilds order lines from client qty selections, pricing from the catalog
+ * so amounts cannot be forged on the client.
+ */
+export function buildOrderItemsFromLines(
+  lines: Array<{ id: string; qty: number }>,
+): OrderItem[] {
+  const byId = new Map(PRODUCTS.map((product) => [product.id, product]));
+  const items: OrderItem[] = [];
+
+  for (const line of lines) {
+    if (!line || typeof line.id !== "string") continue;
+    const product = byId.get(line.id);
+    if (!product) continue;
+    const qty = Math.min(
+      MAX_QTY,
+      Math.max(MIN_QTY, Math.floor(Number(line.qty) || 0)),
+    );
+    if (qty < MIN_QTY) continue;
+    items.push({
+      id: product.id,
+      name: product.name,
+      image: product.image,
+      qty,
+      unit: product.price,
+    });
+  }
+
+  return items;
+}
+
 export function generateOrderNumber(): string {
   const now = new Date();
   const y = now.getFullYear();

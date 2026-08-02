@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  buildOrderItemsFromLines,
   calcSubtotal,
   generateOrderNumber,
   getOrderItems,
@@ -19,6 +20,7 @@ type Body = {
   category?: unknown;
   orderNumber?: unknown;
   locale?: unknown;
+  lines?: unknown;
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -27,8 +29,9 @@ function isNonEmptyString(value: unknown): value is string {
 
 /**
  * POST /api/stripe/create-payment-intent
- * Creates a PaymentIntent in HKD for the demo/category order.
- * Amount is computed server-side (never trusted from the client).
+ * Creates a PaymentIntent in HKD. Amount is computed server-side from the
+ * product catalog + requested quantities (never trusts client totals).
+ * Customer name is optional here — collected in the Stripe pay form.
  */
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {
@@ -52,18 +55,28 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isNonEmptyString(body.customerName)) {
-    return NextResponse.json(
-      { ok: false, error: "customer_name_required" },
-      { status: 400 },
-    );
-  }
-
   const category =
     typeof body.category === "string" && body.category.trim()
       ? body.category.trim()
       : null;
-  const items = getOrderItems(category);
+
+  let items = getOrderItems(category);
+  if (Array.isArray(body.lines)) {
+    const lines = body.lines
+      .map((line) => {
+        if (!line || typeof line !== "object") return null;
+        const record = line as { id?: unknown; qty?: unknown };
+        if (typeof record.id !== "string") return null;
+        return {
+          id: record.id,
+          qty: typeof record.qty === "number" ? record.qty : Number(record.qty),
+        };
+      })
+      .filter((line): line is { id: string; qty: number } => Boolean(line));
+    const rebuilt = buildOrderItemsFromLines(lines);
+    if (rebuilt.length > 0) items = rebuilt;
+  }
+
   if (items.length === 0) {
     return NextResponse.json(
       { ok: false, error: "empty_order" },
@@ -74,12 +87,13 @@ export async function POST(request: Request) {
   const orderNumber = isNonEmptyString(body.orderNumber)
     ? body.orderNumber.trim().slice(0, 60)
     : generateOrderNumber();
-  const customerName = body.customerName.trim().slice(0, 100);
+  const customerName = isNonEmptyString(body.customerName)
+    ? body.customerName.trim().slice(0, 100)
+    : "";
   const total = calcSubtotal(items) + SHIPPING;
   const amount = toStripeAmountHkd(total);
 
   if (!Number.isFinite(amount) || amount < 50) {
-    // Stripe HKD minimum is typically HK$0.50
     return NextResponse.json(
       { ok: false, error: "invalid_amount" },
       { status: 400 },
@@ -99,8 +113,8 @@ export async function POST(request: Request) {
         category: category ?? "",
         site: "mofuhavenhk.com",
         whatsapp_notified: "false",
+        lineItems: items.map((item) => `${item.id}x${item.qty}`).join(","),
       },
-      receipt_email: undefined,
     });
 
     if (!intent.client_secret) {
