@@ -1,20 +1,30 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
+import {
+  AlipayHKLogo,
+  ApplePayLogo,
+  CardLogo,
+  FpsLogo,
+  OctopusLogo,
+} from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay";
+export type MethodId = "card" | "applepay" | "alipayhk" | "fps" | "octopus";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay";
+  labelKey: "payCard" | "payApplePay" | "payAlipayHK" | "payFPS" | "payOctopus";
   Icon: typeof CardLogo;
 };
 
-// Only Credit Card (Stripe) and Apple Pay are supported.
+// Card / Apple Pay (Stripe) plus Hong Kong's most common local rails:
+// AlipayHK, FPS (轉數快), and Octopus (八達通).
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "alipayhk", labelKey: "payAlipayHK", Icon: AlipayHKLogo },
+  { id: "fps", labelKey: "payFPS", Icon: FpsLogo },
+  { id: "octopus", labelKey: "payOctopus", Icon: OctopusLogo },
 ];
 
 type PaymentMethodsProps = {
