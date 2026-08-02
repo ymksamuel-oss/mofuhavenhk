@@ -9,10 +9,11 @@ import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/transl
  * Digits only, international format, no "+" (e.g. "85212345678").
  * Must be the number behind @MofuHavenHK — usernames cannot be used in wa.me.
  */
+// Default = @MofuHavenHK CallMeBot number (same as server WHATSAPP_PHONE).
 const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ??
   process.env.NEXT_PUBLIC_SHOP_WHATSAPP_PHONE ??
-  ""
+  "85298646585"
 ).replace(/\D/g, "");
 
 type BuildOrderMessageArgs = {
