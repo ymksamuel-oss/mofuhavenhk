@@ -1,24 +1,33 @@
-import type { TranslationKey } from "@/lib/i18n/translations";
+import { PRODUCTS, getProductsByCategory } from "@/lib/products";
 
-export type LineItem = {
-  key: Extract<
-    TranslationKey,
-    "itemDogFood" | "itemCatTreats" | "itemPetSupplement"
-  >;
+export type OrderItem = {
+  id: string;
+  name: { zh: string; en: string };
   qty: number;
   unit: number;
 };
 
-export const LINE_ITEMS: LineItem[] = [
-  { key: "itemDogFood", qty: 1, unit: 168 },
-  { key: "itemCatTreats", qty: 2, unit: 45 },
-  { key: "itemPetSupplement", qty: 1, unit: 158 },
-];
-
 export const SHIPPING = 25;
 
-export function calcSubtotal(items: LineItem[]): number {
+export function calcSubtotal(items: OrderItem[]): number {
   return items.reduce((sum, item) => sum + item.qty * item.unit, 0);
+}
+
+/**
+ * Builds the order summary line items shown at checkout, sourced from the
+ * shared product catalog (src/lib/products.ts). When a category is selected
+ * from the homepage's category grid, the order reflects products from that
+ * category; otherwise it falls back to a default selection.
+ */
+export function getOrderItems(categorySlug: string | null): OrderItem[] {
+  const matched = getProductsByCategory(categorySlug);
+  const source = matched.length > 0 ? matched : PRODUCTS;
+  return source.slice(0, 3).map((product) => ({
+    id: product.id,
+    name: product.name,
+    qty: 1,
+    unit: product.price,
+  }));
 }
 
 export function generateOrderNumber(): string {

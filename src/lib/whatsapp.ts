@@ -1,4 +1,4 @@
-import { calcSubtotal, LINE_ITEMS, SHIPPING } from "@/lib/order";
+import { calcSubtotal, SHIPPING, type OrderItem } from "@/lib/order";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 
 // Set NEXT_PUBLIC_WHATSAPP_NUMBER (e.g. "85212345678") to open the chat
@@ -7,6 +7,7 @@ import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/transl
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
 
 type BuildOrderMessageArgs = {
+  items: OrderItem[];
   orderNumber: string;
   locale: Locale;
   t: (key: TranslationKey) => string;
@@ -14,20 +15,21 @@ type BuildOrderMessageArgs = {
 };
 
 export function buildOrderMessage({
+  items,
   orderNumber,
   locale,
   t,
   paymentLabel,
 }: BuildOrderMessageArgs): string {
-  const subtotal = calcSubtotal(LINE_ITEMS);
+  const subtotal = calcSubtotal(items);
   const total = subtotal + SHIPPING;
 
   const lines = [
     `${t("whatsappGreeting")} ${orderNumber}`,
     "",
-    ...LINE_ITEMS.map(
+    ...items.map(
       (item) =>
-        `${t(item.key)} x${item.qty} - ${formatMoney(item.qty * item.unit, locale)}`,
+        `${item.name[locale]} x${item.qty} - ${formatMoney(item.qty * item.unit, locale)}`,
     ),
     "",
     `${t("subtotal")}: ${formatMoney(subtotal, locale)}`,

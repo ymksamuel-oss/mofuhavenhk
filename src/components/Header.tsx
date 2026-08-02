@@ -26,9 +26,6 @@ export function Header() {
             <Link href="/" className="truncate hover:text-[color:var(--ink)]">
               {t("navHome")}
             </Link>
-            <Link href="/menu" className="truncate hover:text-[color:var(--ink)]">
-              {t("navMenu")}
-            </Link>
             <Link
               href="/checkout"
               className="truncate hover:text-[color:var(--ink)]"

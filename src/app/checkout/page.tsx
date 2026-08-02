@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -10,11 +11,14 @@ import {
 import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { generateOrderNumber } from "@/lib/order";
+import { generateOrderNumber, getOrderItems } from "@/lib/order";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const { locale, t } = useI18n();
+  const searchParams = useSearchParams();
+  const items = getOrderItems(searchParams.get("category"));
+
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
@@ -28,6 +32,7 @@ export default function CheckoutPage() {
       (method) => method.id === selectedMethod,
     )?.labelKey;
     const message = buildOrderMessage({
+      items,
       orderNumber: number,
       locale,
       t,
@@ -49,7 +54,7 @@ export default function CheckoutPage() {
       <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
         <PaymentMethods selected={selectedMethod} onSelect={setSelectedMethod} />
         <div className="space-y-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] p-5 sm:p-6">
-          <OrderSummary />
+          <OrderSummary items={items} />
           <button
             type="button"
             onClick={handleSendToWhatsApp}
@@ -67,5 +72,13 @@ export default function CheckoutPage() {
         <WhatsAppOrder orderNumber={orderNumber} onSend={handleSendToWhatsApp} />
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={null}>
+      <CheckoutContent />
+    </Suspense>
   );
 }

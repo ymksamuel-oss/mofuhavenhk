@@ -10,7 +10,7 @@ Japanese pet supplies storefront, delivered in Hong Kong (Next.js + Tailwind).
 4. **Category grid** — homepage pet category navigation (cats, dogs, snacks, health, cleaning, deals, best sellers, outdoor) with circular warm-orange icon buttons. Each category links to `/menu?category=<slug>`.
 5. **Payment methods** — checkout only supports **Credit Card / Global Payments (Stripe)** and **Apple Pay**. All payment method options and rendering live in `src/components/checkout/PaymentMethods.tsx` (`PAYMENT_METHODS`) and `src/components/icons/PaymentIcons.tsx`; there is no other file in the project that defines payment options.
 6. **WhatsApp ordering** — both the "Place order" button and the dedicated WhatsApp CTA open a prefilled WhatsApp message with the order number, items, totals, and selected payment method.
-7. **Product catalog (`/menu`)** — full product data lives in `src/lib/products.ts` (24 Japanese pet products across all 8 categories, each with id, category, bilingual name, price, and an icon). The `/menu` page lists all products with category filter chips; each card links to `/checkout?category=<slug>` to continue the order. This is the single source of truth for product data — there is no separate `products.ts` API or CMS.
+7. **Product data** — the full product catalog lives in `src/lib/products.ts` (24 Japanese pet products across all 8 categories, each with id, category, bilingual name, price, and an icon). There is no separate `products.ts` API or CMS; this file is the single source of truth. `src/lib/order.ts` (`getOrderItems`) reads from it to build the checkout order summary — when a category is selected from the homepage's category grid (`/checkout?category=<slug>`), the summary shows real products from that category, keeping the **original checkout UI/list design** unchanged.
 
 ## Develop
 
@@ -19,4 +19,4 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), `/menu` for the product catalog, and `/checkout` for the payment UI.
+Open [http://localhost:3000](http://localhost:3000) and `/checkout` for the payment UI.

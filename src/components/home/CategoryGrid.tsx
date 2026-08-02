@@ -51,7 +51,7 @@ export function CategoryGrid() {
           return (
             <li key={slug}>
               <Link
-                href={`/menu?category=${slug}`}
+                href={`/checkout?category=${slug}`}
                 className="group flex flex-col items-center gap-2 text-center"
               >
                 <span

@@ -23,7 +23,7 @@ export default function HomePage() {
           </p>
           <div className="mt-8 animate-[fadeUp_1.05s_ease_both]">
             <Link
-              href="/menu"
+              href="/checkout"
               className="inline-flex items-center bg-white px-5 py-3 text-sm font-semibold text-[color:var(--hero-deep)] transition hover:bg-[color:var(--accent-soft)]"
             >
               {t("homeCta")}
