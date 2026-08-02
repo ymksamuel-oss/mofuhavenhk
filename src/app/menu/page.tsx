@@ -1,33 +1,13 @@
 "use client";
 
 import { Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { CATEGORIES } from "@/lib/categories";
 import { getProductsByCategory } from "@/lib/products";
-import {
-  BagIcon,
-  BoneIcon,
-  CatIcon,
-  CleaningIcon,
-  ClockIcon,
-  DogIcon,
-  FireIcon,
-  HealthIcon,
-} from "@/components/icons/CategoryIcons";
-
-const ICONS: Record<CategoryIconName, typeof CatIcon> = {
-  cat: CatIcon,
-  dog: DogIcon,
-  bone: BoneIcon,
-  health: HealthIcon,
-  cleaning: CleaningIcon,
-  clock: ClockIcon,
-  fire: FireIcon,
-  bag: BagIcon,
-};
 
 function chipClassName(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
@@ -72,20 +52,25 @@ function MenuContent() {
       ) : (
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => {
-            const Icon = ICONS[product.icon];
             return (
               <li
                 key={product.id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)]"
               >
                 <div
-                  className="flex h-28 items-center justify-center text-[color:var(--category-ink)]"
+                  className="relative flex h-32 items-center justify-center overflow-hidden p-3 sm:h-40"
                   style={{
                     background:
                       "radial-gradient(circle at 32% 26%, var(--category-bg-light), var(--category-bg))",
                   }}
                 >
-                  <Icon className="h-12 w-12" />
+                  <Image
+                    src={product.image}
+                    alt={product.name[locale]}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-contain p-3"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-4">
                   <p className="text-sm font-medium leading-snug text-[color:var(--ink)]">

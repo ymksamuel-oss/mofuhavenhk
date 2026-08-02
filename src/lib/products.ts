@@ -3,9 +3,17 @@ import type { CategoryIconName } from "@/lib/categories";
 export type Product = {
   id: string;
   categorySlug: string;
+  /**
+   * Path (under /public) to the illustrated category artwork shown on the
+   * /menu catalog card. There is no per-product photography yet, so every
+   * product in a category currently shares that category's image — the
+   * files live at `public/products/<categorySlug>.webp` and must exist for
+   * every categorySlug used below (see PRODUCTS array).
+   */
+  image: string;
   name: { zh: string; en: string };
   price: number;
-  /** No product photography yet, so each card uses a category-style icon as its image placeholder. */
+  /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
   description?: { zh: string; en: string };
@@ -16,6 +24,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-food-1kg",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "日本天然貓糧 1kg", en: "Japanese Natural Cat Food 1kg" },
     price: 138,
     icon: "cat",
@@ -23,6 +32,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-scratcher-set",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "貓咪抓板組合", en: "Cat Scratcher Set" },
     price: 98,
     icon: "cat",
@@ -30,6 +40,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "litter-deodorizer",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "貓砂盆除臭劑", en: "Litter Box Deodorizer" },
     price: 68,
     icon: "cat",
@@ -37,6 +48,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "ciao-tuna-paste-20pk",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: {
       zh: "CIAO 貓咪極上吞拿魚肉泥 (20支裝)",
       en: "CIAO Cat Tuna Paste Treats (20 sticks)",
@@ -51,6 +63,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-bonito-flakes",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "日本北海道鰹魚薄片", en: "Hokkaido Bonito Flakes" },
     price: 42,
     icon: "cat",
@@ -62,6 +75,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-auto-water-fountain",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "貓咪靜音循環飲水機", en: "Cat Auto Water Fountain" },
     price: 258,
     icon: "cat",
@@ -73,6 +87,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-tofu-litter-6l",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "日本製豆腐貓砂 6L", en: "Japanese Tofu Cat Litter 6L" },
     price: 88,
     icon: "cat",
@@ -84,6 +99,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-catnip-toy",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "貓草玩具球", en: "Catnip Toy Ball" },
     price: 35,
     icon: "cat",
@@ -95,6 +111,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-window-perch",
     categorySlug: "cats",
+    image: "/products/cats.webp",
     name: { zh: "貓咪吸盤窗台跳台", en: "Suction Cup Window Perch" },
     price: 328,
     icon: "cat",
@@ -108,6 +125,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-food-1-5kg",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "日本天然狗糧 1.5kg", en: "Japanese Natural Dog Food 1.5kg" },
     price: 168,
     icon: "dog",
@@ -115,6 +133,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-dental-chews",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "狗狗潔牙骨 12支裝", en: "Dog Dental Chews (12pcs)" },
     price: 88,
     icon: "dog",
@@ -122,6 +141,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-warm-coat",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "狗狗保暖大衣", en: "Dog Warm Coat" },
     price: 158,
     icon: "dog",
@@ -129,6 +149,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-training-pads",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "狗狗尿墊 (30片裝)", en: "Dog Training Pads (30pcs)" },
     price: 118,
     icon: "dog",
@@ -140,6 +161,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-raincoat",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "狗狗反光防水雨衣", en: "Dog Reflective Raincoat" },
     price: 128,
     icon: "dog",
@@ -151,6 +173,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-wafuu-collar",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "日式和風頸帶連鈴鐺", en: "Japanese-Style Collar with Bell" },
     price: 68,
     icon: "dog",
@@ -162,6 +185,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-chew-toy",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "耐咬橡膠潔齒玩具", en: "Durable Rubber Dental Chew Toy" },
     price: 78,
     icon: "dog",
@@ -173,6 +197,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-travel-bowl",
     categorySlug: "dogs",
+    image: "/products/dogs.webp",
     name: { zh: "摺疊旅行飯碗連袋", en: "Foldable Travel Bowl with Pouch" },
     price: 48,
     icon: "dog",
@@ -186,6 +211,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-freeze-dried-treats",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "貓咪凍乾小食", en: "Freeze-Dried Cat Treats" },
     price: 45,
     icon: "bone",
@@ -193,6 +219,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-dried-meat-treats",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "狗狗肉乾小食", en: "Dried Meat Dog Treats" },
     price: 52,
     icon: "bone",
@@ -200,6 +227,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "assorted-treats-giftbox",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "綜合寵物餅乾禮盒", en: "Assorted Pet Treats Gift Box" },
     price: 88,
     icon: "bone",
@@ -207,6 +235,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "snack-chicken-jerky",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "日本雞胸肉乾", en: "Japanese Chicken Breast Jerky" },
     price: 48,
     icon: "bone",
@@ -218,6 +247,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "snack-cheese-stick",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "貓狗共用芝士條", en: "Cheese Sticks for Cats & Dogs" },
     price: 55,
     icon: "bone",
@@ -229,6 +259,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "snack-fish-cracker",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "貓咪魚肉夾心餅", en: "Cat Fish Sandwich Crackers" },
     price: 38,
     icon: "bone",
@@ -240,6 +271,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "snack-sweet-potato-chips",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "日本蕃薯脆片", en: "Japanese Sweet Potato Chips" },
     price: 42,
     icon: "bone",
@@ -251,6 +283,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "snack-scallop-jerky",
     categorySlug: "snacks",
+    image: "/products/snacks.webp",
     name: { zh: "北海道帆立貝乾", en: "Hokkaido Scallop Jerky" },
     price: 68,
     icon: "bone",
@@ -264,6 +297,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-joint-supplement",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "寵物關節保健品", en: "Pet Joint Health Supplement" },
     price: 158,
     icon: "health",
@@ -271,6 +305,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cat-probiotics",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "貓咪腸胃益生菌", en: "Cat Digestive Probiotics" },
     price: 118,
     icon: "health",
@@ -278,6 +313,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "dog-coat-oil",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "狗狗美毛營養油", en: "Dog Coat Shine Oil" },
     price: 138,
     icon: "health",
@@ -285,6 +321,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "health-omega3",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "寵物深海魚油 Omega-3", en: "Pet Omega-3 Fish Oil" },
     price: 168,
     icon: "health",
@@ -296,6 +333,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "health-dental-water",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "寵物潔牙漱口水添加劑", en: "Pet Dental Water Additive" },
     price: 98,
     icon: "health",
@@ -307,6 +345,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "health-senior-multivitamin",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "高齡寵物綜合維他命", en: "Senior Pet Multivitamin" },
     price: 178,
     icon: "health",
@@ -318,6 +357,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "health-urinary-support",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "貓咪泌尿道保健品", en: "Cat Urinary Tract Support" },
     price: 148,
     icon: "health",
@@ -329,6 +369,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "health-calming-chews",
     categorySlug: "health",
+    image: "/products/health.webp",
     name: { zh: "寵物舒緩鎮定咀嚼錠", en: "Pet Calming Chews" },
     price: 128,
     icon: "health",
@@ -342,6 +383,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-odor-spray",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物除臭噴霧", en: "Pet Odor Eliminator Spray" },
     price: 58,
     icon: "cleaning",
@@ -349,6 +391,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "litter-cleaning-kit",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "貓砂盆清潔套裝", en: "Litter Box Cleaning Kit" },
     price: 98,
     icon: "cleaning",
@@ -356,6 +399,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-shampoo",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物專用洗毛精", en: "Pet Shampoo" },
     price: 88,
     icon: "cleaning",
@@ -363,6 +407,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cleaning-lint-roller",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物毛髮黏塵滾筒", en: "Pet Hair Lint Roller" },
     price: 38,
     icon: "cleaning",
@@ -374,6 +419,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cleaning-air-freshener",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物專用室內除臭噴霧", en: "Pet Odor Eliminating Room Spray" },
     price: 68,
     icon: "cleaning",
@@ -385,6 +431,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cleaning-paw-wipes",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物潔爪濕紙巾 (80片)", en: "Pet Paw Cleaning Wipes (80pcs)" },
     price: 45,
     icon: "cleaning",
@@ -396,6 +443,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cleaning-deodorizing-mat",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "貓砂盆除臭墊", en: "Litter Box Deodorizing Mats" },
     price: 58,
     icon: "cleaning",
@@ -407,6 +455,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "cleaning-pet-toothbrush-kit",
     categorySlug: "cleaning",
+    image: "/products/cleaning.webp",
     name: { zh: "寵物潔牙套裝 (牙刷連牙膏)", en: "Pet Toothbrush & Toothpaste Kit" },
     price: 68,
     icon: "cleaning",
@@ -420,6 +469,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-food-bundle",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "貓狗糧限時特惠裝", en: "Cat & Dog Food Bundle Deal" },
     price: 199,
     icon: "clock",
@@ -427,6 +477,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-treats-3pack",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "寵物小食限時3件裝", en: "3-Pack Pet Treats Deal" },
     price: 99,
     icon: "clock",
@@ -434,6 +485,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-supplement-bogo",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "寵物保健品限時買一送一", en: "Buy 1 Get 1 Pet Supplement" },
     price: 158,
     icon: "clock",
@@ -441,6 +493,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-cleaning-bundle",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "居家清潔用品限時套裝", en: "Home Cleaning Essentials Bundle" },
     price: 129,
     icon: "clock",
@@ -452,6 +505,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-health-trio",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "保健品三重組合限時優惠", en: "3-in-1 Supplement Bundle Deal" },
     price: 258,
     icon: "clock",
@@ -463,6 +517,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-newyear-hamper",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "寵物迎新福袋", en: "Pet New Year Lucky Bag" },
     price: 199,
     icon: "clock",
@@ -474,6 +529,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-toy-clearance",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "玩具清倉限時優惠", en: "Toy Clearance Sale" },
     price: 59,
     icon: "clock",
@@ -485,6 +541,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "deal-outdoor-combo",
     categorySlug: "deals",
+    image: "/products/deals.webp",
     name: { zh: "外出用品限時套裝優惠", en: "Outdoor Essentials Combo Deal" },
     price: 259,
     icon: "clock",
@@ -498,6 +555,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-dog-giftbox",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣日本狗零食禮盒", en: "Popular Japanese Dog Treat Gift Box" },
     price: 128,
     icon: "fire",
@@ -505,6 +563,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-cat-scratcher",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣貓抓板組合", en: "Popular Cat Scratcher Set" },
     price: 98,
     icon: "fire",
@@ -512,6 +571,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-pet-bed",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣寵物保暖窩", en: "Popular Pet Warm Bed" },
     price: 188,
     icon: "fire",
@@ -519,6 +579,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-cat-tower",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣貓咪跳台", en: "Popular Cat Tower" },
     price: 328,
     icon: "fire",
@@ -530,6 +591,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-dog-harness",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣狗狗胸背帶", en: "Popular Dog Harness" },
     price: 138,
     icon: "fire",
@@ -541,6 +603,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-litter-box",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣全封閉貓砂盆", en: "Popular Fully-Enclosed Litter Box" },
     price: 268,
     icon: "fire",
@@ -552,6 +615,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-cat-food",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣日本貓糧", en: "Popular Japanese Cat Food" },
     price: 158,
     icon: "fire",
@@ -563,6 +627,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bestseller-dog-treats",
     categorySlug: "bestsellers",
+    image: "/products/bestsellers.webp",
     name: { zh: "人氣狗狗肉乾禮盒", en: "Popular Dog Jerky Gift Box" },
     price: 118,
     icon: "fire",
@@ -576,6 +641,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-travel-backpack",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物外出背包", en: "Pet Travel Backpack" },
     price: 228,
     icon: "bag",
@@ -583,6 +649,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-foldable-bottle",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "摺疊寵物飲水器", en: "Foldable Pet Water Bottle" },
     price: 68,
     icon: "bag",
@@ -590,6 +657,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "pet-leash-set",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物牽引帶套裝", en: "Pet Leash Set" },
     price: 98,
     icon: "bag",
@@ -597,6 +665,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "outdoor-pet-stroller",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物四輪推車", en: "Pet Stroller (4 Wheels)" },
     price: 588,
     icon: "bag",
@@ -608,6 +677,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "outdoor-collapsible-bowl-set",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "摺疊寵物飯盒套裝", en: "Collapsible Pet Bowl Set" },
     price: 58,
     icon: "bag",
@@ -619,6 +689,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "outdoor-pet-carrier",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物外出手提包", en: "Pet Travel Carrier Bag" },
     price: 198,
     icon: "bag",
@@ -630,6 +701,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "outdoor-led-collar",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物LED發光頸圈", en: "Pet LED Light-Up Collar" },
     price: 58,
     icon: "bag",
@@ -641,6 +713,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "outdoor-car-seat-cover",
     categorySlug: "outdoor",
+    image: "/products/outdoor.webp",
     name: { zh: "寵物汽車防護座墊", en: "Pet Car Seat Protector" },
     price: 168,
     icon: "bag",
