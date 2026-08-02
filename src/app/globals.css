@@ -49,15 +49,15 @@ body {
     0 2px 8px -2px rgba(74, 54, 38, 0.08);
 }
 
-/* Light gradient only at the bottom for copy contrast — the real hero
-   photograph must stay clearly visible (not a solid brown wash). */
+/* Soft bottom-only wash so white brand copy stays readable on the bright
+   lifestyle banner, without turning the hero into a solid brown plane. */
 .hero-plane {
   background: linear-gradient(
     180deg,
-    rgba(40, 28, 18, 0.15) 0%,
-    rgba(40, 28, 18, 0.08) 40%,
-    rgba(40, 28, 18, 0.55) 70%,
-    rgba(40, 28, 18, 0.72) 100%
+    rgba(40, 28, 18, 0.08) 0%,
+    rgba(40, 28, 18, 0.05) 45%,
+    rgba(40, 28, 18, 0.45) 72%,
+    rgba(40, 28, 18, 0.68) 100%
   );
 }
 

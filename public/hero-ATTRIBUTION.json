@@ -1,7 +1,6 @@
 {
   "file": "/hero.webp",
-  "source_url": "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=2400&q=90&auto=format&fit=crop",
-  "source": "Unsplash",
-  "title": "Dog and cat together \u2014 homepage hero (real photograph)",
-  "license": "unsplash"
+  "note": "Homepage hero banner matching user-uploaded image_5.png concept (dog family + cat focus). Original upload was not present on the agent VM filesystem; banner regenerated from the provided visual and optimized to WebP.",
+  "focus": "object-position centers dog family and cat tree for mobile/desktop",
+  "format": "webp"
 }
