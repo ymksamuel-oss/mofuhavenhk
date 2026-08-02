@@ -1,6 +1,14 @@
 {
-  "file": "/hero.webp",
-  "note": "Homepage hero banner matching user-uploaded image_5.png concept (dog family + cat focus). Original upload was not present on the agent VM filesystem; banner regenerated from the provided visual and optimized to WebP.",
-  "focus": "object-position centers dog family and cat tree for mobile/desktop",
-  "format": "webp"
+  "desktop": {
+    "file": "/hero.webp",
+    "dimensions": "2200x999",
+    "note": "Wide lifestyle banner (dog family + cat tree). Used from the sm breakpoint up."
+  },
+  "mobile": {
+    "file": "/hero-mobile.webp",
+    "dimensions": "749x999",
+    "aspect": "3:4",
+    "note": "Native-resolution portrait crop from the same banner (no upscale). Focuses the golden retriever + family so mobile object-cover does not blur or over-crop the wide source."
+  },
+  "focus": "Mobile hero uses aspect-[3/4] + /hero-mobile.webp; desktop keeps full-bleed /hero.webp"
 }

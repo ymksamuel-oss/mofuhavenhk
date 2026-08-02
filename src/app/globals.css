@@ -49,16 +49,30 @@ body {
     0 2px 8px -2px rgba(74, 54, 38, 0.08);
 }
 
-/* Soft bottom-only wash so white brand copy stays readable on the bright
-   lifestyle banner, without turning the hero into a solid brown plane. */
+/* Soft scrim so white brand copy stays readable on the lifestyle banner,
+   without turning the hero into a solid brown plane.
+   Mobile: top-weighted (copy sits high, dog stays clear below).
+   Desktop: bottom-weighted (copy sits over the lower edge). */
 .hero-plane {
   background: linear-gradient(
     180deg,
-    rgba(40, 28, 18, 0.08) 0%,
-    rgba(40, 28, 18, 0.05) 45%,
-    rgba(40, 28, 18, 0.45) 72%,
-    rgba(40, 28, 18, 0.68) 100%
+    rgba(40, 28, 18, 0.58) 0%,
+    rgba(40, 28, 18, 0.28) 28%,
+    rgba(40, 28, 18, 0.04) 52%,
+    rgba(40, 28, 18, 0.12) 100%
   );
+}
+
+@media (min-width: 640px) {
+  .hero-plane {
+    background: linear-gradient(
+      180deg,
+      rgba(40, 28, 18, 0.08) 0%,
+      rgba(40, 28, 18, 0.05) 45%,
+      rgba(40, 28, 18, 0.45) 72%,
+      rgba(40, 28, 18, 0.68) 100%
+    );
+  }
 }
 
 @keyframes fadeUp {
