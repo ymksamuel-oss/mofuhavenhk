@@ -13,10 +13,21 @@ export type Product = {
   image: string;
   name: { zh: string; en: string };
   price: number;
+  /**
+   * Optional pre-discount price. When set, the /menu card shows a
+   * strikethrough original price and a "限時優惠 / Limited-Time Deal" badge
+   * next to the current `price`.
+   */
+  originalPrice?: number;
   /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
   description?: { zh: string; en: string };
+  /**
+   * Optional bilingual spec lines (material, size, contents, power, etc.)
+   * shown in the product quick-view modal opened from the /menu card.
+   */
+  specs?: { zh: string; en: string }[];
 };
 
 export const PRODUCTS: Product[] = [
@@ -291,6 +302,534 @@ export const PRODUCTS: Product[] = [
       zh: "北海道直送帆立貝乾，鮮味十足，貓貓最愛嘅奢華小食。",
       en: "Shipped straight from Hokkaido — a rich, savory luxury treat cats can't resist.",
     },
+  },
+
+  // 寵物玩具 / Pet Toys
+  {
+    id: "toy-neko-ichi-wobble-wand",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【貓壱 (Neko Ichi)】貓用不倒翁羽毛逗貓棒玩具",
+      en: "Neko Ichi Wobble Feather Teaser Toy",
+    },
+    price: 88,
+    originalPrice: 128,
+    icon: "toy",
+    description: {
+      zh: "底部重心設計不倒翁造型，配合天然羽毛與鈴鐺，吸引貓咪自主玩耍。",
+      en: "A weighted wobble base paired with natural feathers and a bell keeps cats engaged in independent play.",
+    },
+    specs: [
+      { zh: "材質：ABS樹脂、天然羽毛", en: "Material: ABS resin, natural feathers" },
+      { zh: "尺寸：7 x 7 x 15 cm", en: "Size: 7 x 7 x 15 cm" },
+    ],
+  },
+  {
+    id: "toy-petio-silvervine-chew",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】貓用天然木天蓼潔齒咀嚼玩具",
+      en: "Petio Natural Silvervine Chew Toy",
+    },
+    price: 48,
+    originalPrice: 68,
+    icon: "toy",
+    description: {
+      zh: "精選日本天然木天蓼及高品質麻繩編織，舒緩壓力、磨牙潔齒。",
+      en: "Woven from premium Japanese silvervine (matatabi) and quality hemp rope to relieve stress while cleaning teeth.",
+    },
+    specs: [
+      { zh: "規格：1入裝", en: "Pack size: 1 piece" },
+      { zh: "長度約 18cm", en: "Length: approx. 18cm" },
+    ],
+  },
+  {
+    id: "toy-richell-treat-ball",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Richell (利其爾)】貓咪趣味滾動零食發聲球",
+      en: "Richell Rolling Treat-Dispensing Sound Ball",
+    },
+    price: 118,
+    originalPrice: 158,
+    icon: "toy",
+    description: {
+      zh: "結合益智與餵食功能，滾動時掉落小零食並發出輕柔聲響。",
+      en: "Combines puzzle play with feeding — treats drop out as it rolls, with a gentle rattling sound.",
+    },
+    specs: [
+      { zh: "材質：食用級PP塑料", en: "Material: Food-grade PP plastic" },
+      { zh: "直徑約 8cm", en: "Diameter: approx. 8cm" },
+    ],
+  },
+  {
+    id: "toy-doggyman-cotton-rope-bone",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【DoggyMan】狗狗耐咬潔齒棉繩骨頭玩具",
+      en: "DoggyMan Bite-Resistant Cotton Rope Bone Toy",
+    },
+    price: 55,
+    originalPrice: 75,
+    icon: "toy",
+    description: {
+      zh: "天然棉線緊密編織，強韌耐咬，深入牙縫清除牙垢與牙菌斑。",
+      en: "Tightly woven from natural cotton rope — tough and chew-resistant, reaching into gaps to clear plaque and tartar.",
+    },
+    specs: [{ zh: "尺寸：M號 (約 25cm)", en: "Size: M (approx. 25cm)" }],
+  },
+  {
+    id: "toy-supercat-disc-launcher",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Super Cat】貓用跳躍捕捉飛碟彈射玩具",
+      en: "Super Cat Jump & Catch Disc Launcher",
+    },
+    price: 95,
+    originalPrice: 130,
+    icon: "toy",
+    description: {
+      zh: "輕輕一按將旋轉飛碟彈向空中，激發貓咪極致跳躍與撲克本能。",
+      en: "A gentle press launches a spinning disc into the air, triggering your cat's ultimate jump-and-pounce instincts.",
+    },
+    specs: [
+      { zh: "內容物：發射器 x1 + 飛碟 x4", en: "Contents: 1x launcher + 4x discs" },
+    ],
+  },
+  {
+    id: "toy-adies-tunnel-scratcher",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Adies】貓咪立體紙箱隧道抓板兩用玩具",
+      en: "Adies 2-in-1 Cardboard Tunnel & Scratcher",
+    },
+    price: 138,
+    originalPrice: 188,
+    icon: "toy",
+    description: {
+      zh: "集隧道躲藏、磨爪抓板於一體，高密度瓦楞紙耐磨耐抓。",
+      en: "Combines a hide-and-seek tunnel with a scratching pad, made from dense, wear-resistant corrugated cardboard.",
+    },
+    specs: [{ zh: "尺寸：50 x 30 x 25 cm", en: "Size: 50 x 30 x 25 cm" }],
+  },
+  {
+    id: "toy-petio-plush-squeaky-animal",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】狗狗互動毛絨發聲小動物玩具",
+      en: "Petio Plush Squeaky Animal Toy",
+    },
+    price: 62,
+    originalPrice: 88,
+    icon: "toy",
+    description: {
+      zh: "柔軟毛絨材質，內置安全發聲器，陪伴狗狗度過無聊時光。",
+      en: "Soft plush fabric with a built-in safe squeaker to keep dogs entertained through idle moments.",
+    },
+    specs: [
+      { zh: "材質：聚酯纖維", en: "Material: Polyester fiber" },
+      { zh: "長度約 20cm", en: "Length: approx. 20cm" },
+    ],
+  },
+  {
+    id: "toy-mindup-feather-wand",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Mind Up】貓用安全逗貓羽毛伸縮棒",
+      en: "Mind Up Retractable Feather Teaser Wand",
+    },
+    price: 72,
+    originalPrice: 98,
+    icon: "toy",
+    description: {
+      zh: "高彈性碳纖維伸縮桿，揮動輕盈不費力，多款可替換鈴鐺羽毛。",
+      en: "A high-elasticity carbon-fiber wand that's light and effortless to swing, with interchangeable bell-and-feather attachments.",
+    },
+    specs: [
+      { zh: "桿長：可伸縮 40cm 至 95cm", en: "Rod length: extends from 40cm to 95cm" },
+    ],
+  },
+  {
+    id: "toy-planetdog-bounce-ball",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Planet Dog】狗狗高彈力耐咬尋回球",
+      en: "Planet Dog High-Bounce Retrieving Ball",
+    },
+    price: 85,
+    originalPrice: 110,
+    icon: "toy",
+    description: {
+      zh: "無毒環保高彈橡膠，彈力極佳且能浮在水面上，戶外玩耍首選。",
+      en: "Non-toxic, eco-friendly rubber with excellent bounce that floats on water — perfect for outdoor fetch.",
+    },
+    specs: [{ zh: "尺寸：S/M 號直徑 6.5cm", en: "Size: S/M, 6.5cm diameter" }],
+  },
+  {
+    id: "toy-cattyman-spinning-butterfly",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【CattyMan】貓用智能電動旋轉蝴蝶逗趣玩具",
+      en: "CattyMan Smart Spinning Butterfly Toy",
+    },
+    price: 158,
+    originalPrice: 218,
+    icon: "toy",
+    description: {
+      zh: "360度不規則旋轉蝴蝶，模擬真實昆蟲飛舞軌跡。",
+      en: "Spins a butterfly through unpredictable 360° paths, mimicking the flight of a real insect.",
+    },
+    specs: [
+      { zh: "電源：乾電池式 (AA x 3)", en: "Power: 3x AA batteries (not included)" },
+    ],
+  },
+  {
+    id: "toy-richell-snuffle-mat",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Richell (利其爾)】幼犬益智慢食藏食嗅聞墊玩具",
+      en: "Richell Puppy Snuffle Mat & Slow Feeder",
+    },
+    price: 145,
+    originalPrice: 190,
+    icon: "toy",
+    description: {
+      zh: "多層次藏食設計，嗅聞尋找零食，消耗精力並緩解焦慮。",
+      en: "A multi-layered hide-and-seek mat that encourages sniffing for treats, burning energy and easing anxiety.",
+    },
+    specs: [
+      { zh: "尺寸：45 x 45 cm", en: "Size: 45 x 45 cm" },
+      { zh: "可機洗", en: "Machine washable" },
+    ],
+  },
+  {
+    id: "toy-petio-catnip-fish-pillow",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】貓草夾心毛絨耐咬魚形抱枕",
+      en: "Petio Catnip-Filled Plush Fish Pillow",
+    },
+    price: 58,
+    originalPrice: 78,
+    icon: "toy",
+    description: {
+      zh: "內含濃郁貓薄荷粉，外層耐抓厚實帆布，適合抱著踢腳啃咬。",
+      en: "Filled with potent catnip powder and wrapped in durable, scratch-resistant canvas — perfect for kicking and biting.",
+    },
+    specs: [{ zh: "長度：約 22cm", en: "Length: approx. 22cm" }],
+  },
+  {
+    id: "toy-doggyman-dumbbell-chew",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【DoggyMan】狗狗潔齒橡膠漏食啞鈴玩具",
+      en: "DoggyMan Dumbbell Treat-Dispensing Chew Toy",
+    },
+    price: 78,
+    originalPrice: 105,
+    icon: "toy",
+    description: {
+      zh: "啞鈴造型方便爪握與啃咬，凹槽可填入肉泥，兼具潔齒與益智。",
+      en: "A dumbbell shape that's easy to paw and chew, with grooves for filling with pâté — combining dental care with mental stimulation.",
+    },
+    specs: [
+      { zh: "材質：天然橡膠", en: "Material: Natural rubber" },
+      { zh: "長度 16cm", en: "Length: 16cm" },
+    ],
+  },
+  {
+    id: "toy-nekoichi-bowl-scratcher",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【貓壱 (Neko Ichi)】貓咪專用趣味紙箱抓盤玩具",
+      en: "Neko Ichi Bowl-Shaped Scratcher & Ball Track",
+    },
+    price: 98,
+    originalPrice: 138,
+    icon: "toy",
+    description: {
+      zh: "圓形碗狀貼合身體曲線，內含滾動軌道小球，邊磨爪邊追逐。",
+      en: "A round, body-hugging bowl shape with a built-in rolling ball track for scratching and chasing at once.",
+    },
+    specs: [
+      { zh: "直徑：38cm", en: "Diameter: 38cm" },
+      { zh: "深度 12cm", en: "Depth: 12cm" },
+    ],
+  },
+  {
+    id: "toy-koneko-bell-ball-set",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Koneko】幼貓專用鈴鐺彩球毛絨玩具套裝",
+      en: "Koneko Kitten Bell Ball Toy Set",
+    },
+    price: 42,
+    originalPrice: 60,
+    icon: "toy",
+    description: {
+      zh: "6件不同材質小體積彩球，內置清脆鈴鐺，專為幼貓設計。",
+      en: "A set of 6 small, differently-textured balls with crisp bells inside, designed specifically for kittens.",
+    },
+    specs: [
+      { zh: "數量：6入裝", en: "Quantity: 6-piece set" },
+      { zh: "直徑約 4cm", en: "Diameter: approx. 4cm each" },
+    ],
+  },
+  {
+    id: "toy-petio-laser-chaser",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】貓用互動雷射光自動追逐玩具",
+      en: "Petio Automatic Laser Chase Toy",
+    },
+    price: 128,
+    originalPrice: 168,
+    icon: "toy",
+    description: {
+      zh: "自動不規則紅外線雷射軌跡，解放主人雙手進行體能鍛鍊。",
+      en: "Projects an unpredictable infrared laser path automatically, giving cats a workout hands-free.",
+    },
+    specs: [
+      { zh: "自動關機保護：15分鐘", en: "Auto shut-off: after 15 minutes" },
+    ],
+  },
+  {
+    id: "toy-doggyman-ring-frisbee",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【DoggyMan】飛盤耐咬環形訓練玩具",
+      en: "DoggyMan Bite-Resistant Ring Frisbee",
+    },
+    price: 68,
+    originalPrice: 92,
+    icon: "toy",
+    description: {
+      zh: "輕量化高韌性EVA材質，飛行穩定，適合戶外草地拋接。",
+      en: "Lightweight, high-durability EVA material with stable flight — ideal for outdoor fetch on grass.",
+    },
+    specs: [
+      { zh: "直徑：22cm", en: "Diameter: 22cm" },
+      { zh: "厚度 3cm", en: "Thickness: 3cm" },
+    ],
+  },
+  {
+    id: "toy-richell-cardboard-house",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Richell (利其爾)】貓咪躲藏立體紙箱屋玩具",
+      en: "Richell Hideaway Cardboard Cat House",
+    },
+    price: 168,
+    originalPrice: 230,
+    icon: "toy",
+    description: {
+      zh: "日系簡約木紋印花紙箱屋，多個圓孔與抓板設計。",
+      en: "A minimalist Japanese-style wood-grain print cardboard house with multiple peekaboo holes and a built-in scratcher.",
+    },
+    specs: [{ zh: "尺寸：40 x 40 x 40 cm", en: "Size: 40 x 40 x 40 cm" }],
+  },
+  {
+    id: "toy-supercat-catnip-mouse",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Super Cat】貓草噴霧絨毛仿真老鼠玩具",
+      en: "Super Cat Catnip Spray Plush Mouse",
+    },
+    price: 45,
+    originalPrice: 65,
+    icon: "toy",
+    description: {
+      zh: "仿真外型搭配專用濃縮貓草噴霧，散發致命吸引力。",
+      en: "A lifelike plush mouse paired with a concentrated catnip spray for irresistible appeal.",
+    },
+    specs: [
+      { zh: "長度：12cm", en: "Length: 12cm" },
+      { zh: "附 15ml 貓草噴霧", en: "Includes 15ml catnip spray" },
+    ],
+  },
+  {
+    id: "toy-petio-slider-puzzle",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】狗狗益智尋寶翻蓋滑塊玩具",
+      en: "Petio Treasure Hunt Slider Puzzle Toy",
+    },
+    price: 155,
+    originalPrice: 208,
+    icon: "toy",
+    description: {
+      zh: "推動滑塊、掀開蓋子才能吃到獎勵零食，開發狗狗智力。",
+      en: "Dogs must slide and flip covers to reach the reward treats underneath — a fun way to build problem-solving skills.",
+    },
+    specs: [{ zh: "尺寸：30 x 30 cm", en: "Size: 30 x 30 cm" }],
+  },
+  {
+    id: "toy-cattyman-ball-tower",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【CattyMan】貓用三層旋轉彩球軌道塔",
+      en: "CattyMan 3-Tier Spinning Ball Track Tower",
+    },
+    price: 112,
+    originalPrice: 150,
+    icon: "toy",
+    description: {
+      zh: "三層獨立轉動軌道，彩色小球高速滾動不飛出，多貓家庭首選。",
+      en: "Three independently spinning tracks let colorful balls race around without flying out — great for multi-cat households.",
+    },
+    specs: [
+      { zh: "底座直徑：25cm", en: "Base diameter: 25cm" },
+      { zh: "高度 18cm", en: "Height: 18cm" },
+    ],
+  },
+  {
+    id: "toy-doggyman-dental-tennis-balls",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【DoggyMan】狗狗潔齒潔牙網球玩具組",
+      en: "DoggyMan Dental Tennis Ball Set",
+    },
+    price: 59,
+    originalPrice: 82,
+    icon: "toy",
+    description: {
+      zh: "不傷牙齒表層絨毛設計，內置發聲器，高彈力網球。",
+      en: "Gentle felt exterior that's kind on teeth, with a built-in squeaker and high-bounce rubber core.",
+    },
+    specs: [
+      { zh: "規格：2入裝", en: "Pack size: 2 pieces" },
+      { zh: "直徑 6cm", en: "Diameter: 6cm" },
+    ],
+  },
+  {
+    id: "toy-nekoichi-feather-spring",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【貓壱 (Neko Ichi)】貓咪專用羽毛不倒翁彈簧玩具",
+      en: "Neko Ichi Feather Spring Wobble Toy",
+    },
+    price: 82,
+    originalPrice: 115,
+    icon: "toy",
+    description: {
+      zh: "強力吸盤固定底座配合鋼製彈簧，頂端天然羽毛隨風搖曳。",
+      en: "A strong suction-cup base with a steel spring — the natural feather on top sways enticingly in the air.",
+    },
+    specs: [{ zh: "高度：約 25cm", en: "Height: approx. 25cm" }],
+  },
+  {
+    id: "toy-richell-sisal-mouse",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Richell (利其爾)】貓咪舒壓劍麻編織老鼠玩具",
+      en: "Richell Sisal-Wrapped Mouse Toy",
+    },
+    price: 49,
+    originalPrice: 69,
+    icon: "toy",
+    description: {
+      zh: "天然環保劍麻材質纏繞，耐咬耐抓不掉屑，清潔指甲。",
+      en: "Wrapped in natural, eco-friendly sisal fiber — chew- and scratch-resistant without shedding, and great for nail health.",
+    },
+    specs: [{ zh: "長度：14cm", en: "Length: 14cm" }],
+  },
+  {
+    id: "toy-petio-cooling-chew-bone",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Petio (培ティオ)】狗狗耐咬冰涼舒緩磨牙骨玩具",
+      en: "Petio Cooling Chew Bone Toy",
+    },
+    price: 75,
+    originalPrice: 99,
+    icon: "toy",
+    description: {
+      zh: "可注水後放冰箱冷藏，冰涼觸感舒緩炎熱煩躁與出牙不適。",
+      en: "Fill with water and chill in the fridge — the cool texture soothes summer discomfort and teething irritation.",
+    },
+    specs: [{ zh: "材質：TPR食品級橡膠", en: "Material: Food-grade TPR rubber" }],
+  },
+  {
+    id: "toy-cattyman-crinkle-tunnel",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【CattyMan】貓用羽毛紙鈴聲響隧道玩具",
+      en: "CattyMan Crinkle Tunnel with Feather",
+    },
+    price: 99,
+    originalPrice: 139,
+    icon: "toy",
+    description: {
+      zh: "內層加入沙沙聲響紙，配合出口處垂掛羽毛。",
+      en: "Lined with crinkly paper for an enticing rustle, with a feather dangling at the exit to lure cats in and out.",
+    },
+    specs: [
+      { zh: "展開尺寸：長 50cm", en: "Extended length: 50cm" },
+      { zh: "直徑 25cm", en: "Diameter: 25cm" },
+    ],
+  },
+  {
+    id: "toy-doggyman-tugofwar-rope-ball",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【DoggyMan】狗狗拔河專用結實麻繩球玩具",
+      en: "DoggyMan Tug-of-War Rope Ball Toy",
+    },
+    price: 65,
+    originalPrice: 88,
+    icon: "toy",
+    description: {
+      zh: "超強韌棉麻繩索編織大球，手柄設計方便拔河互動。",
+      en: "A large ball woven from ultra-tough cotton-hemp rope with a built-in handle for interactive tug-of-war play.",
+    },
+    specs: [
+      { zh: "總長：35cm", en: "Total length: 35cm" },
+      { zh: "球體徑 9cm", en: "Ball diameter: 9cm" },
+    ],
+  },
+  {
+    id: "toy-supercat-chirping-bird",
+    categorySlug: "toys",
+    image: "/products/toys.webp",
+    name: {
+      zh: "【Super Cat】貓薄荷充絨發聲小鳥玩具",
+      en: "Super Cat Catnip Chirping Bird Toy",
+    },
+    price: 52,
+    originalPrice: 72,
+    icon: "toy",
+    description: {
+      zh: "精製日系小鳥造型，內含天然貓薄荷與仿真鳥叫發聲器。",
+      en: "A finely-crafted Japanese-style bird plush filled with natural catnip and a realistic chirping squeaker.",
+    },
+    specs: [{ zh: "尺寸：13 x 8 cm", en: "Size: 13 x 8 cm" }],
   },
 
   // 營養保健 / Health & Wellness

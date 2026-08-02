@@ -12,6 +12,7 @@ import {
   DogIcon,
   FireIcon,
   HealthIcon,
+  ToyIcon,
 } from "@/components/icons/CategoryIcons";
 
 const ICONS: Record<CategoryIconName, typeof CatIcon> = {
@@ -23,6 +24,7 @@ const ICONS: Record<CategoryIconName, typeof CatIcon> = {
   clock: ClockIcon,
   fire: FireIcon,
   bag: BagIcon,
+  toy: ToyIcon,
 };
 
 export function CategoryGrid() {
@@ -48,7 +50,7 @@ export function CategoryGrid() {
         </p>
       </div>
 
-      <ul className="grid grid-cols-4 gap-x-2 gap-y-7 sm:gap-x-4 md:grid-cols-8 md:gap-x-3">
+      <ul className="grid grid-cols-3 gap-x-3 gap-y-7 sm:gap-x-4 md:grid-cols-9 md:gap-x-2">
         {CATEGORIES.map(({ slug, labelKey, icon }) => {
           const Icon = ICONS[icon];
           return (

@@ -101,6 +101,37 @@ export function FireIcon({ className = "" }: IconProps) {
   );
 }
 
+export function ToyIcon({ className = "" }: IconProps) {
+  return (
+    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
+      {/* Yarn ball with a crossed-thread pattern, evoking a classic cat toy. */}
+      <circle cx="19" cy="21" r="13" fill="currentColor" />
+      <g
+        stroke="var(--category-bg)"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        fill="none"
+        opacity="0.9"
+      >
+        <path d="M9 15c5 3 16 3 21 0" />
+        <path d="M7.5 21.5c6 2 18 2 24 0" />
+        <path d="M9 28c5-3 16-3 21 0" />
+        <path d="M14 9.5c2 6 2 17 0 23" />
+        <path d="M24 9.5c-2 6-2 17 0 23" />
+      </g>
+      {/* Loose thread tail with a bell, a nod to feather-wand toys. */}
+      <path
+        d="M29 12 34 7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="35.5" cy="5.5" r="3" fill="currentColor" />
+      <circle cx="34.6" cy="6.6" r="0.9" fill="var(--category-bg)" />
+    </svg>
+  );
+}
+
 export function BagIcon({ className = "" }: IconProps) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
