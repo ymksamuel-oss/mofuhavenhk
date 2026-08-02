@@ -26,7 +26,10 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
   const { t } = useI18n();
 
   return (
-    <section aria-labelledby="payment-title" className="space-y-4">
+    <section
+      aria-labelledby="payment-title"
+      className="milk-tea-card space-y-4 p-5 sm:p-6"
+    >
       <div>
         <h2
           id="payment-title"
@@ -47,10 +50,10 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition ${
+                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3.5 text-left transition ${
                   active
-                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)]"
-                    : "border-[color:var(--line)] bg-[color:var(--surface)] hover:border-[color:var(--accent)]/50"
+                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_6px_16px_-8px_rgba(169,124,80,0.55)]"
+                    : "border-[color:var(--line)] bg-[color:var(--surface)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--accent-soft)]/40"
                 }`}
                 aria-pressed={active}
               >
@@ -59,7 +62,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   padding + items-center + overflow:visible keep 24px marks inside the border.
                 */}
                 <span
-                  className="flex h-10 min-w-14 items-center justify-center overflow-visible rounded-md border border-[color:var(--line)] bg-white px-2.5 py-1.5"
+                  className="flex h-10 min-w-14 items-center justify-center overflow-visible rounded-lg border border-[color:var(--line)] bg-white px-2.5 py-1.5"
                   style={{ overflow: "visible" }}
                 >
                   <Icon />
@@ -67,6 +70,14 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 <span className="text-sm font-medium text-[color:var(--ink)]">
                   {t(labelKey)}
                 </span>
+                <span
+                  className={`ml-auto h-4 w-4 shrink-0 rounded-full border transition ${
+                    active
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)]"
+                      : "border-[color:var(--line)] bg-transparent"
+                  }`}
+                  aria-hidden="true"
+                />
               </button>
             </li>
           );

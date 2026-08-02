@@ -51,14 +51,14 @@ function CheckoutContent() {
         <SelectedCategoryNotice />
       </header>
 
-      <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+      <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         <PaymentMethods selected={selectedMethod} onSelect={setSelectedMethod} />
-        <div className="space-y-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] p-5 sm:p-6">
+        <div className="milk-tea-card space-y-6 p-5 sm:p-6">
           <OrderSummary items={items} />
           <button
             type="button"
             onClick={handleSendToWhatsApp}
-            className="w-full bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
+            className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
           >
             {t("placeOrder")}
           </button>

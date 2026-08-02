@@ -14,7 +14,7 @@ export function WhatsAppOrder({ orderNumber, onSend }: WhatsAppOrderProps) {
   return (
     <section
       aria-labelledby="whatsapp-order-title"
-      className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] p-5 sm:p-6"
+      className="milk-tea-card space-y-3 p-5 sm:p-6"
     >
       <h2
         id="whatsapp-order-title"
@@ -34,7 +34,7 @@ export function WhatsAppOrder({ orderNumber, onSend }: WhatsAppOrderProps) {
       <button
         type="button"
         onClick={onSend}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#25D366] bg-[#25D366]/10 px-4 py-3 text-sm font-semibold text-[#128C7E] transition hover:bg-[#25D366]/20"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-[#25D366] bg-[#25D366]/10 px-4 py-3.5 text-sm font-semibold text-[#128C7E] transition hover:bg-[#25D366]/20 active:scale-[0.99]"
       >
         <WhatsAppLogo />
         {t("whatsappOrderCta")}
