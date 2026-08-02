@@ -1,20 +1,24 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
+import {
+  ApplePayLogo,
+  CardLogo,
+  FpsLogo,
+} from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay";
+export type MethodId = "card" | "applepay" | "fps";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay";
+  labelKey: "payCard" | "payApplePay" | "payFps";
   Icon: typeof CardLogo;
 };
 
-// Credit Card (Stripe) and Apple Pay — real charge via Stripe Payment Element.
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
 ];
 
 type PaymentMethodsProps = {
@@ -81,7 +85,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
       </ul>
 
       <p className="text-xs leading-relaxed text-[color:var(--muted)]">
-        {t("stripeMethodsNote")}
+        {selected === "fps" ? t("fpsMethodsNote") : t("stripeMethodsNote")}
       </p>
     </section>
   );

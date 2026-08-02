@@ -54,6 +54,30 @@ export function buildOrderMessage({
   return lines.join("\n");
 }
 
+/** Customer → shop WhatsApp message for FPS (轉數快) checkout. */
+export function buildFpsOrderMessage({
+  items,
+  orderNumber,
+  locale,
+  t,
+}: Omit<BuildOrderMessageArgs, "paymentLabel">): string {
+  const base = buildOrderMessage({
+    items,
+    orderNumber,
+    locale,
+    t,
+    paymentLabel: t("payFps"),
+  });
+
+  return [
+    base,
+    "",
+    t("fpsWhatsappStatus"),
+    t("fpsWhatsappScreenshot"),
+    t("fpsWhatsappShopHandle"),
+  ].join("\n");
+}
+
 /**
  * Opens a customer→shop WhatsApp chat prefilled with the order.
  * Requires NEXT_PUBLIC_WHATSAPP_NUMBER (the @MofuHavenHK phone).

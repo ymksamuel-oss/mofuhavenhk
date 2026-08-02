@@ -24,12 +24,12 @@ import {
   type ReactNode,
 } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import type { MethodId } from "@/components/checkout/PaymentMethods";
+type StripeWalletMethod = "card" | "applepay";
 
 type StripePaymentFormProps = {
   clientSecret: string;
   publishableKey: string;
-  preferredMethod: MethodId;
+  preferredMethod: StripeWalletMethod;
   amountHkd: number;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
@@ -85,7 +85,7 @@ function CheckoutPayForm({
   onPaid,
   onError,
 }: {
-  preferredMethod: MethodId;
+  preferredMethod: StripeWalletMethod;
   amountHkd: number;
   clientSecret: string;
   onPaid: (paymentIntentId: string) => Promise<void>;

@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { FpsPaymentPanel } from "@/components/checkout/FpsPaymentPanel";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -21,7 +22,11 @@ import {
   SHIPPING,
   type OrderItem,
 } from "@/lib/order";
-import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
+import {
+  buildFpsOrderMessage,
+  buildOrderMessage,
+  openWhatsAppOrder,
+} from "@/lib/whatsapp";
 
 type PayPhase =
   | "idle"
@@ -31,7 +36,8 @@ type PayPhase =
   | "paid"
   | "paid_notify_failed"
   | "stripe_missing"
-  | "error";
+  | "error"
+  | "fps_done";
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
@@ -52,15 +58,18 @@ function CheckoutContent() {
   const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
     null,
   );
+  const [fpsConfirming, setFpsConfirming] = useState(false);
   const preparingRef = useRef(false);
 
-  // Reset cart lines when category query changes.
+  const isFps = selectedMethod === "fps";
+
   useEffect(() => {
     setItems(getOrderItems(category));
     setClientSecret(null);
     setPhase((current) =>
       current === "stripe_missing" ? current : "idle",
     );
+    setFpsConfirming(false);
   }, [category]);
 
   useEffect(() => {
@@ -92,15 +101,31 @@ function CheckoutContent() {
     };
   }, []);
 
+  // Switching payment method clears Stripe intent / FPS success state.
+  const handleSelectMethod = (id: MethodId) => {
+    setSelectedMethod(id);
+    setClientSecret(null);
+    setPayError("");
+    setFpsConfirming(false);
+    if (phase !== "stripe_missing") {
+      setPhase("idle");
+    }
+  };
+
   const handleQtyChange = (id: string, qty: number) => {
-    if (phase === "paid" || phase === "paid_notify_failed") return;
+    if (
+      phase === "paid" ||
+      phase === "paid_notify_failed" ||
+      phase === "fps_done"
+    ) {
+      return;
+    }
     const nextQty = Math.min(MAX_QTY, Math.max(MIN_QTY, qty));
     setItems((current) =>
       current.map((item) =>
         item.id === id ? { ...item, qty: nextQty } : item,
       ),
     );
-    // Amount changed → need a fresh PaymentIntent.
     if (clientSecret) {
       setClientSecret(null);
       setPhase("idle");
@@ -113,13 +138,20 @@ function CheckoutContent() {
     const paymentLabelKey = PAYMENT_METHODS.find(
       (method) => method.id === selectedMethod,
     )?.labelKey;
-    const message = buildOrderMessage({
-      items,
-      orderNumber: number,
-      locale,
-      t,
-      paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
-    });
+    const message = isFps
+      ? buildFpsOrderMessage({
+          items,
+          orderNumber: number,
+          locale,
+          t,
+        })
+      : buildOrderMessage({
+          items,
+          orderNumber: number,
+          locale,
+          t,
+          paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
+        });
     const opened = openWhatsAppOrder(message);
     setManualWaError(!opened);
   };
@@ -226,12 +258,57 @@ function CheckoutContent() {
     }
   };
 
-  const showForm =
+  /**
+   * FPS path: notify shop server-side (CallMeBot) + open customer WhatsApp
+   * with order details and screenshot instructions for @MofuHavenHK.
+   */
+  const handleFpsConfirm = async () => {
+    if (fpsConfirming || phase === "fps_done") return;
+    setFpsConfirming(true);
+    setPayError("");
+
+    const number = orderNumber ?? generateOrderNumber();
+    setOrderNumber(number);
+
+    try {
+      await fetch("/api/notify-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderNumber: number,
+          customerName: "FPS 顧客",
+          paymentLabel: t("payFps"),
+          total: amountHkd,
+          currency: t("currency"),
+        }),
+      });
+    } catch {
+      // Still open WhatsApp so the customer can message the shop.
+    }
+
+    const message = buildFpsOrderMessage({
+      items,
+      orderNumber: number,
+      locale,
+      t,
+    });
+    const opened = openWhatsAppOrder(message);
+    setManualWaError(!opened);
+    setPhase(opened ? "fps_done" : "error");
+    if (!opened) setPayError(t("whatsappNumberMissing"));
+    setFpsConfirming(false);
+  };
+
+  const showStripeForm =
+    !isFps &&
     Boolean(clientSecret && publishableKey) &&
     (phase === "ready" || phase === "completing" || phase === "error");
 
   const qtyLocked =
-    phase === "paid" || phase === "paid_notify_failed" || phase === "completing";
+    phase === "paid" ||
+    phase === "paid_notify_failed" ||
+    phase === "completing" ||
+    phase === "fps_done";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -244,7 +321,7 @@ function CheckoutContent() {
       </header>
 
       <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        <PaymentMethods selected={selectedMethod} onSelect={setSelectedMethod} />
+        <PaymentMethods selected={selectedMethod} onSelect={handleSelectMethod} />
         <div className="milk-tea-card space-y-6 p-5 sm:p-6">
           <OrderSummary
             items={items}
@@ -252,53 +329,68 @@ function CheckoutContent() {
             qtyDisabled={qtyLocked}
           />
 
-          {phase === "stripe_missing" ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("stripeNotConfigured")}
-            </p>
-          ) : null}
-
-          {phase === "preparing" ? (
-            <p className="text-center text-sm text-[color:var(--muted)]">
-              {t("stripePreparing")}
-            </p>
-          ) : null}
-
-          {!showForm &&
-          phase !== "paid" &&
-          phase !== "paid_notify_failed" &&
-          phase !== "stripe_missing" &&
-          phase !== "preparing" ? (
-            <button
-              type="button"
-              onClick={() => void startStripePayment()}
-              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
-            >
-              {t("stripeStartPay")}
-            </button>
-          ) : null}
-
-          {showForm && clientSecret && publishableKey ? (
-            <StripePaymentForm
-              clientSecret={clientSecret}
-              publishableKey={publishableKey}
-              preferredMethod={selectedMethod}
+          {isFps ? (
+            <FpsPaymentPanel
               amountHkd={amountHkd}
-              onPaid={handlePaid}
-              onError={handlePayError}
+              onConfirm={() => void handleFpsConfirm()}
+              confirming={fpsConfirming}
+              confirmed={phase === "fps_done"}
             />
-          ) : null}
+          ) : (
+            <>
+              {phase === "stripe_missing" ? (
+                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+                  {t("stripeNotConfigured")}
+                </p>
+              ) : null}
 
-          {phase === "paid" ? (
-            <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-              {t("stripePaidSuccess")}
-            </p>
-          ) : null}
-          {phase === "paid_notify_failed" ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("stripePaidNotifyFailed")}
-            </p>
-          ) : null}
+              {phase === "preparing" ? (
+                <p className="text-center text-sm text-[color:var(--muted)]">
+                  {t("stripePreparing")}
+                </p>
+              ) : null}
+
+              {!showStripeForm &&
+              phase !== "paid" &&
+              phase !== "paid_notify_failed" &&
+              phase !== "stripe_missing" &&
+              phase !== "preparing" ? (
+                <button
+                  type="button"
+                  onClick={() => void startStripePayment()}
+                  className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
+                >
+                  {t("stripeStartPay")}
+                </button>
+              ) : null}
+
+              {showStripeForm &&
+              clientSecret &&
+              publishableKey &&
+              (selectedMethod === "card" || selectedMethod === "applepay") ? (
+                <StripePaymentForm
+                  clientSecret={clientSecret}
+                  publishableKey={publishableKey}
+                  preferredMethod={selectedMethod}
+                  amountHkd={amountHkd}
+                  onPaid={handlePaid}
+                  onError={handlePayError}
+                />
+              ) : null}
+
+              {phase === "paid" ? (
+                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+                  {t("stripePaidSuccess")}
+                </p>
+              ) : null}
+              {phase === "paid_notify_failed" ? (
+                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+                  {t("stripePaidNotifyFailed")}
+                </p>
+              ) : null}
+            </>
+          )}
+
           {payError ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
               {payError}
@@ -306,11 +398,13 @@ function CheckoutContent() {
           ) : null}
 
           <p className="text-center text-xs text-[color:var(--muted)]">
-            {t("secureNote")}
+            {isFps ? t("fpsWhatsappHint") : t("secureNote")}
           </p>
-          <p className="text-center text-[11px] text-[color:var(--muted)]">
-            {t("orderNotifyServerHint")}
-          </p>
+          {!isFps ? (
+            <p className="text-center text-[11px] text-[color:var(--muted)]">
+              {t("orderNotifyServerHint")}
+            </p>
+          ) : null}
         </div>
       </div>
 
