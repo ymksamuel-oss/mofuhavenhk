@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
@@ -12,7 +12,12 @@ import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNo
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { generateOrderNumber, getOrderItems } from "@/lib/order";
+import {
+  calcSubtotal,
+  generateOrderNumber,
+  getOrderItems,
+  SHIPPING,
+} from "@/lib/order";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
 type PayPhase =
@@ -30,6 +35,7 @@ function CheckoutContent() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const items = getOrderItems(category);
+  const amountHkd = calcSubtotal(items) + SHIPPING;
 
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -43,6 +49,7 @@ function CheckoutContent() {
   const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
     null,
   );
+  const preparingRef = useRef(false);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
@@ -89,15 +96,12 @@ function CheckoutContent() {
     setManualWaError(!opened);
   };
 
+  /** Keep card fields mounted — only clear/set the inline error text. */
   const handlePayError = useCallback((message: string) => {
     setPayError(message);
-    if (message) setPhase("error");
   }, []);
 
-  /**
-   * Creates a Stripe PaymentIntent (server-priced), then mounts Elements.
-   */
-  const startStripePayment = async () => {
+  const startStripePayment = useCallback(async () => {
     if (!customerName.trim()) {
       setNameError(true);
       return;
@@ -106,7 +110,10 @@ function CheckoutContent() {
       setPhase("stripe_missing");
       return;
     }
+    if (preparingRef.current) return;
+    if (phase === "paid" || phase === "paid_notify_failed") return;
 
+    preparingRef.current = true;
     setNameError(false);
     setPayError("");
     setPhase("preparing");
@@ -148,12 +155,40 @@ function CheckoutContent() {
     } catch {
       setPayError(t("stripePayFailed"));
       setPhase("error");
+    } finally {
+      preparingRef.current = false;
     }
-  };
+  }, [
+    category,
+    customerName,
+    locale,
+    orderNumber,
+    phase,
+    publishableKey,
+    stripeConfigured,
+    t,
+  ]);
 
-  /**
-   * After Stripe confirms payment: verify Intent server-side + WhatsApp notify.
-   */
+  // After the guest enters a name, prepare the PaymentIntent so card fields appear.
+  useEffect(() => {
+    if (!stripeConfigured || !publishableKey) return;
+    if (!customerName.trim()) return;
+    if (clientSecret && (phase === "ready" || phase === "completing")) return;
+    if (phase === "paid" || phase === "paid_notify_failed") return;
+
+    const timer = window.setTimeout(() => {
+      void startStripePayment();
+    }, 450);
+    return () => window.clearTimeout(timer);
+  }, [
+    clientSecret,
+    customerName,
+    phase,
+    publishableKey,
+    startStripePayment,
+    stripeConfigured,
+  ]);
+
   const handlePaid = async (paymentIntentId: string) => {
     setPhase("completing");
     setPayError("");
@@ -172,7 +207,8 @@ function CheckoutContent() {
 
       if (!res.ok || !data.ok) {
         setPayError(t("stripePayFailed"));
-        setPhase("error");
+        // Keep Elements mounted if payment already succeeded on Stripe side.
+        setPhase("ready");
         return;
       }
 
@@ -184,12 +220,13 @@ function CheckoutContent() {
         setPhase("paid_notify_failed");
       }
     } catch {
-      // Payment already succeeded on Stripe — treat notify as failed backup path.
       setPhase("paid_notify_failed");
     }
   };
 
-  const showForm = phase === "ready" && clientSecret && publishableKey;
+  const showForm =
+    Boolean(clientSecret && publishableKey) &&
+    (phase === "ready" || phase === "completing" || phase === "error");
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -220,6 +257,12 @@ function CheckoutContent() {
               onChange={(event) => {
                 setCustomerName(event.target.value);
                 if (nameError) setNameError(false);
+                // Changing name after an intent was created: reset so a fresh
+                // PaymentIntent is prepared with the updated name.
+                if (clientSecret && phase === "ready") {
+                  setClientSecret(null);
+                  setPhase("idle");
+                }
               }}
               placeholder={t("customerNamePlaceholder")}
               autoComplete="name"
@@ -241,25 +284,46 @@ function CheckoutContent() {
             </p>
           ) : null}
 
+          {phase === "preparing" ||
+          (phase === "idle" &&
+            customerName.trim() &&
+            stripeConfigured &&
+            !clientSecret) ? (
+            <p className="text-center text-sm text-[color:var(--muted)]">
+              {t("stripePreparing")}
+            </p>
+          ) : null}
+
           {!showForm &&
+          !customerName.trim() &&
           phase !== "paid" &&
           phase !== "paid_notify_failed" &&
           phase !== "stripe_missing" ? (
+            <p className="rounded-xl border border-dashed border-[color:var(--line)] bg-white/70 px-3 py-4 text-center text-sm text-[color:var(--muted)]">
+              {t("stripeEnterNameForCard")}
+            </p>
+          ) : null}
+
+          {!showForm &&
+          customerName.trim() &&
+          phase === "error" &&
+          !clientSecret ? (
             <button
               type="button"
-              onClick={startStripePayment}
-              disabled={phase === "preparing" || phase === "completing"}
-              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+              onClick={() => void startStripePayment()}
+              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] active:scale-[0.99]"
             >
-              {phase === "preparing" ? t("stripePreparing") : t("stripeStartPay")}
+              {t("stripeStartPay")}
             </button>
           ) : null}
 
-          {showForm ? (
+          {showForm && clientSecret && publishableKey ? (
             <StripePaymentForm
               clientSecret={clientSecret}
               publishableKey={publishableKey}
               preferredMethod={selectedMethod}
+              customerName={customerName}
+              amountHkd={amountHkd}
               onPaid={handlePaid}
               onError={handlePayError}
             />
@@ -275,7 +339,7 @@ function CheckoutContent() {
               {t("stripePaidNotifyFailed")}
             </p>
           ) : null}
-          {phase === "error" && payError ? (
+          {payError ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
               {payError}
             </p>

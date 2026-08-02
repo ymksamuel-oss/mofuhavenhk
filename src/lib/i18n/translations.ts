@@ -40,6 +40,14 @@ export const translations = {
     stripePaidSuccess: "付款成功！訂單已成立，並已自動 WhatsApp 通知店主。",
     stripePaidNotifyFailed:
       "付款成功，但 WhatsApp 通知未能送達，請用下方按鈕手動通知店主。",
+    stripeCardFieldsTitle: "信用卡資料",
+    stripeCardNumber: "卡號",
+    stripeCardExpiry: "有效期",
+    stripeCardCvc: "CVV / CVC",
+    stripeCardIncomplete: "請填妥卡號、有效期同 CVV。",
+    stripeEnterNameForCard: "請先填寫顧客姓名，之後會顯示信用卡輸入欄。",
+    stripeOrCard: "—— 或使用信用卡 ——",
+    stripeOrApplePay: "—— 或使用 Apple Pay ——",
     whatsappOrderTitle: "手動 WhatsApp 補發（後備）",
     whatsappOrderHint:
       "系統會在確認付款後由伺服器自動 WhatsApp 通知店主。若自動通知失敗，可用此按鈕開啟與店主的對話並預填完整訂單。",
@@ -121,6 +129,14 @@ export const translations = {
     stripePaidSuccess: "Payment successful! Order placed and the shop was notified on WhatsApp.",
     stripePaidNotifyFailed:
       "Payment succeeded, but WhatsApp notify failed — please use the manual button below.",
+    stripeCardFieldsTitle: "Card details",
+    stripeCardNumber: "Card number",
+    stripeCardExpiry: "Expiry",
+    stripeCardCvc: "CVV / CVC",
+    stripeCardIncomplete: "Please complete card number, expiry, and CVV.",
+    stripeEnterNameForCard: "Enter your name first — the card fields will appear next.",
+    stripeOrCard: "— or pay by card —",
+    stripeOrApplePay: "— or use Apple Pay —",
     whatsappOrderTitle: "Manual WhatsApp backup",
     whatsappOrderHint:
       "After you confirm payment, the server notifies the shop on WhatsApp automatically. Use this only if auto-notify failed — it opens a chat with the shop number and your full order prefilled.",
