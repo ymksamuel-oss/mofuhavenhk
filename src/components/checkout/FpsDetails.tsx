@@ -20,17 +20,19 @@ type FpsDetailsProps = {
   amountHkd: number;
 };
 
+type FpsMethod = "proxy" | "amount" | "qr";
 type ToastKind = "id" | "amount" | "fail" | null;
 
 /**
- * FPS receiving details + HK-bank-style shortcuts — only rendered inside
- * checkout PaymentMethods when the guest selects FPS.
+ * FPS receiving panel with HK-bank-style transfer method selection.
+ * Rendered under checkout PaymentMethods when the guest selects FPS.
  */
 export function FpsDetails({ amountHkd }: FpsDetailsProps) {
   const { locale, t } = useI18n();
   const dialogTitleId = useId();
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [method, setMethod] = useState<FpsMethod>("proxy");
   const [toast, setToast] = useState<ToastKind>(null);
   const [qrOpen, setQrOpen] = useState(false);
   const [savingQr, setSavingQr] = useState(false);
@@ -77,6 +79,14 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
     showToast(ok ? kind : "fail");
   };
 
+  const handleSelectMethod = (next: FpsMethod) => {
+    setMethod(next);
+    if (next === "qr") {
+      // Keep QR inline by default; customers can enlarge when ready.
+      setToast(null);
+    }
+  };
+
   const handleOpenBankApp = () => {
     void handleCopy(copyId, "id");
     tryOpenFpsDeepLink(FPS_DEEP_LINK);
@@ -121,6 +131,28 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
           ? t("fpsCopyFailed")
           : null;
 
+  const methods: {
+    id: FpsMethod;
+    title: string;
+    hint: string;
+  }[] = [
+    {
+      id: "proxy",
+      title: t("fpsMethodProxy"),
+      hint: t("fpsMethodProxyHint"),
+    },
+    {
+      id: "amount",
+      title: t("fpsMethodAmount"),
+      hint: t("fpsMethodAmountHint"),
+    },
+    {
+      id: "qr",
+      title: t("fpsMethodQr"),
+      hint: t("fpsMethodQrHint"),
+    },
+  ];
+
   return (
     <div
       className="relative space-y-4 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/40 p-4"
@@ -133,83 +165,139 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
         <p className="mt-1 text-xs text-[color:var(--muted)]">{t("fpsPanelHint")}</p>
       </div>
 
-      <div className="space-y-2" aria-label={t("fpsShortcutsTitle")}>
-        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted)]">
-          {t("fpsShortcutsTitle")}
-        </p>
+      <fieldset className="space-y-2 border-0 p-0">
+        <legend className="mb-2 text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted)]">
+          {t("fpsMethodSelectTitle")}
+        </legend>
 
-        <ShortcutButton
-          title={t("fpsCopyIdAction")}
-          hint={t("fpsCopyIdActionHint")}
-          value={displayId}
-          onClick={() => void handleCopy(copyId, "id")}
-        />
-        <ShortcutButton
-          title={t("fpsCopyAmountAction")}
-          hint={t("fpsCopyAmountActionHint")}
-          value={displayAmount}
-          onClick={() => void handleCopy(copyAmount, "amount")}
-        />
-        <ShortcutButton
-          title={t("fpsQrAction")}
-          hint={t("fpsQrActionHint")}
-          onClick={() => setQrOpen(true)}
-        />
+        <ul className="space-y-2" role="list">
+          {methods.map(({ id, title, hint }) => {
+            const active = method === id;
+            return (
+              <li key={id}>
+                <button
+                  type="button"
+                  onClick={() => handleSelectMethod(id)}
+                  aria-pressed={active}
+                  className={`flex w-full items-start gap-3 rounded-xl border px-3.5 py-3 text-left transition active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] ${
+                    active
+                      ? "border-[color:var(--accent)] bg-white shadow-[0_6px_16px_-10px_rgba(169,124,80,0.55)]"
+                      : "border-[color:var(--line)] bg-white/70 hover:border-[color:var(--accent)]/50 hover:bg-white"
+                  }`}
+                >
+                  <span
+                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition ${
+                      active
+                        ? "border-[color:var(--accent)] bg-[color:var(--accent)]"
+                        : "border-[color:var(--line)] bg-transparent"
+                    }`}
+                    aria-hidden="true"
+                  >
+                    {active ? (
+                      <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                    ) : null}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold leading-snug text-[color:var(--ink)]">
+                      {title}
+                    </span>
+                    <span className="mt-0.5 block text-[11px] leading-snug text-[color:var(--muted)]">
+                      {hint}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </fieldset>
 
-        {showDeepLink ? (
-          <ShortcutButton
-            title={t("fpsOpenBankApp")}
-            hint={t("fpsOpenBankAppHint")}
-            onClick={handleOpenBankApp}
-            emphasis="soft"
+      <div className="rounded-xl border border-[color:var(--line)] bg-white/90 p-3.5">
+        {method === "proxy" ? (
+          <CopyActionPanel
+            label={t("fpsIdLabel")}
+            value={displayId}
+            accountName={FPS_ACCOUNT_NAME}
+            accountLabel={t("fpsAccountLabel")}
+            copyLabel={toast === "id" ? t("fpsCopyAgain") : t("fpsCopy")}
+            copied={toast === "id"}
+            copiedLabel={t("fpsCopied")}
+            onCopy={() => void handleCopy(copyId, "id")}
           />
+        ) : null}
+
+        {method === "amount" ? (
+          <CopyActionPanel
+            label={t("fpsAmountLabel")}
+            value={displayAmount}
+            accountName={FPS_ACCOUNT_NAME}
+            accountLabel={t("fpsAccountLabel")}
+            copyLabel={toast === "amount" ? t("fpsCopyAgain") : t("fpsCopy")}
+            copied={toast === "amount"}
+            copiedLabel={t("fpsCopied")}
+            emphasizeValue
+            onCopy={() => void handleCopy(copyAmount, "amount")}
+          />
+        ) : null}
+
+        {method === "qr" ? (
+          <div className="flex flex-col items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setQrOpen(true)}
+              className="flex h-44 w-44 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)] transition hover:ring-[color:var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] active:scale-[0.99]"
+              aria-label={t("fpsQrEnlarge")}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element -- local SVG / shop QR asset */}
+              <img
+                src={FPS_QR_SRC}
+                alt={t("fpsQrAlt")}
+                className="h-full w-full object-contain"
+              />
+            </button>
+            <p className="text-center text-[11px] leading-relaxed text-[color:var(--muted)]">
+              {t("fpsQrHint")}
+            </p>
+            <div className="grid w-full gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setQrOpen(true)}
+                className="rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/50 px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)]"
+              >
+                {t("fpsQrEnlarge")}
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleSaveQr()}
+                disabled={savingQr}
+                className="rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {t("fpsQrSave")}
+              </button>
+            </div>
+          </div>
         ) : null}
       </div>
 
-      <dl className="space-y-2 border-t border-[color:var(--line)] pt-3 text-sm">
-        <CopyRow
-          label={t("fpsIdLabel")}
-          value={displayId}
-          copyLabel={t("fpsCopy")}
-          copiedLabel={t("fpsCopied")}
-          justCopied={toast === "id"}
-          onCopy={() => void handleCopy(copyId, "id")}
-        />
-        <div className="flex justify-between gap-3">
-          <dt className="text-[color:var(--muted)]">{t("fpsAccountLabel")}</dt>
-          <dd className="font-medium text-[color:var(--ink)]">
-            {FPS_ACCOUNT_NAME}
-          </dd>
-        </div>
-        <CopyRow
-          label={t("fpsAmountLabel")}
-          value={displayAmount}
-          copyLabel={t("fpsCopy")}
-          copiedLabel={t("fpsCopied")}
-          justCopied={toast === "amount"}
-          emphasize
-          onCopy={() => void handleCopy(copyAmount, "amount")}
-        />
-      </dl>
-
-      <div className="flex flex-col items-center gap-2">
+      {showDeepLink ? (
         <button
           type="button"
-          onClick={() => setQrOpen(true)}
-          className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)] transition hover:ring-[color:var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] active:scale-[0.99]"
-          aria-label={t("fpsQrAction")}
+          onClick={handleOpenBankApp}
+          className="flex w-full items-center justify-between gap-3 rounded-xl border border-dashed border-[color:var(--accent)]/55 bg-white/70 px-3.5 py-3 text-left transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] active:scale-[0.99]"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element -- local SVG / shop QR asset */}
-          <img
-            src={FPS_QR_SRC}
-            alt={t("fpsQrAlt")}
-            className="h-full w-full object-contain"
-          />
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold text-[color:var(--ink)]">
+              {t("fpsOpenBankApp")}
+            </span>
+            <span className="mt-0.5 block text-[11px] text-[color:var(--muted)]">
+              {t("fpsOpenBankAppHint")}
+            </span>
+          </span>
+          <span aria-hidden="true" className="text-lg text-[color:var(--accent)]">
+            ›
+          </span>
         </button>
-        <p className="text-center text-[11px] text-[color:var(--muted)]">
-          {t("fpsQrHint")}
-        </p>
-      </div>
+      ) : null}
 
       {toastMessage ? (
         <div
@@ -240,7 +328,7 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
             >
               {t("fpsQrViewTitle")}
             </h4>
-            <div className="mx-auto mt-4 flex h-56 w-56 items-center justify-center overflow-hidden rounded-xl bg-white p-3 ring-1 ring-[color:var(--line)]">
+            <div className="mx-auto mt-4 flex h-60 w-60 items-center justify-center overflow-hidden rounded-xl bg-white p-3 ring-1 ring-[color:var(--line)]">
               {/* eslint-disable-next-line @next/next/no-img-element -- local SVG / shop QR asset */}
               <img
                 src={FPS_QR_SRC}
@@ -275,101 +363,59 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
   );
 }
 
-function ShortcutButton({
-  title,
-  hint,
-  value,
-  onClick,
-  emphasis = "default",
-}: {
-  title: string;
-  hint: string;
-  value?: string;
-  onClick: () => void;
-  emphasis?: "default" | "soft";
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-xl border px-3.5 py-3 text-left transition active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] ${
-        emphasis === "soft"
-          ? "border-dashed border-[color:var(--accent)]/55 bg-white/70 hover:bg-white"
-          : "border-[color:var(--line)] bg-white/85 hover:border-[color:var(--accent)]/55 hover:bg-white"
-      }`}
-    >
-      <span className="min-w-0 flex-1">
-        <span className="block text-sm font-semibold text-[color:var(--ink)]">
-          {title}
-        </span>
-        <span className="mt-0.5 block text-[11px] leading-snug text-[color:var(--muted)]">
-          {hint}
-        </span>
-        {value ? (
-          <span className="mt-1 block truncate text-xs font-medium tabular-nums text-[color:var(--hero-deep)]">
-            {value}
-          </span>
-        ) : null}
-      </span>
-      <span
-        aria-hidden="true"
-        className="shrink-0 text-lg leading-none text-[color:var(--accent)]"
-      >
-        ›
-      </span>
-    </button>
-  );
-}
-
-function CopyRow({
+function CopyActionPanel({
   label,
   value,
+  accountLabel,
+  accountName,
   copyLabel,
+  copied,
   copiedLabel,
-  justCopied,
-  emphasize = false,
+  emphasizeValue = false,
   onCopy,
 }: {
   label: string;
   value: string;
+  accountLabel: string;
+  accountName: string;
   copyLabel: string;
+  copied: boolean;
   copiedLabel: string;
-  justCopied: boolean;
-  emphasize?: boolean;
+  emphasizeValue?: boolean;
   onCopy: () => void;
 }) {
   return (
-    <div
-      className={`flex items-center justify-between gap-3 ${
-        emphasize ? "border-t border-[color:var(--line)] pt-2" : ""
-      }`}
-    >
-      <dt className="text-[color:var(--muted)]">{label}</dt>
-      <dd className="flex min-w-0 items-center gap-2">
+    <div className="space-y-3">
+      <div className="space-y-1">
+        <p className="text-xs text-[color:var(--muted)]">{label}</p>
         <button
           type="button"
           onClick={onCopy}
-          className={`rounded-lg px-1.5 py-0.5 text-right tabular-nums transition hover:bg-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] ${
-            emphasize
-              ? "font-semibold text-[color:var(--ink)]"
-              : "font-medium text-[color:var(--ink)]"
+          className={`block w-full rounded-lg px-1 py-0.5 text-left tabular-nums transition hover:bg-[color:var(--accent-soft)]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] ${
+            emphasizeValue
+              ? "text-2xl font-semibold tracking-tight text-[color:var(--ink)]"
+              : "text-xl font-semibold tracking-wide text-[color:var(--ink)]"
           }`}
           aria-label={`${copyLabel} ${label}`}
         >
           {value}
         </button>
-        <button
-          type="button"
-          onClick={onCopy}
-          className={`shrink-0 rounded-lg px-2 py-1 text-[11px] font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] ${
-            justCopied
-              ? "bg-emerald-100 text-emerald-800"
-              : "bg-white text-[color:var(--accent)] ring-1 ring-[color:var(--line)] hover:bg-[color:var(--accent-soft)]"
-          }`}
-        >
-          {justCopied ? copiedLabel : copyLabel}
-        </button>
-      </dd>
+        <p className="text-[11px] text-[color:var(--muted)]">
+          {accountLabel}：{accountName}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={onCopy}
+        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] active:scale-[0.99] ${
+          copied
+            ? "bg-emerald-100 text-emerald-800"
+            : "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
+        }`}
+      >
+        {copied ? copiedLabel : copyLabel}
+      </button>
     </div>
   );
 }
