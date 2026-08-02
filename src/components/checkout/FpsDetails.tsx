@@ -106,7 +106,6 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
       document.body.removeChild(anchor);
       URL.revokeObjectURL(objectUrl);
     } catch {
-      showToast("fail");
       window.alert(t("fpsQrSaveFailed"));
     } finally {
       setSavingQr(false);
