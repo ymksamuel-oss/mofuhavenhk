@@ -1,15 +1,18 @@
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 export type LineItem = {
-  key: Extract<TranslationKey, "itemMofu" | "itemMatcha" | "itemMango">;
+  key: Extract<
+    TranslationKey,
+    "itemDogFood" | "itemCatTreats" | "itemPetSupplement"
+  >;
   qty: number;
   unit: number;
 };
 
 export const LINE_ITEMS: LineItem[] = [
-  { key: "itemMofu", qty: 2, unit: 48 },
-  { key: "itemMatcha", qty: 1, unit: 58 },
-  { key: "itemMango", qty: 1, unit: 62 },
+  { key: "itemDogFood", qty: 1, unit: 168 },
+  { key: "itemCatTreats", qty: 2, unit: 45 },
+  { key: "itemPetSupplement", qty: 1, unit: 158 },
 ];
 
 export const SHIPPING = 25;

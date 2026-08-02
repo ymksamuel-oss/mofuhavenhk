@@ -18,7 +18,7 @@ const notoSansTc = Noto_Sans_TC({
 
 export const metadata: Metadata = {
   title: "Mofu Haven HK",
-  description: "Handmade silken tofu desserts in Hong Kong",
+  description: "Japan's finest pet supplies, delivered to Hong Kong",
 };
 
 export default function RootLayout({
