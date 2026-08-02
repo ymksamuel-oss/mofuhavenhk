@@ -1,11 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 
+function navLinkClassName(active: boolean) {
+  return `relative truncate py-0.5 transition-colors ${
+    active
+      ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[1px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[color:var(--accent)] after:content-['']"
+      : "hover:text-[color:var(--ink)]"
+  }`;
+}
+
 export function Header() {
   const { locale, setLocale, t } = useI18n();
+  const pathname = usePathname();
 
   const switchLocale = (next: Locale) => {
     setLocale(next);
@@ -22,16 +32,19 @@ export function Header() {
           >
             {t("brand")}
           </Link>
-          <nav className="flex min-w-0 items-center gap-1.5 text-sm text-[color:var(--muted)] sm:gap-4">
-            <Link href="/" className="truncate hover:text-[color:var(--ink)]">
+          <nav className="flex min-w-0 items-center gap-2 text-sm text-[color:var(--muted)] sm:gap-5">
+            <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
             </Link>
-            <Link href="/menu" className="truncate hover:text-[color:var(--ink)]">
+            <Link
+              href="/menu"
+              className={navLinkClassName(pathname === "/menu")}
+            >
               {t("navMenu")}
             </Link>
             <Link
               href="/checkout"
-              className="truncate hover:text-[color:var(--ink)]"
+              className={navLinkClassName(pathname === "/checkout")}
             >
               {t("navCheckout")}
             </Link>
@@ -39,16 +52,16 @@ export function Header() {
         </div>
 
         <div
-          className="flex shrink-0 items-center gap-1.5"
+          className="flex shrink-0 items-center gap-1 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-1"
           role="group"
           aria-label="Language"
         >
           <button
             type="button"
             onClick={() => switchLocale("zh")}
-            className={`px-2 py-1 text-xs tracking-wide transition ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium tracking-wide transition ${
               locale === "zh"
-                ? "bg-[color:var(--ink)] text-[color:var(--surface)]"
+                ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                 : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
             }`}
             aria-pressed={locale === "zh"}
@@ -58,9 +71,9 @@ export function Header() {
           <button
             type="button"
             onClick={() => switchLocale("en")}
-            className={`px-2 py-1 text-xs tracking-wide transition ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium tracking-wide transition ${
               locale === "en"
-                ? "bg-[color:var(--ink)] text-[color:var(--surface)]"
+                ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                 : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
             }`}
             aria-pressed={locale === "en"}

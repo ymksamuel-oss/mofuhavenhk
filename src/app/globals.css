@@ -51,10 +51,10 @@ body {
 
 .hero-plane {
   background:
-    linear-gradient(120deg, rgba(92, 58, 34, 0.92), rgba(169, 124, 80, 0.78)),
-    radial-gradient(circle at 20% 20%, #e8c9a0 0%, transparent 40%),
-    radial-gradient(circle at 80% 10%, #d9a066 0%, transparent 35%),
-    #5c3a22;
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 238, 213, 0.4) 0%, transparent 55%),
+    radial-gradient(85% 110% at 88% 8%, rgba(233, 189, 138, 0.5) 0%, transparent 52%),
+    radial-gradient(70% 70% at 50% 100%, rgba(0, 0, 0, 0.18) 0%, transparent 60%),
+    linear-gradient(135deg, #6b4326 0%, #a97c50 55%, #cf9d6c 100%);
 }
 
 @keyframes fadeUp {
