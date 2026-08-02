@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { FpsDetails } from "@/components/checkout/FpsDetails";
 import {
   ApplePayLogo,
   CardLogo,
@@ -24,9 +25,15 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
+  /** Required when FPS may be selected — drives the amount shown in FPS details. */
+  amountHkd?: number;
 };
 
-export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
+export function PaymentMethods({
+  selected,
+  onSelect,
+  amountHkd = 0,
+}: PaymentMethodsProps) {
   const { t } = useI18n();
 
   return (
@@ -50,7 +57,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
           return (
-            <li key={id}>
+            <li key={id} className="space-y-3">
               <button
                 type="button"
                 onClick={() => onSelect(id)}
@@ -79,6 +86,10 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   aria-hidden="true"
                 />
               </button>
+
+              {id === "fps" && active ? (
+                <FpsDetails amountHkd={amountHkd} />
+              ) : null}
             </li>
           );
         })}

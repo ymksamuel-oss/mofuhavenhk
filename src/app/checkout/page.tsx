@@ -321,7 +321,11 @@ function CheckoutContent() {
       </header>
 
       <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        <PaymentMethods selected={selectedMethod} onSelect={handleSelectMethod} />
+        <PaymentMethods
+          selected={selectedMethod}
+          onSelect={handleSelectMethod}
+          amountHkd={amountHkd}
+        />
         <div className="milk-tea-card space-y-6 p-5 sm:p-6">
           <OrderSummary
             items={items}
@@ -331,7 +335,6 @@ function CheckoutContent() {
 
           {isFps ? (
             <FpsPaymentPanel
-              amountHkd={amountHkd}
               onConfirm={() => void handleFpsConfirm()}
               confirming={fpsConfirming}
               confirmed={phase === "fps_done"}
