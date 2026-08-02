@@ -19,7 +19,7 @@ import {
 } from "@/lib/order";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
-type NotifyStatus = "idle" | "sending" | "success" | "error";
+type NotifyStatus = "idle" | "sending" | "success" | "error" | "not_configured";
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
@@ -31,11 +31,17 @@ function CheckoutContent() {
   const [customerName, setCustomerName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [notifyStatus, setNotifyStatus] = useState<NotifyStatus>("idle");
+  const [manualWaError, setManualWaError] = useState(false);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
   }, []);
 
+  /**
+   * Optional customer-initiated backup: opens WhatsApp Chat with the shop
+   * number (@MofuHavenHK phone via NEXT_PUBLIC_WHATSAPP_NUMBER).
+   * This is NOT the automatic shop notification path.
+   */
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -48,12 +54,13 @@ function CheckoutContent() {
       t,
       paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
     });
-    openWhatsAppOrder(message);
+    const opened = openWhatsAppOrder(message);
+    setManualWaError(!opened);
   };
 
   /**
-   * Confirms the order and automatically notifies @MofuHavenHK on WhatsApp
-   * via POST /api/notify-order (server-side Twilio / CallMeBot).
+   * Confirms the order and notifies @MofuHavenHK on WhatsApp **server-side**
+   * via POST /api/notify-order. Never opens wa.me / window.open.
    */
   const handlePlaceOrder = async () => {
     if (!customerName.trim()) {
@@ -84,8 +91,17 @@ function CheckoutContent() {
           currency: t("currency"),
         }),
       });
-      const data = (await res.json()) as { ok: boolean; error?: string };
-      if (!res.ok || !data.ok) {
+      const data = (await res.json()) as {
+        ok: boolean;
+        error?: string;
+        delivered?: boolean;
+      };
+
+      if (data.error === "not_configured" || res.status === 503) {
+        setNotifyStatus("not_configured");
+        return;
+      }
+      if (!res.ok || !data.ok || !data.delivered) {
         setNotifyStatus("error");
         return;
       }
@@ -157,15 +173,28 @@ function CheckoutContent() {
               {t("orderNotifyError")}
             </p>
           ) : null}
+          {notifyStatus === "not_configured" ? (
+            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+              {t("orderNotifyNotConfigured")}
+            </p>
+          ) : null}
 
           <p className="text-center text-xs text-[color:var(--muted)]">
             {t("secureNote")}
+          </p>
+          <p className="text-center text-[11px] text-[color:var(--muted)]">
+            {t("orderNotifyServerHint")}
           </p>
         </div>
       </div>
 
       <div className="mt-6">
         <WhatsAppOrder orderNumber={orderNumber} onSend={handleSendToWhatsApp} />
+        {manualWaError ? (
+          <p className="mt-2 text-center text-xs text-amber-700">
+            {t("whatsappNumberMissing")}
+          </p>
+        ) : null}
       </div>
     </div>
   );

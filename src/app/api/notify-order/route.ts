@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import {
   buildNotifyMessage,
+  getConfiguredProviders,
+  isNotifyConfigured,
   sendWhatsAppNotification,
 } from "@/lib/notifyWhatsapp";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 type NotifyOrderRequestBody = {
   orderNumber?: unknown;
@@ -19,11 +22,29 @@ function isNonEmptyString(value: unknown): value is string {
 }
 
 /**
+ * GET /api/notify-order
+ * Lightweight health check — reports whether a server-side WhatsApp
+ * gateway is configured (never exposes secrets).
+ */
+export async function GET() {
+  const providers = getConfiguredProviders();
+  return NextResponse.json({
+    ok: true,
+    shopHandle: process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK",
+    configured: providers.length > 0,
+    providers,
+  });
+}
+
+/**
  * POST /api/notify-order
  *
  * Called from /checkout when the customer places an order. Formats the
- * shop-owner WhatsApp template and sends it server-side to @MofuHavenHK
- * via Twilio or CallMeBot (see src/lib/notifyWhatsapp.ts + .env.example).
+ * shop-owner WhatsApp template and sends it **server-side** to @MofuHavenHK
+ * via Meta Cloud API / Twilio / Green API / CallMeBot.
+ *
+ * This route never returns a wa.me URL and never asks the customer to
+ * manually send the shop notification.
  */
 export async function POST(request: Request) {
   let body: NotifyOrderRequestBody;
@@ -52,6 +73,20 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!isNotifyConfigured()) {
+    console.error(
+      "[notify-order] Rejecting order notify — no WhatsApp gateway env vars on this deployment.",
+    );
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "not_configured",
+        hint: "Set CALLMEBOT_PHONE + CALLMEBOT_APIKEY (or TWILIO_* / WHATSAPP_CLOUD_* / GREEN_API_*) on Vercel for @MofuHavenHK.",
+      },
+      { status: 503 },
+    );
+  }
+
   const message = buildNotifyMessage({
     orderNumber: orderNumber.trim().slice(0, 60),
     customerName: customerName.trim().slice(0, 100),
@@ -69,5 +104,9 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, provider: result.provider });
+  return NextResponse.json({
+    ok: true,
+    provider: result.provider,
+    delivered: true,
+  });
 }
