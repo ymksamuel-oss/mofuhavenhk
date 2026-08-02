@@ -85,3 +85,69 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Header SVG wordmark — staggered wave on hover / click */
+@keyframes logoWave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  70% {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes logoMarkBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-2px) rotate(-6deg);
+  }
+  70% {
+    transform: translateY(1px) rotate(4deg);
+  }
+}
+
+.brand-logo {
+  line-height: 0;
+}
+
+.brand-logo .logo-letter {
+  display: inline-block;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.brand-logo .logo-mark {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.brand-logo-link:hover .brand-logo .logo-letter,
+.brand-logo-link:focus-visible .brand-logo .logo-letter,
+.brand-logo.is-waving .logo-letter {
+  animation: logoWave 0.55s ease both;
+  animation-delay: calc(var(--i, 0) * 0.045s);
+}
+
+.brand-logo-link:hover .brand-logo .logo-mark,
+.brand-logo-link:focus-visible .brand-logo .logo-mark,
+.brand-logo.is-waving .logo-mark {
+  animation: logoMarkBob 0.55s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo-link:hover .brand-logo .logo-letter,
+  .brand-logo-link:focus-visible .brand-logo .logo-letter,
+  .brand-logo.is-waving .logo-letter,
+  .brand-logo-link:hover .brand-logo .logo-mark,
+  .brand-logo-link:focus-visible .brand-logo .logo-mark,
+  .brand-logo.is-waving .logo-mark {
+    animation: none;
+  }
+}

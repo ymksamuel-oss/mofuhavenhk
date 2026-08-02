@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 
@@ -24,13 +25,13 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--surface)]/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4 sm:h-16 sm:px-6">
-        {/* Narrow screens: gap-1.5 so brand + menu stay uncrowded */}
         <div className="flex min-w-0 items-center gap-1.5 sm:gap-6">
           <Link
             href="/"
-            className="shrink-0 font-[family-name:var(--font-display)] text-lg tracking-tight text-[color:var(--ink)] sm:text-xl"
+            className="brand-logo-link flex shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            aria-label={t("brand")}
           >
-            {t("brand")}
+            <BrandLogo title={t("brand")} />
           </Link>
           <nav className="flex min-w-0 items-center gap-2 text-sm text-[color:var(--muted)] sm:gap-5">
             <Link href="/" className={navLinkClassName(pathname === "/")}>
