@@ -64,21 +64,20 @@ export function ProductQuickView({
           ✕
         </button>
 
-        <div className="mb-5 flex justify-center">
-          <div className="relative aspect-square w-40 shrink-0 overflow-hidden rounded-full shadow-[0_14px_28px_-14px_rgba(92,54,38,0.5)] ring-4 ring-white/80 sm:w-48">
-            <Image
-              src={product.image}
-              alt={product.name[locale]}
-              fill
-              sizes="200px"
-              className="object-cover"
-            />
-            {discountPercent ? (
-              <span className="absolute left-1 top-1 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
-                -{discountPercent}%
-              </span>
-            ) : null}
-          </div>
+        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[color:var(--background)]">
+          <Image
+            src={product.image}
+            alt={product.name[locale]}
+            fill
+            sizes="(min-width: 640px) 512px, 100vw"
+            className="object-cover"
+            priority
+          />
+          {discountPercent ? (
+            <span className="absolute left-3 top-3 rounded-full bg-[#c0483a] px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
+              -{discountPercent}%
+            </span>
+          ) : null}
         </div>
 
         <h2

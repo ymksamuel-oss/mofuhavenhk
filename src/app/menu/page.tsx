@@ -72,21 +72,17 @@ function MenuContent() {
                   type="button"
                   onClick={() => setQuickViewProduct(product)}
                   aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
-                  className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-[color:var(--accent-soft)] to-[color:var(--background)] p-4 text-left sm:h-44"
+                  className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)] text-left"
                 >
-                  {/* Product artwork is a circular illustration on a white
-                      square canvas; cropping it into a round frame (instead
-                      of showing it with object-contain) hides the square
-                      canvas edges and reads as a clean, intentional badge. */}
-                  <div className="relative aspect-square w-[78%] max-w-[9.5rem] overflow-hidden rounded-full shadow-[0_10px_22px_-10px_rgba(92,54,38,0.4)] ring-4 ring-white/80 transition-transform duration-300 ease-out group-hover:scale-105">
-                    <Image
-                      src={product.image}
-                      alt={product.name[locale]}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                      className="object-cover"
-                    />
-                  </div>
+                  {/* Real product photograph — full-bleed square crop, not
+                      illustration badges or AI artwork. */}
+                  <Image
+                    src={product.image}
+                    alt={product.name[locale]}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                  />
                   {discountPercent ? (
                     <span className="absolute left-2.5 top-2.5 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                       -{discountPercent}%

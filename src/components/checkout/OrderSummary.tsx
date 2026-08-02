@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { calcSubtotal, SHIPPING, type OrderItem } from "@/lib/order";
@@ -27,15 +28,26 @@ export function OrderSummary({ items }: OrderSummaryProps) {
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex items-start justify-between gap-4 py-3 text-sm"
+            className="flex items-start justify-between gap-3 py-3 text-sm"
           >
-            <div>
-              <p className="font-medium text-[color:var(--ink)]">
-                {item.name[locale]}
-              </p>
-              <p className="text-[color:var(--muted)]">
-                {t("qty")} {item.qty}
-              </p>
+            <div className="flex min-w-0 items-start gap-3">
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
+                <Image
+                  src={item.image}
+                  alt={item.name[locale]}
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <p className="font-medium text-[color:var(--ink)]">
+                  {item.name[locale]}
+                </p>
+                <p className="text-[color:var(--muted)]">
+                  {t("qty")} {item.qty}
+                </p>
+              </div>
             </div>
             <p className="shrink-0 tabular-nums text-[color:var(--ink)]">
               {formatMoney(item.qty * item.unit, locale)}

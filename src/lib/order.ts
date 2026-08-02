@@ -3,6 +3,8 @@ import { PRODUCTS, getProductsByCategory } from "@/lib/products";
 export type OrderItem = {
   id: string;
   name: { zh: string; en: string };
+  /** Real product photograph path under /public. */
+  image: string;
   qty: number;
   unit: number;
 };
@@ -25,6 +27,7 @@ export function getOrderItems(categorySlug: string | null): OrderItem[] {
   return source.slice(0, 3).map((product) => ({
     id: product.id,
     name: product.name,
+    image: product.image,
     qty: 1,
     unit: product.price,
   }));
