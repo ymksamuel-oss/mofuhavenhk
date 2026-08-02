@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -10,43 +11,30 @@ export default function HomePage() {
   return (
     <>
       <section className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden sm:min-h-[calc(100vh-4rem)]">
-        <div aria-hidden className="hero-plane absolute inset-0" />
+        {/* Full-bleed real pet photograph — never a flat solid color. */}
+        <Image
+          src="/hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_30%]"
+        />
 
-        {/* Soft warm "bokeh" glows for a gentler, more milk-tea-like depth
-            than a flat gradient. */}
+        {/* Warm milk-tea scrim keeps brand text readable without hiding the photo. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-[color:var(--category-bg-light)]/30 blur-3xl sm:h-96 sm:w-96"
+          className="hero-plane absolute inset-0"
+        />
+
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-[color:var(--category-bg-light)]/20 blur-3xl sm:h-96 sm:w-96"
         />
         <div
           aria-hidden
           className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-white/10 blur-3xl"
         />
-
-        {/* Subtle repeating paw-print texture for a distinctly pet-shop feel. */}
-        <svg
-          aria-hidden
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <pattern
-              id="hero-paw-pattern"
-              width="84"
-              height="84"
-              patternUnits="userSpaceOnUse"
-            >
-              <g fill="white">
-                <circle cx="42" cy="50" r="10" />
-                <circle cx="28" cy="32" r="5" />
-                <circle cx="56" cy="32" r="5" />
-                <circle cx="20" cy="45" r="4.4" />
-                <circle cx="64" cy="45" r="4.4" />
-              </g>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-paw-pattern)" />
-        </svg>
 
         <div className="relative mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-5xl flex-col justify-end px-4 pb-20 pt-24 sm:min-h-[calc(100vh-4rem)] sm:px-6 sm:pb-28">
           <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-medium tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur-sm animate-[fadeUp_0.6s_ease_both] sm:text-sm">
@@ -58,7 +46,7 @@ export default function HomePage() {
           <h1 className="max-w-xl text-xl text-white/95 sm:text-2xl animate-[fadeUp_0.8s_ease_both]">
             {t("homeHeadline")}
           </h1>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80 sm:text-base animate-[fadeUp_0.95s_ease_both]">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base animate-[fadeUp_0.95s_ease_both]">
             {t("homeSub")}
           </p>
           <div className="mt-8 animate-[fadeUp_1.05s_ease_both]">
