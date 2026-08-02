@@ -8,7 +8,8 @@ export type CategoryIconName =
   | "cleaning"
   | "clock"
   | "fire"
-  | "bag";
+  | "bag"
+  | "toy";
 
 export type CategoryLabelKey = Extract<
   TranslationKey,
@@ -20,6 +21,7 @@ export type CategoryLabelKey = Extract<
   | "categoryDeals"
   | "categoryBestsellers"
   | "categoryOutdoor"
+  | "categoryToys"
 >;
 
 export type Category = {
@@ -32,6 +34,7 @@ export const CATEGORIES: Category[] = [
   { slug: "cats", labelKey: "categoryCats", icon: "cat" },
   { slug: "dogs", labelKey: "categoryDogs", icon: "dog" },
   { slug: "snacks", labelKey: "categorySnacks", icon: "bone" },
+  { slug: "toys", labelKey: "categoryToys", icon: "toy" },
   { slug: "health", labelKey: "categoryHealth", icon: "health" },
   { slug: "cleaning", labelKey: "categoryCleaning", icon: "cleaning" },
   { slug: "deals", labelKey: "categoryDeals", icon: "clock" },
