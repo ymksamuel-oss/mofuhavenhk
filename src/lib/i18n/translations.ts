@@ -34,6 +34,8 @@ export const translations = {
     customerNameLabel: "顧客姓名",
     customerNamePlaceholder: "請輸入你的姓名",
     customerNameRequired: "請先填寫姓名先可以落單",
+    customerPhoneLabel: "聯絡電話（選填）",
+    customerPhonePlaceholder: "請輸入你的聯絡電話",
     orderNotifySending: "訂單通知發送緊…",
     orderNotifySuccess: "已自動通知我哋團隊，訂單通知發送成功！",
     orderNotifyError:
@@ -93,6 +95,8 @@ export const translations = {
     customerNameLabel: "Full name",
     customerNamePlaceholder: "Enter your name",
     customerNameRequired: "Please enter your name before placing the order",
+    customerPhoneLabel: "Contact phone (optional)",
+    customerPhonePlaceholder: "Enter your contact phone number",
     orderNotifySending: "Sending order notification…",
     orderNotifySuccess: "Our team has been notified automatically — order sent!",
     orderNotifyError:

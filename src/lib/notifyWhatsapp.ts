@@ -9,9 +9,16 @@
  * must never be bundled into client JavaScript.
  */
 
+// Shown in the notification header so it's unambiguous which shop account
+// this order belongs to (useful if a shared number/provider account is ever
+// reused across multiple stores). Override with SHOP_WHATSAPP_HANDLE if the
+// account is ever renamed.
+const SHOP_HANDLE = process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK";
+
 export type NotifyOrderInput = {
   orderNumber: string;
   customerName: string;
+  customerPhone?: string;
   paymentLabel: string;
   total: number;
   currency: string;
@@ -21,6 +28,7 @@ export type NotifyOrderInput = {
 export function buildNotifyMessage({
   orderNumber,
   customerName,
+  customerPhone,
   paymentLabel,
   total,
   currency,
@@ -31,20 +39,47 @@ export function buildNotifyMessage({
     maximumFractionDigits: 2,
   })}`;
 
-  return [
-    "🛎️ 新訂單通知 / New Order Notification",
+  const lines = [
+    `🛎️ 新訂單通知 / New Order Notification — @${SHOP_HANDLE}`,
     "",
     `訂單編號 / Order No.: ${orderNumber}`,
     `顧客姓名 / Customer: ${customerName}`,
+  ];
+
+  if (customerPhone) {
+    lines.push(`顧客電話 / Phone: ${customerPhone}`);
+  }
+
+  lines.push(
     `付款方式 / Payment method: ${paymentLabel}`,
     `應付總額 / Total due: ${formattedTotal}`,
     `網店連結 / Website: ${siteUrl}`,
-  ].join("\n");
+  );
+
+  return lines.join("\n");
 }
 
 export type NotifyResult =
   | { ok: true; provider: "twilio" | "callmebot" }
   | { ok: false; error: string };
+
+/**
+ * Runs a fetch call and retries once after a short delay if the network
+ * request itself throws (DNS/timeout/connection reset, etc.). A malformed
+ * response (bad status, bad credentials) is NOT retried since a second
+ * attempt would fail the same way.
+ */
+async function fetchWithRetry(
+  input: string,
+  init?: RequestInit,
+): Promise<Response> {
+  try {
+    return await fetch(input, init);
+  } catch {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    return fetch(input, init);
+  }
+}
 
 async function sendViaTwilio(message: string): Promise<NotifyResult> {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -61,7 +96,7 @@ async function sendViaTwilio(message: string): Promise<NotifyResult> {
   const auth = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
 
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithRetry(url, {
       method: "POST",
       headers: {
         Authorization: `Basic ${auth}`,
@@ -99,7 +134,7 @@ async function sendViaCallMeBot(message: string): Promise<NotifyResult> {
   )}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
 
   try {
-    const res = await fetch(url, { method: "GET" });
+    const res = await fetchWithRetry(url, { method: "GET" });
     const text = await res.text().catch(() => "");
 
     // CallMeBot returns HTTP 200 even for invalid credentials/config, with
@@ -125,7 +160,10 @@ async function sendViaCallMeBot(message: string): Promise<NotifyResult> {
  * configured (Twilio WhatsApp API is tried first, falling back to
  * CallMeBot). Never throws — always resolves to a result object so callers
  * (the /api/notify-order route) can respond gracefully and the checkout
- * flow is never blocked by a missing/failed integration.
+ * flow is never blocked by a missing/failed integration. Logs the outcome
+ * server-side (visible in your hosting provider's function logs, e.g.
+ * Vercel → Project → Logs) so delivery issues can be diagnosed without
+ * exposing anything to the customer.
  */
 export async function sendWhatsAppNotification(
   message: string,
@@ -141,13 +179,31 @@ export async function sendWhatsAppNotification(
   );
 
   if (!hasTwilio && !hasCallMeBot) {
+    console.error(
+      `[notify-order] @${SHOP_HANDLE}: no WhatsApp provider configured (set CALLMEBOT_PHONE/CALLMEBOT_APIKEY or the TWILIO_* variables).`,
+    );
     return { ok: false, error: "not_configured" };
   }
 
+  let result: NotifyResult;
   if (hasTwilio) {
-    const result = await sendViaTwilio(message);
-    if (result.ok || !hasCallMeBot) return result;
+    result = await sendViaTwilio(message);
+    if (!result.ok && hasCallMeBot) {
+      result = await sendViaCallMeBot(message);
+    }
+  } else {
+    result = await sendViaCallMeBot(message);
   }
 
-  return sendViaCallMeBot(message);
+  if (result.ok) {
+    console.log(
+      `[notify-order] @${SHOP_HANDLE}: WhatsApp notification sent via ${result.provider}.`,
+    );
+  } else {
+    console.error(
+      `[notify-order] @${SHOP_HANDLE}: WhatsApp notification failed — ${result.error}`,
+    );
+  }
+
+  return result;
 }

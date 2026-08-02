@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 type NotifyOrderRequestBody = {
   orderNumber?: unknown;
   customerName?: unknown;
+  customerPhone?: unknown;
   paymentLabel?: unknown;
   total?: unknown;
   currency?: unknown;
@@ -27,7 +28,7 @@ function isNonEmptyString(value: unknown): value is string {
  * new-order summary and sends it automatically, server-side, to the shop's
  * WhatsApp number via Twilio or CallMeBot (see src/lib/notifyWhatsapp.ts).
  *
- * Body: { orderNumber, customerName, paymentLabel, total, currency?, siteUrl? }
+ * Body: { orderNumber, customerName, customerPhone?, paymentLabel, total, currency?, siteUrl? }
  * Response: { ok: true, provider } on success, { ok: false, error } otherwise.
  *
  * This never throws on a missing/failed provider — it responds 502 with a
@@ -46,8 +47,15 @@ export async function POST(request: Request) {
     );
   }
 
-  const { orderNumber, customerName, paymentLabel, total, currency, siteUrl } =
-    body;
+  const {
+    orderNumber,
+    customerName,
+    customerPhone,
+    paymentLabel,
+    total,
+    currency,
+    siteUrl,
+  } = body;
 
   if (
     !isNonEmptyString(orderNumber) ||
@@ -70,6 +78,9 @@ export async function POST(request: Request) {
   const message = buildNotifyMessage({
     orderNumber: orderNumber.trim().slice(0, 60),
     customerName: customerName.trim().slice(0, 100),
+    customerPhone: isNonEmptyString(customerPhone)
+      ? customerPhone.trim().slice(0, 40)
+      : undefined,
     paymentLabel: paymentLabel.trim().slice(0, 100),
     total,
     currency: isNonEmptyString(currency) ? currency.trim() : "HK$",

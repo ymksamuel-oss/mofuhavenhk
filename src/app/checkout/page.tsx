@@ -24,6 +24,7 @@ function CheckoutContent() {
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [nameError, setNameError] = useState(false);
   const [notifyStatus, setNotifyStatus] = useState<NotifyStatus>("idle");
 
@@ -75,6 +76,7 @@ function CheckoutContent() {
         body: JSON.stringify({
           orderNumber: number,
           customerName: customerName.trim(),
+          customerPhone: customerPhone.trim() || undefined,
           paymentLabel,
           total,
           currency: t("currency"),
@@ -133,6 +135,24 @@ function CheckoutContent() {
                 {t("customerNameRequired")}
               </p>
             ) : null}
+          </div>
+
+          <div>
+            <label
+              htmlFor="customer-phone"
+              className="mb-1.5 block text-sm font-medium text-[color:var(--ink)]"
+            >
+              {t("customerPhoneLabel")}
+            </label>
+            <input
+              id="customer-phone"
+              type="tel"
+              inputMode="tel"
+              value={customerPhone}
+              onChange={(event) => setCustomerPhone(event.target.value)}
+              placeholder={t("customerPhonePlaceholder")}
+              className="w-full rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-2.5 text-sm text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)]"
+            />
           </div>
 
           <button
