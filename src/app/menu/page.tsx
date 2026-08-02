@@ -1,13 +1,14 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { CATEGORIES } from "@/lib/categories";
-import { getProductsByCategory } from "@/lib/products";
+import { getProductsByCategory, type Product } from "@/lib/products";
+import { ProductQuickView } from "@/components/menu/ProductQuickView";
 
 function chipClassName(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -22,6 +23,9 @@ function MenuContent() {
   const searchParams = useSearchParams();
   const activeSlug = searchParams.get("category");
   const products = getProductsByCategory(activeSlug);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
+    null,
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -55,12 +59,21 @@ function MenuContent() {
       ) : (
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
+            const discountPercent = product.originalPrice
+              ? Math.round((1 - product.price / product.originalPrice) * 100)
+              : null;
+
             return (
               <li
                 key={product.id}
                 className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
-                <div className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-[color:var(--accent-soft)] to-[color:var(--background)] p-4 sm:h-44">
+                <button
+                  type="button"
+                  onClick={() => setQuickViewProduct(product)}
+                  aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
+                  className="relative flex h-36 items-center justify-center overflow-hidden bg-gradient-to-br from-[color:var(--accent-soft)] to-[color:var(--background)] p-4 text-left sm:h-44"
+                >
                   {/* Product artwork is a circular illustration on a white
                       square canvas; cropping it into a round frame (instead
                       of showing it with object-contain) hides the square
@@ -74,19 +87,39 @@ function MenuContent() {
                       className="object-cover"
                     />
                   </div>
-                </div>
+                  {discountPercent ? (
+                    <span className="absolute left-2.5 top-2.5 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                      -{discountPercent}%
+                    </span>
+                  ) : null}
+                  {/* Hover affordance hinting the image opens a detail view. */}
+                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
+                    {t("productViewDetails")}
+                  </span>
+                </button>
                 <div className="flex flex-1 flex-col gap-2 p-4">
-                  <p className="text-sm font-medium leading-snug text-[color:var(--ink)]">
+                  <button
+                    type="button"
+                    onClick={() => setQuickViewProduct(product)}
+                    className="text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+                  >
                     {product.name[locale]}
-                  </p>
+                  </button>
                   {product.description ? (
                     <p className="text-xs leading-snug text-[color:var(--muted)]">
                       {product.description[locale]}
                     </p>
                   ) : null}
-                  <p className="mt-auto text-lg font-semibold tabular-nums text-[color:var(--accent)]">
-                    {formatMoney(product.price, locale)}
-                  </p>
+                  <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
+                    <p className="text-lg font-semibold tabular-nums text-[color:var(--accent)]">
+                      {formatMoney(product.price, locale)}
+                    </p>
+                    {product.originalPrice ? (
+                      <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
+                        {formatMoney(product.originalPrice, locale)}
+                      </p>
+                    ) : null}
+                  </div>
                   <Link
                     href={`/checkout?category=${product.categorySlug}`}
                     className="mt-1 inline-flex items-center justify-center rounded-full bg-[color:var(--accent)] px-4 py-2.5 text-xs font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
@@ -99,6 +132,15 @@ function MenuContent() {
           })}
         </ul>
       )}
+
+      {quickViewProduct ? (
+        <ProductQuickView
+          product={quickViewProduct}
+          locale={locale}
+          t={t}
+          onClose={() => setQuickViewProduct(null)}
+        />
+      ) : null}
     </div>
   );
 }
