@@ -81,6 +81,28 @@ export const PRODUCTS: Product[] = [
       en: "Made from natural tofu pulp — strong clumping, flushable, and gentle on cats and the environment.",
     },
   },
+  {
+    id: "cat-catnip-toy",
+    categorySlug: "cats",
+    name: { zh: "貓草玩具球", en: "Catnip Toy Ball" },
+    price: 35,
+    icon: "cat",
+    description: {
+      zh: "天然貓草填充玩具球，逗貓解悶，紓緩壓力好幫手。",
+      en: "Filled with natural catnip — a fun way to relieve stress and beat boredom.",
+    },
+  },
+  {
+    id: "cat-window-perch",
+    categorySlug: "cats",
+    name: { zh: "貓咪吸盤窗台跳台", en: "Suction Cup Window Perch" },
+    price: 328,
+    icon: "cat",
+    description: {
+      zh: "強力吸盤穩固安裝，讓貓貓享受曬太陽同賞街景嘅樂趣。",
+      en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
+    },
+  },
 
   // 狗狗商品 / Dog Products
   {
@@ -135,6 +157,28 @@ export const PRODUCTS: Product[] = [
     description: {
       zh: "手工和風布藝頸帶，附小鈴鐺，散步時清脆悅耳。",
       en: "Handcrafted wafuu fabric collar with a tiny bell that jingles softly on every walk.",
+    },
+  },
+  {
+    id: "dog-chew-toy",
+    categorySlug: "dogs",
+    name: { zh: "耐咬橡膠潔齒玩具", en: "Durable Rubber Dental Chew Toy" },
+    price: 78,
+    icon: "dog",
+    description: {
+      zh: "天然橡膠製造，耐咬耐磨，同時清潔牙齒去除牙石。",
+      en: "Made from natural rubber — tough and long-lasting while helping clean teeth and reduce tartar.",
+    },
+  },
+  {
+    id: "dog-travel-bowl",
+    categorySlug: "dogs",
+    name: { zh: "摺疊旅行飯碗連袋", en: "Foldable Travel Bowl with Pouch" },
+    price: 48,
+    icon: "dog",
+    description: {
+      zh: "矽膠摺疊設計輕巧防漏，出門散步餵食都方便。",
+      en: "Silicone foldable design is lightweight and leak-proof — perfect for feeding on walks.",
     },
   },
 
@@ -193,6 +237,28 @@ export const PRODUCTS: Product[] = [
       en: "Crispy crackers filled with savory fish paste — a treat cats can't resist.",
     },
   },
+  {
+    id: "snack-sweet-potato-chips",
+    categorySlug: "snacks",
+    name: { zh: "日本蕃薯脆片", en: "Japanese Sweet Potato Chips" },
+    price: 42,
+    icon: "bone",
+    description: {
+      zh: "純天然蕃薯烘焙而成，香甜酥脆，貓狗皆宜嘅健康小食。",
+      en: "Baked from all-natural sweet potato — sweet, crispy, and healthy for cats and dogs alike.",
+    },
+  },
+  {
+    id: "snack-scallop-jerky",
+    categorySlug: "snacks",
+    name: { zh: "北海道帆立貝乾", en: "Hokkaido Scallop Jerky" },
+    price: 68,
+    icon: "bone",
+    description: {
+      zh: "北海道直送帆立貝乾，鮮味十足，貓貓最愛嘅奢華小食。",
+      en: "Shipped straight from Hokkaido — a rich, savory luxury treat cats can't resist.",
+    },
+  },
 
   // 營養保健 / Health & Wellness
   {
@@ -247,6 +313,28 @@ export const PRODUCTS: Product[] = [
     description: {
       zh: "專為老年貓狗設計，補充日常所需維他命同礦物質。",
       en: "Formulated for older cats and dogs to supplement daily vitamins and minerals.",
+    },
+  },
+  {
+    id: "health-urinary-support",
+    categorySlug: "health",
+    name: { zh: "貓咪泌尿道保健品", en: "Cat Urinary Tract Support" },
+    price: 148,
+    icon: "health",
+    description: {
+      zh: "添加蔓越莓精華，有助維持泌尿系統健康，適合長期護理。",
+      en: "Formulated with cranberry extract to help maintain long-term urinary health.",
+    },
+  },
+  {
+    id: "health-calming-chews",
+    categorySlug: "health",
+    name: { zh: "寵物舒緩鎮定咀嚼錠", en: "Pet Calming Chews" },
+    price: 128,
+    icon: "health",
+    description: {
+      zh: "天然舒緩配方，幫助寵物放鬆情緒，適合怕生或緊張嘅寵物。",
+      en: "A natural soothing formula that helps anxious or easily-startled pets relax.",
     },
   },
 
@@ -305,6 +393,28 @@ export const PRODUCTS: Product[] = [
       en: "Gentle formula quickly cleans paws after walks, keeping germs out of the house.",
     },
   },
+  {
+    id: "cleaning-deodorizing-mat",
+    categorySlug: "cleaning",
+    name: { zh: "貓砂盆除臭墊", en: "Litter Box Deodorizing Mats" },
+    price: 58,
+    icon: "cleaning",
+    description: {
+      zh: "高效吸附異味墊片，配合貓砂使用，維持室內清新。",
+      en: "Highly absorbent mats that pair with litter to keep odors under control.",
+    },
+  },
+  {
+    id: "cleaning-pet-toothbrush-kit",
+    categorySlug: "cleaning",
+    name: { zh: "寵物潔牙套裝 (牙刷連牙膏)", en: "Pet Toothbrush & Toothpaste Kit" },
+    price: 68,
+    icon: "cleaning",
+    description: {
+      zh: "專為寵物設計嘅牙刷牙膏套裝，日常護理輕鬆做到。",
+      en: "A dedicated brush-and-paste set that makes daily dental care easy.",
+    },
+  },
 
   // 限時優惠 / Limited-Time Deals
   {
@@ -359,6 +469,28 @@ export const PRODUCTS: Product[] = [
     description: {
       zh: "精選小食同用品福袋，限量發售，數量有限、售完即止。",
       en: "Curated treats and essentials in a limited lucky bag — while supplies last.",
+    },
+  },
+  {
+    id: "deal-toy-clearance",
+    categorySlug: "deals",
+    name: { zh: "玩具清倉限時優惠", en: "Toy Clearance Sale" },
+    price: 59,
+    icon: "clock",
+    description: {
+      zh: "精選寵物玩具清倉價發售，數量有限，售完即止。",
+      en: "Selected pet toys at clearance prices — limited stock, while supplies last.",
+    },
+  },
+  {
+    id: "deal-outdoor-combo",
+    categorySlug: "deals",
+    name: { zh: "外出用品限時套裝優惠", en: "Outdoor Essentials Combo Deal" },
+    price: 259,
+    icon: "clock",
+    description: {
+      zh: "牽引帶、飲水器同背包組合優惠價，方便帶寵物出街。",
+      en: "Leash, water bottle, and backpack bundled together at a special price for outings.",
     },
   },
 
@@ -417,6 +549,28 @@ export const PRODUCTS: Product[] = [
       en: "Enclosed design reduces litter scatter, with a built-in activated carbon odor filter.",
     },
   },
+  {
+    id: "bestseller-cat-food",
+    categorySlug: "bestsellers",
+    name: { zh: "人氣日本貓糧", en: "Popular Japanese Cat Food" },
+    price: 158,
+    icon: "fire",
+    description: {
+      zh: "全港貓奴力推嘅人氣貓糧，均衡營養，長期熱賣冠軍。",
+      en: "A fan favorite among cat parents citywide — balanced nutrition and a long-time bestseller.",
+    },
+  },
+  {
+    id: "bestseller-dog-treats",
+    categorySlug: "bestsellers",
+    name: { zh: "人氣狗狗肉乾禮盒", en: "Popular Dog Jerky Gift Box" },
+    price: 118,
+    icon: "fire",
+    description: {
+      zh: "多口味肉乾組合禮盒，狗狗最愛嘅人氣小食首選。",
+      en: "A multi-flavor jerky gift box — dogs' favorite go-to treat.",
+    },
+  },
 
   // 外出用品 / Outdoor Gear
   {
@@ -471,6 +625,28 @@ export const PRODUCTS: Product[] = [
     description: {
       zh: "透氣網面設計，肩背手提兩用，短途外出首選。",
       en: "Breathable mesh design, wearable as a shoulder or hand bag — perfect for short trips.",
+    },
+  },
+  {
+    id: "outdoor-led-collar",
+    categorySlug: "outdoor",
+    name: { zh: "寵物LED發光頸圈", en: "Pet LED Light-Up Collar" },
+    price: 58,
+    icon: "bag",
+    description: {
+      zh: "夜間散步必備，USB充電發光頸圈，提升寵物出行安全。",
+      en: "USB-rechargeable glowing collar — a night-walk essential for extra visibility and safety.",
+    },
+  },
+  {
+    id: "outdoor-car-seat-cover",
+    categorySlug: "outdoor",
+    name: { zh: "寵物汽車防護座墊", en: "Pet Car Seat Protector" },
+    price: 168,
+    icon: "bag",
+    description: {
+      zh: "防水防刮設計，保護車廂座椅，寵物乘車更安心。",
+      en: "Waterproof and scratch-resistant design protects your seats for worry-free car rides.",
     },
   },
 ];
