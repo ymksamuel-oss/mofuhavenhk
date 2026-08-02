@@ -47,6 +47,99 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
+export function AlipayHKLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 40 24"
+      height={ICON_H}
+      className={`h-6 w-auto ${className}`}
+      aria-label="AlipayHK"
+      role="img"
+    >
+      <rect width="40" height="24" rx="3" fill="#1677FF" />
+      <text
+        x="17"
+        y="15.5"
+        textAnchor="middle"
+        fill="#fff"
+        fontSize="8"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+      >
+        Alipay
+      </text>
+      <rect x="31" y="4" width="6" height="7" rx="1" fill="#fff" />
+      <text
+        x="34"
+        y="9.5"
+        textAnchor="middle"
+        fill="#1677FF"
+        fontSize="4"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+      >
+        HK
+      </text>
+    </svg>
+  );
+}
+
+export function FpsLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 40 24"
+      height={ICON_H}
+      className={`h-6 w-auto ${className}`}
+      aria-label="FPS"
+      role="img"
+    >
+      <defs>
+        <linearGradient id="fpsGradient" x1="0" y1="0" x2="40" y2="24">
+          <stop offset="0" stopColor="#7B2FF7" />
+          <stop offset="1" stopColor="#00C2CB" />
+        </linearGradient>
+      </defs>
+      <rect width="40" height="24" rx="3" fill="url(#fpsGradient)" />
+      <text
+        x="20"
+        y="16"
+        textAnchor="middle"
+        fill="#fff"
+        fontSize="9.5"
+        fontFamily="Arial, sans-serif"
+        fontWeight="700"
+      >
+        FPS
+      </text>
+    </svg>
+  );
+}
+
+export function OctopusLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 40 24"
+      height={ICON_H}
+      className={`h-6 w-auto ${className}`}
+      aria-label="Octopus"
+      role="img"
+    >
+      <rect width="40" height="24" rx="3" fill="#EA5B0C" />
+      <text
+        x="20"
+        y="15.5"
+        textAnchor="middle"
+        fill="#fff"
+        fontSize="7.5"
+        fontFamily="'Noto Sans TC', Arial, sans-serif"
+        fontWeight="700"
+      >
+        八達通
+      </text>
+    </svg>
+  );
+}
+
 export function WhatsAppLogo({ className = "" }: { className?: string }) {
   return (
     <svg
