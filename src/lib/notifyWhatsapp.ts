@@ -2,9 +2,12 @@
  * Server-side "new order" WhatsApp notification for @MofuHavenHK.
  * Only import from server code (API routes) — never from client bundles.
  *
- * Delivery is fully server-side via a configured WhatsApp gateway
- * (Meta Cloud API → Twilio → Green API → CallMeBot). This must never
- * fall back to opening wa.me / Click-to-Chat in the customer's browser.
+ * Primary path: CallMeBot (free) using:
+ *   WHATSAPP_PHONE     — digits, international (e.g. 852XXXXXXXX)
+ *   WHATSAPP_API_KEY   — CallMeBot apikey from the shop WhatsApp
+ *
+ * Legacy aliases CALLMEBOT_PHONE / CALLMEBOT_APIKEY still work.
+ * Optional Twilio / Meta / Green API remain as fallbacks if configured.
  */
 
 const SHOP_HANDLE = process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK";
@@ -20,10 +23,10 @@ export type NotifyOrderInput = {
 };
 
 export type NotifyProvider =
+  | "callmebot"
   | "meta"
   | "twilio"
-  | "greenapi"
-  | "callmebot";
+  | "greenapi";
 
 export type NotifyResult =
   | { ok: true; provider: NotifyProvider }
@@ -66,6 +69,7 @@ export function buildNotifyMessage({
 /** Digits-only international shop phone (e.g. 85212345678). */
 export function getShopWhatsAppPhoneDigits(): string {
   const raw =
+    process.env.WHATSAPP_PHONE?.trim() ||
     process.env.SHOP_WHATSAPP_PHONE?.trim() ||
     process.env.CALLMEBOT_PHONE?.trim() ||
     process.env.TWILIO_WHATSAPP_TO?.replace(/^whatsapp:/i, "").trim() ||
@@ -75,8 +79,26 @@ export function getShopWhatsAppPhoneDigits(): string {
   return raw.replace(/\D/g, "");
 }
 
+/** CallMeBot API key (preferred: WHATSAPP_API_KEY). */
+export function getCallMeBotApiKey(): string {
+  return (
+    process.env.WHATSAPP_API_KEY?.trim() ||
+    process.env.CALLMEBOT_APIKEY?.trim() ||
+    ""
+  );
+}
+
+export function isCallMeBotConfigured(): boolean {
+  return Boolean(getShopWhatsAppPhoneDigits() && getCallMeBotApiKey());
+}
+
 export function getConfiguredProviders(): NotifyProvider[] {
   const providers: NotifyProvider[] = [];
+
+  // CallMeBot first — simplest free path for @MofuHavenHK
+  if (isCallMeBotConfigured()) {
+    providers.push("callmebot");
+  }
   if (
     process.env.WHATSAPP_CLOUD_TOKEN &&
     process.env.WHATSAPP_CLOUD_PHONE_NUMBER_ID &&
@@ -99,12 +121,6 @@ export function getConfiguredProviders(): NotifyProvider[] {
   ) {
     providers.push("greenapi");
   }
-  if (
-    process.env.CALLMEBOT_APIKEY &&
-    (process.env.CALLMEBOT_PHONE || getShopWhatsAppPhoneDigits())
-  ) {
-    providers.push("callmebot");
-  }
   return providers;
 }
 
@@ -121,6 +137,41 @@ async function fetchWithRetry(
   } catch {
     await new Promise((resolve) => setTimeout(resolve, 800));
     return fetch(input, init);
+  }
+}
+
+/**
+ * CallMeBot free WhatsApp text API.
+ * GET https://api.callmebot.com/whatsapp.php?phone=...&text=...&apikey=...
+ */
+async function sendViaCallMeBot(message: string): Promise<NotifyResult> {
+  const phone = getShopWhatsAppPhoneDigits();
+  const apikey = getCallMeBotApiKey();
+
+  if (!phone || !apikey) {
+    return { ok: false, error: "callmebot_not_configured" };
+  }
+
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(
+    phone,
+  )}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
+
+  try {
+    const res = await fetchWithRetry(url, { method: "GET" });
+    const text = await res.text().catch(() => "");
+
+    if (!res.ok || /^\s*error/i.test(text)) {
+      return {
+        ok: false,
+        error: `callmebot_error_${res.status}: ${text.slice(0, 200)}`,
+      };
+    }
+    return { ok: true, provider: "callmebot" };
+  } catch (err) {
+    return {
+      ok: false,
+      error: `callmebot_network_error: ${err instanceof Error ? err.message : String(err)}`,
+    };
   }
 }
 
@@ -248,52 +299,18 @@ async function sendViaGreenApi(message: string): Promise<NotifyResult> {
   }
 }
 
-async function sendViaCallMeBot(message: string): Promise<NotifyResult> {
-  const phone =
-    process.env.CALLMEBOT_PHONE?.replace(/\D/g, "") ||
-    getShopWhatsAppPhoneDigits();
-  const apikey = process.env.CALLMEBOT_APIKEY?.trim();
-
-  if (!phone || !apikey) {
-    return { ok: false, error: "callmebot_not_configured" };
-  }
-
-  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(
-    phone,
-  )}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
-
-  try {
-    const res = await fetchWithRetry(url, { method: "GET" });
-    const text = await res.text().catch(() => "");
-
-    if (!res.ok || /^\s*error/i.test(text)) {
-      return {
-        ok: false,
-        error: `callmebot_error_${res.status}: ${text.slice(0, 200)}`,
-      };
-    }
-    return { ok: true, provider: "callmebot" };
-  } catch (err) {
-    return {
-      ok: false,
-      error: `callmebot_network_error: ${err instanceof Error ? err.message : String(err)}`,
-    };
-  }
-}
-
 type Sender = (message: string) => Promise<NotifyResult>;
 
 const PROVIDER_SENDERS: Record<NotifyProvider, Sender> = {
+  callmebot: sendViaCallMeBot,
   meta: sendViaMetaCloud,
   twilio: sendViaTwilio,
   greenapi: sendViaGreenApi,
-  callmebot: sendViaCallMeBot,
 };
 
 /**
  * Sends the new-order WhatsApp message to the shop (@MofuHavenHK)
- * server-side. Tries every configured provider in priority order until one
- * succeeds. Never throws. Never opens a browser / wa.me link.
+ * server-side via CallMeBot (preferred). Never opens wa.me.
  */
 export async function sendWhatsAppNotification(
   message: string,
@@ -302,9 +319,8 @@ export async function sendWhatsAppNotification(
 
   if (providers.length === 0) {
     console.error(
-      `[notify-order] @${SHOP_HANDLE}: no WhatsApp gateway configured. ` +
-        `Set WHATSAPP_CLOUD_*, TWILIO_*, GREEN_API_*, or CALLMEBOT_* ` +
-        `(plus SHOP_WHATSAPP_PHONE for @${SHOP_HANDLE}).`,
+      `[notify-order] @${SHOP_HANDLE}: CallMeBot not configured. ` +
+        `Set WHATSAPP_PHONE + WHATSAPP_API_KEY on Vercel.`,
     );
     return { ok: false, error: "not_configured" };
   }

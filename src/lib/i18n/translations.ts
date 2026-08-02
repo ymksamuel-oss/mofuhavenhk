@@ -68,8 +68,8 @@ export const translations = {
     orderNotifySuccess: "店主已透過 WhatsApp 收到新訂單通知（伺服器直接發送，無需你手動傳送）。",
     orderNotifyError: "自動通知未能送達，請改用下方按鈕手動開啟店主 WhatsApp。",
     orderNotifyNotConfigured:
-      "伺服器尚未設定 WhatsApp 閘道（CallMeBot / Twilio / Cloud API），無法自動發送。請店主於 Vercel 環境變數完成設定。",
-    orderNotifyServerHint: "新訂單會由系統後台自動 WhatsApp 通知 @MofuHavenHK，不會只開啟對話介面。",
+      "自動通知暫時未能送達。請改用下方「手動開啟店主 WhatsApp」後備按鈕。",
+    orderNotifyServerHint: "確認後，系統會由伺服器自動 WhatsApp 通知店主（CallMeBot）。",
     whatsappNumberMissing:
       "尚未設定店主 WhatsApp 號碼（NEXT_PUBLIC_WHATSAPP_NUMBER），無法開啟正確聯絡人。",
   },
@@ -138,8 +138,8 @@ export const translations = {
     orderNotifySuccess: "Shop received the new-order WhatsApp alert (sent by the server — no manual send needed).",
     orderNotifyError: "Auto-notify failed — use the backup button below to open the shop WhatsApp chat.",
     orderNotifyNotConfigured:
-      "No WhatsApp gateway is configured on the server (CallMeBot / Twilio / Cloud API). Set the Vercel env vars for @MofuHavenHK.",
-    orderNotifyServerHint: "New orders are WhatsApp-notified to @MofuHavenHK from the server — not by only opening a chat window.",
+      "Auto-notify could not be delivered. Please use the manual shop WhatsApp backup button below.",
+    orderNotifyServerHint: "After confirm, the server notifies the shop on WhatsApp via CallMeBot.",
     whatsappNumberMissing:
       "Shop WhatsApp number is not set (NEXT_PUBLIC_WHATSAPP_NUMBER), so the correct contact cannot be opened.",
   },

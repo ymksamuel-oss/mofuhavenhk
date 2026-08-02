@@ -41,7 +41,7 @@ export async function GET() {
  *
  * Called from /checkout when the customer places an order. Formats the
  * shop-owner WhatsApp template and sends it **server-side** to @MofuHavenHK
- * via Meta Cloud API / Twilio / Green API / CallMeBot.
+ * via CallMeBot (`WHATSAPP_PHONE` + `WHATSAPP_API_KEY`).
  *
  * This route never returns a wa.me URL and never asks the customer to
  * manually send the shop notification.
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
       {
         ok: false,
         error: "not_configured",
-        hint: "Set CALLMEBOT_PHONE + CALLMEBOT_APIKEY (or TWILIO_* / WHATSAPP_CLOUD_* / GREEN_API_*) on Vercel for @MofuHavenHK.",
+        hint: "Set WHATSAPP_PHONE + WHATSAPP_API_KEY on Vercel (CallMeBot) for @MofuHavenHK.",
       },
       { status: 503 },
     );
