@@ -11,7 +11,7 @@ export type PaymentMethodDef = {
   Icon: typeof CardLogo;
 };
 
-// Only Credit Card (Stripe) and Apple Pay are supported.
+// Credit Card (Stripe) and Apple Pay — real charge via Stripe Payment Element.
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
@@ -57,10 +57,6 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 }`}
                 aria-pressed={active}
               >
-                {/*
-                  Fix: payment icon border clipping —
-                  padding + items-center + overflow:visible keep 24px marks inside the border.
-                */}
                 <span
                   className="flex h-10 min-w-14 items-center justify-center overflow-visible rounded-lg border border-[color:var(--line)] bg-white px-2.5 py-1.5"
                   style={{ overflow: "visible" }}
@@ -83,6 +79,10 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
           );
         })}
       </ul>
+
+      <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+        {t("stripeMethodsNote")}
+      </p>
     </section>
   );
 }

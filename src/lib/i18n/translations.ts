@@ -24,11 +24,22 @@ export const translations = {
     total: "總計",
     currency: "HK$",
     paymentTitle: "付款方式",
-    paymentHint: "請選擇一種付款方式完成訂單",
+    paymentHint: "支援信用卡（Stripe）及 Apple Pay；揀喜好後喺右欄安全付款。",
     payCard: "信用卡／全球支付 (Stripe)",
     payApplePay: "Apple Pay",
-    placeOrder: "確認付款並通知店主",
-    secureNote: "付款資料經加密處理，安全可靠。",
+    placeOrder: "確認付款",
+    secureNote: "付款經 Stripe 加密處理；成功後會自動 WhatsApp 通知店主。",
+    stripeMethodsNote:
+      "實際付款由 Stripe 安全處理。支援 Apple Pay 的裝置會自動顯示 Apple Pay 按鈕。",
+    stripeStartPay: "開始安全付款",
+    stripePreparing: "正在準備 Stripe 付款…",
+    stripePaying: "正在確認付款…",
+    stripePayFailed: "付款未能完成，請再試一次或改用其他付款方式。",
+    stripeNotConfigured:
+      "尚未設定 Stripe（請於 Vercel 填寫 STRIPE_PUBLISHABLE_KEY 與 STRIPE_SECRET_KEY）。",
+    stripePaidSuccess: "付款成功！訂單已成立，並已自動 WhatsApp 通知店主。",
+    stripePaidNotifyFailed:
+      "付款成功，但 WhatsApp 通知未能送達，請用下方按鈕手動通知店主。",
     whatsappOrderTitle: "手動 WhatsApp 補發（後備）",
     whatsappOrderHint:
       "系統會在確認付款後由伺服器自動 WhatsApp 通知店主。若自動通知失敗，可用此按鈕開啟與店主的對話並預填完整訂單。",
@@ -69,7 +80,7 @@ export const translations = {
     orderNotifyError: "自動通知未能送達，請改用下方按鈕手動開啟店主 WhatsApp。",
     orderNotifyNotConfigured:
       "自動通知暫時未能送達。請改用下方「手動開啟店主 WhatsApp」後備按鈕。",
-    orderNotifyServerHint: "確認後，系統會由伺服器自動 WhatsApp 通知店主（CallMeBot）。",
+    orderNotifyServerHint: "Stripe 付款成功後，系統會自動 WhatsApp 通知店主。",
     whatsappNumberMissing:
       "尚未設定店主 WhatsApp 號碼（NEXT_PUBLIC_WHATSAPP_NUMBER），無法開啟正確聯絡人。",
   },
@@ -94,11 +105,22 @@ export const translations = {
     total: "Total",
     currency: "HK$",
     paymentTitle: "Payment method",
-    paymentHint: "Select one payment method to complete your order",
+    paymentHint: "Pay securely with card (Stripe) or Apple Pay — choose a preference, then pay on the right.",
     payCard: "Credit Card / Global Payments (Stripe)",
     payApplePay: "Apple Pay",
-    placeOrder: "Confirm & notify shop",
-    secureNote: "Your payment details are encrypted and secure.",
+    placeOrder: "Pay now",
+    secureNote: "Payments are encrypted by Stripe. The shop is WhatsApp-notified after a successful charge.",
+    stripeMethodsNote:
+      "Checkout is processed by Stripe. Apple Pay appears automatically on supported devices/browsers.",
+    stripeStartPay: "Start secure payment",
+    stripePreparing: "Preparing Stripe payment…",
+    stripePaying: "Confirming payment…",
+    stripePayFailed: "Payment could not be completed. Please try again or use another method.",
+    stripeNotConfigured:
+      "Stripe is not configured yet. Add STRIPE_PUBLISHABLE_KEY and STRIPE_SECRET_KEY in Vercel.",
+    stripePaidSuccess: "Payment successful! Order placed and the shop was notified on WhatsApp.",
+    stripePaidNotifyFailed:
+      "Payment succeeded, but WhatsApp notify failed — please use the manual button below.",
     whatsappOrderTitle: "Manual WhatsApp backup",
     whatsappOrderHint:
       "After you confirm payment, the server notifies the shop on WhatsApp automatically. Use this only if auto-notify failed — it opens a chat with the shop number and your full order prefilled.",
@@ -139,7 +161,7 @@ export const translations = {
     orderNotifyError: "Auto-notify failed — use the backup button below to open the shop WhatsApp chat.",
     orderNotifyNotConfigured:
       "Auto-notify could not be delivered. Please use the manual shop WhatsApp backup button below.",
-    orderNotifyServerHint: "After confirm, the server notifies the shop on WhatsApp via CallMeBot.",
+    orderNotifyServerHint: "After a successful Stripe payment, the shop is notified on WhatsApp automatically.",
     whatsappNumberMissing:
       "Shop WhatsApp number is not set (NEXT_PUBLIC_WHATSAPP_NUMBER), so the correct contact cannot be opened.",
   },

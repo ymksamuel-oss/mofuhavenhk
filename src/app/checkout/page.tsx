@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
@@ -9,39 +9,70 @@ import {
   type MethodId,
 } from "@/components/checkout/PaymentMethods";
 import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
+import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import {
-  calcSubtotal,
-  generateOrderNumber,
-  getOrderItems,
-  SHIPPING,
-} from "@/lib/order";
+import { generateOrderNumber, getOrderItems } from "@/lib/order";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
-type NotifyStatus = "idle" | "sending" | "success" | "error" | "not_configured";
+type PayPhase =
+  | "idle"
+  | "preparing"
+  | "ready"
+  | "completing"
+  | "paid"
+  | "paid_notify_failed"
+  | "stripe_missing"
+  | "error";
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
   const searchParams = useSearchParams();
-  const items = getOrderItems(searchParams.get("category"));
+  const category = searchParams.get("category");
+  const items = getOrderItems(category);
 
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [customerName, setCustomerName] = useState("");
   const [nameError, setNameError] = useState(false);
-  const [notifyStatus, setNotifyStatus] = useState<NotifyStatus>("idle");
+  const [phase, setPhase] = useState<PayPhase>("idle");
+  const [payError, setPayError] = useState("");
   const [manualWaError, setManualWaError] = useState(false);
+  const [publishableKey, setPublishableKey] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
+    null,
+  );
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
   }, []);
 
-  /**
-   * Optional customer-initiated backup: opens WhatsApp Chat with the shop
-   * number (@MofuHavenHK phone via NEXT_PUBLIC_WHATSAPP_NUMBER).
-   * This is NOT the automatic shop notification path.
-   */
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/stripe/config");
+        const data = (await res.json()) as {
+          configured?: boolean;
+          publishableKey?: string | null;
+        };
+        if (cancelled) return;
+        setStripeConfigured(Boolean(data.configured));
+        setPublishableKey(data.publishableKey ?? null);
+        if (!data.configured) setPhase("stripe_missing");
+      } catch {
+        if (!cancelled) {
+          setStripeConfigured(false);
+          setPhase("stripe_missing");
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -58,58 +89,107 @@ function CheckoutContent() {
     setManualWaError(!opened);
   };
 
+  const handlePayError = useCallback((message: string) => {
+    setPayError(message);
+    if (message) setPhase("error");
+  }, []);
+
   /**
-   * Confirms the order and notifies @MofuHavenHK on WhatsApp **server-side**
-   * via POST /api/notify-order. Never opens wa.me / window.open.
+   * Creates a Stripe PaymentIntent (server-priced), then mounts Elements.
    */
-  const handlePlaceOrder = async () => {
+  const startStripePayment = async () => {
     if (!customerName.trim()) {
       setNameError(true);
       return;
     }
+    if (!stripeConfigured || !publishableKey) {
+      setPhase("stripe_missing");
+      return;
+    }
+
     setNameError(false);
+    setPayError("");
+    setPhase("preparing");
 
     const number = orderNumber ?? generateOrderNumber();
     setOrderNumber(number);
 
-    const paymentLabelKey = PAYMENT_METHODS.find(
-      (method) => method.id === selectedMethod,
-    )?.labelKey;
-    const paymentLabel = paymentLabelKey ? t(paymentLabelKey) : selectedMethod;
-    const total = calcSubtotal(items) + SHIPPING;
-
-    setNotifyStatus("sending");
     try {
-      const res = await fetch("/api/notify-order", {
+      const res = await fetch("/api/stripe/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderNumber: number,
           customerName: customerName.trim(),
-          paymentLabel,
-          total,
-          currency: t("currency"),
+          category,
+          orderNumber: number,
+          locale,
         }),
       });
       const data = (await res.json()) as {
         ok: boolean;
         error?: string;
-        delivered?: boolean;
+        clientSecret?: string;
+        orderNumber?: string;
       };
 
-      if (data.error === "not_configured" || res.status === 503) {
-        setNotifyStatus("not_configured");
+      if (data.error === "stripe_not_configured" || res.status === 503) {
+        setPhase("stripe_missing");
         return;
       }
-      if (!res.ok || !data.ok || !data.delivered) {
-        setNotifyStatus("error");
+      if (!res.ok || !data.ok || !data.clientSecret) {
+        setPayError(t("stripePayFailed"));
+        setPhase("error");
         return;
       }
-      setNotifyStatus("success");
+
+      if (data.orderNumber) setOrderNumber(data.orderNumber);
+      setClientSecret(data.clientSecret);
+      setPhase("ready");
     } catch {
-      setNotifyStatus("error");
+      setPayError(t("stripePayFailed"));
+      setPhase("error");
     }
   };
+
+  /**
+   * After Stripe confirms payment: verify Intent server-side + WhatsApp notify.
+   */
+  const handlePaid = async (paymentIntentId: string) => {
+    setPhase("completing");
+    setPayError("");
+    try {
+      const res = await fetch("/api/stripe/complete-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId }),
+      });
+      const data = (await res.json()) as {
+        ok: boolean;
+        notified?: boolean;
+        alreadyNotified?: boolean;
+        orderNumber?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        setPayError(t("stripePayFailed"));
+        setPhase("error");
+        return;
+      }
+
+      if (data.orderNumber) setOrderNumber(data.orderNumber);
+
+      if (data.notified || data.alreadyNotified) {
+        setPhase("paid");
+      } else {
+        setPhase("paid_notify_failed");
+      }
+    } catch {
+      // Payment already succeeded on Stripe — treat notify as failed backup path.
+      setPhase("paid_notify_failed");
+    }
+  };
+
+  const showForm = phase === "ready" && clientSecret && publishableKey;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -143,7 +223,8 @@ function CheckoutContent() {
               }}
               placeholder={t("customerNamePlaceholder")}
               autoComplete="name"
-              className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] ${
+              disabled={phase === "paid" || phase === "paid_notify_failed"}
+              className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 ${
                 nameError ? "border-red-400" : "border-[color:var(--line)]"
               }`}
             />
@@ -154,28 +235,49 @@ function CheckoutContent() {
             ) : null}
           </div>
 
-          <button
-            type="button"
-            onClick={handlePlaceOrder}
-            disabled={notifyStatus === "sending"}
-            className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {notifyStatus === "sending" ? t("orderNotifySending") : t("placeOrder")}
-          </button>
+          {phase === "stripe_missing" ? (
+            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+              {t("stripeNotConfigured")}
+            </p>
+          ) : null}
 
-          {notifyStatus === "success" ? (
+          {!showForm &&
+          phase !== "paid" &&
+          phase !== "paid_notify_failed" &&
+          phase !== "stripe_missing" ? (
+            <button
+              type="button"
+              onClick={startStripePayment}
+              disabled={phase === "preparing" || phase === "completing"}
+              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {phase === "preparing" ? t("stripePreparing") : t("stripeStartPay")}
+            </button>
+          ) : null}
+
+          {showForm ? (
+            <StripePaymentForm
+              clientSecret={clientSecret}
+              publishableKey={publishableKey}
+              preferredMethod={selectedMethod}
+              onPaid={handlePaid}
+              onError={handlePayError}
+            />
+          ) : null}
+
+          {phase === "paid" ? (
             <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-              {t("orderNotifySuccess")}
+              {t("stripePaidSuccess")}
             </p>
           ) : null}
-          {notifyStatus === "error" ? (
+          {phase === "paid_notify_failed" ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("orderNotifyError")}
+              {t("stripePaidNotifyFailed")}
             </p>
           ) : null}
-          {notifyStatus === "not_configured" ? (
+          {phase === "error" && payError ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("orderNotifyNotConfigured")}
+              {payError}
             </p>
           ) : null}
 
