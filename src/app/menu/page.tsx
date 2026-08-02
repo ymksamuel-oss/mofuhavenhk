@@ -91,6 +91,11 @@ function MenuContent() {
                   <p className="text-sm font-medium leading-snug text-[color:var(--ink)]">
                     {product.name[locale]}
                   </p>
+                  {product.description ? (
+                    <p className="text-xs leading-snug text-[color:var(--muted)]">
+                      {product.description[locale]}
+                    </p>
+                  ) : null}
                   <p className="mt-auto text-base font-semibold tabular-nums text-[color:var(--ink)]">
                     {formatMoney(product.price, locale)}
                   </p>

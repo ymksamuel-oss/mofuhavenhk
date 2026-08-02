@@ -7,6 +7,8 @@ export type Product = {
   price: number;
   /** No product photography yet, so each card uses a category-style icon as its image placeholder. */
   icon: CategoryIconName;
+  /** Optional short blurb shown under the product name on the /menu catalog card. */
+  description?: { zh: string; en: string };
 };
 
 export const PRODUCTS: Product[] = [
@@ -31,6 +33,20 @@ export const PRODUCTS: Product[] = [
     name: { zh: "貓砂盆除臭劑", en: "Litter Box Deodorizer" },
     price: 68,
     icon: "cat",
+  },
+  {
+    id: "ciao-tuna-paste-20pk",
+    categorySlug: "cats",
+    name: {
+      zh: "CIAO 貓咪極上吞拿魚肉泥 (20支裝)",
+      en: "CIAO Cat Tuna Paste Treats (20 sticks)",
+    },
+    price: 88,
+    icon: "bone",
+    description: {
+      zh: "日本原裝進口，貓貓最愛的經典美味肉泥。",
+      en: "Imported directly from Japan — the classic tuna paste treat cats love.",
+    },
   },
 
   // 狗狗商品 / Dog Products
