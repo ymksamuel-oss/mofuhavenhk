@@ -9,6 +9,9 @@ export function fromStripeAmountHkd(amountCents: number): number {
   return amountCents / 100;
 }
 
+/** Publishable key ships as fallback; Secret Key must stay in Vercel env (GitHub blocks sk_live in git). */
+const DEFAULT_STRIPE_PUBLISHABLE_KEY = "pk_live_51TxSYXRyM6dRKLtZ6joIPvsDMs2B4tT213AXP0GwQj4erOGz28GS9lc66i5tuM2rVRlM0RqTuHRbKFWmliTDm4G300WPBn3IyJ";
+
 export function getStripeSecretKey(): string {
   return process.env.STRIPE_SECRET_KEY?.trim() || "";
 }
@@ -21,7 +24,7 @@ export function getStripePublishableKey(): string {
   return (
     process.env.STRIPE_PUBLISHABLE_KEY?.trim() ||
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ||
-    ""
+    DEFAULT_STRIPE_PUBLISHABLE_KEY
   );
 }
 
