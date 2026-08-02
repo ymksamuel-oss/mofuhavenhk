@@ -49,23 +49,16 @@ body {
     0 2px 8px -2px rgba(74, 54, 38, 0.08);
 }
 
-/* Warm milk-tea wash over the full-bleed hero photograph so brand copy
-   stays readable while the real pet image remains the dominant plane. */
+/* Light gradient only at the bottom for copy contrast — the real hero
+   photograph must stay clearly visible (not a solid brown wash). */
 .hero-plane {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(74, 54, 38, 0.28) 0%,
-      rgba(92, 58, 34, 0.18) 38%,
-      rgba(74, 54, 38, 0.62) 72%,
-      rgba(61, 42, 26, 0.78) 100%
-    ),
-    linear-gradient(
-      105deg,
-      rgba(107, 67, 38, 0.45) 0%,
-      rgba(169, 124, 80, 0.12) 55%,
-      transparent 100%
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(40, 28, 18, 0.15) 0%,
+    rgba(40, 28, 18, 0.08) 40%,
+    rgba(40, 28, 18, 0.55) 70%,
+    rgba(40, 28, 18, 0.72) 100%
+  );
 }
 
 @keyframes fadeUp {

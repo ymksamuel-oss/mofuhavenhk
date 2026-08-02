@@ -11,42 +11,30 @@ export default function HomePage() {
   return (
     <>
       <section className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden sm:min-h-[calc(100vh-4rem)]">
-        {/* Full-bleed real pet photograph — never a flat solid color. */}
+        {/* Full-bleed real pet photograph — the dominant visual plane. */}
         <Image
           src="/hero.webp"
-          alt=""
+          alt={t("brand")}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[center_30%]"
+          className="object-cover object-center"
         />
 
-        {/* Warm milk-tea scrim keeps brand text readable without hiding the photo. */}
-        <div
-          aria-hidden
-          className="hero-plane absolute inset-0"
-        />
-
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-[color:var(--category-bg-light)]/20 blur-3xl sm:h-96 sm:w-96"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-        />
+        {/* Soft bottom scrim only — photo must remain clearly visible. */}
+        <div aria-hidden className="hero-plane absolute inset-0" />
 
         <div className="relative mx-auto flex min-h-[calc(100vh-3.5rem)] max-w-5xl flex-col justify-end px-4 pb-20 pt-24 sm:min-h-[calc(100vh-4rem)] sm:px-6 sm:pb-28">
-          <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-medium tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur-sm animate-[fadeUp_0.6s_ease_both] sm:text-sm">
+          <span className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-black/25 px-3.5 py-1.5 text-xs font-medium tracking-wide text-white ring-1 ring-white/30 backdrop-blur-sm animate-[fadeUp_0.6s_ease_both] sm:text-sm">
             {t("homeBadge")}
           </span>
-          <p className="mb-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-white drop-shadow-sm sm:text-6xl animate-[fadeUp_0.7s_ease_both]">
+          <p className="mb-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] sm:text-6xl animate-[fadeUp_0.7s_ease_both]">
             {t("brand")}
           </p>
-          <h1 className="max-w-xl text-xl text-white/95 sm:text-2xl animate-[fadeUp_0.8s_ease_both]">
+          <h1 className="max-w-xl text-xl text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.4)] sm:text-2xl animate-[fadeUp_0.8s_ease_both]">
             {t("homeHeadline")}
           </h1>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base animate-[fadeUp_0.95s_ease_both]">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/95 drop-shadow-[0_1px_6px_rgba(0,0,0,0.35)] sm:text-base animate-[fadeUp_0.95s_ease_both]">
             {t("homeSub")}
           </p>
           <div className="mt-8 animate-[fadeUp_1.05s_ease_both]">
