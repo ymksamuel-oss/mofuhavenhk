@@ -54,7 +54,7 @@ async function copyText(value: string): Promise<boolean> {
 }
 
 /**
- * Hong Kong bank-app style FPS payee picker — shown under SC Pay 轉數快.
+ * Hong Kong bank-app style FPS payee picker — shown under FPS轉數快.
  */
 function FpsBankMenu({
   amountHkd,
@@ -350,7 +350,7 @@ export function PaymentMethods({
                 </span>
 
                 <span className="min-w-0 flex-1 break-words text-left text-sm font-medium text-[color:var(--ink)]">
-                  {isFps ? "SC Pay 轉數快" : t(labelKey)}
+                  {t(labelKey)}
                 </span>
 
                 <span

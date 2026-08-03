@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
@@ -13,14 +14,6 @@ function navLinkClassName(active: boolean) {
     active
       ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[1px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[color:var(--accent)] after:content-['']"
       : "hover:text-[color:var(--ink)]"
-  }`;
-}
-
-function drawerLinkClassName(active: boolean) {
-  return `flex items-center rounded-xl px-3 py-3 text-base font-medium transition ${
-    active
-      ? "bg-[color:var(--accent-soft)] text-[color:var(--ink)]"
-      : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/60 hover:text-[color:var(--ink)]"
   }`;
 }
 
@@ -77,11 +70,16 @@ export function Header() {
   const pathname = usePathname();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
 
   const switchLocale = (next: Locale) => {
     setLocale(next);
   };
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -111,138 +109,150 @@ export function Header() {
     },
   ] as const;
 
-  return (
-    <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--surface)]/90 backdrop-blur-md">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
-        <Link
-          href="/"
-          className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
-          aria-label={t("brand")}
-        >
-          <BrandLogo
-            title={t("brand")}
-            className="[&_svg]:h-7 sm:[&_svg]:h-8"
-          />
-        </Link>
-
-        <nav
-          className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] md:flex"
-          aria-label="Primary"
-        >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={navLinkClassName(item.active)}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-          <Link
-            href="/checkout"
-            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-            aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
-          >
-            <CartIcon className="h-5 w-5" />
-            {itemCount > 0 ? (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">
-                {itemCount > 99 ? "99+" : itemCount}
-              </span>
-            ) : null}
-          </Link>
-
+  const mobileMenu =
+    menuOpen && portalReady
+      ? createPortal(
           <div
-            className="flex shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
-            role="group"
-            aria-label="Language"
+            className="fixed inset-0 z-[100] md:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("navOpenMenu")}
           >
             <button
               type="button"
-              onClick={() => switchLocale("zh")}
-              className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                locale === "zh"
-                  ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
-                  : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
-              }`}
-              aria-pressed={locale === "zh"}
+              className="absolute inset-0 bg-[color:var(--ink)]/40"
+              aria-label={t("navCloseMenu")}
+              onClick={() => setMenuOpen(false)}
+            />
+            <nav
+              id={drawerId}
+              className="absolute inset-y-0 right-0 z-[101] flex h-full w-[min(18rem,86vw)] max-w-full flex-col bg-[color:var(--surface)] shadow-[-12px_0_32px_-18px_rgba(74,54,38,0.45)]"
             >
-              {t("langZh")}
-            </button>
-            <button
-              type="button"
-              onClick={() => switchLocale("en")}
-              className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                locale === "en"
-                  ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
-                  : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
-              }`}
-              aria-pressed={locale === "en"}
-            >
-              {t("langEn")}
-            </button>
-          </div>
-
-          <button
-            type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] md:hidden"
-            aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
-            aria-expanded={menuOpen}
-            aria-controls={drawerId}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <MenuIcon open={menuOpen} />
-          </button>
-        </div>
-      </div>
-
-      {menuOpen ? (
-        <div
-          className="fixed inset-0 z-50 md:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("navOpenMenu")}
-        >
-          <button
-            type="button"
-            className="absolute inset-0 bg-[color:var(--ink)]/35 backdrop-blur-[1px]"
-            aria-label={t("navCloseMenu")}
-            onClick={() => setMenuOpen(false)}
-          />
-          <nav
-            id={drawerId}
-            className="absolute inset-y-0 right-0 flex w-[min(18rem,86vw)] max-w-full flex-col border-l border-[color:var(--line)] bg-[color:var(--surface)] shadow-[-12px_0_32px_-18px_rgba(74,54,38,0.45)]"
-          >
-            <div className="flex items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
-              <span className="font-[family-name:var(--font-display)] text-sm font-semibold text-[color:var(--ink)]">
-                {t("brand")}
-              </span>
-              <button
-                type="button"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] text-[color:var(--ink)]"
-                aria-label={t("navCloseMenu")}
-                onClick={() => setMenuOpen(false)}
-              >
-                <MenuIcon open />
-              </button>
-            </div>
-            <div className="flex flex-col gap-1 p-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={drawerLinkClassName(item.active)}
+              <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+                <span className="font-[family-name:var(--font-display)] text-sm font-semibold leading-none text-[color:var(--ink)]">
+                  {t("brand")}
+                </span>
+                <button
+                  type="button"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] text-[color:var(--ink)]"
+                  aria-label={t("navCloseMenu")}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+                  <MenuIcon open />
+                </button>
+              </div>
+              <ul className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+                {navItems.map((item) => (
+                  <li key={item.href} className="block w-full">
+                    <Link
+                      href={item.href}
+                      className={`flex w-full items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
+                        item.active
+                          ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/60 hover:text-[color:var(--ink)]"
+                      }`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>,
+          document.body,
+        )
+      : null;
+
+  return (
+    <>
+      <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--surface)]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
+          <Link
+            href="/"
+            className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            aria-label={t("brand")}
+          >
+            <BrandLogo
+              title={t("brand")}
+              className="[&_svg]:h-7 sm:[&_svg]:h-8"
+            />
+          </Link>
+
+          <nav
+            className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] md:flex"
+            aria-label="Primary"
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={navLinkClassName(item.active)}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
+
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <Link
+              href="/checkout"
+              className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
+            >
+              <CartIcon className="h-5 w-5" />
+              {itemCount > 0 ? (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              ) : null}
+            </Link>
+
+            <div
+              className="flex shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
+              role="group"
+              aria-label="Language"
+            >
+              <button
+                type="button"
+                onClick={() => switchLocale("zh")}
+                className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
+                  locale === "zh"
+                    ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
+                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
+                }`}
+                aria-pressed={locale === "zh"}
+              >
+                {t("langZh")}
+              </button>
+              <button
+                type="button"
+                onClick={() => switchLocale("en")}
+                className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
+                  locale === "en"
+                    ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
+                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
+                }`}
+                aria-pressed={locale === "en"}
+              >
+                {t("langEn")}
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] md:hidden"
+              aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
+              aria-expanded={menuOpen}
+              aria-controls={drawerId}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <MenuIcon open={menuOpen} />
+            </button>
+          </div>
         </div>
-      ) : null}
-    </header>
+      </header>
+      {mobileMenu}
+    </>
   );
 }

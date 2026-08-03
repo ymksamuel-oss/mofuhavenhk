@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { BackToTopButton } from "@/components/BackToTopButton";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 function BackChevron({ className = "" }: { className?: string }) {
@@ -65,7 +66,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
       <div className="w-full max-w-[100vw] overflow-x-clip">{children}</div>
 
       {showBottomCta ? (
-        <div className="mx-auto w-full max-w-5xl px-4 pb-10 pt-2 sm:px-6">
+        <div className="mx-auto w-full max-w-5xl px-4 pb-2 pt-2 sm:px-6">
           <Link
             href="/menu"
             className="flex w-full max-w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent-soft)] px-4 py-3.5 text-center text-sm font-semibold text-[color:var(--ink)] shadow-[0_10px_24px_-16px_rgba(169,124,80,0.7)] transition hover:border-[color:var(--hero-deep)] hover:bg-[color:var(--accent)] hover:text-white active:scale-[0.99]"
@@ -78,6 +79,8 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
           </p>
         </div>
       ) : null}
+
+      <BackToTopButton />
     </>
   );
 }
