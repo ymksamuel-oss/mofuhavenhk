@@ -502,13 +502,15 @@ function CheckoutContent() {
             </p>
           ) : null}
 
-          <p className="text-center text-xs text-[color:var(--muted)]">
-            {isFps ? t("fpsWhatsappHint") : t("secureNote")}
-          </p>
           {!isFps ? (
-            <p className="text-center text-[11px] text-[color:var(--muted)]">
-              {t("orderNotifyServerHint")}
-            </p>
+            <>
+              <p className="text-center text-xs text-[color:var(--muted)]">
+                {t("secureNote")}
+              </p>
+              <p className="text-center text-[11px] text-[color:var(--muted)]">
+                {t("orderNotifyServerHint")}
+              </p>
+            </>
           ) : null}
         </div>
       </div>

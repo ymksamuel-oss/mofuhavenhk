@@ -1,3 +1,4 @@
+import { getDistrictLabel } from "@/lib/hkDistricts";
 import { calcSubtotal, SHIPPING, type OrderItem } from "@/lib/order";
 import {
   formatMoney,
@@ -56,13 +57,17 @@ function formatOrderTime(date: Date, locale: Locale): string {
 function formatContactBlock(
   contact: OrderContact | undefined,
   t: (key: TranslationKey) => string,
+  locale: Locale,
 ): string[] {
   if (!contact) return [];
   const name = contact.name?.trim();
   const phone = contact.phone?.trim();
   const line1 = contact.address?.trim();
   const line2 = contact.addressLine2?.trim();
-  const district = (contact.district || contact.city)?.trim();
+  const districtRaw = (contact.district || contact.city)?.trim();
+  const district = districtRaw
+    ? getDistrictLabel(districtRaw, locale)
+    : undefined;
   const sfCode = contact.sfStationCode?.trim();
   const addressParts = [district, line1, line2].filter(Boolean);
 
@@ -128,7 +133,7 @@ export function buildOrderMessage({
     lines.push("", `${t("selectedPaymentPrefix")} ${paymentLabel}`);
   }
 
-  lines.push(...formatContactBlock(contact, t));
+  lines.push(...formatContactBlock(contact, t, locale));
 
   return lines.join("\n");
 }

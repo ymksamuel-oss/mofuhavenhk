@@ -2,6 +2,10 @@
 
 import type { InputHTMLAttributes } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { HK_DISTRICTS } from "@/lib/hkDistricts";
+
+export { HK_DISTRICTS, getDistrictLabel } from "@/lib/hkDistricts";
+export type { HkDistrict } from "@/lib/hkDistricts";
 
 export type PhoneCountryCode = "+852" | "+853" | "+86";
 
@@ -35,28 +39,6 @@ const PHONE_COUNTRY_OPTIONS: Array<{
   { code: "+853", labelZh: "+853 澳門", labelEn: "+853 Macao" },
   { code: "+86", labelZh: "+86 中國大陸", labelEn: "+86 Mainland China" },
 ];
-
-/** Common HK districts for a low-friction dropdown. */
-export const HK_DISTRICTS = [
-  "中西區",
-  "灣仔",
-  "東區",
-  "南區",
-  "油尖旺",
-  "深水埗",
-  "九龍城",
-  "黃大仙",
-  "觀塘",
-  "荃灣",
-  "葵青",
-  "屯門",
-  "元朗",
-  "北區",
-  "大埔",
-  "沙田",
-  "西貢",
-  "離島",
-] as const;
 
 function Field({
   id,
@@ -334,8 +316,8 @@ export function ShippingContactForm({
           >
             <option value="">{t("shippingDistrictPlaceholder")}</option>
             {HK_DISTRICTS.map((district) => (
-              <option key={district} value={district}>
-                {district}
+              <option key={district.zh} value={district.zh}>
+                {locale === "en" ? district.en : district.zh}
               </option>
             ))}
           </select>
