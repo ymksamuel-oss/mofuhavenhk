@@ -13,9 +13,12 @@ export const FPS_ID = (
   "85298646585"
 ).replace(/\D/g, "");
 
-/** Public path for the FPS QR image — pure QR only (no payee text under the code). */
-export const FPS_QR_SRC =
-  process.env.NEXT_PUBLIC_FPS_QR_SRC?.trim() || "/fps-qr.png";
+/**
+ * Public path for the FPS QR screenshot.
+ * Hardcoded so stale Vercel env (e.g. old /fps-qr.svg brown placeholder)
+ * cannot override the new blue-border asset. CSS crops the payee footer.
+ */
+export const FPS_QR_SRC = "/images/fps-qr-code.png";
 
 /** Local HK mobile digits (no country code) for bank-app paste. */
 export function fpsLocalDigits(digits: string = FPS_ID): string {
