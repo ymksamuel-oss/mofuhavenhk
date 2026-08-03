@@ -47,24 +47,34 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
-/** Official WeChat Pay mark — brand green #09BB07 dual speech bubbles. */
+/** WeChat Pay brand mark — official green #09BB07 dual speech bubbles. */
 export function WeChatPayLogo({ className = "" }: { className?: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- official WeChat Pay brand asset
-    <img
-      src="/images/wechat-pay-official-logo.svg"
-      alt="WeChat Pay"
+    <svg
+      viewBox="0 0 48 48"
       width={32}
       height={32}
-      className={`h-8 w-8 object-contain ${className}`}
-    />
+      className={`h-8 w-8 ${className}`}
+      aria-label="WeChat Pay"
+      role="img"
+    >
+      <rect width="48" height="48" rx="10" fill="#09BB07" />
+      <g fill="#FFFFFF">
+        <path d="M19.6 14.2c-6.1 0-11 3.9-11 8.7 0 2.7 1.6 5.1 4.1 6.7l-.9 3.1 3.5-1.9c1.3.4 2.7.6 4.3.6.4 0 .8 0 1.2-.1-.3-.8-.4-1.6-.4-2.5 0-5.1 5-9.2 11.1-9.2.3 0 .7 0 1 .1-1.5-3.5-5.6-5.5-10.9-5.5z" />
+        <circle cx="15.2" cy="22.2" r="1.25" />
+        <circle cx="20.8" cy="22.2" r="1.25" />
+        <path d="M35.4 24.6c-5.1 0-9.2 3.3-9.2 7.3 0 2.3 1.4 4.3 3.5 5.6l-.7 2.5 2.9-1.6c1.1.3 2.2.5 3.5.5 5.1 0 9.2-3.3 9.2-7.3s-4.1-7-9.2-7z" />
+        <circle cx="32.2" cy="31.4" r="1.05" />
+        <circle cx="37.2" cy="31.4" r="1.05" />
+      </g>
+    </svg>
   );
 }
 
-/** Official AlipayHK app icon mark (#00A0E9) from AlipayHK brand pack. */
+/** Official AlipayHK app icon (#00A0E9) from AlipayHK 2019 brand pack. */
 export function AlipayHkLogo({ className = "" }: { className?: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- official AlipayHK brand asset
+    // eslint-disable-next-line @next/next/no-img-element -- official AlipayHK brand SVG asset
     <img
       src="/images/alipayhk-official-logo.svg"
       alt="AlipayHK"
