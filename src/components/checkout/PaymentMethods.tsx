@@ -69,19 +69,13 @@ export function PaymentMethods({
                 }`}
                 aria-pressed={active}
               >
-                <span
-                  className={`flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--line)] bg-white ${
-                    isFps ? "h-11 w-14 px-1.5 py-1" : "h-10 min-w-14 px-2.5 py-1.5"
-                  }`}
-                >
+                <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-[color:var(--line)] bg-white px-1">
                   {isFps ? (
                     // eslint-disable-next-line @next/next/no-img-element -- official FPS 轉數快 mark
                     <img
                       src="/images/fps-official-logo.png"
                       alt="轉數快 FPS"
-                      width={72}
-                      height={63}
-                      className="h-8 w-auto max-w-[3.25rem] object-contain"
+                      className="h-8 w-8 object-contain"
                     />
                   ) : Icon ? (
                     <Icon />
