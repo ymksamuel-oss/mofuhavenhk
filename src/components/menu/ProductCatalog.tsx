@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductQuickView } from "@/components/menu/ProductQuickView";
 import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
+import { TransitionLink } from "@/components/TransitionLink";
 import {
   CATEGORIES,
   categoryHref,
@@ -56,17 +56,17 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         aria-label={t("categoryNavLabel")}
         className="mb-8 flex flex-wrap gap-2"
       >
-        <Link href="/menu" className={chipClassName(!categorySlug)}>
+        <TransitionLink href="/menu" className={chipClassName(!categorySlug)}>
           {t("menuAllCategories")}
-        </Link>
+        </TransitionLink>
         {CATEGORIES.map(({ slug, labelKey }) => (
-          <Link
+          <TransitionLink
             key={slug}
             href={categoryHref(slug)}
             className={chipClassName(categorySlug === slug)}
           >
             {t(labelKey)}
-          </Link>
+          </TransitionLink>
         ))}
       </nav>
 

@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useI18n } from "@/lib/i18n/I18nProvider";
-import { CATEGORIES, categoryHref, type CategoryIconName } from "@/lib/categories";
+import { TransitionLink } from "@/components/TransitionLink";
 import {
   BagIcon,
   BoneIcon,
@@ -14,6 +12,8 @@ import {
   HealthIcon,
   ToyIcon,
 } from "@/components/icons/CategoryIcons";
+import { CATEGORIES, categoryHref, type CategoryIconName } from "@/lib/categories";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const ICONS: Record<CategoryIconName, typeof CatIcon> = {
   cat: CatIcon,
@@ -52,7 +52,7 @@ export function CategoryGrid() {
           const Icon = ICONS[icon];
           return (
             <li key={slug}>
-              <Link
+              <TransitionLink
                 href={categoryHref(slug)}
                 className="group flex flex-col items-center gap-2.5 text-center"
               >
@@ -68,7 +68,7 @@ export function CategoryGrid() {
                 <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors duration-[250ms] group-hover:text-[color:var(--accent)] group-active:text-[color:var(--accent)] sm:text-sm">
                   {t(labelKey)}
                 </span>
-              </Link>
+              </TransitionLink>
             </li>
           );
         })}

@@ -93,6 +93,51 @@ body {
   }
 }
 
+/* Catalog / category route transitions — keep under 300ms for app-like feel */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.page-transition {
+  width: 100%;
+  max-width: 100%;
+  will-change: opacity, transform;
+}
+
+.page-transition--enter {
+  animation: pageEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-transition--exit {
+  animation: pageExit 0.14s ease-in both;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition--enter,
+  .page-transition--exit {
+    animation: none;
+  }
+}
+
 /* Header SVG wordmark — staggered wave on hover / click */
 @keyframes logoWave {
   0%,
