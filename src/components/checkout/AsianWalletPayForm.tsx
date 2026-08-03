@@ -221,7 +221,7 @@ export function AsianWalletPayForm({
     <div className="space-y-4" data-asian-wallet={method}>
       <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/35 p-4">
         <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center">
             <Logo />
           </span>
           <div className="min-w-0">

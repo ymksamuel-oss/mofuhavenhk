@@ -58,14 +58,15 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex w-full min-h-[3.5rem] items-center gap-3 rounded-2xl border px-3.5 py-3 text-left transition sm:px-4 sm:py-3.5 ${
+                className={`flex w-full min-h-[3.5rem] items-center gap-3.5 rounded-2xl border px-3.5 py-3 text-left transition sm:gap-4 sm:px-4 sm:py-3.5 ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_6px_16px_-8px_rgba(169,124,80,0.55)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--accent-soft)]/40"
                 }`}
                 aria-pressed={active}
               >
-                <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-[color:var(--line)] bg-white px-1">
+                {/* Transparent logo slot — no white plate / hard box */}
+                <span className="flex h-9 w-[4.25rem] shrink-0 items-center justify-start overflow-visible sm:w-[4.75rem]">
                   <Icon />
                 </span>
 
