@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
 
@@ -74,10 +75,14 @@ export function ProductQuickView({
             priority
           />
           {discountPercent ? (
-            <span className="absolute left-3 top-3 rounded-full bg-[#c0483a] px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-[#c0483a] px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
               -{discountPercent}%
             </span>
           ) : null}
+          <WishlistHeartButton
+            productId={product.id}
+            className="absolute right-3 top-3 z-10"
+          />
         </div>
 
         <h2
@@ -136,12 +141,7 @@ export function ProductQuickView({
           </div>
         ) : null}
 
-        <Link
-          href={`/checkout?category=${product.categorySlug}`}
-          className="mt-6 flex w-full items-center justify-center rounded-full bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_20px_-9px_rgba(169,124,80,0.75)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_26px_-9px_rgba(92,58,34,0.65)]"
-        >
-          {t("menuAddToCheckout")}
-        </Link>
+        <AddToCartButton productId={product.id} size="modal" />
       </div>
     </div>
   );

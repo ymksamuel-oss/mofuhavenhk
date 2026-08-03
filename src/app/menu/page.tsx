@@ -4,11 +4,13 @@ import { Suspense, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { ProductQuickView } from "@/components/menu/ProductQuickView";
+import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { CATEGORIES } from "@/lib/categories";
 import { getProductsByCategory, type Product } from "@/lib/products";
-import { ProductQuickView } from "@/components/menu/ProductQuickView";
 
 function chipClassName(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -68,31 +70,37 @@ function MenuContent() {
                 key={product.id}
                 className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
-                <button
-                  type="button"
-                  onClick={() => setQuickViewProduct(product)}
-                  aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
-                  className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)] text-left"
-                >
-                  {/* Real product photograph — full-bleed square crop, not
-                      illustration badges or AI artwork. */}
-                  <Image
-                    src={product.image}
-                    alt={product.name[locale]}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                    className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                  />
+                <div className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
+                  <button
+                    type="button"
+                    onClick={() => setQuickViewProduct(product)}
+                    aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
+                    className="absolute inset-0 text-left"
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name[locale]}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                    />
+                    <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
+                      {t("productViewDetails")}
+                    </span>
+                  </button>
+
                   {discountPercent ? (
-                    <span className="absolute left-2.5 top-2.5 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                       -{discountPercent}%
                     </span>
                   ) : null}
-                  {/* Hover affordance hinting the image opens a detail view. */}
-                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
-                    {t("productViewDetails")}
-                  </span>
-                </button>
+
+                  <WishlistHeartButton
+                    productId={product.id}
+                    className="absolute right-2.5 top-2.5 z-10"
+                  />
+                </div>
+
                 <div className="flex flex-1 flex-col gap-2 p-4">
                   <button
                     type="button"
@@ -116,12 +124,7 @@ function MenuContent() {
                       </p>
                     ) : null}
                   </div>
-                  <Link
-                    href={`/checkout?category=${product.categorySlug}`}
-                    className="mt-1 inline-flex items-center justify-center rounded-full bg-[color:var(--accent)] px-4 py-2.5 text-xs font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
-                  >
-                    {t("menuAddToCheckout")}
-                  </Link>
+                  <AddToCartButton productId={product.id} size="card" />
                 </div>
               </li>
             );

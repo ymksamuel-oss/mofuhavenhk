@@ -30,6 +30,7 @@ import {
   SHIPPING,
   type OrderItem,
 } from "@/lib/order";
+import { useCart } from "@/lib/shop/cart";
 import {
   buildFpsOrderMessage,
   buildOrderMessage,
@@ -51,10 +52,14 @@ function CheckoutContent() {
   const { locale, t } = useI18n();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const cart = useCart();
 
-  const initialItems = useMemo(() => getOrderItems(category), [category]);
-  const [items, setItems] = useState<OrderItem[]>(initialItems);
-  const amountHkd = calcSubtotal(items) + SHIPPING;
+  const [items, setItems] = useState<OrderItem[]>(() =>
+    getOrderItems(category),
+  );
+  const [hydratedFromCart, setHydratedFromCart] = useState(false);
+  const amountHkd =
+    items.length > 0 ? calcSubtotal(items) + SHIPPING : 0;
 
   // Default to wallet (Apple Pay / Google Pay) for mobile one-tap checkout.
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
@@ -91,14 +96,26 @@ function CheckoutContent() {
 
   const hasRequiredContact = isShippingContactComplete(shippingContact);
 
+  // Prefer the shared shopping basket once localStorage cart is ready.
   useEffect(() => {
+    if (!cart.ready || hydratedFromCart) return;
+    if (cart.lines.length > 0) {
+      setItems(cart.toOrderItems());
+    }
+    setHydratedFromCart(true);
+  }, [cart, hydratedFromCart]);
+
+  useEffect(() => {
+    // Category deep-links only apply when the basket is empty.
+    if (!cart.ready) return;
+    if (cart.lines.length > 0) return;
     setItems(getOrderItems(category));
     setClientSecret(null);
     setPhase((current) =>
       current === "stripe_missing" ? current : "idle",
     );
     setFpsConfirming(false);
-  }, [category]);
+  }, [category, cart.ready, cart.lines.length]);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
@@ -154,6 +171,7 @@ function CheckoutContent() {
         item.id === id ? { ...item, qty: nextQty } : item,
       ),
     );
+    cart.setQty(id, nextQty);
     if (clientSecret) {
       setClientSecret(null);
       setPhase("idle");
@@ -171,6 +189,7 @@ function CheckoutContent() {
       return;
     }
     setItems((current) => current.filter((item) => item.id !== id));
+    cart.removeItem(id);
     if (clientSecret) {
       setClientSecret(null);
       setPhase("idle");
