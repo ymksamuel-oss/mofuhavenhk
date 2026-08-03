@@ -18,9 +18,6 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "fps", labelKey: "payFps" },
 ];
 
-/** Exact single-line label — never wrap / never use Chinese quotation marks. */
-const FPS_LABEL = "SC Pay 轉數快";
-
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
@@ -71,10 +68,12 @@ export function PaymentMethods({
               >
                 <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-[color:var(--line)] bg-white px-1">
                   {isFps ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- official FPS 轉數快 mark
+                    // eslint-disable-next-line @next/next/no-img-element -- official blue double-arrow 轉數快 mark
                     <img
                       src="/images/fps-official-logo.png"
                       alt="轉數快 FPS"
+                      width={32}
+                      height={32}
                       className="h-8 w-8 object-contain"
                     />
                   ) : Icon ? (
@@ -83,7 +82,7 @@ export function PaymentMethods({
                 </span>
 
                 <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
-                  {isFps ? FPS_LABEL : t(labelKey)}
+                  {isFps ? "SC Pay 轉數快" : t(labelKey)}
                 </span>
 
                 <span
