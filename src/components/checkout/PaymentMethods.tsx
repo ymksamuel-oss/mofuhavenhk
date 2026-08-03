@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   ApplePayLogo,
@@ -24,13 +25,14 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
-  /** Kept for API compatibility; FPS interactive menu lives in FpsPaymentPanel. */
-  amountHkd?: number;
+  /** Interactive FPS payee menu rendered under the FPS option — supplied by checkout/page.tsx */
+  fpsPanel?: ReactNode;
 };
 
 export function PaymentMethods({
   selected,
   onSelect,
+  fpsPanel,
 }: PaymentMethodsProps) {
   const { t } = useI18n();
 
@@ -55,7 +57,7 @@ export function PaymentMethods({
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
           return (
-            <li key={id}>
+            <li key={id} className="space-y-3">
               <button
                 type="button"
                 onClick={() => onSelect(id)}
@@ -84,6 +86,8 @@ export function PaymentMethods({
                   aria-hidden="true"
                 />
               </button>
+
+              {id === "fps" && active ? fpsPanel : null}
             </li>
           );
         })}

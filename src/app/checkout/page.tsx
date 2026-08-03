@@ -1,8 +1,14 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "next/navigation";
-import { FpsPaymentPanel } from "@/components/checkout/FpsPaymentPanel";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -12,7 +18,14 @@ import {
 import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
+import {
+  FPS_ACCOUNT_NAME,
+  FPS_QR_SRC,
+  formatFpsDisplayId,
+  fpsLocalDigits,
+} from "@/lib/fps";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { formatMoney } from "@/lib/i18n/translations";
 import {
   calcSubtotal,
   generateOrderNumber,
@@ -38,6 +51,223 @@ type PayPhase =
   | "stripe_missing"
   | "error"
   | "fps_done";
+
+type FpsOptionId = "proxy" | "amount" | "qr";
+
+async function copyText(value: string): Promise<boolean> {
+  try {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch {
+    // Fall through to legacy path.
+  }
+
+  try {
+    const el = document.createElement("textarea");
+    el.value = value;
+    el.setAttribute("readonly", "");
+    el.style.position = "fixed";
+    el.style.opacity = "0";
+    document.body.appendChild(el);
+    el.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(el);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Bank-app style FPS payee menu — defined in the checkout page so it is
+ * always the UI mounted when FPS is selected (no orphaned panel files).
+ */
+function InteractiveFpsMenu({ amountHkd }: { amountHkd: number }) {
+  const { locale, t } = useI18n();
+  const [active, setActive] = useState<FpsOptionId | null>(null);
+  const [copied, setCopied] = useState<"proxy" | "amount" | null>(null);
+
+  const displayId = formatFpsDisplayId();
+  const amountLabel = formatMoney(amountHkd, locale);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(null), 2000);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const toggle = (id: FpsOptionId) => {
+    setActive((prev) => (prev === id ? null : id));
+  };
+
+  const options: { id: FpsOptionId; title: string; hint: string }[] = [
+    {
+      id: "proxy",
+      title: t("fpsOptionProxy"),
+      hint: t("fpsOptionProxyHint"),
+    },
+    {
+      id: "amount",
+      title: t("fpsOptionAmount"),
+      hint: t("fpsOptionAmountHint"),
+    },
+    {
+      id: "qr",
+      title: t("fpsOptionQr"),
+      hint: t("fpsOptionQrHint"),
+    },
+  ];
+
+  return (
+    <div
+      className="overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_8px_20px_-14px_rgba(74,54,38,0.35)]"
+      data-fps-interactive-menu="true"
+    >
+      <div className="border-b border-[color:var(--line)] bg-[color:var(--accent-soft)]/55 px-4 py-3.5">
+        <h3 className="text-sm font-semibold text-[color:var(--ink)]">
+          {t("fpsPanelTitle")}
+        </h3>
+        <p className="mt-1 text-xs font-medium text-[color:var(--muted)]">
+          {t("fpsPanelHint")}
+        </p>
+      </div>
+
+      <ul className="divide-y divide-[color:var(--line)]" role="list">
+        {options.map(({ id, title, hint }) => {
+          const open = active === id;
+          return (
+            <li key={id}>
+              <button
+                type="button"
+                onClick={() => toggle(id)}
+                aria-expanded={open}
+                className={`flex w-full items-center gap-3 px-4 py-3.5 text-left transition ${
+                  open
+                    ? "bg-[color:var(--accent-soft)]/70"
+                    : "bg-[color:var(--surface)] hover:bg-[color:var(--accent-soft)]/35"
+                }`}
+              >
+                <span
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-xs font-bold ${
+                    open
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                      : "border-[color:var(--line)] bg-white text-[color:var(--accent)]"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {id === "proxy" ? "1" : id === "amount" ? "2" : "3"}
+                </span>
+                <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[color:var(--ink)]">
+                  {title}
+                </span>
+                <span
+                  className={`text-[color:var(--muted)] transition-transform ${
+                    open ? "rotate-90 text-[color:var(--accent)]" : ""
+                  }`}
+                  aria-hidden="true"
+                >
+                  ›
+                </span>
+              </button>
+
+              {open ? (
+                <div className="border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/30 px-4 py-3.5">
+                  <p className="text-xs text-[color:var(--muted)]">{hint}</p>
+
+                  {id === "proxy" ? (
+                    <div className="mt-3 space-y-3">
+                      <div className="rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3">
+                        <div className="flex items-baseline justify-between gap-3">
+                          <span className="text-xs text-[color:var(--muted)]">
+                            {t("fpsIdLabel")}
+                          </span>
+                          <span className="text-lg font-semibold tabular-nums tracking-wide text-[color:var(--ink)]">
+                            {displayId}
+                          </span>
+                        </div>
+                        <div className="mt-2 flex items-center justify-between gap-3 border-t border-[color:var(--line)] pt-2">
+                          <span className="text-xs text-[color:var(--muted)]">
+                            {t("fpsAccountLabel")}
+                          </span>
+                          <span className="text-sm font-medium text-[color:var(--ink)]">
+                            {FPS_ACCOUNT_NAME}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          void copyText(fpsLocalDigits()).then((ok) => {
+                            if (ok) setCopied("proxy");
+                          });
+                        }}
+                        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.99] ${
+                          copied === "proxy"
+                            ? "bg-emerald-600 text-white"
+                            : "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
+                        }`}
+                      >
+                        {copied === "proxy" ? t("fpsCopied") : t("fpsCopyNumber")}
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {id === "amount" ? (
+                    <div className="mt-3 space-y-3">
+                      <div className="rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3">
+                        <div className="flex items-baseline justify-between gap-3">
+                          <span className="text-xs text-[color:var(--muted)]">
+                            {t("fpsAmountLabel")}
+                          </span>
+                          <span className="text-xl font-semibold tabular-nums text-[color:var(--ink)]">
+                            {amountLabel}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          void copyText(amountLabel).then((ok) => {
+                            if (ok) setCopied("amount");
+                          });
+                        }}
+                        className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.99] ${
+                          copied === "amount"
+                            ? "bg-emerald-600 text-white"
+                            : "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
+                        }`}
+                      >
+                        {copied === "amount" ? t("fpsCopied") : t("fpsCopyAmount")}
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {id === "qr" ? (
+                    <div className="mt-3 flex flex-col items-center gap-2">
+                      <div className="flex h-48 w-48 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)]">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- local SVG / shop QR asset */}
+                        <img
+                          src={FPS_QR_SRC}
+                          alt={t("fpsQrAlt")}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                      <p className="text-center text-[11px] text-[color:var(--muted)]">
+                        {t("fpsQrHint")}
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
@@ -324,7 +554,9 @@ function CheckoutContent() {
         <PaymentMethods
           selected={selectedMethod}
           onSelect={handleSelectMethod}
-          amountHkd={amountHkd}
+          fpsPanel={
+            isFps ? <InteractiveFpsMenu amountHkd={amountHkd} /> : null
+          }
         />
         <div className="milk-tea-card space-y-6 p-5 sm:p-6">
           <OrderSummary
@@ -334,12 +566,22 @@ function CheckoutContent() {
           />
 
           {isFps ? (
-            <FpsPaymentPanel
-              amountHkd={amountHkd}
-              onConfirm={() => void handleFpsConfirm()}
-              confirming={fpsConfirming}
-              confirmed={phase === "fps_done"}
-            />
+            <div className="space-y-3">
+              {phase !== "fps_done" ? (
+                <button
+                  type="button"
+                  onClick={() => void handleFpsConfirm()}
+                  disabled={fpsConfirming}
+                  className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {fpsConfirming ? t("fpsConfirming") : t("fpsConfirmOrder")}
+                </button>
+              ) : (
+                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+                  {t("fpsConfirmSuccess")}
+                </p>
+              )}
+            </div>
           ) : (
             <>
               {phase === "stripe_missing" ? (
