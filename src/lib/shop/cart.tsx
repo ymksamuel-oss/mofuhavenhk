@@ -107,7 +107,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLines((current) => current.filter((line) => line.id !== productId));
   }, []);
 
-  const clear = useCallback(() => setLines([]), []);
+  const clear = useCallback(() => {
+    setLines([]);
+    try {
+      window.localStorage.removeItem(CART_STORAGE_KEY);
+    } catch {
+      // ignore quota / private mode
+    }
+  }, []);
 
   const toOrderItems = useCallback(
     () => buildOrderItemsFromLines(lines),

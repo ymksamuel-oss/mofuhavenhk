@@ -115,14 +115,23 @@ function CheckoutContent() {
 
   useEffect(() => {
     // Category deep-links only apply when the basket is empty.
+    // Skip after a successful pay — clearing the cart must not refill
+    // defaults or wipe the paid / notify-failed success state.
     if (!cart.ready) return;
     if (cart.lines.length > 0) return;
+    if (
+      phase === "paid" ||
+      phase === "paid_notify_failed" ||
+      phase === "completing"
+    ) {
+      return;
+    }
     setItems(getOrderItems(category));
     setClientSecret(null);
     setPhase((current) =>
       current === "stripe_missing" ? current : "idle",
     );
-  }, [category, cart.ready, cart.lines.length]);
+  }, [category, cart.ready, cart.lines.length, phase]);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
@@ -177,15 +186,23 @@ function CheckoutContent() {
 
       if (data.orderNumber) setOrderNumber(data.orderNumber);
 
+      // Payment confirmed — empty the shared basket (state + localStorage)
+      // so the navbar cart badge drops to 0 immediately.
+      cart.clear();
+      setItems([]);
+
       if (data.notified || data.alreadyNotified) {
         setPhase("paid");
       } else {
         setPhase("paid_notify_failed");
       }
     } catch {
+      // Stripe already charged; still clear the basket even if notify failed.
+      cart.clear();
+      setItems([]);
       setPhase("paid_notify_failed");
     }
-  }, [t]);
+  }, [cart.clear, t]);
 
   // AlipayHK redirect return — Stripe appends payment_intent* query params.
   useEffect(() => {
