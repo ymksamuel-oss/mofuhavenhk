@@ -68,14 +68,20 @@ export function PaymentMethods({
                 }`}
                 aria-pressed={active}
               >
-                <span
-                  className="flex h-10 min-w-14 items-center justify-center overflow-visible rounded-lg border border-[color:var(--line)] bg-white px-2.5 py-1.5"
-                  style={{ overflow: "visible" }}
-                >
-                  <Icon />
+                <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-[color:var(--line)] bg-white px-1">
+                  {id === "fps" ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- official FPS 轉數快 mark
+                    <img
+                      src="/images/fps-official-logo.png"
+                      alt="轉數快 FPS"
+                      className="h-8 w-8 object-contain"
+                    />
+                  ) : (
+                    <Icon />
+                  )}
                 </span>
-                <span className="text-sm font-medium text-[color:var(--ink)]">
-                  {t(labelKey)}
+                <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
+                  {id === "fps" ? "SC Pay 轉數快" : t(labelKey)}
                 </span>
                 <span
                   className={`ml-auto h-4 w-4 shrink-0 rounded-full border transition ${
