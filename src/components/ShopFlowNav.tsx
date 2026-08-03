@@ -47,8 +47,9 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const router = useRouter();
   const isHome = pathname === "/";
   const isCategoryPage = pathname.startsWith("/categories/");
+  const isProductPage = pathname.startsWith("/product/");
   const showBottomContinue =
-    pathname === "/checkout" || isHome || isCategoryPage;
+    pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
 
   return (
     <>

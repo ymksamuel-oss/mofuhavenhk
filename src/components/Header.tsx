@@ -106,7 +106,10 @@ export function Header() {
     {
       href: "/menu",
       label: t("navMenu"),
-      active: pathname === "/menu" || pathname.startsWith("/categories"),
+      active:
+        pathname === "/menu" ||
+        pathname.startsWith("/categories") ||
+        pathname.startsWith("/product"),
     },
     {
       href: "/checkout",

@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { ProductQuickView } from "@/components/menu/ProductQuickView";
 import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import {
   CATEGORIES,
@@ -13,7 +11,7 @@ import {
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, type Product } from "@/lib/products";
+import { getProductsByCategory, productHref } from "@/lib/products";
 
 function chipClassName(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -29,16 +27,13 @@ type ProductCatalogProps = {
 };
 
 /**
- * Shared catalog UI for `/menu` (all products) and `/categories/[slug]`.
- * Category chips use hard document navigation (no soft-nav freeze).
+ * Shared catalog UI for `/menu` and `/categories/[slug]`.
+ * Product cards hard-navigate to `/product/[id]` detail pages.
  */
 export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
   const products = getProductsByCategory(categorySlug);
-  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
-    null,
-  );
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
@@ -78,6 +73,7 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
               : null;
+            const href = productHref(product.id);
 
             return (
               <li
@@ -85,11 +81,10 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
                 className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
                 <div className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
-                  <button
-                    type="button"
-                    onClick={() => setQuickViewProduct(product)}
+                  <CategoryNavLink
+                    href={href}
                     aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
-                    className="absolute inset-0 text-left"
+                    className="absolute inset-0 block"
                   >
                     <Image
                       src={product.image}
@@ -101,7 +96,7 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
                     <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
                       {t("productViewDetails")}
                     </span>
-                  </button>
+                  </CategoryNavLink>
 
                   {discountPercent ? (
                     <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
@@ -116,13 +111,12 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
                 </div>
 
                 <div className="flex flex-1 flex-col gap-2 p-4">
-                  <button
-                    type="button"
-                    onClick={() => setQuickViewProduct(product)}
+                  <CategoryNavLink
+                    href={href}
                     className="text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                   >
                     {product.name[locale]}
-                  </button>
+                  </CategoryNavLink>
                   {product.description ? (
                     <p className="text-xs leading-snug text-[color:var(--muted)]">
                       {product.description[locale]}
@@ -145,15 +139,6 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
           })}
         </ul>
       )}
-
-      {quickViewProduct ? (
-        <ProductQuickView
-          product={quickViewProduct}
-          locale={locale}
-          t={t}
-          onClose={() => setQuickViewProduct(null)}
-        />
-      ) : null}
     </div>
   );
 }

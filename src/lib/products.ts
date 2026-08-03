@@ -1265,3 +1265,13 @@ export function getProductsByCategory(slug: string | null): Product[] {
   if (!slug) return PRODUCTS;
   return PRODUCTS.filter((product) => product.categorySlug === slug);
 }
+
+export function getProductById(id: string | null | undefined): Product | null {
+  if (!id) return null;
+  return PRODUCTS.find((product) => product.id === id) ?? null;
+}
+
+/** Canonical product detail path. */
+export function productHref(id: string): string {
+  return `/product/${id}`;
+}
