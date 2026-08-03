@@ -4,7 +4,6 @@ import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
-import { WishlistProvider } from "@/lib/shop/wishlist";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -47,14 +46,12 @@ export default function RootLayout({
       >
         <I18nProvider>
           <CartProvider>
-            <WishlistProvider>
-              <Header />
-              <ShopFlowNav>
-                <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
-                  {children}
-                </main>
-              </ShopFlowNav>
-            </WishlistProvider>
+            <Header />
+            <ShopFlowNav>
+              <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
+                {children}
+              </main>
+            </ShopFlowNav>
           </CartProvider>
         </I18nProvider>
       </body>

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -59,10 +58,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
               -{discountPercent}%
             </span>
           ) : null}
-          <WishlistHeartButton
-            productId={product.id}
-            className="absolute right-4 top-4 z-10"
-          />
         </div>
 
         <div className="milk-tea-card p-5 sm:p-7">
