@@ -69,12 +69,15 @@ export function PaymentMethods({
                 aria-pressed={active}
               >
                 <span
-                  className="flex h-10 min-w-14 items-center justify-center overflow-visible rounded-lg border border-[color:var(--line)] bg-white px-2.5 py-1.5"
-                  style={{ overflow: "visible" }}
+                  className={`flex items-center justify-center overflow-hidden rounded-lg border border-[color:var(--line)] bg-white ${
+                    id === "fps"
+                      ? "h-12 w-12 shrink-0 p-1"
+                      : "h-10 min-w-14 px-2.5 py-1.5"
+                  }`}
                 >
                   <Icon />
                 </span>
-                <span className="text-sm font-medium text-[color:var(--ink)]">
+                <span className="min-w-0 flex-1 truncate text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
                   {t(labelKey)}
                 </span>
                 <span

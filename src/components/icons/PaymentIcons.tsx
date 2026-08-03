@@ -47,28 +47,17 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
+/** Standard SC Pay / 轉數快 mark — replaces the old green/orange FPS arrow SVG. */
 export function FpsLogo({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 48 24"
-      height={ICON_H}
-      className={`h-6 w-auto ${className}`}
-      aria-label="FPS"
-      role="img"
-    >
-      <rect width="48" height="24" rx="3" fill="#E35205" />
-      <text
-        x="24"
-        y="16"
-        textAnchor="middle"
-        fill="#fff"
-        fontSize="10"
-        fontFamily="Arial, sans-serif"
-        fontWeight="700"
-      >
-        FPS
-      </text>
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element -- static public brand asset
+    <img
+      src="/images/sc-pay-logo.png"
+      alt="SC Pay 轉數快"
+      width={60}
+      height={60}
+      className={`h-9 w-9 object-contain ${className}`}
+    />
   );
 }
 
