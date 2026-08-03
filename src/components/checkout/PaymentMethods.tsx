@@ -185,7 +185,7 @@ function FpsBankMenu({
                 {phoneCopied ? "已複製" : "一鍵複製"}
               </button>
 
-              <p className="rounded-xl border border-[#c48a4a] bg-[#fff4e5] px-3 py-2.5 text-center text-sm font-semibold leading-relaxed text-[#5c3a22]">
+              <p className="rounded-xl border-2 border-[#8a4f1f] bg-[#ffe8c8] px-3 py-3 text-center text-sm font-bold leading-relaxed text-[#2a160c]">
                 複製號碼後，請前往您的銀行 App 透過轉數快付款，然後點擊下方按鈕確認訂單。
               </p>
             </div>
