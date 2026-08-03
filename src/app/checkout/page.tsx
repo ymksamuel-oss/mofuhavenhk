@@ -123,11 +123,11 @@ function InteractiveFpsMenu({ amountHkd }: { amountHkd: number }) {
   return (
     <div
       className="overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_8px_20px_-14px_rgba(74,54,38,0.35)]"
-      data-fps-interactive-menu="true"
+      data-fps-interactive-menu="mounted-from-checkout-page"
     >
       <div className="border-b border-[color:var(--line)] bg-[color:var(--accent-soft)]/55 px-4 py-3.5">
         <h3 className="text-sm font-semibold text-[color:var(--ink)]">
-          {t("fpsPanelTitle")}
+          SC Pay 轉數快
         </h3>
         <p className="mt-1 text-xs font-medium text-[color:var(--muted)]">
           {t("fpsPanelHint")}

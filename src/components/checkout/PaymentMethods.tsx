@@ -2,30 +2,29 @@
 
 import type { ReactNode } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import {
-  ApplePayLogo,
-  CardLogo,
-  FpsLogo,
-} from "@/components/icons/PaymentIcons";
+import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
 
 export type MethodId = "card" | "applepay" | "fps";
 
 export type PaymentMethodDef = {
   id: MethodId;
   labelKey: "payCard" | "payApplePay" | "payFps";
-  Icon: typeof CardLogo;
+  Icon?: typeof CardLogo;
 };
 
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
-  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
+  { id: "fps", labelKey: "payFps" },
 ];
+
+/** Exact single-line label — never wrap / never use Chinese quotation marks. */
+const SC_PAY_LABEL = "SC Pay 轉數快";
 
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
-  /** Interactive FPS payee menu rendered under the FPS option — supplied by checkout/page.tsx */
+  /** Interactive payee menu from checkout/page.tsx — shown under SC Pay when selected. */
   fpsPanel?: ReactNode;
 };
 
@@ -56,6 +55,8 @@ export function PaymentMethods({
       <ul className="space-y-3">
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
+          const isFps = id === "fps";
+
           return (
             <li key={id} className="space-y-3">
               <button
@@ -69,17 +70,28 @@ export function PaymentMethods({
                 aria-pressed={active}
               >
                 <span
-                  className={`flex items-center justify-center overflow-hidden rounded-lg border border-[color:var(--line)] bg-white ${
-                    id === "fps"
-                      ? "h-12 w-12 shrink-0 p-1"
-                      : "h-10 min-w-14 px-2.5 py-1.5"
+                  className={`flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--line)] bg-white ${
+                    isFps ? "h-11 w-11 p-1.5" : "h-10 min-w-14 px-2.5 py-1.5"
                   }`}
                 >
-                  <Icon />
+                  {isFps ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- static SC Pay brand mark
+                    <img
+                      src="/images/sc-pay-logo.png"
+                      alt={SC_PAY_LABEL}
+                      width={60}
+                      height={60}
+                      className="h-8 w-8 object-contain"
+                    />
+                  ) : Icon ? (
+                    <Icon />
+                  ) : null}
                 </span>
-                <span className="min-w-0 flex-1 truncate text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
-                  {t(labelKey)}
+
+                <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
+                  {isFps ? SC_PAY_LABEL : t(labelKey)}
                 </span>
+
                 <span
                   className={`ml-auto h-4 w-4 shrink-0 rounded-full border transition ${
                     active
@@ -90,7 +102,7 @@ export function PaymentMethods({
                 />
               </button>
 
-              {id === "fps" && active ? fpsPanel : null}
+              {isFps && active ? fpsPanel : null}
             </li>
           );
         })}
