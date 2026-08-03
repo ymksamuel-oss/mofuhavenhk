@@ -214,14 +214,16 @@ function FpsBankMenu({
 
           {qrOpen ? (
             <div className="border-t border-[color:var(--line)] bg-white px-4 py-4">
+              {/* Fixed square frame + object-fit cover/top crops the blue footer
+                  (YEUNG MAN KIT SAMUEL / phone / 請您付款) off-screen. */}
               <div className="mx-auto h-52 w-52 overflow-hidden bg-white">
-                {/* eslint-disable-next-line @next/next/no-img-element -- pure FPS QR asset (no payee text) */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- FPS bank QR screenshot with CSS crop */}
                 <img
-                  src={FPS_QR_SRC}
+                  src={`${FPS_QR_SRC}?v=20260803`}
                   alt="轉數快 QR Code"
                   width={208}
                   height={208}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-cover object-top"
                 />
               </div>
             </div>
