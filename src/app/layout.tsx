@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_TC, Outfit } from "next/font/google";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
@@ -52,6 +53,7 @@ export default function RootLayout({
                 {children}
               </main>
             </ShopFlowNav>
+            <Footer />
           </CartProvider>
         </I18nProvider>
       </body>

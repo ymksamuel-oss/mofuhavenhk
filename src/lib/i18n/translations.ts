@@ -146,6 +146,39 @@ export const translations = {
       "付款經 Stripe 加密處理；成功後系統將自動經 WhatsApp 通知店主。",
     whatsappNumberMissing:
       "尚未設定店主 WhatsApp 號碼（NEXT_PUBLIC_WHATSAPP_NUMBER），無法開啟正確聯絡人。",
+    footerTagline:
+      "專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。",
+    footerQuickLinks: "快捷連結",
+    footerShopAll: "全部商品",
+    footerAbout: "關於我們",
+    footerFaq: "常見問題",
+    footerPolicies: "條款與保障",
+    footerShipping: "運送與配送說明",
+    footerReturns: "退換貨政策",
+    footerTerms: "私隱政策與服務條款",
+    footerContact: "聯絡我們",
+    footerWhatsapp: "WhatsApp 專人查詢",
+    footerEmail: "客服電郵",
+    footerHoursLabel: "服務時間",
+    footerHours: "週一至週五 10:00 – 19:00",
+    footerPayments: "支援付款方式",
+    footerCopyright: "© 2026 Mofu Haven. All Rights Reserved.",
+    infoPageBack: "返回首頁",
+    aboutPageTitle: "關於我們",
+    aboutPageBody:
+      "Mofu Haven 專注嚴選日本優質寵物糧食與用品，希望每位毛孩都能安心、健康地成長。更多品牌故事即將上線。",
+    faqPageTitle: "常見問題",
+    faqPageBody:
+      "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
+    shippingPageTitle: "運送與配送說明",
+    shippingPageBody:
+      "我們提供香港本地配送服務。詳細運費、送達時間與順豐自取說明即將公佈；下單時亦會於結帳頁顯示運費。",
+    returnsPageTitle: "退換貨政策",
+    returnsPageBody:
+      "若商品有瑕疵或寄送問題，請於收貨後盡快透過 WhatsApp 或電郵聯絡我們，我們會盡力協助處理。完整退換貨條款即將上線。",
+    termsPageTitle: "私隱政策與服務條款",
+    termsPageBody:
+      "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物與客戶服務。完整私隱政策與服務條款文件即將發佈。",
   },
   en: {
     brand: "Mofu Haven",
@@ -291,6 +324,39 @@ export const translations = {
       "Payments are encrypted by Stripe; the shop is notified on WhatsApp automatically after success.",
     whatsappNumberMissing:
       "Shop WhatsApp number is not set (NEXT_PUBLIC_WHATSAPP_NUMBER), so the correct contact cannot be opened.",
+    footerTagline:
+      "Curated Japanese pet food and supplies — thoughtful choices for the companions you love.",
+    footerQuickLinks: "Quick Links",
+    footerShopAll: "Shop All",
+    footerAbout: "About Us",
+    footerFaq: "FAQ",
+    footerPolicies: "Policies",
+    footerShipping: "Shipping Policy",
+    footerReturns: "Return & Refund Policy",
+    footerTerms: "Privacy & Terms",
+    footerContact: "Contact Us",
+    footerWhatsapp: "WhatsApp enquiry",
+    footerEmail: "Email",
+    footerHoursLabel: "Hours",
+    footerHours: "Mon–Fri 10:00 – 19:00",
+    footerPayments: "Accepted payments",
+    footerCopyright: "© 2026 Mofu Haven. All Rights Reserved.",
+    infoPageBack: "Back to home",
+    aboutPageTitle: "About Us",
+    aboutPageBody:
+      "Mofu Haven curates quality Japanese pet food and supplies so every companion can thrive. Our full brand story is coming soon.",
+    faqPageTitle: "FAQ",
+    faqPageBody:
+      "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",
+    shippingPageTitle: "Shipping Policy",
+    shippingPageBody:
+      "We deliver across Hong Kong. Full details on fees, timing, and SF pickup will be published soon — shipping also appears at checkout.",
+    returnsPageTitle: "Return & Refund Policy",
+    returnsPageBody:
+      "If an item arrives damaged or incorrect, contact us on WhatsApp or email soon after delivery and we’ll help. Full policy coming soon.",
+    termsPageTitle: "Privacy & Terms",
+    termsPageBody:
+      "We respect your privacy and only use order and contact details to fulfil purchases and support. Full privacy and terms documents are coming soon.",
   },
 } as const;
 
