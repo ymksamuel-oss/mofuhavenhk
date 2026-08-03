@@ -257,7 +257,7 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
               type="button"
               onClick={() => setQrOpen(true)}
               className="flex h-44 w-44 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)] transition hover:ring-[color:var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] active:scale-[0.99]"
-              aria-label={t("fpsQrEnlarge")}
+              aria-label={t("fpsQrHint")}
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- local SVG / shop QR asset */}
               <img
@@ -266,26 +266,9 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
                 className="h-full w-full object-contain"
               />
             </button>
-            <p className="text-center text-[11px] leading-relaxed text-[color:var(--muted)]">
+            <p className="w-full text-center text-sm text-[color:var(--ink)]">
               {t("fpsQrHint")}
             </p>
-            <div className="grid w-full gap-2 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => setQrOpen(true)}
-                className="rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/50 px-4 py-2.5 text-sm font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)]"
-              >
-                {t("fpsQrEnlarge")}
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleSaveQr()}
-                disabled={savingQr}
-                className="rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)] disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {t("fpsQrSave")}
-              </button>
-            </div>
           </div>
         ) : null}
       </div>
