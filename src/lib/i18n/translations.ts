@@ -179,6 +179,19 @@ export const translations = {
     termsPageTitle: "私隱政策與服務條款",
     termsPageBody:
       "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物與客戶服務。完整私隱政策與服務條款文件即將發佈。",
+    explorePetWorld: "探索寵物世界",
+    exploreAboutDog: "關於犬",
+    exploreAboutCat: "關於貓",
+    aboutCatEyebrow: "貓咪繪本指南",
+    aboutCatTitle: "關於貓",
+    aboutCatSubtitle:
+      "以溫暖圖文，陪你一步步認識與照顧家中貓咪——從迎貓回家到日常健康守護。",
+    aboutCatBackToMenu: "返回商品目錄",
+    aboutCatShopCta: "前往選購貓咪用品 🛒",
+    aboutDogTitle: "關於犬",
+    aboutDogBody:
+      "犬隻繪本指南正在精心編寫中。你可先瀏覽犬隻商品分類，為毛孩挑選合適好物。",
+    aboutDogShopCta: "前往選購犬隻用品",
   },
   en: {
     brand: "Mofu Haven",
@@ -357,6 +370,19 @@ export const translations = {
     termsPageTitle: "Privacy & Terms",
     termsPageBody:
       "We respect your privacy and only use order and contact details to fulfil purchases and support. Full privacy and terms documents are coming soon.",
+    explorePetWorld: "Explore Pet World",
+    exploreAboutDog: "About Dogs",
+    exploreAboutCat: "About Cats",
+    aboutCatEyebrow: "Cat Picture Guide",
+    aboutCatTitle: "About Cats",
+    aboutCatSubtitle:
+      "A warm illustrated guide to welcoming and caring for your cat — from first days home to everyday health.",
+    aboutCatBackToMenu: "Back to catalog",
+    aboutCatShopCta: "Shop cat essentials 🛒",
+    aboutDogTitle: "About Dogs",
+    aboutDogBody:
+      "Our dog picture guide is being written with care. Meanwhile, browse dog products to find thoughtful picks for your companion.",
+    aboutDogShopCta: "Shop dog essentials",
   },
 } as const;
 
