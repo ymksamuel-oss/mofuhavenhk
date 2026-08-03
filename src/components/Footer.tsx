@@ -1,13 +1,51 @@
 "use client";
 
-import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import { MastercardLogo, VisaLogo, WhatsAppLogo } from "@/components/icons/PaymentIcons";
+import { WhatsAppLogo } from "@/components/icons/PaymentIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
+
+/** Footer payment marks — transparent SVG assets from /public/images. */
+const FOOTER_PAYMENT_LOGOS = [
+  {
+    src: "/images/wechat-pay-logo.svg",
+    alt: "WeChat Pay",
+    width: 24,
+    height: 24,
+    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
+  },
+  {
+    src: "/images/apple-pay-logo.svg",
+    alt: "Apple Pay",
+    width: 64,
+    height: 24,
+    className: "h-6 w-auto sm:h-7",
+  },
+  {
+    src: "/images/alipayhk-logo.svg",
+    alt: "AlipayHK",
+    width: 24,
+    height: 24,
+    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
+  },
+  {
+    src: "/images/visa-logo.svg",
+    alt: "Visa",
+    width: 48,
+    height: 24,
+    className: "h-4 w-auto mix-blend-multiply sm:h-5",
+  },
+  {
+    src: "/images/mastercard-logo.svg",
+    alt: "Mastercard",
+    width: 40,
+    height: 24,
+    className: "h-6 w-auto sm:h-7",
+  },
+] as const;
 
 const SHOP_EMAIL =
   process.env.NEXT_PUBLIC_SHOP_EMAIL?.trim() || "hello@mofuhavenhk.com";
@@ -81,67 +119,27 @@ function FooterNavColumn({
 }
 
 /**
- * Compact white-chip payment badges for the footer bottom bar.
- * Equal height chips, centered wrap on small screens.
+ * Transparent payment logos (no white chips).
+ * Flex row on desktop; wraps cleanly on narrow screens.
  */
-function PaymentBadge({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function PaymentMarks() {
   return (
-    <li
-      className="inline-flex h-8 items-center justify-center rounded-md border border-neutral-200/60 bg-white px-2.5 shadow-[0_1px_2px_rgba(74,54,38,0.06)]"
-      aria-label={label}
-    >
-      <span className="flex max-h-5 items-center justify-center">
-        {children}
-      </span>
-    </li>
-  );
-}
-
-function PaymentBadges() {
-  return (
-    <ul className="mt-1 flex flex-wrap items-center justify-center gap-2 sm:mt-0 sm:justify-end">
-      <PaymentBadge label="Apple Pay">
-        <Image
-          src="/images/apple-pay-logo.svg"
-          alt=""
-          width={52}
-          height={20}
-          className="h-4 w-auto"
-          unoptimized
-        />
-      </PaymentBadge>
-      <PaymentBadge label="WeChat Pay">
-        <Image
-          src="/images/wechat-pay-logo.svg"
-          alt=""
-          width={20}
-          height={20}
-          className="h-[1.125rem] w-[1.125rem] rounded-[3px]"
-          unoptimized
-        />
-      </PaymentBadge>
-      <PaymentBadge label="AlipayHK">
-        <Image
-          src="/images/alipayhk-logo.svg"
-          alt=""
-          width={20}
-          height={20}
-          className="h-[1.125rem] w-[1.125rem] rounded-[3px]"
-          unoptimized
-        />
-      </PaymentBadge>
-      <PaymentBadge label="Visa">
-        <VisaLogo className="!h-3.5" />
-      </PaymentBadge>
-      <PaymentBadge label="Mastercard">
-        <MastercardLogo className="!h-3.5" />
-      </PaymentBadge>
+    <ul className="mt-1 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-2 sm:mt-0 sm:w-auto sm:justify-end sm:gap-x-3.5 sm:gap-y-2.5">
+      {FOOTER_PAYMENT_LOGOS.map((logo) => (
+        <li
+          key={logo.alt}
+          className="flex h-6 items-center justify-center sm:h-7"
+        >
+          <Image
+            src={logo.src}
+            alt={logo.alt}
+            width={logo.width}
+            height={logo.height}
+            className={`max-h-full object-contain ${logo.className}`}
+            unoptimized
+          />
+        </li>
+      ))}
     </ul>
   );
 }
@@ -223,7 +221,7 @@ export function Footer() {
             className="w-full max-w-full sm:w-auto"
             aria-label={t("footerPayments")}
           >
-            <PaymentBadges />
+            <PaymentMarks />
           </div>
         </div>
       </div>
