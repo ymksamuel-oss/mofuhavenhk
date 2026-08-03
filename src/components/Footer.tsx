@@ -89,7 +89,7 @@ function PaymentMarks() {
   return (
     <ul className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 opacity-90 sm:justify-end sm:gap-x-3">
       <li>
-        <ApplePayLogo className="!h-6 !w-[3.25rem] [&_img]:h-5" />
+        <ApplePayLogo className="!h-6 !w-[3.25rem] [&_img]:!h-5" />
       </li>
       <li>
         <WeChatPayLogo className="!h-6 !w-6 !rounded-md" />
