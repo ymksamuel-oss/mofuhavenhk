@@ -278,6 +278,8 @@ function CheckoutContent() {
           orderNumber: number,
           customerName: "FPS 顧客",
           paymentLabel: t("payFps"),
+          // Server recalculates from catalog lines (subtotal + shipping).
+          items: items.map((item) => ({ id: item.id, qty: item.qty })),
           total: amountHkd,
           currency: t("currency"),
         }),

@@ -62,10 +62,13 @@ function FpsBankMenu({
   amountHkd: number;
   onCancel: () => void;
 }) {
+  const [phoneOpen, setPhoneOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [phoneCopied, setPhoneCopied] = useState(false);
 
   const phoneDisplay = formatFpsDisplayId(); // e.g. 9864 6585
+  const phoneDigits = fpsLocalDigits();
   const amountPlain = amountHkd.toFixed(2); // e.g. 439.00
 
   useEffect(() => {
@@ -75,15 +78,29 @@ function FpsBankMenu({
   }, [toast]);
 
   const handleCopyPhone = async () => {
-    // Prefer spaced display form; fall back to digits-only.
+    // Prefer digits-only for bank-app paste; fall back to spaced display.
     const ok =
-      (await copyText(phoneDisplay)) || (await copyText(fpsLocalDigits()));
-    if (ok) setToast("已複製電話");
+      (await copyText(phoneDigits)) || (await copyText(phoneDisplay));
+    if (ok) {
+      setPhoneCopied(true);
+      setToast("已複製電話");
+      window.setTimeout(() => setPhoneCopied(false), 2200);
+    }
   };
 
   const handleCopyAmount = async () => {
     const ok = await copyText(amountPlain);
     if (ok) setToast("已複製金額");
+  };
+
+  const togglePhone = () => {
+    setPhoneOpen((open) => !open);
+    setQrOpen(false);
+  };
+
+  const toggleQr = () => {
+    setQrOpen((open) => !open);
+    setPhoneOpen(false);
   };
 
   return (
@@ -103,7 +120,8 @@ function FpsBankMenu({
         <li>
           <button
             type="button"
-            onClick={() => void handleCopyPhone()}
+            onClick={togglePhone}
+            aria-expanded={phoneOpen}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -136,10 +154,44 @@ function FpsBankMenu({
                 {phoneDisplay}
               </span>
             </span>
-            <span className="text-[color:var(--muted)]" aria-hidden="true">
+            <span
+              className={`text-[color:var(--muted)] transition-transform ${
+                phoneOpen ? "rotate-90" : ""
+              }`}
+              aria-hidden="true"
+            >
               ›
             </span>
           </button>
+
+          {phoneOpen ? (
+            <div className="space-y-3 bg-white px-4 pb-4 pt-1">
+              <div className="rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/35 px-4 py-3">
+                <p className="text-xs text-[color:var(--muted)]">
+                  收款電話／轉數快識別碼
+                </p>
+                <p className="mt-1 text-2xl font-semibold tracking-wide tabular-nums text-[color:var(--ink)]">
+                  {phoneDisplay}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => void handleCopyPhone()}
+                className={`flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition active:scale-[0.99] ${
+                  phoneCopied
+                    ? "bg-emerald-100 text-emerald-800"
+                    : "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
+                }`}
+              >
+                {phoneCopied ? "已複製" : "一鍵複製"}
+              </button>
+
+              <p className="text-center text-xs leading-relaxed text-[color:var(--muted)]">
+                複製號碼後，請前往您的銀行 App 完成轉賬，然後點擊下方按鈕確認訂單
+              </p>
+            </div>
+          ) : null}
         </li>
 
         <li>
@@ -167,7 +219,7 @@ function FpsBankMenu({
                 轉帳金額快速複製
               </span>
               <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
-                HK${amountPlain}
+                HK$ {amountPlain}
               </span>
             </span>
             <span className="text-[color:var(--muted)]" aria-hidden="true">
@@ -179,7 +231,7 @@ function FpsBankMenu({
         <li>
           <button
             type="button"
-            onClick={() => setQrOpen((open) => !open)}
+            onClick={toggleQr}
             aria-expanded={qrOpen}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >

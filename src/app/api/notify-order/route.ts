@@ -5,6 +5,11 @@ import {
   isNotifyConfigured,
   sendWhatsAppNotification,
 } from "@/lib/notifyWhatsapp";
+import {
+  buildOrderItemsFromLines,
+  calcSubtotal,
+  SHIPPING,
+} from "@/lib/order";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,10 +20,29 @@ type NotifyOrderRequestBody = {
   paymentLabel?: unknown;
   total?: unknown;
   currency?: unknown;
+  /** Optional cart lines — when present, total is recalculated server-side. */
+  items?: unknown;
 };
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function parseOrderLines(
+  raw: unknown,
+): Array<{ id: string; qty: number }> | null {
+  if (!Array.isArray(raw) || raw.length === 0) return null;
+  const lines: Array<{ id: string; qty: number }> = [];
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object") continue;
+    const id = (entry as { id?: unknown }).id;
+    const qty = (entry as { qty?: unknown }).qty;
+    if (typeof id !== "string" || !id.trim()) continue;
+    const n = typeof qty === "number" ? qty : Number(qty);
+    if (!Number.isFinite(n)) continue;
+    lines.push({ id: id.trim(), qty: n });
+  }
+  return lines.length > 0 ? lines : null;
 }
 
 /**
@@ -43,8 +67,8 @@ export async function GET() {
  * shop-owner WhatsApp template and sends it **server-side** to @MofuHavenHK
  * via CallMeBot (`WHATSAPP_PHONE` + `WHATSAPP_API_KEY`).
  *
- * This route never returns a wa.me URL and never asks the customer to
- * manually send the shop notification.
+ * Prefer sending `items` so the payable total is recomputed from the catalog
+ * (subtotal + shipping) and cannot drift from a stale/hardcoded client value.
  */
 export async function POST(request: Request) {
   let body: NotifyOrderRequestBody;
@@ -58,14 +82,24 @@ export async function POST(request: Request) {
   }
 
   const { orderNumber, customerName, paymentLabel, total, currency } = body;
+  const lines = parseOrderLines(body.items);
+
+  let resolvedTotal: number | null = null;
+  if (lines) {
+    const items = buildOrderItemsFromLines(lines);
+    if (items.length > 0) {
+      resolvedTotal = calcSubtotal(items) + SHIPPING;
+    }
+  } else if (typeof total === "number" && Number.isFinite(total) && total > 0) {
+    resolvedTotal = total;
+  }
 
   if (
     !isNonEmptyString(orderNumber) ||
     !isNonEmptyString(customerName) ||
     !isNonEmptyString(paymentLabel) ||
-    typeof total !== "number" ||
-    !Number.isFinite(total) ||
-    total <= 0
+    resolvedTotal === null ||
+    resolvedTotal <= 0
   ) {
     return NextResponse.json(
       { ok: false, error: "invalid_input" },
@@ -91,7 +125,7 @@ export async function POST(request: Request) {
     orderNumber: orderNumber.trim().slice(0, 60),
     customerName: customerName.trim().slice(0, 100),
     paymentLabel: paymentLabel.trim().slice(0, 100),
-    total,
+    total: resolvedTotal,
     currency: isNonEmptyString(currency) ? currency.trim() : "HK$",
   });
 
@@ -108,5 +142,6 @@ export async function POST(request: Request) {
     ok: true,
     provider: result.provider,
     delivered: true,
+    total: resolvedTotal,
   });
 }

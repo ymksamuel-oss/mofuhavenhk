@@ -267,5 +267,7 @@ export function formatMoney(amount: number, locale: Locale): string {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-  return `${currency}${formatted}`;
+  // Keep a space after HK$ so WhatsApp/CallMeBot gateways do not mangle
+  // `$` + digits (e.g. HK$329 → HK29).
+  return `${currency} ${formatted}`;
 }
