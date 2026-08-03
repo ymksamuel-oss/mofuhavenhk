@@ -13,9 +13,17 @@ export const FPS_ID = (
   "85298646585"
 ).replace(/\D/g, "");
 
-/** Public path for the FPS QR image (replace file when shop provides one). */
-export const FPS_QR_SRC =
-  process.env.NEXT_PUBLIC_FPS_QR_SRC?.trim() || "/fps-qr.svg";
+/**
+ * Pure white FPS QR (QR modules only — no bank branding / payee text).
+ * Hardcoded so stale Vercel env cannot override with an old asset.
+ */
+export const FPS_QR_SRC = "/images/fps-qr-code.png";
+
+/** Local HK mobile digits (no country code) for bank-app paste. */
+export function fpsLocalDigits(digits: string = FPS_ID): string {
+  const local = digits.startsWith("852") ? digits.slice(3) : digits;
+  return local || digits;
+}
 
 /**
  * Optional merchant / bank-provided deep link for App-to-App / Web-to-App FPS.
@@ -27,7 +35,7 @@ export const FPS_DEEP_LINK =
 
 /** Format HK mobile for display, e.g. 9864 6585 */
 export function formatFpsDisplayId(digits: string = FPS_ID): string {
-  const local = digits.startsWith("852") ? digits.slice(3) : digits;
+  const local = fpsLocalDigits(digits);
   if (local.length === 8) {
     return `${local.slice(0, 4)} ${local.slice(4)}`;
   }

@@ -10,7 +10,7 @@ type FpsPaymentPanelProps = {
 
 /**
  * FPS confirm CTA for the checkout order column.
- * Receiving details / QR live under PaymentMethods (FpsDetails).
+ * Receiving details / QR live under PaymentMethods (FpsBankMenu).
  */
 export function FpsPaymentPanel({
   onConfirm,
@@ -21,16 +21,6 @@ export function FpsPaymentPanel({
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element -- local official FPS mark asset */}
-        <img
-          src="/fps-logo.svg"
-          alt="Faster Payment System (FPS) 轉數快 Logo"
-          className="h-12 w-auto"
-          decoding="async"
-        />
-      </div>
-
       {!confirmed ? (
         <button
           type="button"
