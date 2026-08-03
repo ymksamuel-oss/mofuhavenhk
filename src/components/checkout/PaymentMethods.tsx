@@ -14,9 +14,10 @@ export type PaymentMethodDef = {
   Icon?: typeof CardLogo;
 };
 
+/** Mobile-first order: wallets first for one-tap pay, then card, then FPS. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
-  { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "fps", labelKey: "payFps" },
 ];
 

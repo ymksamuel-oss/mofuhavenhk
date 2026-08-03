@@ -105,7 +105,7 @@ function CheckoutPayForm({
   const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
     null,
   );
-  const [applePayAvailable, setApplePayAvailable] = useState(false);
+  const [walletAvailable, setWalletAvailable] = useState(false);
 
   useEffect(() => {
     if (!stripe || amountHkd <= 0) return;
@@ -118,17 +118,20 @@ function CheckoutPayForm({
         amount: Math.round(amountHkd * 100),
       },
       requestPayerName: true,
+      requestPayerPhone: true,
     });
 
     let cancelled = false;
     pr.canMakePayment().then((result) => {
       if (cancelled) return;
       if (result) {
-        setPaymentRequest(pr);
-        setApplePayAvailable(Boolean(result.applePay));
+        // Apple Pay and/or Google Pay via the same Payment Request Button.
+        const canWallet = Boolean(result.applePay || result.googlePay);
+        setPaymentRequest(canWallet ? pr : null);
+        setWalletAvailable(canWallet);
       } else {
         setPaymentRequest(null);
-        setApplePayAvailable(false);
+        setWalletAvailable(false);
       }
     });
 
@@ -277,14 +280,14 @@ function CheckoutPayForm({
     setSubmitting(false);
   };
 
-  const showApplePayFirst = preferredMethod === "applepay" && applePayAvailable;
+  const showWalletFirst = preferredMethod === "applepay" && walletAvailable;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {showApplePayFirst && paymentRequest ? (
+    <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
+      {showWalletFirst && paymentRequest ? (
         <div className="space-y-2">
           <p className="text-sm font-medium text-[color:var(--ink)]">
-            {t("payApplePay")}
+            {t("stripeWalletPay")}
           </p>
           <PaymentRequestButtonElement
             options={{
@@ -293,7 +296,7 @@ function CheckoutPayForm({
                 paymentRequestButton: {
                   type: "buy",
                   theme: "dark",
-                  height: "48px",
+                  height: "52px",
                 },
               },
             }}
@@ -356,7 +359,7 @@ function CheckoutPayForm({
         </div>
       </div>
 
-      {!showApplePayFirst && paymentRequest && applePayAvailable ? (
+      {!showWalletFirst && paymentRequest && walletAvailable ? (
         <div className="space-y-2">
           <p className="text-center text-xs text-[color:var(--muted)]">
             {t("stripeOrApplePay")}
@@ -368,7 +371,7 @@ function CheckoutPayForm({
                 paymentRequestButton: {
                   type: "buy",
                   theme: "dark",
-                  height: "44px",
+                  height: "48px",
                 },
               },
             }}
