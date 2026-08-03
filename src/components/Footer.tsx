@@ -1,15 +1,10 @@
 "use client";
 
+import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import {
-  AlipayHkLogo,
-  ApplePayLogo,
-  MastercardLogo,
-  VisaLogo,
-  WeChatPayLogo,
-  WhatsAppLogo,
-} from "@/components/icons/PaymentIcons";
+import { MastercardLogo, VisaLogo, WhatsAppLogo } from "@/components/icons/PaymentIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
@@ -85,24 +80,68 @@ function FooterNavColumn({
   );
 }
 
-function PaymentMarks() {
+/**
+ * Compact white-chip payment badges for the footer bottom bar.
+ * Equal height chips, centered wrap on small screens.
+ */
+function PaymentBadge({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
   return (
-    <ul className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 opacity-90 sm:justify-end sm:gap-x-3">
-      <li>
-        <ApplePayLogo className="!h-6 !w-[3.25rem] [&_img]:h-5" />
-      </li>
-      <li>
-        <WeChatPayLogo className="!h-6 !w-6 !rounded-md" />
-      </li>
-      <li>
-        <AlipayHkLogo className="!h-6 !w-6 !rounded-md" />
-      </li>
-      <li>
-        <VisaLogo className="!h-5" />
-      </li>
-      <li>
-        <MastercardLogo className="!h-5" />
-      </li>
+    <li
+      className="inline-flex h-8 items-center justify-center rounded-md border border-neutral-200/60 bg-white px-2.5 shadow-[0_1px_2px_rgba(74,54,38,0.06)]"
+      aria-label={label}
+    >
+      <span className="flex max-h-5 items-center justify-center">
+        {children}
+      </span>
+    </li>
+  );
+}
+
+function PaymentBadges() {
+  return (
+    <ul className="mt-1 flex flex-wrap items-center justify-center gap-2 sm:mt-0 sm:justify-end">
+      <PaymentBadge label="Apple Pay">
+        <Image
+          src="/images/apple-pay-logo.svg"
+          alt=""
+          width={52}
+          height={20}
+          className="h-4 w-auto"
+          unoptimized
+        />
+      </PaymentBadge>
+      <PaymentBadge label="WeChat Pay">
+        <Image
+          src="/images/wechat-pay-logo.svg"
+          alt=""
+          width={20}
+          height={20}
+          className="h-[1.125rem] w-[1.125rem] rounded-[3px]"
+          unoptimized
+        />
+      </PaymentBadge>
+      <PaymentBadge label="AlipayHK">
+        <Image
+          src="/images/alipayhk-logo.svg"
+          alt=""
+          width={20}
+          height={20}
+          className="h-[1.125rem] w-[1.125rem] rounded-[3px]"
+          unoptimized
+        />
+      </PaymentBadge>
+      <PaymentBadge label="Visa">
+        <VisaLogo className="!h-3.5" />
+      </PaymentBadge>
+      <PaymentBadge label="Mastercard">
+        <MastercardLogo className="!h-3.5" />
+      </PaymentBadge>
     </ul>
   );
 }
@@ -180,8 +219,11 @@ export function Footer() {
           <p className="text-center text-xs tracking-[0.01em] text-[color:var(--muted)] sm:text-left">
             {t("footerCopyright")}
           </p>
-          <div aria-label={t("footerPayments")}>
-            <PaymentMarks />
+          <div
+            className="w-full max-w-full sm:w-auto"
+            aria-label={t("footerPayments")}
+          >
+            <PaymentBadges />
           </div>
         </div>
       </div>
