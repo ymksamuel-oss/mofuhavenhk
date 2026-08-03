@@ -173,7 +173,7 @@ export const translations = {
     fpsPanelTitle: "FPS payment details",
     fpsPanelHint: "Scan the QR or enter the details below in your banking app.",
     fpsMenuTitle: "Select a payee category to continue",
-    fpsMenuHint: "Bank-app style: tap to copy or expand.",
+    fpsMenuHint: "Tap an option to copy details or expand the QR code.",
     fpsOptionProxy: "Mobile number / email / FPS ID",
     fpsOptionAmount: "Transfer amount (tap to copy)",
     fpsOptionQr: "FPS QR code",
