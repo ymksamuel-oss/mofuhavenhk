@@ -213,18 +213,17 @@ function FpsBankMenu({
           </button>
 
           {qrOpen ? (
-            <div className="border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
-              <div className="mx-auto flex h-48 w-48 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)]">
-                {/* eslint-disable-next-line @next/next/no-img-element -- local FPS QR asset */}
+            <div className="border-t border-[color:var(--line)] bg-white px-4 py-4">
+              <div className="mx-auto h-52 w-52 overflow-hidden bg-white">
+                {/* eslint-disable-next-line @next/next/no-img-element -- pure FPS QR asset (no payee text) */}
                 <img
                   src={FPS_QR_SRC}
                   alt="轉數快 QR Code"
+                  width={208}
+                  height={208}
                   className="h-full w-full object-contain"
                 />
               </div>
-              <p className="mt-2 text-center text-[11px] text-[color:var(--muted)]">
-                請用銀行 App 掃描上方 QR Code 完成轉帳
-              </p>
             </div>
           ) : null}
         </li>
