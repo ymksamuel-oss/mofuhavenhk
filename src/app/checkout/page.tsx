@@ -2,7 +2,6 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { FpsPaymentPanel } from "@/components/checkout/FpsPaymentPanel";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -12,8 +11,6 @@ import {
 import {
   EMPTY_SHIPPING_CONTACT,
   formatPhoneForDisplay,
-  getPhoneValidationError,
-  isShippingContactComplete,
   ShippingContactForm,
   type ShippingContact,
 } from "@/components/checkout/ShippingContactForm";
@@ -31,11 +28,7 @@ import {
   type OrderItem,
 } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
-import {
-  buildFpsOrderMessage,
-  buildOrderMessage,
-  openWhatsAppOrder,
-} from "@/lib/whatsapp";
+import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
 type PayPhase =
   | "idle"
@@ -45,8 +38,7 @@ type PayPhase =
   | "paid"
   | "paid_notify_failed"
   | "stripe_missing"
-  | "error"
-  | "fps_done";
+  | "error";
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
@@ -72,14 +64,11 @@ function CheckoutContent() {
   const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
     null,
   );
-  const [fpsConfirming, setFpsConfirming] = useState(false);
   const [shippingContact, setShippingContact] = useState<ShippingContact>(
     EMPTY_SHIPPING_CONTACT,
   );
-  const [shippingErrorsVisible, setShippingErrorsVisible] = useState(false);
   const preparingRef = useRef(false);
 
-  const isFps = selectedMethod === "fps";
   const liveTotalHkd = amountHkd;
 
   const contactForMessage = useMemo(
@@ -93,8 +82,6 @@ function CheckoutContent() {
     }),
     [shippingContact],
   );
-
-  const hasRequiredContact = isShippingContactComplete(shippingContact);
 
   // Prefer the shared shopping basket once localStorage cart is ready.
   useEffect(() => {
@@ -114,7 +101,6 @@ function CheckoutContent() {
     setPhase((current) =>
       current === "stripe_missing" ? current : "idle",
     );
-    setFpsConfirming(false);
   }, [category, cart.ready, cart.lines.length]);
 
   useEffect(() => {
@@ -146,12 +132,11 @@ function CheckoutContent() {
     };
   }, []);
 
-  // Switching payment method clears Stripe intent / FPS success state.
+  // Switching payment method clears Stripe intent / success state.
   const handleSelectMethod = (id: MethodId) => {
     setSelectedMethod(id);
     setClientSecret(null);
     setPayError("");
-    setFpsConfirming(false);
     if (phase !== "stripe_missing") {
       setPhase("idle");
     }
@@ -160,8 +145,7 @@ function CheckoutContent() {
   const handleQtyChange = (id: string, qty: number) => {
     if (
       phase === "paid" ||
-      phase === "paid_notify_failed" ||
-      phase === "fps_done"
+      phase === "paid_notify_failed"
     ) {
       return;
     }
@@ -183,8 +167,7 @@ function CheckoutContent() {
   const handleRemoveItem = (id: string) => {
     if (
       phase === "paid" ||
-      phase === "paid_notify_failed" ||
-      phase === "fps_done"
+      phase === "paid_notify_failed"
     ) {
       return;
     }
@@ -202,24 +185,15 @@ function CheckoutContent() {
     const paymentLabelKey = PAYMENT_METHODS.find(
       (method) => method.id === selectedMethod,
     )?.labelKey;
-    const message = isFps
-      ? buildFpsOrderMessage({
-          items,
-          orderNumber: number,
-          locale,
-          t,
-          contact: contactForMessage,
-          totalHkd: liveTotalHkd,
-        })
-      : buildOrderMessage({
-          items,
-          orderNumber: number,
-          locale,
-          t,
-          paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
-          contact: contactForMessage,
-          totalHkd: liveTotalHkd,
-        });
+    const message = buildOrderMessage({
+      items,
+      orderNumber: number,
+      locale,
+      t,
+      paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
+      contact: contactForMessage,
+      totalHkd: liveTotalHkd,
+    });
     const opened = openWhatsAppOrder(message);
     setManualWaError(!opened);
   };
@@ -326,79 +300,14 @@ function CheckoutContent() {
     }
   };
 
-  /**
-   * FPS path: notify shop server-side (CallMeBot) + open customer WhatsApp
-   * with structured order details and screenshot instructions.
-   */
-  const handleFpsConfirm = async () => {
-    if (fpsConfirming || phase === "fps_done") return;
-
-    if (!hasRequiredContact) {
-      setShippingErrorsVisible(true);
-      const phoneErr = getPhoneValidationError(
-        shippingContact.phone,
-        shippingContact.phoneCountryCode,
-        locale,
-      );
-      setPayError(phoneErr || t("shippingContactRequired"));
-      return;
-    }
-    if (items.length === 0) {
-      setPayError(t("stripePayFailed"));
-      return;
-    }
-
-    setFpsConfirming(true);
-    setPayError("");
-
-    const number = orderNumber ?? generateOrderNumber();
-    setOrderNumber(number);
-    // Always recompute from live cart — never a hardcoded total.
-    const confirmTotal = calcSubtotal(items) + SHIPPING;
-
-    try {
-      await fetch("/api/notify-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderNumber: number,
-          customerName: contactForMessage.name || "FPS 顧客",
-          paymentLabel: t("payFps"),
-          items: items.map((item) => ({ id: item.id, qty: item.qty })),
-          total: confirmTotal,
-          currency: t("currency"),
-        }),
-      });
-    } catch {
-      // Still open WhatsApp so the customer can message the shop.
-    }
-
-    const message = buildFpsOrderMessage({
-      items,
-      orderNumber: number,
-      locale,
-      t,
-      contact: contactForMessage,
-      totalHkd: confirmTotal,
-      orderedAt: new Date(),
-    });
-    const opened = openWhatsAppOrder(message);
-    setManualWaError(!opened);
-    setPhase(opened ? "fps_done" : "error");
-    if (!opened) setPayError(t("whatsappNumberMissing"));
-    setFpsConfirming(false);
-  };
-
   const showStripeForm =
-    !isFps &&
     Boolean(clientSecret && publishableKey) &&
     (phase === "ready" || phase === "completing" || phase === "error");
 
   const qtyLocked =
     phase === "paid" ||
     phase === "paid_notify_failed" ||
-    phase === "completing" ||
-    phase === "fps_done";
+    phase === "completing";
 
   return (
     <div className="mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
@@ -418,14 +327,12 @@ function CheckoutContent() {
           <PaymentMethods
             selected={selectedMethod}
             onSelect={handleSelectMethod}
-            amountHkd={amountHkd}
           />
           <div className="milk-tea-card max-w-full p-5 sm:p-6">
             <ShippingContactForm
               value={shippingContact}
               onChange={setShippingContact}
               disabled={qtyLocked}
-              showErrors={shippingErrorsVisible}
             />
           </div>
         </div>
@@ -437,66 +344,56 @@ function CheckoutContent() {
             qtyDisabled={qtyLocked}
           />
 
-          {isFps ? (
-            <FpsPaymentPanel
-              onConfirm={() => void handleFpsConfirm()}
-              confirming={fpsConfirming}
-              confirmed={phase === "fps_done"}
+          {phase === "stripe_missing" ? (
+            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+              {t("stripeNotConfigured")}
+            </p>
+          ) : null}
+
+          {phase === "preparing" ? (
+            <p className="text-center text-sm text-[color:var(--muted)]">
+              {t("stripePreparing")}
+            </p>
+          ) : null}
+
+          {!showStripeForm &&
+          phase !== "paid" &&
+          phase !== "paid_notify_failed" &&
+          phase !== "stripe_missing" &&
+          phase !== "preparing" ? (
+            <button
+              type="button"
+              onClick={() => void startStripePayment()}
+              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
+            >
+              {t("stripeStartPay")}
+            </button>
+          ) : null}
+
+          {showStripeForm &&
+          clientSecret &&
+          publishableKey &&
+          (selectedMethod === "card" || selectedMethod === "applepay") ? (
+            <StripePaymentForm
+              clientSecret={clientSecret}
+              publishableKey={publishableKey}
+              preferredMethod={selectedMethod}
+              amountHkd={amountHkd}
+              onPaid={handlePaid}
+              onError={handlePayError}
             />
-          ) : (
-            <>
-              {phase === "stripe_missing" ? (
-                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-                  {t("stripeNotConfigured")}
-                </p>
-              ) : null}
+          ) : null}
 
-              {phase === "preparing" ? (
-                <p className="text-center text-sm text-[color:var(--muted)]">
-                  {t("stripePreparing")}
-                </p>
-              ) : null}
-
-              {!showStripeForm &&
-              phase !== "paid" &&
-              phase !== "paid_notify_failed" &&
-              phase !== "stripe_missing" &&
-              phase !== "preparing" ? (
-                <button
-                  type="button"
-                  onClick={() => void startStripePayment()}
-                  className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
-                >
-                  {t("stripeStartPay")}
-                </button>
-              ) : null}
-
-              {showStripeForm &&
-              clientSecret &&
-              publishableKey &&
-              (selectedMethod === "card" || selectedMethod === "applepay") ? (
-                <StripePaymentForm
-                  clientSecret={clientSecret}
-                  publishableKey={publishableKey}
-                  preferredMethod={selectedMethod}
-                  amountHkd={amountHkd}
-                  onPaid={handlePaid}
-                  onError={handlePayError}
-                />
-              ) : null}
-
-              {phase === "paid" ? (
-                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-                  {t("stripePaidSuccess")}
-                </p>
-              ) : null}
-              {phase === "paid_notify_failed" ? (
-                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-                  {t("stripePaidNotifyFailed")}
-                </p>
-              ) : null}
-            </>
-          )}
+          {phase === "paid" ? (
+            <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+              {t("stripePaidSuccess")}
+            </p>
+          ) : null}
+          {phase === "paid_notify_failed" ? (
+            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+              {t("stripePaidNotifyFailed")}
+            </p>
+          ) : null}
 
           {payError ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
@@ -504,16 +401,12 @@ function CheckoutContent() {
             </p>
           ) : null}
 
-          {!isFps ? (
-            <>
-              <p className="text-center text-xs text-[color:var(--muted)]">
-                {t("secureNote")}
-              </p>
-              <p className="text-center text-[11px] text-[color:var(--muted)]">
-                {t("orderNotifyServerHint")}
-              </p>
-            </>
-          ) : null}
+          <p className="text-center text-xs text-[color:var(--muted)]">
+            {t("secureNote")}
+          </p>
+          <p className="text-center text-[11px] text-[color:var(--muted)]">
+            {t("orderNotifyServerHint")}
+          </p>
         </div>
       </div>
 
