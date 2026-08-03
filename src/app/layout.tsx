@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_TC, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/PageTransition";
@@ -23,6 +23,12 @@ const notoSansTc = Noto_Sans_TC({
 export const metadata: Metadata = {
   title: "Mofu Haven HK",
   description: "Japan's finest pet supplies, delivered to Hong Kong",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type ContinueShoppingButtonProps = {
@@ -11,15 +12,18 @@ type ContinueShoppingButtonProps = {
 
 /**
  * Returns shoppers to the product catalog from cart / checkout.
+ * Uses a real <Link> (always navigates) plus an explicit router.push
+ * so the control never becomes a dead touch target.
  */
 export function ContinueShoppingButton({
   className = "",
   variant = "primary",
 }: ContinueShoppingButtonProps) {
   const { t } = useI18n();
+  const router = useRouter();
 
   const base =
-    "inline-flex w-full max-w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-center text-sm font-semibold transition active:scale-[0.99] sm:w-auto";
+    "relative z-20 inline-flex min-h-11 w-full max-w-full touch-manipulation items-center justify-center gap-2 rounded-2xl px-4 py-3.5 text-center text-sm font-semibold transition active:scale-[0.99] sm:w-auto";
 
   const styles =
     variant === "primary"
@@ -27,10 +31,22 @@ export function ContinueShoppingButton({
       : "border border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--ink)] shadow-[0_10px_24px_-16px_rgba(169,124,80,0.7)] hover:border-[color:var(--hero-deep)] hover:bg-[color:var(--accent)] hover:text-white";
 
   return (
-    <Link href="/menu" className={`${base} ${styles} ${className}`}>
+    <Link
+      href="/menu"
+      className={`${base} ${styles} ${className}`}
+      onClick={(event) => {
+        // Ensure navigation even if a parent handler interferes.
+        event.stopPropagation();
+        // Prefer client navigation; Link href remains the hard fallback.
+        if (typeof window !== "undefined") {
+          event.preventDefault();
+          router.push("/menu");
+        }
+      }}
+    >
       <svg
         viewBox="0 0 24 24"
-        className="h-5 w-5 shrink-0"
+        className="pointer-events-none h-5 w-5 shrink-0"
         fill="none"
         aria-hidden="true"
       >
@@ -42,7 +58,7 @@ export function ContinueShoppingButton({
           strokeLinejoin="round"
         />
       </svg>
-      <span>{t("navContinueShopping")}</span>
+      <span className="pointer-events-none">{t("navContinueShopping")}</span>
     </Link>
   );
 }

@@ -29,7 +29,12 @@ function runExitThen(navigate: () => void) {
   root.classList.add("page-transition--exit");
 
   window.setTimeout(() => {
-    navigate();
+    try {
+      navigate();
+    } finally {
+      // New page remounts the node; still clear class for safety.
+      root.classList.remove("page-transition--exit");
+    }
   }, EXIT_MS);
 }
 

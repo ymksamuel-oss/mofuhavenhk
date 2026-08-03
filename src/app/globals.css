@@ -30,14 +30,22 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   max-width: 100%;
   overflow-x: hidden;
+  /* Keep content clear of iOS Safari / Chrome bottom toolbars */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background:
     radial-gradient(1200px 500px at 10% -10%, #f3e2c4 0%, transparent 55%),
     radial-gradient(900px 420px at 90% 0%, #f8ead1 0%, transparent 50%),
     linear-gradient(180deg, #f8f0e2 0%, #fdf8ef 45%, #f8f0e2 100%);
   color: var(--ink);
   font-family: var(--font-body), "Noto Sans TC", sans-serif;
+}
+
+/* Extra breathing room above the mobile browser chrome */
+.site-bottom-pad {
+  padding-bottom: max(1.75rem, calc(env(safe-area-inset-bottom, 0px) + 1.25rem));
 }
 
 ::selection {
