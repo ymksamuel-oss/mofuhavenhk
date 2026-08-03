@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
-import { FPS_QR_SRC, formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
+import { FpsQrExpandPanel } from "@/components/checkout/FpsQrExpandPanel";
+import { formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
 
 export type MethodId = "card" | "applepay" | "fps";
 
@@ -212,28 +213,7 @@ function FpsBankMenu({
             </span>
           </button>
 
-          {qrOpen ? (
-            <div
-              className="bg-white px-4 py-5"
-              style={{ backgroundColor: "#ffffff" }}
-              data-fps-qr-panel="plain-white"
-            >
-              <div className="mx-auto flex w-full max-w-[16rem] flex-col items-center gap-4 bg-white">
-                {/* eslint-disable-next-line @next/next/no-img-element -- plain white FPS QR only */}
-                <img
-                  src={`${FPS_QR_SRC}?v=20260803g`}
-                  alt="轉數快 QR Code"
-                  width={625}
-                  height={625}
-                  className="block h-auto w-full bg-white object-contain"
-                  style={{ backgroundColor: "#ffffff" }}
-                />
-                <p className="w-full text-center text-sm font-medium text-neutral-800">
-                  掃描QR code即可付款
-                </p>
-              </div>
-            </div>
-          ) : null}
+          {qrOpen ? <FpsQrExpandPanel /> : null}
         </li>
       </ul>
 
