@@ -28,6 +28,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f0e2" },
+    { media: "(prefers-color-scheme: dark)", color: "#f8f0e2" },
+  ],
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -36,16 +41,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-HK">
+    <html lang="zh-HK" className="bg-[color:var(--background)]">
       <body
-        className={`${outfit.variable} ${notoSansTc.variable} antialiased`}
+        className={`${outfit.variable} ${notoSansTc.variable} bg-[color:var(--background)] antialiased`}
       >
         <I18nProvider>
           <CartProvider>
             <WishlistProvider>
               <Header />
               <ShopFlowNav>
-                <main className="w-full max-w-full overflow-x-clip">
+                <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
                   {children}
                 </main>
               </ShopFlowNav>

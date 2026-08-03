@@ -53,7 +53,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   return (
     <>
       {!isHome ? (
-        <div className="relative z-20 border-b border-[color:var(--line)] bg-[color:var(--surface)]/70">
+        <div className="relative z-20 border-b border-[color:var(--line)] bg-[color:var(--background)]/95">
           <div className="mx-auto flex w-full max-w-5xl items-center px-3 py-2 sm:px-6">
             <Link
               href="/menu"

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* Warm milk-tea cream — solid base for overscroll / browser chrome */
   --background: #f8f0e2;
   --surface: #fffaf1;
   --ink: #4a3626;
@@ -26,6 +27,9 @@
 html {
   max-width: 100%;
   overflow-x: hidden;
+  /* Prevent pure-white flash when rubber-banding past the top on mobile */
+  background-color: var(--background);
+  color-scheme: light;
 }
 
 body {
@@ -35,10 +39,14 @@ body {
   overflow-x: hidden;
   /* Keep content clear of iOS Safari / Chrome bottom toolbars */
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background:
+  /* Solid cream first so overscroll / gaps never show white */
+  background-color: var(--background);
+  background-image:
     radial-gradient(1200px 500px at 10% -10%, #f3e2c4 0%, transparent 55%),
     radial-gradient(900px 420px at 90% 0%, #f8ead1 0%, transparent 50%),
     linear-gradient(180deg, #f8f0e2 0%, #fdf8ef 45%, #f8f0e2 100%);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: var(--ink);
   font-family: var(--font-body), "Noto Sans TC", sans-serif;
 }
