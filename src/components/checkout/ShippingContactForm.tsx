@@ -253,7 +253,7 @@ export function ShippingContactForm({
             {t("customerPhoneLabel")}
             <span className="text-[#8a3a2a]"> *</span>
           </span>
-          <div className="flex gap-2">
+          <div className="flex min-w-0 max-w-full gap-2">
             <label htmlFor="shipping-phone-country" className="sr-only">
               {t("phoneCountryLabel")}
             </label>
@@ -267,7 +267,7 @@ export function ShippingContactForm({
                   phoneCountryCode: event.target.value as PhoneCountryCode,
                 })
               }
-              className="w-[9.5rem] shrink-0 rounded-xl border border-[color:var(--line)] bg-white px-2.5 py-2.5 text-sm font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60"
+              className="w-[7.25rem] max-w-[42%] shrink-0 rounded-xl border border-[color:var(--line)] bg-white px-2 py-2.5 text-sm font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:w-[9.5rem] sm:max-w-none sm:px-2.5"
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>

@@ -23,8 +23,15 @@
   --font-display: var(--font-display);
 }
 
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
   background:
     radial-gradient(1200px 500px at 10% -10%, #f3e2c4 0%, transparent 55%),
     radial-gradient(900px 420px at 90% 0%, #f8ead1 0%, transparent 50%),

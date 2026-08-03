@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
+import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { WishlistProvider } from "@/lib/shop/wishlist";
@@ -37,7 +38,11 @@ export default function RootLayout({
           <CartProvider>
             <WishlistProvider>
               <Header />
-              <main>{children}</main>
+              <ShopFlowNav>
+                <main className="w-full max-w-full overflow-x-clip">
+                  {children}
+                </main>
+              </ShopFlowNav>
             </WishlistProvider>
           </CartProvider>
         </I18nProvider>

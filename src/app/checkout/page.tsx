@@ -401,7 +401,7 @@ function CheckoutContent() {
     phase === "fps_done";
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-8 max-w-2xl">
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
           {t("checkoutTitle")}
@@ -410,15 +410,15 @@ function CheckoutContent() {
         <SelectedCategoryNotice />
       </header>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+      <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         {/* Mobile-first: wallets / pay methods first for one-tap checkout */}
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <PaymentMethods
             selected={selectedMethod}
             onSelect={handleSelectMethod}
             amountHkd={amountHkd}
           />
-          <div className="milk-tea-card p-5 sm:p-6">
+          <div className="milk-tea-card max-w-full p-5 sm:p-6">
             <ShippingContactForm
               value={shippingContact}
               onChange={setShippingContact}
@@ -427,7 +427,7 @@ function CheckoutContent() {
             />
           </div>
         </div>
-        <div className="milk-tea-card space-y-6 p-5 sm:p-6">
+        <div className="milk-tea-card min-w-0 max-w-full space-y-6 p-5 sm:p-6">
           <OrderSummary
             items={items}
             onQtyChange={handleQtyChange}

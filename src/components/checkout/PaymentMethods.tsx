@@ -104,7 +104,7 @@ function FpsBankMenu({
 
   return (
     <div
-      className="relative rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
+      className="relative max-w-full overflow-x-clip rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
       data-fps-bank-menu="true"
       role="dialog"
       aria-label="請選擇收款人類別以繼續"
@@ -146,7 +146,7 @@ function FpsBankMenu({
               </svg>
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block text-sm font-medium text-[color:var(--ink)]">
+              <span className="block break-words text-sm font-medium text-[color:var(--ink)]">
                 手提電話號碼 / 電郵地址 / 轉數快識別碼
               </span>
               <span className="mt-0.5 block text-xs tabular-nums tracking-normal text-[color:var(--muted)]">
@@ -303,7 +303,7 @@ export function PaymentMethods({
   return (
     <section
       aria-labelledby="payment-title"
-      className="milk-tea-card space-y-4 p-5 sm:p-6"
+      className="milk-tea-card max-w-full space-y-4 overflow-x-clip p-5 sm:p-6"
     >
       <div>
         <h2
@@ -349,7 +349,7 @@ export function PaymentMethods({
                   ) : null}
                 </span>
 
-                <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
+                <span className="min-w-0 flex-1 break-words text-left text-sm font-medium text-[color:var(--ink)]">
                   {isFps ? "SC Pay 轉數快" : t(labelKey)}
                 </span>
 
