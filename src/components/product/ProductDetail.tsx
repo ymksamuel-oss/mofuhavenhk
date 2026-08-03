@@ -119,22 +119,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
-          <AddToCartButton productId={product.id} size="modal" />
-
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-            <CategoryNavLink
-              href={
-                category
-                  ? categoryHref(category.slug)
-                  : "/menu"
-              }
-              className="inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]"
-            >
-              {t("navContinueShopping")}
-            </CategoryNavLink>
+          <div className="space-y-3">
+            <AddToCartButton productId={product.id} size="modal" />
             <CategoryNavLink
               href="/checkout"
-              className="inline-flex min-h-11 flex-1 touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
+              className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
             >
               {t("menuAddToCheckout")}
             </CategoryNavLink>
