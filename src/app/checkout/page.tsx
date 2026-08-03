@@ -133,6 +133,23 @@ function CheckoutContent() {
     }
   };
 
+  /** Fully remove a line item from the order summary / cart. */
+  const handleRemoveItem = (id: string) => {
+    if (
+      phase === "paid" ||
+      phase === "paid_notify_failed" ||
+      phase === "fps_done"
+    ) {
+      return;
+    }
+    setItems((current) => current.filter((item) => item.id !== id));
+    if (clientSecret) {
+      setClientSecret(null);
+      setPhase("idle");
+      setPayError("");
+    }
+  };
+
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -332,6 +349,7 @@ function CheckoutContent() {
           <OrderSummary
             items={items}
             onQtyChange={handleQtyChange}
+            onRemoveItem={handleRemoveItem}
             qtyDisabled={qtyLocked}
           />
 
