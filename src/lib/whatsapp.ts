@@ -21,11 +21,13 @@ const WHATSAPP_NUMBER = (
 
 export type OrderContact = {
   name?: string;
+  /** Prefer formatted value including country code, e.g. "+852 91234567". */
   phone?: string;
   address?: string;
   addressLine2?: string;
+  district?: string;
   city?: string;
-  postalCode?: string;
+  sfStationCode?: string;
 };
 
 type BuildOrderMessageArgs = {
@@ -60,17 +62,20 @@ function formatContactBlock(
   const phone = contact.phone?.trim();
   const line1 = contact.address?.trim();
   const line2 = contact.addressLine2?.trim();
-  const city = contact.city?.trim();
-  const postal = contact.postalCode?.trim();
-  const addressParts = [line1, line2, city, postal].filter(Boolean);
+  const district = (contact.district || contact.city)?.trim();
+  const sfCode = contact.sfStationCode?.trim();
+  const addressParts = [district, line1, line2].filter(Boolean);
 
-  if (!name && !phone && addressParts.length === 0) return [];
+  if (!name && !phone && addressParts.length === 0 && !sfCode) return [];
 
   const lines = ["", `【${t("whatsappContactHeading")}】`];
   if (name) lines.push(`${t("customerNameLabel")}：${name}`);
   if (phone) lines.push(`${t("customerPhoneLabel")}：${phone}`);
   if (addressParts.length > 0) {
     lines.push(`${t("shippingAddressLabel")}：${addressParts.join("，")}`);
+  }
+  if (sfCode) {
+    lines.push(`${t("sfStationLabel")}：${sfCode}`);
   }
   return lines;
 }

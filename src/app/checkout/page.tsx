@@ -12,6 +12,9 @@ import {
 import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
 import {
   EMPTY_SHIPPING_CONTACT,
+  formatPhoneForDisplay,
+  getPhoneValidationError,
+  isShippingContactComplete,
   ShippingContactForm,
   type ShippingContact,
 } from "@/components/checkout/ShippingContactForm";
@@ -68,6 +71,7 @@ function CheckoutContent() {
   const [shippingContact, setShippingContact] = useState<ShippingContact>(
     EMPTY_SHIPPING_CONTACT,
   );
+  const [shippingErrorsVisible, setShippingErrorsVisible] = useState(false);
   const preparingRef = useRef(false);
 
   const isFps = selectedMethod === "fps";
@@ -76,20 +80,16 @@ function CheckoutContent() {
   const contactForMessage = useMemo(
     () => ({
       name: shippingContact.name.trim(),
-      phone: shippingContact.phone.trim(),
+      phone: formatPhoneForDisplay(shippingContact),
       address: shippingContact.address.trim(),
       addressLine2: shippingContact.addressLine2.trim(),
-      city: shippingContact.city.trim(),
-      postalCode: shippingContact.postalCode.trim(),
+      district: shippingContact.district.trim(),
+      sfStationCode: shippingContact.sfStationCode.trim(),
     }),
     [shippingContact],
   );
 
-  const hasRequiredContact = Boolean(
-    contactForMessage.name &&
-      contactForMessage.phone &&
-      contactForMessage.address,
-  );
+  const hasRequiredContact = isShippingContactComplete(shippingContact);
 
   useEffect(() => {
     setItems(getOrderItems(category));
@@ -315,7 +315,13 @@ function CheckoutContent() {
     if (fpsConfirming || phase === "fps_done") return;
 
     if (!hasRequiredContact) {
-      setPayError(t("shippingContactRequired"));
+      setShippingErrorsVisible(true);
+      const phoneErr = getPhoneValidationError(
+        shippingContact.phone,
+        shippingContact.phoneCountryCode,
+        locale,
+      );
+      setPayError(phoneErr || t("shippingContactRequired"));
       return;
     }
     if (items.length === 0) {
@@ -398,6 +404,7 @@ function CheckoutContent() {
               value={shippingContact}
               onChange={setShippingContact}
               disabled={qtyLocked}
+              showErrors={shippingErrorsVisible}
             />
           </div>
         </div>
