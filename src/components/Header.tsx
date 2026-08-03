@@ -101,7 +101,11 @@ export function Header() {
 
   const navItems = [
     { href: "/", label: t("navHome"), active: pathname === "/" },
-    { href: "/menu", label: t("navMenu"), active: pathname === "/menu" },
+    {
+      href: "/menu",
+      label: t("navMenu"),
+      active: pathname === "/menu" || pathname.startsWith("/categories"),
+    },
     {
       href: "/checkout",
       label: t("navCheckout"),

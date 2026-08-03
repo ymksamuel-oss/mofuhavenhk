@@ -46,3 +46,17 @@ export function getCategoryLabelKey(slug: string | null): CategoryLabelKey | nul
   if (!slug) return null;
   return CATEGORIES.find((category) => category.slug === slug)?.labelKey ?? null;
 }
+
+export function getCategoryBySlug(slug: string | null | undefined): Category | null {
+  if (!slug) return null;
+  return CATEGORIES.find((category) => category.slug === slug) ?? null;
+}
+
+export function isCategorySlug(slug: string): boolean {
+  return CATEGORIES.some((category) => category.slug === slug);
+}
+
+/** Canonical path for a category landing page. */
+export function categoryHref(slug: string): string {
+  return `/categories/${slug}`;
+}

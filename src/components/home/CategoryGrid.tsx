@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { CATEGORIES, categoryHref, type CategoryIconName } from "@/lib/categories";
 import {
   BagIcon,
   BoneIcon,
@@ -53,7 +53,7 @@ export function CategoryGrid() {
           return (
             <li key={slug}>
               <Link
-                href={`/menu?category=${slug}`}
+                href={categoryHref(slug)}
                 className="group flex flex-col items-center gap-2.5 text-center"
               >
                 <span
