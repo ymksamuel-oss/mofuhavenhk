@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
 
@@ -79,10 +78,6 @@ export function ProductQuickView({
               -{discountPercent}%
             </span>
           ) : null}
-          <WishlistHeartButton
-            productId={product.id}
-            className="absolute right-3 top-3 z-10"
-          />
         </div>
 
         <h2

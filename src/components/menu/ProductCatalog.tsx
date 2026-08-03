@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
 import {
   CATEGORIES,
   categoryHref,
@@ -103,11 +102,6 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
                       -{discountPercent}%
                     </span>
                   ) : null}
-
-                  <WishlistHeartButton
-                    productId={product.id}
-                    className="absolute right-2.5 top-2.5 z-10"
-                  />
                 </div>
 
                 <div className="flex flex-1 flex-col gap-2 p-4">
