@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Sans_TC, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { CartProvider } from "@/lib/shop/cart";
+import { WishlistProvider } from "@/lib/shop/wishlist";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -32,8 +34,12 @@ export default function RootLayout({
         className={`${outfit.variable} ${notoSansTc.variable} antialiased`}
       >
         <I18nProvider>
-          <Header />
-          <main>{children}</main>
+          <CartProvider>
+            <WishlistProvider>
+              <Header />
+              <main>{children}</main>
+            </WishlistProvider>
+          </CartProvider>
         </I18nProvider>
       </body>
     </html>
