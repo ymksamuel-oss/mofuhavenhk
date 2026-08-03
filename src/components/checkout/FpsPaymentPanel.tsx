@@ -1,19 +1,22 @@
 "use client";
 
+import { FpsDetails } from "@/components/checkout/FpsDetails";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type FpsPaymentPanelProps = {
+  amountHkd: number;
   onConfirm: () => void;
   confirming?: boolean;
   confirmed?: boolean;
 };
 
 /**
- * FPS confirm CTA for the checkout order column.
- * Interactive payee menu (proxy / amount / QR) lives under PaymentMethods
- * in FpsDetails — bank-app style accordion after selecting FPS.
+ * FPS payment panel mounted by checkout/page.tsx when FPS is selected.
+ * Contains the bank-app style interactive payee menu (proxy / amount / QR)
+ * plus the WhatsApp confirm CTA.
  */
 export function FpsPaymentPanel({
+  amountHkd,
   onConfirm,
   confirming = false,
   confirmed = false,
@@ -21,25 +24,29 @@ export function FpsPaymentPanel({
   const { t } = useI18n();
 
   return (
-    <div className="space-y-3">
-      {!confirmed ? (
-        <button
-          type="button"
-          onClick={onConfirm}
-          disabled={confirming}
-          className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {confirming ? t("fpsConfirming") : t("fpsConfirmOrder")}
-        </button>
-      ) : (
-        <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-          {t("fpsConfirmSuccess")}
-        </p>
-      )}
+    <div className="space-y-4" data-fps-payment-panel="interactive">
+      <FpsDetails amountHkd={amountHkd} />
 
-      <p className="text-center text-[11px] text-[color:var(--muted)]">
-        {t("fpsWhatsappHint")}
-      </p>
+      <div className="space-y-3">
+        {!confirmed ? (
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={confirming}
+            className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {confirming ? t("fpsConfirming") : t("fpsConfirmOrder")}
+          </button>
+        ) : (
+          <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+            {t("fpsConfirmSuccess")}
+          </p>
+        )}
+
+        <p className="text-center text-[11px] text-[color:var(--muted)]">
+          {t("fpsWhatsappHint")}
+        </p>
+      </div>
     </div>
   );
 }

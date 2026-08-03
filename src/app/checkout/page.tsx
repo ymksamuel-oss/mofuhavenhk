@@ -335,6 +335,7 @@ function CheckoutContent() {
 
           {isFps ? (
             <FpsPaymentPanel
+              amountHkd={amountHkd}
               onConfirm={() => void handleFpsConfirm()}
               confirming={fpsConfirming}
               confirmed={phase === "fps_done"}

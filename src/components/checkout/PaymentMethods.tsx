@@ -1,7 +1,6 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { FpsDetails } from "@/components/checkout/FpsDetails";
 import {
   ApplePayLogo,
   CardLogo,
@@ -25,14 +24,13 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
-  /** Required when FPS may be selected — drives the amount shown in FPS details. */
+  /** Kept for API compatibility; FPS interactive menu lives in FpsPaymentPanel. */
   amountHkd?: number;
 };
 
 export function PaymentMethods({
   selected,
   onSelect,
-  amountHkd = 0,
 }: PaymentMethodsProps) {
   const { t } = useI18n();
 
@@ -57,7 +55,7 @@ export function PaymentMethods({
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
           return (
-            <li key={id} className="space-y-3">
+            <li key={id}>
               <button
                 type="button"
                 onClick={() => onSelect(id)}
@@ -86,10 +84,6 @@ export function PaymentMethods({
                   aria-hidden="true"
                 />
               </button>
-
-              {id === "fps" && active ? (
-                <FpsDetails amountHkd={amountHkd} />
-              ) : null}
             </li>
           );
         })}
