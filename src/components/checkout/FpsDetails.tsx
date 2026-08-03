@@ -158,11 +158,22 @@ export function FpsDetails({ amountHkd }: FpsDetailsProps) {
       className="relative space-y-4 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/40 p-4"
       data-fps-panel="checkout-only"
     >
-      <div>
-        <h3 className="text-sm font-semibold text-[color:var(--ink)]">
-          {t("fpsPanelTitle")}
-        </h3>
-        <p className="mt-1 text-xs text-[color:var(--muted)]">{t("fpsPanelHint")}</p>
+      <div className="flex items-start gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element -- local official FPS mark asset */}
+        <img
+          src="/fps-logo.svg"
+          alt="Faster Payment System (FPS) 轉數快 Logo"
+          className="mt-0.5 h-10 w-auto shrink-0"
+          decoding="async"
+        />
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold text-[color:var(--ink)]">
+            {t("fpsPanelTitle")}
+          </h3>
+          <p className="mt-1 text-xs text-[color:var(--muted)]">
+            {t("fpsPanelHint")}
+          </p>
+        </div>
       </div>
 
       <fieldset className="space-y-2 border-0 p-0">

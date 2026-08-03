@@ -49,26 +49,14 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
 
 export function FpsLogo({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 48 24"
+    // eslint-disable-next-line @next/next/no-img-element -- local official FPS mark asset
+    <img
+      src="/fps-logo.svg"
+      alt="Faster Payment System (FPS) 轉數快 Logo"
       height={ICON_H}
       className={`h-6 w-auto ${className}`}
-      aria-label="FPS"
-      role="img"
-    >
-      <rect width="48" height="24" rx="3" fill="#E35205" />
-      <text
-        x="24"
-        y="16"
-        textAnchor="middle"
-        fill="#fff"
-        fontSize="10"
-        fontFamily="Arial, sans-serif"
-        fontWeight="700"
-      >
-        FPS
-      </text>
-    </svg>
+      decoding="async"
+    />
   );
 }
 
