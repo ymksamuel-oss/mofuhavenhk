@@ -106,7 +106,7 @@ export function OrderSummary({
                     {item.name[locale]}
                   </p>
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-                    {formatMoney(item.unit, locale)} / {t("unitPriceSuffix")}
+                    {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                   </p>
                 </div>
                 {editable ? (

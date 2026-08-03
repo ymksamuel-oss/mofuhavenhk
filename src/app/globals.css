@@ -15,13 +15,16 @@
   --category-bg-light: #f2cd9c;
   --category-bg-hover: #c48a52;
   --category-ink: #fffaf1;
+  --font-body: var(--font-sans);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-sans: var(--font-sans-face), "Noto Sans HK", -apple-system,
+    BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  --font-display: var(--font-sans-face), "Noto Sans HK", -apple-system,
+    BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 
 html {
@@ -48,19 +51,20 @@ body {
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--ink);
-  font-family:
-    var(--font-body),
-    "Noto Sans TC",
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Text",
-    "Helvetica Neue",
-    sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.55;
+  letter-spacing: 0.005em;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+  line-height: 1.28;
+  font-weight: 600;
 }
 
 /* Extra breathing room above the mobile browser chrome */
