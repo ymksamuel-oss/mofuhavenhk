@@ -54,7 +54,7 @@ export function paymentLabelFromIntent(
 ): string {
   const wallet = paymentMethod?.card?.wallet?.type;
   if (wallet === "apple_pay") return "Apple Pay";
-  if (wallet === "google_pay") return "Google Pay";
+  // Google Pay is intentionally disabled in checkout UI / Payment Request.
   if (paymentMethod?.type === "wechat_pay") {
     return "WeChat Pay（微信支付）";
   }

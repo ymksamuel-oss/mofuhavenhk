@@ -16,7 +16,7 @@ export type PaymentMethodDef = {
   Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
 };
 
-/** Mobile-first: wallets first, then WeChat / AlipayHK, then card. */
+/** Mobile-first: Apple Pay first, then WeChat / AlipayHK, then card. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
@@ -35,16 +35,16 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
   return (
     <section
       aria-labelledby="payment-title"
-      className="milk-tea-card max-w-full space-y-4 overflow-x-clip p-5 sm:p-6"
+      className="milk-tea-card max-w-full space-y-5 overflow-x-clip p-5 sm:p-6"
     >
-      <div>
+      <div className="space-y-1.5">
         <h2
           id="payment-title"
-          className="font-[family-name:var(--font-display)] text-xl text-[color:var(--ink)]"
+          className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-[-0.01em] text-[color:var(--ink)] sm:text-[1.35rem]"
         >
           {t("paymentTitle")}
         </h2>
-        <p className="mt-1 text-sm text-[color:var(--muted)]">
+        <p className="text-sm leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
           {t("paymentHint")}
         </p>
       </div>
@@ -58,26 +58,25 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex w-full min-h-[3.5rem] items-center gap-3.5 rounded-2xl border px-3.5 py-3 text-left transition sm:gap-4 sm:px-4 sm:py-3.5 ${
+                className={`flex h-[4.25rem] w-full items-center gap-3.5 rounded-[1.15rem] border px-3.5 text-left transition duration-200 sm:h-[4.5rem] sm:gap-4 sm:px-4 ${
                   active
-                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_6px_16px_-8px_rgba(169,124,80,0.55)]"
-                    : "border-[color:var(--line)] bg-[color:var(--surface)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--accent-soft)]/40"
+                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_8px_20px_-12px_rgba(169,124,80,0.55)]"
+                    : "border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_1px_2px_rgba(74,54,38,0.04)] hover:border-[color:var(--accent)]/45 hover:bg-[color:var(--accent-soft)]/35"
                 }`}
                 aria-pressed={active}
               >
-                {/* Transparent logo slot — no white plate / hard box */}
-                <span className="flex h-9 w-[4.25rem] shrink-0 items-center justify-start overflow-visible sm:w-[4.75rem]">
+                <span className="flex h-8 w-[4.5rem] shrink-0 items-center justify-start sm:w-[4.75rem]">
                   <Icon />
                 </span>
 
-                <span className="min-w-0 flex-1 break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)]">
+                <span className="min-w-0 flex-1 break-words text-left text-[0.925rem] font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
                   {t(labelKey)}
                 </span>
 
                 <span
-                  className={`ml-auto h-4 w-4 shrink-0 rounded-full border transition ${
+                  className={`ml-auto h-[1.125rem] w-[1.125rem] shrink-0 rounded-full border-[1.5px] transition ${
                     active
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent)]"
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_2px_var(--surface)]"
                       : "border-[color:var(--line)] bg-transparent"
                   }`}
                   aria-hidden="true"
@@ -87,12 +86,6 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
           );
         })}
       </ul>
-
-      <p className="text-xs leading-relaxed text-[color:var(--muted)]">
-        {selected === "wechatpay" || selected === "alipayhk"
-          ? t("walletMethodsNote")
-          : t("stripeMethodsNote")}
-      </p>
     </section>
   );
 }

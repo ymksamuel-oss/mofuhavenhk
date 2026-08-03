@@ -123,14 +123,16 @@ function CheckoutPayForm({
       },
       requestPayerName: true,
       requestPayerPhone: true,
+      // Checkout intentionally offers Apple Pay only — not Google Pay.
+      disableWallets: ["googlePay", "link", "browserCard"],
     });
 
     let cancelled = false;
     pr.canMakePayment().then((result) => {
       if (cancelled) return;
       if (result) {
-        // Apple Pay and/or Google Pay via the same Payment Request Button.
-        const canWallet = Boolean(result.applePay || result.googlePay);
+        // Only surface the wallet button when Apple Pay is available.
+        const canWallet = Boolean(result.applePay);
         setPaymentRequest(canWallet ? pr : null);
         setWalletAvailable(canWallet);
       } else {
@@ -284,8 +286,7 @@ function CheckoutPayForm({
     setSubmitting(false);
   };
 
-  // Always surface wallets at the top of the pay form when available
-  // (both "Apple Pay / Google Pay" and "Card" payment method selections).
+  // Surface Apple Pay at the top of the pay form when available.
   const showWallet = Boolean(paymentRequest && walletAvailable);
 
   return (
@@ -386,13 +387,10 @@ function CheckoutPayForm({
       <button
         type="submit"
         disabled={!stripe || !elements || submitting}
-        className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+        className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
       >
         {submitting ? t("stripePaying") : t("placeOrder")}
       </button>
-      <p className="text-center text-[11px] text-[color:var(--muted)]">
-        {t("stripeMethodsNote")}
-      </p>
     </form>
   );
 }

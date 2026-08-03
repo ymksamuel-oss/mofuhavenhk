@@ -1,22 +1,19 @@
 type LogoProps = { className?: string };
 
+/** Shared mark height inside unified payment option cards. */
+const MARK_H = "h-7";
+
 /**
- * Visa (#1434CB) + Mastercard (#EB001B / #F79E1B / #FF5F00) acceptance marks.
- * Transparent — no white plate / generic dark card art.
+ * Visa (#1434CB) + Mastercard symbol — vector acceptance marks, transparent.
  */
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`inline-flex h-7 items-center gap-1.5 ${className}`}
+      className={`inline-flex ${MARK_H} items-center gap-1.5 ${className}`}
       aria-label="Visa and Mastercard"
       role="img"
     >
-      <svg
-        viewBox="0 0 24 24"
-        className="h-6 w-auto"
-        aria-hidden="true"
-      >
-        {/* Visa Brand Mark blue (#1434CB) — transparent */}
+      <svg viewBox="0 0 24 24" className="h-6 w-auto" aria-hidden="true">
         <path
           fill="#1434CB"
           d="M9.112 8.262 5.97 15.698H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 0 1 .894.764l.817 4.338 2.018-5.102zm8.063 5.047c.008-2.009-2.778-2.12-2.76-3.018.006-.274.267-.566.84-.641.284-.037 1.068-.067 1.957.345l.349-1.63a5.208 5.208 0 0 0-1.814-.333c-1.92 0-3.273 1.02-3.286 2.482-.016 1.08.963 1.682 1.698 2.042.756.369 1.01.605 1.006.934-.005.504-.602.726-1.16.735-.975.016-1.54-.263-1.993-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.378-2.563m5.071 2.389h1.804l-1.573-7.436h-1.665a.897.897 0 0 0-.838.58l-2.946 6.856h2.06l.41-1.131h2.518zm-2.175-3.004 1.032-2.839.595 2.839zM11.007 8.262l-1.622 7.436H7.44l1.622-7.436z"
@@ -35,88 +32,44 @@ export function CardLogo({ className = "" }: LogoProps) {
 }
 
 /**
- * Apple Pay + Google Pay marks on transparent background (no black/white plates).
+ * Apple Pay mark only (black glyph + Pay) — transparent, no Google Pay.
  */
 export function ApplePayLogo({ className = "" }: LogoProps) {
   return (
-    <span
-      className={`inline-flex h-7 items-center gap-2.5 ${className}`}
-      aria-label="Apple Pay and Google Pay"
+    <svg
+      viewBox="0 0 52 20"
+      className={`${MARK_H} w-auto shrink-0 ${className}`}
+      aria-label="Apple Pay"
       role="img"
     >
-      {/* Apple Pay — black glyph + Pay (light-bg variant, no plate) */}
-      <svg
-        viewBox="0 0 52 20"
-        className="h-[1.2rem] w-auto"
-        aria-hidden="true"
+      <path
+        fill="#000"
+        d="M9.55 5.15c-.45.55-1.2.95-1.9.9-.1-.75.25-1.55.7-2.05.45-.55 1.25-.95 1.9-.95.05.75-.2 1.5-.7 2.1zm.7 1.1c-1.1-.05-2.05.65-2.55.65-.55 0-1.35-.6-2.2-.55-1.1.05-2.15.7-2.7 1.7-1.15 2-.3 4.95.85 6.55.55.8 1.2 1.7 2.1 1.65.8-.05 1.15-.55 2.15-.55s1.3.55 2.2.5c.9-.05 1.5-.8 2.05-1.6.65-.95.9-1.85.9-1.9-.05 0-1.8-.7-1.8-2.7 0-1.7 1.4-2.5 1.45-2.55-.8-1.2-2.05-1.3-2.45-1.35z"
+      />
+      <text
+        x="34.5"
+        y="15"
+        textAnchor="middle"
+        fill="#000"
+        fontSize="11.5"
+        fontFamily="-apple-system, BlinkMacSystemFont, SF Pro Text, Helvetica Neue, Helvetica, Arial, sans-serif"
+        fontWeight="600"
+        letterSpacing="0.2"
       >
-        <path
-          fill="#000"
-          d="M9.55 5.15c-.45.55-1.2.95-1.9.9-.1-.75.25-1.55.7-2.05.45-.55 1.25-.95 1.9-.95.05.75-.2 1.5-.7 2.1zm.7 1.1c-1.1-.05-2.05.65-2.55.65-.55 0-1.35-.6-2.2-.55-1.1.05-2.15.7-2.7 1.7-1.15 2-.3 4.95.85 6.55.55.8 1.2 1.7 2.1 1.65.8-.05 1.15-.55 2.15-.55s1.3.55 2.2.5c.9-.05 1.5-.8 2.05-1.6.65-.95.9-1.85.9-1.9-.05 0-1.8-.7-1.8-2.7 0-1.7 1.4-2.5 1.45-2.55-.8-1.2-2.05-1.3-2.45-1.35z"
-        />
-        <text
-          x="34.5"
-          y="15"
-          textAnchor="middle"
-          fill="#000"
-          fontSize="11.5"
-          fontFamily="Helvetica Neue, Helvetica, Arial, sans-serif"
-          fontWeight="600"
-          letterSpacing="0.2"
-        >
-          Pay
-        </text>
-      </svg>
-      {/* Google Pay — multicolor G + Pay word */}
-      <svg
-        viewBox="0 0 54 20"
-        className="h-[1.2rem] w-auto"
-        aria-hidden="true"
-      >
-        <path
-          fill="#4285F4"
-          d="M9.8 10v2.15h3.65c-.15 1-.6 1.75-1.25 2.25v1.85h2.05A5.4 5.4 0 0 0 15.2 12c0-.45-.05-.9-.1-1.3H9.8z"
-        />
-        <path
-          fill="#34A853"
-          d="M9.8 17c1.6 0 2.95-.55 3.95-1.45l-2.05-1.85c-.55.4-1.3.65-1.9.65-1.45 0-2.7-.95-3.15-2.3H4.5v1.9A6.05 6.05 0 0 0 9.8 17z"
-        />
-        <path
-          fill="#FBBC04"
-          d="M6.65 12c-.1-.35-.2-.7-.2-1.05s.05-.7.2-1.05V8H4.5a5.9 5.9 0 0 0 0 5.35L6.65 12z"
-        />
-        <path
-          fill="#EA4335"
-          d="M9.8 5.75c.9 0 1.7.3 2.35.9l1.75-1.75C12.65 3.75 11.3 3.2 9.8 3.2c-2.3 0-4.3 1.1-5.3 3.05L6.65 7.95c.45-1.35 1.7-2.2 3.15-2.2z"
-        />
-        <text
-          x="38"
-          y="15"
-          textAnchor="middle"
-          fill="#5F6368"
-          fontSize="11.5"
-          fontFamily="Product Sans, Google Sans, Roboto, Arial, sans-serif"
-          fontWeight="500"
-          letterSpacing="0.1"
-        >
-          Pay
-        </text>
-      </svg>
-    </span>
+        Pay
+      </text>
+    </svg>
   );
 }
 
 /**
  * WeChat Pay official green rounded mark (#09BB07).
- * Brand color is the icon face itself — no outer white plate.
  */
 export function WeChatPayLogo({ className = "" }: LogoProps) {
   return (
     <svg
       viewBox="0 0 48 48"
-      width={32}
-      height={32}
-      className={`h-8 w-8 shrink-0 ${className}`}
+      className={`${MARK_H} w-7 shrink-0 ${className}`}
       aria-label="WeChat Pay"
       role="img"
     >
@@ -134,16 +87,13 @@ export function WeChatPayLogo({ className = "" }: LogoProps) {
 }
 
 /**
- * AlipayHK official blue mark (#00A0E9) — logo paths only, no white app-icon plate.
- * Cut from AlipayHK 2019 brand pack for transparent checkout use.
+ * AlipayHK official blue mark (#00A0E9) — transparent, no white plate.
  */
 export function AlipayHkLogo({ className = "" }: LogoProps) {
   return (
     <svg
       viewBox="0 0 48 48"
-      width={32}
-      height={32}
-      className={`h-8 w-8 shrink-0 ${className}`}
+      className={`${MARK_H} w-7 shrink-0 ${className}`}
       aria-label="AlipayHK"
       role="img"
     >

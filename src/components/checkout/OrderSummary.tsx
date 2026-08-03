@@ -70,17 +70,17 @@ export function OrderSummary({
   const canRemove = Boolean(onRemoveItem) && !qtyDisabled;
 
   return (
-    <section aria-labelledby="summary-title" className="space-y-4">
+    <section aria-labelledby="summary-title" className="space-y-5">
       <h2
         id="summary-title"
-        className="font-[family-name:var(--font-display)] text-xl text-[color:var(--ink)]"
+        className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-[-0.01em] text-[color:var(--ink)] sm:text-[1.35rem]"
       >
         {t("orderSummary")}
       </h2>
 
       <ul className="divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
         {items.length === 0 ? (
-          <li className="py-6 text-center text-sm text-[color:var(--muted)]">
+          <li className="py-6 text-center text-sm leading-relaxed text-[color:var(--muted)]">
             {locale === "zh" ? "購物車未有商品" : "Your cart is empty"}
           </li>
         ) : null}
@@ -88,7 +88,7 @@ export function OrderSummary({
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex items-start justify-between gap-3 py-3 text-sm"
+            className="flex items-start justify-between gap-3 py-3.5 text-sm"
           >
             <div className="flex min-w-0 items-start gap-3">
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
@@ -101,9 +101,14 @@ export function OrderSummary({
                 />
               </div>
               <div className="min-w-0 space-y-2">
-                <p className="font-medium text-[color:var(--ink)]">
-                  {item.name[locale]}
-                </p>
+                <div className="min-w-0 space-y-0.5">
+                  <p className="font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
+                    {item.name[locale]}
+                  </p>
+                  <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
+                    {formatMoney(item.unit, locale)} / {t("unitPriceSuffix")}
+                  </p>
+                </div>
                 {editable ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <div
@@ -163,30 +168,34 @@ export function OrderSummary({
                 )}
               </div>
             </div>
-            <p className="shrink-0 tabular-nums text-[color:var(--ink)]">
+            <p className="shrink-0 text-[0.95rem] font-medium tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
               {formatMoney(item.qty * item.unit, locale)}
             </p>
           </li>
         ))}
       </ul>
 
-      <dl className="space-y-2 text-sm">
+      <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">
-          <dt className="text-[color:var(--muted)]">{t("subtotal")}</dt>
-          <dd className="tabular-nums text-[color:var(--ink)]">
+          <dt className="tracking-[0.01em] text-[color:var(--muted)]">
+            {t("subtotal")}
+          </dt>
+          <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
             {formatMoney(subtotal, locale)}
           </dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt className="text-[color:var(--muted)]">
+          <dt className="tracking-[0.01em] text-[color:var(--muted)]">
             {t("shipping")}
-            <span className="mt-0.5 block text-xs">{t("shippingNote")}</span>
+            <span className="mt-0.5 block text-xs leading-relaxed">
+              {t("shippingNote")}
+            </span>
           </dt>
-          <dd className="tabular-nums text-[color:var(--ink)]">
+          <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
             {formatMoney(items.length > 0 ? SHIPPING : 0, locale)}
           </dd>
         </div>
-        <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3 text-base font-semibold">
+        <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3.5 text-base font-semibold tracking-[-0.01em]">
           <dt className="text-[color:var(--ink)]">{t("total")}</dt>
           <dd className="tabular-nums text-[color:var(--ink)]">
             {formatMoney(items.length > 0 ? total : 0, locale)}

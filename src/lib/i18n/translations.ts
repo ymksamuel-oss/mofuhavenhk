@@ -32,17 +32,18 @@ export const translations = {
     total: "總計",
     currency: "HK$",
     paymentTitle: "付款方式",
-    paymentHint: "Apple Pay／Google Pay、WeChat Pay、AlipayHK，或信用卡（Stripe）。",
+    paymentHint: "Apple Pay、WeChat Pay、AlipayHK，或信用卡（Stripe）。",
     payCard: "信用卡／全球支付 (Stripe)",
-    payApplePay: "Apple Pay / Google Pay",
+    payApplePay: "Apple Pay",
     payWeChatPay: "WeChat Pay（微信支付）",
     payAlipayHk: "AlipayHK（香港支付寶）",
     placeOrder: "確認付款",
-    secureNote: "付款經 Stripe 加密處理；成功後會自動 WhatsApp 通知店主。",
-    stripeMethodsNote:
-      "實際付款由 Stripe 安全處理。支援的裝置會自動顯示 Apple Pay／Google Pay 一鍵付款按鈕。",
+    secureNote:
+      "付款經 Stripe 安全加密處理；成功後系統將自動經 WhatsApp 通知店主。",
+    stripeMethodsNote: "實際付款由 Stripe 安全處理。支援的裝置會顯示 Apple Pay。",
     walletMethodsNote:
       "WeChat Pay 與 AlipayHK 經 Stripe 安全處理；請確保 Stripe Dashboard 已啟用對應付款方式（HKD）。",
+    unitPriceSuffix: "件",
     wechatPayHint: "確認後會顯示官方 QR Code，請用微信 App 掃碼完成付款。",
     wechatPayCta: "顯示 WeChat Pay QR Code",
     wechatPayQrAlt: "WeChat Pay 付款 QR Code",
@@ -68,8 +69,8 @@ export const translations = {
     stripeCardCvc: "CVV / CVC",
     stripeCardIncomplete: "請填妥卡號、有效期同 CVV。",
     stripeOrCard: "—— 或改用信用卡填寫 ——",
-    stripeOrApplePay: "—— 或使用 Apple Pay／Google Pay ——",
-    stripeWalletPay: "Apple Pay / Google Pay 一鍵付款",
+    stripeOrApplePay: "—— 或使用 Apple Pay ——",
+    stripeWalletPay: "Apple Pay 一鍵付款",
     stripeWalletPayHint: "支援雙擊確認，手機上最快完成結帳。",
     whatsappOrderTitle: "手動 WhatsApp 補發（後備）",
     whatsappOrderHint:
@@ -143,7 +144,8 @@ export const translations = {
     orderNotifyError: "自動通知未能送達，請改用下方按鈕手動開啟店主 WhatsApp。",
     orderNotifyNotConfigured:
       "自動通知暫時未能送達。請改用下方「手動開啟店主 WhatsApp」後備按鈕。",
-    orderNotifyServerHint: "Stripe 付款成功後，系統會自動 WhatsApp 通知店主。",
+    orderNotifyServerHint:
+      "付款經 Stripe 安全加密處理；成功後系統將自動經 WhatsApp 通知店主。",
     whatsappNumberMissing:
       "尚未設定店主 WhatsApp 號碼（NEXT_PUBLIC_WHATSAPP_NUMBER），無法開啟正確聯絡人。",
   },
@@ -176,17 +178,19 @@ export const translations = {
     total: "Total",
     currency: "HK$",
     paymentTitle: "Payment method",
-    paymentHint: "Apple Pay / Google Pay, WeChat Pay, AlipayHK, or card (Stripe).",
+    paymentHint: "Apple Pay, WeChat Pay, AlipayHK, or card (Stripe).",
     payCard: "Credit Card / Global Payments (Stripe)",
-    payApplePay: "Apple Pay / Google Pay",
+    payApplePay: "Apple Pay",
     payWeChatPay: "WeChat Pay",
     payAlipayHk: "AlipayHK",
     placeOrder: "Pay now",
-    secureNote: "Payments are encrypted by Stripe. The shop is WhatsApp-notified after a successful charge.",
+    secureNote:
+      "Payments are securely encrypted by Stripe; the shop is notified on WhatsApp automatically after success.",
     stripeMethodsNote:
-      "Checkout is processed by Stripe. Apple Pay / Google Pay appears automatically on supported devices.",
+      "Checkout is processed by Stripe. Apple Pay appears automatically on supported devices.",
     walletMethodsNote:
       "WeChat Pay and AlipayHK are processed securely by Stripe. Enable both methods for HKD in the Stripe Dashboard.",
+    unitPriceSuffix: "ea",
     wechatPayHint: "We’ll show an official QR code — scan it with the WeChat app to pay.",
     wechatPayCta: "Show WeChat Pay QR code",
     wechatPayQrAlt: "WeChat Pay QR code",
@@ -212,8 +216,8 @@ export const translations = {
     stripeCardCvc: "CVV / CVC",
     stripeCardIncomplete: "Please complete card number, expiry, and CVV.",
     stripeOrCard: "— or enter card details —",
-    stripeOrApplePay: "— or use Apple Pay / Google Pay —",
-    stripeWalletPay: "Apple Pay / Google Pay — one-tap pay",
+    stripeOrApplePay: "— or use Apple Pay —",
+    stripeWalletPay: "Apple Pay — one-tap pay",
     stripeWalletPayHint: "Double-click to confirm — the fastest checkout on mobile.",
     whatsappOrderTitle: "Manual WhatsApp backup",
     whatsappOrderHint:
@@ -287,7 +291,8 @@ export const translations = {
     orderNotifyError: "Auto-notify failed — use the backup button below to open the shop WhatsApp chat.",
     orderNotifyNotConfigured:
       "Auto-notify could not be delivered. Please use the manual shop WhatsApp backup button below.",
-    orderNotifyServerHint: "After a successful Stripe payment, the shop is notified on WhatsApp automatically.",
+    orderNotifyServerHint:
+      "Payments are securely encrypted by Stripe; the shop is notified on WhatsApp automatically after success.",
     whatsappNumberMissing:
       "Shop WhatsApp number is not set (NEXT_PUBLIC_WHATSAPP_NUMBER), so the correct contact cannot be opened.",
   },

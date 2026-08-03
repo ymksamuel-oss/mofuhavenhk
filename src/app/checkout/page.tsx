@@ -61,7 +61,7 @@ function CheckoutContent() {
   const amountHkd =
     items.length > 0 ? calcSubtotal(items) + SHIPPING : 0;
 
-  // Default to wallet (Apple Pay / Google Pay) for mobile one-tap checkout.
+  // Default to Apple Pay for mobile one-tap checkout.
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [phase, setPhase] = useState<PayPhase>("idle");
@@ -395,13 +395,15 @@ function CheckoutContent() {
     alipayReturning;
 
   return (
-    <div className="mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
+    <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 max-w-2xl">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-4xl">
             {t("checkoutTitle")}
           </h1>
-          <p className="mt-2 text-[color:var(--muted)]">{t("checkoutSubtitle")}</p>
+          <p className="mt-2 text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
+            {t("checkoutSubtitle")}
+          </p>
         </div>
         <ContinueShoppingButton variant="primary" className="sm:shrink-0" />
       </header>
@@ -504,11 +506,8 @@ function CheckoutContent() {
             </p>
           ) : null}
 
-          <p className="text-center text-xs text-[color:var(--muted)]">
+          <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
             {t("secureNote")}
-          </p>
-          <p className="text-center text-[11px] text-[color:var(--muted)]">
-            {t("orderNotifyServerHint")}
           </p>
         </div>
       </div>

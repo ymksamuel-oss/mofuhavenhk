@@ -256,7 +256,7 @@ export function AsianWalletPayForm({
           type="button"
           onClick={() => void handlePay()}
           disabled={submitting}
-          className="w-full rounded-2xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.35)] transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+          className="w-full rounded-2xl px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-10px_rgba(0,0,0,0.35)] transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
           style={{ backgroundColor: brandColor }}
         >
           {submitting
@@ -266,10 +266,6 @@ export function AsianWalletPayForm({
               : t("alipayHkCta")}
         </button>
       ) : null}
-
-      <p className="text-center text-[11px] text-[color:var(--muted)]">
-        {t("walletMethodsNote")}
-      </p>
     </div>
   );
 }

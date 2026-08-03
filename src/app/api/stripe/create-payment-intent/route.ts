@@ -26,7 +26,7 @@ type Body = {
 };
 
 const PAYMENT_LABELS: Record<string, string> = {
-  applepay: "Apple Pay / Google Pay",
+  applepay: "Apple Pay",
   card: "信用卡／全球支付 (Stripe)",
   wechatpay: "WeChat Pay（微信支付）",
   alipayhk: "AlipayHK（香港支付寶）",
