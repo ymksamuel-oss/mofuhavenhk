@@ -39,10 +39,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-HK" className="bg-[color:var(--background)]">
-      <body
-        className={`${notoSansHk.variable} bg-[color:var(--background)] font-sans antialiased`}
-      >
+    <html
+      lang="zh-HK"
+      className={`${notoSansHk.variable} bg-[color:var(--background)]`}
+    >
+      <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
           <CartProvider>
             <Header />
