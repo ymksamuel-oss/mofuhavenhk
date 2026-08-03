@@ -7,29 +7,27 @@ import { categoryHref, isCategorySlug } from "@/lib/categories";
 
 /**
  * Legacy `/menu?category=dogs` → `/categories/dogs`.
- * `/menu` itself remains the full-catalog page.
+ * While redirecting, still render that category so the UI never blanks / freezes.
  */
 function MenuRedirectOrCatalog() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const legacySlug =
+    category && isCategorySlug(category) ? category : null;
 
   useEffect(() => {
-    if (category && isCategorySlug(category)) {
-      router.replace(categoryHref(category));
+    if (legacySlug) {
+      router.replace(categoryHref(legacySlug));
     }
-  }, [category, router]);
+  }, [legacySlug, router]);
 
-  if (category && isCategorySlug(category)) {
-    return null;
-  }
-
-  return <ProductCatalog categorySlug={null} />;
+  return <ProductCatalog categorySlug={legacySlug} />;
 }
 
 export default function MenuPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<ProductCatalog categorySlug={null} />}>
       <MenuRedirectOrCatalog />
     </Suspense>
   );

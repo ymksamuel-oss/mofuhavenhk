@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductQuickView } from "@/components/menu/ProductQuickView";
 import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
-import { TransitionLink } from "@/components/TransitionLink";
 import {
   CATEGORIES,
   categoryHref,
@@ -30,7 +30,7 @@ type ProductCatalogProps = {
 
 /**
  * Shared catalog UI for `/menu` (all products) and `/categories/[slug]`.
- * Category chips navigate to dedicated category pages.
+ * Category chips use plain Links for reliable, instant navigation.
  */
 export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
@@ -56,17 +56,18 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         aria-label={t("categoryNavLabel")}
         className="mb-8 flex flex-wrap gap-2"
       >
-        <TransitionLink href="/menu" className={chipClassName(!categorySlug)}>
+        <Link href="/menu" className={chipClassName(!categorySlug)}>
           {t("menuAllCategories")}
-        </TransitionLink>
+        </Link>
         {CATEGORIES.map(({ slug, labelKey }) => (
-          <TransitionLink
+          <Link
             key={slug}
             href={categoryHref(slug)}
             className={chipClassName(categorySlug === slug)}
+            prefetch
           >
             {t(labelKey)}
-          </TransitionLink>
+          </Link>
         ))}
       </nav>
 

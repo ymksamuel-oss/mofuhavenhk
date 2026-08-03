@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Re-mounts on route change so catalog / category pages fade+slide in
- * under 300ms. Header / cart chrome stay outside this wrapper.
+ * Light enter-only fade for route changes.
+ * No exit / pointer-events lock — that previously froze category navigation.
  */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
