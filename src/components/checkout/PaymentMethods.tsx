@@ -87,7 +87,7 @@ function FpsBankMenu({
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
+      className="relative rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
       data-fps-bank-menu="true"
       role="dialog"
       aria-label="請選擇收款人類別以繼續"
