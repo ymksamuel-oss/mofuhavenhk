@@ -10,7 +10,8 @@ type FpsPaymentPanelProps = {
 
 /**
  * FPS confirm CTA for the checkout order column.
- * Receiving details / QR live under PaymentMethods (FpsDetails).
+ * Interactive payee menu (proxy / amount / QR) lives under PaymentMethods
+ * in FpsDetails — bank-app style accordion after selecting FPS.
  */
 export function FpsPaymentPanel({
   onConfirm,
