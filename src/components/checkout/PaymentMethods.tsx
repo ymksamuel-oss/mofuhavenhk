@@ -1,19 +1,26 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
+import {
+  AlipayHkLogo,
+  ApplePayLogo,
+  CardLogo,
+  WeChatPayLogo,
+} from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay";
+export type MethodId = "card" | "applepay" | "wechatpay" | "alipayhk";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay";
-  Icon: typeof CardLogo;
+  labelKey: "payCard" | "payApplePay" | "payWeChatPay" | "payAlipayHk";
+  Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
 };
 
-/** Mobile-first order: wallets first for one-tap pay, then card. */
+/** Mobile-first: wallets first, then WeChat / AlipayHK, then card. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
+  { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },
 ];
 
@@ -42,16 +49,16 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         </p>
       </div>
 
-      <ul className="space-y-3">
+      <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
 
           return (
-            <li key={id}>
+            <li key={id} className="min-w-0">
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3.5 text-left transition ${
+                className={`flex w-full min-h-[3.5rem] items-center gap-3 rounded-2xl border px-3.5 py-3 text-left transition sm:px-4 sm:py-3.5 ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_6px_16px_-8px_rgba(169,124,80,0.55)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--accent-soft)]/40"
@@ -62,7 +69,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   <Icon />
                 </span>
 
-                <span className="min-w-0 flex-1 break-words text-left text-sm font-medium text-[color:var(--ink)]">
+                <span className="min-w-0 flex-1 break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)]">
                   {t(labelKey)}
                 </span>
 
@@ -81,7 +88,9 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
       </ul>
 
       <p className="text-xs leading-relaxed text-[color:var(--muted)]">
-        {t("stripeMethodsNote")}
+        {selected === "wechatpay" || selected === "alipayhk"
+          ? t("walletMethodsNote")
+          : t("stripeMethodsNote")}
       </p>
     </section>
   );

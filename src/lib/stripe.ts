@@ -55,6 +55,12 @@ export function paymentLabelFromIntent(
   const wallet = paymentMethod?.card?.wallet?.type;
   if (wallet === "apple_pay") return "Apple Pay";
   if (wallet === "google_pay") return "Google Pay";
+  if (paymentMethod?.type === "wechat_pay") {
+    return "WeChat Pay（微信支付）";
+  }
+  if (paymentMethod?.type === "alipay") {
+    return "AlipayHK（香港支付寶）";
+  }
   if (paymentMethod?.type === "card") {
     return "信用卡／全球支付 (Stripe)";
   }

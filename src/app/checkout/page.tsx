@@ -2,6 +2,8 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { loadStripe } from "@stripe/stripe-js";
+import { AsianWalletPayForm } from "@/components/checkout/AsianWalletPayForm";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -40,6 +42,12 @@ type PayPhase =
   | "stripe_missing"
   | "error";
 
+function isAsianWalletMethod(
+  method: MethodId,
+): method is "wechatpay" | "alipayhk" {
+  return method === "wechatpay" || method === "alipayhk";
+}
+
 function CheckoutContent() {
   const { locale, t } = useI18n();
   const searchParams = useSearchParams();
@@ -67,7 +75,9 @@ function CheckoutContent() {
   const [shippingContact, setShippingContact] = useState<ShippingContact>(
     EMPTY_SHIPPING_CONTACT,
   );
+  const [alipayReturning, setAlipayReturning] = useState(false);
   const preparingRef = useRef(false);
+  const alipayReturnHandled = useRef(false);
 
   const liveTotalHkd = amountHkd;
 
@@ -82,6 +92,17 @@ function CheckoutContent() {
     }),
     [shippingContact],
   );
+
+  const alipayReturnUrl = useMemo(() => {
+    if (typeof window === "undefined") return "/checkout";
+    const url = new URL(window.location.href);
+    url.searchParams.set("method", "alipayhk");
+    // Drop prior Stripe redirect params so retries stay clean.
+    url.searchParams.delete("payment_intent");
+    url.searchParams.delete("payment_intent_client_secret");
+    url.searchParams.delete("redirect_status");
+    return url.toString();
+  }, []);
 
   // Prefer the shared shopping basket once localStorage cart is ready.
   useEffect(() => {
@@ -131,6 +152,98 @@ function CheckoutContent() {
       cancelled = true;
     };
   }, []);
+
+  const handlePaid = useCallback(async (paymentIntentId: string) => {
+    setPhase("completing");
+    setPayError("");
+    try {
+      const res = await fetch("/api/stripe/complete-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentIntentId }),
+      });
+      const data = (await res.json()) as {
+        ok: boolean;
+        notified?: boolean;
+        alreadyNotified?: boolean;
+        orderNumber?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        setPayError(t("stripePayFailed"));
+        setPhase("ready");
+        return;
+      }
+
+      if (data.orderNumber) setOrderNumber(data.orderNumber);
+
+      if (data.notified || data.alreadyNotified) {
+        setPhase("paid");
+      } else {
+        setPhase("paid_notify_failed");
+      }
+    } catch {
+      setPhase("paid_notify_failed");
+    }
+  }, [t]);
+
+  // AlipayHK redirect return — Stripe appends payment_intent* query params.
+  useEffect(() => {
+    if (alipayReturnHandled.current) return;
+    if (!publishableKey) return;
+
+    const intentId = searchParams.get("payment_intent");
+    const returnedSecret = searchParams.get("payment_intent_client_secret");
+    const redirectStatus = searchParams.get("redirect_status");
+    if (!intentId || !returnedSecret) return;
+
+    alipayReturnHandled.current = true;
+    setSelectedMethod("alipayhk");
+    setClientSecret(returnedSecret);
+    setAlipayReturning(true);
+    setPayError("");
+
+    void (async () => {
+      try {
+        const stripe = await loadStripe(publishableKey);
+        if (!stripe) {
+          setPayError(t("stripePayFailed"));
+          setPhase("error");
+          setAlipayReturning(false);
+          return;
+        }
+        const { paymentIntent, error } =
+          await stripe.retrievePaymentIntent(returnedSecret);
+        if (error || !paymentIntent) {
+          setPayError(error?.message || t("stripePayFailed"));
+          setPhase("error");
+          setAlipayReturning(false);
+          return;
+        }
+        if (
+          paymentIntent.status === "succeeded" ||
+          redirectStatus === "succeeded"
+        ) {
+          await handlePaid(paymentIntent.id);
+        } else {
+          setPayError(t("stripePayFailed"));
+          setPhase("error");
+        }
+      } catch {
+        setPayError(t("stripePayFailed"));
+        setPhase("error");
+      } finally {
+        setAlipayReturning(false);
+        if (typeof window !== "undefined") {
+          const clean = new URL(window.location.href);
+          clean.searchParams.delete("payment_intent");
+          clean.searchParams.delete("payment_intent_client_secret");
+          clean.searchParams.delete("redirect_status");
+          window.history.replaceState({}, "", clean.toString());
+        }
+      }
+    })();
+  }, [handlePaid, publishableKey, searchParams, t]);
 
   // Switching payment method clears Stripe intent / success state.
   const handleSelectMethod = (id: MethodId) => {
@@ -226,6 +339,8 @@ function CheckoutContent() {
           category,
           orderNumber: number,
           locale,
+          paymentMethod: selectedMethod,
+          customerName: shippingContact.name.trim(),
           lines: items.map((item) => ({ id: item.id, qty: item.qty })),
         }),
       });
@@ -234,6 +349,7 @@ function CheckoutContent() {
         error?: string;
         clientSecret?: string;
         orderNumber?: string;
+        detail?: string;
       };
 
       if (data.error === "stripe_not_configured" || res.status === 503) {
@@ -241,7 +357,7 @@ function CheckoutContent() {
         return;
       }
       if (!res.ok || !data.ok || !data.clientSecret) {
-        setPayError(t("stripePayFailed"));
+        setPayError(data.detail || t("stripePayFailed"));
         setPhase("error");
         return;
       }
@@ -262,43 +378,11 @@ function CheckoutContent() {
     orderNumber,
     phase,
     publishableKey,
+    selectedMethod,
+    shippingContact.name,
     stripeConfigured,
     t,
   ]);
-
-  const handlePaid = async (paymentIntentId: string) => {
-    setPhase("completing");
-    setPayError("");
-    try {
-      const res = await fetch("/api/stripe/complete-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentIntentId }),
-      });
-      const data = (await res.json()) as {
-        ok: boolean;
-        notified?: boolean;
-        alreadyNotified?: boolean;
-        orderNumber?: string;
-      };
-
-      if (!res.ok || !data.ok) {
-        setPayError(t("stripePayFailed"));
-        setPhase("ready");
-        return;
-      }
-
-      if (data.orderNumber) setOrderNumber(data.orderNumber);
-
-      if (data.notified || data.alreadyNotified) {
-        setPhase("paid");
-      } else {
-        setPhase("paid_notify_failed");
-      }
-    } catch {
-      setPhase("paid_notify_failed");
-    }
-  };
 
   const showStripeForm =
     Boolean(clientSecret && publishableKey) &&
@@ -307,7 +391,8 @@ function CheckoutContent() {
   const qtyLocked =
     phase === "paid" ||
     phase === "paid_notify_failed" ||
-    phase === "completing";
+    phase === "completing" ||
+    alipayReturning;
 
   return (
     <div className="mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
@@ -350,13 +435,16 @@ function CheckoutContent() {
             </p>
           ) : null}
 
-          {phase === "preparing" ? (
+          {phase === "preparing" || alipayReturning ? (
             <p className="text-center text-sm text-[color:var(--muted)]">
-              {t("stripePreparing")}
+              {alipayReturning
+                ? t("alipayReturnProcessing")
+                : t("stripePreparing")}
             </p>
           ) : null}
 
           {!showStripeForm &&
+          !alipayReturning &&
           phase !== "paid" &&
           phase !== "paid_notify_failed" &&
           phase !== "stripe_missing" &&
@@ -379,6 +467,21 @@ function CheckoutContent() {
               publishableKey={publishableKey}
               preferredMethod={selectedMethod}
               amountHkd={amountHkd}
+              onPaid={handlePaid}
+              onError={handlePayError}
+            />
+          ) : null}
+
+          {showStripeForm &&
+          clientSecret &&
+          publishableKey &&
+          isAsianWalletMethod(selectedMethod) ? (
+            <AsianWalletPayForm
+              method={selectedMethod}
+              clientSecret={clientSecret}
+              publishableKey={publishableKey}
+              customerName={shippingContact.name}
+              returnUrl={alipayReturnUrl}
               onPaid={handlePaid}
               onError={handlePayError}
             />

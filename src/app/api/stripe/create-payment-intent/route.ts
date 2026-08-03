@@ -21,6 +21,15 @@ type Body = {
   orderNumber?: unknown;
   locale?: unknown;
   lines?: unknown;
+  /** Preferred checkout method — stored in metadata for WhatsApp labels. */
+  paymentMethod?: unknown;
+};
+
+const PAYMENT_LABELS: Record<string, string> = {
+  applepay: "Apple Pay / Google Pay",
+  card: "信用卡／全球支付 (Stripe)",
+  wechatpay: "WeChat Pay（微信支付）",
+  alipayhk: "AlipayHK（香港支付寶）",
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -90,6 +99,11 @@ export async function POST(request: Request) {
   const customerName = isNonEmptyString(body.customerName)
     ? body.customerName.trim().slice(0, 100)
     : "";
+  const preferredMethod = isNonEmptyString(body.paymentMethod)
+    ? body.paymentMethod.trim().toLowerCase()
+    : "";
+  const paymentLabel =
+    PAYMENT_LABELS[preferredMethod] || "Stripe";
   const total = calcSubtotal(items) + SHIPPING;
   const amount = toStripeAmountHkd(total);
 
@@ -105,7 +119,15 @@ export async function POST(request: Request) {
     const intent = await stripe.paymentIntents.create({
       amount,
       currency: "hkd",
+      // Dashboard-enabled methods (card, wallets, WeChat Pay, Alipay) for HKD.
       automatic_payment_methods: { enabled: true },
+      ...(preferredMethod === "wechatpay"
+        ? {
+            payment_method_options: {
+              wechat_pay: { client: "web" },
+            },
+          }
+        : {}),
       description: `Mofu Haven order ${orderNumber}`,
       metadata: {
         orderNumber,
@@ -113,6 +135,8 @@ export async function POST(request: Request) {
         category: category ?? "",
         site: "mofuhavenhk.com",
         whatsapp_notified: "false",
+        paymentMethod: preferredMethod || "auto",
+        paymentLabel,
         lineItems: items.map((item) => `${item.id}x${item.qty}`).join(","),
       },
     });

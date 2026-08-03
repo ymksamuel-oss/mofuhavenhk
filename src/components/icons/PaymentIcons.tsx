@@ -47,6 +47,34 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
+/** Official WeChat Pay mark — brand green #09BB07 dual speech bubbles. */
+export function WeChatPayLogo({ className = "" }: { className?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- official WeChat Pay brand asset
+    <img
+      src="/images/wechat-pay-official-logo.svg"
+      alt="WeChat Pay"
+      width={32}
+      height={32}
+      className={`h-8 w-8 object-contain ${className}`}
+    />
+  );
+}
+
+/** Official AlipayHK app icon mark (#00A0E9) from AlipayHK brand pack. */
+export function AlipayHkLogo({ className = "" }: { className?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- official AlipayHK brand asset
+    <img
+      src="/images/alipayhk-official-logo.svg"
+      alt="AlipayHK"
+      width={32}
+      height={32}
+      className={`h-8 w-8 object-contain ${className}`}
+    />
+  );
+}
+
 export function WhatsAppLogo({ className = "" }: { className?: string }) {
   return (
     <svg
