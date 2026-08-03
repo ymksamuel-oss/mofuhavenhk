@@ -19,12 +19,12 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
 ];
 
 /** Exact single-line label — never wrap / never use Chinese quotation marks. */
-const SC_PAY_LABEL = "SC Pay 轉數快";
+const FPS_LABEL = "SC Pay 轉數快";
 
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
-  /** Interactive payee menu from checkout/page.tsx — shown under SC Pay when selected. */
+  /** Interactive payee menu from checkout/page.tsx — shown under FPS when selected. */
   fpsPanel?: ReactNode;
 };
 
@@ -71,17 +71,17 @@ export function PaymentMethods({
               >
                 <span
                   className={`flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--line)] bg-white ${
-                    isFps ? "h-11 w-11 p-1.5" : "h-10 min-w-14 px-2.5 py-1.5"
+                    isFps ? "h-11 w-14 px-1.5 py-1" : "h-10 min-w-14 px-2.5 py-1.5"
                   }`}
                 >
                   {isFps ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- static SC Pay brand mark
+                    // eslint-disable-next-line @next/next/no-img-element -- official FPS 轉數快 mark
                     <img
-                      src="/images/sc-pay-logo.png"
-                      alt={SC_PAY_LABEL}
-                      width={60}
-                      height={60}
-                      className="h-8 w-8 object-contain"
+                      src="/images/fps-official-logo.png"
+                      alt="轉數快 FPS"
+                      width={72}
+                      height={63}
+                      className="h-8 w-auto max-w-[3.25rem] object-contain"
                     />
                   ) : Icon ? (
                     <Icon />
@@ -89,7 +89,7 @@ export function PaymentMethods({
                 </span>
 
                 <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
-                  {isFps ? SC_PAY_LABEL : t(labelKey)}
+                  {isFps ? FPS_LABEL : t(labelKey)}
                 </span>
 
                 <span
