@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
 import { FpsQrExpandPanel } from "@/components/checkout/FpsQrExpandPanel";
-import { formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
+import { fpsLocalDigits } from "@/lib/fps";
 
 export type MethodId = "card" | "applepay" | "fps";
 
@@ -67,8 +67,8 @@ function FpsBankMenu({
   const [toast, setToast] = useState<string | null>(null);
   const [phoneCopied, setPhoneCopied] = useState(false);
 
-  const phoneDisplay = formatFpsDisplayId(); // e.g. 9864 6585
-  const phoneDigits = fpsLocalDigits();
+  // Continuous 8-digit local number for display + copy (no mid-number spaces).
+  const phoneDigits = fpsLocalDigits(); // e.g. 98646585
   const amountPlain = amountHkd.toFixed(2); // e.g. 439.00
 
   useEffect(() => {
@@ -78,9 +78,7 @@ function FpsBankMenu({
   }, [toast]);
 
   const handleCopyPhone = async () => {
-    // Prefer digits-only for bank-app paste; fall back to spaced display.
-    const ok =
-      (await copyText(phoneDigits)) || (await copyText(phoneDisplay));
+    const ok = await copyText(phoneDigits);
     if (ok) {
       setPhoneCopied(true);
       setToast("已複製電話");
@@ -150,8 +148,8 @@ function FpsBankMenu({
               <span className="block text-sm font-medium text-[color:var(--ink)]">
                 手提電話號碼 / 電郵地址 / 轉數快識別碼
               </span>
-              <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
-                {phoneDisplay}
+              <span className="mt-0.5 block text-xs tabular-nums tracking-normal text-[color:var(--muted)]">
+                {phoneDigits}
               </span>
             </span>
             <span
@@ -170,8 +168,8 @@ function FpsBankMenu({
                 <p className="text-xs text-[color:var(--muted)]">
                   收款電話／轉數快識別碼
                 </p>
-                <p className="mt-1 text-2xl font-semibold tracking-wide tabular-nums text-[color:var(--ink)]">
-                  {phoneDisplay}
+                <p className="mt-1 text-2xl font-semibold tracking-normal tabular-nums text-[color:var(--ink)]">
+                  {phoneDigits}
                 </p>
               </div>
 
@@ -187,7 +185,7 @@ function FpsBankMenu({
                 {phoneCopied ? "已複製" : "一鍵複製"}
               </button>
 
-              <p className="text-center text-xs leading-relaxed text-[color:var(--muted)]">
+              <p className="rounded-xl border border-[#c48a4a] bg-[#fff4e5] px-3 py-2.5 text-center text-sm font-semibold leading-relaxed text-[#5c3a22]">
                 複製號碼後，請前往您的銀行 App 透過轉數快付款，然後點擊下方按鈕確認訂單。
               </p>
             </div>
