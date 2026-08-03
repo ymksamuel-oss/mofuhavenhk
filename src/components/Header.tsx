@@ -122,15 +122,20 @@ export function Header() {
             aria-modal="true"
             aria-label={t("navOpenMenu")}
           >
+            {/* Dim overlay — tap anywhere outside the drawer to close */}
             <button
               type="button"
-              className="absolute inset-0 bg-[color:var(--ink)]/40"
+              className="absolute inset-0 bg-[color:var(--ink)]/45 backdrop-blur-[2px] transition-opacity"
               aria-label={t("navCloseMenu")}
               onClick={() => setMenuOpen(false)}
             />
             <nav
               id={drawerId}
-              className="absolute inset-y-0 right-0 z-[101] flex h-full w-[min(18rem,86vw)] max-w-full flex-col bg-[color:var(--surface)] shadow-[-12px_0_32px_-18px_rgba(74,54,38,0.45)]"
+              className="absolute inset-y-0 right-0 z-[101] flex h-full w-[62vw] max-w-[15.5rem] flex-col border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(74,54,38,0.55)]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #fffaf1 0%, #f8f0e2 55%, #f3e6d2 100%)",
+              }}
             >
               <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
                 <span className="font-[family-name:var(--font-display)] text-sm font-semibold leading-none text-[color:var(--ink)]">
@@ -138,7 +143,7 @@ export function Header() {
                 </span>
                 <button
                   type="button"
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] text-[color:var(--ink)]"
+                  className="flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)]"
                   aria-label={t("navCloseMenu")}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -150,10 +155,10 @@ export function Header() {
                   <li key={item.href} className="block w-full">
                     <Link
                       href={item.href}
-                      className={`flex w-full items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
+                      className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
                         item.active
                           ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/60 hover:text-[color:var(--ink)]"
+                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
                       }`}
                       onClick={() => setMenuOpen(false)}
                     >
