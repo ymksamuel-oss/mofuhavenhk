@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Noto_Sans_TC, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
+import { SiteFooter } from "@/components/SiteFooter";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { WishlistProvider } from "@/lib/shop/wishlist";
@@ -41,19 +42,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-HK" className="bg-[color:var(--background)]">
+    <html
+      lang="zh-HK"
+      className="site-shell bg-[#f8f0e2]"
+      style={{ backgroundColor: "#f8f0e2" }}
+    >
       <body
-        className={`${outfit.variable} ${notoSansTc.variable} bg-[color:var(--background)] antialiased`}
+        className={`${outfit.variable} ${notoSansTc.variable} site-shell bg-[#f8f0e2] antialiased`}
+        style={{ backgroundColor: "#f8f0e2" }}
       >
+        {/* Fixed cream plane behind everything — blocks any white overscroll flash */}
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 -z-10 bg-[#f8f0e2]"
+          style={{ backgroundColor: "#f8f0e2" }}
+        />
         <I18nProvider>
           <CartProvider>
             <WishlistProvider>
-              <Header />
-              <ShopFlowNav>
-                <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
-                  {children}
-                </main>
-              </ShopFlowNav>
+              <div className="site-shell relative flex min-h-dvh flex-col bg-[#f8f0e2]">
+                <Header />
+                <ShopFlowNav>
+                  <main className="w-full max-w-full flex-1 overflow-x-clip bg-[#f8f0e2]">
+                    {children}
+                  </main>
+                </ShopFlowNav>
+                <SiteFooter />
+              </div>
             </WishlistProvider>
           </CartProvider>
         </I18nProvider>

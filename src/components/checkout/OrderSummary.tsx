@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
@@ -10,6 +11,7 @@ import {
   SHIPPING,
   type OrderItem,
 } from "@/lib/order";
+import { productHref } from "@/lib/products";
 
 type OrderSummaryProps = {
   items: OrderItem[];
@@ -91,7 +93,11 @@ export function OrderSummary({
             className="flex items-start justify-between gap-3 py-3 text-sm"
           >
             <div className="flex min-w-0 items-start gap-3">
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
+              <CategoryNavLink
+                href={productHref(item.id)}
+                className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]"
+                aria-label={item.name[locale]}
+              >
                 <Image
                   src={item.image}
                   alt={item.name[locale]}
@@ -99,11 +105,14 @@ export function OrderSummary({
                   sizes="56px"
                   className="object-cover"
                 />
-              </div>
+              </CategoryNavLink>
               <div className="min-w-0 space-y-2">
-                <p className="font-medium text-[color:var(--ink)]">
+                <CategoryNavLink
+                  href={productHref(item.id)}
+                  className="font-medium text-[color:var(--ink)] transition hover:text-[color:var(--accent)]"
+                >
                   {item.name[locale]}
-                </p>
+                </CategoryNavLink>
                 {editable ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <div

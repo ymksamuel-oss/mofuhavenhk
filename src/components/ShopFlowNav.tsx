@@ -54,7 +54,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   return (
     <>
       {!isHome ? (
-        <div className="relative z-20 border-b border-[color:var(--line)] bg-[color:var(--background)]/95">
+        <div className="relative z-20 border-b border-[color:var(--line)] bg-[#f8f0e2]">
           <div className="mx-auto flex w-full max-w-5xl items-center px-3 py-2 sm:px-6">
             <Link
               href="/menu"
@@ -81,7 +81,9 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
         </div>
       ) : null}
 
-      <div className="w-full max-w-[100vw] overflow-x-clip">{children}</div>
+      <div className="w-full max-w-[100vw] overflow-x-clip bg-[#f8f0e2]">
+        {children}
+      </div>
 
       {showBottomContinue ? (
         <div className="relative z-20 mx-auto w-full max-w-5xl px-4 pt-3 sm:px-6 site-bottom-pad">

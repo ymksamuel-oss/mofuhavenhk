@@ -24,12 +24,16 @@
   --font-display: var(--font-display);
 }
 
+/*
+ * Root canvas: paint cream on every outermost layer so rubber-band /
+ * safe-area / browser chrome never flashes pure white at the top edge.
+ */
 html {
   max-width: 100%;
   overflow-x: hidden;
-  /* Prevent pure-white flash when rubber-banding past the top on mobile */
-  background-color: var(--background);
-  color-scheme: light;
+  background-color: #f8f0e2 !important;
+  background: #f8f0e2 !important;
+  color-scheme: only light;
 }
 
 body {
@@ -40,15 +44,24 @@ body {
   /* Keep content clear of iOS Safari / Chrome bottom toolbars */
   padding-bottom: env(safe-area-inset-bottom, 0px);
   /* Solid cream first so overscroll / gaps never show white */
-  background-color: var(--background);
+  background-color: #f8f0e2 !important;
   background-image:
     radial-gradient(1200px 500px at 10% -10%, #f3e2c4 0%, transparent 55%),
     radial-gradient(900px 420px at 90% 0%, #f8ead1 0%, transparent 50%),
     linear-gradient(180deg, #f8f0e2 0%, #fdf8ef 45%, #f8f0e2 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
+  background-size: 100% 100%;
   color: var(--ink);
   font-family: var(--font-body), "Noto Sans TC", sans-serif;
+}
+
+/* Outer shell used by layout — always opaque cream, never transparent white */
+.site-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #f8f0e2;
+  background: #f8f0e2;
 }
 
 /* Extra breathing room above the mobile browser chrome */

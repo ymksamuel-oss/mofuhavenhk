@@ -180,11 +180,11 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[#f8f0e2]">
         <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
           <Link
             href="/"
-            className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f0e2]"
             aria-label={t("brand")}
           >
             <BrandLogo

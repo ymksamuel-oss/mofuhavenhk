@@ -28,7 +28,7 @@ type ProductCatalogProps = {
 
 /**
  * Shared catalog UI for `/menu` and `/categories/[slug]`.
- * Product cards hard-navigate to `/product/[id]` detail pages.
+ * Entire product cards hard-navigate to `/product/[id]` (wishlist / cart stay interactive).
  */
 export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
@@ -78,51 +78,49 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
             return (
               <li
                 key={product.id}
-                className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
+                className="milk-tea-card group relative flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
-                <div className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
-                  <CategoryNavLink
-                    href={href}
-                    aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
-                    className="absolute inset-0 block"
-                  >
-                    <Image
-                      src={product.image}
-                      alt={product.name[locale]}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
-                    <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
-                      {t("productViewDetails")}
-                    </span>
-                  </CategoryNavLink>
+                {/* Stretch link: whole card (image + copy) opens product detail */}
+                <CategoryNavLink
+                  href={href}
+                  aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
+                  className="absolute inset-0 z-[1] touch-manipulation"
+                />
+
+                <div className="pointer-events-none relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
+                  <Image
+                    src={product.image}
+                    alt={product.name[locale]}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
+                    {t("productViewDetails")}
+                  </span>
 
                   {discountPercent ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                       -{discountPercent}%
                     </span>
                   ) : null}
 
                   <WishlistHeartButton
                     productId={product.id}
-                    className="absolute right-2.5 top-2.5 z-10"
+                    className="pointer-events-auto absolute right-2.5 top-2.5 z-[2]"
                   />
                 </div>
 
-                <div className="flex flex-1 flex-col gap-2 p-4">
-                  <CategoryNavLink
-                    href={href}
-                    className="text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
-                  >
+                <div className="relative z-[2] flex flex-1 flex-col gap-2 p-4">
+                  <p className="pointer-events-none text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
                     {product.name[locale]}
-                  </CategoryNavLink>
+                  </p>
                   {product.description ? (
-                    <p className="text-xs leading-snug text-[color:var(--muted)]">
+                    <p className="pointer-events-none text-xs leading-snug text-[color:var(--muted)]">
                       {product.description[locale]}
                     </p>
                   ) : null}
-                  <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
+                  <div className="pointer-events-none mt-auto flex flex-wrap items-baseline gap-x-2">
                     <p className="text-lg font-semibold tabular-nums text-[color:var(--accent)]">
                       {formatMoney(product.price, locale)}
                     </p>
@@ -132,7 +130,9 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
                       </p>
                     ) : null}
                   </div>
-                  <AddToCartButton productId={product.id} size="card" />
+                  <div className="pointer-events-auto relative z-[2]">
+                    <AddToCartButton productId={product.id} size="card" />
+                  </div>
                 </div>
               </li>
             );
