@@ -85,9 +85,6 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
       {showBottomContinue ? (
         <div className="relative z-20 mx-auto w-full max-w-5xl px-4 pt-3 sm:px-6 site-bottom-pad">
           <ContinueShoppingButton variant="soft" className="w-full sm:w-full" />
-          <p className="mt-2 text-center text-xs text-[color:var(--muted)]">
-            {t("navBackToMenu")}
-          </p>
         </div>
       ) : (
         <div className="site-bottom-pad" aria-hidden="true" />
