@@ -3,6 +3,42 @@ type LogoProps = { className?: string };
 /** Shared mark height inside unified payment option cards. */
 const MARK_H = "h-7";
 
+/** Visa wordmark (#1434CB) — transparent acceptance mark. */
+export function VisaLogo({ className = "" }: LogoProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={`${MARK_H} w-auto shrink-0 ${className}`}
+      aria-label="Visa"
+      role="img"
+    >
+      <path
+        fill="#1434CB"
+        d="M9.112 8.262 5.97 15.698H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 0 1 .894.764l.817 4.338 2.018-5.102zm8.063 5.047c.008-2.009-2.778-2.12-2.76-3.018.006-.274.267-.566.84-.641.284-.037 1.068-.067 1.957.345l.349-1.63a5.208 5.208 0 0 0-1.814-.333c-1.92 0-3.273 1.02-3.286 2.482-.016 1.08.963 1.682 1.698 2.042.756.369 1.01.605 1.006.934-.005.504-.602.726-1.16.735-.975.016-1.54-.263-1.993-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.378-2.563m5.071 2.389h1.804l-1.573-7.436h-1.665a.897.897 0 0 0-.838.58l-2.946 6.856h2.06l.41-1.131h2.518zm-2.175-3.004 1.032-2.839.595 2.839zM11.007 8.262l-1.622 7.436H7.44l1.622-7.436z"
+      />
+    </svg>
+  );
+}
+
+/** Mastercard interlocking circles — transparent acceptance mark. */
+export function MastercardLogo({ className = "" }: LogoProps) {
+  return (
+    <svg
+      viewBox="0 0 38 24"
+      className={`${MARK_H} w-auto shrink-0 ${className}`}
+      aria-label="Mastercard"
+      role="img"
+    >
+      <circle cx="12" cy="12" r="10" fill="#EB001B" />
+      <circle cx="26" cy="12" r="10" fill="#F79E1B" />
+      <path
+        d="M19 4.35a10 10 0 0 1 0 15.3 10 10 0 0 1 0-15.3z"
+        fill="#FF5F00"
+      />
+    </svg>
+  );
+}
+
 /**
  * Visa (#1434CB) + Mastercard symbol — vector acceptance marks, transparent.
  */
@@ -13,20 +49,8 @@ export function CardLogo({ className = "" }: LogoProps) {
       aria-label="Visa and Mastercard"
       role="img"
     >
-      <svg viewBox="0 0 24 24" className="h-6 w-auto" aria-hidden="true">
-        <path
-          fill="#1434CB"
-          d="M9.112 8.262 5.97 15.698H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 0 1 .894.764l.817 4.338 2.018-5.102zm8.063 5.047c.008-2.009-2.778-2.12-2.76-3.018.006-.274.267-.566.84-.641.284-.037 1.068-.067 1.957.345l.349-1.63a5.208 5.208 0 0 0-1.814-.333c-1.92 0-3.273 1.02-3.286 2.482-.016 1.08.963 1.682 1.698 2.042.756.369 1.01.605 1.006.934-.005.504-.602.726-1.16.735-.975.016-1.54-.263-1.993-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.378-2.563m5.071 2.389h1.804l-1.573-7.436h-1.665a.897.897 0 0 0-.838.58l-2.946 6.856h2.06l.41-1.131h2.518zm-2.175-3.004 1.032-2.839.595 2.839zM11.007 8.262l-1.622 7.436H7.44l1.622-7.436z"
-        />
-      </svg>
-      <svg viewBox="0 0 38 24" className="h-6 w-auto" aria-hidden="true">
-        <circle cx="12" cy="12" r="10" fill="#EB001B" />
-        <circle cx="26" cy="12" r="10" fill="#F79E1B" />
-        <path
-          d="M19 4.35a10 10 0 0 1 0 15.3 10 10 0 0 1 0-15.3z"
-          fill="#FF5F00"
-        />
-      </svg>
+      <VisaLogo className="h-6" />
+      <MastercardLogo className="h-6" />
     </span>
   );
 }

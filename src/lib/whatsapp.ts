@@ -159,3 +159,11 @@ export function openWhatsAppOrder(message: string): boolean {
 export function getPublicShopWhatsAppNumber(): string {
   return WHATSAPP_NUMBER;
 }
+
+/** Click-to-chat URL for general customer enquiries (footer / contact). */
+export function getShopWhatsAppChatUrl(prefillMessage?: string): string | null {
+  if (!WHATSAPP_NUMBER) return null;
+  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
+  if (!prefillMessage?.trim()) return base;
+  return `${base}?text=${encodeURIComponent(prefillMessage.trim())}`;
+}
