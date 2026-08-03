@@ -9,7 +9,6 @@ import {
   PaymentMethods,
   type MethodId,
 } from "@/components/checkout/PaymentMethods";
-import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
 import {
   EMPTY_SHIPPING_CONTACT,
   formatPhoneForDisplay,
@@ -20,6 +19,7 @@ import {
 } from "@/components/checkout/ShippingContactForm";
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
+import { ContinueShoppingButton } from "@/components/ContinueShoppingButton";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   calcSubtotal,
@@ -402,12 +402,14 @@ function CheckoutContent() {
 
   return (
     <div className="mx-auto w-full max-w-5xl overflow-x-clip px-4 py-8 sm:px-6 sm:py-12">
-      <header className="mb-8 max-w-2xl">
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
-          {t("checkoutTitle")}
-        </h1>
-        <p className="mt-2 text-[color:var(--muted)]">{t("checkoutSubtitle")}</p>
-        <SelectedCategoryNotice />
+      <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0 max-w-2xl">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
+            {t("checkoutTitle")}
+          </h1>
+          <p className="mt-2 text-[color:var(--muted)]">{t("checkoutSubtitle")}</p>
+        </div>
+        <ContinueShoppingButton variant="primary" className="sm:shrink-0" />
       </header>
 
       <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">

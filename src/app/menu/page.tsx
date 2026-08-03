@@ -32,9 +32,6 @@ function MenuContent() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-8 max-w-2xl">
-        <span className="mb-2 inline-block rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
-          {t("menuEyebrow")}
-        </span>
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
           {t("menuTitle")}
         </h1>

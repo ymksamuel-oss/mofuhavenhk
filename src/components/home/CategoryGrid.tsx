@@ -36,9 +36,6 @@ export function CategoryGrid() {
       className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16"
     >
       <div className="mb-8 max-w-2xl">
-        <span className="mb-2 inline-block rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
-          {t("categoryGridEyebrow")}
-        </span>
         <h2
           id="category-grid-title"
           className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-3xl"
