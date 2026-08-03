@@ -39,7 +39,7 @@ function canUseInAppBack(): boolean {
 /**
  * Mobile-first flow chrome:
  * - Top: reliable back control (Link + same-origin history.back)
- * - Bottom: continue-shopping CTA with safe-area padding (no back-to-top)
+ * - Bottom: continue-shopping CTA on shop-flow pages (not home), with safe-area padding
  */
 export function ShopFlowNav({ children }: { children: ReactNode }) {
   const { t } = useI18n();
@@ -48,8 +48,9 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const isHome = pathname === "/";
   const isCategoryPage = pathname.startsWith("/categories/");
   const isProductPage = pathname.startsWith("/product/");
+  // Home keeps a clean CategoryGrid → Footer handoff (no continue-shopping strip).
   const showBottomContinue =
-    pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
+    pathname === "/checkout" || isCategoryPage || isProductPage;
 
   return (
     <>

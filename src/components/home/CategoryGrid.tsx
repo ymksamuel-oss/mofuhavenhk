@@ -33,7 +33,7 @@ export function CategoryGrid() {
   return (
     <section
       aria-labelledby="category-grid-title"
-      className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16"
+      className="mx-auto max-w-5xl px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16"
     >
       <div className="mb-8 max-w-2xl">
         <h2
