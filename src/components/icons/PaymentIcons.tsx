@@ -1,14 +1,13 @@
-type LogoProps = { className?: string };
+import Image from "next/image";
 
-/** Shared mark height inside unified payment option cards. */
-const MARK_H = "h-7";
+type LogoProps = { className?: string };
 
 /** Visa wordmark (#1434CB) — transparent acceptance mark. */
 export function VisaLogo({ className = "" }: LogoProps) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className={`${MARK_H} w-auto shrink-0 ${className}`}
+      className={`h-6 w-auto shrink-0 ${className}`}
       aria-label="Visa"
       role="img"
     >
@@ -25,7 +24,7 @@ export function MastercardLogo({ className = "" }: LogoProps) {
   return (
     <svg
       viewBox="0 0 38 24"
-      className={`${MARK_H} w-auto shrink-0 ${className}`}
+      className={`h-6 w-auto shrink-0 ${className}`}
       aria-label="Mastercard"
       role="img"
     >
@@ -40,12 +39,12 @@ export function MastercardLogo({ className = "" }: LogoProps) {
 }
 
 /**
- * Visa (#1434CB) + Mastercard symbol — vector acceptance marks, transparent.
+ * Visa + Mastercard — vector acceptance marks, transparent.
  */
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`inline-flex ${MARK_H} items-center gap-1.5 ${className}`}
+      className={`inline-flex h-9 w-[4.5rem] shrink-0 items-center justify-start gap-1.5 ${className}`}
       aria-label="Visa and Mastercard"
       role="img"
     >
@@ -56,85 +55,65 @@ export function CardLogo({ className = "" }: LogoProps) {
 }
 
 /**
- * Apple Pay mark only (black glyph + Pay) — transparent, no Google Pay.
+ * Apple Pay — black Apple glyph + Pay (no Google Pay).
+ * Asset: /public/images/apple-pay-logo.svg
  */
 export function ApplePayLogo({ className = "" }: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 52 20"
-      className={`${MARK_H} w-auto shrink-0 ${className}`}
-      aria-label="Apple Pay"
-      role="img"
+    <span
+      className={`relative inline-flex h-9 w-[4.5rem] shrink-0 items-center justify-start ${className}`}
     >
-      <path
-        fill="#000"
-        d="M9.55 5.15c-.45.55-1.2.95-1.9.9-.1-.75.25-1.55.7-2.05.45-.55 1.25-.95 1.9-.95.05.75-.2 1.5-.7 2.1zm.7 1.1c-1.1-.05-2.05.65-2.55.65-.55 0-1.35-.6-2.2-.55-1.1.05-2.15.7-2.7 1.7-1.15 2-.3 4.95.85 6.55.55.8 1.2 1.7 2.1 1.65.8-.05 1.15-.55 2.15-.55s1.3.55 2.2.5c.9-.05 1.5-.8 2.05-1.6.65-.95.9-1.85.9-1.9-.05 0-1.8-.7-1.8-2.7 0-1.7 1.4-2.5 1.45-2.55-.8-1.2-2.05-1.3-2.45-1.35z"
+      <Image
+        src="/images/apple-pay-logo.svg"
+        alt="Apple Pay"
+        width={104}
+        height={40}
+        className="h-7 w-auto"
+        unoptimized
       />
-      <text
-        x="34.5"
-        y="15"
-        textAnchor="middle"
-        fill="#000"
-        fontSize="11.5"
-        fontFamily="-apple-system, BlinkMacSystemFont, SF Pro Text, Helvetica Neue, Helvetica, Arial, sans-serif"
-        fontWeight="600"
-        letterSpacing="0.2"
-      >
-        Pay
-      </text>
-    </svg>
+    </span>
   );
 }
 
 /**
- * WeChat Pay official green rounded mark (#09BB07).
+ * WeChat Pay — official green app mark (bubble + check).
+ * Asset: /public/images/wechat-pay-logo.svg
  */
 export function WeChatPayLogo({ className = "" }: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      className={`${MARK_H} w-7 shrink-0 ${className}`}
-      aria-label="WeChat Pay"
-      role="img"
+    <span
+      className={`relative inline-flex h-9 w-9 shrink-0 overflow-hidden rounded-[0.55rem] ${className}`}
     >
-      <rect width="48" height="48" rx="10" fill="#09BB07" />
-      <g fill="#FFFFFF">
-        <path d="M19.6 14.2c-6.1 0-11 3.9-11 8.7 0 2.7 1.6 5.1 4.1 6.7l-.9 3.1 3.5-1.9c1.3.4 2.7.6 4.3.6.4 0 .8 0 1.2-.1-.3-.8-.4-1.6-.4-2.5 0-5.1 5-9.2 11.1-9.2.3 0 .7 0 1 .1-1.5-3.5-5.6-5.5-10.9-5.5z" />
-        <circle cx="15.2" cy="22.2" r="1.25" />
-        <circle cx="20.8" cy="22.2" r="1.25" />
-        <path d="M35.4 24.6c-5.1 0-9.2 3.3-9.2 7.3 0 2.3 1.4 4.3 3.5 5.6l-.7 2.5 2.9-1.6c1.1.3 2.2.5 3.5.5 5.1 0 9.2-3.3 9.2-7.3s-4.1-7-9.2-7z" />
-        <circle cx="32.2" cy="31.4" r="1.05" />
-        <circle cx="37.2" cy="31.4" r="1.05" />
-      </g>
-    </svg>
+      <Image
+        src="/images/wechat-pay-logo.svg"
+        alt="WeChat Pay"
+        width={36}
+        height={36}
+        className="h-full w-full object-cover"
+        unoptimized
+      />
+    </span>
   );
 }
 
 /**
- * AlipayHK official blue mark (#00A0E9) — transparent, no white plate.
+ * AlipayHK — official blue app mark with 「支」.
+ * Asset: /public/images/alipayhk-logo.svg
  */
 export function AlipayHkLogo({ className = "" }: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      className={`${MARK_H} w-7 shrink-0 ${className}`}
-      aria-label="AlipayHK"
-      role="img"
+    <span
+      className={`relative inline-flex h-9 w-9 shrink-0 overflow-hidden rounded-[0.55rem] ${className}`}
     >
-      <path
-        fill="#00A0E9"
-        d="M36.5625 0C43.5 0 48 4.5 48 11.4375v20.6028c-.45-.115-3.34-.759-9.092-2.69-1.797-.579-4.144-1.458-6.715-2.41 1.528-2.668 2.78-5.77 3.616-9.126h-8.695v-3.099h10.589V12.994H27.115V7.828h-4.305c-.724 0-.77.636-.774.687v4.479H11.36v1.722h10.761v3.099H13.254v1.722h17.132c-.629 2.099-1.463 4.116-2.497 5.94-5.539-1.773-11.485-3.273-15.238-2.325-2.402.552-3.915 1.586-4.821 2.669C3.625 30.84 6.598 38.39 15.406 38.39c5.171 0 10.178-2.844 14.033-7.576 5.348 2.553 16.686 7.21 18.405 7.927C46.99 44.427 42.744 48 36.563 48H11.438C4.5 48 0 43.5 0 36.563V22.858L22.793 0H36.563z"
+      <Image
+        src="/images/alipayhk-logo.svg"
+        alt="AlipayHK"
+        width={36}
+        height={36}
+        className="h-full w-full object-cover"
+        unoptimized
       />
-      <path
-        fill="#00A0E9"
-        d="M14.545 35.56c-6.806 0-8.843-5.327-5.424-8.201 1.124-1.004 3.161-1.47 4.219-1.554 4.112-.433 7.872 1.119 12.311 3.281-3.081 3.94-7.102 6.474-11.106 6.474"
-      />
-      <path
-        fill="#00A0E9"
-        transform="translate(7.56 7.93) rotate(-45) translate(-7.56 -7.93)"
-        d="M7.264 10.913H6.522V8.193H3.259v2.72H2.518V4.94h.741v2.583h3.263V4.94h.742v5.973zm1.52 0s-.037 0-.111 0h-.26c-.074 0-.111 0-.111 0V4.94h.742v2.914h.041l2.624-2.914h.935L9.942 7.585l2.661 3.328h-.947L9.427 8.115l-.643.712v2.086z"
-      />
-    </svg>
+    </span>
   );
 }
 

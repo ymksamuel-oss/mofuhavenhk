@@ -39,7 +39,7 @@ export const translations = {
     payAlipayHk: "AlipayHK（香港支付寶）",
     placeOrder: "確認付款",
     secureNote:
-      "付款經 Stripe 加密處理；成功後系統將自動經 WhatsApp 通知店主。",
+      "付款經 Stripe 加密處理，系統成功後會自動經 WhatsApp 通知店主。",
     stripeMethodsNote: "實際付款由 Stripe 安全處理。支援的裝置會顯示 Apple Pay。",
     walletMethodsNote:
       "WeChat Pay 與 AlipayHK 經 Stripe 安全處理；請確保 Stripe Dashboard 已啟用對應付款方式（HKD）。",
@@ -143,7 +143,7 @@ export const translations = {
     orderNotifyNotConfigured:
       "自動通知暫時未能送達。請改用下方「手動開啟店主 WhatsApp」後備按鈕。",
     orderNotifyServerHint:
-      "付款經 Stripe 加密處理；成功後系統將自動經 WhatsApp 通知店主。",
+      "付款經 Stripe 加密處理，系統成功後會自動經 WhatsApp 通知店主。",
     whatsappNumberMissing:
       "尚未設定店主 WhatsApp 號碼（NEXT_PUBLIC_WHATSAPP_NUMBER），無法開啟正確聯絡人。",
     footerTagline:

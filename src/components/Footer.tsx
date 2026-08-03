@@ -86,25 +86,22 @@ function FooterNavColumn({
 }
 
 function PaymentMarks() {
-  const markClass =
-    "h-5 w-auto opacity-90 transition hover:opacity-100 sm:h-[1.35rem]";
-
   return (
-    <ul className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:justify-end sm:gap-x-3.5">
+    <ul className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 opacity-90 sm:justify-end sm:gap-x-3">
       <li>
-        <ApplePayLogo className={markClass} />
+        <ApplePayLogo className="!h-6 !w-[3.25rem] [&_img]:h-5" />
       </li>
       <li>
-        <WeChatPayLogo className={markClass} />
+        <WeChatPayLogo className="!h-6 !w-6 !rounded-md" />
       </li>
       <li>
-        <AlipayHkLogo className={markClass} />
+        <AlipayHkLogo className="!h-6 !w-6 !rounded-md" />
       </li>
       <li>
-        <VisaLogo className={markClass} />
+        <VisaLogo className="!h-5" />
       </li>
       <li>
-        <MastercardLogo className={markClass} />
+        <MastercardLogo className="!h-5" />
       </li>
     </ul>
   );

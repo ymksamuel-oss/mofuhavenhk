@@ -60,7 +60,7 @@ export function BrandLogo({
           x="24"
           y="20"
           fill="var(--ink)"
-          fontFamily="var(--font-display), Outfit, sans-serif"
+          fontFamily="var(--font-display), 'Noto Sans HK', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif"
           fontSize="18"
           fontWeight="600"
           letterSpacing="0.02em"
