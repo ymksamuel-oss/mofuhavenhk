@@ -47,24 +47,44 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
+/** HK Faster Payment System style mark — green FPS + circling blue arrows. */
 export function FpsLogo({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 48 24"
       height={ICON_H}
       className={`h-6 w-auto ${className}`}
-      aria-label="FPS"
+      aria-label="FPS 轉數快"
       role="img"
     >
-      <rect width="48" height="24" rx="3" fill="#E35205" />
+      <circle cx="24" cy="12" r="11" fill="#E8F6E9" />
+      {/* Top arrow → */}
+      <path
+        d="M12 8.2c4.2-3.6 12.8-3.8 18.2-.2"
+        fill="none"
+        stroke="#4DA3E0"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <path d="M29.2 5.6l3.2 3.4-4.4.6z" fill="#4DA3E0" />
+      {/* Bottom arrow ← */}
+      <path
+        d="M36 15.8c-4.2 3.6-12.8 3.8-18.2.2"
+        fill="none"
+        stroke="#1E6BB8"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <path d="M18.8 18.4l-3.2-3.4 4.4-.6z" fill="#1E6BB8" />
       <text
         x="24"
-        y="16"
+        y="15.2"
         textAnchor="middle"
-        fill="#fff"
-        fontSize="10"
-        fontFamily="Arial, sans-serif"
-        fontWeight="700"
+        fill="#3CA54B"
+        fontSize="9.5"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="800"
+        fontStyle="italic"
       >
         FPS
       </text>
