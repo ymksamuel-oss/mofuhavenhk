@@ -60,15 +60,15 @@ export function CategoryGrid() {
                 className="group flex flex-col items-center gap-2.5 text-center"
               >
                 <span
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-[color:var(--category-ink)] shadow-[inset_0_2px_3px_rgba(255,255,255,0.35),0_8px_18px_-9px_rgba(92,54,38,0.55)] ring-1 ring-white/40 transition-all duration-200 ease-out group-hover:-translate-y-1.5 group-hover:shadow-[inset_0_2px_3px_rgba(255,255,255,0.4),0_16px_26px_-10px_rgba(92,54,38,0.6)] sm:h-20 sm:w-20"
+                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-[color:var(--category-ink)] shadow-[inset_0_2px_3px_rgba(255,255,255,0.35),0_8px_18px_-9px_rgba(92,54,38,0.55)] ring-1 ring-white/40 will-change-transform transition-[transform,box-shadow] duration-[250ms] ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.07] group-hover:shadow-[inset_0_2px_3px_rgba(255,255,255,0.45),0_18px_28px_-10px_rgba(92,54,38,0.68)] group-active:-translate-y-1 group-active:scale-[1.06] group-active:shadow-[inset_0_2px_3px_rgba(255,255,255,0.4),0_14px_24px_-10px_rgba(92,54,38,0.62)] sm:h-20 sm:w-20"
                   style={{
                     background:
                       "radial-gradient(circle at 32% 26%, var(--category-bg-light), var(--category-bg))",
                   }}
                 >
-                  <Icon className="h-8 w-8 transition-transform duration-200 ease-out group-hover:scale-110 sm:h-10 sm:w-10" />
+                  <Icon className="h-8 w-8 transition-transform duration-[250ms] ease-out group-hover:scale-105 group-active:scale-105 sm:h-10 sm:w-10" />
                 </span>
-                <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">
+                <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors duration-[250ms] group-hover:text-[color:var(--accent)] group-active:text-[color:var(--accent)] sm:text-sm">
                   {t(labelKey)}
                 </span>
               </Link>
