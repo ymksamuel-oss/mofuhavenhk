@@ -13,37 +13,37 @@ const FOOTER_PAYMENT_LOGOS = [
   {
     src: "/images/wechat-pay-logo.svg",
     alt: "WeChat Pay",
-    width: 28,
-    height: 28,
-    className: "h-7 w-7 rounded-[0.4rem]",
+    width: 24,
+    height: 24,
+    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
   },
   {
     src: "/images/apple-pay-logo.svg",
     alt: "Apple Pay",
-    width: 72,
-    height: 28,
-    className: "h-7 w-auto",
+    width: 64,
+    height: 24,
+    className: "h-6 w-auto sm:h-7",
   },
   {
     src: "/images/alipayhk-logo.svg",
     alt: "AlipayHK",
-    width: 28,
-    height: 28,
-    className: "h-7 w-7 rounded-[0.4rem]",
+    width: 24,
+    height: 24,
+    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
   },
   {
     src: "/images/visa-logo.svg",
     alt: "Visa",
-    width: 56,
-    height: 28,
-    className: "h-5 w-auto mix-blend-multiply",
+    width: 48,
+    height: 24,
+    className: "h-4 w-auto mix-blend-multiply sm:h-5",
   },
   {
     src: "/images/mastercard-logo.svg",
     alt: "Mastercard",
-    width: 44,
-    height: 28,
-    className: "h-7 w-auto",
+    width: 40,
+    height: 24,
+    className: "h-6 w-auto sm:h-7",
   },
 ] as const;
 
@@ -124,15 +124,18 @@ function FooterNavColumn({
  */
 function PaymentMarks() {
   return (
-    <ul className="mt-1 flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2.5 sm:mt-0 sm:justify-end sm:gap-x-3.5">
+    <ul className="mt-1 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-2 sm:mt-0 sm:w-auto sm:justify-end sm:gap-x-3.5 sm:gap-y-2.5">
       {FOOTER_PAYMENT_LOGOS.map((logo) => (
-        <li key={logo.alt} className="flex h-7 shrink-0 items-center">
+        <li
+          key={logo.alt}
+          className="flex h-6 items-center justify-center sm:h-7"
+        >
           <Image
             src={logo.src}
             alt={logo.alt}
             width={logo.width}
             height={logo.height}
-            className={`object-contain ${logo.className}`}
+            className={`max-h-full object-contain ${logo.className}`}
             unoptimized
           />
         </li>
