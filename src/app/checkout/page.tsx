@@ -10,6 +10,11 @@ import {
   type MethodId,
 } from "@/components/checkout/PaymentMethods";
 import { SelectedCategoryNotice } from "@/components/checkout/SelectedCategoryNotice";
+import {
+  EMPTY_SHIPPING_CONTACT,
+  ShippingContactForm,
+  type ShippingContact,
+} from "@/components/checkout/ShippingContactForm";
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -48,7 +53,8 @@ function CheckoutContent() {
   const [items, setItems] = useState<OrderItem[]>(initialItems);
   const amountHkd = calcSubtotal(items) + SHIPPING;
 
-  const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
+  // Default to wallet (Apple Pay / Google Pay) for mobile one-tap checkout.
+  const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [phase, setPhase] = useState<PayPhase>("idle");
   const [payError, setPayError] = useState("");
@@ -59,9 +65,31 @@ function CheckoutContent() {
     null,
   );
   const [fpsConfirming, setFpsConfirming] = useState(false);
+  const [shippingContact, setShippingContact] = useState<ShippingContact>(
+    EMPTY_SHIPPING_CONTACT,
+  );
   const preparingRef = useRef(false);
 
   const isFps = selectedMethod === "fps";
+  const liveTotalHkd = amountHkd;
+
+  const contactForMessage = useMemo(
+    () => ({
+      name: shippingContact.name.trim(),
+      phone: shippingContact.phone.trim(),
+      address: shippingContact.address.trim(),
+      addressLine2: shippingContact.addressLine2.trim(),
+      city: shippingContact.city.trim(),
+      postalCode: shippingContact.postalCode.trim(),
+    }),
+    [shippingContact],
+  );
+
+  const hasRequiredContact = Boolean(
+    contactForMessage.name &&
+      contactForMessage.phone &&
+      contactForMessage.address,
+  );
 
   useEffect(() => {
     setItems(getOrderItems(category));
@@ -161,6 +189,8 @@ function CheckoutContent() {
           orderNumber: number,
           locale,
           t,
+          contact: contactForMessage,
+          totalHkd: liveTotalHkd,
         })
       : buildOrderMessage({
           items,
@@ -168,6 +198,8 @@ function CheckoutContent() {
           locale,
           t,
           paymentLabel: paymentLabelKey ? t(paymentLabelKey) : undefined,
+          contact: contactForMessage,
+          totalHkd: liveTotalHkd,
         });
     const opened = openWhatsAppOrder(message);
     setManualWaError(!opened);
@@ -277,15 +309,27 @@ function CheckoutContent() {
 
   /**
    * FPS path: notify shop server-side (CallMeBot) + open customer WhatsApp
-   * with order details and screenshot instructions for @MofuHavenHK.
+   * with structured order details and screenshot instructions.
    */
   const handleFpsConfirm = async () => {
     if (fpsConfirming || phase === "fps_done") return;
+
+    if (!hasRequiredContact) {
+      setPayError(t("shippingContactRequired"));
+      return;
+    }
+    if (items.length === 0) {
+      setPayError(t("stripePayFailed"));
+      return;
+    }
+
     setFpsConfirming(true);
     setPayError("");
 
     const number = orderNumber ?? generateOrderNumber();
     setOrderNumber(number);
+    // Always recompute from live cart — never a hardcoded total.
+    const confirmTotal = calcSubtotal(items) + SHIPPING;
 
     try {
       await fetch("/api/notify-order", {
@@ -293,11 +337,10 @@ function CheckoutContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           orderNumber: number,
-          customerName: "FPS 顧客",
+          customerName: contactForMessage.name || "FPS 顧客",
           paymentLabel: t("payFps"),
-          // Server recalculates from catalog lines (subtotal + shipping).
           items: items.map((item) => ({ id: item.id, qty: item.qty })),
-          total: amountHkd,
+          total: confirmTotal,
           currency: t("currency"),
         }),
       });
@@ -310,6 +353,9 @@ function CheckoutContent() {
       orderNumber: number,
       locale,
       t,
+      contact: contactForMessage,
+      totalHkd: confirmTotal,
+      orderedAt: new Date(),
     });
     const opened = openWhatsAppOrder(message);
     setManualWaError(!opened);
@@ -340,11 +386,21 @@ function CheckoutContent() {
       </header>
 
       <div className="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        <PaymentMethods
-          selected={selectedMethod}
-          onSelect={handleSelectMethod}
-          amountHkd={amountHkd}
-        />
+        {/* Mobile-first: wallets / pay methods first for one-tap checkout */}
+        <div className="space-y-6">
+          <PaymentMethods
+            selected={selectedMethod}
+            onSelect={handleSelectMethod}
+            amountHkd={amountHkd}
+          />
+          <div className="milk-tea-card p-5 sm:p-6">
+            <ShippingContactForm
+              value={shippingContact}
+              onChange={setShippingContact}
+              disabled={qtyLocked}
+            />
+          </div>
+        </div>
         <div className="milk-tea-card space-y-6 p-5 sm:p-6">
           <OrderSummary
             items={items}
