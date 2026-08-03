@@ -15,9 +15,9 @@ export const FPS_ID = (
 
 /**
  * Pure white FPS QR (QR modules only — no bank branding / payee text).
- * Hardcoded so stale Vercel env cannot override with an old asset.
+ * Hardcoded filename so stale Vercel env / CDN cannot serve the old blue screenshot.
  */
-export const FPS_QR_SRC = "/images/fps-qr-code.png";
+export const FPS_QR_SRC = "/images/fps-qr-plain.png";
 
 /** Local HK mobile digits (no country code) for bank-app paste. */
 export function fpsLocalDigits(digits: string = FPS_ID): string {
