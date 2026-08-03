@@ -14,11 +14,13 @@ export type PaymentMethodDef = {
   id: MethodId;
   labelKey: "payCard" | "payApplePay" | "payWeChatPay" | "payAlipayHk";
   Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
+  /** When true, logo already carries the brand name — skip middle label text. */
+  logoOnly?: boolean;
 };
 
 /** Mobile-first: Apple Pay first, then WeChat / AlipayHK, then card. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
-  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo, logoOnly: true },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },
@@ -50,31 +52,40 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
       </div>
 
       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
+        {PAYMENT_METHODS.map(({ id, labelKey, Icon, logoOnly }) => {
           const active = selected === id;
+          const label = t(labelKey);
 
           return (
             <li key={id} className="min-w-0">
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex h-[4.75rem] w-full items-center gap-3.5 rounded-[1.15rem] border px-3.5 text-left transition duration-200 sm:h-[5rem] sm:gap-4 sm:px-4 ${
+                aria-label={label}
+                aria-pressed={active}
+                className={`flex h-20 w-full items-center gap-3 rounded-2xl border px-3.5 text-left transition duration-200 sm:gap-3.5 sm:px-4 ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_8px_20px_-12px_rgba(169,124,80,0.55)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_1px_2px_rgba(74,54,38,0.04)] hover:border-[color:var(--accent)]/45 hover:bg-[color:var(--accent-soft)]/35"
                 }`}
-                aria-pressed={active}
               >
-                <span className="flex h-9 w-[4.5rem] shrink-0 items-center justify-start">
+                {/* Left: fixed-size logo slot — keeps icons from crowding the label */}
+                <span className="flex h-10 w-12 shrink-0 items-center justify-center overflow-visible">
                   <Icon />
                 </span>
 
-                <span className="min-w-0 flex-1 break-words text-left text-[0.925rem] font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)]">
-                  {t(labelKey)}
-                </span>
+                {/* Middle: label (omitted when logo already shows the name) */}
+                {logoOnly ? (
+                  <span className="min-w-0 flex-1" aria-hidden="true" />
+                ) : (
+                  <span className="min-w-0 flex-1 text-left text-sm font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)] line-clamp-2 sm:text-[0.925rem]">
+                    {label}
+                  </span>
+                )}
 
+                {/* Right: radio indicator */}
                 <span
-                  className={`ml-auto h-[1.125rem] w-[1.125rem] shrink-0 rounded-full border-[1.5px] transition ${
+                  className={`h-[1.125rem] w-[1.125rem] shrink-0 rounded-full border-[1.5px] transition ${
                     active
                       ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_2px_var(--surface)]"
                       : "border-[color:var(--line)] bg-transparent"

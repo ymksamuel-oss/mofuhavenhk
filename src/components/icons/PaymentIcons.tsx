@@ -44,12 +44,12 @@ export function MastercardLogo({ className = "" }: LogoProps) {
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`inline-flex h-9 w-[4.5rem] shrink-0 items-center justify-start gap-1.5 ${className}`}
+      className={`inline-flex h-10 w-12 shrink-0 items-center justify-center gap-1 ${className}`}
       aria-label="Visa and Mastercard"
       role="img"
     >
-      <VisaLogo className="h-6" />
-      <MastercardLogo className="h-6" />
+      <VisaLogo className="h-5" />
+      <MastercardLogo className="h-5" />
     </span>
   );
 }
@@ -61,14 +61,14 @@ export function CardLogo({ className = "" }: LogoProps) {
 export function ApplePayLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`relative inline-flex h-9 w-[4.5rem] shrink-0 items-center justify-start ${className}`}
+      className={`relative inline-flex h-10 w-12 shrink-0 items-center justify-center ${className}`}
     >
       <Image
         src="/images/apple-pay-logo.svg"
         alt="Apple Pay"
         width={104}
         height={40}
-        className="h-7 w-auto"
+        className="h-7 w-auto max-w-full object-contain"
         unoptimized
       />
     </span>
@@ -82,13 +82,13 @@ export function ApplePayLogo({ className = "" }: LogoProps) {
 export function WeChatPayLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`relative inline-flex h-9 w-9 shrink-0 overflow-hidden rounded-[0.55rem] ${className}`}
+      className={`relative inline-flex h-10 w-10 shrink-0 overflow-hidden rounded-[0.65rem] ${className}`}
     >
       <Image
         src="/images/wechat-pay-logo.svg"
         alt="WeChat Pay"
-        width={36}
-        height={36}
+        width={40}
+        height={40}
         className="h-full w-full object-cover"
         unoptimized
       />
@@ -97,19 +97,19 @@ export function WeChatPayLogo({ className = "" }: LogoProps) {
 }
 
 /**
- * AlipayHK — official blue app mark with 「支」.
+ * AlipayHK — official blue app mark with 「支」 (AlipayHK 2019 brand pack).
  * Asset: /public/images/alipayhk-logo.svg
  */
 export function AlipayHkLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`relative inline-flex h-9 w-9 shrink-0 overflow-hidden rounded-[0.55rem] ${className}`}
+      className={`relative inline-flex h-10 w-10 shrink-0 overflow-hidden rounded-[0.65rem] ${className}`}
     >
       <Image
         src="/images/alipayhk-logo.svg"
         alt="AlipayHK"
-        width={36}
-        height={36}
+        width={40}
+        height={40}
         className="h-full w-full object-cover"
         unoptimized
       />
