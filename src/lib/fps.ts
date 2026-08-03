@@ -14,9 +14,9 @@ export const FPS_ID = (
 ).replace(/\D/g, "");
 
 /**
- * Public path for the FPS QR screenshot.
- * Hardcoded so stale Vercel env (e.g. old /fps-qr.svg brown placeholder)
- * cannot override the new blue-border asset. CSS crops the payee footer.
+ * Public path for the FPS QR screenshot (white card + 透過快速支付系統付款 +
+ * 轉數快 logo; personal blue footer pre-cropped out of the asset).
+ * Hardcoded so stale Vercel env cannot override with the old brown placeholder.
  */
 export const FPS_QR_SRC = "/images/fps-qr-code.png";
 

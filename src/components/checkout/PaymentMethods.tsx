@@ -213,25 +213,18 @@ function FpsBankMenu({
           </button>
 
           {qrOpen ? (
-            <div className="border-t border-[color:var(--line)] bg-white px-4 py-4">
-              {/* Fixed 1:1 frame + overflow:hidden crops the blue footer text
-                  (YEUNG MAN KIT SAMUEL / phone / 請您付款). Only the square QR shows. */}
-              <div
-                className="mx-auto w-52 overflow-hidden bg-white"
-                style={{ aspectRatio: "1 / 1" }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element -- FPS bank QR screenshot with CSS crop */}
+            <div className="border-t border-[color:var(--line)] bg-[#0B3A7A] px-4 py-4">
+              {/* Full white-card QR (branding strip kept): 透過快速支付系統付款 + 轉數快 logo.
+                  Blue personal footer was pre-cropped from the asset. Dark panel matches the
+                  FPS frame so the white card reads clearly without invert filters. */}
+              <div className="mx-auto w-[13.5rem] overflow-hidden rounded-xl bg-white p-1.5 shadow-lg">
+                {/* eslint-disable-next-line @next/next/no-img-element -- shop FPS QR asset */}
                 <img
-                  src={`${FPS_QR_SRC}?v=20260803c`}
+                  src={`${FPS_QR_SRC}?v=20260803d`}
                   alt="轉數快 QR Code"
                   width={720}
-                  height={986}
-                  className="block w-full max-w-none"
-                  style={{
-                    height: "auto",
-                    objectFit: "cover",
-                    objectPosition: "top",
-                  }}
+                  height={778}
+                  className="block h-auto w-full object-contain"
                 />
               </div>
             </div>
