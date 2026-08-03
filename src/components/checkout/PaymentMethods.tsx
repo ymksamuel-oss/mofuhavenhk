@@ -74,6 +74,8 @@ export function PaymentMethods({
                     <img
                       src="/images/fps-official-logo.png"
                       alt="轉數快 FPS"
+                      width={32}
+                      height={32}
                       className="h-8 w-8 object-contain"
                     />
                   ) : (

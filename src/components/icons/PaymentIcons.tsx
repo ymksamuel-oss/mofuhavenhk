@@ -47,6 +47,7 @@ export function ApplePayLogo({ className = "" }: { className?: string }) {
   );
 }
 
+/** Official 轉數快 FPS mark — never use the old orange FPS text rect. */
 export function FpsLogo({ className = "" }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element -- official FPS brand asset
