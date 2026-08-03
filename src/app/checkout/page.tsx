@@ -267,6 +267,7 @@ function CheckoutContent() {
   /**
    * FPS path: notify shop server-side (CallMeBot) + open customer WhatsApp
    * with order details and screenshot instructions for @MofuHavenHK.
+   * Total is always recomputed from live cart lines — never a hardcoded amount.
    */
   const handleFpsConfirm = async () => {
     if (fpsConfirming || phase === "fps_done") return;
@@ -276,6 +277,10 @@ function CheckoutContent() {
     const number = orderNumber ?? generateOrderNumber();
     setOrderNumber(number);
 
+    // Recompute at confirm time so WhatsApp / CallMeBot never get a stale or
+    // hardcoded total (e.g. a leftover demo figure like 29).
+    const liveTotalHkd = calcSubtotal(items) + SHIPPING;
+
     try {
       await fetch("/api/notify-order", {
         method: "POST",
@@ -284,7 +289,7 @@ function CheckoutContent() {
           orderNumber: number,
           customerName: "FPS 顧客",
           paymentLabel: t("payFps"),
-          total: amountHkd,
+          total: liveTotalHkd,
           currency: t("currency"),
         }),
       });

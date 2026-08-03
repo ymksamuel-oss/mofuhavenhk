@@ -51,8 +51,11 @@ async function copyText(value: string): Promise<boolean> {
   }
 }
 
+type FpsPanel = "phone" | "amount" | "qr" | null;
+
 /**
  * Hong Kong bank-app style FPS payee picker — shown under SC Pay 轉數快.
+ * Phone / email / FPS ID opens an accordion (no auto-copy on row click).
  */
 function FpsBankMenu({
   amountHkd,
@@ -61,11 +64,13 @@ function FpsBankMenu({
   amountHkd: number;
   onCancel: () => void;
 }) {
-  const [qrOpen, setQrOpen] = useState(false);
+  const [openPanel, setOpenPanel] = useState<FpsPanel>(null);
   const [toast, setToast] = useState<string | null>(null);
 
   const phoneDisplay = formatFpsDisplayId(); // e.g. 9864 6585
-  const amountPlain = amountHkd.toFixed(2); // e.g. 439.00
+  const amountPlain = Number.isFinite(amountHkd)
+    ? Math.max(0, amountHkd).toFixed(2)
+    : "0.00";
 
   useEffect(() => {
     if (!toast) return;
@@ -73,8 +78,11 @@ function FpsBankMenu({
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  const togglePanel = (panel: Exclude<FpsPanel, null>) => {
+    setOpenPanel((current) => (current === panel ? null : panel));
+  };
+
   const handleCopyPhone = async () => {
-    // Prefer spaced display form; fall back to digits-only.
     const ok =
       (await copyText(phoneDisplay)) || (await copyText(fpsLocalDigits()));
     if (ok) setToast("已複製電話");
@@ -102,7 +110,8 @@ function FpsBankMenu({
         <li>
           <button
             type="button"
-            onClick={() => void handleCopyPhone()}
+            onClick={() => togglePanel("phone")}
+            aria-expanded={openPanel === "phone"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -131,20 +140,51 @@ function FpsBankMenu({
               <span className="block text-sm font-medium text-[color:var(--ink)]">
                 手提電話號碼 / 電郵地址 / 轉數快識別碼
               </span>
-              <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
-                {phoneDisplay}
+              <span className="mt-0.5 block text-xs text-[color:var(--muted)]">
+                點擊展開收款電話與複製按鈕
               </span>
             </span>
-            <span className="text-[color:var(--muted)]" aria-hidden="true">
+            <span
+              className={`text-[color:var(--muted)] transition-transform ${
+                openPanel === "phone" ? "rotate-90" : ""
+              }`}
+              aria-hidden="true"
+            >
               ›
             </span>
           </button>
+
+          {openPanel === "phone" ? (
+            <div className="space-y-3 border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
+              <div>
+                <p className="text-xs font-medium text-[color:var(--muted)]">
+                  收款電話號碼
+                </p>
+                <p className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-wide tabular-nums text-[color:var(--ink)]">
+                  {phoneDisplay}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => void handleCopyPhone()}
+                className="w-full rounded-xl bg-[#0072AA] px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_-10px_rgba(0,114,170,0.7)] transition hover:bg-[#005f8e] active:scale-[0.99]"
+              >
+                一鍵複製
+              </button>
+
+              <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+                複製號碼後，請前往您的銀行 App 透過轉數快付款，然後點擊下方按鈕確認訂單。
+              </p>
+            </div>
+          ) : null}
         </li>
 
         <li>
           <button
             type="button"
-            onClick={() => void handleCopyAmount()}
+            onClick={() => togglePanel("amount")}
+            aria-expanded={openPanel === "amount"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -169,17 +209,42 @@ function FpsBankMenu({
                 HK${amountPlain}
               </span>
             </span>
-            <span className="text-[color:var(--muted)]" aria-hidden="true">
+            <span
+              className={`text-[color:var(--muted)] transition-transform ${
+                openPanel === "amount" ? "rotate-90" : ""
+              }`}
+              aria-hidden="true"
+            >
               ›
             </span>
           </button>
+
+          {openPanel === "amount" ? (
+            <div className="space-y-3 border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
+              <div>
+                <p className="text-xs font-medium text-[color:var(--muted)]">
+                  應付金額
+                </p>
+                <p className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tabular-nums text-[color:var(--ink)]">
+                  HK${amountPlain}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => void handleCopyAmount()}
+                className="w-full rounded-xl bg-[#0072AA] px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_-10px_rgba(0,114,170,0.7)] transition hover:bg-[#005f8e] active:scale-[0.99]"
+              >
+                一鍵複製金額
+              </button>
+            </div>
+          ) : null}
         </li>
 
         <li>
           <button
             type="button"
-            onClick={() => setQrOpen((open) => !open)}
-            aria-expanded={qrOpen}
+            onClick={() => togglePanel("qr")}
+            aria-expanded={openPanel === "qr"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -204,7 +269,7 @@ function FpsBankMenu({
             </span>
             <span
               className={`text-[color:var(--muted)] transition-transform ${
-                qrOpen ? "rotate-90" : ""
+                openPanel === "qr" ? "rotate-90" : ""
               }`}
               aria-hidden="true"
             >
@@ -212,7 +277,7 @@ function FpsBankMenu({
             </span>
           </button>
 
-          {qrOpen ? (
+          {openPanel === "qr" ? (
             <div className="border-t border-[color:var(--line)] bg-white px-4 py-4">
               {/* Fixed 1:1 frame + overflow:hidden crops the blue footer text
                   (YEUNG MAN KIT SAMUEL / phone / 請您付款). Only the square QR shows. */}

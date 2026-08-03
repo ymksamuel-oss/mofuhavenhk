@@ -52,7 +52,16 @@ export function buildNotifyMessage({
   total,
   currency = "HK$",
 }: NotifyOrderInput): string {
-  const formattedTotal = `${currency}${total.toLocaleString("en-HK", {
+  // Guard against non-finite / non-positive totals leaking into shop alerts.
+  const safeTotal =
+    typeof total === "number" && Number.isFinite(total) && total > 0
+      ? total
+      : NaN;
+  if (!Number.isFinite(safeTotal)) {
+    throw new Error("notify_invalid_total");
+  }
+
+  const formattedTotal = `${currency}${safeTotal.toLocaleString("en-HK", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   })}`;
