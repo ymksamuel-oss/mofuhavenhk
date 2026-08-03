@@ -53,12 +53,16 @@ const FIELD_STYLE: StripeCardNumberElementOptions = {
     base: {
       fontSize: "16px",
       color: "#4a3626",
-      fontFamily: "system-ui, sans-serif",
+      fontFamily:
+        "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+      letterSpacing: "0.04em",
       "::placeholder": { color: "#a89078" },
     },
     invalid: { color: "#df1b41" },
   },
+  // Stripe CardNumberElement formats as 1234 5678 9012 3456 by default.
   showIcon: true,
+  disableLink: true,
 };
 
 function FieldShell({
@@ -280,28 +284,40 @@ function CheckoutPayForm({
     setSubmitting(false);
   };
 
-  const showWalletFirst = preferredMethod === "applepay" && walletAvailable;
+  // Always surface wallets at the top of the pay form when available
+  // (both "Apple Pay / Google Pay" and "Card" payment method selections).
+  const showWallet = Boolean(paymentRequest && walletAvailable);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
-      {showWalletFirst && paymentRequest ? (
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-[color:var(--ink)]">
-            {t("stripeWalletPay")}
-          </p>
+      {showWallet && paymentRequest ? (
+        <div
+          className={`space-y-2 rounded-2xl border-2 px-4 py-4 shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)] ${
+            preferredMethod === "applepay"
+              ? "border-[#111111] bg-[#111111] text-white"
+              : "border-[#111111]/80 bg-[#1a1a1a] text-white"
+          }`}
+          data-wallet-pay="prominent"
+        >
+          <div className="space-y-1">
+            <p className="text-sm font-semibold tracking-wide text-white">
+              {t("stripeWalletPay")}
+            </p>
+            <p className="text-xs text-white/75">{t("stripeWalletPayHint")}</p>
+          </div>
           <PaymentRequestButtonElement
             options={{
               paymentRequest,
               style: {
                 paymentRequestButton: {
                   type: "buy",
-                  theme: "dark",
+                  theme: "light",
                   height: "52px",
                 },
               },
             }}
           />
-          <p className="text-center text-xs text-[color:var(--muted)]">
+          <p className="text-center text-xs font-medium text-white/70">
             {t("stripeOrCard")}
           </p>
         </div>
@@ -325,20 +341,28 @@ function CheckoutPayForm({
             }}
             placeholder={t("customerNamePlaceholder")}
             autoComplete="cc-name"
-            className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] ${
+            className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-base text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] sm:text-sm ${
               nameError ? "border-red-400" : "border-[color:var(--line)]"
             }`}
           />
         </label>
 
-        <FieldShell label={t("stripeCardNumber")}>
-          <CardNumberElement
-            options={FIELD_STYLE}
-            onChange={(event) =>
-              setCardComplete((prev) => ({ ...prev, number: event.complete }))
-            }
-          />
-        </FieldShell>
+        <div className="space-y-1.5">
+          <FieldShell label={t("stripeCardNumber")}>
+            <CardNumberElement
+              options={FIELD_STYLE}
+              onChange={(event) =>
+                setCardComplete((prev) => ({
+                  ...prev,
+                  number: event.complete,
+                }))
+              }
+            />
+          </FieldShell>
+          <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+            {t("stripeCardNumberHint")}
+          </p>
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <FieldShell label={t("stripeCardExpiry")}>
             <CardExpiryElement
@@ -358,26 +382,6 @@ function CheckoutPayForm({
           </FieldShell>
         </div>
       </div>
-
-      {!showWalletFirst && paymentRequest && walletAvailable ? (
-        <div className="space-y-2">
-          <p className="text-center text-xs text-[color:var(--muted)]">
-            {t("stripeOrApplePay")}
-          </p>
-          <PaymentRequestButtonElement
-            options={{
-              paymentRequest,
-              style: {
-                paymentRequestButton: {
-                  type: "buy",
-                  theme: "dark",
-                  height: "48px",
-                },
-              },
-            }}
-          />
-        </div>
-      ) : null}
 
       <button
         type="submit"
