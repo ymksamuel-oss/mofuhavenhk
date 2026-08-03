@@ -83,6 +83,8 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    // Never leave a stuck drawer lock after navigation.
+    document.body.style.overflow = "";
   }, [pathname]);
 
   useEffect(() => {

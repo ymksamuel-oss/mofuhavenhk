@@ -1,26 +1,25 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { categoryHref, isCategorySlug } from "@/lib/categories";
 
 /**
- * Legacy `/menu?category=dogs` → `/categories/dogs`.
- * While redirecting, still render that category so the UI never blanks / freezes.
+ * Legacy `/menu?category=dogs` → hard navigate to `/categories/dogs`.
+ * Catalog stays visible until the browser completes the jump.
  */
 function MenuRedirectOrCatalog() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const legacySlug =
     category && isCategorySlug(category) ? category : null;
 
   useEffect(() => {
-    if (legacySlug) {
-      router.replace(categoryHref(legacySlug));
-    }
-  }, [legacySlug, router]);
+    if (!legacySlug) return;
+    document.body.style.overflow = "";
+    window.location.replace(categoryHref(legacySlug));
+  }, [legacySlug]);
 
   return <ProductCatalog categorySlug={legacySlug} />;
 }

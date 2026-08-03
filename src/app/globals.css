@@ -101,33 +101,6 @@ body {
   }
 }
 
-/* Enter-only page fade — never lock pointer-events / opacity on exit */
-@keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page-transition {
-  width: 100%;
-  max-width: 100%;
-}
-
-.page-transition--enter {
-  animation: pageEnter 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-transition--enter {
-    animation: none;
-  }
-}
-
 /* Header SVG wordmark — staggered wave on hover / click */
 @keyframes logoWave {
   0%,

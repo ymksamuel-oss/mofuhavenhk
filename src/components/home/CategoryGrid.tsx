@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { CategoryNavLink } from "@/components/CategoryNavLink";
 import {
   BagIcon,
   BoneIcon,
@@ -52,9 +52,8 @@ export function CategoryGrid() {
           const Icon = ICONS[icon];
           return (
             <li key={slug}>
-              <Link
+              <CategoryNavLink
                 href={categoryHref(slug)}
-                prefetch
                 className="group flex flex-col items-center gap-2.5 text-center"
               >
                 <span
@@ -69,7 +68,7 @@ export function CategoryGrid() {
                 <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors duration-[250ms] group-hover:text-[color:var(--accent)] group-active:text-[color:var(--accent)] sm:text-sm">
                   {t(labelKey)}
                 </span>
-              </Link>
+              </CategoryNavLink>
             </li>
           );
         })}

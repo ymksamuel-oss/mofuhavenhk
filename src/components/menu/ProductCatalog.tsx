@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductQuickView } from "@/components/menu/ProductQuickView";
 import { WishlistHeartButton } from "@/components/menu/WishlistHeartButton";
@@ -30,7 +30,7 @@ type ProductCatalogProps = {
 
 /**
  * Shared catalog UI for `/menu` (all products) and `/categories/[slug]`.
- * Category chips use plain Links for reliable, instant navigation.
+ * Category chips use hard document navigation (no soft-nav freeze).
  */
 export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
@@ -56,18 +56,17 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         aria-label={t("categoryNavLabel")}
         className="mb-8 flex flex-wrap gap-2"
       >
-        <Link href="/menu" className={chipClassName(!categorySlug)}>
+        <CategoryNavLink href="/menu" className={chipClassName(!categorySlug)}>
           {t("menuAllCategories")}
-        </Link>
+        </CategoryNavLink>
         {CATEGORIES.map(({ slug, labelKey }) => (
-          <Link
+          <CategoryNavLink
             key={slug}
             href={categoryHref(slug)}
             className={chipClassName(categorySlug === slug)}
-            prefetch
           >
             {t(labelKey)}
-          </Link>
+          </CategoryNavLink>
         ))}
       </nav>
 
