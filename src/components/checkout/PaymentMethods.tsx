@@ -214,16 +214,15 @@ function FpsBankMenu({
 
           {qrOpen ? (
             <div className="border-t border-[color:var(--line)] bg-[#0B3A7A] px-4 py-4">
-              {/* Full white-card QR (branding strip kept): 透過快速支付系統付款 + 轉數快 logo.
-                  Blue personal footer was pre-cropped from the asset. Dark panel matches the
-                  FPS frame so the white card reads clearly without invert filters. */}
-              <div className="mx-auto w-[13.5rem] overflow-hidden rounded-xl bg-white p-1.5 shadow-lg">
+              {/* Show the entire FPS QR asset — no aspect-ratio / overflow / object-cover crop.
+                  Includes 透過快速支付系統付款 + 轉數快 logo (+ bank footer below). */}
+              <div className="mx-auto w-full max-w-[16rem]">
                 {/* eslint-disable-next-line @next/next/no-img-element -- shop FPS QR asset */}
                 <img
-                  src={`${FPS_QR_SRC}?v=20260803d`}
+                  src={`${FPS_QR_SRC}?v=20260803e`}
                   alt="轉數快 QR Code"
                   width={720}
-                  height={778}
+                  height={986}
                   className="block h-auto w-full object-contain"
                 />
               </div>

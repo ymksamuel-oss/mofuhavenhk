@@ -14,8 +14,7 @@ export const FPS_ID = (
 ).replace(/\D/g, "");
 
 /**
- * Public path for the FPS QR screenshot (white card + 透過快速支付系統付款 +
- * 轉數快 logo; personal blue footer pre-cropped out of the asset).
+ * Public path for the full FPS QR screenshot (no server-side crop).
  * Hardcoded so stale Vercel env cannot override with the old brown placeholder.
  */
 export const FPS_QR_SRC = "/images/fps-qr-code.png";
