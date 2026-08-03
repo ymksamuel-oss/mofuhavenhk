@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
-import { FpsQrExpandPanel } from "@/components/checkout/FpsQrExpandPanel";
-import { formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
+import { FPS_QR_SRC, formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
 
 export type MethodId = "card" | "applepay" | "fps";
 
@@ -52,8 +51,11 @@ async function copyText(value: string): Promise<boolean> {
   }
 }
 
+type FpsPanel = "phone" | "amount" | "qr" | null;
+
 /**
  * Hong Kong bank-app style FPS payee picker — shown under SC Pay 轉數快.
+ * Phone / email / FPS ID opens an accordion (no auto-copy on row click).
  */
 function FpsBankMenu({
   amountHkd,
@@ -62,14 +64,13 @@ function FpsBankMenu({
   amountHkd: number;
   onCancel: () => void;
 }) {
-  const [phoneOpen, setPhoneOpen] = useState(false);
-  const [qrOpen, setQrOpen] = useState(false);
+  const [openPanel, setOpenPanel] = useState<FpsPanel>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [phoneCopied, setPhoneCopied] = useState(false);
 
   const phoneDisplay = formatFpsDisplayId(); // e.g. 9864 6585
-  const phoneDigits = fpsLocalDigits();
-  const amountPlain = amountHkd.toFixed(2); // e.g. 439.00
+  const amountPlain = Number.isFinite(amountHkd)
+    ? Math.max(0, amountHkd).toFixed(2)
+    : "0.00";
 
   useEffect(() => {
     if (!toast) return;
@@ -77,15 +78,14 @@ function FpsBankMenu({
     return () => window.clearTimeout(timer);
   }, [toast]);
 
+  const togglePanel = (panel: Exclude<FpsPanel, null>) => {
+    setOpenPanel((current) => (current === panel ? null : panel));
+  };
+
   const handleCopyPhone = async () => {
-    // Prefer digits-only for bank-app paste; fall back to spaced display.
     const ok =
-      (await copyText(phoneDigits)) || (await copyText(phoneDisplay));
-    if (ok) {
-      setPhoneCopied(true);
-      setToast("已複製電話");
-      window.setTimeout(() => setPhoneCopied(false), 2200);
-    }
+      (await copyText(phoneDisplay)) || (await copyText(fpsLocalDigits()));
+    if (ok) setToast("已複製電話");
   };
 
   const handleCopyAmount = async () => {
@@ -93,19 +93,9 @@ function FpsBankMenu({
     if (ok) setToast("已複製金額");
   };
 
-  const togglePhone = () => {
-    setPhoneOpen((open) => !open);
-    setQrOpen(false);
-  };
-
-  const toggleQr = () => {
-    setQrOpen((open) => !open);
-    setPhoneOpen(false);
-  };
-
   return (
     <div
-      className="relative rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
+      className="relative overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
       data-fps-bank-menu="true"
       role="dialog"
       aria-label="請選擇收款人類別以繼續"
@@ -120,8 +110,8 @@ function FpsBankMenu({
         <li>
           <button
             type="button"
-            onClick={togglePhone}
-            aria-expanded={phoneOpen}
+            onClick={() => togglePanel("phone")}
+            aria-expanded={openPanel === "phone"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -150,13 +140,13 @@ function FpsBankMenu({
               <span className="block text-sm font-medium text-[color:var(--ink)]">
                 手提電話號碼 / 電郵地址 / 轉數快識別碼
               </span>
-              <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
-                {phoneDisplay}
+              <span className="mt-0.5 block text-xs text-[color:var(--muted)]">
+                點擊展開收款電話與複製按鈕
               </span>
             </span>
             <span
               className={`text-[color:var(--muted)] transition-transform ${
-                phoneOpen ? "rotate-90" : ""
+                openPanel === "phone" ? "rotate-90" : ""
               }`}
               aria-hidden="true"
             >
@@ -164,13 +154,13 @@ function FpsBankMenu({
             </span>
           </button>
 
-          {phoneOpen ? (
-            <div className="space-y-3 bg-white px-4 pb-4 pt-1">
-              <div className="rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/35 px-4 py-3">
-                <p className="text-xs text-[color:var(--muted)]">
-                  收款電話／轉數快識別碼
+          {openPanel === "phone" ? (
+            <div className="space-y-3 border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
+              <div>
+                <p className="text-xs font-medium text-[color:var(--muted)]">
+                  收款電話號碼
                 </p>
-                <p className="mt-1 text-2xl font-semibold tracking-wide tabular-nums text-[color:var(--ink)]">
+                <p className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-wide tabular-nums text-[color:var(--ink)]">
                   {phoneDisplay}
                 </p>
               </div>
@@ -178,17 +168,13 @@ function FpsBankMenu({
               <button
                 type="button"
                 onClick={() => void handleCopyPhone()}
-                className={`flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition active:scale-[0.99] ${
-                  phoneCopied
-                    ? "bg-emerald-100 text-emerald-800"
-                    : "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
-                }`}
+                className="w-full rounded-xl bg-[#0072AA] px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_-10px_rgba(0,114,170,0.7)] transition hover:bg-[#005f8e] active:scale-[0.99]"
               >
-                {phoneCopied ? "已複製" : "一鍵複製"}
+                一鍵複製
               </button>
 
-              <p className="text-center text-xs leading-relaxed text-[color:var(--muted)]">
-                複製號碼後，請前往您的銀行 App 完成轉賬，然後點擊下方按鈕確認訂單
+              <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+                複製號碼後，請前往您的銀行 App 透過轉數快付款，然後點擊下方按鈕確認訂單。
               </p>
             </div>
           ) : null}
@@ -197,7 +183,8 @@ function FpsBankMenu({
         <li>
           <button
             type="button"
-            onClick={() => void handleCopyAmount()}
+            onClick={() => togglePanel("amount")}
+            aria-expanded={openPanel === "amount"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -219,20 +206,45 @@ function FpsBankMenu({
                 轉帳金額快速複製
               </span>
               <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
-                HK$ {amountPlain}
+                HK${amountPlain}
               </span>
             </span>
-            <span className="text-[color:var(--muted)]" aria-hidden="true">
+            <span
+              className={`text-[color:var(--muted)] transition-transform ${
+                openPanel === "amount" ? "rotate-90" : ""
+              }`}
+              aria-hidden="true"
+            >
               ›
             </span>
           </button>
+
+          {openPanel === "amount" ? (
+            <div className="space-y-3 border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
+              <div>
+                <p className="text-xs font-medium text-[color:var(--muted)]">
+                  應付金額
+                </p>
+                <p className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold tabular-nums text-[color:var(--ink)]">
+                  HK${amountPlain}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => void handleCopyAmount()}
+                className="w-full rounded-xl bg-[#0072AA] px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_-10px_rgba(0,114,170,0.7)] transition hover:bg-[#005f8e] active:scale-[0.99]"
+              >
+                一鍵複製金額
+              </button>
+            </div>
+          ) : null}
         </li>
 
         <li>
           <button
             type="button"
-            onClick={toggleQr}
-            aria-expanded={qrOpen}
+            onClick={() => togglePanel("qr")}
+            aria-expanded={openPanel === "qr"}
             className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
           >
             <span
@@ -257,7 +269,7 @@ function FpsBankMenu({
             </span>
             <span
               className={`text-[color:var(--muted)] transition-transform ${
-                qrOpen ? "rotate-90" : ""
+                openPanel === "qr" ? "rotate-90" : ""
               }`}
               aria-hidden="true"
             >
@@ -265,7 +277,30 @@ function FpsBankMenu({
             </span>
           </button>
 
-          {qrOpen ? <FpsQrExpandPanel /> : null}
+          {openPanel === "qr" ? (
+            <div className="border-t border-[color:var(--line)] bg-white px-4 py-4">
+              {/* Fixed 1:1 frame + overflow:hidden crops the blue footer text
+                  (YEUNG MAN KIT SAMUEL / phone / 請您付款). Only the square QR shows. */}
+              <div
+                className="mx-auto w-52 overflow-hidden bg-white"
+                style={{ aspectRatio: "1 / 1" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element -- FPS bank QR screenshot with CSS crop */}
+                <img
+                  src={`${FPS_QR_SRC}?v=20260803c`}
+                  alt="轉數快 QR Code"
+                  width={720}
+                  height={986}
+                  className="block w-full max-w-none"
+                  style={{
+                    height: "auto",
+                    objectFit: "cover",
+                    objectPosition: "top",
+                  }}
+                />
+              </div>
+            </div>
+          ) : null}
         </li>
       </ul>
 

@@ -20,20 +20,9 @@ export type NotifyOrderInput = {
   orderNumber: string;
   customerName: string;
   paymentLabel: string;
-  /** Real order total in HKD (subtotal + shipping). Never hardcode. */
   total: number;
   currency?: string;
 };
-
-/**
- * Format HKD for WhatsApp gateways (esp. CallMeBot).
- * CallMeBot mangles `$` + digits in GET text — e.g. `HK$329` becomes `HK29`.
- * Always keep a space after the currency symbol.
- */
-export function formatHkdForWhatsApp(total: number): string {
-  const amount = Number.isFinite(total) ? total : 0;
-  return `HK$ ${amount.toFixed(2)}`;
-}
 
 export type NotifyProvider =
   | "callmebot"
@@ -63,12 +52,19 @@ export function buildNotifyMessage({
   total,
   currency = "HK$",
 }: NotifyOrderInput): string {
-  // Prefer safe CallMeBot-friendly formatting. If a custom currency is passed
-  // that is not HK$, keep a space between symbol and amount.
-  const formattedTotal =
-    currency === "HK$" || currency === "HK＄"
-      ? formatHkdForWhatsApp(total)
-      : `${currency} ${Number(total).toFixed(2)}`;
+  // Guard against non-finite / non-positive totals leaking into shop alerts.
+  const safeTotal =
+    typeof total === "number" && Number.isFinite(total) && total > 0
+      ? total
+      : NaN;
+  if (!Number.isFinite(safeTotal)) {
+    throw new Error("notify_invalid_total");
+  }
+
+  const formattedTotal = `${currency}${safeTotal.toLocaleString("en-HK", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  })}`;
 
   return [
     `🛒 Mofu Haven 新訂單通知`,

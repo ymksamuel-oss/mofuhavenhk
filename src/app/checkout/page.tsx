@@ -1,8 +1,14 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useSearchParams } from "next/navigation";
-import { FpsPaymentPanel } from "@/components/checkout/FpsPaymentPanel";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -261,6 +267,7 @@ function CheckoutContent() {
   /**
    * FPS path: notify shop server-side (CallMeBot) + open customer WhatsApp
    * with order details and screenshot instructions for @MofuHavenHK.
+   * Total is always recomputed from live cart lines — never a hardcoded amount.
    */
   const handleFpsConfirm = async () => {
     if (fpsConfirming || phase === "fps_done") return;
@@ -270,6 +277,10 @@ function CheckoutContent() {
     const number = orderNumber ?? generateOrderNumber();
     setOrderNumber(number);
 
+    // Recompute at confirm time so WhatsApp / CallMeBot never get a stale or
+    // hardcoded total (e.g. a leftover demo figure like 29).
+    const liveTotalHkd = calcSubtotal(items) + SHIPPING;
+
     try {
       await fetch("/api/notify-order", {
         method: "POST",
@@ -278,9 +289,7 @@ function CheckoutContent() {
           orderNumber: number,
           customerName: "FPS 顧客",
           paymentLabel: t("payFps"),
-          // Server recalculates from catalog lines (subtotal + shipping).
-          items: items.map((item) => ({ id: item.id, qty: item.qty })),
-          total: amountHkd,
+          total: liveTotalHkd,
           currency: t("currency"),
         }),
       });
@@ -336,11 +345,22 @@ function CheckoutContent() {
           />
 
           {isFps ? (
-            <FpsPaymentPanel
-              onConfirm={() => void handleFpsConfirm()}
-              confirming={fpsConfirming}
-              confirmed={phase === "fps_done"}
-            />
+            <div className="space-y-3">
+              {phase !== "fps_done" ? (
+                <button
+                  type="button"
+                  onClick={() => void handleFpsConfirm()}
+                  disabled={fpsConfirming}
+                  className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {fpsConfirming ? t("fpsConfirming") : t("fpsConfirmOrder")}
+                </button>
+              ) : (
+                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+                  {t("fpsConfirmSuccess")}
+                </p>
+              )}
+            </div>
           ) : (
             <>
               {phase === "stripe_missing" ? (
