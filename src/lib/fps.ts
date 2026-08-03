@@ -17,9 +17,15 @@ export const FPS_ID = (
 export const FPS_QR_SRC =
   process.env.NEXT_PUBLIC_FPS_QR_SRC?.trim() || "/fps-qr.svg";
 
+/** Local HK mobile digits (no country code) for bank-app paste. */
+export function fpsLocalDigits(digits: string = FPS_ID): string {
+  const local = digits.startsWith("852") ? digits.slice(3) : digits;
+  return local || digits;
+}
+
 /** Format HK mobile for display, e.g. 9864 6585 */
 export function formatFpsDisplayId(digits: string = FPS_ID): string {
-  const local = digits.startsWith("852") ? digits.slice(3) : digits;
+  const local = fpsLocalDigits(digits);
   if (local.length === 8) {
     return `${local.slice(0, 4)} ${local.slice(4)}`;
   }

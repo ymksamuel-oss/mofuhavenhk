@@ -1,33 +1,259 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { FpsDetails } from "@/components/checkout/FpsDetails";
-import {
-  ApplePayLogo,
-  CardLogo,
-  FpsLogo,
-} from "@/components/icons/PaymentIcons";
+import { ApplePayLogo, CardLogo } from "@/components/icons/PaymentIcons";
+import { FPS_QR_SRC, formatFpsDisplayId, fpsLocalDigits } from "@/lib/fps";
 
 export type MethodId = "card" | "applepay" | "fps";
 
 export type PaymentMethodDef = {
   id: MethodId;
   labelKey: "payCard" | "payApplePay" | "payFps";
-  Icon: typeof CardLogo;
+  Icon?: typeof CardLogo;
 };
 
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
-  { id: "fps", labelKey: "payFps", Icon: FpsLogo },
+  { id: "fps", labelKey: "payFps" },
 ];
 
 type PaymentMethodsProps = {
   selected: MethodId;
   onSelect: (id: MethodId) => void;
-  /** Required when FPS may be selected — drives the amount shown in FPS details. */
+  /** Drives the amount shown / copied in the FPS bank-style menu. */
   amountHkd?: number;
 };
+
+async function copyText(value: string): Promise<boolean> {
+  try {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch {
+    // Fall through.
+  }
+  try {
+    const el = document.createElement("textarea");
+    el.value = value;
+    el.setAttribute("readonly", "");
+    el.style.position = "fixed";
+    el.style.opacity = "0";
+    document.body.appendChild(el);
+    el.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(el);
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Hong Kong bank-app style FPS payee picker — shown under SC Pay 轉數快.
+ */
+function FpsBankMenu({
+  amountHkd,
+  onCancel,
+}: {
+  amountHkd: number;
+  onCancel: () => void;
+}) {
+  const [qrOpen, setQrOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const phoneDisplay = formatFpsDisplayId(); // e.g. 9864 6585
+  const amountPlain = amountHkd.toFixed(2); // e.g. 439.00
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = window.setTimeout(() => setToast(null), 2000);
+    return () => window.clearTimeout(timer);
+  }, [toast]);
+
+  const handleCopyPhone = async () => {
+    // Prefer spaced display form; fall back to digits-only.
+    const ok =
+      (await copyText(phoneDisplay)) || (await copyText(fpsLocalDigits()));
+    if (ok) setToast("已複製電話");
+  };
+
+  const handleCopyAmount = async () => {
+    const ok = await copyText(amountPlain);
+    if (ok) setToast("已複製金額");
+  };
+
+  return (
+    <div
+      className="relative overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)]"
+      data-fps-bank-menu="true"
+      role="dialog"
+      aria-label="請選擇收款人類別以繼續"
+    >
+      <div className="border-b border-[color:var(--line)] px-4 py-3.5 text-center">
+        <p className="text-sm font-semibold text-[color:var(--ink)]">
+          請選擇收款人類別以繼續
+        </p>
+      </div>
+
+      <ul className="divide-y divide-[color:var(--line)]" role="list">
+        <li>
+          <button
+            type="button"
+            onClick={() => void handleCopyPhone()}
+            className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0072AA]/10 text-[#0072AA]"
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+                <rect
+                  x="7"
+                  y="3"
+                  width="10"
+                  height="18"
+                  rx="2"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                />
+                <path
+                  d="M10 17h4"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-medium text-[color:var(--ink)]">
+                手提電話號碼 / 電郵地址 / 轉數快識別碼
+              </span>
+              <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
+                {phoneDisplay}
+              </span>
+            </span>
+            <span className="text-[color:var(--muted)]" aria-hidden="true">
+              ›
+            </span>
+          </button>
+        </li>
+
+        <li>
+          <button
+            type="button"
+            onClick={() => void handleCopyAmount()}
+            className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0072AA]/10 text-[#0072AA]"
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+                <path
+                  d="M12 3v18M16.5 7.5c0-1.7-2-3-4.5-3s-4.5 1.3-4.5 3 2 3 4.5 3 4.5 1.3 4.5 3-2 3-4.5 3-4.5-1.3-4.5-3"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-medium text-[color:var(--ink)]">
+                轉帳金額快速複製
+              </span>
+              <span className="mt-0.5 block text-xs tabular-nums text-[color:var(--muted)]">
+                HK${amountPlain}
+              </span>
+            </span>
+            <span className="text-[color:var(--muted)]" aria-hidden="true">
+              ›
+            </span>
+          </button>
+        </li>
+
+        <li>
+          <button
+            type="button"
+            onClick={() => setQrOpen((open) => !open)}
+            aria-expanded={qrOpen}
+            className="flex w-full items-center gap-3 px-4 py-4 text-left transition hover:bg-[color:var(--accent-soft)]/40 active:bg-[color:var(--accent-soft)]/60"
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0072AA]/10 text-[#0072AA]"
+              aria-hidden="true"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+                <path
+                  d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Z"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M14 14h2v2h-2v-2Zm4 0h2v2h-2v-2Zm-4 4h2v2h-2v-2Zm4 0h2v2h-2v-2Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1 text-sm font-medium text-[color:var(--ink)]">
+              轉數快二維碼 (QR Code)
+            </span>
+            <span
+              className={`text-[color:var(--muted)] transition-transform ${
+                qrOpen ? "rotate-90" : ""
+              }`}
+              aria-hidden="true"
+            >
+              ›
+            </span>
+          </button>
+
+          {qrOpen ? (
+            <div className="border-t border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 px-4 py-4">
+              <div className="mx-auto flex h-48 w-48 items-center justify-center overflow-hidden rounded-xl bg-white p-2 ring-1 ring-[color:var(--line)]">
+                {/* eslint-disable-next-line @next/next/no-img-element -- local FPS QR asset */}
+                <img
+                  src={FPS_QR_SRC}
+                  alt="轉數快 QR Code"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <p className="mt-2 text-center text-[11px] text-[color:var(--muted)]">
+                請用銀行 App 掃描上方 QR Code 完成轉帳
+              </p>
+            </div>
+          ) : null}
+        </li>
+      </ul>
+
+      <div className="border-t border-[color:var(--line)] p-3">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="w-full rounded-xl px-4 py-3 text-sm font-semibold text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/50 hover:text-[color:var(--ink)]"
+        >
+          取消
+        </button>
+      </div>
+
+      {toast ? (
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-16 z-10 flex justify-center px-4"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="rounded-full bg-[color:var(--ink)] px-4 py-2 text-xs font-semibold text-white shadow-lg">
+            {toast}
+          </span>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function PaymentMethods({
   selected,
@@ -56,8 +282,10 @@ export function PaymentMethods({
       <ul className="space-y-3">
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
+          const isFps = id === "fps";
+
           return (
-            <li key={id} className="space-y-3">
+            <li key={id} className="relative space-y-3">
               <button
                 type="button"
                 onClick={() => onSelect(id)}
@@ -69,8 +297,8 @@ export function PaymentMethods({
                 aria-pressed={active}
               >
                 <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg border border-[color:var(--line)] bg-white px-1">
-                  {id === "fps" ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- official FPS 轉數快 mark
+                  {isFps ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- official blue double-arrow 轉數快 mark
                     <img
                       src="/images/fps-official-logo.png"
                       alt="轉數快 FPS"
@@ -78,13 +306,15 @@ export function PaymentMethods({
                       height={32}
                       className="h-8 w-8 object-contain"
                     />
-                  ) : (
+                  ) : Icon ? (
                     <Icon />
-                  )}
+                  ) : null}
                 </span>
+
                 <span className="min-w-0 flex-1 text-left text-sm font-medium whitespace-nowrap text-[color:var(--ink)]">
-                  {id === "fps" ? "SC Pay 轉數快" : t(labelKey)}
+                  {isFps ? "SC Pay 轉數快" : t(labelKey)}
                 </span>
+
                 <span
                   className={`ml-auto h-4 w-4 shrink-0 rounded-full border transition ${
                     active
@@ -95,8 +325,11 @@ export function PaymentMethods({
                 />
               </button>
 
-              {id === "fps" && active ? (
-                <FpsDetails amountHkd={amountHkd} />
+              {isFps && active ? (
+                <FpsBankMenu
+                  amountHkd={amountHkd}
+                  onCancel={() => onSelect("card")}
+                />
               ) : null}
             </li>
           );
