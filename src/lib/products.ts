@@ -53,7 +53,7 @@ export type Product = {
   categorySlug: string;
   /**
    * Optional food-zone sub-category for `/categories/cats` or `/categories/dogs`.
-   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列）.
+   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列／冷凍食物專區）.
    * 「狗狗小食」= dog treats zone under dog products.
    * Apparel / toys / supplies leave this undefined.
    */
@@ -346,6 +346,8 @@ const WT_TAG_EN: Record<string, string> = {
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
   冷凍脫水系列: "Freeze-dried series",
+  貓貓小食: "Cat treats",
+  貓用: "For cats",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
