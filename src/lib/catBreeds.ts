@@ -119,15 +119,13 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "british_blue",
       name_zh: "經典藍灰色 (British Blue)",
       description: "最標誌性單色",
-      image_url:
-        "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+      image_url: "/images/cat-breeds/british-shorthair.jpg",
     },
     {
       pattern_id: "golden_shade",
       name_zh: "金漸層 (Golden Shaded / NY12等)",
       description: "近年極受歡迎的溫暖金色調，毛尖帶黑色暈染",
-      image_url:
-        "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+      image_url: "/images/cat-breeds/british-shorthair-golden.jpg",
     },
     {
       pattern_id: "silver_tabby",
@@ -139,7 +137,7 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "bicolor",
       name_zh: "雙色 (Bicolor)",
       description: "白底配搭藍色、灰色或虎斑塊",
-      image_url: "https://cdn2.thecatapi.com/images/M1Rh3CPp_.jpg",
+      image_url: "/images/cat-breeds/british-shorthair-cozy.jpg",
     },
   ],
   colors: [
@@ -183,26 +181,26 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季時掉毛量大，需增加梳毛頻率以防毛球症",
   },
   media_assets: {
-    status: "ready_for_cursor_multi_image_scraping",
+    status: "verified_local_assets",
     instruction_for_cursor:
-      "請為以下多個英短展示位搜尋並配搭對應品種特色（藍貓、金漸層、銀虎斑）的高解析度相片，確保前端圖庫/相片牆豐富。",
+      "英短圖庫已改用本地核對圖片：藍貓、金漸層、銀虎斑與居家日常。",
     images: [
       {
         tag: "hero",
-        description: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
-        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
-        alt: "金漸層英國短毛貓特寫",
+        description: "經典藍灰色圓臉英國短毛貓",
+        src: "/images/cat-breeds/british-shorthair.jpg",
+        alt: "經典藍灰色英國短毛貓",
       },
       {
         tag: "hero_main",
-        description: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
-        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
-        alt: "金漸層英國短毛貓特寫",
+        description: "經典藍灰色圓臉英國短毛貓",
+        src: "/images/cat-breeds/british-shorthair.jpg",
+        alt: "經典藍灰色英國短毛貓",
       },
       {
         tag: "gallery_item_1",
         description: "標誌性純藍灰色圓臉大眼英短",
-        src: "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/cat-breeds/british-shorthair.jpg",
         alt: "經典藍灰色英國短毛貓",
       },
       {
@@ -213,8 +211,14 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       },
       {
         tag: "gallery_item_3",
-        description: "英短趴在梳化上休息的溫馨日常照",
-        src: "https://images.unsplash.com/photo-1676734661920-12210a474929?auto=format&fit=crop&w=1200&q=80",
+        description: "金漸層英短幼貓活潑伸爪",
+        src: "/images/cat-breeds/british-shorthair-golden.jpg",
+        alt: "金漸層英國短毛貓特寫",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "英短室內休息的溫馨日常照",
+        src: "/images/cat-breeds/british-shorthair-cozy.jpg",
         alt: "室內休息的英國短毛貓",
       },
     ],
@@ -252,8 +256,7 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
       pattern_id: "bicolor",
       name_zh: "雙色",
       description: "臉部有對稱倒V字白斑，下巴、胸腹與四肢為白色",
-      image_url:
-        "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
+      image_url: "/images/cat-breeds/ragdoll.jpg",
     },
     {
       pattern_id: "mitted",
@@ -301,13 +304,13 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
       {
         tag: "hero",
         description: "湛藍眼睛與柔順長毛的雙色布偶貓特寫",
-        src: "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
+        src: "/images/cat-breeds/ragdoll.jpg",
         alt: "雙色布偶貓湛藍眼睛特寫",
       },
       {
         tag: "bicolor",
         description: "倒V字雙色布偶貓全身照",
-        src: "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
+        src: "/images/cat-breeds/ragdoll.jpg",
         alt: "雙色布偶貓",
       },
       {
@@ -335,7 +338,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "溫和穩定、體型圓滾，注意體重管理。",
     imageUrl:
-      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/british-shorthair.jpg",
     origin: "英國",
     lifespan: "12 - 17 歲",
     weight: "公 5.0–8.0 kg／母 4.0–6.0 kg",
@@ -367,7 +370,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "活潑好動、適應力強，需補足每日運動量。",
     imageUrl:
-      "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?q=80&w=800&auto=format&fit=crop",
+      "/images/cat-breeds/american-shorthair.jpg",
     origin: "美國",
     lifespan: "15 - 20 歲",
     weight: "3.5 - 7.5 kg",
@@ -393,7 +396,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "中長毛",
     shortDescription: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
+      "/images/cat-breeds/ragdoll.jpg",
     origin: "美國加州",
     lifespan: "12 - 15 歲（晚熟 3-4 年）",
     weight: "公 6.0–9.0 kg／母 4.5–7.0 kg",
@@ -425,7 +428,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "敏感聰穎、短毛濃密，提供安靜的休息空間。",
     imageUrl:
-      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=800&auto=format&fit=crop",
+      "/images/cat-breeds/russian-blue.jpg",
     origin: "俄羅斯",
     lifespan: "15 - 20 歲",
     weight: "3.0 - 5.5 kg",
@@ -451,7 +454,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛 / 長毛",
     shortDescription: "活潑親人，注意關節與脊椎保健。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
+      "/images/cat-breeds/munchkin.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "2.5 - 4.0 kg",
@@ -477,7 +480,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "體型高大、毛樣厚實，需特別注意毛球排空。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/06dgGmEOV.jpg",
+      "/images/cat-breeds/norwegian-forest.jpg",
     origin: "挪威",
     lifespan: "14 - 16 歲",
     weight: "4.5 - 8.0 kg",
@@ -503,7 +506,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "扁臉呆萌、性格沉靜，需特別照顧面部與淚腺。",
     imageUrl:
-      "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/exotic-shorthair.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "3.5 - 6.5 kg",
@@ -529,7 +532,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "溫柔的巨人、體型龐大，注重心臟與關節保護。",
     imageUrl:
-      "https://images.unsplash.com/photo-1586289883499-f11d28aaf52f?q=80&w=800&auto=format&fit=crop",
+      "/images/cat-breeds/maine-coon.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "6.0 - 11.0 kg",
@@ -555,7 +558,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "貓中貴族、華麗長毛，需每天用心梳理毛髮。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
+      "/images/cat-breeds/persian.jpg",
     origin: "伊朗 (波斯)",
     lifespan: "12 - 17 歲",
     weight: "3.5 - 6.0 kg",
@@ -581,7 +584,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛 / 長毛",
     shortDescription: "貓頭圓滾、可愛貼耳，特別關注軟骨與骨骼健康。",
     imageUrl:
-      "https://images.unsplash.com/photo-1577622190237-821ff489d2ea?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/scottish-fold.jpg",
     origin: "蘇格蘭",
     lifespan: "11 - 14 歲",
     weight: "3.0 - 6.0 kg",
@@ -607,7 +610,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "貓界話霸、極度熱情，需要大量的互動與愛護。",
     imageUrl:
-      "https://images.unsplash.com/photo-1773769730444-7dec13f33b45?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/siamese.jpg",
     origin: "泰國 (暹羅)",
     lifespan: "15 - 20 歲",
     weight: "2.5 - 4.5 kg",
@@ -633,7 +636,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "野生豹紋、精力充沛，需要廣闊的活動空間。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
+      "/images/cat-breeds/bengal.jpg",
     origin: "美國",
     lifespan: "12 - 16 歲",
     weight: "4.0 - 7.5 kg",
@@ -659,7 +662,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "無毛 / 極短絨毛",
     shortDescription: "感情專一、親人怕冷，需注重皮膚清潔與保暖。",
     imageUrl:
-      "https://cdn2.thecatapi.com/images/Br8qCwbS9.jpg",
+      "/images/cat-breeds/sphynx.jpg",
     origin: "加拿大",
     lifespan: "12 - 15 歲",
     weight: "3.0 - 5.0 kg",
@@ -685,7 +688,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短卷毛",
     shortDescription: "小精靈外貌、不易掉毛，非常適合都市家庭。",
     imageUrl:
-      "https://images.unsplash.com/photo-1767884267022-9c80682bfe65?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/devon-rex.jpg",
     origin: "英國",
     lifespan: "12 - 15 歲",
     weight: "2.5 - 4.5 kg",
@@ -711,7 +714,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "基因優秀、體質強健，香港最普遍也最可愛的陪伴者。",
     imageUrl:
-      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
+      "/images/cat-breeds/mix-shorthair.jpg",
     origin: "香港 / 亞洲地區",
     lifespan: "15 - 20 歲",
     weight: "3.0 - 6.5 kg",

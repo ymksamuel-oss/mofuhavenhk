@@ -1,0 +1,86 @@
+{
+  "note": "Local breed portraits verified for Mofu Haven HK cat breeds guide.",
+  "assets": {
+    "british-shorthair": {
+      "src": "/images/cat-breeds/british-shorthair.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/British_Shorthair._Female._18_months_old.jpg/1280px-British_Shorthair._Female._18_months_old.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 436433
+    },
+    "american-shorthair": {
+      "src": "/images/cat-breeds/american-shorthair.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/American_shorthair_cat_Portrait.jpg/1280px-American_shorthair_cat_Portrait.jpg",
+      "bytes": 542912
+    },
+    "ragdoll": {
+      "src": "/images/cat-breeds/ragdoll.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Gato_Ragdoll_BreedingCat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "bytes": 115059
+    },
+    "russian-blue": {
+      "src": "/images/cat-breeds/russian-blue.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/DdmsQrCAv.jpg",
+      "bytes": 314628
+    },
+    "munchkin": {
+      "src": "/images/cat-breeds/munchkin.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
+      "bytes": 373720,
+      "fallback": true
+    },
+    "norwegian-forest": {
+      "src": "/images/cat-breeds/norwegian-forest.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/IvIKQQqSP.jpg"
+    },
+    "exotic-shorthair": {
+      "src": "/images/cat-breeds/exotic-shorthair.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Bissel_3.jpg/1280px-Bissel_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 167213
+    },
+    "maine-coon": {
+      "src": "/images/cat-breeds/maine-coon.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Karin_Maine_Coon.jpg/1280px-Karin_Maine_Coon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 230214
+    },
+    "persian": {
+      "src": "/images/cat-breeds/persian.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
+      "bytes": 98982
+    },
+    "scottish-fold": {
+      "src": "/images/cat-breeds/scottish-fold.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/o9t0LDcsa.jpg",
+      "bytes": 383629
+    },
+    "siamese": {
+      "src": "/images/cat-breeds/siamese.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/A_classic_seal_point_Siamese_cat.jpg/1280px-A_classic_seal_point_Siamese_cat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 171646
+    },
+    "bengal": {
+      "src": "/images/cat-breeds/bengal.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
+      "bytes": 73832,
+      "fallback": true
+    },
+    "sphynx": {
+      "src": "/images/cat-breeds/sphynx.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/1_adult_cat_Sphynx._img_047.jpg/1280px-1_adult_cat_Sphynx._img_047.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 407789
+    },
+    "devon-rex": {
+      "src": "/images/cat-breeds/devon-rex.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Devon_Rex_Cassini.jpeg/1280px-Devon_Rex_Cassini.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "bytes": 350790
+    },
+    "mix-shorthair": {
+      "src": "/images/cat-breeds/mix-shorthair.jpg",
+      "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
+      "bytes": 86410
+    }
+  },
+  "licenses": {
+    "wikimedia_commons": "Used under respective Creative Commons / public domain licenses on Wikimedia Commons.",
+    "the_cat_api": "Images via The Cat API CDN for breed-tagged photos.",
+    "unsplash": "Unsplash License for remaining assets."
+  }
+}

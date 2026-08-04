@@ -74,42 +74,49 @@
         "diet_management": "絕育後極容易發胖，且屬於圓骨架體質，必須嚴格定時定量控制熱量，並提供足夠的活水與溫和運動。"
       },
       "media_assets": {
-        "status": "ready_for_cursor_multi_image_scraping",
+        "status": "verified_local_assets",
         "instruction_for_cursor": "請為以下多個英短展示位搜尋並配搭對應品種特色（藍貓、金漸層、銀虎斑）的高解析度相片，確保前端圖庫/相片牆豐富。",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "金漸層幼貓 (Golden Shaded)",
-            "description": "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
-            "search_query": "British Shorthair golden shaded cat cute",
-            "src": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
-            "alt": "金漸層英國短毛貓特寫"
+            "target_feature": "經典藍貓 (British Blue)",
+            "description": "標誌性純藍灰色圓臉大眼英短",
+            "src": "/images/cat-breeds/british-shorthair.jpg",
+            "alt": "經典藍灰色英國短毛貓"
           },
           {
             "tag": "gallery_item_1",
             "target_feature": "經典藍貓 (British Blue)",
             "description": "標誌性純藍灰色圓臉大眼英短",
-            "search_query": "British Blue cat round face portrait",
-            "src": "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+            "src": "/images/cat-breeds/british-shorthair.jpg",
             "alt": "經典藍灰色英國短毛貓"
           },
           {
             "tag": "gallery_item_2",
             "target_feature": "銀虎斑 (Silver Tabby)",
             "description": "帶有明顯川字/旋渦紋理的銀虎斑英短",
-            "search_query": "British Shorthair silver tabby cat",
             "src": "/images/cat-breeds/british-shorthair-silver-tabby.jpg",
             "alt": "銀虎斑英國短毛貓"
           },
           {
             "tag": "gallery_item_3",
+            "target_feature": "金漸層 (Golden Shaded)",
+            "description": "金漸層英短幼貓活潑伸爪",
+            "src": "/images/cat-breeds/british-shorthair-golden.jpg",
+            "alt": "金漸層英國短毛貓特寫"
+          },
+          {
+            "tag": "gallery_item_4",
             "target_feature": "日常慵懶/居家情境",
-            "description": "英短趴在梳化上休息的溫馨日常照",
-            "search_query": "British Shorthair cat resting indoor cozy",
-            "src": "https://images.unsplash.com/photo-1676734661920-12210a474929?auto=format&fit=crop&w=1200&q=80",
+            "description": "英短室內休息的溫馨日常照",
+            "src": "/images/cat-breeds/british-shorthair-cozy.jpg",
             "alt": "室內休息的英國短毛貓"
           }
-        ]
+        ],
+        "tag": "british_shorthair_hero",
+        "description": "經典藍灰色圓臉英國短毛貓",
+        "src": "/images/cat-breeds/british-shorthair.jpg",
+        "alt": "經典藍灰色英國短毛貓"
       }
     },
     {
@@ -148,10 +155,11 @@
       },
       "media_assets": {
         "tag": "american_shorthair_hero",
-        "description": "健壯虎斑紋路的美國短毛貓",
+        "description": "虎斑美國短毛貓",
         "image_search_keywords": "American Shorthair tabby cat",
-        "src": "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=1200&q=80",
-        "alt": "美國短毛貓 (American Shorthair)"
+        "src": "/images/cat-breeds/american-shorthair.jpg",
+        "alt": "美國短毛貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -189,10 +197,11 @@
       },
       "media_assets": {
         "tag": "ragdoll_hero",
-        "description": "藍眼睛與重點色中長毛的布偶貓",
+        "description": "藍眼睛重點色布偶貓",
         "image_search_keywords": "Ragdoll cat blue eyes colorpoint fluffy",
-        "src": "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
-        "alt": "布偶貓 (Ragdoll)"
+        "src": "/images/cat-breeds/ragdoll.jpg",
+        "alt": "布偶貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -229,10 +238,11 @@
       },
       "media_assets": {
         "tag": "russian_blue_hero",
-        "description": "銀藍灰短毛與翡翠綠眼睛的俄羅斯藍貓",
+        "description": "銀藍灰綠眼俄羅斯藍貓",
         "image_search_keywords": "Russian Blue cat emerald green eyes silver coat",
-        "src": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=1200&q=80",
-        "alt": "俄羅斯藍貓 (Russian Blue)"
+        "src": "/images/cat-breeds/russian-blue.jpg",
+        "alt": "俄羅斯藍貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -273,10 +283,11 @@
       },
       "media_assets": {
         "tag": "munchkin_hero",
-        "description": "短腿長身的曼赤因貓",
+        "description": "短腿曼赤因貓",
         "image_search_keywords": "Munchkin cat short legs",
-        "src": "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
-        "alt": "曼赤因短腿貓 (Munchkin)"
+        "src": "/images/cat-breeds/munchkin.jpg",
+        "alt": "曼赤因短腿貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -316,10 +327,11 @@
       },
       "media_assets": {
         "tag": "norwegian_forest_hero",
-        "description": "厚重長毛與強壯體型的挪威森林貓",
+        "description": "厚重長毛挪威森林貓",
         "image_search_keywords": "Norwegian Forest Cat longhair thick coat",
-        "src": "https://cdn2.thecatapi.com/images/06dgGmEOV.jpg",
-        "alt": "挪威森林貓 (Norwegian Forest Cat)"
+        "src": "/images/cat-breeds/norwegian-forest.jpg",
+        "alt": "挪威森林貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -359,10 +371,11 @@
       },
       "media_assets": {
         "tag": "exotic_shorthair_hero",
-        "description": "扁臉圓眼的異國短毛貓（加菲貓）",
+        "description": "扁臉異國短毛貓",
         "image_search_keywords": "Exotic Shorthair flat face round eyes",
-        "src": "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&w=1200&q=80",
-        "alt": "異國短毛貓 (Exotic Shorthair)"
+        "src": "/images/cat-breeds/exotic-shorthair.jpg",
+        "alt": "異國短毛貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -402,10 +415,11 @@
       },
       "media_assets": {
         "tag": "maine_coon_hero",
-        "description": "巨型長毛與耳端簇毛的緬因貓",
+        "description": "耳端簇毛緬因貓",
         "image_search_keywords": "Maine Coon large cat tufted ears",
-        "src": "https://images.unsplash.com/photo-1586289883499-f11d28aaf52f?auto=format&fit=crop&w=1200&q=80",
-        "alt": "緬因貓 (Maine Coon)"
+        "src": "/images/cat-breeds/maine-coon.jpg",
+        "alt": "緬因貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -445,10 +459,11 @@
       },
       "media_assets": {
         "tag": "persian_hero",
-        "description": "華麗長毛與扁圓臉的波斯貓",
+        "description": "長毛扁臉波斯貓",
         "image_search_keywords": "Persian cat long fluffy white coat",
-        "src": "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
-        "alt": "波斯貓 (Persian)"
+        "src": "/images/cat-breeds/persian.jpg",
+        "alt": "波斯貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -488,10 +503,11 @@
       },
       "media_assets": {
         "tag": "scottish_fold_hero",
-        "description": "折耳圓臉的蘇格蘭折耳貓",
+        "description": "折耳蘇格蘭折耳貓",
         "image_search_keywords": "Scottish Fold folded ears round face",
-        "src": "https://images.unsplash.com/photo-1577622190237-821ff489d2ea?auto=format&fit=crop&w=1200&q=80",
-        "alt": "蘇格蘭折耳貓 (Scottish Fold)"
+        "src": "/images/cat-breeds/scottish-fold.jpg",
+        "alt": "蘇格蘭折耳貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -529,10 +545,11 @@
       },
       "media_assets": {
         "tag": "siamese_hero",
-        "description": "湛藍眼睛與經典重點色的暹羅貓",
+        "description": "湛藍眼重點色暹羅貓",
         "image_search_keywords": "Siamese cat blue eyes colorpoint seal point",
-        "src": "https://images.unsplash.com/photo-1773769730444-7dec13f33b45?auto=format&fit=crop&w=1200&q=80",
-        "alt": "暹羅貓 (Siamese)"
+        "src": "/images/cat-breeds/siamese.jpg",
+        "alt": "暹羅貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -571,10 +588,11 @@
       },
       "media_assets": {
         "tag": "bengal_hero",
-        "description": "帶有明顯豹紋玫瑰斑的孟加拉貓",
+        "description": "豹紋孟加拉貓",
         "image_search_keywords": "Bengal cat leopard spots rosettes",
-        "src": "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
-        "alt": "孟加拉貓 (Bengal)"
+        "src": "/images/cat-breeds/bengal.jpg",
+        "alt": "孟加拉貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -615,10 +633,11 @@
       },
       "media_assets": {
         "tag": "sphynx_hero",
-        "description": "無毛、大耳朵的加拿大無毛貓",
+        "description": "無毛斯芬克斯貓",
         "image_search_keywords": "Sphynx hairless cat large ears",
-        "src": "https://cdn2.thecatapi.com/images/Br8qCwbS9.jpg",
-        "alt": "加拿大無毛貓 (Sphynx)"
+        "src": "/images/cat-breeds/sphynx.jpg",
+        "alt": "加拿大無毛貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -658,10 +677,11 @@
       },
       "media_assets": {
         "tag": "devon_rex_hero",
-        "description": "捲曲毛髮與大耳朵的德文卷毛貓",
+        "description": "捲毛大耳德文卷毛貓",
         "image_search_keywords": "Devon Rex curly coat large ears elfin",
-        "src": "https://images.unsplash.com/photo-1767884267022-9c80682bfe65?auto=format&fit=crop&w=1200&q=80",
-        "alt": "德文卷毛貓 (Devon Rex)"
+        "src": "/images/cat-breeds/devon-rex.jpg",
+        "alt": "德文卷毛貓",
+        "status": "verified_local_assets"
       }
     },
     {
@@ -702,10 +722,11 @@
       },
       "media_assets": {
         "tag": "mix_shorthair_hero",
-        "description": "香港常見的唐貓／港短米克斯",
+        "description": "香港常見混種短毛貓",
         "image_search_keywords": "mixed breed domestic shorthair cat Hong Kong",
-        "src": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
-        "alt": "唐貓 / 港短 (米克斯) (Domestic Shorthair Mix)"
+        "src": "/images/cat-breeds/mix-shorthair.jpg",
+        "alt": "唐貓／港短",
+        "status": "verified_local_assets"
       }
     }
   ]
