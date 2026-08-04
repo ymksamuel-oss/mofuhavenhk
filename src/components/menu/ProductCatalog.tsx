@@ -14,10 +14,12 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
   CAT_SUBCATEGORIES,
+  freezeDriedProductName,
   getCatProductsBySubcategory,
   getProductsByCategory,
   productHref,
   type CatSubcategory,
+  type Product,
 } from "@/lib/products";
 
 function chipClassName(active: boolean) {
@@ -46,6 +48,90 @@ type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
 };
+
+function FreezeDriedListCard({
+  product,
+  locale,
+  viewDetailsLabel,
+}: {
+  product: Product;
+  locale: "zh" | "en";
+  viewDetailsLabel: string;
+}) {
+  const href = productHref(product.id);
+  const series = product.series?.[locale];
+  const nameLine = freezeDriedProductName(
+    product.name[locale],
+    series,
+    locale,
+  );
+  const discountPercent = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : null;
+
+  return (
+    <li className="milk-tea-card overflow-hidden transition-shadow duration-200 hover:shadow-[0_18px_32px_-24px_rgba(74,54,38,0.55)]">
+      <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
+        <CategoryNavLink
+          href={href}
+          aria-label={`${viewDetailsLabel}: ${product.name[locale]}`}
+          className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] sm:h-32 sm:w-32"
+        >
+          <Image
+            src={product.image}
+            alt={product.name[locale]}
+            fill
+            sizes="128px"
+            className="object-cover"
+          />
+          {discountPercent ? (
+            <span className="absolute left-1.5 top-1.5 rounded-full bg-[#c0483a] px-1.5 py-0.5 text-[9px] font-bold text-white">
+              -{discountPercent}%
+            </span>
+          ) : null}
+        </CategoryNavLink>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          {series ? (
+            <CategoryNavLink
+              href={href}
+              className="text-sm font-bold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+            >
+              {series}
+            </CategoryNavLink>
+          ) : null}
+          <CategoryNavLink
+            href={href}
+            className={`text-sm leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] ${
+              series ? "mt-0.5 font-medium" : "font-semibold"
+            }`}
+          >
+            {nameLine}
+          </CategoryNavLink>
+          {product.description ? (
+            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-[color:var(--muted)] sm:line-clamp-3">
+              {product.description[locale]}
+            </p>
+          ) : null}
+
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <p className="text-base font-semibold tabular-nums text-[color:var(--accent)] sm:text-lg">
+                {formatMoney(product.price, locale)}
+              </p>
+              {product.originalPrice ? (
+                <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
+                  {formatMoney(product.originalPrice, locale)}
+                </p>
+              ) : null}
+            </div>
+            <AddToCartButton productId={product.id} size="list" />
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
 
 /**
  * Shared catalog UI for `/menu` and `/categories/[slug]`.
@@ -154,6 +240,21 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
 
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
+      ) : showFreezeDriedZone ? (
+        <ul
+          className={`flex flex-col gap-3 sm:gap-4 ${
+            isPending ? "opacity-70 transition-opacity" : "transition-opacity"
+          }`}
+        >
+          {products.map((product) => (
+            <FreezeDriedListCard
+              key={product.id}
+              product={product}
+              locale={locale}
+              viewDetailsLabel={t("productViewDetails")}
+            />
+          ))}
+        </ul>
       ) : (
         <ul
           className={`grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 ${

@@ -37,6 +37,11 @@ export type Product = {
    * next to the current `price`.
    */
   originalPrice?: number;
+  /**
+   * Optional brand/series line for list-style catalog cards
+   * (e.g. 「MAMACOOK 但馬高原」 above the product name).
+   */
+  series?: { zh: string; en: string };
   /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
@@ -335,8 +340,49 @@ const WT_TAG_EN: Record<string, string> = {
   大份裝: "Value pack",
 };
 
+function freezeDriedSeriesForVendor(
+  vendor: string,
+): { zh: string; en: string } | undefined {
+  if (vendor === "MAMACOOK") {
+    return { zh: "MAMACOOK 但馬高原", en: "MAMACOOK Tajima Highlands" };
+  }
+  if (vendor === "Petio") {
+    return { zh: "Petio 冷凍脫水系列", en: "Petio Freeze-Dried Series" };
+  }
+  if (vendor) {
+    return { zh: vendor, en: vendor };
+  }
+  return undefined;
+}
+
+/** Strip series/brand prefix so list cards can show series + name separately. */
+export function freezeDriedProductName(
+  fullName: string,
+  series: string | undefined,
+  locale: "zh" | "en",
+): string {
+  if (!series) return fullName;
+  if (locale === "zh") {
+    if (fullName.startsWith(series)) {
+      return fullName.slice(series.length).replace(/^[・\s\-–—]+/, "").trim();
+    }
+    // Titles like「日本國產無添加冷凍脫水…」without a vendor series prefix.
+    return fullName;
+  }
+  // English names usually already omit the series as a separate prefix.
+  const withoutVendor = fullName
+    .replace(/^MAMACOOK\s+Tajima\s+/i, "")
+    .replace(/^Petio\s+Freeze-Dried\s+/i, "")
+    .trim();
+  return withoutVendor || fullName;
+}
+
 function wtJapanToProduct(p: WtJapanProduct): Product {
   const en = WT_JAPAN_EN[p.id];
+  const series =
+    p.subcategory === "冷凍脫水系列"
+      ? freezeDriedSeriesForVendor(p.vendor)
+      : undefined;
   return {
     id: p.id,
     // Keep in sync with productsData `category` / `categorySlug` (貓咪商品 → cats)
@@ -349,6 +395,7 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
     },
     price: p.price,
     originalPrice: p.originalPrice,
+    series,
     icon: "cat",
     description: {
       zh: p.description,
