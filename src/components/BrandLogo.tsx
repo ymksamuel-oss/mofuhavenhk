@@ -41,7 +41,7 @@ export function BrandLogo({
       role="img"
       aria-label={title}
     >
-      <span className="logo-copy">
+      <span className="logo-copy logo-text">
         <span className="logo-cat-row" aria-hidden="true">
           <span className="logo-cat-emoji logo-mark" role="presentation">
             🐱
