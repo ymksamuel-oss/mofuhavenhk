@@ -34,7 +34,7 @@ export const CAT_BREEDS: CatBreed[] = [
     id: "american-shorthair",
     coat: "short",
     image:
-      "https://images.unsplash.com/photo-1592194996308-7b1b9a1eded3?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1610444391219-c4a03a464522?q=80&w=600&auto=format&fit=crop",
     name: { zh: "美國短毛貓", en: "American Shorthair" },
     coatLabel: { zh: "短毛", en: "Short hair" },
     summary: {
