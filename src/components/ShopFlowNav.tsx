@@ -48,13 +48,21 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const isHome = pathname === "/";
   const isCategoryPage = pathname.startsWith("/categories/");
   const isProductPage = pathname.startsWith("/product/");
+  const isPictureBookPage =
+    pathname === "/about-dog" || pathname === "/about-cat";
   const showBottomContinue =
     pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
 
   return (
     <>
       {!isHome ? (
-        <div className="relative z-20 border-b border-[color:var(--line)] bg-[color:var(--background)]/95">
+        <div
+          className={`relative z-20 border-b border-[color:var(--line)] ${
+            isPictureBookPage
+              ? "bg-[#FAF6F0]"
+              : "bg-[color:var(--background)]/95"
+          }`}
+        >
           <div className="mx-auto flex w-full max-w-5xl items-center px-3 py-2 sm:px-6">
             <Link
               href="/menu"

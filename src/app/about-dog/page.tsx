@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AboutDogPage() {
-  return <AboutDogBook />;
+  return (
+    <div className="min-h-full w-full bg-[#FAF6F0]">
+      <AboutDogBook />
+    </div>
+  );
 }

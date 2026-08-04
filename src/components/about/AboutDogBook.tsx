@@ -67,8 +67,8 @@ export function AboutDogBook() {
     <div
       className={`${zenMaru.className} min-h-[70vh] bg-[#FAF6F0] text-[#4A3B32]`}
     >
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
-        <p className="mb-6">
+      <div className="mx-auto max-w-5xl bg-[#FAF6F0] px-4 py-10 sm:px-6 sm:py-14">
+        <p className="mb-6 bg-[#FAF6F0]">
           <Link
             href="/menu"
             className="text-sm font-medium text-[#4A3B32]/70 transition hover:text-[#4A3B32]"
@@ -77,7 +77,7 @@ export function AboutDogBook() {
           </Link>
         </p>
 
-        <header className="mb-12 max-w-2xl animate-[fadeUp_0.55s_ease_both] sm:mb-16">
+        <header className="mb-12 max-w-2xl animate-[fadeUp_0.55s_ease_both] bg-[#FAF6F0] sm:mb-16">
           <p className="text-sm font-medium tracking-[0.08em] text-[#4A3B32]/65">
             {t("aboutDogEyebrow")}
           </p>
@@ -89,13 +89,13 @@ export function AboutDogBook() {
           </p>
         </header>
 
-        <div className="space-y-12 sm:space-y-16">
+        <div className="space-y-12 bg-[#FAF6F0] sm:space-y-16">
           {CHAPTERS.map((chapter, index) => {
             const imageLeft = index % 2 === 0;
             return (
               <section
                 key={chapter.titleKey}
-                className={`grid items-center gap-6 sm:gap-10 md:grid-cols-2 ${
+                className={`grid items-center gap-6 bg-[#FAF6F0] sm:gap-10 md:grid-cols-2 ${
                   imageLeft ? "" : "md:[&>*:first-child]:order-2"
                 }`}
                 style={{
@@ -103,7 +103,7 @@ export function AboutDogBook() {
                   animationDelay: `${0.08 * (index + 1)}s`,
                 }}
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.45)]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FAF6F0] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.45)]">
                   {/* External Unsplash URLs — native img avoids next.config remotePatterns. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -112,7 +112,7 @@ export function AboutDogBook() {
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 bg-[#FAF6F0]">
                   <p className="text-xs font-semibold tracking-[0.14em] text-[#4A3B32]/55">
                     {String(index + 1).padStart(2, "0")}
                   </p>
