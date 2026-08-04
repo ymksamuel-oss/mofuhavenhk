@@ -1,95 +1,330 @@
 {
-  "note": "Local breed portraits verified for Mofu Haven HK cat breeds guide.",
+  "note": "Local breed portraits and galleries for Mofu Haven HK cat breeds guide. Verified present under public/images/cat-breeds/.",
+  "updated": "2026-08-04",
   "assets": {
+    "american-shorthair-cozy": {
+      "src": "/images/cat-breeds/american-shorthair-cozy.jpg",
+      "bytes": 265101
+    },
+    "american-shorthair-outdoor": {
+      "src": "/images/cat-breeds/american-shorthair-outdoor.jpg",
+      "bytes": 304874
+    },
+    "american-shorthair-silver": {
+      "src": "/images/cat-breeds/american-shorthair-silver.jpg",
+      "bytes": 548788
+    },
+    "american-shorthair-tabby": {
+      "src": "/images/cat-breeds/american-shorthair-tabby.jpg",
+      "bytes": 567849
+    },
     "american-shorthair": {
       "src": "/images/cat-breeds/american-shorthair.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/American_shorthair_cat_Portrait.jpg/1280px-American_shorthair_cat_Portrait.jpg",
       "bytes": 542912
     },
-    "ragdoll": {
-      "src": "/images/cat-breeds/ragdoll.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Gato_Ragdoll_BreedingCat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-      "bytes": 115059
+    "bengal-athletic": {
+      "src": "/images/cat-breeds/bengal-athletic.jpg",
+      "bytes": 119263
     },
-    "russian-blue": {
-      "src": "/images/cat-breeds/russian-blue.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/DdmsQrCAv.jpg",
-      "bytes": 314628
+    "bengal-full": {
+      "src": "/images/cat-breeds/bengal-full.jpg",
+      "bytes": 359505
     },
-    "munchkin": {
-      "src": "/images/cat-breeds/munchkin.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
-      "bytes": 373720,
-      "fallback": true
+    "bengal-golden": {
+      "src": "/images/cat-breeds/bengal-golden.jpg",
+      "bytes": 157177
     },
-    "norwegian-forest": {
-      "src": "/images/cat-breeds/norwegian-forest.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/IvIKQQqSP.jpg"
+    "bengal-rosette": {
+      "src": "/images/cat-breeds/bengal-rosette.jpg",
+      "bytes": 545040
     },
-    "exotic-shorthair": {
-      "src": "/images/cat-breeds/exotic-shorthair.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Bissel_3.jpg/1280px-Bissel_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 167213
-    },
-    "maine-coon": {
-      "src": "/images/cat-breeds/maine-coon.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Karin_Maine_Coon.jpg/1280px-Karin_Maine_Coon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 230214
-    },
-    "persian": {
-      "src": "/images/cat-breeds/persian.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
-      "bytes": 98982
-    },
-    "scottish-fold": {
-      "src": "/images/cat-breeds/scottish-fold.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/o9t0LDcsa.jpg",
-      "bytes": 383629
-    },
-    "siamese": {
-      "src": "/images/cat-breeds/siamese.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/A_classic_seal_point_Siamese_cat.jpg/1280px-A_classic_seal_point_Siamese_cat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 171646
+    "bengal-spots": {
+      "src": "/images/cat-breeds/bengal-spots.jpg",
+      "bytes": 139468
     },
     "bengal": {
       "src": "/images/cat-breeds/bengal.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
-      "bytes": 73832,
-      "fallback": true
-    },
-    "sphynx": {
-      "src": "/images/cat-breeds/sphynx.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/1_adult_cat_Sphynx._img_047.jpg/1280px-1_adult_cat_Sphynx._img_047.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 407789
-    },
-    "devon-rex": {
-      "src": "/images/cat-breeds/devon-rex.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Devon_Rex_Cassini.jpeg/1280px-Devon_Rex_Cassini.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 350790
-    },
-    "mix-shorthair": {
-      "src": "/images/cat-breeds/mix-shorthair.jpg",
-      "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
-      "bytes": 86410
+      "bytes": 238860
     },
     "british-shorthair-blue": {
       "src": "/images/cat-breeds/british-shorthair-blue.jpg",
-      "note": "Canonical blue British Shorthair portrait"
+      "bytes": 219192
+    },
+    "british-shorthair-cozy": {
+      "src": "/images/cat-breeds/british-shorthair-cozy.jpg",
+      "bytes": 218193
+    },
+    "british-shorthair-golden": {
+      "src": "/images/cat-breeds/british-shorthair-golden.jpg",
+      "bytes": 285060
     },
     "british-shorthair-silver": {
       "src": "/images/cat-breeds/british-shorthair-silver.jpg",
-      "note": "Canonical silver tabby British Shorthair portrait"
+      "bytes": 412269
     },
-    "british-shorthair-golden": {
-      "src": "/images/cat-breeds/british-shorthair-golden.jpg"
+    "devon-rex-bicolor": {
+      "src": "/images/cat-breeds/devon-rex-bicolor.jpg",
+      "bytes": 53160
     },
-    "british-shorthair-cozy": {
-      "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
+    "devon-rex-coat": {
+      "src": "/images/cat-breeds/devon-rex-coat.jpg",
+      "bytes": 158154
+    },
+    "devon-rex-cream": {
+      "src": "/images/cat-breeds/devon-rex-cream.jpg",
+      "bytes": 81356
+    },
+    "devon-rex-lilac": {
+      "src": "/images/cat-breeds/devon-rex-lilac.jpg",
+      "bytes": 60244
+    },
+    "devon-rex-outdoor": {
+      "src": "/images/cat-breeds/devon-rex-outdoor.jpg",
+      "bytes": 172472
+    },
+    "devon-rex": {
+      "src": "/images/cat-breeds/devon-rex.jpg",
+      "bytes": 107204
+    },
+    "exotic-shorthair-bicolor": {
+      "src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
+      "bytes": 162883
+    },
+    "exotic-shorthair-cozy": {
+      "src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
+      "bytes": 112260
+    },
+    "exotic-shorthair-cream": {
+      "src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
+      "bytes": 125479
+    },
+    "exotic-shorthair-tabby": {
+      "src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
+      "bytes": 126531
+    },
+    "exotic-shorthair": {
+      "src": "/images/cat-breeds/exotic-shorthair.jpg",
+      "bytes": 115472
+    },
+    "maine-coon-face": {
+      "src": "/images/cat-breeds/maine-coon-face.jpg",
+      "bytes": 305877
+    },
+    "maine-coon-full": {
+      "src": "/images/cat-breeds/maine-coon-full.jpg",
+      "bytes": 228919
+    },
+    "maine-coon-group": {
+      "src": "/images/cat-breeds/maine-coon-group.jpg",
+      "bytes": 203760
+    },
+    "maine-coon-portrait": {
+      "src": "/images/cat-breeds/maine-coon-portrait.jpg",
+      "bytes": 290613
+    },
+    "maine-coon-silver": {
+      "src": "/images/cat-breeds/maine-coon-silver.jpg",
+      "bytes": 146317
+    },
+    "maine-coon": {
+      "src": "/images/cat-breeds/maine-coon.jpg",
+      "bytes": 471235
+    },
+    "mix-shorthair-black": {
+      "src": "/images/cat-breeds/mix-shorthair-black.jpg",
+      "bytes": 331058
+    },
+    "mix-shorthair-orange": {
+      "src": "/images/cat-breeds/mix-shorthair-orange.jpg",
+      "bytes": 243762
+    },
+    "mix-shorthair-portrait": {
+      "src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
+      "bytes": 115961
+    },
+    "mix-shorthair-tabby": {
+      "src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
+      "bytes": 112917
+    },
+    "mix-shorthair-tuxedo": {
+      "src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
+      "bytes": 98760
+    },
+    "mix-shorthair": {
+      "src": "/images/cat-breeds/mix-shorthair.jpg",
+      "bytes": 297803
+    },
+    "munchkin-bicolor": {
+      "src": "/images/cat-breeds/munchkin-bicolor.jpg",
+      "bytes": 223300
+    },
+    "munchkin-play": {
+      "src": "/images/cat-breeds/munchkin-play.jpg",
+      "bytes": 151119
+    },
+    "munchkin-standing": {
+      "src": "/images/cat-breeds/munchkin-standing.jpg",
+      "bytes": 222855
+    },
+    "munchkin-tabby": {
+      "src": "/images/cat-breeds/munchkin-tabby.jpg",
+      "bytes": 356291
+    },
+    "munchkin": {
+      "src": "/images/cat-breeds/munchkin.jpg",
+      "bytes": 100556
+    },
+    "norwegian-forest-outdoor": {
+      "src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
+      "bytes": 186600
+    },
+    "norwegian-forest-pack": {
+      "src": "/images/cat-breeds/norwegian-forest-pack.jpg",
+      "bytes": 198499
+    },
+    "norwegian-forest-portrait": {
+      "src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
+      "bytes": 161625
+    },
+    "norwegian-forest-snow": {
+      "src": "/images/cat-breeds/norwegian-forest-snow.jpg",
+      "bytes": 218393
+    },
+    "norwegian-forest": {
+      "src": "/images/cat-breeds/norwegian-forest.jpg",
+      "bytes": 283779
+    },
+    "persian-cozy": {
+      "src": "/images/cat-breeds/persian-cozy.jpg",
+      "bytes": 282160
+    },
+    "persian-cream": {
+      "src": "/images/cat-breeds/persian-cream.jpg",
+      "bytes": 190195
+    },
+    "persian-face": {
+      "src": "/images/cat-breeds/persian-face.jpg",
+      "bytes": 217931
+    },
+    "persian-fluffy": {
+      "src": "/images/cat-breeds/persian-fluffy.jpg",
+      "bytes": 136420
+    },
+    "persian-portrait": {
+      "src": "/images/cat-breeds/persian-portrait.jpg",
+      "bytes": 266280
+    },
+    "persian": {
+      "src": "/images/cat-breeds/persian.jpg",
+      "bytes": 301313
+    },
+    "ragdoll-mitted": {
+      "src": "/images/cat-breeds/ragdoll-mitted.jpg",
+      "bytes": 146064
+    },
+    "ragdoll": {
+      "src": "/images/cat-breeds/ragdoll.jpg",
+      "bytes": 115059
+    },
+    "russian-blue-cozy": {
+      "src": "/images/cat-breeds/russian-blue-cozy.jpg",
+      "bytes": 195661
+    },
+    "russian-blue-elegant": {
+      "src": "/images/cat-breeds/russian-blue-elegant.jpg",
+      "bytes": 230231
+    },
+    "russian-blue-paw": {
+      "src": "/images/cat-breeds/russian-blue-paw.jpg",
+      "bytes": 155483
+    },
+    "russian-blue-portrait": {
+      "src": "/images/cat-breeds/russian-blue-portrait.jpg",
+      "bytes": 207204
+    },
+    "russian-blue-pose": {
+      "src": "/images/cat-breeds/russian-blue-pose.jpg",
+      "bytes": 177182
+    },
+    "russian-blue-window": {
+      "src": "/images/cat-breeds/russian-blue-window.jpg",
+      "bytes": 317772
+    },
+    "russian-blue": {
+      "src": "/images/cat-breeds/russian-blue.jpg",
+      "bytes": 296886
+    },
+    "scottish-fold-cozy": {
+      "src": "/images/cat-breeds/scottish-fold-cozy.jpg",
+      "bytes": 128243
+    },
+    "scottish-fold-outdoor": {
+      "src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
+      "bytes": 235818
+    },
+    "scottish-fold-studio": {
+      "src": "/images/cat-breeds/scottish-fold-studio.jpg",
+      "bytes": 53820
+    },
+    "scottish-fold-tabby": {
+      "src": "/images/cat-breeds/scottish-fold-tabby.jpg",
+      "bytes": 196235
+    },
+    "scottish-fold-white": {
+      "src": "/images/cat-breeds/scottish-fold-white.jpg",
+      "bytes": 116340
+    },
+    "scottish-fold": {
+      "src": "/images/cat-breeds/scottish-fold.jpg",
+      "bytes": 175459
+    },
+    "siamese-blue": {
+      "src": "/images/cat-breeds/siamese-blue.jpg",
+      "bytes": 109623
+    },
+    "siamese-chocolate": {
+      "src": "/images/cat-breeds/siamese-chocolate.jpg",
+      "bytes": 267762
+    },
+    "siamese-classic": {
+      "src": "/images/cat-breeds/siamese-classic.jpg",
+      "bytes": 248460
+    },
+    "siamese-portrait": {
+      "src": "/images/cat-breeds/siamese-portrait.jpg",
+      "bytes": 123909
+    },
+    "siamese-seal": {
+      "src": "/images/cat-breeds/siamese-seal.jpg",
+      "bytes": 216908
+    },
+    "siamese": {
+      "src": "/images/cat-breeds/siamese.jpg",
+      "bytes": 55034
+    },
+    "sphynx-calico": {
+      "src": "/images/cat-breeds/sphynx-calico.jpg",
+      "bytes": 65781
+    },
+    "sphynx-kitten": {
+      "src": "/images/cat-breeds/sphynx-kitten.jpg",
+      "bytes": 181835
+    },
+    "sphynx-portrait": {
+      "src": "/images/cat-breeds/sphynx-portrait.jpg",
+      "bytes": 95180
+    },
+    "sphynx-profile": {
+      "src": "/images/cat-breeds/sphynx-profile.jpg",
+      "bytes": 310168
+    },
+    "sphynx-tuxedo": {
+      "src": "/images/cat-breeds/sphynx-tuxedo.jpg",
+      "bytes": 126940
+    },
+    "sphynx": {
+      "src": "/images/cat-breeds/sphynx.jpg",
+      "bytes": 212296
     }
-  },
-  "licenses": {
-    "wikimedia_commons": "Used under respective Creative Commons / public domain licenses on Wikimedia Commons.",
-    "the_cat_api": "Images via The Cat API CDN for breed-tagged photos.",
-    "unsplash": "Unsplash License for remaining assets."
   }
 }
