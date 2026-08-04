@@ -179,6 +179,36 @@ export const translations = {
     termsPageTitle: "私隱政策與服務條款",
     termsPageBody:
       "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物與客戶服務。完整私隱政策與服務條款文件即將發佈。",
+    explorePetsWorld: "探索寵物世界",
+    exploreAboutDog: "關於犬",
+    exploreAboutCat: "關於貓",
+    aboutDogComingSoon: "犬隻照護繪本即將上線，敬請期待。",
+    aboutCatBackToCatalog: "返回商品目錄",
+    aboutCatEyebrow: "Mofu Haven 貓咪繪本",
+    aboutCatTitle: "關於貓",
+    aboutCatSubtitle:
+      "以溫柔的圖文書節奏，陪你一步步認識貓咪的日常——從迎貓回家到健康守護。",
+    aboutCatShopCta: "前往選購貓咪用品 🛒",
+    aboutCatChapter1Title: "【迎貓回家】新手安全與必備物資",
+    aboutCatChapter1Body:
+      "為新成員準備一個安靜的小角落：貓砂盆、食水碗、舒適窩墊與安全門窗檢查，是迎貓回家的第一課。先讓貓咪慢慢熟悉氣味與空間，比一次開放全家更安心。",
+    aboutCatChapter1Alt: "溫馨的貓咪休息空間示意",
+    aboutCatChapter2Title: "【貓咪美味學】健康飲食與補水密碼",
+    aboutCatChapter2Body:
+      "優質主食、定時定量，再加上充足清水，是維持泌尿與消化健康的關鍵。可搭配濕糧或飲水機提高喝水意願，並依年齡與體況調整熱量，讓每日餐桌既美味又均衡。",
+    aboutCatChapter2Alt: "貓咪飲水與飲食照護示意",
+    aboutCatChapter3Title: "【日常溫柔照護】梳毛、剪甲與清潔",
+    aboutCatChapter3Body:
+      "定期梳毛可減少毛球與掉毛；剪甲前先讓貓咪習慣碰爪。砂盆保持清潔、環境無刺鼻氣味，日常照護就會變成彼此信任的溫柔時光。",
+    aboutCatChapter3Alt: "貓咪清潔與日常護理示意",
+    aboutCatChapter4Title: "【瞭解貓咪心事】陪伴與心理健康",
+    aboutCatChapter4Body:
+      "貓咪用尾巴、耳朵與輕聲呼喚表達情緒。提供藏匿處、爬高點與玩具互動，能緩解壓力；尊重牠想獨處的時刻，也是愛的一種語言。",
+    aboutCatChapter4Alt: "貓咪玩耍與陪伴示意",
+    aboutCatChapter5Title: "【健康守護神】預防醫療與生病警號",
+    aboutCatChapter5Body:
+      "定期驅蟲、疫苗與健康檢查，是守護長遠幸福的底氣。若出現食慾驟降、頻繁嘔吐、尿量異常或精神萎靡，請儘快就醫；日常也可搭配益生菌等保健，穩穩守住腸胃與免疫力。",
+    aboutCatChapter5Alt: "貓咪健康保健示意",
   },
   en: {
     brand: "Mofu Haven",
@@ -357,6 +387,36 @@ export const translations = {
     termsPageTitle: "Privacy & Terms",
     termsPageBody:
       "We respect your privacy and only use order and contact details to fulfil purchases and support. Full privacy and terms documents are coming soon.",
+    explorePetsWorld: "Explore Pet World",
+    exploreAboutDog: "About Dogs",
+    exploreAboutCat: "About Cats",
+    aboutDogComingSoon: "Our dog-care picture book is coming soon.",
+    aboutCatBackToCatalog: "Back to catalog",
+    aboutCatEyebrow: "Mofu Haven Cat Picture Book",
+    aboutCatTitle: "About Cats",
+    aboutCatSubtitle:
+      "A gentle picture-book guide to everyday cat care — from bringing kitty home to lifelong health.",
+    aboutCatShopCta: "Shop cat essentials 🛒",
+    aboutCatChapter1Title: "【Welcome Home】Safety & starter essentials",
+    aboutCatChapter1Body:
+      "Prepare a quiet corner with a litter box, food and water bowls, a soft bed, and a home safety check. Let your new cat settle into scents and spaces gradually before opening the whole house.",
+    aboutCatChapter1Alt: "Cozy cat resting space",
+    aboutCatChapter2Title: "【Tasty Nutrition】Healthy meals & hydration",
+    aboutCatChapter2Body:
+      "Quality staple food, steady portions, and fresh water protect urinary and digestive health. Wet food or a fountain can encourage drinking — adjust calories for age and condition so every meal is balanced.",
+    aboutCatChapter2Alt: "Cat hydration and feeding care",
+    aboutCatChapter3Title: "【Gentle Daily Care】Grooming, nails & cleaning",
+    aboutCatChapter3Body:
+      "Regular brushing reduces hairballs and shedding; introduce nail trims by gently handling paws first. A clean litter box and a low-odor home turn care routines into moments of trust.",
+    aboutCatChapter3Alt: "Cat grooming and daily care",
+    aboutCatChapter4Title: "【Cat Feelings】Companionship & mental wellness",
+    aboutCatChapter4Body:
+      "Tails, ears, and soft calls tell you how a cat feels. Hideaways, high perches, and play ease stress — and respecting alone time is also a language of love.",
+    aboutCatChapter4Alt: "Cat play and companionship",
+    aboutCatChapter5Title: "【Health Guardian】Prevention & warning signs",
+    aboutCatChapter5Body:
+      "Parasite control, vaccines, and checkups build long-term wellness. Seek care quickly for sudden appetite loss, frequent vomiting, unusual urination, or lethargy — daily supports like probiotics can also steady gut and immunity.",
+    aboutCatChapter5Alt: "Cat health and wellness care",
   },
 } as const;
 
