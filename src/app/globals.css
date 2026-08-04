@@ -141,68 +141,115 @@ h3 {
   }
 }
 
-/* Header SVG wordmark — staggered wave on hover / click */
-@keyframes logoWave {
+@keyframes brandLogoHopA {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0) rotate(0deg) scale(1);
   }
-  40% {
-    transform: translateY(-3px);
+  34% {
+    transform: translateX(-50%) translateY(-0.62em) rotate(-8deg) scale(1.02);
   }
-  70% {
-    transform: translateY(1px);
+  64% {
+    transform: translateX(-50%) translateY(0.08em) rotate(5deg) scale(0.98);
   }
 }
 
-@keyframes logoMarkBob {
+@keyframes brandLogoHopB {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateX(-50%) translateY(0) rotate(0deg) scale(1);
   }
-  40% {
-    transform: translateY(-2px) rotate(-6deg);
+  36% {
+    transform: translateX(-50%) translateY(-0.58em) rotate(7deg) scale(1.02);
   }
-  70% {
-    transform: translateY(1px) rotate(4deg);
+  68% {
+    transform: translateX(-50%) translateY(0.08em) rotate(-4deg) scale(0.98);
   }
 }
 
 .brand-logo {
-  line-height: 0;
+  line-height: 1;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1rem;
 }
 
-.brand-logo .logo-letter {
+.brand-logo__rail {
+  position: relative;
+  display: inline-flex;
+  padding-top: 1.15em;
+}
+
+.brand-logo__icon {
+  position: absolute;
+  top: 0;
+  left: var(--brand-logo-icon-x, 0px);
+  width: 1.2em;
+  height: 1.1em;
+  transform: translateX(-50%);
+  transition: left 0.2s cubic-bezier(0.32, 0.82, 0.24, 1);
+  will-change: left, transform;
+}
+
+.brand-logo__icon--hop-a {
+  animation: brandLogoHopA 0.35s cubic-bezier(0.3, 0.85, 0.3, 1) both;
+}
+
+.brand-logo__icon--hop-b {
+  animation: brandLogoHopB 0.35s cubic-bezier(0.3, 0.85, 0.3, 1) both;
+}
+
+.brand-logo__icon-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+  filter: drop-shadow(0 0.08em 0.16em rgba(74, 54, 38, 0.18));
+}
+
+.brand-logo__copy {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.48em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.brand-logo__group {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.brand-logo__group--zh {
+  gap: 0.08em;
+}
+
+.brand-logo__group--en {
+  gap: 0.01em;
+}
+
+.brand-logo__latin {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.brand-logo__space {
   display: inline-block;
-  transform-box: fill-box;
-  transform-origin: center bottom;
+  width: 0.34em;
 }
 
-.brand-logo .logo-mark {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.brand-logo-link:hover .brand-logo .logo-letter,
-.brand-logo-link:focus-visible .brand-logo .logo-letter,
-.brand-logo.is-waving .logo-letter {
-  animation: logoWave 0.55s ease both;
-  animation-delay: calc(var(--i, 0) * 0.045s);
-}
-
-.brand-logo-link:hover .brand-logo .logo-mark,
-.brand-logo-link:focus-visible .brand-logo .logo-mark,
-.brand-logo.is-waving .logo-mark {
-  animation: logoMarkBob 0.55s ease both;
+.brand-logo__target {
+  display: inline-block;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-logo-link:hover .brand-logo .logo-letter,
-  .brand-logo-link:focus-visible .brand-logo .logo-letter,
-  .brand-logo.is-waving .logo-letter,
-  .brand-logo-link:hover .brand-logo .logo-mark,
-  .brand-logo-link:focus-visible .brand-logo .logo-mark,
-  .brand-logo.is-waving .logo-mark {
+  .brand-logo__icon {
+    transition: none;
+  }
+
+  .brand-logo__icon--hop-a,
+  .brand-logo__icon--hop-b {
     animation: none;
   }
 }

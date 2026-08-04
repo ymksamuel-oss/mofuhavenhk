@@ -140,7 +140,7 @@ export function Footer() {
             >
               <BrandLogo
                 title={t("brand")}
-                className="[&_svg]:h-7 sm:[&_svg]:h-8"
+                className="text-[0.95rem] sm:text-[1.05rem]"
               />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">

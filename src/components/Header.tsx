@@ -190,7 +190,8 @@ export function Header() {
           >
             <BrandLogo
               title={t("brand")}
-              className="[&_svg]:h-7 sm:[&_svg]:h-8"
+              animateOnMount
+              className="text-[0.95rem] sm:text-[1.05rem]"
             />
           </Link>
 
