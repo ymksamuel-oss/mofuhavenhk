@@ -2,8 +2,10 @@
  * WT Japan cat catalog — curated for Mofu Haven.
  * Images sourced via scrape scripts; copy & tags hand-polished.
  * Sources:
- *   - 貓罐罐: https://www.wt-japan.com/collections/貓罐罐/罐罐
- *   - 乾糧:   https://www.wt-japan.com/collections/乾糧
+ *   - 貓罐罐:     https://www.wt-japan.com/collections/貓罐罐/罐罐
+ *   - 乾糧:       https://www.wt-japan.com/collections/乾糧
+ *   - 凍乾零食:   https://www.wt-japan.com/collections/冷凍脫水系列
+ *                 (scrape_wt_japan_freeze_dried.py)
  */
 
 /** Canonical storefront category key used by `/categories/cats` (“貓咪商品”). */
@@ -450,6 +452,364 @@ export const WT_JAPAN_PRODUCTS: WtJapanProduct[] = [
     handle: "ciao-1兆個乳酸菌乾糧-3款海鮮味-10袋-x-6",
     productType: "乾糧",
     sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款海鮮味-10袋-x-6",
+  },
+
+  // ——— WT Japan 凍乾零食 / Freeze-dried (https://www.wt-japan.com/collections/冷凍脫水系列) ———
+  {
+    id: "wt-freeze-dried-1",
+    title: "MAMACOOK 但馬高原冷凍脫水雞條（貓貓用）30g × 10袋",
+    price: 550.0,
+    imageUrl: "/images/products/wt-freeze-dried-1.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580207270315.jpg?v=1625708824",
+    description:
+      "兵庫縣但馬高原走地雞，急速冷凍乾燥成香口雞條。無添加、無防腐，100% 純雞肉鎖住鮮香，適合訓練獎勵或日常點心。小包裝 30g × 10 袋，開袋即餵、保鮮方便。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "100%純肉", "無添加", "但馬高原", "雞肉"],
+    recommendedBreeds: ["bengal", "maine-coon", "american-shorthair", "mix-shorthair"],
+    handle: "但馬高原冷凍脫水雞條-30g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl: "https://www.wt-japan.com/products/但馬高原冷凍脫水雞條-30g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-2",
+    title: "MAMACOOK 但馬高原冷凍脫水雞胸肉・雞肝（貓貓用）18g × 10袋",
+    price: 425.0,
+    imageUrl: "/images/products/wt-freeze-dried-2.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/172_4580207273811.jpg?v=1655184311",
+    description:
+      "日本國產雞原料 100%，雞胸肉與雞肝雙重風味一次滿足。凍乾鎖住濃郁肉香與營養，適合愛肝臟鮮味的挑嘴貓。18g × 10 袋獨立分裝，日常獎勵剛剛好。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "100%純肉", "雞肝", "無添加", "日本國產"],
+    recommendedBreeds: ["siamese", "ragdoll", "british-shorthair", "mix-shorthair"],
+    handle: "但馬高原-冷凍脫水雞胸肉-雞肝-貓貓用-20g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/但馬高原-冷凍脫水雞胸肉-雞肝-貓貓用-20g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-3",
+    title: "MAMACOOK 但馬高原冷凍日本國產帆立貝（貓貓用）11g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-3.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/172_4580207273583.jpg?v=1591032305",
+    description:
+      "北海道・青森一帶水域國產帆立貝，急速凍乾保留肉厚甘甜與豐富氨基酸。無添加、無防腐，海鮮控毛孩的贅沢小食。11g × 10 袋，開袋飄起海洋鮮香。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "帆立貝", "日本國產", "無添加", "海鮮鮮味"],
+    recommendedBreeds: ["siamese", "bengal", "norwegian-forest", "russian-blue"],
+    handle: "但馬高原冷凍日本國產帆立貝貓貓用-30g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/但馬高原冷凍日本國產帆立貝貓貓用-30g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-4",
+    title: "MAMACOOK 但馬高原冷凍脫水銀魚（貓貓用）10g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-4.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/D1964676-D322-4736-AA1A-54C2F90715EC.jpg?v=1620652162",
+    description:
+      "整尾銀魚急速凍乾，脆香小巧、天然鈣質與海洋鮮味並存。適合當訓練獎勵或拌糧提味，讓挑嘴貓也願意主動靠近食碗。10g × 10 袋輕巧便攜。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "銀魚", "天然鮮味", "無添加", "訓練獎勵"],
+    recommendedBreeds: ["munchkin", "devon-rex", "american-shorthair", "mix-shorthair"],
+    handle: "但馬高原-冷凍脫水銀魚貓貓用-13g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl: "https://www.wt-japan.com/products/但馬高原-冷凍脫水銀魚貓貓用-13g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-5",
+    title: "MAMACOOK 但馬高原冷凍日本國產虹鮭魚（貓貓用）15g × 10袋",
+    price: 560.0,
+    imageUrl: "/images/products/wt-freeze-dried-5.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/1F170A58-6933-439D-9919-680D2D9C59DE.jpg?v=1623686507",
+    description:
+      "日本國產虹鮭魚凍乾小食，鮮美魚脂香氣一開袋就飄出。高蛋白、低負擔，適合日常輪替海鮮零食。15g × 10 袋獨立包裝，保鮮又好控量。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "虹鮭魚", "日本國產", "高蛋白", "海鮮鮮味"],
+    recommendedBreeds: ["siamese", "ragdoll", "norwegian-forest", "bengal"],
+    handle: "但馬高原冷凍日本國產虹鮭魚貓貓用-17g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/但馬高原冷凍日本國產虹鮭魚貓貓用-17g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-6",
+    title: "MAMACOOK 但馬高原冷凍脫水雞胸肉・雞腎（貓貓用）18g × 10袋",
+    price: 425.0,
+    imageUrl: "/images/products/wt-freeze-dried-6.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/172_4580207273828.jpg?v=1651764774",
+    description:
+      "日本國產雞胸肉搭配雞腎，雙重口感滿足愛嚼的貓貓。凍乾工藝鎖住鮮味，無多餘添加，適合當獎勵或乾濕混餵提味。18g × 10 袋日常備貨剛剛好。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "雞腎", "100%純肉", "無添加", "日本國產"],
+    recommendedBreeds: ["maine-coon", "british-shorthair", "bengal", "mix-shorthair"],
+    handle: "但馬高原-冷凍脫水雞胸肉-雞腎-貓貓用-20g-x-10袋-1",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/但馬高原-冷凍脫水雞胸肉-雞腎-貓貓用-20g-x-10袋-1",
+  },
+  {
+    id: "wt-freeze-dried-7",
+    title: "MAMACOOK 但馬高原冷凍日本國產金槍魚（貓貓用）14g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-7.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580207273965.jpg?v=1666144524",
+    description:
+      "贅沢凍乾金槍魚，高蛋白、低脂，含 DHA／EPA。日系經典海鮮味，適合愛吞拿的貓貓當日常小確幸。14g × 10 袋，開袋即享海洋鮮香。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "金槍魚", "高蛋白", "DHA・EPA", "日本國產"],
+    recommendedBreeds: ["siamese", "ragdoll", "russian-blue", "devon-rex"],
+    handle: "mamacook-但馬高原冷凍日本國產金槍魚貓貓用-14g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/mamacook-但馬高原冷凍日本國產金槍魚貓貓用-14g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-8",
+    title: "MAMACOOK 但馬高原冷凍脫水雞柳（貓貓用）30g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-8.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/172__30.jpg?v=1591031738",
+    description:
+      "但馬高原走地雞低脂雞柳，急速凍乾保留嫩滑肉香。無添加、無防腐，100% 純雞肉，適合想控脂又不想犧牲美味的日常獎勵。30g × 10 袋份量實在。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "雞柳", "低脂肪", "100%純肉", "但馬高原"],
+    recommendedBreeds: ["persian", "exotic-shorthair", "british-shorthair", "scottish-fold"],
+    handle: "但馬高原冷凍脫水雞柳貓貓用-30g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl: "https://www.wt-japan.com/products/但馬高原冷凍脫水雞柳貓貓用-30g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-9",
+    title: "MAMACOOK 但馬高原冷凍脫水雞粒（貓貓用）18g × 10袋",
+    price: 425.0,
+    imageUrl: "/images/products/wt-freeze-dried-9.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/172_4580207273835.jpg?v=1655185560",
+    description:
+      "一口大小的凍乾雞粒，方便餵食也適合撒在乾糧上提味。日本製純雞肉風味，訓練、出遊或日常點心都合適。18g × 10 袋輕巧好攜帶。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "雞粒", "一口大小", "訓練獎勵", "無添加"],
+    recommendedBreeds: ["munchkin", "american-shorthair", "mix-shorthair", "devon-rex"],
+    handle: "mamacook-但馬高原冷凍脫水雞粒貓貓用-18g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/mamacook-但馬高原冷凍脫水雞粒貓貓用-18g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-10",
+    title: "MAMACOOK 但馬高原冷凍脫水豬心（貓貓用）25g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-10.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580207273101.jpg?v=1604838290",
+    description:
+      "冷凍脫水豬心，濃郁臟器鮮味吸引肉食本能。適合想輪替蛋白質來源、又愛「真・肉味」的貓貓。25g × 10 袋獨立包裝，控量餵食更安心。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "豬心", "臟器鮮味", "高蛋白", "無添加"],
+    recommendedBreeds: ["maine-coon", "bengal", "norwegian-forest", "mix-shorthair"],
+    handle: "但馬高原-冷凍脫水豬心貓貓用-25g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl: "https://www.wt-japan.com/products/但馬高原-冷凍脫水豬心貓貓用-25g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-11",
+    title: "MAMACOOK 但馬高原冷凍脫水無添加豬大腿肉（貓貓用）20g × 10袋",
+    price: 580.0,
+    imageUrl: "/images/products/wt-freeze-dried-11.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580207273910.jpg?v=1638513912",
+    description:
+      "無添加豬大腿肉凍乾條，純粹豬肉香氣、口感有嚼勁。適合想換換口味、又堅持「乾淨原料」的家庭。20g × 10 袋，日本製日常小食首選。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "豬大腿肉", "無添加", "肉條", "日本製"],
+    recommendedBreeds: ["british-shorthair", "ragdoll", "american-shorthair", "persian"],
+    handle: "但馬高原-冷凍脫水無添加豬大腿肉貓貓用-20g-x10",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/但馬高原-冷凍脫水無添加豬大腿肉貓貓用-20g-x10",
+  },
+  {
+    id: "wt-freeze-dried-12",
+    title: "MAMACOOK 但馬高原冷凍日本國產信州三文魚（貓貓用）17g × 10袋",
+    price: 769.0,
+    imageUrl: "/images/products/wt-freeze-dried-12.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580207273675.jpg?v=1655182725",
+    description:
+      "長野縣安曇野信州三文魚，贅沢凍乾成高檔海鮮小食。油脂豐潤、香氣層次分明，適合想犒賞毛孩的特別日子。17g × 10 袋，海洋奢華一口滿足。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "信州三文魚", "贅沢鮮味", "日本國產", "海鮮鮮味"],
+    recommendedBreeds: ["siamese", "ragdoll", "norwegian-forest", "bengal"],
+    handle: "mamacook-但馬高原冷凍日本國產信州三文魚貓貓用-17g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/mamacook-但馬高原冷凍日本國產信州三文魚貓貓用-17g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-13",
+    title: "Petio 冷凍脫水系列・三文魚（貓貓用）10g × 6",
+    price: 148.0,
+    imageUrl: "/images/products/wt-freeze-dried-13.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/2DAE8CB7-6097-49FD-97E6-41438B4E5EF5.jpg?v=1596097084",
+    description:
+      "Petio 冷凍脫水三文魚，新鮮素材、不含防腐劑與色素。可直接餵、碎灑拌糧，或稍浸軟混入濕糧——全貓適用的入門凍乾。10g × 6 包裝輕巧試味。",
+    vendor: "Petio",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "三文魚", "全貓適用", "無防腐劑", "拌糧提味"],
+    recommendedBreeds: ["mix-shorthair", "american-shorthair", "siamese", "munchkin"],
+    handle: "貓貓零食-petio-冷凍脫水系列-三文魚-10g-x-6",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/貓貓零食-petio-冷凍脫水系列-三文魚-10g-x-6",
+  },
+  {
+    id: "wt-freeze-dried-14",
+    title: "Petio 冷凍脫水系列・雞肉・雞肝・雞腎 15g × 6",
+    price: 148.0,
+    imageUrl: "/images/products/wt-freeze-dried-14.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/B99FBCFB-1642-47E0-AC40-05CE0B1B7E64.jpg?v=1596092712",
+    description:
+      "雞肉、雞肝、雞腎三重風味凍乾，一口滿足肉食本能。新鮮素材無防腐、無色素，適合拌乾濕糧或直接當獎勵。15g × 6，全貓日常好入手。",
+    vendor: "Petio",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "三重雞肉", "全貓適用", "無防腐劑", "拌糧提味"],
+    recommendedBreeds: ["maine-coon", "british-shorthair", "bengal", "mix-shorthair"],
+    handle: "貓貓零食-petio-冷凍脫水系列-雞肉-雞肝-雞腎-15g-x-6",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/貓貓零食-petio-冷凍脫水系列-雞肉-雞肝-雞腎-15g-x-6",
+  },
+  {
+    id: "wt-freeze-dried-15",
+    title: "Petio 冷凍脫水系列・金槍魚・鰹魚・三文魚 9g × 6",
+    price: 148.0,
+    imageUrl: "/images/products/wt-freeze-dried-15.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/F0346315-7736-4E14-A5C3-FB848B9950E8.jpg?v=1596097695",
+    description:
+      "金槍魚、鰹魚、三文魚三重海鮮凍乾，海洋鮮味輪替不怕膩。無防腐、無色素，碎灑或原片餵食都合適。9g × 6 輕巧包裝，海鮮控入門首選。",
+    vendor: "Petio",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "海鮮三拼", "全貓適用", "無防腐劑", "拌糧提味"],
+    recommendedBreeds: ["siamese", "ragdoll", "russian-blue", "norwegian-forest"],
+    handle: "貓貓零食-petio-冷凍脫水系列-金槍魚-鰹魚-三文魚9g-x-6",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/貓貓零食-petio-冷凍脫水系列-金槍魚-鰹魚-三文魚9g-x-6",
+  },
+  {
+    id: "wt-freeze-dried-16",
+    title: "MAMACOOK 但馬高原冷凍脫水西太公魚（貓貓用）10g × 10袋",
+    price: 425.0,
+    imageUrl: "/images/products/wt-freeze-dried-16.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/files/172_4580207274177_1.jpg?v=1735386603",
+    description:
+      "西太公魚整尾凍乾，小巧香脆、天然海鮮味。適合當趣味獎勵或拌糧提香，讓嗅覺敏銳的貓貓主動靠近。10g × 10 袋日本製，輕便好存放。",
+    vendor: "MAMACOOK",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "西太公魚", "整尾凍乾", "無添加", "訓練獎勵"],
+    recommendedBreeds: ["bengal", "siamese", "devon-rex", "mix-shorthair"],
+    handle: "mamacook-但馬高原-冷凍脫水西太公魚貓貓用-10g-x-10袋",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/mamacook-但馬高原-冷凍脫水西太公魚貓貓用-10g-x-10袋",
+  },
+  {
+    id: "wt-freeze-dried-17",
+    title: "日本國產無添加冷凍脫水雞肝（貓貓用）40g × 8",
+    price: 504.0,
+    imageUrl: "/images/products/wt-freeze-dried-17.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/cat_gugufd40g_chickenliver.jpg?v=1650518829",
+    description:
+      "日本國產無添加凍乾雞肝，濃郁肝香是挑嘴貓的心頭好。大份裝 40g × 8，適合長期備貨的家庭；直接餵或掰碎拌糧，鮮味立刻升級。",
+    vendor: "日本國產",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "雞肝", "無添加", "日本國產", "大份裝"],
+    recommendedBreeds: ["maine-coon", "british-shorthair", "persian", "mix-shorthair"],
+    handle: "貓貓小食-日本國產無添加冷凍脫水雞肝貓貓用-40g-x-8",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/貓貓小食-日本國產無添加冷凍脫水雞肝貓貓用-40g-x-8",
+  },
+  {
+    id: "wt-freeze-dried-18",
+    title: "日本國產無添加冷凍脫水雞肉（貓貓用）40g × 8",
+    price: 428.0,
+    imageUrl: "/images/products/wt-freeze-dried-18.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/cat_gugufd40g_sasami.jpg?v=1650518652",
+    description:
+      "日本國產無添加凍乾雞肉，純粹雞香、口感輕脆。40g × 8 大份裝適合天天獎勵或訓練使用，掰碎拌乾濕糧也很有誘食力。賞味期約一年，安心備貨。",
+    vendor: "日本國產",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    tags: ["凍乾零食", "雞肉", "無添加", "日本國產", "大份裝"],
+    recommendedBreeds: ["american-shorthair", "ragdoll", "munchkin", "mix-shorthair"],
+    handle: "貓貓小食-日本國產無添加冷凍脫水雞肉貓貓用-40g-x-8",
+    productType: "貓貓小食",
+    sourceUrl:
+      "https://www.wt-japan.com/products/貓貓小食-日本國產無添加冷凍脫水雞肉貓貓用-40g-x-8",
   },
 ];
 
