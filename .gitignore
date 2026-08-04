@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local WT Japan scrape dumps
+downloaded_products/
+all_products_summary.json
