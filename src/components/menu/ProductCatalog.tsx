@@ -14,10 +14,13 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
   CAT_SUBCATEGORIES,
+  DOG_SUBCATEGORIES,
   getCatProductsBySubcategory,
+  getDogProductsBySubcategory,
   getProductsByCategory,
   productHref,
   type CatSubcategory,
+  type DogSubcategory,
 } from "@/lib/products";
 
 function chipClassName(active: boolean) {
@@ -42,6 +45,10 @@ const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   凍乾零食: "catSubFreezeDried",
 };
 
+const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
+  凍乾零食: "dogSubFreezeDried",
+};
+
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
@@ -55,7 +62,11 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
+  const isDogs = categorySlug === "dogs";
   const [catSubcategory, setCatSubcategory] = useState<CatSubcategory | null>(
+    null,
+  );
+  const [dogSubcategory, setDogSubcategory] = useState<DogSubcategory | null>(
     null,
   );
   const [isPending, startTransition] = useTransition();
@@ -64,8 +75,11 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
     if (isCats) {
       return getCatProductsBySubcategory(catSubcategory);
     }
+    if (isDogs) {
+      return getDogProductsBySubcategory(dogSubcategory);
+    }
     return getProductsByCategory(categorySlug);
-  }, [isCats, catSubcategory, categorySlug]);
+  }, [isCats, isDogs, catSubcategory, dogSubcategory, categorySlug]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
@@ -73,6 +87,12 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const selectCatSub = (next: CatSubcategory | null) => {
     startTransition(() => {
       setCatSubcategory(next);
+    });
+  };
+
+  const selectDogSub = (next: DogSubcategory | null) => {
+    startTransition(() => {
+      setDogSubcategory(next);
     });
   };
 
@@ -129,6 +149,36 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
               onClick={() => selectCatSub(sub)}
             >
               {t(CAT_SUB_LABEL_KEYS[sub])}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      {isDogs ? (
+        <div
+          role="tablist"
+          aria-label={t("dogSubNavLabel")}
+          className="scrollbar-none mb-8 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={dogSubcategory === null}
+            className={subChipClassName(dogSubcategory === null)}
+            onClick={() => selectDogSub(null)}
+          >
+            {t("dogSubAll")}
+          </button>
+          {DOG_SUBCATEGORIES.map((sub) => (
+            <button
+              key={sub}
+              type="button"
+              role="tab"
+              aria-selected={dogSubcategory === sub}
+              className={subChipClassName(dogSubcategory === sub)}
+              onClick={() => selectDogSub(sub)}
+            >
+              {t(DOG_SUB_LABEL_KEYS[sub])}
             </button>
           ))}
         </div>

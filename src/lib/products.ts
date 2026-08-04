@@ -1,5 +1,9 @@
 import type { CategoryIconName } from "@/lib/categories";
 import {
+  WT_JAPAN_DOG_FREEZE_DRIED_PRODUCTS,
+  type WtJapanDogFreezeDriedProduct,
+} from "@/data/dogFreezeDriedData";
+import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
@@ -13,14 +17,19 @@ export const CAT_SUBCATEGORIES = [
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
 
+/** Dog-products sub-filter keys (shown under 「狗狗商品」). */
+export const DOG_SUBCATEGORIES = ["凍乾零食"] as const;
+
+export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
+
 export type Product = {
   id: string;
   categorySlug: string;
   /**
-   * Optional cat sub-category used by `/categories/cats` pill filters.
-   * Non-cat products leave this undefined.
+   * Optional sub-category used by `/categories/cats` or `/categories/dogs`
+   * pill filters. Other categories leave this undefined.
    */
-  subcategory?: CatSubcategory;
+  subcategory?: CatSubcategory | DogSubcategory;
   /**
    * Path (under /public) to a real product photograph for this SKU.
    * Typical locations: `public/products/<id>.webp` or
@@ -247,6 +256,66 @@ const WT_JAPAN_EN: Record<
     description:
       "Japanese additive-free freeze-dried chicken — pure aroma, light crunch. 40g × 8 for everyday rewards or training; crumble over wet or dry food.",
   },
+  "wt-dog-freeze-dried-1": {
+    name: "Petio Freeze-Dried Carrot, Pumpkin & Cabbage (Dog) 20g × 6",
+    description:
+      "Petio freeze-dried veggie trio — carrot, pumpkin, and cabbage. Fresh ingredients, no preservatives or dyes; sprinkle, soften, or feed whole. Multi-pack 20g × 6.",
+  },
+  "wt-dog-freeze-dried-2": {
+    name: "Petio Freeze-Dried Apple, Banana & Melon (Dog) 20g × 6",
+    description:
+      "Petio freeze-dried fruit trio — apple, banana, and melon. Fresh ingredients, preservative-free; feed whole or soften into meals. Multi-pack 20g × 6.",
+  },
+  "wt-dog-freeze-dried-3": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Strips (Dog) 30g × 10",
+    description:
+      "Free-range Tajima chicken, flash freeze-dried into fragrant strips. No additives — 100% pure chicken for training or everyday treats. Ten 30g pouches.",
+  },
+  "wt-dog-freeze-dried-4": {
+    name: "MAMACOOK Tajima Freeze-Dried Pork Heart (Dog) 25g × 10",
+    description:
+      "Freeze-dried pork heart with rich organ savor. Great protein rotation for dogs who love real meat flavor — ten 25g pouches.",
+  },
+  "wt-dog-freeze-dried-5": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Liver (Dog) 24g × 10",
+    description:
+      "Japan-made freeze-dried chicken liver with deep aroma picky dogs chase. Ten 24g pouches for training rewards or meal toppers.",
+  },
+  "wt-dog-freeze-dried-6": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Liver (Dog) 18g × 10",
+    description:
+      "100% Japanese chicken — breast and liver in one freeze-dried bite. Rich aroma; ten 18g pouches for daily rewards.",
+  },
+  "wt-dog-freeze-dried-7": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Cartilage (Dog) 18g × 10",
+    description:
+      "100% Japanese chicken breast with crunchy cartilage. Dual texture dogs love to chew — ten 18g pouches for training or treats.",
+  },
+  "wt-dog-freeze-dried-8": {
+    name: "MAMACOOK Tajima Freeze-Dried Pork Liver (Dog) 30g × 10",
+    description:
+      "Freeze-dried pork liver — rich organ savor and high protein. Ten 30g pouches for measured organ-meat rotation.",
+  },
+  "wt-dog-freeze-dried-9": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Strips (Dog) 150g × 15",
+    description:
+      "Tajima freeze-dried chicken strips in a family carton — additive-free fillets, flash-dried for aroma. Fifteen 150g pouches for busy training homes.",
+  },
+  "wt-dog-freeze-dried-10": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast Cartilage (Dog) 120g × 15",
+    description:
+      "Japan-made freeze-dried chicken breast with cartilage — meaty aroma and crunchy bite. Fifteen 120g pouches for long-term stocking.",
+  },
+  "wt-dog-freeze-dried-11": {
+    name: "MAMACOOK Tajima Freeze-Dried Capelin (Dog) 10g × 10",
+    description:
+      "Whole capelin freeze-dried crisp and aromatic. Fun training rewards or meal toppers — ten Japan-made 10g pouches.",
+  },
+  "wt-dog-freeze-dried-12": {
+    name: "MAMACOOK Tajima Freeze-Dried Venison (Dog) 14g × 10",
+    description:
+      "Freeze-dried venison — lean, high-protein novel meat. Ten 14g pouches for sensitive tummies or protein rotation.",
+  },
 };
 
 const WT_TAG_EN: Record<string, string> = {
@@ -331,6 +400,13 @@ const WT_TAG_EN: Record<string, string> = {
   西太公魚: "Capelin",
   整尾凍乾: "Whole-fish freeze-dried",
   大份裝: "Value pack",
+  狗狗小食: "Dog treats",
+  蔬菜三重奏: "Veggie trio",
+  水果三重奏: "Fruit trio",
+  多包裝: "Multi-pack",
+  雞軟骨: "Chicken cartilage",
+  豬肝: "Pork liver",
+  鹿肉: "Venison",
 };
 
 function wtJapanToProduct(p: WtJapanProduct): Product {
@@ -362,9 +438,45 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
   };
 }
 
+function wtJapanDogFreezeDriedToProduct(
+  p: WtJapanDogFreezeDriedProduct,
+): Product {
+  const en = WT_JAPAN_EN[p.id];
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: p.subcategory,
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    icon: "dog",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
+      { zh: "系列：冷凍脫水系列", en: "Series: Freeze-dried" },
+      ...p.tags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
 /** WT Japan CIAO cans + dry food + freeze-dried — merged from `@/data/productsData`. */
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
+
+/** WT Japan dog freeze-dried treats — merged from `@/data/dogFreezeDriedData`. */
+export const WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_FREEZE_DRIED_PRODUCTS.map(wtJapanDogFreezeDriedToProduct);
 
 export const PRODUCTS: Product[] = [
   // 貓咪商品 / Cat Products
@@ -474,6 +586,8 @@ export const PRODUCTS: Product[] = [
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
+  // WT Japan 冷凍脫水系列（狗狗小食）— wired from `@/data/dogFreezeDriedData`
+  ...WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS,
   {
     id: "dog-food-1-5kg",
     categorySlug: "dogs",
@@ -560,7 +674,7 @@ export const PRODUCTS: Product[] = [
   },
 
   // 寵物小食 / Pet Snacks
-  // Cat freeze-dried treats live under cats (WT Japan subcategory 凍乾零食).
+  // Cat & dog freeze-dried treats live under cats/dogs (WT Japan subcategory 凍乾零食).
   {
     id: "dog-dried-meat-treats",
     categorySlug: "snacks",
@@ -1609,6 +1723,15 @@ export function getCatProductsBySubcategory(
   const cats = getProductsByCategory("cats");
   if (!subcategory) return cats;
   return cats.filter((product) => product.subcategory === subcategory);
+}
+
+/** Filter dog products by optional subcategory pill (`null` = all). */
+export function getDogProductsBySubcategory(
+  subcategory: DogSubcategory | null,
+): Product[] {
+  const dogs = getProductsByCategory("dogs");
+  if (!subcategory) return dogs;
+  return dogs.filter((product) => product.subcategory === subcategory);
 }
 
 export function getProductById(id: string | null | undefined): Product | null {

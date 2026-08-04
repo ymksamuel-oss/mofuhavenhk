@@ -6,6 +6,8 @@
  *   - 乾糧:       https://www.wt-japan.com/collections/乾糧
  *   - 凍乾零食:   https://www.wt-japan.com/collections/冷凍脫水系列
  *                 (scrape_wt_japan_freeze_dried.py)
+ * Dog freeze-dried SKUs live in `@/data/dogFreezeDriedData`
+ * (scrape_wt_japan_dog_freeze_dried.py).
  */
 
 /** Canonical storefront category key used by `/categories/cats` (“貓咪商品”). */
