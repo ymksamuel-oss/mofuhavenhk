@@ -192,11 +192,6 @@ h3 {
   gap: 0.08rem;
 }
 
-.logo-text {
-  font-style: normal;
-  transform: none;
-}
-
 .brand-logo .logo-copy-line {
   display: flex;
   align-items: center;
