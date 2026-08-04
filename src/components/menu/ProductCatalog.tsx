@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useMemo, useState, useTransition } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ExplorePetsDropdown } from "@/components/menu/ExplorePetsDropdown";
@@ -10,8 +11,14 @@ import {
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, productHref } from "@/lib/products";
+import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
+import {
+  CAT_SUBCATEGORIES,
+  getCatProductsBySubcategory,
+  getProductsByCategory,
+  productHref,
+  type CatSubcategory,
+} from "@/lib/products";
 
 function chipClassName(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -20,6 +27,20 @@ function chipClassName(active: boolean) {
       : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/60 hover:text-[color:var(--accent)]"
   }`;
 }
+
+function subChipClassName(active: boolean) {
+  return `shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-medium transition sm:text-sm ${
+    active
+      ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
+      : "border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/50 hover:text-[color:var(--ink)]"
+  }`;
+}
+
+const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
+  貓罐罐: "catSubWetCans",
+  貓乾糧: "catSubDryFood",
+  凍乾零食: "catSubFreezeDried",
+};
 
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
@@ -33,10 +54,27 @@ type ProductCatalogProps = {
 export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
-  const products = getProductsByCategory(categorySlug);
+  const isCats = categorySlug === "cats";
+  const [catSubcategory, setCatSubcategory] = useState<CatSubcategory | null>(
+    null,
+  );
+  const [isPending, startTransition] = useTransition();
+
+  const products = useMemo(() => {
+    if (isCats) {
+      return getCatProductsBySubcategory(catSubcategory);
+    }
+    return getProductsByCategory(categorySlug);
+  }, [isCats, catSubcategory, categorySlug]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
+
+  const selectCatSub = (next: CatSubcategory | null) => {
+    startTransition(() => {
+      setCatSubcategory(next);
+    });
+  };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -49,7 +87,7 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
 
       <nav
         aria-label={t("categoryNavLabel")}
-        className="mb-8 flex flex-wrap gap-2"
+        className="mb-4 flex flex-wrap gap-2 sm:mb-5"
       >
         <CategoryNavLink href="/menu" className={chipClassName(!categorySlug)}>
           {t("menuAllCategories")}
@@ -66,10 +104,44 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         <ExplorePetsDropdown />
       </nav>
 
+      {isCats ? (
+        <div
+          role="tablist"
+          aria-label={t("catSubNavLabel")}
+          className="scrollbar-none mb-8 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={catSubcategory === null}
+            className={subChipClassName(catSubcategory === null)}
+            onClick={() => selectCatSub(null)}
+          >
+            {t("catSubAll")}
+          </button>
+          {CAT_SUBCATEGORIES.map((sub) => (
+            <button
+              key={sub}
+              type="button"
+              role="tab"
+              aria-selected={catSubcategory === sub}
+              className={subChipClassName(catSubcategory === sub)}
+              onClick={() => selectCatSub(sub)}
+            >
+              {t(CAT_SUB_LABEL_KEYS[sub])}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <ul
+          className={`grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 ${
+            isPending ? "opacity-70 transition-opacity" : "transition-opacity"
+          }`}
+        >
           {products.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)

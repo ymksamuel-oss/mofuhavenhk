@@ -4,9 +4,23 @@ import {
   type WtJapanProduct,
 } from "@/data/productsData";
 
+/** Cat-products sub-filter keys (shown under 「貓咪商品」). */
+export const CAT_SUBCATEGORIES = [
+  "貓罐罐",
+  "貓乾糧",
+  "凍乾零食",
+] as const;
+
+export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
+
 export type Product = {
   id: string;
   categorySlug: string;
+  /**
+   * Optional cat sub-category used by `/categories/cats` pill filters.
+   * Non-cat products leave this undefined.
+   */
+  subcategory?: CatSubcategory;
   /**
    * Path (under /public) to a real product photograph for this SKU.
    * Typical locations: `public/products/<id>.webp` or
@@ -199,6 +213,7 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
     id: p.id,
     // Keep in sync with productsData `category` / `categorySlug` (貓咪商品 → cats)
     categorySlug: p.categorySlug,
+    subcategory: p.subcategory,
     image: p.imageUrl,
     name: {
       zh: p.title,
@@ -327,6 +342,19 @@ export const PRODUCTS: Product[] = [
       en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
     },
   },
+  {
+    id: "cat-freeze-dried-treats",
+    categorySlug: "cats",
+    subcategory: "凍乾零食",
+    image: "/products/cat-freeze-dried-treats.webp",
+    name: { zh: "貓咪凍乾小食", en: "Freeze-Dried Cat Treats" },
+    price: 45,
+    icon: "bone",
+    description: {
+      zh: "100% 純肉凍乾，鎖住鮮味與營養，訓練獎勵或日常零食都合適。",
+      en: "100% meat freeze-dried treats that lock in flavor and nutrition — perfect for training or everyday rewards.",
+    },
+  },
 
   // CIAO 貓罐罐 + 乾糧（WT Japan）— wired from `@/data/productsData`
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
@@ -418,14 +446,7 @@ export const PRODUCTS: Product[] = [
   },
 
   // 寵物小食 / Pet Snacks
-  {
-    id: "cat-freeze-dried-treats",
-    categorySlug: "snacks",
-    image: "/products/cat-freeze-dried-treats.webp",
-    name: { zh: "貓咪凍乾小食", en: "Freeze-Dried Cat Treats" },
-    price: 45,
-    icon: "bone",
-  },
+  // Note: cat-freeze-dried-treats lives under cats (subcategory 凍乾零食).
   {
     id: "dog-dried-meat-treats",
     categorySlug: "snacks",
@@ -1465,6 +1486,15 @@ export const PRODUCTS: Product[] = [
 export function getProductsByCategory(slug: string | null): Product[] {
   if (!slug) return PRODUCTS;
   return PRODUCTS.filter((product) => product.categorySlug === slug);
+}
+
+/** Filter cat products by optional subcategory pill (`null` = all). */
+export function getCatProductsBySubcategory(
+  subcategory: CatSubcategory | null,
+): Product[] {
+  const cats = getProductsByCategory("cats");
+  if (!subcategory) return cats;
+  return cats.filter((product) => product.subcategory === subcategory);
 }
 
 export function getProductById(id: string | null | undefined): Product | null {
