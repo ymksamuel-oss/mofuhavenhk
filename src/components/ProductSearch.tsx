@@ -348,15 +348,15 @@ export function ProductSearch({
   }, [trimmedQuery]);
 
   useEffect(() => {
-    if (!suggestionsOpen || variant !== "header") return;
-    const onPointerDown = (event: MouseEvent) => {
+    if (!suggestionsOpen || modalOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
         setSuggestionsOpen(false);
       }
     };
-    document.addEventListener("mousedown", onPointerDown);
-    return () => document.removeEventListener("mousedown", onPointerDown);
-  }, [suggestionsOpen, variant]);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [modalOpen, suggestionsOpen]);
 
   useEffect(() => {
     if (!modalOpen) {
