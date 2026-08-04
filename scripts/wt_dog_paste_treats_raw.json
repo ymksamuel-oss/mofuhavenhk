@@ -1,0 +1,784 @@
+[
+  {
+    "id": 4726628876333,
+    "title": "狗狗小食 - CIAO 糊仔小食 - 雞胸肉, 蕃薯 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-雞胸肉-蕃薯-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-10T05:12:31+09:00",
+    "created_at": "2020-03-10T05:20:57+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "蕃薯",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 33019558002733,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4726628876333,
+        "created_at": "2020-03-10T05:20:57+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15184902357037,
+        "created_at": "2020-03-10T05:20:57+09:00",
+        "position": 1,
+        "updated_at": "2020-03-10T05:20:57+09:00",
+        "product_id": 4726628876333,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133827358.jpg?v=1583785257",
+        "width": 400,
+        "height": 400
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5415059718294,
+    "title": "CIAO 動物醫院投藥專用  1000億個乳酸菌 2倍能量補給糊仔 - 雞肉味 (狗狗用)12g x50條",
+    "handle": "ciao-動物醫院投藥專用-1000億個乳酸菌-2倍能量補給糊仔-雞肉味-狗狗用12g-x5",
+    "body_html": "<div class=\"product-single__description rte\" itemprop=\"description\">\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">內有<span class=\"st\">氨基酸</span>，乳酸菌調整腸胃 </span></div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\">同時有綠茶提取物, 可減輕便便臭味</span><br><span style=\"color: #000000;\">條狀包裝，增加餵食方便性</span><br><span style=\"color: #000000;\">黏度比一般糊仔多2倍</span>,</div>\n<div style=\"text-align: left;\">以及高2倍卡路里<br><span style=\"color: #000000;\">將藥丸包起來偽裝成普通糊仔零食</span><br><span style=\"color: #000000;\">讓生病中的毛孩也能在恢復健康同時也能享受零食樂趣</span>\n</div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\">\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">賞味期限　2年</span></div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">原産地　日本</span></div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">*不連包裝盒</span></div>\n</div>\n</div>",
+    "published_at": "2020-07-02T23:58:28+09:00",
+    "created_at": "2020-07-02T23:58:27+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "WT",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "動物醫院專用",
+      "投藥專用",
+      "狗狗糊仔小食",
+      "綠茶消臭成分",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 34998253879446,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "512.00",
+        "grams": 600,
+        "compare_at_price": null,
+        "position": 1,
+        "product_id": 5415059718294,
+        "created_at": "2020-07-02T23:58:27+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 17716197458070,
+        "created_at": "2020-07-02T23:58:28+09:00",
+        "position": 1,
+        "updated_at": "2020-07-02T23:58:28+09:00",
+        "product_id": 5415059718294,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780042.jpg?v=1593701908",
+        "width": 600,
+        "height": 600
+      },
+      {
+        "id": 17716197556374,
+        "created_at": "2020-07-02T23:58:28+09:00",
+        "position": 2,
+        "updated_at": "2020-07-02T23:58:28+09:00",
+        "product_id": 5415059718294,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780042_1.jpg?v=1593701908",
+        "width": 600,
+        "height": 600
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5415046840470,
+    "title": "CIAO 動物醫院投藥專用  1000億個乳酸菌 3倍粘度補給糊仔 - 雞肉味 (狗狗用)12g x50條",
+    "handle": "ciao-動物醫院投藥專用-1000億個乳酸菌-3倍粘度補給糊仔-雞肉味-12g-x50條",
+    "body_html": "<div class=\"product-single__description rte\" itemprop=\"description\">\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">內有<span class=\"st\">氨基酸</span>，乳酸菌調整腸胃 </span></div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\">同時有綠茶提取物, 可減輕便便臭味</span><br><span style=\"color: #000000;\">條狀包裝，增加餵食方便性</span><br><span style=\"color: #000000;\">黏度比一般糊仔多3倍</span>,</div>\n<span style=\"color: #000000;\">將藥丸包起來偽裝成普通糊仔零食</span><br>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">讓生病中的毛孩也能在恢復健康同時也能享受零食樂趣</span></div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">賞味期限　2年</span></div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">原産地　日本</span></div>\n<div style=\"text-align: left;\">\n<span style=\"color: #000000;\"></span><br>\n</div>\n<div style=\"text-align: left;\"><span style=\"color: #000000;\">*不連包裝盒</span></div>\n</div>",
+    "published_at": "2020-07-02T23:55:13+09:00",
+    "created_at": "2020-07-02T23:55:12+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "動物醫院專用",
+      "投藥專用",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "綠茶消臭成分",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 34998220325014,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "512.00",
+        "grams": 600,
+        "compare_at_price": null,
+        "position": 1,
+        "product_id": 5415046840470,
+        "created_at": "2020-07-02T23:55:12+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 17716134838422,
+        "created_at": "2020-07-02T23:55:13+09:00",
+        "position": 1,
+        "updated_at": "2020-07-02T23:55:13+09:00",
+        "product_id": 5415046840470,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780059.jpg?v=1593701713",
+        "width": 600,
+        "height": 600
+      },
+      {
+        "id": 17716134805654,
+        "created_at": "2020-07-02T23:55:13+09:00",
+        "position": 2,
+        "updated_at": "2020-07-02T23:55:13+09:00",
+        "product_id": 5415046840470,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780059_1.jpg?v=1593701713",
+        "width": 824,
+        "height": 824
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4726737043501,
+    "title": "狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-總合營養-雞胸肉-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-10T05:12:31+09:00",
+    "created_at": "2020-03-10T05:45:43+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 33019897446445,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4726737043501,
+        "created_at": "2020-03-10T05:45:43+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15185264803885,
+        "created_at": "2020-03-10T05:45:43+09:00",
+        "position": 1,
+        "updated_at": "2020-03-10T05:45:43+09:00",
+        "product_id": 4726737043501,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720598.jpg?v=1583786743",
+        "width": 600,
+        "height": 600
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4726704537645,
+    "title": "狗狗小食 - CIAO 糊仔小食 -  芝士雞胸肉 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-芝士雞胸肉-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-10T05:12:31+09:00",
+    "created_at": "2020-03-10T05:37:32+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "INABA",
+      "狗狗糊仔小食",
+      "芝士",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 33019792850989,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4726704537645,
+        "created_at": "2020-03-10T05:37:32+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15185150902317,
+        "created_at": "2020-03-10T05:37:32+09:00",
+        "position": 1,
+        "updated_at": "2020-03-10T05:37:32+09:00",
+        "product_id": 4726704537645,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133736582.jpg?v=1583786252",
+        "width": 400,
+        "height": 400
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4708301307949,
+    "title": "狗狗小食 - CIAO 糊仔小食 - 總合營養 雞胸肉 (加入芝士) 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-雞胸肉-加入芝士-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-05T23:25:46+09:00",
+    "created_at": "2020-03-06T00:47:56+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "芝士",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 32936031617069,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4708301307949,
+        "created_at": "2020-03-06T00:47:57+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15111044726829,
+        "created_at": "2020-03-06T00:47:56+09:00",
+        "position": 1,
+        "updated_at": "2020-03-06T00:47:56+09:00",
+        "product_id": 4708301307949,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720611.jpg?v=1583423276",
+        "width": 400,
+        "height": 400
+      },
+      {
+        "id": 15111044759597,
+        "created_at": "2020-03-06T00:47:56+09:00",
+        "position": 2,
+        "updated_at": "2020-03-06T00:47:56+09:00",
+        "product_id": 4708301307949,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720611a.jpg?v=1583423276",
+        "width": 400,
+        "height": 400
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4708272668717,
+    "title": "狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 (加入牛肉) 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-雞胸肉-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-05T23:25:46+09:00",
+    "created_at": "2020-03-06T00:39:26+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "CIAO",
+      "INABA",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 32935809220653,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4708272668717,
+        "created_at": "2020-03-06T00:39:26+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15110995247149,
+        "created_at": "2020-03-06T00:44:32+09:00",
+        "position": 1,
+        "updated_at": "2020-03-06T00:44:32+09:00",
+        "product_id": 4708272668717,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720604.jpg?v=1583423072",
+        "width": 400,
+        "height": 400
+      },
+      {
+        "id": 15110997278765,
+        "created_at": "2020-03-06T00:44:40+09:00",
+        "position": 2,
+        "updated_at": "2020-03-06T00:44:40+09:00",
+        "product_id": 4708272668717,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720604a.jpg?v=1583423080",
+        "width": 400,
+        "height": 400
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7937692991728,
+    "title": "Hell’s Kitchen 狗狗袋裝肉泥- 雞肉軟骨味100g x8",
+    "handle": "hell-s-kitchen-狗狗袋裝肉泥-雞肉軟骨味100g-x8",
+    "body_html": "<span data-mce-fragment=\"1\">賞味期限2年</span>",
+    "published_at": "2022-04-21T13:48:41+09:00",
+    "created_at": "2022-04-21T13:48:40+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "WT",
+    "product_type": "狗狗小食",
+    "tags": [
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "狗狗膏狀小食"
+    ],
+    "variants": [
+      {
+        "id": 42722609266928,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "216.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 1,
+        "product_id": 7937692991728,
+        "created_at": "2022-04-21T13:48:40+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 37374668734704,
+        "created_at": "2022-04-21T13:48:40+09:00",
+        "position": 1,
+        "updated_at": "2022-04-21T13:48:42+09:00",
+        "product_id": 7937692991728,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180172_2.jpg?v=1650516522",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "id": 37374668439792,
+        "created_at": "2022-04-21T13:48:40+09:00",
+        "position": 2,
+        "updated_at": "2022-04-21T13:48:42+09:00",
+        "product_id": 7937692991728,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180172.jpg?v=1650516522",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "id": 37374668407024,
+        "created_at": "2022-04-21T13:48:40+09:00",
+        "position": 3,
+        "updated_at": "2022-04-21T13:48:42+09:00",
+        "product_id": 7937692991728,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180172_1.jpg?v=1650516522",
+        "width": 800,
+        "height": 800
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7937689354480,
+    "title": "Hell’s Kitchen 狗狗袋裝肉泥- 雞肉芝士味90g  (小狗用) x8",
+    "handle": "hell-s-kitchen-狗狗袋裝肉泥-雞肉芝士味90g-小狗用-x8",
+    "body_html": "<span data-mce-fragment=\"1\">賞味期限2年</span>",
+    "published_at": "2022-04-21T13:36:02+09:00",
+    "created_at": "2022-04-21T13:36:00+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "WT",
+    "product_type": "狗狗小食",
+    "tags": [
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "狗狗膏狀小食"
+    ],
+    "variants": [
+      {
+        "id": 42722593407216,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "216.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 1,
+        "product_id": 7937689354480,
+        "created_at": "2022-04-21T13:36:00+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 37374608670960,
+        "created_at": "2022-04-21T13:36:00+09:00",
+        "position": 1,
+        "updated_at": "2022-04-21T13:49:53+09:00",
+        "product_id": 7937689354480,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180011_2.jpg?v=1650516593",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "id": 37374608703728,
+        "created_at": "2022-04-21T13:36:00+09:00",
+        "position": 2,
+        "updated_at": "2022-04-21T13:49:53+09:00",
+        "product_id": 7937689354480,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180011.jpg?v=1650516593",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "id": 37374608638192,
+        "created_at": "2022-04-21T13:36:00+09:00",
+        "position": 3,
+        "updated_at": "2022-04-21T13:49:53+09:00",
+        "product_id": 7937689354480,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180011_1.jpg?v=1650516593",
+        "width": 800,
+        "height": 800
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7937686798576,
+    "title": "Hell’s Kitchen 狗狗袋裝肉泥- 鴨肉蕃薯芝士味100g x8",
+    "handle": "hell-s-kitchen-貓貓袋裝肉泥-鴨肉蕃薯芝士味100g-x8",
+    "body_html": "<span data-mce-fragment=\"1\">賞味期限2年</span>",
+    "published_at": "2022-04-21T13:29:50+09:00",
+    "created_at": "2022-04-21T13:29:49+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "WTjapan",
+    "product_type": "狗狗小食",
+    "tags": [
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "狗狗膏狀小食"
+    ],
+    "variants": [
+      {
+        "id": 42722583707888,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "216.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 1,
+        "product_id": 7937686798576,
+        "created_at": "2022-04-21T13:29:49+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 37374563778800,
+        "created_at": "2022-04-21T13:29:49+09:00",
+        "position": 1,
+        "updated_at": "2022-04-21T13:50:07+09:00",
+        "product_id": 7937686798576,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180035_2.jpg?v=1650516607",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "id": 37374563811568,
+        "created_at": "2022-04-21T13:29:49+09:00",
+        "position": 2,
+        "updated_at": "2022-04-21T13:50:07+09:00",
+        "product_id": 7937686798576,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180035.jpg?v=1650516607",
+        "width": 444,
+        "height": 800
+      },
+      {
+        "id": 37374563844336,
+        "created_at": "2022-04-21T13:29:49+09:00",
+        "position": 3,
+        "updated_at": "2022-04-21T13:29:51+09:00",
+        "product_id": 7937686798576,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180035_1.jpg?v=1650515391",
+        "width": 800,
+        "height": 800
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4726616129581,
+    "title": "狗狗小食 - CIAO 糊仔小食 - 雞胸肉 (1歳前食用) 4條裝 x 12袋",
+    "handle": "狗狗小食-ciao-糊仔小食-雞胸肉-1歳前食用-4條裝-x-12袋",
+    "body_html": "賞味期限2年",
+    "published_at": "2020-03-10T05:12:31+09:00",
+    "created_at": "2020-03-10T05:18:19+09:00",
+    "updated_at": "2026-08-05T00:00:40+09:00",
+    "vendor": "CIAO",
+    "product_type": "狗狗小食",
+    "tags": [
+      "1歳前",
+      "CIAO",
+      "INABA",
+      "狗狗小食",
+      "狗狗糊仔小食",
+      "雞肉"
+    ],
+    "variants": [
+      {
+        "id": 33019523727405,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "276.00",
+        "grams": 1000,
+        "compare_at_price": "420.00",
+        "position": 1,
+        "product_id": 4726616129581,
+        "created_at": "2020-03-10T05:18:19+09:00",
+        "updated_at": "2026-08-05T00:00:40+09:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 15184864673837,
+        "created_at": "2020-03-10T05:18:19+09:00",
+        "position": 1,
+        "updated_at": "2020-03-10T05:18:19+09:00",
+        "product_id": 4726616129581,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133827341.jpg?v=1583785099",
+        "width": 400,
+        "height": 400
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  }
+]

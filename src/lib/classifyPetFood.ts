@@ -21,7 +21,10 @@ export type FoodZoneSubcategory =
   | "魚條"
   | "冷凍脫水系列"
   | "狗狗食品"
-  | "狗狗小食";
+  | "狗狗小食"
+  | "狗餅"
+  | "狗狗糊仔小食"
+  | "狗芝士";
 
 export type ClassifiableProduct = {
   id: string;
@@ -47,6 +50,12 @@ const SNACK_MARK =
   /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack|夾心餅|帆立貝乾/i;
 const FISH_STICK_MARK =
   /魚條|燒鰹魚|燒鏗魚|烤鰹魚|蟹肉絲|魚肉條|grilled\s*bonito|fish[\s-]?sticks?/i;
+const DOG_BISCUIT_MARK =
+  /狗餅|百力滋|脆餅|餅乾|preetz|biscuit|cookie|cracker/i;
+const DOG_PASTE_MARK =
+  /糊仔|肉泥|膏狀|paste|pouch\s*paste|投藥專用/i;
+const DOG_CHEESE_MARK =
+  /狗芝士|芝士骨|芝士條|芝士粒|芝士雞|乳酪條|cheese\s*bone|dog\s*cheese/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
 /** Cat staple / wet-food marks — must not be swept into 貓貓小食. */
@@ -61,6 +70,9 @@ const CURATED_CAT_COLLECTIONS = new Set([
 const CURATED_DOG_COLLECTIONS = new Set([
   "狗狗食品",
   "狗狗小食",
+  "狗餅",
+  "狗狗糊仔小食",
+  "狗芝士",
   "冷凍脫水系列",
 ]);
 /** Non-food categories that must not be swallowed into food zones. */
@@ -187,10 +199,50 @@ export function inferFoodZone(
   ) {
     return {
       categorySlug: "dogs",
-      subcategory: product.subcategory as FoodZoneSubcategory,
+      subcategory: product.subcategory as FoodZoneHint["subcategory"],
       reason: `保留 Collection「${product.subcategory}」`,
       tags: [product.subcategory],
     };
+  }
+
+  // ——— Specific dog snack series (reuse WT folders) ———
+  if (hasDog && !isNonFoodSku(product, text)) {
+    if (
+      DOG_BISCUIT_MARK.test(text) ||
+      product.subcategory === "狗餅" ||
+      (product.tags ?? []).includes("狗餅")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗餅",
+        reason: "狗餅／餅乾類 → dogs/dog-biscuits（沿用舊 Collection）",
+        tags: ["狗餅", "狗狗小食", "狗用"],
+      };
+    }
+    if (
+      DOG_PASTE_MARK.test(text) ||
+      product.subcategory === "狗狗糊仔小食" ||
+      (product.tags ?? []).includes("狗狗糊仔小食")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗狗糊仔小食",
+        reason: "狗狗糊仔小食 → dogs/paste-treats（沿用舊 Collection）",
+        tags: ["狗狗糊仔小食", "狗狗小食", "狗用"],
+      };
+    }
+    if (
+      DOG_CHEESE_MARK.test(text) ||
+      product.subcategory === "狗芝士" ||
+      (product.tags ?? []).includes("狗芝士")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗芝士",
+        reason: "狗芝士 → dogs/dog-cheese（沿用舊 Collection）",
+        tags: ["狗芝士", "狗狗小食", "狗用"],
+      };
+    }
   }
 
   // ——— Dog snacks / staple ———

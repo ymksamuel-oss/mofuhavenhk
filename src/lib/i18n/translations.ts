@@ -161,11 +161,26 @@ export const translations = {
     dogSubAll: "全部狗狗商品",
     dogSubFood: "狗狗食品",
     dogSubSnacks: "狗狗小食",
+    dogSubBiscuits: "狗餅",
+    dogSubPasteTreats: "狗狗糊仔小食",
+    dogSubCheese: "狗芝士",
     dogSubFreezeDried: "冷凍脫水系列",
     dogSnacksZoneEyebrow: "沿用 Collection · 狗狗小食",
     dogSnacksZoneTitle: "狗狗小食專區",
     dogSnacksZoneSubtitle:
-      "精選狗狗零食同獎勵小食。沿用 WT「狗狗小食」舊資料夾；冷凍脫水請轉去「冷凍脫水系列」。",
+      "精選狗狗零食同獎勵小食。沿用 WT「狗狗小食」舊資料夾；餅乾／糊仔／芝士請轉去對應系列。",
+    dogBiscuitsZoneEyebrow: "沿用 Collection · 餅乾類／狗餅",
+    dogBiscuitsZoneTitle: "狗餅專區",
+    dogBiscuitsZoneSubtitle:
+      "精選狗狗餅乾、百力滋同脆餅。沿用 WT「餅乾類」資料夾（標籤：狗餅）→ /categories/dogs/dog-biscuits。",
+    dogPasteZoneEyebrow: "沿用 Collection · 狗狗糊仔小食",
+    dogPasteZoneTitle: "狗狗糊仔小食專區",
+    dogPasteZoneSubtitle:
+      "精選 CIAO 糊仔、袋裝肉泥等。沿用 WT「狗狗糊仔小食」→ /categories/dogs/paste-treats。",
+    dogCheeseZoneEyebrow: "沿用 Collection · 狗芝士",
+    dogCheeseZoneTitle: "狗芝士專區",
+    dogCheeseZoneSubtitle:
+      "精選芝士條、芝士骨同乳酪小食。沿用 WT「狗芝士」→ /categories/dogs/dog-cheese。",
     dogFreezeDriedZoneEyebrow: "沿用 Collection · 冷凍脫水系列",
     dogFreezeDriedZoneTitle: "狗狗冷凍食物專區",
     dogFreezeDriedZoneSubtitle:
@@ -520,11 +535,26 @@ export const translations = {
     dogSubAll: "All dog products",
     dogSubFood: "Dog food",
     dogSubSnacks: "Dog treats",
+    dogSubBiscuits: "Dog biscuits",
+    dogSubPasteTreats: "Dog paste treats",
+    dogSubCheese: "Dog cheese",
     dogSubFreezeDried: "Freeze-dried series",
     dogSnacksZoneEyebrow: "Collection · Dog treats",
     dogSnacksZoneTitle: "Dog treats zone",
     dogSnacksZoneSubtitle:
-      "Dog snacks and reward treats. Reuses the WT「狗狗小食」collection — freeze-dried items live under Freeze-dried series.",
+      "General dog snacks. Reuses WT「狗狗小食」— biscuits, paste, and cheese have their own series.",
+    dogBiscuitsZoneEyebrow: "Collection · Biscuits / Dog biscuits",
+    dogBiscuitsZoneTitle: "Dog biscuits zone",
+    dogBiscuitsZoneSubtitle:
+      "Dog biscuits, Pretz sticks, and crisps. Reuses WT「餅乾類」(tag 狗餅) → /categories/dogs/dog-biscuits.",
+    dogPasteZoneEyebrow: "Collection · Dog paste treats",
+    dogPasteZoneTitle: "Dog paste treats zone",
+    dogPasteZoneSubtitle:
+      "CIAO paste sticks and pouch pastes. Reuses WT「狗狗糊仔小食」→ /categories/dogs/paste-treats.",
+    dogCheeseZoneEyebrow: "Collection · Dog cheese",
+    dogCheeseZoneTitle: "Dog cheese zone",
+    dogCheeseZoneSubtitle:
+      "Cheese sticks, cheese bones, and yogurt chews. Reuses WT「狗芝士」→ /categories/dogs/dog-cheese.",
     dogFreezeDriedZoneEyebrow: "Collection · Freeze-dried series",
     dogFreezeDriedZoneTitle: "Dog freeze-dried food zone",
     dogFreezeDriedZoneSubtitle:
