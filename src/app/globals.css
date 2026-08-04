@@ -207,7 +207,7 @@ h3 {
   }
 }
 
-/* Hide scrollbars for IG-style horizontal story carousels */
+/* Hide scrollbars for horizontal breed photo carousels */
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;

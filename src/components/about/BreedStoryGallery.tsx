@@ -29,7 +29,8 @@ function handleSlideImageError(event: SyntheticEvent<HTMLImageElement>) {
 }
 
 /**
- * IG Story / card-swipe gallery for breed detail photos.
+ * Horizontal card-swipe gallery for breed detail photos.
+ * Image area is photo-only — no top progress / segmented bar overlays.
  */
 export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
   const scrollerRef = useRef<HTMLUListElement>(null);
@@ -87,7 +88,7 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
   if (slides.length === 0) return null;
 
   return (
-    <section className="mt-10 sm:mt-12">
+    <section className="mt-10 sm:mt-12" data-breed-gallery="card-swipe">
       <div className="mb-4 flex items-end justify-between gap-3 px-0">
         <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
         <p className="shrink-0 rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#4A3B32]/65">
@@ -109,12 +110,12 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
               aria-current={index === activeIndex ? "true" : undefined}
             >
               <article className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
-                <div className="relative aspect-[4/5] bg-[#FAF6F0]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#FAF6F0]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={slide.src || CAT_BREED_IMAGE_FALLBACK}
                     alt={slide.alt}
-                    className="absolute inset-0 h-full w-full rounded-2xl object-cover"
+                    className="absolute inset-0 h-full w-full object-cover"
                     draggable={false}
                     onError={handleSlideImageError}
                   />
@@ -128,13 +129,18 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
         </ul>
       </div>
 
-      <div className="mt-4 flex items-center justify-center gap-2">
+      <div
+        className="mt-4 flex items-center justify-center gap-2"
+        role="tablist"
+        aria-label={title}
+      >
         {slides.map((slide, index) => (
           <button
             key={`dot-${slide.tag}`}
             type="button"
+            role="tab"
             aria-label={`${index + 1} / ${slides.length}`}
-            aria-current={index === activeIndex ? "true" : undefined}
+            aria-selected={index === activeIndex}
             onClick={() => scrollToIndex(index)}
             className={`h-2 rounded-full transition-all ${
               index === activeIndex
