@@ -70,6 +70,15 @@ export const translations = {
     stripePaidSuccess: "付款成功！訂單已成立，並已自動 WhatsApp 通知店主。",
     stripePaidNotifyFailed:
       "付款成功，但 WhatsApp 通知未能送達，請用下方按鈕手動通知店主。",
+    receiptViewCta: "查看漂亮收據",
+    receiptEyebrow: "Mofu Haven Receipt",
+    receiptTitle: "訂單收據",
+    receiptMissing:
+      "暫時未能載入這張收據資料。請返回結帳頁重新完成訂單，或用同一部裝置再次開啟成功付款後的收據連結。",
+    receiptCustomer: "收件人",
+    receiptPayment: "付款方式",
+    receiptDelivery: "送貨資料",
+    receiptItems: "訂單項目",
     stripeCardFieldsTitle: "付款資料",
     stripeCardholderName: "持卡人姓名",
     stripeCardNumber: "卡號",
@@ -397,6 +406,15 @@ export const translations = {
     stripePaidSuccess: "Payment successful! Order placed and the shop was notified on WhatsApp.",
     stripePaidNotifyFailed:
       "Payment succeeded, but WhatsApp notify failed — please use the manual button below.",
+    receiptViewCta: "View receipt",
+    receiptEyebrow: "Mofu Haven Receipt",
+    receiptTitle: "Order Receipt",
+    receiptMissing:
+      "We couldn't load this receipt right now. Please return to checkout and complete the order again, or reopen the receipt link on the same device used for payment.",
+    receiptCustomer: "Customer",
+    receiptPayment: "Payment",
+    receiptDelivery: "Delivery details",
+    receiptItems: "Order items",
     stripeCardFieldsTitle: "Payment details",
     stripeCardholderName: "Cardholder name",
     stripeCardNumber: "Card number",

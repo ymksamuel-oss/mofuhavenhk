@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { loadStripe } from "@stripe/stripe-js";
@@ -30,6 +31,7 @@ import {
   type OrderItem,
 } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
+import { saveReceipt } from "@/lib/receipt";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 
 type PayPhase =
@@ -76,6 +78,7 @@ function CheckoutContent() {
     EMPTY_SHIPPING_CONTACT,
   );
   const [alipayReturning, setAlipayReturning] = useState(false);
+  const [receiptHref, setReceiptHref] = useState<string | null>(null);
   const preparingRef = useRef(false);
   const alipayReturnHandled = useRef(false);
 
@@ -176,6 +179,7 @@ function CheckoutContent() {
         notified?: boolean;
         alreadyNotified?: boolean;
         orderNumber?: string;
+        paymentLabel?: string;
       };
 
       if (!res.ok || !data.ok) {
@@ -184,7 +188,29 @@ function CheckoutContent() {
         return;
       }
 
-      if (data.orderNumber) setOrderNumber(data.orderNumber);
+      const finalOrderNumber = data.orderNumber || orderNumber || generateOrderNumber();
+      setOrderNumber(finalOrderNumber);
+      setReceiptHref(`/receipt/${finalOrderNumber}`);
+
+      saveReceipt({
+        orderNumber: finalOrderNumber,
+        createdAt: new Date().toISOString(),
+        items,
+        subtotal: calcSubtotal(items),
+        shipping: items.length > 0 ? SHIPPING : 0,
+        total: liveTotalHkd,
+        paymentLabel:
+          data.paymentLabel ||
+          (PAYMENT_METHODS.find((method) => method.id === selectedMethod)?.labelKey
+            ? t(
+                PAYMENT_METHODS.find((method) => method.id === selectedMethod)!
+                  .labelKey,
+              )
+            : "Stripe") ||
+          "Stripe",
+        customerName: shippingContact.name.trim() || "顧客",
+        contact: shippingContact,
+      });
 
       // Payment confirmed — empty the shared basket (state + localStorage)
       // so the navbar cart badge drops to 0 immediately.
@@ -202,7 +228,15 @@ function CheckoutContent() {
       setItems([]);
       setPhase("paid_notify_failed");
     }
-  }, [cart.clear, t]);
+  }, [
+    cart.clear,
+    items,
+    liveTotalHkd,
+    orderNumber,
+    selectedMethod,
+    shippingContact,
+    t,
+  ]);
 
   // AlipayHK redirect return — Stripe appends payment_intent* query params.
   useEffect(() => {
@@ -507,14 +541,34 @@ function CheckoutContent() {
           ) : null}
 
           {phase === "paid" ? (
-            <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-              {t("stripePaidSuccess")}
-            </p>
+            <div className="space-y-3">
+              <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
+                {t("stripePaidSuccess")}
+              </p>
+              {receiptHref ? (
+                <Link
+                  href={receiptHref}
+                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                >
+                  {t("receiptViewCta")}
+                </Link>
+              ) : null}
+            </div>
           ) : null}
           {phase === "paid_notify_failed" ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("stripePaidNotifyFailed")}
-            </p>
+            <div className="space-y-3">
+              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+                {t("stripePaidNotifyFailed")}
+              </p>
+              {receiptHref ? (
+                <Link
+                  href={receiptHref}
+                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                >
+                  {t("receiptViewCta")}
+                </Link>
+              ) : null}
+            </div>
           ) : null}
 
           {payError ? (
