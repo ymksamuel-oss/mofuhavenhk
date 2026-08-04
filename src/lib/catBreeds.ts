@@ -448,6 +448,133 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
   },
 };
 
+/** Russian Blue rich profile for `/cat-breeds/russian-blue`. */
+export const RUSSIAN_BLUE_BREED_INFO: CatBreedInfo = {
+  breed_id: "russian_blue",
+  name_en: "Russian Blue",
+  name_zh_hk: "俄羅斯藍貓",
+  aliases: ["俄藍", "藍貓", "Archangel Cat", "馬爾他藍貓（舊稱）"],
+  origin: {
+    country: "俄羅斯",
+    state: "阿爾漢格爾斯克（Archangel）一帶",
+    history_overview:
+      "相傳源自俄羅斯北部港口阿爾漢格爾斯克的自然短毛貓，後經英國與北歐育種家選育定型。以銀光藍灰毛與翡翠綠眼睛聞名，是氣質優雅、聲音輕柔的經典短毛品種。",
+  },
+  physical_characteristics: {
+    eye_color: "成貓為鮮艷翡翠綠（幼貓多為黃／琥珀，隨成長轉綠）",
+    size_category: "Foreign／Semi-foreign（修長優雅、骨量適中而肌肉結實）",
+    weight_kg: {
+      male: { min: 3.5, max: 5.5 },
+      female: { min: 2.5, max: 4.5 },
+    },
+    maturation_years: "約 2-3 年（眼睛與體型逐漸定型）",
+    coat: {
+      length: "Short（短毛）",
+      texture: "厚密絨感、觸感如海豹皮",
+      undercoat: "雙層短毛；表毛銀尖（silver tipping）帶金屬光澤",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "silver_tipped_blue",
+      name_zh: "銀尖藍灰色 (Silver-tipped Blue)",
+      description: "絕大多數貓協認可的唯一標準色；毛尖銀白，整體呈金屬光澤",
+      image_url: "",
+    },
+    {
+      pattern_id: "american_type",
+      name_zh: "美國型 (American Type)",
+      description: "頭部稍圓、臉頰較豐滿，被毛更厚實絨密",
+      image_url: "",
+    },
+    {
+      pattern_id: "european_type",
+      name_zh: "歐洲型 (European Type)",
+      description: "臉型較尖、耳位較高，體型更修長優雅",
+      image_url: "",
+    },
+    {
+      pattern_id: "emerald_eyes",
+      name_zh: "翡翠綠眼睛",
+      description: "成貓必備標誌；幼貓眼色由黃轉綠約需一年以上",
+      image_url: "",
+    },
+  ],
+  colors: [
+    {
+      color_id: "blue",
+      name_zh: "藍灰色",
+      description: "均勻藍灰底色，無虎斑或白斑（標準）",
+    },
+    {
+      color_id: "silver_tipping",
+      name_zh: "銀尖光澤",
+      description: "表毛末端銀白，光線下呈絲綢／金屬閃光",
+    },
+    {
+      color_id: "lavender_pads",
+      name_zh: "薰衣草色肉墊",
+      description: "鼻頭石板灰、肉墊偏粉紫／薰衣草色為典型特徵",
+    },
+  ],
+  personality_traits: [
+    "對陌生人偏害羞內斂，對認定的家人極為忠誠親密",
+    "叫聲輕柔、氣質安靜，適合喜歡寧靜居家氛圍的飼主",
+    "聰慧敏銳，喜歡觀察與智力遊戲（藏食玩具等）",
+    "環境敏感度高，需要穩定作息與專屬安全休息區",
+  ],
+  care_and_health: {
+    environment:
+      "適合安靜室內環境；搬屋、訪客或噪音大時需給予躲藏空間，避免強迫社交",
+    genetic_risks: [
+      "膀胱結石／泌尿道問題風險相對偏高（多喝水、留意尿量）",
+      "整體屬健康長壽品種，仍建議定期健康檢查",
+    ],
+    digestive_health: "腸胃通常穩定；換糧仍建議漸進過渡",
+    diet_management:
+      "維持輕盈優雅體型，控制脂肪與熱量；補充牛磺酸有助眼睛與心臟健康；鼓勵多喝水",
+    grooming:
+      "銀藍雙層短毛掉毛量相對少，每週梳毛 1 次即可；換毛季可略增次數以保持銀光澤",
+  },
+  media_assets: {
+    status: "localized_gallery_sync",
+    instruction_for_cursor:
+      "俄藍圖庫已本地化：英雄照／臉部特寫／優雅全身／窗邊／居家慵懶。",
+    images: [
+      {
+        tag: "hero_main",
+        description: "美國型銀藍俄藍（翡翠綠眼睛）",
+        src: "/images/cat-breeds/russian-blue.jpg",
+        alt: "銀藍灰色俄羅斯藍貓",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "銀光被毛與綠眼近距離特寫",
+        src: "/images/cat-breeds/russian-blue-portrait.jpg",
+        alt: "俄羅斯藍貓臉部特寫",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "修長優雅的側身坐姿",
+        src: "/images/cat-breeds/russian-blue-elegant.jpg",
+        alt: "優雅姿態的俄羅斯藍貓",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "窗邊日光下的銀藍光澤",
+        src: "/images/cat-breeds/russian-blue-window.jpg",
+        alt: "窗邊的俄羅斯藍貓",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "居家休息的安靜日常",
+        src: "/images/cat-breeds/russian-blue-cozy.jpg",
+        alt: "室內休息的俄羅斯藍貓",
+      },
+    ],
+  },
+};
+
 export const catBreedsData: CatBreed[] = [
   {
     id: "1",
@@ -549,25 +676,30 @@ export const catBreedsData: CatBreed[] = [
     name: "俄羅斯藍貓",
     coatType: "short",
     coatLabel: "短毛",
-    shortDescription: "敏感聰穎、短毛濃密，提供安靜的休息空間。",
-    imageUrl:
-      "/images/cat-breeds/russian-blue.jpg",
-    origin: "俄羅斯",
+    shortDescription: "銀光藍灰、翡翠綠眼；文靜忠誠，適合寧靜居家。",
+    imageUrl: "/images/cat-breeds/russian-blue.jpg",
+    origin: "俄羅斯（阿爾漢格爾斯克）",
     lifespan: "15 - 20 歲",
-    weight: "3.0 - 5.5 kg",
-    personality: ["文靜內斂", "忠誠專一", "敏銳聰明", "喜歡安靜"],
+    weight: "公 3.5–5.5 kg／母 2.5–4.5 kg",
+    personality: [
+      "對陌生人偏害羞，對家人極為忠誠親密",
+      "叫聲輕柔、氣質安靜優雅",
+      "聰慧敏銳，喜歡智力遊戲與觀察",
+      "環境敏感，需要穩定作息與安全休息區",
+    ],
     careTips: [
-      "銀藍色雙層短毛幾乎不掉毛，每週梳毛 1 次即可。",
-      "對環境變化較敏感，家中應保持安靜穩定的休息區域。",
-      "喜歡智力挑戰遊戲，如藏食玩具。",
+      "銀藍雙層短毛掉毛少，每週梳毛 1 次即可；換毛季可略增",
+      "對環境變化敏感，家中應保留安靜躲藏／休息空間",
+      "鼓勵多喝水，留意泌尿健康；適合藏食玩具等智力挑戰",
     ],
     nutritionAdvice: [
-      "維持高消化率的高品質蛋白質，保持靈巧輕盈的體型。",
-      "控制脂肪攝取，避免因室內運動量較少而引發肥胖。",
-      "補足 Taurine（牛磺酸），保護明亮的綠色眼睛與心臟健康。",
+      "維持高消化率優質蛋白，保持修長輕盈體型",
+      "控制脂肪與熱量，避免因室內活動偏少而發胖",
+      "補足牛磺酸（Taurine），保護綠眼睛與心臟健康",
     ],
     fullDescription:
-      "俄羅斯藍貓擁有銀光閃耀的藍灰色毛皮與翡翠般的綠眼睛。牠們文靜優雅，雖然對陌生人較為害羞，但對認定的主人非常忠誠親密。",
+      "俄羅斯藍貓擁有銀光閃耀的藍灰色雙層短毛與翡翠般的綠眼睛，體態修長優雅。牠們文靜內斂，對陌生人較為害羞，但對認定的主人極為忠誠親密，是適合喜歡寧靜陪伴的經典短毛品種。",
+    breedInfo: RUSSIAN_BLUE_BREED_INFO,
   },
   {
     id: "5",
