@@ -157,6 +157,96 @@ const WT_JAPAN_EN: Record<
     description:
       "Three seafood profiles like a mini ocean menu. 1 trillion probiotics, green-tea odor care, and easy sachets — six boxes of 10 bags for seafood fans.",
   },
+  "wt-freeze-dried-1": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Strips (Cat) 30g × 10",
+    description:
+      "Free-range Tajima chicken, flash freeze-dried into fragrant strips. No additives or preservatives — 100% pure chicken for training rewards or everyday treats. Ten 30g pouches.",
+  },
+  "wt-freeze-dried-2": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Liver (Cat) 18g × 10",
+    description:
+      "100% Japanese chicken — breast and liver in one freeze-dried bite. Rich aroma for picky cats; ten 18g pouches for daily rewards.",
+  },
+  "wt-freeze-dried-3": {
+    name: "MAMACOOK Tajima Freeze-Dried Japanese Scallop (Cat) 11g × 10",
+    description:
+      "Scallops from Hokkaido–Aomori waters, freeze-dried to keep sweet thickness and amino acids. Additive-free luxury seafood snacks — ten 11g pouches.",
+  },
+  "wt-freeze-dried-4": {
+    name: "MAMACOOK Tajima Freeze-Dried Whitebait (Cat) 10g × 10",
+    description:
+      "Whole whitebait freeze-dried crisp and ocean-fresh. Great for training or crumbling over meals — ten light 10g pouches.",
+  },
+  "wt-freeze-dried-5": {
+    name: "MAMACOOK Tajima Freeze-Dried Japanese Rainbow Trout (Cat) 15g × 10",
+    description:
+      "Japanese rainbow trout freeze-dried with fragrant fish oils. High-protein seafood rotation — ten individually packed 15g pouches.",
+  },
+  "wt-freeze-dried-6": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Kidney (Cat) 18g × 10",
+    description:
+      "Japanese chicken breast with kidney for dual texture. Freeze-dried pure flavor — ten 18g pouches for rewards or wet–dry topping.",
+  },
+  "wt-freeze-dried-7": {
+    name: "MAMACOOK Tajima Freeze-Dried Japanese Tuna (Cat) 14g × 10",
+    description:
+      "Luxury freeze-dried tuna — high protein, low fat, with DHA/EPA. Classic Japanese seafood joy in ten 14g pouches.",
+  },
+  "wt-freeze-dried-8": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Fillet (Cat) 30g × 10",
+    description:
+      "Lean Tajima chicken fillet, freeze-dried tender and aromatic. Additive-free 100% chicken — ten generous 30g pouches.",
+  },
+  "wt-freeze-dried-9": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Bites (Cat) 18g × 10",
+    description:
+      "Bite-size freeze-dried chicken — easy to hand-feed or sprinkle on kibble. Japan-made training treats in ten portable 18g pouches.",
+  },
+  "wt-freeze-dried-10": {
+    name: "MAMACOOK Tajima Freeze-Dried Pork Heart (Cat) 25g × 10",
+    description:
+      "Freeze-dried pork heart with rich organ savor for meat-loving cats. Ten 25g pouches for measured, confident feeding.",
+  },
+  "wt-freeze-dried-11": {
+    name: "MAMACOOK Tajima Freeze-Dried Additive-Free Pork Thigh (Cat) 20g × 10",
+    description:
+      "Clean pork-thigh freeze-dried strips with pure aroma and chew. Japan-made, additive-free — ten 20g pouches for flavor rotation.",
+  },
+  "wt-freeze-dried-12": {
+    name: "MAMACOOK Tajima Freeze-Dried Shinshu Salmon (Cat) 17g × 10",
+    description:
+      "Azumino Shinshu salmon from Nagano — rich oils and layered aroma for special-day rewards. Ten luxurious 17g pouches.",
+  },
+  "wt-freeze-dried-13": {
+    name: "Petio Freeze-Dried Salmon (Cat) 10g × 6",
+    description:
+      "Petio freeze-dried salmon from fresh ingredients — no preservatives or colorants. Feed whole, crumble on food, or soften into wet meals. Light 10g × 6 starter pack.",
+  },
+  "wt-freeze-dried-14": {
+    name: "Petio Freeze-Dried Chicken, Liver & Kidney 15g × 6",
+    description:
+      "Triple chicken freeze-dried bites — meat, liver, and kidney. No preservatives or dyes; great as toppers or rewards. Approachable 15g × 6 pack.",
+  },
+  "wt-freeze-dried-15": {
+    name: "Petio Freeze-Dried Tuna, Bonito & Salmon 9g × 6",
+    description:
+      "Three ocean flavors in one freeze-dried mix. Preservative-free; sprinkle or serve as chips. Compact 9g × 6 for seafood fans.",
+  },
+  "wt-freeze-dried-16": {
+    name: "MAMACOOK Tajima Freeze-Dried Capelin (Cat) 10g × 10",
+    description:
+      "Whole capelin freeze-dried crisp and aromatic. Fun training rewards or meal toppers — ten Japan-made 10g pouches.",
+  },
+  "wt-freeze-dried-17": {
+    name: "Japanese Additive-Free Freeze-Dried Chicken Liver (Cat) 40g × 8",
+    description:
+      "Japanese additive-free freeze-dried liver with deep aroma picky cats chase. Larger 40g × 8 stock pack — feed whole or crumble over meals.",
+  },
+  "wt-freeze-dried-18": {
+    name: "Japanese Additive-Free Freeze-Dried Chicken (Cat) 40g × 8",
+    description:
+      "Japanese additive-free freeze-dried chicken — pure aroma, light crunch. 40g × 8 for everyday rewards or training; crumble over wet or dry food.",
+  },
 };
 
 const WT_TAG_EN: Record<string, string> = {
@@ -205,6 +295,42 @@ const WT_TAG_EN: Record<string, string> = {
   鰹魚味: "Bonito flavor",
   幼貓專用: "For kittens",
   海鮮味: "Seafood flavors",
+  凍乾零食: "Freeze-dried treats",
+  "100%純肉": "100% pure meat",
+  無添加: "No additives",
+  但馬高原: "Tajima Highlands",
+  雞肉: "Chicken",
+  雞肝: "Chicken liver",
+  日本國產: "Japanese-sourced",
+  帆立貝: "Scallop",
+  海鮮鮮味: "Ocean-fresh flavor",
+  銀魚: "Whitebait",
+  天然鮮味: "Natural savor",
+  訓練獎勵: "Training reward",
+  虹鮭魚: "Rainbow trout",
+  高蛋白: "High protein",
+  雞腎: "Chicken kidney",
+  "DHA・EPA": "DHA / EPA",
+  雞柳: "Chicken fillet",
+  低脂肪: "Low fat",
+  雞粒: "Chicken bites",
+  一口大小: "Bite-size",
+  豬心: "Pork heart",
+  臟器鮮味: "Organ savor",
+  豬大腿肉: "Pork thigh",
+  肉條: "Meat strips",
+  日本製: "Made in Japan",
+  信州三文魚: "Shinshu salmon",
+  贅沢鮮味: "Luxury savor",
+  三文魚: "Salmon",
+  全貓適用: "All cats",
+  無防腐劑: "No preservatives",
+  拌糧提味: "Meal topper",
+  三重雞肉: "Triple chicken",
+  海鮮三拼: "Seafood trio",
+  西太公魚: "Capelin",
+  整尾凍乾: "Whole-fish freeze-dried",
+  大份裝: "Value pack",
 };
 
 function wtJapanToProduct(p: WtJapanProduct): Product {
@@ -236,7 +362,7 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
   };
 }
 
-/** WT Japan CIAO cans + dry food — merged from `@/data/productsData`. */
+/** WT Japan CIAO cans + dry food + freeze-dried — merged from `@/data/productsData`. */
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
@@ -342,21 +468,9 @@ export const PRODUCTS: Product[] = [
       en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
     },
   },
-  {
-    id: "cat-freeze-dried-treats",
-    categorySlug: "cats",
-    subcategory: "凍乾零食",
-    image: "/products/cat-freeze-dried-treats.webp",
-    name: { zh: "貓咪凍乾小食", en: "Freeze-Dried Cat Treats" },
-    price: 45,
-    icon: "bone",
-    description: {
-      zh: "100% 純肉凍乾，鎖住鮮味與營養，訓練獎勵或日常零食都合適。",
-      en: "100% meat freeze-dried treats that lock in flavor and nutrition — perfect for training or everyday rewards.",
-    },
-  },
+  // Real WT Japan 凍乾零食 live in WT_JAPAN_STOREFRONT_PRODUCTS (subcategory 「凍乾零食」).
 
-  // CIAO 貓罐罐 + 乾糧（WT Japan）— wired from `@/data/productsData`
+  // CIAO 貓罐罐 + 乾糧 + 凍乾零食（WT Japan）— wired from `@/data/productsData`
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
@@ -446,7 +560,7 @@ export const PRODUCTS: Product[] = [
   },
 
   // 寵物小食 / Pet Snacks
-  // Note: cat-freeze-dried-treats lives under cats (subcategory 凍乾零食).
+  // Cat freeze-dried treats live under cats (WT Japan subcategory 凍乾零食).
   {
     id: "dog-dried-meat-treats",
     categorySlug: "snacks",

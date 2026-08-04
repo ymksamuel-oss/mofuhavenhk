@@ -55,6 +55,7 @@ export function searchWtJapanProducts(
     score += fieldScore(product.productType, needle, 7);
     score += fieldScore(product.category, needle, 8);
     score += fieldScore(product.categorySlug, needle, 6);
+    score += fieldScore(product.subcategory, needle, 8);
     score += fieldScore(product.handle, needle, 4);
 
     for (const tag of product.tags) {
