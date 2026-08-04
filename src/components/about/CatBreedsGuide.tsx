@@ -46,9 +46,10 @@ function handleBreedImageError(event: SyntheticEvent<HTMLImageElement>) {
  * Japanese-style cat breed guide with coat-length filters.
  */
 export function CatBreedsGuide() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [filter, setFilter] = useState<CatCoatFilter>("all");
   const breeds = useMemo(() => filterCatBreeds(filter), [filter]);
+  const isEn = locale === "en";
 
   return (
     <div
@@ -109,7 +110,7 @@ export function CatBreedsGuide() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={breed.imageUrl}
-                      alt={breed.name}
+                      alt={isEn ? breed.nameEn : breed.name}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                       onError={handleBreedImageError}
@@ -117,13 +118,13 @@ export function CatBreedsGuide() {
                   </div>
                   <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
                     <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
-                      {breed.coatLabel}
+                      {isEn ? breed.coatLabelEn : breed.coatLabel}
                     </p>
                     <h2 className="text-xl font-bold tracking-tight">
-                      {breed.name}
+                      {isEn ? breed.nameEn : breed.name}
                     </h2>
                     <p className="text-sm leading-relaxed text-[#4A3B32]/85">
-                      {breed.shortDescription}
+                      {isEn ? breed.shortDescriptionEn : breed.shortDescription}
                     </p>
                   </div>
                 </Link>
