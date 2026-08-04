@@ -187,9 +187,8 @@ h3 {
 .brand-logo .logo-copy {
   display: inline-flex;
   min-width: 0;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0.08rem;
 }
 
 .logo-text {
@@ -203,12 +202,8 @@ h3 {
   white-space: nowrap;
 }
 
-.brand-logo .logo-copy-line-zh {
+.brand-logo .logo-copy-line-main {
   gap: 0.18rem;
-}
-
-.brand-logo .logo-copy-line-en {
-  justify-content: center;
 }
 
 .brand-logo .logo-letter-zh {
@@ -230,23 +225,19 @@ h3 {
     "Segoe UI",
     "Trebuchet MS",
     sans-serif;
-  font-size: clamp(0.66rem, 0.9vw, 0.78rem);
+  font-size: clamp(0.78rem, 1vw, 0.9rem);
   font-style: normal;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--ink) 72%, white);
-}
-
-.brand-logo .logo-cat-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.02rem;
+  transform: none;
 }
 
 .brand-logo .logo-cat-emoji {
   display: inline-block;
   font-size: 1rem;
   line-height: 1;
+  margin-right: 0.08rem;
   filter: drop-shadow(0 3px 6px rgb(74 54 38 / 0.18));
 }
 
@@ -254,65 +245,6 @@ h3 {
 .brand-logo-link:focus-visible .brand-logo .logo-cat-emoji,
 .brand-logo.is-waving .logo-cat-emoji {
   animation: logoMarkBob 0.55s ease both;
-}
-
-.brand-logo .logo-space {
-  width: 0.42em;
-}
-
-.brand-logo .logo-cat-head {
-  position: relative;
-  display: inline-block;
-  width: 0.78rem;
-  height: 0.78rem;
-  margin-right: 0.24rem;
-  top: 0.04rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffd9aa 0%, #f0b16d 100%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
-}
-
-.brand-logo .logo-cat-ear {
-  position: absolute;
-  top: -0.14rem;
-  width: 0.22rem;
-  height: 0.26rem;
-  background: #efb16f;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.brand-logo .logo-cat-ear-left {
-  left: 0.08rem;
-  transform: rotate(-10deg);
-}
-
-.brand-logo .logo-cat-ear-right {
-  right: 0.08rem;
-  transform: rotate(10deg);
-}
-
-.brand-logo .logo-cat-face {
-  position: absolute;
-  inset: 0;
-}
-
-.brand-logo .logo-cat-face::before,
-.brand-logo .logo-cat-face::after {
-  content: "";
-  position: absolute;
-  top: 0.23rem;
-  width: 0.06rem;
-  height: 0.06rem;
-  border-radius: 999px;
-  background: var(--ink);
-}
-
-.brand-logo .logo-cat-face::before {
-  left: 0.18rem;
-}
-
-.brand-logo .logo-cat-face::after {
-  right: 0.18rem;
 }
 
 .brand-logo-link:hover .brand-logo .logo-letter,
