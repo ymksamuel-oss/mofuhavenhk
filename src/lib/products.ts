@@ -1,21 +1,53 @@
 import type { CategoryIconName } from "@/lib/categories";
 import {
+  WT_JAPAN_DOG_BISCUIT_PRODUCTS,
+  type WtJapanDogBiscuitProduct,
+} from "@/data/dogBiscuitsData";
+import {
+  WT_JAPAN_DOG_CHEESE_PRODUCTS,
+  type WtJapanDogCheeseProduct,
+} from "@/data/dogCheeseData";
+import {
+  WT_JAPAN_DOG_FREEZE_DRIED_PRODUCTS,
+  type WtJapanDogFreezeDriedProduct,
+} from "@/data/dogFreezeDriedData";
+import {
+  WT_JAPAN_DOG_PASTE_TREAT_PRODUCTS,
+  type WtJapanDogPasteTreatProduct,
+} from "@/data/dogPasteTreatsData";
+import {
+  WT_JAPAN_FISH_STICK_PRODUCTS,
+  type WtJapanFishStickProduct,
+} from "@/data/fishSticksData";
+import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
 import { classifyCatalogProducts } from "@/lib/classifyPetFood";
 
-/** Cat-products sub-filter keys (shown under 「貓咪商品」). */
+/** Cat-products sub-filter keys — reuse WT collection names where possible. */
 export const CAT_SUBCATEGORIES = [
   "貓罐罐",
   "貓乾糧",
+  "貓貓小食",
+  "魚條",
   "冷凍脫水系列",
 ] as const;
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
 
-/** Dog-products sub-filter keys (shown under 「狗狗商品」). */
-export const DOG_SUBCATEGORIES = ["狗狗食品", "狗狗小食"] as const;
+/**
+ * Dog-products sub-filter keys.
+ * Reuse WT collections when present; 狗狗食品 is the only new folder.
+ */
+export const DOG_SUBCATEGORIES = [
+  "狗狗食品",
+  "狗狗小食",
+  "狗餅",
+  "狗狗糊仔小食",
+  "狗芝士",
+  "冷凍脫水系列",
+] as const;
 
 export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
 
@@ -26,6 +58,8 @@ export type ProductSubcategory = CatSubcategory | DogSubcategory;
 export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "wet-cans": "貓罐罐",
   "dry-food": "貓乾糧",
+  snacks: "貓貓小食",
+  "fish-sticks": "魚條",
   "freeze-dried": "冷凍脫水系列",
 };
 
@@ -33,6 +67,8 @@ export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
 export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
   貓罐罐: "wet-cans",
   貓乾糧: "dry-food",
+  貓貓小食: "snacks",
+  魚條: "fish-sticks",
   冷凍脫水系列: "freeze-dried",
 };
 
@@ -40,12 +76,20 @@ export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
 export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
   food: "狗狗食品",
   snacks: "狗狗小食",
+  "dog-biscuits": "狗餅",
+  "paste-treats": "狗狗糊仔小食",
+  "dog-cheese": "狗芝士",
+  "freeze-dried": "冷凍脫水系列",
 };
 
 /** Dog subcategory key → URL path segment. */
 export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
   狗狗食品: "food",
   狗狗小食: "snacks",
+  狗餅: "dog-biscuits",
+  狗狗糊仔小食: "paste-treats",
+  狗芝士: "dog-cheese",
+  冷凍脫水系列: "freeze-dried",
 };
 
 export type Product = {
@@ -53,9 +97,10 @@ export type Product = {
   categorySlug: string;
   /**
    * Optional food-zone sub-category for `/categories/cats` or `/categories/dogs`.
-   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列）.
-   * 「狗狗小食」= dog treats zone under dog products.
-   * Apparel / toys / supplies leave this undefined.
+   * Collection keys reuse WT Japan folders when they exist:
+   *   貓罐罐 · 貓乾糧(乾糧) · 貓貓小食 · 冷凍脫水系列 · 狗狗小食
+   * New folder only when missing upstream: 狗狗食品.
+   * 「冷凍脫水系列」is shared WT folder — split by species under cats vs dogs.
    */
   subcategory?: ProductSubcategory;
   /**
@@ -296,6 +341,126 @@ const WT_JAPAN_EN: Record<
     description:
       "Japanese additive-free freeze-dried chicken — pure aroma, light crunch. 40g × 8 for everyday rewards or training; crumble over wet or dry food.",
   },
+  "wt-fish-stick-1": {
+    name: "CIAO Grilled Bonito — Juicy Bonito 5 sticks × 6",
+    description:
+      "Classic CIAO grilled bonito sticks with juicy bonito flavor. 5 sticks × 6 packs (30 total) — everyday rewards with green-tea odor care.",
+  },
+  "wt-fish-stick-2": {
+    name: "CIAO Grilled Bonito — Extra Juicy 5 sticks × 6",
+    description:
+      "CIAO grilled bonito with extra savory fish juices. 5 sticks × 6 packs for training treats or meal toppers.",
+  },
+  "wt-fish-stick-3": {
+    name: "CIAO Grilled Bonito — Bonito Flake Flavor 5 sticks × 6",
+    description:
+      "CIAO grilled bonito with aromatic bonito-flake savor. 5 sticks × 6 packs for picky everyday snackers.",
+  },
+  "wt-fish-stick-4": {
+    name: "CIAO Grilled Bonito — Senior Formula 5 sticks × 6",
+    description:
+      "Softer CIAO grilled bonito for senior cats. 5 sticks × 6 packs — gentle rewards for older appetites.",
+  },
+  "wt-fish-stick-5": {
+    name: "CIAO Grilled Bonito — Collagen (Senior) ≈24 pouches",
+    description:
+      "CIAO grilled bonito with collagen support for seniors. About 24 pouches for measured daily care.",
+  },
+  "wt-fish-stick-6": {
+    name: "CIAO Grilled Bonito — Scallop Flavor ≈24 pouches",
+    description:
+      "CIAO grilled bonito meets sweet scallop. About 24 pouches with green-tea odor care for seafood rotation.",
+  },
+  "wt-fish-stick-7": {
+    name: "CIAO Grilled Bonito — Scallop (Senior) ≈24 pouches",
+    description:
+      "Senior-friendly CIAO grilled bonito with scallop. About 24 pouches for cats 11+.",
+  },
+  "wt-fish-stick-8": {
+    name: "CIAO Grilled Bonito — Extra Juicy ≈24 pouches",
+    description:
+      "Extra-juicy CIAO grilled bonito in about 24 pouches — handy for training or daily treats.",
+  },
+  "wt-fish-stick-9": {
+    name: "CIAO Grilled Bonito — Bonito Flake ≈24 pouches",
+    description:
+      "Classic bonito-flake CIAO grilled sticks in about 24 pouches with green-tea odor care.",
+  },
+  "wt-fish-stick-10": {
+    name: "CIAO Grilled Bonito — Kitten (under 1 year) ≈24 pouches",
+    description:
+      "Gentle CIAO grilled bonito for kittens under 1 year. About 24 pouches for growing cats.",
+  },
+  "wt-fish-stick-11": {
+    name: "Petio Crab Stick Shreds 45g × 6",
+    description:
+      "Petio shredded crab sticks — easy to tear and feed. 45g × 6 for toppers or hand rewards.",
+  },
+  "wt-fish-stick-12": {
+    name: "Sunrise Catnip Fish Strips 40g × 12",
+    description:
+      "Sunrise fish strips with catnip aroma. 40g × 12 for a chewy everyday snack with a green twist.",
+  },
+  "wt-dog-freeze-dried-1": {
+    name: "Petio Freeze-Dried Carrot, Pumpkin & Cabbage (Dog) 20g × 6",
+    description:
+      "Petio freeze-dried veggie trio — carrot, pumpkin, and cabbage. Fresh ingredients, no preservatives or dyes; sprinkle, soften, or feed whole. Multi-pack 20g × 6.",
+  },
+  "wt-dog-freeze-dried-2": {
+    name: "Petio Freeze-Dried Apple, Banana & Melon (Dog) 20g × 6",
+    description:
+      "Petio freeze-dried fruit trio — apple, banana, and melon. Fresh ingredients, preservative-free; feed whole or soften into meals. Multi-pack 20g × 6.",
+  },
+  "wt-dog-freeze-dried-3": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Strips (Dog) 30g × 10",
+    description:
+      "Free-range Tajima chicken, flash freeze-dried into fragrant strips. No additives — 100% pure chicken for training or everyday treats. Ten 30g pouches.",
+  },
+  "wt-dog-freeze-dried-4": {
+    name: "MAMACOOK Tajima Freeze-Dried Pork Heart (Dog) 25g × 10",
+    description:
+      "Freeze-dried pork heart with rich organ savor. Great protein rotation for dogs who love real meat flavor — ten 25g pouches.",
+  },
+  "wt-dog-freeze-dried-5": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Liver (Dog) 24g × 10",
+    description:
+      "Japan-made freeze-dried chicken liver with deep aroma picky dogs chase. Ten 24g pouches for training rewards or meal toppers.",
+  },
+  "wt-dog-freeze-dried-6": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Liver (Dog) 18g × 10",
+    description:
+      "100% Japanese chicken — breast and liver in one freeze-dried bite. Rich aroma; ten 18g pouches for daily rewards.",
+  },
+  "wt-dog-freeze-dried-7": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast & Cartilage (Dog) 18g × 10",
+    description:
+      "100% Japanese chicken breast with crunchy cartilage. Dual texture dogs love to chew — ten 18g pouches for training or treats.",
+  },
+  "wt-dog-freeze-dried-8": {
+    name: "MAMACOOK Tajima Freeze-Dried Pork Liver (Dog) 30g × 10",
+    description:
+      "Freeze-dried pork liver — rich organ savor and high protein. Ten 30g pouches for measured organ-meat rotation.",
+  },
+  "wt-dog-freeze-dried-9": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Strips (Dog) 150g × 15",
+    description:
+      "Tajima freeze-dried chicken strips in a family carton — additive-free fillets, flash-dried for aroma. Fifteen 150g pouches for busy training homes.",
+  },
+  "wt-dog-freeze-dried-10": {
+    name: "MAMACOOK Tajima Freeze-Dried Chicken Breast Cartilage (Dog) 120g × 15",
+    description:
+      "Japan-made freeze-dried chicken breast with cartilage — meaty aroma and crunchy bite. Fifteen 120g pouches for long-term stocking.",
+  },
+  "wt-dog-freeze-dried-11": {
+    name: "MAMACOOK Tajima Freeze-Dried Capelin (Dog) 10g × 10",
+    description:
+      "Whole capelin freeze-dried crisp and aromatic. Fun training rewards or meal toppers — ten Japan-made 10g pouches.",
+  },
+  "wt-dog-freeze-dried-12": {
+    name: "MAMACOOK Tajima Freeze-Dried Venison (Dog) 14g × 10",
+    description:
+      "Freeze-dried venison — lean, high-protein novel meat. Ten 14g pouches for sensitive tummies or protein rotation.",
+  },
 };
 
 const WT_TAG_EN: Record<string, string> = {
@@ -346,6 +511,21 @@ const WT_TAG_EN: Record<string, string> = {
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
   冷凍脫水系列: "Freeze-dried series",
+  魚條: "Fish sticks",
+  烤鰹魚: "Grilled bonito",
+  狗餅: "Dog biscuits",
+  狗狗糊仔小食: "Dog paste treats",
+  狗芝士: "Dog cheese",
+  餅: "Biscuits",
+  潔齒: "Dental care",
+  口腔護理: "Oral care",
+  投藥專用: "Medication aid",
+  動物醫院專用: "Vet clinic",
+  北海道芝士: "Hokkaido cheese",
+  鰹魚: "Bonito",
+  木魚乾: "Bonito flakes",
+  老貓零食: "Senior cat treats",
+  蟹肉: "Crab",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
@@ -477,6 +657,187 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
+function wtJapanDogFreezeDriedToProduct(
+  p: WtJapanDogFreezeDriedProduct,
+): Product {
+  const en = WT_JAPAN_EN[p.id];
+  const series = freezeDriedSeriesForVendor(p.vendor);
+  const collectionTags = Array.from(
+    new Set([...p.tags, "冷凍脫水系列", "狗狗小食", "狗用"]),
+  );
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: "冷凍脫水系列",
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    series,
+    icon: "dog",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    tags: collectionTags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
+      {
+        zh: "專區：冷凍脫水系列（狗狗）",
+        en: "Zone: Freeze-dried series (dogs)",
+      },
+      {
+        zh: "Collection：/categories/dogs/freeze-dried",
+        en: "Collection: /categories/dogs/freeze-dried",
+      },
+      ...collectionTags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan dog freeze-dried — same WT「冷凍脫水系列」folder, dog SKUs only. */
+export const WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_FREEZE_DRIED_PRODUCTS.map(wtJapanDogFreezeDriedToProduct);
+
+function wtJapanFishStickToProduct(p: WtJapanFishStickProduct): Product {
+  const en = WT_JAPAN_EN[p.id];
+  const collectionTags = Array.from(
+    new Set([...p.tags, "魚條", "貓貓小食", "貓用"]),
+  );
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: "魚條",
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    icon: "cat",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    tags: collectionTags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
+      {
+        zh: "專區：魚條系列",
+        en: "Zone: Fish-stick series",
+      },
+      {
+        zh: "Collection：/categories/cats/fish-sticks",
+        en: "Collection: /categories/cats/fish-sticks",
+      },
+      ...collectionTags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan 魚條 — reuse old collection handle「魚條」. */
+export const WT_JAPAN_FISH_STICK_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_FISH_STICK_PRODUCTS.map(wtJapanFishStickToProduct);
+
+type DogSeriesSource = {
+  id: string;
+  title: string;
+  price: number;
+  originalPrice?: number;
+  imageUrl: string;
+  description: string;
+  vendor: string;
+  categorySlug: "dogs";
+  subcategory: DogSubcategory;
+  tags: string[];
+  productType: string;
+  sourceUrl?: string;
+};
+
+function dogSeriesToProduct(
+  p: DogSeriesSource,
+  zoneLabel: { zh: string; en: string },
+  collectionPath: string,
+): Product {
+  const en = WT_JAPAN_EN[p.id];
+  const collectionTags = Array.from(
+    new Set([...p.tags, p.subcategory, "狗狗小食", "狗用"]),
+  );
+  return {
+    id: p.id,
+    categorySlug: "dogs",
+    subcategory: p.subcategory,
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    icon: "dog",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    tags: collectionTags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
+      { zh: `專區：${zoneLabel.zh}`, en: `Zone: ${zoneLabel.en}` },
+      {
+        zh: `Collection：${collectionPath}`,
+        en: `Collection: ${collectionPath}`,
+      },
+      ...collectionTags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+export const WT_JAPAN_DOG_BISCUIT_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_BISCUIT_PRODUCTS.map((p) =>
+    dogSeriesToProduct(
+      p,
+      { zh: "狗餅（餅乾類）", en: "Dog biscuits" },
+      "/categories/dogs/dog-biscuits",
+    ),
+  );
+
+export const WT_JAPAN_DOG_PASTE_TREAT_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_PASTE_TREAT_PRODUCTS.map((p) =>
+    dogSeriesToProduct(
+      p,
+      { zh: "狗狗糊仔小食", en: "Dog paste treats" },
+      "/categories/dogs/paste-treats",
+    ),
+  );
+
+export const WT_JAPAN_DOG_CHEESE_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_CHEESE_PRODUCTS.map((p) =>
+    dogSeriesToProduct(
+      p,
+      { zh: "狗芝士", en: "Dog cheese" },
+      "/categories/dogs/dog-cheese",
+    ),
+  );
+
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
  * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
@@ -511,13 +872,15 @@ const PRODUCTS_RAW: Product[] = [
   {
     id: "ciao-tuna-paste-20pk",
     categorySlug: "cats",
+    subcategory: "貓貓小食",
     image: "/products/ciao-tuna-paste-20pk.webp",
     name: {
       zh: "CIAO 貓咪極上吞拿魚肉泥 (20支裝)",
       en: "CIAO Cat Tuna Paste Treats (20 sticks)",
     },
     price: 88,
-    icon: "bone",
+    icon: "cat",
+    tags: ["貓貓小食", "貓用"],
     description: {
       zh: "日本原裝進口，貓貓最愛的經典美味肉泥。",
       en: "Imported directly from Japan — the classic tuna paste treat cats love.",
@@ -526,10 +889,12 @@ const PRODUCTS_RAW: Product[] = [
   {
     id: "cat-bonito-flakes",
     categorySlug: "cats",
+    subcategory: "貓貓小食",
     image: "/products/cat-bonito-flakes.webp",
     name: { zh: "日本北海道鰹魚薄片", en: "Hokkaido Bonito Flakes" },
     price: 42,
     icon: "cat",
+    tags: ["貓貓小食", "貓用"],
     description: {
       zh: "日本北海道直送鰹魚薄片，香氣濃郁，撒在糧面秒變豪華大餐。",
       en: "Shaved straight from Hokkaido, Japan — irresistibly aromatic sprinkled on any meal.",
@@ -588,8 +953,19 @@ const PRODUCTS_RAW: Product[] = [
   // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
+  // WT Japan 魚條系列（沿用舊 Collection「魚條」→ /categories/cats/fish-sticks）
+  ...WT_JAPAN_FISH_STICK_STOREFRONT_PRODUCTS,
+
+  // WT Japan 狗餅 / 狗狗糊仔小食 / 狗芝士（沿用舊 Collections）
+  ...WT_JAPAN_DOG_BISCUIT_STOREFRONT_PRODUCTS,
+  ...WT_JAPAN_DOG_PASTE_TREAT_STOREFRONT_PRODUCTS,
+  ...WT_JAPAN_DOG_CHEESE_STOREFRONT_PRODUCTS,
+
+  // WT Japan 冷凍脫水系列 — dog SKUs only（沿用同一舊 Collection，唔撈亂貓貓）
+  ...WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS,
+
   // 狗狗商品 / Dog Products
-  // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
+  // Food zones: 狗狗食品(新) · 狗狗小食(舊 WT) · 冷凍脫水系列(舊 WT, dog SKUs)
   // Final category/subcategory are enforced by classifyCatalogProducts() keywords.
   {
     id: "dog-food-1-5kg",
@@ -716,9 +1092,10 @@ const PRODUCTS_RAW: Product[] = [
     },
   },
 
-  // 寵物小食 / Pet Snacks（貓狗共用／貓向小食）
-  // Cat freeze-dried treats live under cats only (subcategory 「冷凍脫水系列」).
-  // Dog-only treats live under dogs (subcategory 「狗狗小食」).
+  // 寵物小食 / Pet Snacks（貓狗共用）
+  // Cat-only snacks → cats/貓貓小食 (WT 貓貓小食)
+  // Dog-only treats → dogs/狗狗小食 (WT 狗狗小食)
+  // Freeze-dried → cats|dogs / 冷凍脫水系列 (WT 冷凍脫水系列)
   {
     id: "assorted-treats-giftbox",
     categorySlug: "snacks",
@@ -741,11 +1118,13 @@ const PRODUCTS_RAW: Product[] = [
   },
   {
     id: "snack-fish-cracker",
-    categorySlug: "snacks",
+    categorySlug: "cats",
+    subcategory: "貓貓小食",
     image: "/products/snack-fish-cracker.webp",
     name: { zh: "貓咪魚肉夾心餅", en: "Cat Fish Sandwich Crackers" },
     price: 38,
-    icon: "bone",
+    icon: "cat",
+    tags: ["貓貓小食", "貓用"],
     description: {
       zh: "香脆餅乾夾住鮮甜魚肉醬，滿足貓貓嘴饞時刻。",
       en: "Crispy crackers filled with savory fish paste — a treat cats can't resist.",
@@ -765,11 +1144,13 @@ const PRODUCTS_RAW: Product[] = [
   },
   {
     id: "snack-scallop-jerky",
-    categorySlug: "snacks",
+    categorySlug: "cats",
+    subcategory: "貓貓小食",
     image: "/products/snack-scallop-jerky.webp",
-    name: { zh: "北海道帆立貝乾", en: "Hokkaido Scallop Jerky" },
+    name: { zh: "北海道帆立貝乾（貓貓用）", en: "Hokkaido Scallop Jerky (for cats)" },
     price: 68,
-    icon: "bone",
+    icon: "cat",
+    tags: ["貓貓小食", "貓用"],
     description: {
       zh: "北海道直送帆立貝乾，鮮味十足，貓貓最愛嘅奢華小食。",
       en: "Shipped straight from Hokkaido — a rich, savory luxury treat cats can't resist.",
@@ -1744,8 +2125,9 @@ const PRODUCTS_RAW: Product[] = [
 
 /**
  * Storefront catalog after keyword food-zone classification.
- * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
- * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
+ * Collection folders: reuse WT names when they exist
+ * (冷凍脫水系列 · 貓貓小食 · 狗狗小食 · 貓罐罐 · 乾糧);
+ * invent only 狗狗食品 when missing upstream.
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
 

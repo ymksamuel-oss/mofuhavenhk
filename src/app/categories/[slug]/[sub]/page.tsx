@@ -24,10 +24,16 @@ export function generateStaticParams() {
 }
 
 /**
- * Food-zone subcategory pages with clear URLs:
- * - `/categories/cats/freeze-dried` → 貓貓小食／冷凍脫水系列
+ * Food-zone subcategory pages — reuse WT collection folders when present:
+ * - `/categories/cats/freeze-dried` → 冷凍脫水系列 (cat SKUs)
+ * - `/categories/cats/snacks` → 貓貓小食
+ * - `/categories/cats/fish-sticks` → 魚條
  * - `/categories/dogs/snacks` → 狗狗小食
- * - `/categories/dogs/food` → 狗狗食品
+ * - `/categories/dogs/dog-biscuits` → 狗餅（餅乾類）
+ * - `/categories/dogs/paste-treats` → 狗狗糊仔小食
+ * - `/categories/dogs/dog-cheese` → 狗芝士
+ * - `/categories/dogs/freeze-dried` → 冷凍脫水系列 (dog SKUs)
+ * - `/categories/dogs/food` → 狗狗食品 (new)
  */
 export default async function CategorySubPage({ params }: CategorySubPageProps) {
   const { slug, sub } = await params;

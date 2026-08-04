@@ -48,12 +48,18 @@ function subChipClassName(active: boolean) {
 const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓罐罐: "catSubWetCans",
   貓乾糧: "catSubDryFood",
+  貓貓小食: "catSubSnacks",
+  魚條: "catSubFishSticks",
   冷凍脫水系列: "catSubFreezeDried",
 };
 
 const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
   狗狗食品: "dogSubFood",
   狗狗小食: "dogSubSnacks",
+  狗餅: "dogSubBiscuits",
+  狗狗糊仔小食: "dogSubPasteTreats",
+  狗芝士: "dogSubCheese",
+  冷凍脫水系列: "dogSubFreezeDried",
 };
 
 type ProductCatalogProps = {
@@ -184,8 +190,14 @@ export function ProductCatalog({
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-  const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showCatFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showDogFreezeDriedZone = dogSubcategory === "冷凍脫水系列";
+  const showFreezeDriedZone = showCatFreezeDriedZone || showDogFreezeDriedZone;
   const showDogSnacksZone = dogSubcategory === "狗狗小食";
+  const showFishSticksZone = catSubcategory === "魚條";
+  const showDogBiscuitsZone = dogSubcategory === "狗餅";
+  const showDogPasteZone = dogSubcategory === "狗狗糊仔小食";
+  const showDogCheeseZone = dogSubcategory === "狗芝士";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -271,19 +283,46 @@ export function ProductCatalog({
         </div>
       ) : null}
 
-      {showFreezeDriedZone ? (
+      {showFishSticksZone ? (
         <section
-          aria-label={t("catFreezeDriedZoneTitle")}
+          aria-label={t("catFishSticksZoneTitle")}
           className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
         >
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
-            {t("catFreezeDriedZoneEyebrow")}
+            {t("catFishSticksZoneEyebrow")}
           </p>
           <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
-            {t("catFreezeDriedZoneTitle")}
+            {t("catFishSticksZoneTitle")}
           </h2>
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
-            {t("catFreezeDriedZoneSubtitle")}
+            {t("catFishSticksZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
+      {showFreezeDriedZone ? (
+        <section
+          aria-label={
+            showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneTitle")
+              : t("catFreezeDriedZoneTitle")
+          }
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneEyebrow")
+              : t("catFreezeDriedZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneTitle")
+              : t("catFreezeDriedZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneSubtitle")
+              : t("catFreezeDriedZoneSubtitle")}
           </p>
         </section>
       ) : null}
@@ -301,6 +340,57 @@ export function ProductCatalog({
           </h2>
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
             {t("dogSnacksZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
+      {showDogBiscuitsZone ? (
+        <section
+          aria-label={t("dogBiscuitsZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("dogBiscuitsZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("dogBiscuitsZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("dogBiscuitsZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
+      {showDogPasteZone ? (
+        <section
+          aria-label={t("dogPasteZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("dogPasteZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("dogPasteZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("dogPasteZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
+      {showDogCheeseZone ? (
+        <section
+          aria-label={t("dogCheeseZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("dogCheeseZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("dogCheeseZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("dogCheeseZoneSubtitle")}
           </p>
         </section>
       ) : null}

@@ -1,20 +1,30 @@
 /**
  * Keyword-based pet food zone classifier.
  *
+ * Collection folders follow「有舊用舊，冇舊先開新」:
+ *   WT: 貓罐罐 · 乾糧 · 冷凍脫水系列 · 貓貓小食 · 狗狗小食
+ *   New: 狗狗食品 (no WT equivalent)
+ *
  * Rules (name / description / tags / specs / productType / id):
- * 1. Freeze-dried + 貓貓／貓用（or freeze-dried series without dog-only mark）
- *    → cats / 冷凍脫水系列 — never dogs.
- * 2. 狗狗／狗用 + edible food／treat signals → dogs / 狗狗食品 or 狗狗小食.
- * 3. Toys, gear, health, cleaning, outdoor keep their storefront category
- *    even when the title says「狗狗」(those are not food SKUs).
+ * 1. Freeze-dried + 狗狗／狗用 → dogs / 冷凍脫水系列 (same WT folder, dog SKUs)
+ * 2. Freeze-dried + 貓貓／貓用 (or unmarked freeze series) → cats / 冷凍脫水系列
+ * 3. Non-freeze 狗狗／狗用 snacks → dogs / 狗狗小食
+ * 4. Non-freeze 貓貓／貓用 snacks → cats / 貓貓小食
+ * 5. Dog staple food → dogs / 狗狗食品 (new folder)
+ * 6. Toys / gear / health keep their shelves even if title says「狗狗」
  */
 
 export type FoodZoneSubcategory =
   | "貓罐罐"
   | "貓乾糧"
+  | "貓貓小食"
+  | "魚條"
   | "冷凍脫水系列"
   | "狗狗食品"
-  | "狗狗小食";
+  | "狗狗小食"
+  | "狗餅"
+  | "狗狗糊仔小食"
+  | "狗芝士";
 
 export type ClassifiableProduct = {
   id: string;
@@ -37,10 +47,35 @@ const SHARED_MARK =
 const FREEZE_MARK =
   /冷凍脫水|凍乾|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const SNACK_MARK =
-  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack/i;
+  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack|夾心餅|帆立貝乾/i;
+const FISH_STICK_MARK =
+  /魚條|燒鰹魚|燒鏗魚|烤鰹魚|蟹肉絲|魚肉條|grilled\s*bonito|fish[\s-]?sticks?/i;
+const DOG_BISCUIT_MARK =
+  /狗餅|百力滋|脆餅|餅乾|preetz|biscuit|cookie|cracker/i;
+const DOG_PASTE_MARK =
+  /糊仔|肉泥|膏狀|paste|pouch\s*paste|投藥專用/i;
+const DOG_CHEESE_MARK =
+  /狗芝士|芝士骨|芝士條|芝士粒|芝士雞|乳酪條|cheese\s*bone|dog\s*cheese/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
-/** Non-food categories that must not be swallowed into 狗狗食品. */
+/** Cat staple / wet-food marks — must not be swept into 貓貓小食. */
+const CAT_STAPLE_MARK = /貓罐罐|貓乾糧|濕糧|乾糧|主糧|鮮肉杯|罐罐|lacto|kibble|staple|wet\s*food|dry\s*food/i;
+/** Curated WT food folders that should keep their collection key. */
+const CURATED_CAT_COLLECTIONS = new Set([
+  "貓罐罐",
+  "貓乾糧",
+  "魚條",
+  "冷凍脫水系列",
+]);
+const CURATED_DOG_COLLECTIONS = new Set([
+  "狗狗食品",
+  "狗狗小食",
+  "狗餅",
+  "狗狗糊仔小食",
+  "狗芝士",
+  "冷凍脫水系列",
+]);
+/** Non-food categories that must not be swallowed into food zones. */
 const NON_FOOD_CATEGORY = new Set([
   "toys",
   "health",
@@ -48,7 +83,7 @@ const NON_FOOD_CATEGORY = new Set([
   "outdoor",
 ]);
 const NON_FOOD_TEXT =
-  /玩具|toy|雨衣|大衣|尿墊|頸帶|胸背|飯碗|推車|牽引|座墊|發光|漱口水|營養油|保健|清潔|貓砂|litter|harness|coat|pad|carrier|stroller|leash|collar/i;
+  /玩具|toy|雨衣|大衣|尿墊|頸帶|胸背|飯碗|推車|牽引|座墊|發光|漱口水|營養油|保健|清潔|貓砂|litter|harness|coat|pad|carrier|stroller|leash|collar|跳台|抓板/i;
 
 export type FoodZoneHint = {
   categorySlug: "cats" | "dogs";
@@ -96,6 +131,7 @@ export function inferFoodZone(
   const hasShared = SHARED_MARK.test(text);
   const hasFreeze = FREEZE_MARK.test(text);
   const hasSnack = SNACK_MARK.test(text);
+  const hasFishStick = FISH_STICK_MARK.test(text);
   const hasStaple = STAPLE_FOOD_MARK.test(text);
 
   // Shared cat+dog food/treat deals stay on their original shelf (deals/snacks).
@@ -104,34 +140,118 @@ export function inferFoodZone(
   }
 
   // ——— Freeze-dried series ———
-  // Cat freeze-dried (貓貓／貓用) always wins; bare「冷凍脫水系列」also defaults to cats.
-  // Dog-only freeze-dried (狗狗／狗用 without cat mark) → dog snacks.
   if (hasFreeze) {
     if (hasDog && !hasCat) {
       return {
         categorySlug: "dogs",
-        subcategory: "狗狗小食",
-        reason: "冷凍脫水 + 狗狗／狗用 → 狗狗小食",
-        tags: ["狗狗小食", "冷凍脫水系列", "狗用"],
+        subcategory: "冷凍脫水系列",
+        reason: "冷凍脫水系列 + 狗狗／狗用 → dogs/freeze-dried（沿用舊 Collection）",
+        tags: ["冷凍脫水系列", "狗狗小食", "狗用"],
       };
     }
     return {
       categorySlug: "cats",
       subcategory: "冷凍脫水系列",
       reason: hasCat
-        ? "冷凍脫水 + 貓貓／貓用 → 貓貓冷凍脫水系列"
-        : "冷凍脫水系列預設歸入貓貓專區",
+        ? "冷凍脫水系列 + 貓貓／貓用 → cats/freeze-dried（沿用舊 Collection）"
+        : "冷凍脫水系列未標狗用 → 預設貓貓專區（沿用舊 Collection）",
       tags: ["冷凍脫水系列", "貓貓小食", "貓用"],
     };
   }
 
-  // ——— Dog food / dog snacks ———
+  // ——— 魚條 series (reuse WT「魚條」; never mix into dogs) ———
+  if (
+    hasFishStick &&
+    !hasDog &&
+    (hasCat ||
+      product.productType === "魚條" ||
+      (product.tags ?? []).includes("魚條") ||
+      product.subcategory === "魚條")
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: "魚條",
+      reason: "魚條系列 → cats/fish-sticks（沿用舊 Collection「魚條」）",
+      tags: ["魚條", "貓貓小食", "貓用"],
+    };
+  }
+
+  // Keep curated WT can / dry / 魚條 folders — never overwrite with 貓貓小食.
+  if (
+    product.subcategory &&
+    CURATED_CAT_COLLECTIONS.has(product.subcategory) &&
+    product.subcategory !== "冷凍脫水系列"
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: product.subcategory as FoodZoneSubcategory,
+      reason: `保留舊 Collection「${product.subcategory}」`,
+      tags: [product.subcategory],
+    };
+  }
+
+  // Keep curated dog food-zone folders when already stamped.
+  if (
+    product.subcategory &&
+    CURATED_DOG_COLLECTIONS.has(product.subcategory) &&
+    product.categorySlug === "dogs" &&
+    product.subcategory !== "冷凍脫水系列"
+  ) {
+    return {
+      categorySlug: "dogs",
+      subcategory: product.subcategory as FoodZoneHint["subcategory"],
+      reason: `保留 Collection「${product.subcategory}」`,
+      tags: [product.subcategory],
+    };
+  }
+
+  // ——— Specific dog snack series (reuse WT folders) ———
+  if (hasDog && !isNonFoodSku(product, text)) {
+    if (
+      DOG_BISCUIT_MARK.test(text) ||
+      product.subcategory === "狗餅" ||
+      (product.tags ?? []).includes("狗餅")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗餅",
+        reason: "狗餅／餅乾類 → dogs/dog-biscuits（沿用舊 Collection）",
+        tags: ["狗餅", "狗狗小食", "狗用"],
+      };
+    }
+    if (
+      DOG_PASTE_MARK.test(text) ||
+      product.subcategory === "狗狗糊仔小食" ||
+      (product.tags ?? []).includes("狗狗糊仔小食")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗狗糊仔小食",
+        reason: "狗狗糊仔小食 → dogs/paste-treats（沿用舊 Collection）",
+        tags: ["狗狗糊仔小食", "狗狗小食", "狗用"],
+      };
+    }
+    if (
+      DOG_CHEESE_MARK.test(text) ||
+      product.subcategory === "狗芝士" ||
+      (product.tags ?? []).includes("狗芝士")
+    ) {
+      return {
+        categorySlug: "dogs",
+        subcategory: "狗芝士",
+        reason: "狗芝士 → dogs/dog-cheese（沿用舊 Collection）",
+        tags: ["狗芝士", "狗狗小食", "狗用"],
+      };
+    }
+  }
+
+  // ——— Dog snacks / staple ———
   if (hasDog && !isNonFoodSku(product, text)) {
     if (hasSnack || (!hasStaple && /禮盒|gift|組合/i.test(text))) {
       return {
         categorySlug: "dogs",
         subcategory: "狗狗小食",
-        reason: "名稱／內容含狗狗／狗用 + 小食關鍵字 → 狗狗小食",
+        reason: "狗狗／狗用小食 → 狗狗小食（沿用舊 Collection）",
         tags: ["狗狗小食", "狗用"],
       };
     }
@@ -142,20 +262,15 @@ export function inferFoodZone(
       product.categorySlug === "bestsellers" ||
       product.categorySlug === "deals"
     ) {
-      const sub: FoodZoneSubcategory = hasSnack ? "狗狗小食" : "狗狗食品";
       return {
         categorySlug: "dogs",
-        subcategory: sub,
-        reason:
-          sub === "狗狗小食"
-            ? "狗狗食品區內嘅零食關鍵字 → 狗狗小食"
-            : "名稱／內容含狗狗／狗用 → 狗狗食品",
-        tags: [sub, "狗用"],
+        subcategory: "狗狗食品",
+        reason: "狗狗主糧／食品 → 狗狗食品（新建資料夾）",
+        tags: ["狗狗食品", "狗用"],
       };
     }
   }
 
-  // Explicit staple already under dogs without keywords in title (e.g. 日本天然狗糧).
   if (
     product.categorySlug === "dogs" &&
     hasStaple &&
@@ -164,8 +279,34 @@ export function inferFoodZone(
     return {
       categorySlug: "dogs",
       subcategory: "狗狗食品",
-      reason: "狗糧／主糧 → 狗狗食品",
+      reason: "狗糧／主糧 → 狗狗食品（新建資料夾）",
       tags: ["狗狗食品"],
+    };
+  }
+
+  // ——— Cat snacks (貓貓小食) ———
+  // Only from the snacks shelf or explicit 貓貓小食 tags — never cans / dry food.
+  const explicitCatSnack =
+    product.productType === "貓貓小食" ||
+    (product.tags ?? []).includes("貓貓小食") ||
+    product.subcategory === "貓貓小食";
+  if (
+    hasCat &&
+    !hasDog &&
+    !CAT_STAPLE_MARK.test(text) &&
+    !isNonFoodSku(product, text) &&
+    (explicitCatSnack ||
+      (hasSnack && product.categorySlug === "snacks") ||
+      (hasSnack &&
+        explicitCatSnack === false &&
+        product.categorySlug === "cats" &&
+        !product.subcategory))
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: "貓貓小食",
+      reason: "貓貓／貓用小食 → 貓貓小食（沿用舊 Collection）",
+      tags: ["貓貓小食", "貓用"],
     };
   }
 
@@ -188,7 +329,8 @@ export function applyFoodZoneClassification<T extends ClassifiableProduct>(
           icon:
             hint.categorySlug === "cats"
               ? "cat"
-              : hint.categorySlug === "dogs" && product.icon === "bone"
+              : hint.categorySlug === "dogs" &&
+                  (product.icon === "bone" || product.icon === "fire")
                 ? "dog"
                 : product.icon,
         }

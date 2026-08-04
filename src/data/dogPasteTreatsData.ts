@@ -1,0 +1,234 @@
+/**
+ * WT Japan 狗狗糊仔小食 — curated for Mofu Haven.
+ * Reuses WT collection「狗狗糊仔小食」.
+ * Source: https://www.wt-japan.com/collections/狗狗糊仔小食
+ * Storefront: /categories/dogs/paste-treats
+ */
+
+export const DOG_PASTE_CATEGORY = "狗狗商品" as const;
+export const DOG_PASTE_CATEGORY_SLUG = "dogs" as const;
+
+export type WtJapanDogPasteTreatProduct = {
+  id: string;
+  title: string;
+  price: number;
+  originalPrice?: number;
+  imageUrl: string;
+  sourceImageUrl: string;
+  description: string;
+  vendor: string;
+  category: typeof DOG_PASTE_CATEGORY;
+  categorySlug: typeof DOG_PASTE_CATEGORY_SLUG;
+  subcategory: "狗狗糊仔小食";
+  tags: string[];
+  handle: string;
+  productType: string;
+  sourceUrl: string;
+};
+
+export const WT_JAPAN_DOG_PASTE_TREAT_PRODUCTS: WtJapanDogPasteTreatProduct[] = [
+  {
+    id: "wt-dog-paste-1",
+    title: "狗狗小食 - CIAO 糊仔小食 - 雞胸肉, 蕃薯 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-1.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133827358.jpg?v=1583785257",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 - 雞胸肉, 蕃薯 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "狗狗小食", "狗狗糊仔小食", "蕃薯", "雞肉"],
+    handle: "狗狗小食-ciao-糊仔小食-雞胸肉-蕃薯-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E9%9B%9E%E8%83%B8%E8%82%89-%E8%95%83%E8%96%AF-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+  {
+    id: "wt-dog-paste-2",
+    title: "CIAO 動物醫院投藥專用  1000億個乳酸菌 2倍能量補給糊仔 - 雞肉味 (狗狗用)12g x50條",
+    price: 512.0,
+    imageUrl: "/images/products/wt-dog-paste-2.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780042.jpg?v=1593701908",
+    description:
+      "內有氨基酸，乳酸菌調整腸胃 同時有綠茶提取物, 可減輕便便臭味條狀包裝，增加餵食方便性黏度比一般糊仔多2倍, 以及高2倍卡路里將藥丸包起來偽裝成普通糊仔零食讓生病中的毛孩也能在恢復健康同時也能享受零食樂趣 賞味期限 2年 原産地 日本 *不連包裝盒",
+    vendor: "WT",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "動物醫院專用", "投藥專用", "狗狗糊仔小食", "綠茶消臭成分"],
+    handle: "ciao-動物醫院投藥專用-1000億個乳酸菌-2倍能量補給糊仔-雞肉味-狗狗用12g-x5",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-%E5%8B%95%E7%89%A9%E9%86%AB%E9%99%A2%E6%8A%95%E8%97%A5%E5%B0%88%E7%94%A8-1000%E5%84%84%E5%80%8B%E4%B9%B3%E9%85%B8%E8%8F%8C-2%E5%80%8D%E8%83%BD%E9%87%8F%E8%A3%9C%E7%B5%A6%E7%B3%8A%E4%BB%94-%E9%9B%9E%E8%82%89%E5%91%B3-%E7%8B%97%E7%8B%97%E7%94%A812g-x5",
+  },
+  {
+    id: "wt-dog-paste-3",
+    title: "CIAO 動物醫院投藥專用  1000億個乳酸菌 3倍粘度補給糊仔 - 雞肉味 (狗狗用)12g x50條",
+    price: 512.0,
+    imageUrl: "/images/products/wt-dog-paste-3.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/wannyan-ya_26780059.jpg?v=1593701713",
+    description:
+      "內有氨基酸，乳酸菌調整腸胃 同時有綠茶提取物, 可減輕便便臭味條狀包裝，增加餵食方便性黏度比一般糊仔多3倍, 將藥丸包起來偽裝成普通糊仔零食 讓生病中的毛孩也能在恢復健康同時也能享受零食樂趣 賞味期限 2年 原産地 日本 *不連包裝盒",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "動物醫院專用", "投藥專用", "狗狗小食", "狗狗糊仔小食"],
+    handle: "ciao-動物醫院投藥專用-1000億個乳酸菌-3倍粘度補給糊仔-雞肉味-12g-x50條",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-%E5%8B%95%E7%89%A9%E9%86%AB%E9%99%A2%E6%8A%95%E8%97%A5%E5%B0%88%E7%94%A8-1000%E5%84%84%E5%80%8B%E4%B9%B3%E9%85%B8%E8%8F%8C-3%E5%80%8D%E7%B2%98%E5%BA%A6%E8%A3%9C%E7%B5%A6%E7%B3%8A%E4%BB%94-%E9%9B%9E%E8%82%89%E5%91%B3-12g-x50%E6%A2%9D",
+  },
+  {
+    id: "wt-dog-paste-4",
+    title: "狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-4.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720598.jpg?v=1583786743",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "狗狗小食", "狗狗糊仔小食", "雞肉", "狗用"],
+    handle: "狗狗小食-ciao-糊仔小食-總合營養-雞胸肉-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E7%B8%BD%E5%90%88%E7%87%9F%E9%A4%8A-%E9%9B%9E%E8%83%B8%E8%82%89-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+  {
+    id: "wt-dog-paste-5",
+    title: "狗狗小食 - CIAO 糊仔小食 -  芝士雞胸肉 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-5.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133736582.jpg?v=1583786252",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 -  芝士雞胸肉 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["INABA", "狗狗糊仔小食", "芝士", "雞肉", "狗狗小食", "狗用"],
+    handle: "狗狗小食-ciao-糊仔小食-芝士雞胸肉-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E8%8A%9D%E5%A3%AB%E9%9B%9E%E8%83%B8%E8%82%89-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+  {
+    id: "wt-dog-paste-6",
+    title: "狗狗小食 - CIAO 糊仔小食 - 總合營養 雞胸肉 (加入芝士) 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-6.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720611.jpg?v=1583423276",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 - 總合營養 雞胸肉 (加入芝士) 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "狗狗小食", "狗狗糊仔小食", "芝士", "雞肉"],
+    handle: "狗狗小食-ciao-糊仔小食-雞胸肉-加入芝士-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E9%9B%9E%E8%83%B8%E8%82%89-%E5%8A%A0%E5%85%A5%E8%8A%9D%E5%A3%AB-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+  {
+    id: "wt-dog-paste-7",
+    title: "狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 (加入牛肉) 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-7.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133720604.jpg?v=1583423072",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 -總合營養 雞胸肉 (加入牛肉) 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["CIAO", "INABA", "狗狗小食", "狗狗糊仔小食", "雞肉", "狗用"],
+    handle: "狗狗小食-ciao-糊仔小食-雞胸肉-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E9%9B%9E%E8%83%B8%E8%82%89-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+  {
+    id: "wt-dog-paste-8",
+    title: "Hell’s Kitchen 狗狗袋裝肉泥- 雞肉軟骨味100g x8",
+    price: 216.0,
+    imageUrl: "/images/products/wt-dog-paste-8.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180172_2.jpg?v=1650516522",
+    description:
+      "日本寵物小食「Hell’s Kitchen 狗狗袋裝肉泥- 雞肉軟骨味100g x8」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "WT",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["狗狗小食", "狗狗糊仔小食", "狗狗膏狀小食", "狗用"],
+    handle: "hell-s-kitchen-狗狗袋裝肉泥-雞肉軟骨味100g-x8",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/hell-s-kitchen-%E7%8B%97%E7%8B%97%E8%A2%8B%E8%A3%9D%E8%82%89%E6%B3%A5-%E9%9B%9E%E8%82%89%E8%BB%9F%E9%AA%A8%E5%91%B3100g-x8",
+  },
+  {
+    id: "wt-dog-paste-9",
+    title: "Hell’s Kitchen 狗狗袋裝肉泥- 雞肉芝士味90g  (小狗用) x8",
+    price: 216.0,
+    imageUrl: "/images/products/wt-dog-paste-9.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180011_2.jpg?v=1650516593",
+    description:
+      "日本寵物小食「Hell’s Kitchen 狗狗袋裝肉泥- 雞肉芝士味90g  (小狗用) x8」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "WT",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["狗狗小食", "狗狗糊仔小食", "狗狗膏狀小食", "狗用"],
+    handle: "hell-s-kitchen-狗狗袋裝肉泥-雞肉芝士味90g-小狗用-x8",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/hell-s-kitchen-%E7%8B%97%E7%8B%97%E8%A2%8B%E8%A3%9D%E8%82%89%E6%B3%A5-%E9%9B%9E%E8%82%89%E8%8A%9D%E5%A3%AB%E5%91%B390g-%E5%B0%8F%E7%8B%97%E7%94%A8-x8",
+  },
+  {
+    id: "wt-dog-paste-10",
+    title: "Hell’s Kitchen 狗狗袋裝肉泥- 鴨肉蕃薯芝士味100g x8",
+    price: 216.0,
+    imageUrl: "/images/products/wt-dog-paste-10.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4580626180035_2.jpg?v=1650516607",
+    description:
+      "日本寵物小食「Hell’s Kitchen 狗狗袋裝肉泥- 鴨肉蕃薯芝士味100g x8」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "WTjapan",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["狗狗小食", "狗狗糊仔小食", "狗狗膏狀小食", "狗用"],
+    handle: "hell-s-kitchen-貓貓袋裝肉泥-鴨肉蕃薯芝士味100g-x8",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/hell-s-kitchen-%E8%B2%93%E8%B2%93%E8%A2%8B%E8%A3%9D%E8%82%89%E6%B3%A5-%E9%B4%A8%E8%82%89%E8%95%83%E8%96%AF%E8%8A%9D%E5%A3%AB%E5%91%B3100g-x8",
+  },
+  {
+    id: "wt-dog-paste-11",
+    title: "狗狗小食 - CIAO 糊仔小食 - 雞胸肉 (1歳前食用) 4條裝 x 12袋",
+    price: 276.0,
+    originalPrice: 420.0,
+    imageUrl: "/images/products/wt-dog-paste-11.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133827341.jpg?v=1583785099",
+    description:
+      "日本寵物小食「狗狗小食 - CIAO 糊仔小食 - 雞胸肉 (1歳前食用) 4條裝 x 12袋」。適合狗狗日常獎勵或訓練使用。",
+    vendor: "CIAO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗糊仔小食",
+    tags: ["1歳前", "CIAO", "INABA", "狗狗小食", "狗狗糊仔小食", "雞肉"],
+    handle: "狗狗小食-ciao-糊仔小食-雞胸肉-1歳前食用-4條裝-x-12袋",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.wt-japan.com/products/%E7%8B%97%E7%8B%97%E5%B0%8F%E9%A3%9F-ciao-%E7%B3%8A%E4%BB%94%E5%B0%8F%E9%A3%9F-%E9%9B%9E%E8%83%B8%E8%82%89-1%E6%AD%B3%E5%89%8D%E9%A3%9F%E7%94%A8-4%E6%A2%9D%E8%A3%9D-x-12%E8%A2%8B",
+  },
+];
