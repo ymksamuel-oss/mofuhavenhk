@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
   useEffect,
   useId,
@@ -8,6 +9,7 @@ import {
   useState,
   type FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
   type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
@@ -63,6 +65,11 @@ function CloseGlyph({ className = "" }: { className?: string }) {
   );
 }
 
+function unlockBodyScroll() {
+  document.body.style.overflow = "";
+  document.body.style.removeProperty("overflow");
+}
+
 type SearchFieldProps = {
   listId: string;
   query: string;
@@ -102,11 +109,19 @@ function SearchField({
   const { locale, t } = useI18n();
   const comfortable = size === "comfortable";
 
+  const dismissForNavigation = () => {
+    // Close UI + dismiss iOS keyboard before / while navigating.
+    setSuggestionsOpen(false);
+    inputRef.current?.blur();
+    unlockBodyScroll();
+    onNavigateAway?.();
+  };
+
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (hits.length > 0) {
       const target = hits[Math.max(0, activeIndex)] ?? hits[0];
-      onNavigateAway?.();
+      dismissForNavigation();
       window.location.assign(productHref(target.id));
     }
   };
@@ -115,6 +130,7 @@ function SearchField({
     if (event.key === "Escape") {
       event.preventDefault();
       setSuggestionsOpen(false);
+      inputRef.current?.blur();
       onEscape?.();
       return;
     }
@@ -126,6 +142,16 @@ function SearchField({
       event.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, -1));
     }
+  };
+
+  /**
+   * Prevent the search input from stealing focus / dismissing the keyboard
+   * on the first tap — which on iOS Safari often swallows the subsequent click.
+   * Do NOT unmount the modal here (that would cancel the click navigation).
+   */
+  const onResultMouseDown = (event: ReactMouseEvent) => {
+    event.preventDefault();
+    inputRef.current?.blur();
   };
 
   return (
@@ -212,16 +238,18 @@ function SearchField({
                     <CategoryNavLink
                       id={`${listId}-option-${index}`}
                       href={productHref(hit.id)}
-                      className={`flex items-center gap-3 px-3 py-2.5 transition ${
+                      className={`flex touch-manipulation items-center gap-3 px-3 py-2.5 transition ${
                         active
                           ? "bg-[color:var(--accent-soft)]"
                           : "hover:bg-[color:var(--accent-soft)]/70"
                       }`}
                       onMouseEnter={() => setActiveIndex(index)}
-                      onNavigate={() => {
-                        setSuggestionsOpen(false);
-                        onNavigateAway?.();
+                      onMouseDown={onResultMouseDown}
+                      onTouchStart={() => {
+                        // Blur early on touch so the click/navigation isn’t lost.
+                        inputRef.current?.blur();
                       }}
+                      onNavigate={dismissForNavigation}
                     >
                       <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <Image
@@ -271,6 +299,7 @@ export function ProductSearch({
   autoFocus = false,
 }: ProductSearchProps) {
   const { t } = useI18n();
+  const pathname = usePathname();
   const listId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -289,9 +318,30 @@ export function ProductSearch({
     trimmedQuery.length > 0 ? searchWtJapanProducts(trimmedQuery, 12) : [];
   const showPanel = suggestionsOpen && trimmedQuery.length > 0;
 
+  const closeModal = () => {
+    setModalOpen(false);
+    setSuggestionsOpen(false);
+    setQuery("");
+    modalInputRef.current?.blur();
+    inputRef.current?.blur();
+    unlockBodyScroll();
+  };
+
   useEffect(() => {
     setPortalReady(true);
   }, []);
+
+  // Soft / hard navigations that keep the Header mounted must still dismiss
+  // the mobile search modal and any leftover body scroll lock / blur overlay.
+  useEffect(() => {
+    setModalOpen(false);
+    setSuggestionsOpen(false);
+    setQuery("");
+    setActiveIndex(-1);
+    modalInputRef.current?.blur();
+    inputRef.current?.blur();
+    unlockBodyScroll();
+  }, [pathname]);
 
   useEffect(() => {
     setActiveIndex(-1);
@@ -309,8 +359,10 @@ export function ProductSearch({
   }, [suggestionsOpen, variant]);
 
   useEffect(() => {
-    if (!modalOpen) return;
-    const previousOverflow = document.body.style.overflow;
+    if (!modalOpen) {
+      unlockBodyScroll();
+      return;
+    }
     document.body.style.overflow = "hidden";
     const timer = window.setTimeout(() => modalInputRef.current?.focus(), 30);
     const onKey = (event: globalThis.KeyboardEvent) => {
@@ -318,21 +370,17 @@ export function ProductSearch({
         setModalOpen(false);
         setSuggestionsOpen(false);
         setQuery("");
+        modalInputRef.current?.blur();
+        unlockBodyScroll();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
       window.clearTimeout(timer);
       window.removeEventListener("keydown", onKey);
     };
   }, [modalOpen]);
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setSuggestionsOpen(false);
-    setQuery("");
-  };
 
   if (variant === "home") {
     return (
@@ -363,6 +411,7 @@ export function ProductSearch({
             role="dialog"
             aria-modal="true"
             aria-label={t("productSearchLabel")}
+            data-testid="header-search-modal"
           >
             <button
               type="button"
