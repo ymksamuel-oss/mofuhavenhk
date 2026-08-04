@@ -206,3 +206,14 @@ h3 {
     animation: none;
   }
 }
+
+/* Hide scrollbars for IG-style horizontal story carousels */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

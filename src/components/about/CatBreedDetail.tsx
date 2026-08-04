@@ -4,6 +4,10 @@ import type { SyntheticEvent } from "react";
 import Link from "next/link";
 import { Zen_Maru_Gothic } from "next/font/google";
 import {
+  BreedStoryGallery,
+  type BreedStorySlide,
+} from "@/components/about/BreedStoryGallery";
+import {
   CAT_BREED_IMAGE_FALLBACK,
   type CatBreed,
 } from "@/lib/catBreeds";
@@ -39,6 +43,16 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
     info?.media_assets.images.filter((image) =>
       image.tag.startsWith("gallery_item"),
     ) ?? [];
+
+  const storySlides: BreedStorySlide[] =
+    info?.media_assets.images
+      .filter((image) => Boolean(image.src))
+      .map((image) => ({
+        tag: image.tag,
+        src: image.src,
+        alt: image.alt,
+        description: image.description,
+      })) ?? [];
 
   const facts = [
     { label: t("catBreedDetailOrigin"), value: breed.origin },
@@ -125,33 +139,11 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
           ))}
         </ul>
 
-        {galleryImages.length > 0 ? (
-          <section className="mt-10 sm:mt-12">
-            <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
-              {t("catBreedDetailGallery")}
-            </h2>
-            <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {galleryImages.map((image) => (
-                <li
-                  key={image.tag}
-                  className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
-                >
-                  <div className="relative aspect-[4/3] bg-[#FAF6F0]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={image.src || CAT_BREED_IMAGE_FALLBACK}
-                      alt={image.alt}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      onError={handleBreedImageError}
-                    />
-                  </div>
-                  <p className="px-4 py-3 text-xs leading-relaxed text-[#4A3B32]/75">
-                    {image.description}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
+        {storySlides.length > 0 ? (
+          <BreedStoryGallery
+            title={t("catBreedDetailGallery")}
+            slides={storySlides}
+          />
         ) : null}
 
         {info ? (
