@@ -54,6 +54,14 @@ export const FOOD_COLLECTIONS: FoodCollectionDef[] = [
     note: "Reuse WT 貓貓小食 — non-freeze cat treats",
   },
   {
+    key: "魚條",
+    parentSlug: "cats",
+    pathSlug: "fish-sticks",
+    wtHandle: "魚條",
+    origin: "wt-japan",
+    note: "Reuse WT 魚條 — grilled bonito / fish-strip series",
+  },
+  {
     key: "冷凍脫水系列",
     parentSlug: "cats",
     pathSlug: "freeze-dried",

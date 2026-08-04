@@ -147,11 +147,16 @@ export const translations = {
     catSubWetCans: "罐罐 / 濕糧",
     catSubDryFood: "貓乾糧 / 主糧",
     catSubSnacks: "貓貓小食",
+    catSubFishSticks: "魚條",
     catSubFreezeDried: "冷凍脫水系列",
     catFreezeDriedZoneEyebrow: "沿用 Collection · 冷凍脫水系列",
     catFreezeDriedZoneTitle: "貓貓冷凍食物專區",
     catFreezeDriedZoneSubtitle:
       "精選日本原裝冷凍脫水零食（貓貓用）。沿用 WT「冷凍脫水系列」舊資料夾，只顯示貓貓 SKU，唔會同狗狗撈亂。",
+    catFishSticksZoneEyebrow: "沿用 Collection · 魚條",
+    catFishSticksZoneTitle: "魚條系列專區",
+    catFishSticksZoneSubtitle:
+      "精選 CIAO 燒鰹魚、蟹肉絲等經典魚條小食。沿用 WT「魚條」舊資料夾 → /categories/cats/fish-sticks。",
     dogSubNavLabel: "狗狗商品子分類",
     dogSubAll: "全部狗狗商品",
     dogSubFood: "狗狗食品",
@@ -501,11 +506,16 @@ export const translations = {
     catSubWetCans: "Cans / Wet food",
     catSubDryFood: "Dry food / Staple",
     catSubSnacks: "Cat treats",
+    catSubFishSticks: "Fish sticks",
     catSubFreezeDried: "Freeze-dried series",
     catFreezeDriedZoneEyebrow: "Collection · Freeze-dried series",
     catFreezeDriedZoneTitle: "Cat freeze-dried food zone",
     catFreezeDriedZoneSubtitle:
       "Japan-imported freeze-dried treats for cats. Reuses the WT「冷凍脫水系列」collection — cat SKUs only.",
+    catFishSticksZoneEyebrow: "Collection · Fish sticks",
+    catFishSticksZoneTitle: "Fish-stick series",
+    catFishSticksZoneSubtitle:
+      "CIAO grilled bonito sticks, crab shreds, and classic fish strips. Reuses the WT「魚條」collection → /categories/cats/fish-sticks.",
     dogSubNavLabel: "Dog product subcategories",
     dogSubAll: "All dog products",
     dogSubFood: "Dog food",

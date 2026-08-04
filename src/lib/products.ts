@@ -4,6 +4,10 @@ import {
   type WtJapanDogFreezeDriedProduct,
 } from "@/data/dogFreezeDriedData";
 import {
+  WT_JAPAN_FISH_STICK_PRODUCTS,
+  type WtJapanFishStickProduct,
+} from "@/data/fishSticksData";
+import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
@@ -14,6 +18,7 @@ export const CAT_SUBCATEGORIES = [
   "貓罐罐",
   "貓乾糧",
   "貓貓小食",
+  "魚條",
   "冷凍脫水系列",
 ] as const;
 
@@ -40,6 +45,7 @@ export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "wet-cans": "貓罐罐",
   "dry-food": "貓乾糧",
   snacks: "貓貓小食",
+  "fish-sticks": "魚條",
   "freeze-dried": "冷凍脫水系列",
 };
 
@@ -48,6 +54,7 @@ export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
   貓罐罐: "wet-cans",
   貓乾糧: "dry-food",
   貓貓小食: "snacks",
+  魚條: "fish-sticks",
   冷凍脫水系列: "freeze-dried",
 };
 
@@ -314,6 +321,66 @@ const WT_JAPAN_EN: Record<
     description:
       "Japanese additive-free freeze-dried chicken — pure aroma, light crunch. 40g × 8 for everyday rewards or training; crumble over wet or dry food.",
   },
+  "wt-fish-stick-1": {
+    name: "CIAO Grilled Bonito — Juicy Bonito 5 sticks × 6",
+    description:
+      "Classic CIAO grilled bonito sticks with juicy bonito flavor. 5 sticks × 6 packs (30 total) — everyday rewards with green-tea odor care.",
+  },
+  "wt-fish-stick-2": {
+    name: "CIAO Grilled Bonito — Extra Juicy 5 sticks × 6",
+    description:
+      "CIAO grilled bonito with extra savory fish juices. 5 sticks × 6 packs for training treats or meal toppers.",
+  },
+  "wt-fish-stick-3": {
+    name: "CIAO Grilled Bonito — Bonito Flake Flavor 5 sticks × 6",
+    description:
+      "CIAO grilled bonito with aromatic bonito-flake savor. 5 sticks × 6 packs for picky everyday snackers.",
+  },
+  "wt-fish-stick-4": {
+    name: "CIAO Grilled Bonito — Senior Formula 5 sticks × 6",
+    description:
+      "Softer CIAO grilled bonito for senior cats. 5 sticks × 6 packs — gentle rewards for older appetites.",
+  },
+  "wt-fish-stick-5": {
+    name: "CIAO Grilled Bonito — Collagen (Senior) ≈24 pouches",
+    description:
+      "CIAO grilled bonito with collagen support for seniors. About 24 pouches for measured daily care.",
+  },
+  "wt-fish-stick-6": {
+    name: "CIAO Grilled Bonito — Scallop Flavor ≈24 pouches",
+    description:
+      "CIAO grilled bonito meets sweet scallop. About 24 pouches with green-tea odor care for seafood rotation.",
+  },
+  "wt-fish-stick-7": {
+    name: "CIAO Grilled Bonito — Scallop (Senior) ≈24 pouches",
+    description:
+      "Senior-friendly CIAO grilled bonito with scallop. About 24 pouches for cats 11+.",
+  },
+  "wt-fish-stick-8": {
+    name: "CIAO Grilled Bonito — Extra Juicy ≈24 pouches",
+    description:
+      "Extra-juicy CIAO grilled bonito in about 24 pouches — handy for training or daily treats.",
+  },
+  "wt-fish-stick-9": {
+    name: "CIAO Grilled Bonito — Bonito Flake ≈24 pouches",
+    description:
+      "Classic bonito-flake CIAO grilled sticks in about 24 pouches with green-tea odor care.",
+  },
+  "wt-fish-stick-10": {
+    name: "CIAO Grilled Bonito — Kitten (under 1 year) ≈24 pouches",
+    description:
+      "Gentle CIAO grilled bonito for kittens under 1 year. About 24 pouches for growing cats.",
+  },
+  "wt-fish-stick-11": {
+    name: "Petio Crab Stick Shreds 45g × 6",
+    description:
+      "Petio shredded crab sticks — easy to tear and feed. 45g × 6 for toppers or hand rewards.",
+  },
+  "wt-fish-stick-12": {
+    name: "Sunrise Catnip Fish Strips 40g × 12",
+    description:
+      "Sunrise fish strips with catnip aroma. 40g × 12 for a chewy everyday snack with a green twist.",
+  },
   "wt-dog-freeze-dried-1": {
     name: "Petio Freeze-Dried Carrot, Pumpkin & Cabbage (Dog) 20g × 6",
     description:
@@ -424,6 +491,12 @@ const WT_TAG_EN: Record<string, string> = {
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
   冷凍脫水系列: "Freeze-dried series",
+  魚條: "Fish sticks",
+  烤鰹魚: "Grilled bonito",
+  鰹魚: "Bonito",
+  木魚乾: "Bonito flakes",
+  老貓零食: "Senior cat treats",
+  蟹肉: "Crab",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
@@ -605,6 +678,52 @@ function wtJapanDogFreezeDriedToProduct(
 export const WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_DOG_FREEZE_DRIED_PRODUCTS.map(wtJapanDogFreezeDriedToProduct);
 
+function wtJapanFishStickToProduct(p: WtJapanFishStickProduct): Product {
+  const en = WT_JAPAN_EN[p.id];
+  const collectionTags = Array.from(
+    new Set([...p.tags, "魚條", "貓貓小食", "貓用"]),
+  );
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: "魚條",
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    icon: "cat",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    tags: collectionTags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
+      {
+        zh: "專區：魚條系列",
+        en: "Zone: Fish-stick series",
+      },
+      {
+        zh: "Collection：/categories/cats/fish-sticks",
+        en: "Collection: /categories/cats/fish-sticks",
+      },
+      ...collectionTags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan 魚條 — reuse old collection handle「魚條」. */
+export const WT_JAPAN_FISH_STICK_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_FISH_STICK_PRODUCTS.map(wtJapanFishStickToProduct);
+
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
  * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
@@ -719,6 +838,9 @@ const PRODUCTS_RAW: Product[] = [
 
   // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
+
+  // WT Japan 魚條系列（沿用舊 Collection「魚條」→ /categories/cats/fish-sticks）
+  ...WT_JAPAN_FISH_STICK_STOREFRONT_PRODUCTS,
 
   // WT Japan 冷凍脫水系列 — dog SKUs only（沿用同一舊 Collection，唔撈亂貓貓）
   ...WT_JAPAN_DOG_FREEZE_DRIED_STOREFRONT_PRODUCTS,

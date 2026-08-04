@@ -18,6 +18,7 @@ export type FoodZoneSubcategory =
   | "貓罐罐"
   | "貓乾糧"
   | "貓貓小食"
+  | "魚條"
   | "冷凍脫水系列"
   | "狗狗食品"
   | "狗狗小食";
@@ -44,6 +45,8 @@ const FREEZE_MARK =
   /冷凍脫水|凍乾|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const SNACK_MARK =
   /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack|夾心餅|帆立貝乾/i;
+const FISH_STICK_MARK =
+  /魚條|燒鰹魚|燒鏗魚|烤鰹魚|蟹肉絲|魚肉條|grilled\s*bonito|fish[\s-]?sticks?/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
 /** Cat staple / wet-food marks — must not be swept into 貓貓小食. */
@@ -52,6 +55,7 @@ const CAT_STAPLE_MARK = /貓罐罐|貓乾糧|濕糧|乾糧|主糧|鮮肉杯|罐�
 const CURATED_CAT_COLLECTIONS = new Set([
   "貓罐罐",
   "貓乾糧",
+  "魚條",
   "冷凍脫水系列",
 ]);
 const CURATED_DOG_COLLECTIONS = new Set([
@@ -115,6 +119,7 @@ export function inferFoodZone(
   const hasShared = SHARED_MARK.test(text);
   const hasFreeze = FREEZE_MARK.test(text);
   const hasSnack = SNACK_MARK.test(text);
+  const hasFishStick = FISH_STICK_MARK.test(text);
   const hasStaple = STAPLE_FOOD_MARK.test(text);
 
   // Shared cat+dog food/treat deals stay on their original shelf (deals/snacks).
@@ -142,7 +147,24 @@ export function inferFoodZone(
     };
   }
 
-  // Keep curated WT can / dry folders — never overwrite with 貓貓小食.
+  // ——— 魚條 series (reuse WT「魚條」; never mix into dogs) ———
+  if (
+    hasFishStick &&
+    !hasDog &&
+    (hasCat ||
+      product.productType === "魚條" ||
+      (product.tags ?? []).includes("魚條") ||
+      product.subcategory === "魚條")
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: "魚條",
+      reason: "魚條系列 → cats/fish-sticks（沿用舊 Collection「魚條」）",
+      tags: ["魚條", "貓貓小食", "貓用"],
+    };
+  }
+
+  // Keep curated WT can / dry / 魚條 folders — never overwrite with 貓貓小食.
   if (
     product.subcategory &&
     CURATED_CAT_COLLECTIONS.has(product.subcategory) &&

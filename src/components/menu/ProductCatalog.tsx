@@ -49,6 +49,7 @@ const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓罐罐: "catSubWetCans",
   貓乾糧: "catSubDryFood",
   貓貓小食: "catSubSnacks",
+  魚條: "catSubFishSticks",
   冷凍脫水系列: "catSubFreezeDried",
 };
 
@@ -190,6 +191,7 @@ export function ProductCatalog({
   const showDogFreezeDriedZone = dogSubcategory === "冷凍脫水系列";
   const showFreezeDriedZone = showCatFreezeDriedZone || showDogFreezeDriedZone;
   const showDogSnacksZone = dogSubcategory === "狗狗小食";
+  const showFishSticksZone = catSubcategory === "魚條";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -273,6 +275,23 @@ export function ProductCatalog({
             </CategoryNavLink>
           ))}
         </div>
+      ) : null}
+
+      {showFishSticksZone ? (
+        <section
+          aria-label={t("catFishSticksZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("catFishSticksZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("catFishSticksZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("catFishSticksZoneSubtitle")}
+          </p>
+        </section>
       ) : null}
 
       {showFreezeDriedZone ? (
