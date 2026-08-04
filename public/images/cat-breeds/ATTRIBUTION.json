@@ -33,8 +33,7 @@
     },
     "maine-coon": {
       "src": "/images/cat-breeds/maine-coon.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Karin_Maine_Coon.jpg/1280px-Karin_Maine_Coon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 230214
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Maine_Coon_Cat_List_Characteristics.jpg/1280px-Maine_Coon_Cat_List_Characteristics.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
     },
     "persian": {
       "src": "/images/cat-breeds/persian.jpg",
@@ -43,34 +42,27 @@
     },
     "scottish-fold": {
       "src": "/images/cat-breeds/scottish-fold.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/o9t0LDcsa.jpg",
-      "bytes": 383629
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/One_folded_ear_kitten%2C_India.jpg/1280px-One_folded_ear_kitten%2C_India.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
     },
     "siamese": {
       "src": "/images/cat-breeds/siamese.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/A_classic_seal_point_Siamese_cat.jpg/1280px-A_classic_seal_point_Siamese_cat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 171646
+      "source_url": "https://cdn2.thecatapi.com/images/ai6Jps4sx.jpg"
     },
     "bengal": {
       "src": "/images/cat-breeds/bengal.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
-      "bytes": 73832,
-      "fallback": true
+      "source_url": "https://cdn2.thecatapi.com/images/udZiLDG_E.jpg"
     },
     "sphynx": {
       "src": "/images/cat-breeds/sphynx.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/1_adult_cat_Sphynx._img_047.jpg/1280px-1_adult_cat_Sphynx._img_047.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 407789
+      "source_url": "https://cdn2.thecatapi.com/images/cIFwPWy84.jpg"
     },
     "devon-rex": {
       "src": "/images/cat-breeds/devon-rex.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Devon_Rex_Cassini.jpeg/1280px-Devon_Rex_Cassini.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 350790
+      "source_url": "https://cdn2.thecatapi.com/images/uUGt0UBzF.jpg"
     },
     "mix-shorthair": {
       "src": "/images/cat-breeds/mix-shorthair.jpg",
-      "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
-      "bytes": 86410
+      "source_url": "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=1400&q=80"
     },
     "british-shorthair-blue": {
       "src": "/images/cat-breeds/british-shorthair-blue.jpg",
@@ -85,6 +77,146 @@
     },
     "british-shorthair-cozy": {
       "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
+    },
+    "maine-coon-portrait": {
+      "src": "/images/cat-breeds/maine-coon-portrait.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/3IWhPRL3a.jpg"
+    },
+    "maine-coon-face": {
+      "src": "/images/cat-breeds/maine-coon-face.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/MtgMsxPw9.jpg"
+    },
+    "maine-coon-full": {
+      "src": "/images/cat-breeds/maine-coon-full.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/Wq_eTQalE.jpg"
+    },
+    "maine-coon-group": {
+      "src": "/images/cat-breeds/maine-coon-group.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Maine_Coon_Cat_Trauma_PTSD_Support_Animal.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+    },
+    "maine-coon-silver": {
+      "src": "/images/cat-breeds/maine-coon-silver.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/3ZLqhbgiw.jpg"
+    },
+    "scottish-fold-studio": {
+      "src": "/images/cat-breeds/scottish-fold-studio.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/6xLEBwiUS.png"
+    },
+    "scottish-fold-outdoor": {
+      "src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/o9t0LDcsa.jpg"
+    },
+    "scottish-fold-tabby": {
+      "src": "/images/cat-breeds/scottish-fold-tabby.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/dkN5wGUxC.jpg"
+    },
+    "scottish-fold-white": {
+      "src": "/images/cat-breeds/scottish-fold-white.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/zmG5D_Xne.jpg"
+    },
+    "scottish-fold-cozy": {
+      "src": "/images/cat-breeds/scottish-fold-cozy.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/K5Y06caiW.jpg"
+    },
+    "siamese-seal": {
+      "src": "/images/cat-breeds/siamese-seal.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/stVqmJmi7.jpg"
+    },
+    "siamese-portrait": {
+      "src": "/images/cat-breeds/siamese-portrait.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/kjKxmn3Ob.jpg"
+    },
+    "siamese-blue": {
+      "src": "/images/cat-breeds/siamese-blue.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/O2Xx5d4rV.jpg"
+    },
+    "siamese-classic": {
+      "src": "/images/cat-breeds/siamese-classic.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Siamese_cat%2C_female.jpg/1280px-Siamese_cat%2C_female.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "siamese-chocolate": {
+      "src": "/images/cat-breeds/siamese-chocolate.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Siamese_cat%2C_chocolate_point.jpg/1280px-Siamese_cat%2C_chocolate_point.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "bengal-rosette": {
+      "src": "/images/cat-breeds/bengal-rosette.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Bengal_-_193.jpg/1280px-Bengal_-_193.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "bengal-spots": {
+      "src": "/images/cat-breeds/bengal-spots.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Bengal_-_19.jpg/1280px-Bengal_-_19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "bengal-athletic": {
+      "src": "/images/cat-breeds/bengal-athletic.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/NwMUoJYmT.jpg"
+    },
+    "bengal-golden": {
+      "src": "/images/cat-breeds/bengal-golden.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/BEN_Bengalian_kitten_%284492540155%29.jpg/1280px-BEN_Bengalian_kitten_%284492540155%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "bengal-full": {
+      "src": "/images/cat-breeds/bengal-full.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/UhqCZ7tC4.jpg"
+    },
+    "sphynx-calico": {
+      "src": "/images/cat-breeds/sphynx-calico.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/rPTbM2Tvt.png"
+    },
+    "sphynx-tuxedo": {
+      "src": "/images/cat-breeds/sphynx-tuxedo.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/c9sGDkRoi.jpg"
+    },
+    "sphynx-portrait": {
+      "src": "/images/cat-breeds/sphynx-portrait.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/DgBqcmqpc.jpg"
+    },
+    "sphynx-kitten": {
+      "src": "/images/cat-breeds/sphynx-kitten.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Cat_-_Sphynx._img_095.jpg/1280px-Cat_-_Sphynx._img_095.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    },
+    "sphynx-profile": {
+      "src": "/images/cat-breeds/sphynx-profile.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/XwNRjN7JF.jpg"
+    },
+    "devon-rex-bicolor": {
+      "src": "/images/cat-breeds/devon-rex-bicolor.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/hTswm_D5S.jpg"
+    },
+    "devon-rex-coat": {
+      "src": "/images/cat-breeds/devon-rex-coat.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/udJaUVCHZ.jpg"
+    },
+    "devon-rex-cream": {
+      "src": "/images/cat-breeds/devon-rex-cream.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/4RzEwvyzz.png"
+    },
+    "devon-rex-outdoor": {
+      "src": "/images/cat-breeds/devon-rex-outdoor.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Devon_Rex_male.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+    },
+    "devon-rex-lilac": {
+      "src": "/images/cat-breeds/devon-rex-lilac.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/DEbrbE0_7.jpg"
+    },
+    "mix-shorthair-tuxedo": {
+      "src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
+      "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1400&q=80"
+    },
+    "mix-shorthair-orange": {
+      "src": "/images/cat-breeds/mix-shorthair-orange.jpg",
+      "source_url": "https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=1400&q=80"
+    },
+    "mix-shorthair-portrait": {
+      "src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
+      "source_url": "https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?auto=format&fit=crop&w=1400&q=80"
+    },
+    "mix-shorthair-tabby": {
+      "src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/62v.jpg"
+    },
+    "mix-shorthair-black": {
+      "src": "/images/cat-breeds/mix-shorthair-black.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/A_shorthair_domestic_cat.jpg/1280px-A_shorthair_domestic_cat.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
     }
   },
   "licenses": {

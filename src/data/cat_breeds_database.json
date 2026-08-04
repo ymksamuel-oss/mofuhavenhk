@@ -443,43 +443,123 @@
       "name_en": "Maine Coon",
       "name_zh_hk": "緬因貓",
       "aliases": [
-        "緬因庫恩",
-        "溫柔巨人"
+        "緬因庫恩貓",
+        "溫柔巨人",
+        "Maine Coon"
       ],
+      "origin": {
+        "country": "美國",
+        "state": "緬因州",
+        "history_overview": "北美最古老的自然長毛品種之一，相傳於緬因州嚴冬中演化出厚毛、大骨與防寒尾毛。體型為家貓之最，性格卻如小狗般忠誠溫柔。"
+      },
+      "lifespan": "12 - 15 歲",
       "physical_characteristics": {
-        "body_type": "Extra large rectangular (巨型長軀幹)",
+        "body_type": "大型至超大型；長身矩形、骨量厚實、晚熟",
         "weight_kg": {
           "male": {
             "min": 6.0,
             "max": 11.0
           },
           "female": {
-            "min": 4.5,
-            "max": 6.8
+            "min": 4.0,
+            "max": 7.5
           }
         },
-        "coat": "Long water-repellent with ruff (防水長毛)",
+        "coat": "長毛防水表毛，頸毛與尾毛豐滿，耳尖常有山貓簇毛",
         "common_eye_colors": [
-          "Green",
-          "Gold",
-          "Copper"
+          "綠色",
+          "金色",
+          "銅色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "classic_tabby",
+          "name_zh": "經典／斑紋虎斑",
+          "description": "最常見；尾毛如羽扇"
+        },
+        {
+          "color_id": "silver_tabby",
+          "name_zh": "銀虎斑",
+          "description": "銀白底配清晰深紋"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色／白斑",
+          "description": "白胸、白腳常見"
+        },
+        {
+          "color_id": "solid_smoke",
+          "name_zh": "純色／煙色",
+          "description": "黑、藍、紅等亦可見"
+        }
+      ],
+      "personality_traits": [
+        "溫柔巨人：外表霸氣，對人極為友善忠誠",
+        "聲音細小，甚少大聲嚎叫",
+        "智力高、可訓練，部分個體喜歡玩水",
+        "適合有空間的家庭"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "肥厚型心肌病 (HCM)",
-          "髖關節發育不良"
+          "髖關節發育不良",
+          "脊髓肌萎縮症 (SMA)"
         ],
-        "grooming": "每週梳毛 2-3 次",
-        "diet_management": "大體型關節保健，控制進食速度"
+        "grooming": "每週梳 2-3 次；換毛季增至每日。",
+        "diet_management": "大型晚熟需長期高蛋白；補關節營養與 Omega-3。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "maine_coon_hero",
-        "description": "耳端簇毛緬因貓",
-        "image_search_keywords": "Maine Coon large cat tufted ears",
+        "description": "戶外棕色虎斑緬因（山貓耳尖）",
         "src": "/images/cat-breeds/maine-coon.jpg",
-        "alt": "緬因貓",
-        "status": "verified_local_assets"
+        "alt": "緬因貓戶外特寫",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "戶外英雄",
+            "local_src": "/images/cat-breeds/maine-coon.jpg",
+            "src": "/images/cat-breeds/maine-coon.jpg",
+            "alt": "緬因貓戶外特寫"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "臉部近拍",
+            "local_src": "/images/cat-breeds/maine-coon-portrait.jpg",
+            "src": "/images/cat-breeds/maine-coon-portrait.jpg",
+            "alt": "緬因貓臉部特寫"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "正面",
+            "local_src": "/images/cat-breeds/maine-coon-face.jpg",
+            "src": "/images/cat-breeds/maine-coon-face.jpg",
+            "alt": "緬因貓正面"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "全身",
+            "local_src": "/images/cat-breeds/maine-coon-full.jpg",
+            "src": "/images/cat-breeds/maine-coon-full.jpg",
+            "alt": "緬因貓全身照"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "群像",
+            "local_src": "/images/cat-breeds/maine-coon-group.jpg",
+            "src": "/images/cat-breeds/maine-coon-group.jpg",
+            "alt": "緬因貓群像"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "銀虎斑",
+            "local_src": "/images/cat-breeds/maine-coon-silver.jpg",
+            "src": "/images/cat-breeds/maine-coon-silver.jpg",
+            "alt": "銀虎斑緬因貓"
+          }
+        ]
       }
     },
     {
@@ -529,13 +609,20 @@
     {
       "breed_id": "scottish_fold",
       "name_en": "Scottish Fold",
-      "name_zh_hk": "蘇格蘭折耳貓",
+      "name_zh_hk": "蘇格蘭摺耳貓",
       "aliases": [
-        "折耳",
-        "蘇摺"
+        "折耳貓",
+        "摺耳",
+        "Scottish Fold"
       ],
+      "origin": {
+        "country": "蘇格蘭",
+        "decade": "1960s",
+        "history_overview": "1960 年代於蘇格蘭發現 naturally folded ears 的農場貓，後經育種定型。圓頭大眼與向前下折的耳朵造就貓頭鷹外貌；摺耳基因與軟骨健康相關，飼養需特別謹慎。"
+      },
+      "lifespan": "11 - 14 歲",
       "physical_characteristics": {
-        "body_type": "Rounded medium (圓潤中型)",
+        "body_type": "中型、圓潤結實；頭圓",
         "weight_kg": {
           "male": {
             "min": 4.0,
@@ -546,28 +633,102 @@
             "max": 4.5
           }
         },
-        "coat": "Short or long, dense (短毛或長毛)",
+        "coat": "短毛或長毛，濃密柔軟",
         "common_eye_colors": [
-          "Gold",
-          "Copper",
-          "Green",
-          "Blue"
+          "金色",
+          "銅色",
+          "綠色",
+          "藍色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "folded_ears",
+          "name_zh": "摺耳特徵",
+          "description": "耳向前下折貼頭"
+        },
+        {
+          "color_id": "solid",
+          "name_zh": "純色",
+          "description": "藍、白、黑等常見"
+        },
+        {
+          "color_id": "tabby",
+          "name_zh": "虎斑",
+          "description": "圓臉配虎斑"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色／點色",
+          "description": "白底配其他色"
+        }
+      ],
+      "personality_traits": [
+        "溫和黏人，感情豐富但不吵鬧",
+        "常出現大叔坐姿",
+        "適應室內生活",
+        "對主人依戀"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "骨軟骨發育不良 (Osteochondrodysplasia)"
+          "骨軟骨發育不良 (Osteochondrodysplasia)",
+          "摺耳處易藏垢",
+          "肥厚型心肌病 (HCM，部分血統)"
         ],
-        "grooming": "每週清潔耳道與梳毛",
-        "diet_management": "嚴格控重並長期關節保健"
+        "grooming": "短毛每週梳 1-2 次；每週清潔摺耳。",
+        "diet_management": "嚴格控重；長期補充關節營養。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "scottish_fold_hero",
-        "description": "折耳蘇格蘭折耳貓",
-        "image_search_keywords": "Scottish Fold folded ears round face",
+        "description": "藍灰色摺耳特寫（銅眼）",
         "src": "/images/cat-breeds/scottish-fold.jpg",
-        "alt": "蘇格蘭折耳貓",
-        "status": "verified_local_assets"
+        "alt": "藍灰色蘇格蘭摺耳貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "藍灰摺耳",
+            "local_src": "/images/cat-breeds/scottish-fold.jpg",
+            "src": "/images/cat-breeds/scottish-fold.jpg",
+            "alt": "藍灰色蘇格蘭摺耳貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "棚拍",
+            "local_src": "/images/cat-breeds/scottish-fold-studio.jpg",
+            "src": "/images/cat-breeds/scottish-fold-studio.jpg",
+            "alt": "蘇格蘭摺耳貓棚拍"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "戶外",
+            "local_src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
+            "src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
+            "alt": "戶外蘇格蘭摺耳貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "虎斑",
+            "local_src": "/images/cat-breeds/scottish-fold-tabby.jpg",
+            "src": "/images/cat-breeds/scottish-fold-tabby.jpg",
+            "alt": "虎斑蘇格蘭摺耳貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "白摺耳",
+            "local_src": "/images/cat-breeds/scottish-fold-white.jpg",
+            "src": "/images/cat-breeds/scottish-fold-white.jpg",
+            "alt": "白色蘇格蘭摺耳貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "居家",
+            "local_src": "/images/cat-breeds/scottish-fold-cozy.jpg",
+            "src": "/images/cat-breeds/scottish-fold-cozy.jpg",
+            "alt": "休息中的蘇格蘭摺耳貓"
+          }
+        ]
       }
     },
     {
@@ -575,11 +736,17 @@
       "name_en": "Siamese",
       "name_zh_hk": "暹羅貓",
       "aliases": [
-        "泰國貓",
-        "重點色貓"
+        "暹羅",
+        "話霸貓",
+        "Thai cat"
       ],
+      "origin": {
+        "country": "泰國（昔稱暹羅）",
+        "history_overview": "東南亞古老皇室貓種，以重點色、杏仁藍眼與修長體態聞名。性格熱情多話，極依賴主人。"
+      },
+      "lifespan": "15 - 20 歲",
       "physical_characteristics": {
-        "body_type": "Oriental slender (東方型修長)",
+        "body_type": "中型修長（Oriental 管狀體型）",
         "weight_kg": {
           "male": {
             "min": 3.0,
@@ -590,26 +757,98 @@
             "max": 4.0
           }
         },
-        "coat": "Short fine colorpoint (短毛重點色)",
+        "coat": "貼身細密短毛，少底毛",
         "common_eye_colors": [
-          "Vivid Blue (湛藍)"
+          "深邃藍色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "seal_point",
+          "name_zh": "海豹重點色",
+          "description": "最經典深褐面罩"
+        },
+        {
+          "color_id": "chocolate_point",
+          "name_zh": "巧克力重點色",
+          "description": "奶茶褐重點"
+        },
+        {
+          "color_id": "blue_point",
+          "name_zh": "藍色重點色",
+          "description": "藍灰重點"
+        },
+        {
+          "color_id": "lilac_point",
+          "name_zh": "丁香重點色",
+          "description": "粉灰淡紫重點"
+        }
+      ],
+      "personality_traits": [
+        "貓界話霸，喜歡與主人對話",
+        "極度黏人，分離焦慮風險較高",
+        "聰明警覺、好奇心強",
+        "需要大量互動"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "進行性視網膜萎縮 (PRA)",
-          "澱粉樣變性"
+          "進行性視網膜萎縮 (PRA，部分血統)",
+          "牙科與上呼吸道需定期檢查"
         ],
-        "grooming": "每週輕梳 1 次即可",
-        "diet_management": "高蛋白低碳水，維持修長體型"
+        "grooming": "短毛每週輕梳 1 次即可。",
+        "diet_management": "高蛋白、適中脂肪維持修長體型。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "siamese_hero",
-        "description": "湛藍眼重點色暹羅貓",
-        "image_search_keywords": "Siamese cat blue eyes colorpoint seal point",
+        "description": "海豹重點色暹羅（藍眼）",
         "src": "/images/cat-breeds/siamese.jpg",
-        "alt": "暹羅貓",
-        "status": "verified_local_assets"
+        "alt": "海豹重點色暹羅貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "海豹點",
+            "local_src": "/images/cat-breeds/siamese.jpg",
+            "src": "/images/cat-breeds/siamese.jpg",
+            "alt": "海豹重點色暹羅貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "海豹全身",
+            "local_src": "/images/cat-breeds/siamese-seal.jpg",
+            "src": "/images/cat-breeds/siamese-seal.jpg",
+            "alt": "海豹點暹羅貓全身"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "藍眼特寫",
+            "local_src": "/images/cat-breeds/siamese-portrait.jpg",
+            "src": "/images/cat-breeds/siamese-portrait.jpg",
+            "alt": "暹羅貓藍眼特寫"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "坐姿",
+            "local_src": "/images/cat-breeds/siamese-blue.jpg",
+            "src": "/images/cat-breeds/siamese-blue.jpg",
+            "alt": "坐姿暹羅貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "經典",
+            "local_src": "/images/cat-breeds/siamese-classic.jpg",
+            "src": "/images/cat-breeds/siamese-classic.jpg",
+            "alt": "經典暹羅貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "巧克力點",
+            "local_src": "/images/cat-breeds/siamese-chocolate.jpg",
+            "src": "/images/cat-breeds/siamese-chocolate.jpg",
+            "alt": "巧克力點暹羅貓"
+          }
+        ]
       }
     },
     {
@@ -618,10 +857,17 @@
       "name_zh_hk": "孟加拉貓",
       "aliases": [
         "豹貓",
-        "孟加拉豹貓"
+        "Bengal",
+        "玫瑰斑"
       ],
+      "origin": {
+        "country": "美國",
+        "decade": "1970s-1980s",
+        "history_overview": "以亞洲豹貓與家貓雜交後代經多代選育而成，保留野性豹紋卻個性可親。以玫瑰斑、金屬光澤短毛與爆發力著稱。"
+      },
+      "lifespan": "12 - 16 歲",
       "physical_characteristics": {
-        "body_type": "Athletic muscular (運動肌肉型)",
+        "body_type": "中至大型、肌肉發達",
         "weight_kg": {
           "male": {
             "min": 4.5,
@@ -632,72 +878,224 @@
             "max": 5.5
           }
         },
-        "coat": "Short dense with rosettes (短毛豹紋／玫瑰斑)",
+        "coat": "密而柔軟短毛，常帶金屬光澤",
         "common_eye_colors": [
-          "Green",
-          "Gold"
+          "綠色",
+          "金色",
+          "藍色（雪系）"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "rosetted",
+          "name_zh": "玫瑰斑",
+          "description": "環狀／箭頭狀豹紋"
+        },
+        {
+          "color_id": "spotted",
+          "name_zh": "點斑",
+          "description": "清晰圓點或碎斑"
+        },
+        {
+          "color_id": "marble",
+          "name_zh": "大理石紋",
+          "description": "水平漩渦橫紋"
+        },
+        {
+          "color_id": "snow",
+          "name_zh": "雪系",
+          "description": "淺底深斑"
+        }
+      ],
+      "personality_traits": [
+        "精力無限，需要大量遊戲",
+        "自信勇敢，喜歡探索與玩水",
+        "聰明可訓練",
+        "需要足夠活動出口"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "肥厚型心肌病 (HCM)",
-          "進行性視網膜萎縮"
+          "進行性視網膜萎縮 (PRA-b)"
         ],
-        "grooming": "每週梳毛 1 次",
-        "diet_management": "高動物蛋白支持高活動量"
+        "grooming": "短毛每週梳 1 次即可。",
+        "diet_management": "高動物蛋白支持肌肉；補牛磺酸與關節營養。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "bengal_hero",
-        "description": "豹紋孟加拉貓",
-        "image_search_keywords": "Bengal cat leopard spots rosettes",
+        "description": "金底玫瑰斑孟加拉",
         "src": "/images/cat-breeds/bengal.jpg",
-        "alt": "孟加拉貓",
-        "status": "verified_local_assets"
+        "alt": "孟加拉豹貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "玫瑰斑",
+            "local_src": "/images/cat-breeds/bengal.jpg",
+            "src": "/images/cat-breeds/bengal.jpg",
+            "alt": "孟加拉豹貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "玫瑰斑特寫",
+            "local_src": "/images/cat-breeds/bengal-rosette.jpg",
+            "src": "/images/cat-breeds/bengal-rosette.jpg",
+            "alt": "玫瑰斑孟加拉貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "點斑",
+            "local_src": "/images/cat-breeds/bengal-spots.jpg",
+            "src": "/images/cat-breeds/bengal-spots.jpg",
+            "alt": "點斑孟加拉貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "運動姿",
+            "local_src": "/images/cat-breeds/bengal-athletic.jpg",
+            "src": "/images/cat-breeds/bengal-athletic.jpg",
+            "alt": "運動中的孟加拉貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "金色",
+            "local_src": "/images/cat-breeds/bengal-golden.jpg",
+            "src": "/images/cat-breeds/bengal-golden.jpg",
+            "alt": "金色孟加拉貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "全身",
+            "local_src": "/images/cat-breeds/bengal-full.jpg",
+            "src": "/images/cat-breeds/bengal-full.jpg",
+            "alt": "孟加拉貓全身照"
+          }
+        ]
       }
     },
     {
       "breed_id": "sphynx",
       "name_en": "Sphynx",
-      "name_zh_hk": "加拿大無毛貓",
+      "name_zh_hk": "斯芬克斯無毛貓",
       "aliases": [
-        "斯芬克斯",
-        "無毛貓"
+        "無毛貓",
+        "加拿大無毛貓",
+        "Sphynx"
       ],
+      "origin": {
+        "country": "加拿大",
+        "decade": "1960s",
+        "history_overview": "1960 年代加拿大自然突變的無毛小貓經選育而成。觸感如溫暖桃皮，熱情黏人，代謝高、怕冷，需特別護膚與保暖。"
+      },
+      "lifespan": "12 - 15 歲",
       "physical_characteristics": {
-        "body_type": "Muscular with round belly (肌肉發達)",
+        "body_type": "中型、肌肉結實；大耳、皺皮膚",
         "weight_kg": {
           "male": {
             "min": 3.5,
-            "max": 5.0
+            "max": 5.5
           },
           "female": {
             "min": 2.5,
-            "max": 4.0
+            "max": 4.5
           }
         },
-        "coat": "Hairless / fine peach fuzz (無毛或水蜜桃胎毛)",
+        "coat": "無毛至極短絨，皮膚多皺褶",
         "common_eye_colors": [
-          "Green",
-          "Gold",
-          "Blue",
-          "Odd-eyed"
+          "綠色",
+          "金色",
+          "藍色",
+          "異色瞳"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "solid",
+          "name_zh": "純色皮膚",
+          "description": "粉、灰、黑等單色"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色／白斑",
+          "description": "皮膚色素塊面"
+        },
+        {
+          "color_id": "calico_tortie",
+          "name_zh": "三花／玳瑁色塊",
+          "description": "多色斑駁"
+        },
+        {
+          "color_id": "tuxedo",
+          "name_zh": "燕尾服色塊",
+          "description": "深淺對比分明"
+        }
+      ],
+      "personality_traits": [
+        "熱情如火、極度黏人",
+        "友善好客",
+        "智商高、愛玩",
+        "喜歡鑽被窩取暖"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "肥厚型心肌病 (HCM)",
-          "皮膚感染風險"
+          "皮膚油脂堆積／粉刺"
         ],
-        "grooming": "每週洗澡擦拭油脂，清潔耳道",
-        "diet_management": "高代謝需較高熱量保溫"
+        "grooming": "每週溫水洗澡；每日擦耳與趾間。",
+        "diet_management": "代謝高需較高熱量；補 Omega-3/6 護膚。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "sphynx_hero",
-        "description": "無毛斯芬克斯貓",
-        "image_search_keywords": "Sphynx hairless cat large ears",
+        "description": "經典皺皮膚無毛貓",
         "src": "/images/cat-breeds/sphynx.jpg",
-        "alt": "加拿大無毛貓",
-        "status": "verified_local_assets"
+        "alt": "斯芬克斯無毛貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "英雄",
+            "local_src": "/images/cat-breeds/sphynx.jpg",
+            "src": "/images/cat-breeds/sphynx.jpg",
+            "alt": "斯芬克斯無毛貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "三花",
+            "local_src": "/images/cat-breeds/sphynx-calico.jpg",
+            "src": "/images/cat-breeds/sphynx-calico.jpg",
+            "alt": "三花斯芬克斯"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "燕尾服",
+            "local_src": "/images/cat-breeds/sphynx-tuxedo.jpg",
+            "src": "/images/cat-breeds/sphynx-tuxedo.jpg",
+            "alt": "燕尾服色斯芬克斯"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "特寫",
+            "local_src": "/images/cat-breeds/sphynx-portrait.jpg",
+            "src": "/images/cat-breeds/sphynx-portrait.jpg",
+            "alt": "斯芬克斯臉部特寫"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "幼貓",
+            "local_src": "/images/cat-breeds/sphynx-kitten.jpg",
+            "src": "/images/cat-breeds/sphynx-kitten.jpg",
+            "alt": "斯芬克斯幼貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "側臉",
+            "local_src": "/images/cat-breeds/sphynx-profile.jpg",
+            "src": "/images/cat-breeds/sphynx-profile.jpg",
+            "alt": "斯芬克斯側臉"
+          }
+        ]
       }
     },
     {
@@ -705,11 +1103,19 @@
       "name_en": "Devon Rex",
       "name_zh_hk": "德文卷毛貓",
       "aliases": [
-        "德文貓",
-        "小精靈貓"
+        "德文",
+        "小精靈貓",
+        "Devon Rex"
       ],
+      "origin": {
+        "country": "英國",
+        "state": "德文郡",
+        "decade": "1960s",
+        "history_overview": "1960 年代英國德文郡發現的自然卷毛突變。大耳大眼與波浪絨毛造就小精靈外貌，掉毛少，極適合都市公寓。"
+      },
+      "lifespan": "12 - 15 歲",
       "physical_characteristics": {
-        "body_type": "Slender elfin with large ears (修長大耳)",
+        "body_type": "小型至中型、纖細；耳巨大",
         "weight_kg": {
           "male": {
             "min": 3.0,
@@ -720,41 +1126,121 @@
             "max": 3.5
           }
         },
-        "coat": "Short soft wavy/curly (短軟捲毛)",
+        "coat": "短卷毛，柔軟波浪",
         "common_eye_colors": [
-          "Gold",
-          "Green",
-          "Hazel"
+          "金色",
+          "綠色",
+          "藍色",
+          "異色瞳"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "solid",
+          "name_zh": "純色卷毛",
+          "description": "黑、藍、白等"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色",
+          "description": "白底配深色塊"
+        },
+        {
+          "color_id": "pointed",
+          "name_zh": "重點色",
+          "description": "奶油／丁香等重點"
+        },
+        {
+          "color_id": "tabby_tortie",
+          "name_zh": "虎斑／玳瑁",
+          "description": "卷毛上可見斑紋"
+        }
+      ],
+      "personality_traits": [
+        "像小精靈：調皮活潑",
+        "極親人類，常跳上肩膀",
+        "聰明愛玩",
+        "掉毛少適合都市家庭"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "肥厚型心肌病 (HCM)",
-          "先天性肌無力"
+          "大耳需定期檢查耳道"
         ],
-        "grooming": "偶爾濕布擦拭，定期清耳",
-        "diet_management": "高品質蛋白維持輕巧肌肉"
+        "grooming": "偶爾濕布擦拭即可；避免過度梳刷。",
+        "diet_management": "高品質蛋白；適量鋅與生物素助卷毛。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "devon_rex_hero",
-        "description": "捲毛大耳德文卷毛貓",
-        "image_search_keywords": "Devon Rex curly coat large ears elfin",
+        "description": "藍色德文卷毛全身（大耳）",
         "src": "/images/cat-breeds/devon-rex.jpg",
         "alt": "德文卷毛貓",
-        "status": "verified_local_assets"
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "藍灰全身",
+            "local_src": "/images/cat-breeds/devon-rex.jpg",
+            "src": "/images/cat-breeds/devon-rex.jpg",
+            "alt": "德文卷毛貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "雙色",
+            "local_src": "/images/cat-breeds/devon-rex-bicolor.jpg",
+            "src": "/images/cat-breeds/devon-rex-bicolor.jpg",
+            "alt": "雙色德文卷毛貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "卷毛特寫",
+            "local_src": "/images/cat-breeds/devon-rex-coat.jpg",
+            "src": "/images/cat-breeds/devon-rex-coat.jpg",
+            "alt": "德文卷毛特寫"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "奶油點",
+            "local_src": "/images/cat-breeds/devon-rex-cream.jpg",
+            "src": "/images/cat-breeds/devon-rex-cream.jpg",
+            "alt": "奶油點德文卷毛貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "戶外",
+            "local_src": "/images/cat-breeds/devon-rex-outdoor.jpg",
+            "src": "/images/cat-breeds/devon-rex-outdoor.jpg",
+            "alt": "戶外德文卷毛貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "丁香點",
+            "local_src": "/images/cat-breeds/devon-rex-lilac.jpg",
+            "src": "/images/cat-breeds/devon-rex-lilac.jpg",
+            "alt": "丁香點德文卷毛貓"
+          }
+        ]
       }
     },
     {
       "breed_id": "mix_shorthair",
-      "name_en": "Domestic Shorthair Mix",
+      "name_en": "Domestic Shorthair (Mix)",
       "name_zh_hk": "唐貓 / 港短 (米克斯)",
       "aliases": [
-        "米克斯",
+        "唐貓",
         "港短",
-        "唐貓"
+        "米克斯",
+        "家貓",
+        "DSH"
       ],
+      "origin": {
+        "country": "香港／亞洲地區",
+        "history_overview": "非單一純種，而是各地自然繁衍與混血的短毛家貓。在香港常稱唐貓或港短，花色與性格千變萬化，普遍體質強健、適應力極佳。"
+      },
+      "lifespan": "15 - 20 歲",
       "physical_characteristics": {
-        "body_type": "Variable sturdy (多樣健壯)",
+        "body_type": "小型至中大型皆有；體型多樣",
         "weight_kg": {
           "male": {
             "min": 3.5,
@@ -765,28 +1251,100 @@
             "max": 5.0
           }
         },
-        "coat": "Usually short, varied colors (多為短毛、花色豐富)",
+        "coat": "短毛為主，易打理",
         "common_eye_colors": [
-          "Gold",
-          "Green",
-          "Blue",
-          "Odd-eyed"
+          "金色",
+          "綠色",
+          "藍色",
+          "異色瞳"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "tabby",
+          "name_zh": "虎斑",
+          "description": "香港最常見"
+        },
+        {
+          "color_id": "orange",
+          "name_zh": "橘貓",
+          "description": "暖橘／橘白"
+        },
+        {
+          "color_id": "tuxedo_bicolor",
+          "name_zh": "燕尾服／雙色",
+          "description": "黑白分明"
+        },
+        {
+          "color_id": "calico_tortie_solid",
+          "name_zh": "三花／玳瑁／純色",
+          "description": "三花、全黑等"
+        }
+      ],
+      "personality_traits": [
+        "每隻個性獨一無二",
+        "聰明機靈、適應力極強",
+        "混種基因常帶來較佳整體健康",
+        "領養唐貓意義特別溫暖"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "混種遺傳疾病較少，仍需定期檢查"
+          "無單一品種遺傳病，仍需防肥胖、泌尿道、牙周與寄生蟲"
         ],
-        "grooming": "每週梳毛 1 次",
-        "diet_management": "均衡全價營養，多補充水分"
+        "grooming": "短毛每週梳 1 次；定期驅蟲疫苗檢查。",
+        "diet_management": "均衡全價主食；多濕糧補水；定時定量防胖。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "mix_shorthair_hero",
-        "description": "香港常見混種短毛貓",
-        "image_search_keywords": "mixed breed domestic shorthair cat Hong Kong",
+        "description": "經典虎斑唐貓",
         "src": "/images/cat-breeds/mix-shorthair.jpg",
-        "alt": "唐貓／港短",
-        "status": "verified_local_assets"
+        "alt": "虎斑唐貓／港短",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "虎斑",
+            "local_src": "/images/cat-breeds/mix-shorthair.jpg",
+            "src": "/images/cat-breeds/mix-shorthair.jpg",
+            "alt": "虎斑唐貓／港短"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "燕尾服",
+            "local_src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
+            "src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
+            "alt": "燕尾服唐貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "橘貓",
+            "local_src": "/images/cat-breeds/mix-shorthair-orange.jpg",
+            "src": "/images/cat-breeds/mix-shorthair-orange.jpg",
+            "alt": "橘色唐貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "特寫",
+            "local_src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
+            "src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
+            "alt": "唐貓特寫"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "虎斑日常",
+            "local_src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
+            "src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
+            "alt": "虎斑港短日常"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "黑貓",
+            "local_src": "/images/cat-breeds/mix-shorthair-black.jpg",
+            "src": "/images/cat-breeds/mix-shorthair-black.jpg",
+            "alt": "黑色唐貓"
+          }
+        ]
       }
     }
   ]
