@@ -23,7 +23,8 @@ const CHAPTERS: Chapter[] = [
   {
     titleKey: "aboutCatChapter1Title",
     bodyKey: "aboutCatChapter1Body",
-    image: "/products/bestseller-cat-tower.webp",
+    image:
+      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&auto=format&fit=crop",
     imageAltKey: "aboutCatChapter1Alt",
   },
   {
@@ -99,13 +100,23 @@ export function AboutCatBook() {
                 }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.45)]">
-                  <Image
-                    src={chapter.image}
-                    alt={t(chapter.imageAltKey)}
-                    fill
-                    sizes="(min-width: 768px) 40vw, 90vw"
-                    className="object-cover"
-                  />
+                  {chapter.image.startsWith("http") ? (
+                    // External Unsplash URLs — native img avoids next.config remotePatterns.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={chapter.image}
+                      alt={t(chapter.imageAltKey)}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={chapter.image}
+                      alt={t(chapter.imageAltKey)}
+                      fill
+                      sizes="(min-width: 768px) 40vw, 90vw"
+                      className="object-cover"
+                    />
+                  )}
                 </div>
                 <div className="space-y-3">
                   <p className="text-xs font-semibold tracking-[0.14em] text-[#4A3B32]/55">
