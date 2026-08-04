@@ -4,7 +4,6 @@ import { useMemo, useState, type SyntheticEvent } from "react";
 import Link from "next/link";
 import { Zen_Maru_Gothic } from "next/font/google";
 import {
-  CAT_BREEDS,
   CAT_BREED_IMAGE_FALLBACK,
   filterCatBreeds,
   type CatCoatFilter,
@@ -16,12 +15,17 @@ const zenMaru = Zen_Maru_Gothic({
   weight: ["400", "500", "700"],
 });
 
-const FILTERS: { id: CatCoatFilter; labelKey: "catBreedsFilterAll" | "catBreedsFilterShort" | "catBreedsFilterLong" }[] =
-  [
-    { id: "all", labelKey: "catBreedsFilterAll" },
-    { id: "short", labelKey: "catBreedsFilterShort" },
-    { id: "long", labelKey: "catBreedsFilterLong" },
-  ];
+const FILTERS: {
+  id: CatCoatFilter;
+  labelKey:
+    | "catBreedsFilterAll"
+    | "catBreedsFilterShort"
+    | "catBreedsFilterLong";
+}[] = [
+  { id: "all", labelKey: "catBreedsFilterAll" },
+  { id: "short", labelKey: "catBreedsFilterShort" },
+  { id: "long", labelKey: "catBreedsFilterLong" },
+];
 
 function filterChipClass(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
@@ -95,32 +99,34 @@ export function CatBreedsGuide() {
         ) : (
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {breeds.map((breed) => (
-              <li
-                key={breed.id}
-                className="flex flex-col overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF6F0]">
-                  {/* External Unsplash — native img avoids next.config remotePatterns. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={breed.image}
-                    alt={breed.imageAlt[locale]}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    loading="lazy"
-                    onError={handleBreedImageError}
-                  />
-                </div>
-                <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
-                  <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
-                    {breed.coatLabel[locale]}
-                  </p>
-                  <h2 className="text-xl font-bold tracking-tight">
-                    {breed.name[locale]}
-                  </h2>
-                  <p className="text-sm leading-relaxed text-[#4A3B32]/85">
-                    {breed.summary[locale]}
-                  </p>
-                </div>
+              <li key={breed.id}>
+                <Link
+                  href={`/cat-breeds/${breed.slug}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)] transition duration-200 hover:-translate-y-1 hover:border-[#4A3B32]/25 hover:shadow-[0_24px_40px_-20px_rgba(74,59,50,0.5)]"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF6F0]">
+                    {/* External Unsplash — native img avoids next.config remotePatterns. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={breed.image}
+                      alt={breed.imageAlt[locale]}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      onError={handleBreedImageError}
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
+                    <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
+                      {breed.coatLabel[locale]}
+                    </p>
+                    <h2 className="text-xl font-bold tracking-tight">
+                      {breed.name[locale]}
+                    </h2>
+                    <p className="text-sm leading-relaxed text-[#4A3B32]/85">
+                      {breed.summary[locale]}
+                    </p>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>

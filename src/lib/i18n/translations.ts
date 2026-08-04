@@ -246,6 +246,16 @@ export const translations = {
     catBreedsFilterLong: "中長毛 / 長毛",
     catBreedsShopCta: "查看推薦用品 🛒",
     catBreedsEmpty: "此分類暫時沒有品種，請試試其他篩選。",
+    catBreedDetailBack: "返回品種圖鑑",
+    catBreedDetailOrigin: "原產地",
+    catBreedDetailLifespan: "壽命",
+    catBreedDetailWeight: "平均體重",
+    catBreedDetailPersonality: "【性格特徵】",
+    catBreedDetailCare: "【日常護理指南】",
+    catBreedDetailNutrition: "【飲食與營養建議】",
+    catBreedDetailNoteEyebrow: "溫馨提醒",
+    catBreedDetailNote:
+      "每隻貓咪都是獨一無二的，請根據自家愛寵的實際情況提供細心照顧。",
   },
   en: {
     brand: "Mofu Haven",
@@ -491,6 +501,16 @@ export const translations = {
     catBreedsFilterLong: "Medium / long hair",
     catBreedsShopCta: "View recommended products 🛒",
     catBreedsEmpty: "No breeds in this filter — try another option.",
+    catBreedDetailBack: "Back to breed guide",
+    catBreedDetailOrigin: "Origin",
+    catBreedDetailLifespan: "Lifespan",
+    catBreedDetailWeight: "Average weight",
+    catBreedDetailPersonality: "【Personality】",
+    catBreedDetailCare: "【Daily Care Guide】",
+    catBreedDetailNutrition: "【Diet & Nutrition】",
+    catBreedDetailNoteEyebrow: "A gentle note",
+    catBreedDetailNote:
+      "Every cat is unique — tailor care to your companion’s real needs with patience and attention.",
   },
 } as const;
 
