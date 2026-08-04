@@ -158,30 +158,31 @@ export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
 
 export const PRODUCTS: Product[] = [
   // 貓咪商品 / Cat Products
-  {
-    id: "cat-food-1kg",
-    categorySlug: "cats",
-    image: "/products/cat-food-1kg.webp",
-    name: { zh: "日本天然貓糧 1kg", en: "Japanese Natural Cat Food 1kg" },
-    price: 138,
-    icon: "cat",
-  },
-  {
-    id: "cat-scratcher-set",
-    categorySlug: "cats",
-    image: "/products/cat-scratcher-set.webp",
-    name: { zh: "貓咪抓板組合", en: "Cat Scratcher Set" },
-    price: 98,
-    icon: "cat",
-  },
-  {
-    id: "litter-deodorizer",
-    categorySlug: "cats",
-    image: "/products/litter-deodorizer.webp",
-    name: { zh: "貓砂盆除臭劑", en: "Litter Box Deodorizer" },
-    price: 68,
-    icon: "cat",
-  },
+  // Temporarily hidden dummy / test products (not shown on storefront):
+  // {
+  //   id: "cat-food-1kg",
+  //   categorySlug: "cats",
+  //   image: "/products/cat-food-1kg.webp",
+  //   name: { zh: "日本天然貓糧 1kg", en: "Japanese Natural Cat Food 1kg" },
+  //   price: 138,
+  //   icon: "cat",
+  // },
+  // {
+  //   id: "cat-scratcher-set",
+  //   categorySlug: "cats",
+  //   image: "/products/cat-scratcher-set.webp",
+  //   name: { zh: "貓咪抓板組合", en: "Cat Scratcher Set" },
+  //   price: 98,
+  //   icon: "cat",
+  // },
+  // {
+  //   id: "litter-deodorizer",
+  //   categorySlug: "cats",
+  //   image: "/products/litter-deodorizer.webp",
+  //   name: { zh: "貓砂盆除臭劑", en: "Litter Box Deodorizer" },
+  //   price: 68,
+  //   icon: "cat",
+  // },
   {
     id: "ciao-tuna-paste-20pk",
     categorySlug: "cats",
