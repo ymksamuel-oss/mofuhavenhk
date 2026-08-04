@@ -74,17 +74,23 @@
     },
     "british-shorthair-blue": {
       "src": "/images/cat-breeds/british-shorthair-blue.jpg",
-      "note": "Canonical blue British Shorthair portrait"
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/A_Blue_British_Shorthair_cat_on_August_1%2C_2022.jpg/1280px-A_Blue_British_Shorthair_cat_on_August_1%2C_2022.jpg",
+      "note": "Classic British Blue portrait (copper eyes, round face)"
     },
     "british-shorthair-silver": {
       "src": "/images/cat-breeds/british-shorthair-silver.jpg",
-      "note": "Canonical silver tabby British Shorthair portrait"
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/British_Shorthair%2C_Classic_Tabby.jpg/1280px-British_Shorthair%2C_Classic_Tabby.jpg",
+      "note": "Silver classic tabby British Shorthair"
     },
     "british-shorthair-golden": {
-      "src": "/images/cat-breeds/british-shorthair-golden.jpg"
+      "src": "/images/cat-breeds/british-shorthair-golden.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/British_shorthair_black_golden_shaded_gatil_mozziland_portugal.jpg/1280px-British_shorthair_black_golden_shaded_gatil_mozziland_portugal.jpg",
+      "note": "Black golden shaded British Shorthair (hero)"
     },
     "british-shorthair-cozy": {
-      "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
+      "src": "/images/cat-breeds/british-shorthair-cozy.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/A_female_British_Shorthair_cat_on_a_brown_sofa_resting.jpg/1280px-A_female_British_Shorthair_cat_on_a_brown_sofa_resting.jpg",
+      "note": "Cozy indoor British Blue on sofa"
     }
   },
   "licenses": {
