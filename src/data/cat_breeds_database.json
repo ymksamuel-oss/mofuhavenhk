@@ -8,39 +8,78 @@
         "英短",
         "藍貓"
       ],
+      "origin": {
+        "country": "英國",
+        "history_overview": "擁有悠久歷史，由古代羅馬貓引入英國本土貓改良而成，是歐洲最古老的貓品種之一。"
+      },
+      "lifespan": "12 - 17 歲",
       "physical_characteristics": {
-        "body_type": "Cobby (圓潤厚實、五短身材)",
+        "body_type": "Cobby (圓滾滾的臉龐、厚實圓潤的五短身材、骨架扎實)",
         "weight_kg": {
           "male": {
-            "min": 4.5,
+            "min": 5.0,
             "max": 8.0
           },
           "female": {
-            "min": 3.0,
-            "max": 5.5
+            "min": 4.0,
+            "max": 6.0
           }
         },
-        "coat": "Short, dense, plush (短而濃密、毯子般觸感)",
+        "coat": "短而厚密，擁有極佳的「絨毛感」雙層短毛",
         "common_eye_colors": [
-          "Copper/Orange (古銅色/橘色)",
-          "Blue",
-          "Green"
+          "古銅色 / 橘色 (Copper/Orange)",
+          "藍色",
+          "綠色",
+          "深金色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "british_blue",
+          "name_zh": "經典藍灰色 (British Blue)",
+          "description": "最標誌性單色",
+          "image_url": "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+          "color_id": "golden_shade",
+          "name_zh": "金漸層 (Golden Shaded / NY12等)",
+          "description": "近年極受歡迎的溫暖金色調，毛尖帶黑色暈染",
+          "image_url": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+          "color_id": "silver_tabby",
+          "name_zh": "銀虎斑 (Silver Tabby)",
+          "description": "帶有清晰斑紋與綠色/榛果色眼睛",
+          "image_url": "https://cdn2.thecatapi.com/images/2b2pFY0-t.jpg"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色 (Bicolor)",
+          "description": "白底配搭藍色、灰色或虎斑塊",
+          "image_url": "https://cdn2.thecatapi.com/images/s4wQfYoEk.jpg"
+        }
+      ],
+      "personality_traits": [
+        "性格溫和、理性、脾氣極好",
+        "成熟穩重，不愛胡鬧或過度吵鬧",
+        "獨立性高，非常適合忙碌的都市家庭與上班族",
+        "對人友善，但通常不屬於黏人精型別，喜歡靜靜陪伴在旁"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "肥厚型心肌病 (HCM)",
-          "多囊性腎臟病 (PKD)"
+          "多囊性腎臟病 (PKD，建議購買前確認父母基因檢測)"
         ],
-        "grooming": "每週梳毛 1-2 次",
-        "diet_management": "極易肥胖，需嚴格控制熱量"
+        "grooming": "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季時掉毛量大，需增加梳毛頻率以防毛球症。",
+        "diet_management": "絕育後極容易發胖，且屬於圓骨架體質，必須嚴格定時定量控制熱量，並提供足夠的活水與溫和運動。"
       },
       "media_assets": {
         "tag": "british_shorthair_hero",
-        "description": "經典藍灰色圓臉大眼的英國短毛貓",
-        "image_search_keywords": "British Shorthair blue cat round face",
-        "src": "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
-        "alt": "英國短毛貓 (British Shorthair)"
+        "description": "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+        "image_search_keywords": "British Shorthair golden shaded kitten paw raised",
+        "src": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+        "alt": "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+        "status": "updated_from_ui_reference"
       }
     },
     {

@@ -22,7 +22,7 @@ export type CatBreedMediaImage = {
   alt: string;
 };
 
-/** Optional rich profile (currently used by Ragdoll detail). */
+/** Optional rich profile (Ragdoll, British Shorthair, …). */
 export type CatBreedInfo = {
   breed_id: string;
   name_en: string;
@@ -30,9 +30,10 @@ export type CatBreedInfo = {
   aliases: string[];
   origin: {
     country: string;
-    state: string;
-    decade: string;
-    creator: string;
+    state?: string;
+    decade?: string;
+    creator?: string;
+    history_overview?: string;
   };
   physical_characteristics: {
     eye_color: string;
@@ -41,7 +42,7 @@ export type CatBreedInfo = {
       male: { min: number; max: number };
       female: { min: number; max: number };
     };
-    maturation_years: string;
+    maturation_years?: string;
     coat: {
       length: string;
       texture: string;
@@ -88,7 +89,127 @@ export type CatBreed = {
 export const CAT_BREED_IMAGE_FALLBACK =
   "https://images.unsplash.com/photo-1574231164645-d6f0e8553590?q=80&w=600&auto=format&fit=crop";
 
-/** Ragdoll-exclusive rich profile for `/cat-breeds/ragdoll`. */
+/** British Shorthair rich profile for `/cat-breeds/british-shorthair`. */
+export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
+  breed_id: "british_shorthair",
+  name_en: "British Shorthair",
+  name_zh_hk: "英國短毛貓",
+  aliases: ["英短", "藍貓"],
+  origin: {
+    country: "英國",
+    history_overview:
+      "擁有悠久歷史，由古代羅馬貓引入英國本土貓改良而成，是歐洲最古老的貓品種之一。",
+  },
+  physical_characteristics: {
+    eye_color: "古銅色 / 橘色、藍色、綠色、深金色",
+    size_category: "Cobby（圓滾滾的臉龐、厚實圓潤的五短身材、骨架扎實）",
+    weight_kg: {
+      male: { min: 5.0, max: 8.0 },
+      female: { min: 4.0, max: 6.0 },
+    },
+    maturation_years: "約 3 年",
+    coat: {
+      length: "Short（短毛）",
+      texture: "厚密絨毛感",
+      undercoat: "雙層短毛",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "british_blue",
+      name_zh: "經典藍灰色 (British Blue)",
+      description: "最標誌性單色",
+      image_url:
+        "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      pattern_id: "golden_shade",
+      name_zh: "金漸層 (Golden Shaded / NY12等)",
+      description: "近年極受歡迎的溫暖金色調，毛尖帶黑色暈染",
+      image_url:
+        "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      pattern_id: "silver_tabby",
+      name_zh: "銀虎斑 (Silver Tabby)",
+      description: "帶有清晰斑紋與綠色/榛果色眼睛",
+      image_url: "https://cdn2.thecatapi.com/images/M1Rh3CPp_.jpg",
+    },
+    {
+      pattern_id: "bicolor",
+      name_zh: "雙色 (Bicolor)",
+      description: "白底配搭藍色、灰色或虎斑塊",
+      image_url: "https://cdn2.thecatapi.com/images/s4wQfYoEk.jpg",
+    },
+  ],
+  colors: [
+    {
+      color_id: "british_blue",
+      name_zh: "經典藍灰色",
+      description: "最標誌性單色",
+    },
+    {
+      color_id: "golden_shade",
+      name_zh: "金漸層",
+      description: "溫暖金色調，毛尖帶黑色暈染",
+    },
+    {
+      color_id: "silver_tabby",
+      name_zh: "銀虎斑",
+      description: "清晰斑紋，綠/榛果色眼睛",
+    },
+    {
+      color_id: "bicolor",
+      name_zh: "雙色",
+      description: "白底配搭藍色、灰色或虎斑塊",
+    },
+  ],
+  personality_traits: [
+    "性格溫和、理性、脾氣極好",
+    "成熟穩重，不愛胡鬧或過度吵鬧",
+    "獨立性高，非常適合忙碌的都市家庭與上班族",
+    "對人友善，但通常不屬於黏人精型別，喜歡靜靜陪伴在旁",
+  ],
+  care_and_health: {
+    environment: "適合忙碌的都市家庭與上班族；喜歡靜靜陪伴在旁",
+    genetic_risks: [
+      "肥厚型心肌病 (HCM)",
+      "多囊性腎臟病 (PKD，建議購買前確認父母基因檢測)",
+    ],
+    digestive_health: "圓骨架體質，絕育後需特別留意熱量與體重管理",
+    diet_management:
+      "絕育後極容易發胖，必須嚴格定時定量控制熱量，並提供足夠的活水與溫和運動",
+    grooming:
+      "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季掉毛量大，需增加梳毛頻率以防毛球症",
+  },
+  media_assets: {
+    status: "updated_from_ui_reference",
+    instruction_for_cursor:
+      "請參考 UI 介面截圖風格與金漸層幼貓的高質感圖片，為英短專頁更新高解析度且切合「金漸層/藍貓」特色的相片與背景。",
+    images: [
+      {
+        tag: "hero",
+        description: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+        alt: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+      },
+      {
+        tag: "british_blue",
+        description: "經典藍灰色英國短毛貓",
+        src: "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+        alt: "經典藍灰色英國短毛貓",
+      },
+      {
+        tag: "golden_shade",
+        description: "金漸層英國短毛貓",
+        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+        alt: "金漸層英國短毛貓",
+      },
+    ],
+  },
+};
+
+/** Ragdoll rich profile for `/cat-breeds/ragdoll`. */
 export const RAGDOLL_BREED_INFO: CatBreedInfo = {
   breed_id: "ragdoll",
   name_en: "Ragdoll",
@@ -202,23 +323,29 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "溫和穩定、體型圓滾，注意體重管理。",
     imageUrl:
-      "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
     origin: "英國",
     lifespan: "12 - 17 歲",
-    weight: "4.0 - 8.0 kg",
-    personality: ["溫和冷靜", "適應力強", "獨立不黏人", "喜歡陪伴"],
+    weight: "公 5.0–8.0 kg／母 4.0–6.0 kg",
+    personality: [
+      "性格溫和、理性、脾氣極好",
+      "成熟穩重，不愛胡鬧或過度吵鬧",
+      "獨立性高，非常適合忙碌的都市家庭與上班族",
+      "對人友善，但通常不屬於黏人精型別，喜歡靜靜陪伴在旁",
+    ],
     careTips: [
-      "換毛季每週需梳毛 2-3 次，減少毛球堆積。",
-      "英短較少主動運動，容易發胖，需每天陪同遊戲 15 分鐘。",
-      "注意保持耳道清潔，定期檢查耳垢。",
+      "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次。",
+      "換毛季掉毛量大，需增加梳毛頻率以防毛球症。",
+      "購買前建議確認父母已做 HCM／PKD 基因檢測。",
     ],
     nutritionAdvice: [
-      "建議選擇高蛋白質、低碳水化合物的乾糧或主食罐。",
-      "控制每日熱量攝取，加入 L-肉鹼成分有助於維持理想體型。",
-      "適量補充深海魚油，維持厚實短毛的光澤度。",
+      "絕育後極容易發胖，必須嚴格定時定量控制熱量。",
+      "提供足夠的活水與溫和運動，維持理想體型。",
+      "建議高蛋白質配方，並可適量補充魚油維持絨毛光澤。",
     ],
     fullDescription:
-      "英國短毛貓擁有悠久歷史，以圓滾滾的臉龐、大眼睛和厚密的「絨毛感」短毛聞名。牠們性格溫和理性，非常適合忙碌的都市家庭。",
+      "英國短毛貓擁有悠久歷史，由古代羅馬貓引入英國本土貓改良而成，是歐洲最古老的貓品種之一。牠們以圓滾滾的臉龐、厚密「絨毛感」短毛聞名，性格溫和理性，非常適合忙碌的都市家庭。",
+    breedInfo: BRITISH_SHORTHAIR_BREED_INFO,
   },
   {
     id: "2",

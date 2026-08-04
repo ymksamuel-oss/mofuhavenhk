@@ -134,11 +134,15 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                   <span className="font-semibold">{t("catBreedDetailSize")}：</span>
                   {info.physical_characteristics.size_category}
                 </li>
-                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
-                  <span className="font-semibold">{t("catBreedDetailMaturity")}：</span>
-                  {info.physical_characteristics.maturation_years}
-                </li>
-                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                {info.physical_characteristics.maturation_years ? (
+                  <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                    <span className="font-semibold">
+                      {t("catBreedDetailMaturity")}：
+                    </span>
+                    {info.physical_characteristics.maturation_years}
+                  </li>
+                ) : null}
+                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm sm:col-span-2">
                   <span className="font-semibold">{t("catBreedDetailCoat")}：</span>
                   {info.physical_characteristics.coat.length}／
                   {info.physical_characteristics.coat.texture}／
@@ -151,7 +155,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {t("catBreedDetailPatterns")}
               </h2>
-              <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {info.patterns.map((pattern) => (
                   <li
                     key={pattern.pattern_id}
