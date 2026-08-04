@@ -520,6 +520,15 @@ export const translations = {
     catBreedDetailNoteEyebrow: "A gentle note",
     catBreedDetailNote:
       "Every cat is unique — tailor care to your companion’s real needs with patience and attention.",
+    catBreedDetailPhysical: "【Physical Traits】",
+    catBreedDetailEyes: "Eyes",
+    catBreedDetailSize: "Size",
+    catBreedDetailMaturity: "Maturity",
+    catBreedDetailCoat: "Coat",
+    catBreedDetailPatterns: "【Coat Patterns】",
+    catBreedDetailColors: "【Common Colors】",
+    catBreedDetailHealth: "【Health & Care Notes】",
+    catBreedDetailGeneticRisks: "Genetic risks",
   },
 } as const;
 
