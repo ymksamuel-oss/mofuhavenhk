@@ -12,6 +12,16 @@ type BrandLogoProps = {
   animateOnMount?: boolean;
 };
 
+function centerXWithinRail(
+  rail: HTMLElement,
+  node: HTMLElement | null,
+): number | null {
+  if (!node) return null;
+  const railBox = rail.getBoundingClientRect();
+  const nodeBox = node.getBoundingClientRect();
+  return nodeBox.left - railBox.left + nodeBox.width / 2;
+}
+
 /**
  * Measurable logo layout so the cat-head mark can hop across each character
  * on first header mount: 毛 -> 毛 -> 港 -> M -> o -> f -> u -> H -> a -> v -> e -> n.
@@ -46,15 +56,14 @@ export function BrandLogo({
     if (!rail || !englishWord) return clearTimers;
 
     const targetPositions = targetRefs.current
-      .map((node) => {
-        if (!node) return null;
-        return node.offsetLeft + node.offsetWidth / 2;
-      })
+      .map((node) => centerXWithinRail(rail, node))
       .filter((value): value is number => value !== null);
 
     if (targetPositions.length === 0) return clearTimers;
 
-    const finalRestX = englishWord.offsetLeft + englishWord.offsetWidth / 2;
+    const finalRestX = centerXWithinRail(rail, englishWord);
+    if (finalRestX === null) return clearTimers;
+
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -90,9 +99,11 @@ export function BrandLogo({
   useEffect(() => {
     const updateFinalRestPosition = () => {
       if (!animationFinishedRef.current) return;
+      const rail = railRef.current;
       const englishWord = englishWordRef.current;
-      if (!englishWord) return;
-      const finalRestX = englishWord.offsetLeft + englishWord.offsetWidth / 2;
+      if (!rail || !englishWord) return;
+      const finalRestX = centerXWithinRail(rail, englishWord);
+      if (finalRestX === null) return;
       setIconX(finalRestX);
     };
 
