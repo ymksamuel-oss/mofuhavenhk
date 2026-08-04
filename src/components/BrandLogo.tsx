@@ -19,8 +19,7 @@ export function BrandLogo({
   title = "毛毛港 Mofu Haven",
 }: BrandLogoProps) {
   const [waving, setWaving] = useState(false);
-  const zhGlyphs = [...ZH_WORD];
-  const enGlyphs = [...EN_WORD];
+  const glyphs = [...ZH_WORD, " ", ...EN_WORD];
 
   const triggerWave = () => {
     setWaving(false);
@@ -42,14 +41,19 @@ export function BrandLogo({
       role="img"
       aria-label={title}
     >
+      <span className="logo-mark logo-cat" aria-hidden="true">
+        <span className="logo-cat-body" />
+        <span className="logo-cat-head">
+          <span className="logo-cat-ear logo-cat-ear-left" />
+          <span className="logo-cat-ear logo-cat-ear-right" />
+          <span className="logo-cat-face" />
+        </span>
+        <span className="logo-cat-tail" />
+      </span>
+
       <span className="logo-copy">
-        <span className="logo-copy-line">
-          <span className="logo-cat-head logo-mark" aria-hidden="true">
-            <span className="logo-cat-ear logo-cat-ear-left" />
-            <span className="logo-cat-ear logo-cat-ear-right" />
-            <span className="logo-cat-face" />
-          </span>
-          {zhGlyphs.map((char, index) => (
+        <span className="logo-copy-top">
+          {ZH_WORD.split("").map((char, index) => (
             <span
               key={`zh-${char}-${index}`}
               className="logo-letter logo-letter-zh"
@@ -59,12 +63,12 @@ export function BrandLogo({
             </span>
           ))}
         </span>
-        <span className="logo-copy-line logo-copy-line-en">
-          {enGlyphs.map((char, index) => (
+        <span className="logo-copy-bottom">
+          {glyphs.map((char, index) => (
             <span
               key={`en-${char}-${index}`}
               className={`logo-letter ${char === " " ? "logo-space" : "logo-letter-en"}`}
-              style={{ ["--i" as string]: index + zhGlyphs.length + 1 }}
+              style={{ ["--i" as string]: index + 1 }}
             >
               {char === " " ? "\u00A0" : char}
             </span>
