@@ -448,6 +448,355 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
   },
 };
 
+/** Munchkin rich profile for `/cat-breeds/munchkin`. */
+export const MUNCHKIN_BREED_INFO: CatBreedInfo = {
+  breed_id: "munchkin",
+  name_en: "Munchkin",
+  name_zh_hk: "曼赤因短腿貓",
+  aliases: ["短腿貓", "臘腸貓", "Munchkin"],
+  origin: {
+    country: "美國",
+    decade: "1980s",
+    history_overview:
+      "1980 年代於美國發現帶有自然短肢基因的家貓，後經育種定型。以短腿、長身軀聞名，被稱為「貓界臘腸狗」；短腿來自體染色體顯性基因，身體其餘比例與一般家貓相近。",
+  },
+  physical_characteristics: {
+    eye_color: "金色、綠色、藍色、異色瞳（依毛色而異）",
+    size_category: "短腿長身、中小型；四肢明顯短於標準家貓",
+    weight_kg: {
+      male: { min: 2.7, max: 4.0 },
+      female: { min: 2.3, max: 3.6 },
+    },
+    maturation_years: "約 1.5-2 年",
+    coat: {
+      length: "Short 或 Long（短毛／長毛皆有）",
+      texture: "柔軟中等密度",
+      undercoat: "適中；長毛型頸部與尾毛較豐",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "short_legs",
+      name_zh: "短肢特徵",
+      description: "前肢尤為短小，身軀相對修長；仍可敏捷奔跑、站立玩耍",
+      image_url: "",
+    },
+    {
+      pattern_id: "tabby",
+      name_zh: "虎斑",
+      description: "常見棕色／銀色虎斑，額頭常有『M』字",
+      image_url: "",
+    },
+    {
+      pattern_id: "bicolor_point",
+      name_zh: "雙色／重點色",
+      description: "亦有雙色、重點色（point）等多樣花色",
+      image_url: "",
+    },
+    {
+      pattern_id: "longhair",
+      name_zh: "長毛型",
+      description: "長毛曼赤因尾毛與頸毛更豐，外觀更圓潤",
+      image_url: "",
+    },
+  ],
+  colors: [
+    { color_id: "tabby", name_zh: "虎斑", description: "最常見花色之一" },
+    { color_id: "bicolor", name_zh: "雙色", description: "白底配深色塊" },
+    { color_id: "point", name_zh: "重點色", description: "臉耳尾較深、軀幹較淺" },
+    { color_id: "solid", name_zh: "純色", description: "白、黑、藍等單色" },
+  ],
+  personality_traits: [
+    "天真活潑，像長不大的孩子，喜歡追逐與站立玩耍",
+    "社交性高，通常對人與其他寵物友善",
+    "好奇心強，短腿不影響攀爬與速度",
+    "親人討抱，適合作為家庭開心果",
+  ],
+  care_and_health: {
+    environment:
+      "避免過高跳台與強迫高處落地；提供低矮跳台、斜坡與防滑地面。雖敏捷仍建議室內飼養。",
+    genetic_risks: [
+      "短肢基因相關的腰椎／關節負擔需長期留意",
+      "肥胖會明顯加重脊椎與短腿壓力",
+    ],
+    digestive_health: "整體腸胃穩定；換糧仍建議漸進",
+    diet_management:
+      "嚴格控重；補充關節營養（葡萄糖胺、MSM、適量鈣與維生素 D3）；可選小顆粒乾糧",
+    grooming:
+      "短毛每週梳 1 次；長毛型 2-3 次。定期修剪指甲，減少短腿踩滑受傷",
+  },
+  media_assets: {
+    status: "localized_gallery_sync",
+    instruction_for_cursor:
+      "曼赤因圖庫已本地化：英雄全身／虎斑／站立／雙色／玩耍。",
+    images: [
+      {
+        tag: "hero_main",
+        description: "長毛曼赤因全身（短腿特徵清晰）",
+        src: "/images/cat-breeds/munchkin.jpg",
+        alt: "曼赤因短腿貓全身照",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "棕色虎斑短腿曼赤因",
+        src: "/images/cat-breeds/munchkin-tabby.jpg",
+        alt: "虎斑曼赤因短腿貓",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "重點色曼赤因站立姿態",
+        src: "/images/cat-breeds/munchkin-standing.jpg",
+        alt: "站立的曼赤因短腿貓",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "巧克力雙色短腿特寫",
+        src: "/images/cat-breeds/munchkin-bicolor.jpg",
+        alt: "雙色曼赤因短腿貓",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "後肢站立玩耍的活潑日常",
+        src: "/images/cat-breeds/munchkin-play.jpg",
+        alt: "玩耍中的曼赤因短腿貓",
+      },
+    ],
+  },
+};
+
+/** Norwegian Forest Cat rich profile for `/cat-breeds/norwegian-forest`. */
+export const NORWEGIAN_FOREST_BREED_INFO: CatBreedInfo = {
+  breed_id: "norwegian_forest",
+  name_en: "Norwegian Forest Cat",
+  name_zh_hk: "挪威森林貓",
+  aliases: ["挪森", "森林貓", "Norsk skogkatt", "Wegie"],
+  origin: {
+    country: "挪威",
+    history_overview:
+      "北歐古老自然品種，相傳在斯堪地那維亞森林中適應嚴寒而生。擁有防水雙層長毛、健壯骨架與出色攀爬力，外表威嚴但性格溫和包容。",
+  },
+  physical_characteristics: {
+    eye_color: "綠色、金色、銅色（與毛色協調）",
+    size_category: "大型強壯、長身矩形；晚熟、骨量厚實",
+    weight_kg: {
+      male: { min: 5.5, max: 9.0 },
+      female: { min: 4.0, max: 6.5 },
+    },
+    maturation_years: "約 3-5 年才完全成熟",
+    coat: {
+      length: "Long（長毛）",
+      texture: "油亮防水表毛＋厚密底毛",
+      undercoat: "雙層；冬季頸毛（ruff）與尾毛極豐",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "tabby_white",
+      name_zh: "虎斑／虎斑白",
+      description: "常見棕色虎斑，常帶白胸、白腳與白鼻樑",
+      image_url: "",
+    },
+    {
+      pattern_id: "lynx_tips",
+      name_zh: "山貓耳尖",
+      description: "耳尖簇毛（lynx tips）與耳內長毛是標誌特徵",
+      image_url: "",
+    },
+    {
+      pattern_id: "winter_coat",
+      name_zh: "冬毛／頸毛",
+      description: "冬季雙層毛與胸前鬃毛更明顯，換毛季掉毛量大",
+      image_url: "",
+    },
+    {
+      pattern_id: "solid_smoke",
+      name_zh: "單色／煙色等",
+      description: "除巧克力／丁香／重點色外，多數花色皆可接受（視協會標準）",
+      image_url: "",
+    },
+  ],
+  colors: [
+    { color_id: "brown_tabby", name_zh: "棕色虎斑", description: "經典森林感花色" },
+    { color_id: "silver_tabby", name_zh: "銀虎斑", description: "銀白底配深紋" },
+    { color_id: "black_white", name_zh: "黑白／雙色", description: "常見白斑組合" },
+    { color_id: "red_tabby", name_zh: "紅色虎斑", description: "暖橘條紋" },
+  ],
+  personality_traits: [
+    "勇敢探索、熱愛攀高，是天生的爬樹高手",
+    "外表威嚴大氣，對人溫和友善、不黏膩",
+    "適應力佳，能與兒童及其他寵物共處",
+    "獨立中帶親密，喜歡安靜陪伴而非過度吵鬧",
+  ],
+  care_and_health: {
+    environment:
+      "需要高聳貓樹／牆面跳台；夏季注意厚毛散熱。適合有垂直活動空間的家庭。",
+    genetic_risks: [
+      "糖原儲積症 IV 型 (GSD IV，優良繁殖場會做基因篩檢)",
+      "髖關節發育不良",
+      "肥厚型心肌病 (HCM，部分血統)",
+    ],
+    digestive_health: "長毛易吞毛，需協助排毛球；換糧漸進",
+    diet_management:
+      "大型晚熟貓需長時間優質高蛋白；補纖維助排毛；可加葡萄糖胺支持骨骼",
+    grooming:
+      "平時每週梳 2-3 次；春秋換毛季建議每日梳理，特別是頸毛、腹側與尾根，減少毛結與毛球",
+  },
+  media_assets: {
+    status: "localized_gallery_sync",
+    instruction_for_cursor:
+      "挪森圖庫已本地化：臉部英雄／雪地／戶外／銀虎斑特寫／雪中群像。",
+    images: [
+      {
+        tag: "hero_main",
+        description: "棕色虎斑挪森臉部（山貓耳尖）",
+        src: "/images/cat-breeds/norwegian-forest.jpg",
+        alt: "挪威森林貓臉部特寫",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "雪中厚毛挪森",
+        src: "/images/cat-breeds/norwegian-forest-snow.jpg",
+        alt: "雪地中的挪威森林貓",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "戶外自然環境中的挪森",
+        src: "/images/cat-breeds/norwegian-forest-outdoor.jpg",
+        alt: "戶外的挪威森林貓",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "銀虎斑臉部與綠眼特寫",
+        src: "/images/cat-breeds/norwegian-forest-portrait.jpg",
+        alt: "銀虎斑挪威森林貓特寫",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "雪地中的挪森群像",
+        src: "/images/cat-breeds/norwegian-forest-pack.jpg",
+        alt: "雪地中的挪威森林貓們",
+      },
+    ],
+  },
+};
+
+/** Exotic Shorthair rich profile for `/cat-breeds/exotic-shorthair`. */
+export const EXOTIC_SHORTHAIR_BREED_INFO: CatBreedInfo = {
+  breed_id: "exotic_shorthair",
+  name_en: "Exotic Shorthair",
+  name_zh_hk: "異國短毛貓",
+  aliases: ["加菲貓", "異短", "Exotic"],
+  origin: {
+    country: "美國",
+    decade: "1950s-1960s",
+    history_overview:
+      "以波斯貓為基礎，導入美國短毛等短毛血統育成，保留波斯的扁臉圓眼與溫柔性格，但被毛改為短而濃密、較易打理，因而常被暱稱為「加菲貓」。",
+  },
+  physical_characteristics: {
+    eye_color: "銅色／橘色為常見；重點色可為藍眼；雙色可有異色瞳",
+    size_category: "Cobby（矮胖結實、頭圓、鼻短、骨架扎實）",
+    weight_kg: {
+      male: { min: 4.0, max: 6.5 },
+      female: { min: 3.0, max: 5.0 },
+    },
+    maturation_years: "約 2-3 年",
+    coat: {
+      length: "Short（短毛）",
+      texture: "濃密絨毛感，毛稍立起如泰迪熊",
+      undercoat: "厚密底毛，換毛季仍需勤梳",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "tabby",
+      name_zh: "虎斑",
+      description: "棕色／銀色等虎斑，扁臉配大銅眼辨識度高",
+      image_url: "",
+    },
+    {
+      pattern_id: "bicolor",
+      name_zh: "雙色",
+      description: "白底配藍、橘、虎斑等色塊，常見「加菲」印象",
+      image_url: "",
+    },
+    {
+      pattern_id: "solid",
+      name_zh: "純色",
+      description: "白、黑、藍、紅、奶油等單色",
+      image_url: "",
+    },
+    {
+      pattern_id: "colorpoint",
+      name_zh: "重點色",
+      description: "類似喜馬拉雅／重點色波斯的短毛版，藍眼",
+      image_url: "",
+    },
+  ],
+  colors: [
+    { color_id: "brown_tabby", name_zh: "棕色虎斑", description: "經典加菲感花色" },
+    { color_id: "blue_white", name_zh: "藍白雙色", description: "灰藍配白胸臉" },
+    { color_id: "cream_white", name_zh: "奶油白", description: "柔和淺色系" },
+    { color_id: "calico", name_zh: "三花／玳瑁白", description: "橘、黑、白塊面" },
+  ],
+  personality_traits: [
+    "文靜呆萌，喜歡安靜陪伴與輕柔互動",
+    "對人溫柔討抱，情感豐富但不吵鬧",
+    "適應室內生活，適合作為公寓陪伴貓",
+    "節奏偏慢，享受窗邊觀察與午睡",
+  ],
+  care_and_health: {
+    environment:
+      "鼻短需注意通風散熱；避免過熱環境。提供淺口食碗與安靜休息區。",
+    genetic_risks: [
+      "多囊性腎臟病 (PKD，購買前確認父母基因檢測)",
+      "扁臉相關的淚溢、鼻塞與呼吸負擔",
+      "肥厚型心肌病 (HCM，部分血統)",
+    ],
+    digestive_health: "換糧需漸進；肥胖會加重心肺負擔",
+    diet_management:
+      "嚴格控重；可選易咬碎顆粒（扁臉較易咀嚼）；補充護眼抗氧化配方有助眼睛健康",
+    grooming:
+      "每天用溫濕棉片清理眼角與臉摺；每週梳毛 2-3 次（底毛厚）。定期檢查鼻周圍清潔",
+  },
+  media_assets: {
+    status: "localized_gallery_sync",
+    instruction_for_cursor:
+      "異短圖庫已本地化：虎斑英雄／藍白雙色／側臉虎斑／居家慵懶／奶油白。",
+    images: [
+      {
+        tag: "hero_main",
+        description: "棕色虎斑異短（銅眼扁臉）",
+        src: "/images/cat-breeds/exotic-shorthair.jpg",
+        alt: "棕色虎斑異國短毛貓",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "藍白雙色異短窗邊特寫",
+        src: "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
+        alt: "藍白雙色異國短毛貓",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "棕色虎斑側臉輪廓",
+        src: "/images/cat-breeds/exotic-shorthair-tabby.jpg",
+        alt: "虎斑異國短毛貓側臉",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "奶油色異短居家休息",
+        src: "/images/cat-breeds/exotic-shorthair-cozy.jpg",
+        alt: "休息中的異國短毛貓",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "奶油白異短向上凝視",
+        src: "/images/cat-breeds/exotic-shorthair-cream.jpg",
+        alt: "奶油白異國短毛貓",
+      },
+    ],
+  },
+};
+
 export const catBreedsData: CatBreed[] = [
   {
     id: "1",
@@ -575,25 +924,30 @@ export const catBreedsData: CatBreed[] = [
     name: "曼赤因短腿貓",
     coatType: "short",
     coatLabel: "短毛 / 長毛",
-    shortDescription: "活潑親人，注意關節與脊椎保健。",
-    imageUrl:
-      "/images/cat-breeds/munchkin.jpg",
+    shortDescription: "短腿長身、天真活潑；嚴格控重並照顧關節脊椎。",
+    imageUrl: "/images/cat-breeds/munchkin.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
-    weight: "2.5 - 4.0 kg",
-    personality: ["天真活潑", "長不大的孩子", "喜歡奔跑", "社交高手"],
+    weight: "公 2.7–4.0 kg／母 2.3–3.6 kg",
+    personality: [
+      "天真活潑，像長不大的孩子",
+      "社交性高，通常對人與寵物友善",
+      "好奇心強，短腿仍敏捷能跑能玩",
+      "親人討抱，是家中開心果",
+    ],
     careTips: [
-      "雖然腿短但行動極其敏捷，需注意防止從過高處重摔。",
-      "定期檢查與修剪爪子，防止小短腿因踩滑受傷。",
-      "保持適度運動，強健背部與腿部肌肉。",
+      "避免過高跳台與重摔；提供低矮跳台、斜坡與防滑地面",
+      "定期修剪指甲，減少短腿踩滑受傷",
+      "短毛每週梳 1 次；長毛型 2-3 次，並保持適度運動",
     ],
     nutritionAdvice: [
-      "特別注重骨骼與關節保護，補充有機鈣、維生素 D3 及 MSM。",
-      "嚴格控制體重，減輕短腿與脊椎的承受壓力。",
-      "選擇小顆粒乾糧，方便其較小的口腔咀嚼。",
+      "嚴格控制體重，減輕脊椎與短腿壓力",
+      "補充關節營養（葡萄糖胺、MSM、適量鈣與維生素 D3）",
+      "可選小顆粒乾糧，方便較小口腔咀嚼",
     ],
     fullDescription:
-      "曼赤因貓以標誌性的短腿和長身軀聞名，被稱為「貓界臘腸狗」。牠們性格像小狗般熱情活潑，奔跑速度飛快，是家中的開心果。",
+      "曼赤因貓以標誌性的短腿和長身軀聞名，被稱為「貓界臘腸狗」。短腿來自自然顯性基因，性格像小狗般熱情活潑，奔跑與站立玩耍都靈巧可愛，是家中的開心果。",
+    breedInfo: MUNCHKIN_BREED_INFO,
   },
   {
     id: "6",
@@ -601,25 +955,30 @@ export const catBreedsData: CatBreed[] = [
     name: "挪威森林貓",
     coatType: "long",
     coatLabel: "長毛",
-    shortDescription: "體型高大、毛樣厚實，需特別注意毛球排空。",
-    imageUrl:
-      "/images/cat-breeds/norwegian-forest.jpg",
+    shortDescription: "大型防水長毛、攀爬高手；換毛季需勤梳並注意毛球。",
+    imageUrl: "/images/cat-breeds/norwegian-forest.jpg",
     origin: "挪威",
     lifespan: "14 - 16 歲",
-    weight: "4.5 - 8.0 kg",
-    personality: ["勇敢探索", "攀爬高手", "冷靜大氣", "對人友善"],
+    weight: "公 5.5–9.0 kg／母 4.0–6.5 kg",
+    personality: [
+      "勇敢探索，天生攀爬高手",
+      "外表威嚴，對人溫和友善",
+      "適應力佳，能與兒童及寵物共處",
+      "獨立中帶親密，喜歡安靜陪伴",
+    ],
     careTips: [
-      "雙層防風防水毛極其厚實，春秋換毛季需每日深度梳理。",
-      "非常喜歡高處，建議家中有高聳的貓樹或牆面跳台。",
-      "夏季室內需維持適宜溫度，防止厚毛引發暑熱。",
+      "雙層防水毛厚實，平時每週梳 2-3 次；換毛季建議每日梳理",
+      "家中需有高聳貓樹或牆面跳台，滿足攀高天性",
+      "夏季注意室內通風散熱，避免厚毛中暑",
     ],
     nutritionAdvice: [
-      "大型貓成長期長（約 3-5 年發育成熟），需持續補足高能量與優質肉類。",
-      "富含天然纖維與植物油脂的配方，幫助順暢排出體內大塊毛球。",
-      "加入葡萄糖胺，支持其較大體型的骨骼健康。",
+      "大型晚熟（約 3-5 年），需長期優質高蛋白與足夠熱量",
+      "補纖維協助排出毛球；可加葡萄糖胺支持骨骼",
+      "成貓定時定量，避免因活動量變化而發胖",
     ],
     fullDescription:
-      "源自北歐森林的大型自然貓種，擁有適應嚴寒的厚重毛皮與強壯軀幹。牠們是天生的攀爬者，外表威嚴但性格卻異常溫和包容。",
+      "源自北歐森林的大型自然貓種，擁有適應嚴寒的防水雙層長毛、山貓耳尖與強壯軀幹。牠們是天生的攀爬者，外表威嚴但性格溫和包容，適合有垂直活動空間的家庭。",
+    breedInfo: NORWEGIAN_FOREST_BREED_INFO,
   },
   {
     id: "7",
@@ -627,25 +986,30 @@ export const catBreedsData: CatBreed[] = [
     name: "異國短毛貓 (加菲貓)",
     coatType: "short",
     coatLabel: "短毛",
-    shortDescription: "扁臉呆萌、性格沉靜，需特別照顧面部與淚腺。",
-    imageUrl:
-      "/images/cat-breeds/exotic-shorthair.jpg",
+    shortDescription: "扁臉圓眼、溫柔安靜；每日清理眼角並嚴格控重。",
+    imageUrl: "/images/cat-breeds/exotic-shorthair.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
-    weight: "3.5 - 6.5 kg",
-    personality: ["文靜呆萌", "喜歡討抱", "安靜不吵鬧", "情感豐富"],
+    weight: "公 4.0–6.5 kg／母 3.0–5.0 kg",
+    personality: [
+      "文靜呆萌，喜歡安靜陪伴",
+      "溫柔討抱，情感豐富但不吵鬧",
+      "適合公寓室內生活",
+      "節奏偏慢，享受窗邊觀察與午睡",
+    ],
     careTips: [
-      "因為面部結構平扁，淚腺容易積聚，每天需用溫濕棉花清理眼角。",
-      "鼻腔較短，夏天需特別注意室內通風與散熱。",
-      "食碗建議選擇淺口且微傾斜的設計，方便牠們進食。",
+      "扁臉易淚溢，每天用溫濕棉片清理眼角與臉摺",
+      "鼻短需注意通風散熱；食碗選淺口較易進食",
+      "每週梳毛 2-3 次（底毛厚），並定期檢查鼻周圍清潔",
     ],
     nutritionAdvice: [
-      "選擇易咬碎的特殊形狀顆粒（如三棱形或十字形），方便扁臉貓咀嚼。",
-      "補充葉黃素與抗氧化配方，保護眼睛健康。",
-      "控制飲食熱量，預防發胖增加心肺負擔。",
+      "嚴格控重，減輕心肺負擔",
+      "可選易咬碎顆粒，方便扁臉咀嚼",
+      "補充護眼抗氧化配方，留意 PKD 等遺傳風險",
     ],
     fullDescription:
-      "異國短毛貓是波斯貓的短毛版本，擁有標誌性的扁扁大臉與圓滾大眼，性格溫柔討喜，被大家親切地稱為「加菲貓」。",
+      "異國短毛貓是波斯貓的短毛版本，擁有標誌性的扁扁大臉、圓滾大眼與濃密短毛，性格溫柔討喜，被大家親切地稱為「加菲貓」，是適合安靜陪伴的室內明星品種。",
+    breedInfo: EXOTIC_SHORTHAIR_BREED_INFO,
   },
   {
     id: "8",

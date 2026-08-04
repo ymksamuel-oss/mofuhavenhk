@@ -311,10 +311,17 @@
       "name_zh_hk": "曼赤因短腿貓",
       "aliases": [
         "短腿貓",
-        "臘腸貓"
+        "臘腸貓",
+        "Munchkin"
       ],
+      "origin": {
+        "country": "美國",
+        "decade": "1980s",
+        "history_overview": "1980 年代於美國發現帶有自然短肢基因的家貓，後經育種定型。以短腿、長身軀聞名，被稱為「貓界臘腸狗」。"
+      },
+      "lifespan": "12 - 15 歲",
       "physical_characteristics": {
-        "body_type": "Short-legged elongated (短腿長身)",
+        "body_type": "短腿長身、中小型",
         "weight_kg": {
           "male": {
             "min": 2.7,
@@ -325,29 +332,94 @@
             "max": 3.6
           }
         },
-        "coat": "Short or long, soft (短毛或長毛)",
+        "coat": "短毛或長毛，柔軟中等密度",
         "common_eye_colors": [
-          "Gold",
-          "Green",
-          "Blue",
-          "Odd-eyed"
+          "金色",
+          "綠色",
+          "藍色",
+          "異色瞳"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "short_legs",
+          "name_zh": "短肢特徵",
+          "description": "前肢尤為短小，身軀相對修長"
+        },
+        {
+          "color_id": "tabby",
+          "name_zh": "虎斑",
+          "description": "常見棕色／銀色虎斑"
+        },
+        {
+          "color_id": "bicolor_point",
+          "name_zh": "雙色／重點色",
+          "description": "花色多樣"
+        },
+        {
+          "color_id": "longhair",
+          "name_zh": "長毛型",
+          "description": "尾毛與頸毛更豐"
+        }
+      ],
+      "personality_traits": [
+        "天真活潑，像長不大的孩子，喜歡追逐與站立玩耍",
+        "社交性高，通常對人與其他寵物友善",
+        "好奇心強，短腿不影響攀爬與速度",
+        "親人討抱，適合作為家庭開心果"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "腰椎問題",
-          "關節負擔"
+          "短肢基因相關的腰椎／關節負擔",
+          "肥胖加重脊椎與短腿壓力"
         ],
-        "grooming": "依毛長每週梳毛 1-3 次",
-        "diet_management": "嚴格控重，減輕脊椎與短腿壓力"
+        "grooming": "短毛每週梳 1 次；長毛型 2-3 次。定期修剪指甲。",
+        "diet_management": "嚴格控重；補充關節營養；可選小顆粒乾糧。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "munchkin_hero",
-        "description": "短腿曼赤因貓",
-        "image_search_keywords": "Munchkin cat short legs",
+        "description": "長毛曼赤因全身（短腿特徵清晰）",
         "src": "/images/cat-breeds/munchkin.jpg",
-        "alt": "曼赤因短腿貓",
-        "status": "verified_local_assets"
+        "alt": "曼赤因短腿貓全身照",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "短腿全身",
+            "local_src": "/images/cat-breeds/munchkin.jpg",
+            "src": "/images/cat-breeds/munchkin.jpg",
+            "alt": "曼赤因短腿貓全身照"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "虎斑",
+            "local_src": "/images/cat-breeds/munchkin-tabby.jpg",
+            "src": "/images/cat-breeds/munchkin-tabby.jpg",
+            "alt": "虎斑曼赤因短腿貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "站立",
+            "local_src": "/images/cat-breeds/munchkin-standing.jpg",
+            "src": "/images/cat-breeds/munchkin-standing.jpg",
+            "alt": "站立的曼赤因短腿貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "雙色",
+            "local_src": "/images/cat-breeds/munchkin-bicolor.jpg",
+            "src": "/images/cat-breeds/munchkin-bicolor.jpg",
+            "alt": "雙色曼赤因短腿貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "玩耍",
+            "local_src": "/images/cat-breeds/munchkin-play.jpg",
+            "src": "/images/cat-breeds/munchkin-play.jpg",
+            "alt": "玩耍中的曼赤因短腿貓"
+          }
+        ]
       }
     },
     {
@@ -356,10 +428,16 @@
       "name_zh_hk": "挪威森林貓",
       "aliases": [
         "挪森",
-        "森林貓"
+        "森林貓",
+        "Norsk skogkatt"
       ],
+      "origin": {
+        "country": "挪威",
+        "history_overview": "北歐古老自然品種，相傳在斯堪地那維亞森林中適應嚴寒而生。擁有防水雙層長毛、健壯骨架與出色攀爬力。"
+      },
+      "lifespan": "14 - 16 歲",
       "physical_characteristics": {
-        "body_type": "Large sturdy (大型強壯)",
+        "body_type": "大型強壯、長身矩形；晚熟",
         "weight_kg": {
           "male": {
             "min": 5.5,
@@ -370,28 +448,94 @@
             "max": 6.5
           }
         },
-        "coat": "Long double water-repellent (防水雙層長毛)",
+        "coat": "防水雙層長毛，冬季頸毛與尾毛極豐",
         "common_eye_colors": [
-          "Green",
-          "Gold",
-          "Copper"
+          "綠色",
+          "金色",
+          "銅色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "tabby_white",
+          "name_zh": "虎斑／虎斑白",
+          "description": "常見棕色虎斑，常帶白胸白腳"
+        },
+        {
+          "color_id": "lynx_tips",
+          "name_zh": "山貓耳尖",
+          "description": "耳尖簇毛與耳內長毛是標誌"
+        },
+        {
+          "color_id": "winter_coat",
+          "name_zh": "冬毛／頸毛",
+          "description": "冬季雙層毛更明顯，換毛季掉毛大"
+        },
+        {
+          "color_id": "silver_tabby",
+          "name_zh": "銀虎斑",
+          "description": "銀白底配深紋"
+        }
+      ],
+      "personality_traits": [
+        "勇敢探索、熱愛攀高，是天生的爬樹高手",
+        "外表威嚴大氣，對人溫和友善、不黏膩",
+        "適應力佳，能與兒童及其他寵物共處",
+        "獨立中帶親密，喜歡安靜陪伴而非過度吵鬧"
+      ],
       "care_and_health": {
         "genetic_risks": [
           "糖原儲積症 IV 型 (GSD IV)",
-          "髖關節發育不良"
+          "髖關節發育不良",
+          "肥厚型心肌病 (HCM，部分血統)"
         ],
-        "grooming": "換毛季每日梳理，平時每週 2-3 次",
-        "diet_management": "高能量成長期長，補纖維助排毛球"
+        "grooming": "平時每週梳 2-3 次；換毛季建議每日梳理，減少毛結與毛球。",
+        "diet_management": "大型晚熟需長期優質高蛋白；補纖維助排毛；可加葡萄糖胺。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "norwegian_forest_hero",
-        "description": "厚重長毛挪威森林貓",
-        "image_search_keywords": "Norwegian Forest Cat longhair thick coat",
+        "description": "棕色虎斑挪森臉部（山貓耳尖）",
         "src": "/images/cat-breeds/norwegian-forest.jpg",
-        "alt": "挪威森林貓",
-        "status": "verified_local_assets"
+        "alt": "挪威森林貓臉部特寫",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "臉部特寫",
+            "local_src": "/images/cat-breeds/norwegian-forest.jpg",
+            "src": "/images/cat-breeds/norwegian-forest.jpg",
+            "alt": "挪威森林貓臉部特寫"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "雪地",
+            "local_src": "/images/cat-breeds/norwegian-forest-snow.jpg",
+            "src": "/images/cat-breeds/norwegian-forest-snow.jpg",
+            "alt": "雪地中的挪威森林貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "戶外",
+            "local_src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
+            "src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
+            "alt": "戶外的挪威森林貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "銀虎斑特寫",
+            "local_src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
+            "src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
+            "alt": "銀虎斑挪威森林貓特寫"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "雪中群像",
+            "local_src": "/images/cat-breeds/norwegian-forest-pack.jpg",
+            "src": "/images/cat-breeds/norwegian-forest-pack.jpg",
+            "alt": "雪地中的挪威森林貓們"
+          }
+        ]
       }
     },
     {
@@ -400,10 +544,17 @@
       "name_zh_hk": "異國短毛貓",
       "aliases": [
         "加菲貓",
-        "異短"
+        "異短",
+        "Exotic"
       ],
+      "origin": {
+        "country": "美國",
+        "decade": "1950s-1960s",
+        "history_overview": "以波斯貓為基礎導入短毛血統育成，保留扁臉圓眼與溫柔性格，被毛改為短而濃密，常被暱稱為「加菲貓」。"
+      },
+      "lifespan": "12 - 15 歲",
       "physical_characteristics": {
-        "body_type": "Cobby brachycephalic (矮胖扁臉)",
+        "body_type": "Cobby（矮胖結實、頭圓鼻短）",
         "weight_kg": {
           "male": {
             "min": 4.0,
@@ -414,28 +565,94 @@
             "max": 5.0
           }
         },
-        "coat": "Short dense plush (短而濃密)",
+        "coat": "短而濃密、絨毛感如泰迪熊",
         "common_eye_colors": [
-          "Copper",
-          "Blue",
-          "Odd-eyed"
+          "銅色／橘色",
+          "藍色（重點色）",
+          "異色瞳"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "tabby",
+          "name_zh": "虎斑",
+          "description": "棕色／銀色等虎斑"
+        },
+        {
+          "color_id": "bicolor",
+          "name_zh": "雙色",
+          "description": "白底配藍、橘、虎斑等"
+        },
+        {
+          "color_id": "solid",
+          "name_zh": "純色",
+          "description": "白、黑、藍、紅、奶油等"
+        },
+        {
+          "color_id": "colorpoint",
+          "name_zh": "重點色",
+          "description": "短毛重點色，藍眼"
+        }
+      ],
+      "personality_traits": [
+        "文靜呆萌，喜歡安靜陪伴與輕柔互動",
+        "對人溫柔討抱，情感豐富但不吵鬧",
+        "適應室內生活，適合作為公寓陪伴貓",
+        "節奏偏慢，享受窗邊觀察與午睡"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "多囊腎 (PKD)",
-          "呼吸／淚腺問題"
+          "多囊性腎臟病 (PKD)",
+          "扁臉相關淚溢／鼻塞／呼吸負擔",
+          "肥厚型心肌病 (HCM，部分血統)"
         ],
-        "grooming": "每日清理眼角與臉摺，每週梳毛",
-        "diet_management": "控重減心肺負擔，選易咀嚼飼料"
+        "grooming": "每天清理眼角與臉摺；每週梳毛 2-3 次。",
+        "diet_management": "嚴格控重；可選易咬碎顆粒；補充護眼抗氧化配方。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "exotic_shorthair_hero",
-        "description": "扁臉異國短毛貓",
-        "image_search_keywords": "Exotic Shorthair flat face round eyes",
+        "description": "棕色虎斑異短（銅眼扁臉）",
         "src": "/images/cat-breeds/exotic-shorthair.jpg",
-        "alt": "異國短毛貓",
-        "status": "verified_local_assets"
+        "alt": "棕色虎斑異國短毛貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "棕色虎斑",
+            "local_src": "/images/cat-breeds/exotic-shorthair.jpg",
+            "src": "/images/cat-breeds/exotic-shorthair.jpg",
+            "alt": "棕色虎斑異國短毛貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "藍白雙色",
+            "local_src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
+            "src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
+            "alt": "藍白雙色異國短毛貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "虎斑側臉",
+            "local_src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
+            "src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
+            "alt": "虎斑異國短毛貓側臉"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "居家休息",
+            "local_src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
+            "src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
+            "alt": "休息中的異國短毛貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "奶油白",
+            "local_src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
+            "src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
+            "alt": "奶油白異國短毛貓"
+          }
+        ]
       }
     },
     {
