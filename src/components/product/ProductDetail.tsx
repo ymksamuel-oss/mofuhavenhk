@@ -40,7 +40,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <span aria-hidden>/</span>
           </>
         ) : null}
-        <span className="text-[color:var(--ink)]">{product.name[locale]}</span>
+        <span className="min-w-0 truncate text-[color:var(--ink)]">
+          {product.name[locale]}
+        </span>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
@@ -60,17 +62,17 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ) : null}
         </div>
 
-        <div className="milk-tea-card p-5 sm:p-7">
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
+        <div className="milk-tea-card min-w-0 p-5 sm:p-7">
+          <h1 className="break-words font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] [overflow-wrap:anywhere] sm:text-3xl">
             {product.name[locale]}
           </h1>
 
-          <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="text-3xl font-bold tabular-nums text-[color:var(--accent)]">
+          <div className="mt-3 flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1">
+            <span className="text-3xl font-bold tabular-nums leading-none text-[color:var(--accent)]">
               {formatMoney(product.price, locale)}
             </span>
             {product.originalPrice ? (
-              <span className="text-base tabular-nums text-[color:var(--muted)] line-through">
+              <span className="text-base tabular-nums leading-none text-[color:var(--muted)] line-through">
                 {formatMoney(product.originalPrice, locale)}
               </span>
             ) : null}
@@ -101,7 +103,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {product.specs.map((spec) => (
                   <li
                     key={spec.zh}
-                    className="flex items-start gap-2 text-sm leading-relaxed text-[color:var(--ink)]"
+                    className="flex min-w-0 items-start gap-2 break-words text-sm leading-relaxed text-[color:var(--ink)] [overflow-wrap:anywhere]"
                   >
                     <span
                       aria-hidden
@@ -114,7 +116,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
-          <div className="space-y-3">
+          <div className="mt-6 space-y-3">
             <AddToCartButton productId={product.id} size="modal" />
             <CategoryNavLink
               href="/checkout"

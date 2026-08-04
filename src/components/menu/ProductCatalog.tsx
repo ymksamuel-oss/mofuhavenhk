@@ -66,6 +66,107 @@ type ProductCatalogProps = {
   subcategory?: ProductSubcategory | null;
 };
 
+/** Pack / capacity line for catalog cards (e.g. 「85g × 6」). */
+function catalogPackSpec(product: Product, locale: "zh" | "en"): string | null {
+  const name = product.name[locale];
+  const pack = name.match(
+    /(\d+\s*g\s*[x×Ｘｘ]\s*\d+\s*[個袋支條盒箱]?)|(\d+\s*[x×Ｘｘ]\s*\d+\s*[個袋支條盒箱])/i,
+  );
+  if (pack) {
+    return pack[0].replace(/\s+/g, " ").replace(/[Ｘｘ]/g, "×").trim();
+  }
+  if (product.productType) return product.productType;
+  return null;
+}
+
+/**
+ * Equal-height storefront grid card: image → title → spec → price → CTA.
+ * Long descriptions stay on the detail page so listing rows stay aligned.
+ */
+function ProductGridCard({
+  product,
+  locale,
+  viewDetailsLabel,
+}: {
+  product: Product;
+  locale: "zh" | "en";
+  viewDetailsLabel: string;
+}) {
+  const href = productHref(product.id);
+  const discountPercent = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : null;
+  const packSpec = catalogPackSpec(product, locale);
+
+  return (
+    <li className="product-grid-card milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]">
+      <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
+        <CategoryNavLink
+          href={href}
+          aria-label={`${viewDetailsLabel}: ${product.name[locale]}`}
+          className="absolute inset-0 block"
+        >
+          <Image
+            src={product.image}
+            alt={product.name[locale]}
+            fill
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+            className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+          />
+          <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
+            {viewDetailsLabel}
+          </span>
+        </CategoryNavLink>
+
+        {discountPercent ? (
+          <span className="pointer-events-none absolute left-2 top-2 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold leading-none text-white shadow-sm sm:left-2.5 sm:top-2.5">
+            -{discountPercent}%
+          </span>
+        ) : null}
+      </div>
+
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4">
+        <div className="min-w-0 space-y-1">
+          <CategoryNavLink
+            href={href}
+            className="block min-h-[2.5rem] text-left text-[13px] font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] sm:min-h-[2.625rem] sm:text-sm"
+          >
+            <span className="line-clamp-2 break-words [overflow-wrap:anywhere]">
+              {product.name[locale]}
+            </span>
+          </CategoryNavLink>
+          {packSpec ? (
+            <p
+              className="truncate text-[11px] leading-tight text-[color:var(--muted)] sm:text-xs"
+              title={packSpec}
+            >
+              {packSpec}
+            </p>
+          ) : (
+            <p className="h-4 text-[11px] leading-tight sm:h-[1.125rem] sm:text-xs" aria-hidden>
+              {"\u00a0"}
+            </p>
+          )}
+        </div>
+
+        <div className="mt-auto flex min-w-0 shrink-0 flex-col gap-2 pt-1">
+          <div className="flex min-h-[1.75rem] flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <p className="text-base font-semibold tabular-nums leading-none text-[color:var(--accent)] sm:text-lg">
+              {formatMoney(product.price, locale)}
+            </p>
+            {product.originalPrice ? (
+              <p className="text-[11px] tabular-nums leading-none text-[color:var(--muted)] line-through sm:text-xs">
+                {formatMoney(product.originalPrice, locale)}
+              </p>
+            ) : null}
+          </div>
+          <AddToCartButton productId={product.id} size="card" />
+        </div>
+      </div>
+    </li>
+  );
+}
+
 function FreezeDriedListCard({
   product,
   locale,
@@ -319,70 +420,15 @@ export function ProductCatalog({
           ))}
         </ul>
       ) : (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-          {products.map((product) => {
-            const discountPercent = product.originalPrice
-              ? Math.round((1 - product.price / product.originalPrice) * 100)
-              : null;
-            const href = productHref(product.id);
-
-            return (
-              <li
-                key={product.id}
-                className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
-              >
-                <div className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
-                  <CategoryNavLink
-                    href={href}
-                    aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
-                    className="absolute inset-0 block"
-                  >
-                    <Image
-                      src={product.image}
-                      alt={product.name[locale]}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
-                    <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
-                      {t("productViewDetails")}
-                    </span>
-                  </CategoryNavLink>
-
-                  {discountPercent ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
-                      -{discountPercent}%
-                    </span>
-                  ) : null}
-                </div>
-
-                <div className="flex flex-1 flex-col gap-2 p-4">
-                  <CategoryNavLink
-                    href={href}
-                    className="text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
-                  >
-                    {product.name[locale]}
-                  </CategoryNavLink>
-                  {product.description ? (
-                    <p className="text-xs leading-snug text-[color:var(--muted)]">
-                      {product.description[locale]}
-                    </p>
-                  ) : null}
-                  <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
-                    <p className="text-lg font-semibold tabular-nums text-[color:var(--accent)]">
-                      {formatMoney(product.price, locale)}
-                    </p>
-                    {product.originalPrice ? (
-                      <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                        {formatMoney(product.originalPrice, locale)}
-                      </p>
-                    ) : null}
-                  </div>
-                  <AddToCartButton productId={product.id} size="card" />
-                </div>
-              </li>
-            );
-          })}
+        <ul className="product-catalog-grid grid grid-cols-2 items-stretch gap-x-3 gap-y-4 sm:grid-cols-3 sm:gap-x-4 sm:gap-y-5 lg:grid-cols-4 lg:gap-x-5 lg:gap-y-6">
+          {products.map((product) => (
+            <ProductGridCard
+              key={product.id}
+              product={product}
+              locale={locale}
+              viewDetailsLabel={t("productViewDetails")}
+            />
+          ))}
         </ul>
       )}
     </div>
