@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
+import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
@@ -194,7 +195,7 @@ export function Header() {
           </Link>
 
           <nav
-            className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] md:flex"
+            className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] lg:flex"
             aria-label="Primary"
           >
             {navItems.map((item) => (
@@ -207,6 +208,11 @@ export function Header() {
               </Link>
             ))}
           </nav>
+
+          <ProductSearch
+            variant="header"
+            className="ml-1 hidden min-w-0 max-w-md sm:ml-3 sm:block md:max-w-lg"
+          />
 
           <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
             <Link
@@ -255,7 +261,7 @@ export function Header() {
 
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] lg:hidden"
               aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
               aria-expanded={menuOpen}
               aria-controls={drawerId}
@@ -264,6 +270,11 @@ export function Header() {
               <MenuIcon open={menuOpen} />
             </button>
           </div>
+        </div>
+
+        {/* Mobile search row — keeps the top bar uncluttered on small screens */}
+        <div className="border-t border-[color:var(--line)]/70 px-3 py-2 sm:hidden">
+          <ProductSearch variant="header" className="w-full" />
         </div>
       </header>
       {mobileMenu}
