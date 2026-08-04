@@ -30,25 +30,29 @@ const CHAPTERS: Chapter[] = [
   {
     titleKey: "aboutCatChapter2Title",
     bodyKey: "aboutCatChapter2Body",
-    image: "/products/cat-auto-water-fountain.webp",
+    image:
+      "https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?w=800&auto=format&fit=crop",
     imageAltKey: "aboutCatChapter2Alt",
   },
   {
     titleKey: "aboutCatChapter3Title",
     bodyKey: "aboutCatChapter3Body",
-    image: "/products/cleaning-paw-wipes.webp",
+    image:
+      "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=800&auto=format&fit=crop",
     imageAltKey: "aboutCatChapter3Alt",
   },
   {
     titleKey: "aboutCatChapter4Title",
     bodyKey: "aboutCatChapter4Body",
-    image: "/products/cat-catnip-toy.webp",
+    image:
+      "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=800&auto=format&fit=crop",
     imageAltKey: "aboutCatChapter4Alt",
   },
   {
     titleKey: "aboutCatChapter5Title",
     bodyKey: "aboutCatChapter5Body",
-    image: "/products/cat-probiotics.webp",
+    image:
+      "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=800&auto=format&fit=crop",
     imageAltKey: "aboutCatChapter5Alt",
   },
 ];
