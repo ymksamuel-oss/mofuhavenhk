@@ -2,34 +2,17 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
-import { WhatsAppLogo } from "@/components/icons/PaymentIcons";
+import {
+  AlipayHkLogo,
+  ApplePayLogo,
+  MastercardLogo,
+  VisaLogo,
+  WeChatPayLogo,
+  WhatsAppLogo,
+} from "@/components/icons/PaymentIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
-
-/** Footer payment marks — public Wikimedia SVG logos (CDN, no local assets). */
-const FOOTER_PAYMENT_LOGOS = [
-  {
-    src: "https://upload.wikimedia.org/wikipedia/commons/a/a2/WeChat_Pay_logo.svg",
-    alt: "WeChat Pay",
-  },
-  {
-    src: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg",
-    alt: "Apple Pay",
-  },
-  {
-    src: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Alipay_logo.svg",
-    alt: "Alipay",
-  },
-  {
-    src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg",
-    alt: "Visa",
-  },
-  {
-    src: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
-    alt: "Mastercard",
-  },
-] as const;
 
 const SHOP_EMAIL =
   process.env.NEXT_PUBLIC_SHOP_EMAIL?.trim() || "hello@mofuhavenhk.com";
@@ -103,22 +86,26 @@ function FooterNavColumn({
 }
 
 /**
- * Public CDN payment logos — no chips, frames, or filled backgrounds.
+ * Inline SVG payment logos — no external URLs, chips, or filled frames.
  */
 function PaymentMarks() {
   return (
-    <ul className="mt-1 flex w-full max-w-full flex-wrap items-center justify-center gap-4 sm:mt-0 sm:w-auto">
-      {FOOTER_PAYMENT_LOGOS.map((logo) => (
-        <li key={logo.alt} className="flex items-center justify-center">
-          {/* External Wikimedia SVGs — native img avoids next.config remotePatterns. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logo.src}
-            alt={logo.alt}
-            className="h-6 w-auto object-contain"
-          />
-        </li>
-      ))}
+    <ul className="flex w-full max-w-full flex-wrap items-center justify-center gap-4 py-2 sm:w-auto">
+      <li className="flex items-center justify-center">
+        <WeChatPayLogo className="h-6 w-auto" />
+      </li>
+      <li className="flex items-center justify-center">
+        <ApplePayLogo className="h-6 w-auto" />
+      </li>
+      <li className="flex items-center justify-center">
+        <AlipayHkLogo className="h-6 w-auto" />
+      </li>
+      <li className="flex items-center justify-center">
+        <VisaLogo className="h-6 w-auto" />
+      </li>
+      <li className="flex items-center justify-center">
+        <MastercardLogo className="h-6 w-auto" />
+      </li>
     </ul>
   );
 }
