@@ -317,7 +317,7 @@ export function ProductSearch({
   const trimmedQuery = query.trim();
   const hits =
     trimmedQuery.length > 0 ? searchWtJapanProducts(trimmedQuery, 12) : [];
-  const showPanel = suggestionsOpen && trimmedQuery.length > 0;
+  const showPanel = trimmedQuery.length > 0 && (suggestionsOpen || hits.length > 0);
 
   const closeModal = () => {
     setModalOpen(false);

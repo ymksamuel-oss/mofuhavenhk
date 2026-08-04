@@ -53,6 +53,7 @@ export function searchWtJapanProducts(
     score += fieldScore(product.description, needle, 8);
     score += fieldScore(product.vendor, needle, 9);
     score += fieldScore(product.productType, needle, 7);
+    score += fieldScore(product.subcategory, needle, 8);
     score += fieldScore(product.category, needle, 8);
     score += fieldScore(product.categorySlug, needle, 6);
     score += fieldScore(product.handle, needle, 4);
@@ -68,6 +69,27 @@ export function searchWtJapanProducts(
       if (breed) {
         score += fieldScore(breed.name, needle, 6);
         score += fieldScore(breed.nameEn, needle, 6);
+      }
+    }
+
+    // Fallback for short / broad terms like 「罐」「糧」「魚」:
+    // search against a single combined string so one-character queries
+    // still surface matching products immediately.
+    if (score === 0 && needle.length <= 2) {
+      const combined = normalizeSearchText(
+        [
+          product.title,
+          product.description,
+          product.vendor,
+          product.productType,
+          product.subcategory,
+          product.category,
+          product.handle,
+          ...product.tags,
+        ].join(" "),
+      );
+      if (combined.includes(needle)) {
+        score = 5;
       }
     }
 
