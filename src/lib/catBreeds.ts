@@ -89,6 +89,137 @@ export type CatBreed = {
 export const CAT_BREED_IMAGE_FALLBACK =
   "https://images.unsplash.com/photo-1574231164645-d6f0e8553590?q=80&w=600&auto=format&fit=crop";
 
+/** American Shorthair rich profile for `/cat-breeds/american-shorthair`. */
+export const AMERICAN_SHORTHAIR_BREED_INFO: CatBreedInfo = {
+  breed_id: "american_shorthair",
+  name_en: "American Shorthair",
+  name_zh_hk: "美國短毛貓",
+  aliases: ["美短", "虎斑美短"],
+  origin: {
+    country: "美國",
+    history_overview:
+      "祖先隨歐洲移民船隻來到北美，經過長期自然選育與品種改良，成為體格強健、適應力極高的經典家貓。以銀虎斑與各色虎斑聞名，是美國家庭最受歡迎的短毛品種之一。",
+  },
+  physical_characteristics: {
+    eye_color: "金色、綠色、榛果色（依毛色而異）",
+    size_category: "中至大型、肌肉發達的矩形體型",
+    weight_kg: {
+      male: { min: 5.0, max: 7.5 },
+      female: { min: 3.5, max: 5.5 },
+    },
+    maturation_years: "約 3-4 年",
+    coat: {
+      length: "Short（短毛）",
+      texture: "硬密、富光澤",
+      undercoat: "適中底毛，換毛季較明顯",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "classic_tabby",
+      name_zh: "經典虎斑 (Classic / Blotched Tabby)",
+      description: "側身可見旋渦／牛眼紋，額頭常有『M』字斑紋",
+      image_url: "",
+    },
+    {
+      pattern_id: "silver_tabby",
+      name_zh: "銀虎斑 (Silver Tabby)",
+      description: "銀白底毛配清晰黑色斑紋，是美短最代表性花色之一",
+      image_url: "",
+    },
+    {
+      pattern_id: "brown_tabby",
+      name_zh: "棕色虎斑 (Brown Tabby)",
+      description: "暖棕底色與深色條紋，野外感強、辨識度高",
+      image_url: "",
+    },
+    {
+      pattern_id: "solid_and_bicolor",
+      name_zh: "純色／雙色",
+      description: "亦有純黑、純白、藍白等，但虎斑仍最常見",
+      image_url: "",
+    },
+  ],
+  colors: [
+    {
+      color_id: "silver_tabby",
+      name_zh: "銀虎斑",
+      description: "經典代表色",
+    },
+    {
+      color_id: "brown_tabby",
+      name_zh: "棕色虎斑",
+      description: "溫暖野外感",
+    },
+    {
+      color_id: "red_tabby",
+      name_zh: "紅色虎斑",
+      description: "橘紅條紋",
+    },
+    {
+      color_id: "bicolor",
+      name_zh: "雙色",
+      description: "白底配虎斑或其他色塊",
+    },
+  ],
+  personality_traits: [
+    "聰明活潑，好奇心強，喜歡觀察家中動靜",
+    "對人友善，通常能與兒童及其他寵物和睦相處",
+    "適應力強，適合作為忙碌都市家庭的陪伴貓",
+    "玩耍時精力充沛，平時也能安靜地陪伴在旁",
+  ],
+  care_and_health: {
+    environment:
+      "需要足夠活動空間與跳台／貓抓板；每天互動遊戲有助釋放精力",
+    genetic_risks: [
+      "肥厚型心肌病 (HCM)",
+      "多囊性腎臟病 (PKD，部分血統需注意)",
+    ],
+    digestive_health: "整體腸胃穩定，換糧仍建議漸進過渡",
+    diet_management:
+      "肌肉發達需優質動物蛋白；成貓需定時定量，避免因活動量下降而發胖",
+    grooming:
+      "短毛易打理，平時每週梳毛 1 次；換毛季可增至 2-3 次，減少毛球",
+  },
+  media_assets: {
+    status: "localized_gallery_sync",
+    instruction_for_cursor:
+      "美短圖庫已本地化：經典虎斑 / 銀虎斑 / 戶外 / 居家日常。",
+    images: [
+      {
+        tag: "hero_main",
+        description: "棕色虎斑美國短毛貓戶外特寫",
+        src: "/images/cat-breeds/american-shorthair.jpg",
+        alt: "棕色虎斑美國短毛貓",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "標誌性銀虎斑（旋渦經典紋）",
+        src: "/images/cat-breeds/american-shorthair-silver.jpg",
+        alt: "銀虎斑美國短毛貓",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "棕色虎斑與白斑近距離肖像",
+        src: "/images/cat-breeds/american-shorthair-tabby.jpg",
+        alt: "棕色虎斑美國短毛貓特寫",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "戶外探索中的美短",
+        src: "/images/cat-breeds/american-shorthair-outdoor.jpg",
+        alt: "戶外的美國短毛貓",
+      },
+      {
+        tag: "gallery_item_4",
+        description: "居家休息的銀虎斑美短",
+        src: "/images/cat-breeds/american-shorthair-cozy.jpg",
+        alt: "室內休息的美國短毛貓",
+      },
+    ],
+  },
+};
+
 /** British Shorthair rich profile for `/cat-breeds/british-shorthair`. */
 export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
   breed_id: "british_shorthair",
@@ -356,24 +487,29 @@ export const catBreedsData: CatBreed[] = [
     coatType: "short",
     coatLabel: "短毛",
     shortDescription: "活潑好動、適應力強，需補足每日運動量。",
-    imageUrl:
-      "/images/cat-breeds/american-shorthair.jpg",
+    imageUrl: "/images/cat-breeds/american-shorthair.jpg",
     origin: "美國",
     lifespan: "15 - 20 歲",
-    weight: "3.5 - 7.5 kg",
-    personality: ["聰明活潑", "好奇心強", "友善親人", "體格健壯"],
+    weight: "公 5.0–7.5 kg／母 3.5–5.5 kg",
+    personality: [
+      "聰明活潑，好奇心強，喜歡觀察家中動靜",
+      "對人友善，通常能與兒童及其他寵物和睦相處",
+      "適應力強，適合作為忙碌都市家庭的陪伴貓",
+      "玩耍時精力充沛，平時也能安靜地陪伴在旁",
+    ],
     careTips: [
-      "短毛極易照顧，每週梳毛 1 次即可。",
-      "精力充沛，建議提供貓抓板與跳台滿足探索慾望。",
-      "定期清潔牙齒，預防牙周健康問題。",
+      "短毛易打理，平時每週梳毛 1 次；換毛季可增至 2-3 次。",
+      "精力充沛，建議每天互動遊戲，並提供貓抓板與跳台。",
+      "定期清潔牙齒，留意 HCM 等遺傳風險與健康檢查。",
     ],
     nutritionAdvice: [
-      "美短肌肉發達，需補充優質動物性蛋白以維持肌肉質量。",
+      "肌肉發達，需補充優質動物性蛋白以維持體態。",
       "可搭配軟骨素與葡萄糖胺，照顧日常跳躍的關節健康。",
-      "提供足夠的新鮮飲用水，預防尿路系統問題。",
+      "成貓需定時定量，並提供足夠新鮮飲用水。",
     ],
     fullDescription:
-      "美國短毛貓以強健的體魄與標誌性的虎斑紋路著稱。牠們個性外向且充滿好奇心，能與兒童及其他寵物和睦相處。",
+      "美國短毛貓祖先隨移民船來到北美，經長期選育成為體格強健、適應力極高的經典家貓。以銀虎斑與各色虎斑聞名，個性外向友善，非常適合香港忙碌的都市家庭。",
+    breedInfo: AMERICAN_SHORTHAIR_BREED_INFO,
   },
   {
     id: "3",

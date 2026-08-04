@@ -116,8 +116,13 @@
         "美短",
         "虎斑美短"
       ],
+      "origin": {
+        "country": "美國",
+        "history_overview": "祖先隨歐洲移民船隻來到北美，經過長期自然選育與品種改良，成為體格強健、適應力極高的經典家貓。以銀虎斑與各色虎斑聞名，是美國家庭最受歡迎的短毛品種之一。"
+      },
+      "lifespan": "15 - 20 歲",
       "physical_characteristics": {
-        "body_type": "Rectangular muscular (強健長方型)",
+        "body_type": "中至大型、肌肉發達的矩形體型",
         "weight_kg": {
           "male": {
             "min": 5.0,
@@ -128,27 +133,93 @@
             "max": 5.5
           }
         },
-        "coat": "Short, hard, dense (短而硬密)",
+        "coat": "短而硬密、富光澤",
         "common_eye_colors": [
-          "Gold",
-          "Green",
-          "Hazel"
+          "金色",
+          "綠色",
+          "榛果色"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "classic_tabby",
+          "name_zh": "經典虎斑 (Classic / Blotched Tabby)",
+          "description": "側身可見旋渦／牛眼紋，額頭常有『M』字斑紋"
+        },
+        {
+          "color_id": "silver_tabby",
+          "name_zh": "銀虎斑 (Silver Tabby)",
+          "description": "銀白底毛配清晰黑色斑紋，是美短最代表性花色之一"
+        },
+        {
+          "color_id": "brown_tabby",
+          "name_zh": "棕色虎斑 (Brown Tabby)",
+          "description": "暖棕底色與深色條紋，野外感強、辨識度高"
+        },
+        {
+          "color_id": "solid_and_bicolor",
+          "name_zh": "純色／雙色",
+          "description": "亦有純黑、純白、藍白等，但虎斑仍最常見"
+        }
+      ],
+      "personality_traits": [
+        "聰明活潑，好奇心強，喜歡觀察家中動靜",
+        "對人友善，通常能與兒童及其他寵物和睦相處",
+        "適應力強，適合作為忙碌都市家庭的陪伴貓",
+        "玩耍時精力充沛，平時也能安靜地陪伴在旁"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "肥厚型心肌病 (HCM)"
+          "肥厚型心肌病 (HCM)",
+          "多囊性腎臟病 (PKD，部分血統需注意)"
         ],
-        "grooming": "每週梳毛 1 次",
-        "diet_management": "高蛋白維持肌肉，注意體重"
+        "grooming": "短毛易打理，平時每週梳毛 1 次；換毛季可增至 2-3 次，減少毛球。",
+        "diet_management": "肌肉發達需優質動物蛋白；成貓需定時定量，避免因活動量下降而發胖。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "american_shorthair_hero",
-        "description": "虎斑美國短毛貓",
-        "image_search_keywords": "American Shorthair tabby cat",
+        "description": "棕色虎斑美國短毛貓戶外特寫",
         "src": "/images/cat-breeds/american-shorthair.jpg",
-        "alt": "美國短毛貓",
-        "status": "verified_local_assets"
+        "alt": "棕色虎斑美國短毛貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "棕色虎斑戶外",
+            "local_src": "/images/cat-breeds/american-shorthair.jpg",
+            "src": "/images/cat-breeds/american-shorthair.jpg",
+            "alt": "棕色虎斑美國短毛貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "銀虎斑",
+            "local_src": "/images/cat-breeds/american-shorthair-silver.jpg",
+            "src": "/images/cat-breeds/american-shorthair-silver.jpg",
+            "alt": "銀虎斑美國短毛貓"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "棕色虎斑特寫",
+            "local_src": "/images/cat-breeds/american-shorthair-tabby.jpg",
+            "src": "/images/cat-breeds/american-shorthair-tabby.jpg",
+            "alt": "棕色虎斑美國短毛貓特寫"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "戶外探索",
+            "local_src": "/images/cat-breeds/american-shorthair-outdoor.jpg",
+            "src": "/images/cat-breeds/american-shorthair-outdoor.jpg",
+            "alt": "戶外的美國短毛貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "居家休息",
+            "local_src": "/images/cat-breeds/american-shorthair-cozy.jpg",
+            "src": "/images/cat-breeds/american-shorthair-cozy.jpg",
+            "alt": "室內休息的美國短毛貓"
+          }
+        ]
       }
     },
     {
