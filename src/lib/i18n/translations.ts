@@ -178,9 +178,29 @@ export const translations = {
     footerPayments: "支援付款方式",
     footerCopyright: "© 2026 Mofu Haven. All Rights Reserved.",
     infoPageBack: "返回首頁",
+    aboutPageEyebrow: "Our Story",
     aboutPageTitle: "關於我們",
+    aboutBrandAlias: "Mofu Haven（毛毛港）",
+    aboutPageIntro:
+      "Mofu Haven（毛毛港）係一間紮根香港、專注日本優質寵物糧食與用品嘅選品小店。我哋相信：毛孩值得被溫柔對待，每一次落單，都應該感覺安心、清楚、被照顧。",
+    aboutNameOriginTitle: "名字由來",
+    aboutNameOriginBody:
+      "「Mofu」來自日語「モフモフ」——摸落去軟綿綿、暖笠笠嘅觸感，象徵毛孩最療癒嘅存在。「Haven」係避風港，中文名「毛毛港」就係希望為香港每一隻毛孩，建立一個可以安心停泊嘅小港灣：有好野食、有好東西用，亦有人認真為你把關。",
+    aboutPromisesTitle: "三大品牌承諾",
+    aboutPromise1Title: "日本直送・嚴選把關",
+    aboutPromise1Body:
+      "貨源以日本優質品牌為主，由罐罐、乾糧到日常用品，我哋都會仔細核對規格同新鮮度，只上架我哋自己都放心俾屋企毛孩用嘅產品。",
+    aboutPromise2Title: "透明預購・準時交代",
+    aboutPromise2Body:
+      "採用每週集單出貨，截單同派遞節奏公開清楚；缺貨即時通知並全額退款，唔會用含糊承諾換你嘅等待。",
+    aboutPromise3Title: "以毛孩為先・貼心跟進",
+    aboutPromise3Body:
+      "由選品、包裝到售後查詢，都以毛孩健康同主人安心為先。有問題隨時 WhatsApp 聯絡，我哋會用人話、慢慢講清楚。",
+    aboutClosing:
+      "謝謝你願意信任毛毛港。願每一個紙箱打開嘅瞬間，都係一份溫柔——俾毛孩，亦俾愛佢哋嘅你。歡迎一齊，慢慢揀好野。",
+    aboutShopCta: "逛逛商品",
     aboutPageBody:
-      "Mofu Haven 專注嚴選日本優質寵物糧食與用品，希望每位毛孩都能安心、健康地成長。更多品牌故事即將上線。",
+      "Mofu Haven（毛毛港）專注嚴選日本優質寵物糧食與用品，希望每位毛孩都能安心、健康地成長。",
     faqPageTitle: "常見問題",
     faqPageBody:
       "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
@@ -473,9 +493,29 @@ export const translations = {
     footerPayments: "Accepted payments",
     footerCopyright: "© 2026 Mofu Haven. All Rights Reserved.",
     infoPageBack: "Back to home",
+    aboutPageEyebrow: "Our Story",
     aboutPageTitle: "About Us",
+    aboutBrandAlias: "Mofu Haven（毛毛港）",
+    aboutPageIntro:
+      "Mofu Haven（毛毛港）is a Hong Kong–rooted boutique for carefully chosen Japanese pet food and supplies. We believe every companion deserves gentle care — and every order should feel clear, calm, and looked after.",
+    aboutNameOriginTitle: "Where the name comes from",
+    aboutNameOriginBody:
+      "“Mofu” comes from the Japanese モフモフ — that soft, fluffy feeling you get when you touch a beloved pet. “Haven” means a safe harbor. Our Chinese name 毛毛港 is our promise to build a little port in Hong Kong where furry friends can dock with good food, good gear, and people who take quality seriously.",
+    aboutPromisesTitle: "Our three promises",
+    aboutPromise1Title: "Japan-sourced, carefully curated",
+    aboutPromise1Body:
+      "We focus on trusted Japanese brands — from wet cans and dry food to everyday essentials — checking specs and freshness so we only list what we’d gladly use for our own companions.",
+    aboutPromise2Title: "Transparent preorders, honest timing",
+    aboutPromise2Body:
+      "We ship in weekly batches with clear cutoffs and delivery updates. If something is out of stock, we tell you promptly and refund in full — no vague waiting games.",
+    aboutPromise3Title: "Pets first, human follow-through",
+    aboutPromise3Body:
+      "From sourcing and packing to after-sales care, pet wellbeing and owner peace of mind come first. Message us on WhatsApp anytime — we’ll explain things simply and kindly.",
+    aboutClosing:
+      "Thank you for trusting 毛毛港. May every opened box feel like a small kindness — for your pets, and for you who love them. Come browse slowly; good things are worth choosing with care.",
+    aboutShopCta: "Shop the catalog",
     aboutPageBody:
-      "Mofu Haven curates quality Japanese pet food and supplies so every companion can thrive. Our full brand story is coming soon.",
+      "Mofu Haven（毛毛港）curates quality Japanese pet food and supplies so every companion can thrive.",
     faqPageTitle: "FAQ",
     faqPageBody:
       "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",
