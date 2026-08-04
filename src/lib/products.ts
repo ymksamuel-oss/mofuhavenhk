@@ -346,6 +346,8 @@ const WT_TAG_EN: Record<string, string> = {
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
   冷凍脫水系列: "Freeze-dried series",
+  貓貓小食: "Cat treats",
+  貓用: "For cats",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
