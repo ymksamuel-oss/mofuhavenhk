@@ -209,13 +209,15 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+          {/* Search sits between 「結帳」nav and cart / language controls */}
+          <div className="ml-auto flex min-w-0 shrink items-center gap-1.5 sm:gap-2.5">
             <ProductSearch variant="header" />
 
             <Link
               href="/checkout"
-              className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
+              data-testid="header-cart"
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (

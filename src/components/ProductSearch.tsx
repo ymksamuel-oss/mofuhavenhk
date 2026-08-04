@@ -258,8 +258,7 @@ type ProductSearchProps = {
 
 /**
  * Homepage: always-visible search bar with dropdown suggestions.
- * Header: magnifying-glass control — expands inline on desktop (`md+`),
- * opens a floating modal on smaller screens.
+ * Header: always-visible compact input on `sm+`; magnifier opens a modal on xs.
  */
 export function ProductSearch({
   variant = "header",
@@ -273,7 +272,6 @@ export function ProductSearch({
   const modalInputRef = useRef<HTMLInputElement>(null);
 
   const [portalReady, setPortalReady] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -295,16 +293,15 @@ export function ProductSearch({
   }, [deferredQuery]);
 
   useEffect(() => {
-    if (!expanded) return;
+    if (!suggestionsOpen || variant !== "header") return;
     const onPointerDown = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
-        setExpanded(false);
         setSuggestionsOpen(false);
       }
     };
     document.addEventListener("mousedown", onPointerDown);
     return () => document.removeEventListener("mousedown", onPointerDown);
-  }, [expanded]);
+  }, [suggestionsOpen, variant]);
 
   useEffect(() => {
     if (!modalOpen) return;
@@ -414,51 +411,35 @@ export function ProductSearch({
 
   return (
     <>
-      <div ref={rootRef} className={`relative flex items-center ${className}`}>
-        <div className="hidden items-center md:flex">
-          {expanded ? (
-            <div className="relative w-[min(42vw,18rem)] lg:w-[min(36vw,20rem)]">
-              <SearchField
-                listId={listId}
-                query={query}
-                setQuery={setQuery}
-                setSuggestionsOpen={setSuggestionsOpen}
-                activeIndex={activeIndex}
-                setActiveIndex={setActiveIndex}
-                hits={hits}
-                showPanel={showPanel}
-                inputRef={inputRef}
-                size="compact"
-                autoFocus
-                onEscape={() => {
-                  setExpanded(false);
-                  setQuery("");
-                  setSuggestionsOpen(false);
-                }}
-                panelClassName="absolute right-0 z-50 mt-2 w-[min(90vw,22rem)]"
-              />
-            </div>
-          ) : (
-            <button
-              type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-              aria-label={t("productSearchOpen")}
-              aria-expanded={false}
-              onClick={() => {
-                setExpanded(true);
-                window.setTimeout(() => inputRef.current?.focus(), 20);
-              }}
-            >
-              <SearchGlyph className="h-5 w-5" />
-            </button>
-          )}
+      <div
+        ref={rootRef}
+        className={`relative flex items-center ${className}`}
+        data-testid="header-product-search"
+      >
+        {/* Always-visible search input between checkout nav and cart (sm+) */}
+        <div className="relative hidden w-[min(42vw,15.5rem)] sm:block md:w-[min(36vw,17.5rem)] lg:w-[min(28vw,18.5rem)]">
+          <SearchField
+            listId={listId}
+            query={query}
+            setQuery={setQuery}
+            setSuggestionsOpen={setSuggestionsOpen}
+            activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
+            hits={hits}
+            showPanel={showPanel}
+            inputRef={inputRef}
+            size="compact"
+            panelClassName="absolute right-0 z-50 mt-2 w-[min(90vw,22rem)]"
+          />
         </div>
 
+        {/* xs: magnifier opens full search modal */}
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] sm:hidden"
           aria-label={t("productSearchOpen")}
           aria-expanded={modalOpen}
+          data-testid="header-product-search-icon"
           onClick={() => {
             setModalOpen(true);
             setSuggestionsOpen(true);

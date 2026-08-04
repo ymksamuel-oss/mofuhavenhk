@@ -128,7 +128,8 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
   const en = WT_JAPAN_EN[p.id];
   return {
     id: p.id,
-    categorySlug: "cats",
+    // Keep in sync with productsData `category` / `categorySlug` (貓咪商品 → cats)
+    categorySlug: p.categorySlug,
     image: p.imageUrl,
     name: {
       zh: p.title,
