@@ -25,7 +25,7 @@ export const translations = {
     productSearchOpen: "開啟產品搜尋",
     productSearchClose: "關閉搜尋",
     productSearchResults: "搜尋建議",
-    productSearchEmpty: "未找到相關產品，試試搜尋「低敏」或「無穀」？",
+    productSearchEmpty: "未有搵到相關產品，試吓搜尋「貓」或「CIAO」？",
     productSearchHomeTitle: "尋找心水罐罐",
     productSearchHomeSub: "輸入品牌、口味、賣點標籤或適合品種，即時睇到建議。",
     checkoutTitle: "結帳",
@@ -298,7 +298,7 @@ export const translations = {
     productSearchOpen: "Open product search",
     productSearchClose: "Close search",
     productSearchResults: "Search suggestions",
-    productSearchEmpty: "No matching products — try “低敏” or “無穀”?",
+    productSearchEmpty: "No matching products — try “貓” or “CIAO”?",
     productSearchHomeTitle: "Find the perfect can",
     productSearchHomeSub:
       "Type a brand, flavor, selling tag, or breed for instant suggestions.",

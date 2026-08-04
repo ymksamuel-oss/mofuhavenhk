@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import {
-  useDeferredValue,
   useEffect,
   useId,
   useRef,
@@ -79,6 +78,8 @@ type SearchFieldProps = {
   onEscape?: () => void;
   onNavigateAway?: () => void;
   panelClassName?: string;
+  /** Larger scrollable results region (mobile search modal). */
+  resultsMaxHeightClass?: string;
 };
 
 function SearchField({
@@ -96,6 +97,7 @@ function SearchField({
   onEscape,
   onNavigateAway,
   panelClassName = "",
+  resultsMaxHeightClass = "max-h-[min(60vh,22rem)]",
 }: SearchFieldProps) {
   const { locale, t } = useI18n();
   const comfortable = size === "comfortable";
@@ -192,14 +194,17 @@ function SearchField({
           id={listId}
           role="listbox"
           aria-label={t("productSearchResults")}
-          className={`overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
+          data-testid="product-search-results"
+          className={`rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
         >
           {hits.length === 0 ? (
             <p className="px-4 py-4 text-sm leading-relaxed text-[color:var(--muted)]">
               {t("productSearchEmpty")}
             </p>
           ) : (
-            <ul className="max-h-[min(60vh,22rem)] overflow-y-auto py-1.5">
+            <ul
+              className={`${resultsMaxHeightClass} overflow-y-auto overscroll-contain py-1.5 [-webkit-overflow-scrolling:touch]`}
+            >
               {hits.map((hit, index) => {
                 const active = index === activeIndex;
                 return (
@@ -277,12 +282,12 @@ export function ProductSearch({
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const deferredQuery = useDeferredValue(query);
+  // Search against the live query (catalog is small) so mobile IME input
+  // shows results immediately — avoid deferred-query lag hiding the panel.
+  const trimmedQuery = query.trim();
   const hits =
-    deferredQuery.trim().length > 0
-      ? searchWtJapanProducts(deferredQuery, 5)
-      : [];
-  const showPanel = suggestionsOpen && deferredQuery.trim().length > 0;
+    trimmedQuery.length > 0 ? searchWtJapanProducts(trimmedQuery, 12) : [];
+  const showPanel = suggestionsOpen && trimmedQuery.length > 0;
 
   useEffect(() => {
     setPortalReady(true);
@@ -290,7 +295,7 @@ export function ProductSearch({
 
   useEffect(() => {
     setActiveIndex(-1);
-  }, [deferredQuery]);
+  }, [trimmedQuery]);
 
   useEffect(() => {
     if (!suggestionsOpen || variant !== "header") return;
@@ -354,7 +359,7 @@ export function ProductSearch({
     modalOpen && portalReady
       ? createPortal(
           <div
-            className="fixed inset-0 z-[110] flex items-start justify-center bg-[color:var(--ink)]/45 px-3 pb-8 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:items-center sm:px-6"
+            className="fixed inset-0 z-[110] flex items-start justify-center overflow-y-auto bg-[color:var(--ink)]/45 px-3 pb-8 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:items-center sm:px-6"
             role="dialog"
             aria-modal="true"
             aria-label={t("productSearchLabel")}
@@ -366,13 +371,13 @@ export function ProductSearch({
               onClick={closeModal}
             />
             <div
-              className="relative z-[111] w-full max-w-lg rounded-3xl border border-[color:var(--line)] bg-[color:var(--surface)] p-4 shadow-[0_28px_56px_-24px_rgba(74,54,38,0.7)] sm:p-5"
+              className="relative z-[111] my-2 flex w-full max-w-lg flex-col rounded-3xl border border-[color:var(--line)] p-4 shadow-[0_28px_56px_-24px_rgba(74,54,38,0.7)] sm:my-0 sm:p-5"
               style={{
                 background:
                   "linear-gradient(180deg, #fffaf1 0%, #fdf8ef 55%, #f8f0e2 100%)",
               }}
             >
-              <div className="mb-3 flex items-center justify-between gap-3">
+              <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
                 <p className="font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)]">
                   {t("productSearchLabel")}
                 </p>
@@ -385,7 +390,7 @@ export function ProductSearch({
                   <CloseGlyph className="h-4 w-4" />
                 </button>
               </div>
-              <div className="relative">
+              <div className="relative flex min-h-0 flex-col gap-0">
                 <SearchField
                   listId={`${listId}-modal`}
                   query={query}
@@ -401,6 +406,7 @@ export function ProductSearch({
                   onEscape={closeModal}
                   onNavigateAway={closeModal}
                   panelClassName="mt-3"
+                  resultsMaxHeightClass="max-h-[60vh]"
                 />
               </div>
             </div>
