@@ -209,12 +209,9 @@ export function Header() {
             ))}
           </nav>
 
-          <ProductSearch
-            variant="header"
-            className="ml-1 hidden min-w-0 max-w-md sm:ml-3 sm:block md:max-w-lg"
-          />
-
           <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <ProductSearch variant="header" />
+
             <Link
               href="/checkout"
               className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
@@ -270,11 +267,6 @@ export function Header() {
               <MenuIcon open={menuOpen} />
             </button>
           </div>
-        </div>
-
-        {/* Mobile search row — keeps the top bar uncluttered on small screens */}
-        <div className="border-t border-[color:var(--line)]/70 px-3 py-2 sm:hidden">
-          <ProductSearch variant="header" className="w-full" />
         </div>
       </header>
       {mobileMenu}

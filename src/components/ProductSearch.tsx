@@ -8,8 +8,10 @@ import {
   useRef,
   useState,
   type FormEvent,
-  type KeyboardEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type RefObject,
 } from "react";
+import { createPortal } from "react-dom";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -19,7 +21,7 @@ import {
   type ProductSearchHit,
 } from "@/lib/searchProducts";
 
-function SearchIcon({ className = "" }: { className?: string }) {
+export function SearchGlyph({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -44,60 +46,76 @@ function SearchIcon({ className = "" }: { className?: string }) {
   );
 }
 
-type ProductSearchProps = {
-  /** Compact bar for the sticky header vs. a roomier homepage block. */
-  variant?: "header" | "home";
-  className?: string;
-  /** Auto-focus the input (homepage). */
+function CloseGlyph({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M6 6l12 12M18 6L6 18"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+type SearchFieldProps = {
+  listId: string;
+  query: string;
+  setQuery: (value: string) => void;
+  setSuggestionsOpen: (value: boolean) => void;
+  activeIndex: number;
+  setActiveIndex: (value: number | ((prev: number) => number)) => void;
+  hits: ProductSearchHit[];
+  showPanel: boolean;
+  inputRef: RefObject<HTMLInputElement | null>;
+  size: "compact" | "comfortable";
   autoFocus?: boolean;
+  onEscape?: () => void;
+  onNavigateAway?: () => void;
+  panelClassName?: string;
 };
 
-export function ProductSearch({
-  variant = "header",
-  className = "",
+function SearchField({
+  listId,
+  query,
+  setQuery,
+  setSuggestionsOpen,
+  activeIndex,
+  setActiveIndex,
+  hits,
+  showPanel,
+  inputRef,
+  size,
   autoFocus = false,
-}: ProductSearchProps) {
+  onEscape,
+  onNavigateAway,
+  panelClassName = "",
+}: SearchFieldProps) {
   const { locale, t } = useI18n();
-  const listId = useId();
-  const rootRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const [query, setQuery] = useState("");
-  const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const deferredQuery = useDeferredValue(query);
-
-  const hits: ProductSearchHit[] =
-    deferredQuery.trim().length > 0
-      ? searchWtJapanProducts(deferredQuery, 5)
-      : [];
-  const showPanel = open && deferredQuery.trim().length > 0;
-  const isHome = variant === "home";
-
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [deferredQuery]);
-
-  useEffect(() => {
-    const onPointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onPointerDown);
-    return () => document.removeEventListener("mousedown", onPointerDown);
-  }, []);
+  const comfortable = size === "comfortable";
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (hits.length > 0) {
-      // Prefer keyboard-highlighted row; otherwise first hit.
       const target = hits[Math.max(0, activeIndex)] ?? hits[0];
+      onNavigateAway?.();
       window.location.assign(productHref(target.id));
     }
   };
 
-  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setSuggestionsOpen(false);
+      onEscape?.();
+      return;
+    }
     if (!showPanel) return;
     if (event.key === "ArrowDown") {
       event.preventDefault();
@@ -105,29 +123,23 @@ export function ProductSearch({
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, -1));
-    } else if (event.key === "Escape") {
-      setOpen(false);
-      inputRef.current?.blur();
     }
   };
 
   return (
-    <div
-      ref={rootRef}
-      className={`relative ${isHome ? "w-full" : "min-w-0 flex-1"} ${className}`}
-    >
+    <>
       <form
         role="search"
         onSubmit={onSubmit}
         className={
-          isHome
+          comfortable
             ? "group flex items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 shadow-[0_18px_36px_-28px_rgba(74,54,38,0.55)] ring-1 ring-[color:var(--accent)]/10 transition focus-within:border-[color:var(--accent)] focus-within:ring-[color:var(--accent)]/25"
-            : "group flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)]/90 px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
+            : "group flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
         }
       >
-        <SearchIcon
+        <SearchGlyph
           className={
-            isHome
+            comfortable
               ? "h-5 w-5 shrink-0 text-[color:var(--accent)]"
               : "h-4 w-4 shrink-0 text-[color:var(--muted)] group-focus-within:text-[color:var(--accent)]"
           }
@@ -148,15 +160,15 @@ export function ProductSearch({
           }
           placeholder={t("productSearchPlaceholder")}
           className={
-            isHome
+            comfortable
               ? "min-w-0 flex-1 bg-transparent text-sm text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)] sm:text-base"
               : "min-w-0 flex-1 bg-transparent text-xs text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)] sm:text-sm"
           }
           onChange={(event) => {
             setQuery(event.target.value);
-            setOpen(true);
+            setSuggestionsOpen(true);
           }}
-          onFocus={() => setOpen(true)}
+          onFocus={() => setSuggestionsOpen(true)}
           onKeyDown={onKeyDown}
         />
         {query ? (
@@ -166,7 +178,7 @@ export function ProductSearch({
             aria-label={t("productSearchClear")}
             onClick={() => {
               setQuery("");
-              setOpen(false);
+              setSuggestionsOpen(true);
               inputRef.current?.focus();
             }}
           >
@@ -180,16 +192,14 @@ export function ProductSearch({
           id={listId}
           role="listbox"
           aria-label={t("productSearchResults")}
-          className={`absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${
-            isHome ? "" : "min-w-[min(100vw-1.5rem,22rem)] sm:min-w-[22rem] sm:right-auto"
-          }`}
+          className={`overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
         >
           {hits.length === 0 ? (
             <p className="px-4 py-4 text-sm leading-relaxed text-[color:var(--muted)]">
               {t("productSearchEmpty")}
             </p>
           ) : (
-            <ul className="max-h-[min(70vh,22rem)] overflow-y-auto py-1.5">
+            <ul className="max-h-[min(60vh,22rem)] overflow-y-auto py-1.5">
               {hits.map((hit, index) => {
                 const active = index === activeIndex;
                 return (
@@ -203,7 +213,10 @@ export function ProductSearch({
                           : "hover:bg-[color:var(--accent-soft)]/70"
                       }`}
                       onMouseEnter={() => setActiveIndex(index)}
-                      onNavigate={() => setOpen(false)}
+                      onNavigate={() => {
+                        setSuggestionsOpen(false);
+                        onNavigateAway?.();
+                      }}
                     >
                       <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <Image
@@ -233,6 +246,228 @@ export function ProductSearch({
           )}
         </div>
       ) : null}
-    </div>
+    </>
+  );
+}
+
+type ProductSearchProps = {
+  variant?: "header" | "home";
+  className?: string;
+  autoFocus?: boolean;
+};
+
+/**
+ * Homepage: always-visible search bar with dropdown suggestions.
+ * Header: magnifying-glass control — expands inline on desktop (`md+`),
+ * opens a floating modal on smaller screens.
+ */
+export function ProductSearch({
+  variant = "header",
+  className = "",
+  autoFocus = false,
+}: ProductSearchProps) {
+  const { t } = useI18n();
+  const listId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const modalInputRef = useRef<HTMLInputElement>(null);
+
+  const [portalReady, setPortalReady] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const deferredQuery = useDeferredValue(query);
+  const hits =
+    deferredQuery.trim().length > 0
+      ? searchWtJapanProducts(deferredQuery, 5)
+      : [];
+  const showPanel = suggestionsOpen && deferredQuery.trim().length > 0;
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
+
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [deferredQuery]);
+
+  useEffect(() => {
+    if (!expanded) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setExpanded(false);
+        setSuggestionsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [expanded]);
+
+  useEffect(() => {
+    if (!modalOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const timer = window.setTimeout(() => modalInputRef.current?.focus(), 30);
+    const onKey = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setModalOpen(false);
+        setSuggestionsOpen(false);
+        setQuery("");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.clearTimeout(timer);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [modalOpen]);
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSuggestionsOpen(false);
+    setQuery("");
+  };
+
+  if (variant === "home") {
+    return (
+      <div ref={rootRef} className={`relative w-full ${className}`}>
+        <SearchField
+          listId={listId}
+          query={query}
+          setQuery={setQuery}
+          setSuggestionsOpen={setSuggestionsOpen}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+          hits={hits}
+          showPanel={showPanel}
+          inputRef={inputRef}
+          size="comfortable"
+          autoFocus={autoFocus}
+          panelClassName="absolute left-0 right-0 z-50 mt-2"
+        />
+      </div>
+    );
+  }
+
+  const modal =
+    modalOpen && portalReady
+      ? createPortal(
+          <div
+            className="fixed inset-0 z-[110] flex items-start justify-center bg-[color:var(--ink)]/45 px-3 pb-8 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:items-center sm:px-6"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("productSearchLabel")}
+          >
+            <button
+              type="button"
+              className="absolute inset-0 cursor-default"
+              aria-label={t("productSearchClose")}
+              onClick={closeModal}
+            />
+            <div
+              className="relative z-[111] w-full max-w-lg rounded-3xl border border-[color:var(--line)] bg-[color:var(--surface)] p-4 shadow-[0_28px_56px_-24px_rgba(74,54,38,0.7)] sm:p-5"
+              style={{
+                background:
+                  "linear-gradient(180deg, #fffaf1 0%, #fdf8ef 55%, #f8f0e2 100%)",
+              }}
+            >
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)]">
+                  {t("productSearchLabel")}
+                </p>
+                <button
+                  type="button"
+                  className="flex h-10 w-10 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  aria-label={t("productSearchClose")}
+                  onClick={closeModal}
+                >
+                  <CloseGlyph className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="relative">
+                <SearchField
+                  listId={`${listId}-modal`}
+                  query={query}
+                  setQuery={setQuery}
+                  setSuggestionsOpen={setSuggestionsOpen}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  hits={hits}
+                  showPanel={showPanel}
+                  inputRef={modalInputRef}
+                  size="comfortable"
+                  autoFocus
+                  onEscape={closeModal}
+                  onNavigateAway={closeModal}
+                  panelClassName="mt-3"
+                />
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
+  return (
+    <>
+      <div ref={rootRef} className={`relative flex items-center ${className}`}>
+        <div className="hidden items-center md:flex">
+          {expanded ? (
+            <div className="relative w-[min(42vw,18rem)] lg:w-[min(36vw,20rem)]">
+              <SearchField
+                listId={listId}
+                query={query}
+                setQuery={setQuery}
+                setSuggestionsOpen={setSuggestionsOpen}
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+                hits={hits}
+                showPanel={showPanel}
+                inputRef={inputRef}
+                size="compact"
+                autoFocus
+                onEscape={() => {
+                  setExpanded(false);
+                  setQuery("");
+                  setSuggestionsOpen(false);
+                }}
+                panelClassName="absolute right-0 z-50 mt-2 w-[min(90vw,22rem)]"
+              />
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              aria-label={t("productSearchOpen")}
+              aria-expanded={false}
+              onClick={() => {
+                setExpanded(true);
+                window.setTimeout(() => inputRef.current?.focus(), 20);
+              }}
+            >
+              <SearchGlyph className="h-5 w-5" />
+            </button>
+          )}
+        </div>
+
+        <button
+          type="button"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] md:hidden"
+          aria-label={t("productSearchOpen")}
+          aria-expanded={modalOpen}
+          onClick={() => {
+            setModalOpen(true);
+            setSuggestionsOpen(true);
+          }}
+        >
+          <SearchGlyph className="h-5 w-5" />
+        </button>
+      </div>
+      {modal}
+    </>
   );
 }
