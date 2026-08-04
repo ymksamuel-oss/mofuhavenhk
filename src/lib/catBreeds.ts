@@ -12,6 +12,10 @@ export type CatBreed = {
   imageAlt: { zh: string; en: string };
 };
 
+/** Shared Unsplash fallback when a breed portrait fails to load. */
+export const CAT_BREED_IMAGE_FALLBACK =
+  "https://images.unsplash.com/photo-1574231164645-d6f0e8553590?q=80&w=600&auto=format&fit=crop";
+
 /** Popular breeds for `/cat-breeds`. */
 export const CAT_BREEDS: CatBreed[] = [
   {

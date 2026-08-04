@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type SyntheticEvent } from "react";
 import Link from "next/link";
 import { Zen_Maru_Gothic } from "next/font/google";
 import {
   CAT_BREEDS,
+  CAT_BREED_IMAGE_FALLBACK,
   filterCatBreeds,
   type CatCoatFilter,
 } from "@/lib/catBreeds";
@@ -29,6 +30,13 @@ function filterChipClass(active: boolean) {
       ? "border-[#4A3B32] bg-[#4A3B32] text-[#FAF6F0] shadow-[0_10px_20px_-12px_rgba(74,59,50,0.55)]"
       : "border-[#4A3B32]/18 bg-[#FFFCFA] text-[#4A3B32]/75 hover:border-[#4A3B32]/45 hover:text-[#4A3B32]"
   }`;
+}
+
+function handleBreedImageError(event: SyntheticEvent<HTMLImageElement>) {
+  const image = event.currentTarget;
+  if (image.dataset.fallbackApplied === "true") return;
+  image.dataset.fallbackApplied = "true";
+  image.src = CAT_BREED_IMAGE_FALLBACK;
 }
 
 /**
