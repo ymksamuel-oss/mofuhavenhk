@@ -318,9 +318,9 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
     images: [
       {
         tag: "hero_main",
-        description: "金漸層幼貓 (Golden Shaded)",
+        description: "金漸層 (Golden Shaded)",
         src: "/images/cat-breeds/british-shorthair-golden.jpg",
-        alt: "金漸層英國短毛貓特寫",
+        alt: "金漸層英國短毛貓",
       },
       {
         tag: "gallery_item_1",

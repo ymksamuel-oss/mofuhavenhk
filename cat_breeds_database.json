@@ -73,16 +73,16 @@
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "british_shorthair_hero",
-        "description": "金漸層英國短毛貓特寫",
+        "description": "金漸層英國短毛貓",
         "src": "/images/cat-breeds/british-shorthair-golden.jpg",
-        "alt": "金漸層英國短毛貓特寫",
+        "alt": "金漸層英國短毛貓",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "金漸層幼貓 (Golden Shaded)",
+            "target_feature": "金漸層 (Golden Shaded)",
             "local_src": "/images/cat-breeds/british-shorthair-golden.jpg",
             "src": "/images/cat-breeds/british-shorthair-golden.jpg",
-            "alt": "金漸層英國短毛貓特寫"
+            "alt": "金漸層英國短毛貓"
           },
           {
             "tag": "gallery_item_1",
