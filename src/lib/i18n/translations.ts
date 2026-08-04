@@ -182,7 +182,6 @@ export const translations = {
     explorePetsWorld: "探索寵物世界",
     exploreAboutDog: "關於犬",
     exploreAboutCat: "關於貓",
-    aboutDogComingSoon: "犬隻照護繪本即將上線，敬請期待。",
     aboutCatBackToCatalog: "返回商品目錄",
     aboutCatEyebrow: "Mofu Haven 貓咪繪本",
     aboutCatTitle: "關於貓",
@@ -209,6 +208,32 @@ export const translations = {
     aboutCatChapter5Body:
       "定期驅蟲、疫苗與健康檢查，是守護長遠幸福的底氣。若出現食慾驟降、頻繁嘔吐、尿量異常或精神萎靡，請儘快就醫；日常也可搭配益生菌等保健，穩穩守住腸胃與免疫力。",
     aboutCatChapter5Alt: "貓咪健康保健示意",
+    aboutDogBackToCatalog: "返回商品目錄",
+    aboutDogEyebrow: "Mofu Haven 狗狗繪本",
+    aboutDogTitle: "關於犬",
+    aboutDogSubtitle:
+      "以溫柔的圖文書節奏，陪你一步步認識狗狗的日常——從迎犬回家到健康防護。",
+    aboutDogShopCta: "前往選購狗狗用品 🐶🛒",
+    aboutDogChapter1Title: "【迎犬回家】新手安全與必備物資",
+    aboutDogChapter1Body:
+      "為狗狗準備舒適狗窩、牽引繩、食水碗與安全圍欄。讓新成員安心熟悉新家。",
+    aboutDogChapter1Alt: "溫暖迎接狗狗回家的示意",
+    aboutDogChapter2Title: "【狗狗營養學】均衡膳食與能量補充",
+    aboutDogChapter2Body:
+      "選擇優質蛋白質主食，定時定量，並根據體型與活動量補足水分與營養。",
+    aboutDogChapter2Alt: "狗狗健康飲食示意",
+    aboutDogChapter3Title: "【日常溫柔照護】梳毛、潔牙與爪子護理",
+    aboutDogChapter3Body:
+      "定期梳理毛髮防結塊，維護口腔清潔與修剪趾甲，保持狗狗皮膚健康。",
+    aboutDogChapter3Alt: "狗狗梳毛與日常護理示意",
+    aboutDogChapter4Title: "【瞭解狗狗心事】散步與社會化陪伴",
+    aboutDogChapter4Body:
+      "每日足量散步放電，透過嗅聞與陪伴獲得安全感，建立良好的信任關係。",
+    aboutDogChapter4Alt: "狗狗散步與陪伴示意",
+    aboutDogChapter5Title: "【健康防護線】預防醫療與日常守護",
+    aboutDogChapter5Body:
+      "按時接種疫苗與定期驅蟲，密切留意食慾與精神狀況，守護全生命週期健康。",
+    aboutDogChapter5Alt: "狗狗健康守護示意",
   },
   en: {
     brand: "Mofu Haven",
@@ -390,7 +415,6 @@ export const translations = {
     explorePetsWorld: "Explore Pet World",
     exploreAboutDog: "About Dogs",
     exploreAboutCat: "About Cats",
-    aboutDogComingSoon: "Our dog-care picture book is coming soon.",
     aboutCatBackToCatalog: "Back to catalog",
     aboutCatEyebrow: "Mofu Haven Cat Picture Book",
     aboutCatTitle: "About Cats",
@@ -417,6 +441,32 @@ export const translations = {
     aboutCatChapter5Body:
       "Parasite control, vaccines, and checkups build long-term wellness. Seek care quickly for sudden appetite loss, frequent vomiting, unusual urination, or lethargy — daily supports like probiotics can also steady gut and immunity.",
     aboutCatChapter5Alt: "Cat health and wellness care",
+    aboutDogBackToCatalog: "Back to catalog",
+    aboutDogEyebrow: "Mofu Haven Dog Picture Book",
+    aboutDogTitle: "About Dogs",
+    aboutDogSubtitle:
+      "A gentle picture-book guide to everyday dog care — from bringing pup home to lifelong health.",
+    aboutDogShopCta: "Shop dog essentials 🐶🛒",
+    aboutDogChapter1Title: "【Welcome Home】Safety & starter essentials",
+    aboutDogChapter1Body:
+      "Prepare a cozy bed, leash, food and water bowls, and a safe playpen so your new dog can settle into the home with calm confidence.",
+    aboutDogChapter1Alt: "Warm welcome for a new dog at home",
+    aboutDogChapter2Title: "【Dog Nutrition】Balanced meals & energy",
+    aboutDogChapter2Body:
+      "Choose quality protein staples, feed on a steady schedule, and match water and nutrition to body size and activity level.",
+    aboutDogChapter2Alt: "Healthy dog dining",
+    aboutDogChapter3Title: "【Gentle Daily Care】Brushing, teeth & nails",
+    aboutDogChapter3Body:
+      "Brush regularly to prevent mats, keep teeth clean, and trim nails so skin and paws stay comfortable and healthy.",
+    aboutDogChapter3Alt: "Gentle dog grooming care",
+    aboutDogChapter4Title: "【Dog Feelings】Walks & social companionship",
+    aboutDogChapter4Body:
+      "Daily walks help burn energy; sniffing and companionship build safety and trust between you and your dog.",
+    aboutDogChapter4Alt: "Dog walking and companionship",
+    aboutDogChapter5Title: "【Health Shield】Prevention & everyday care",
+    aboutDogChapter5Body:
+      "Stay current on vaccines and parasite control, and watch appetite and energy closely to protect health across every life stage.",
+    aboutDogChapter5Alt: "Dog health and preventive care",
   },
 } as const;
 
