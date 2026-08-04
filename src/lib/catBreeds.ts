@@ -2,6 +2,69 @@ export type CatCoatFilter = "all" | "short" | "long";
 
 export type CatCoatType = "short" | "long";
 
+export type CatBreedPattern = {
+  pattern_id: string;
+  name_zh: string;
+  description: string;
+  image_url: string;
+};
+
+export type CatBreedColor = {
+  color_id: string;
+  name_zh: string;
+  description: string;
+};
+
+export type CatBreedMediaImage = {
+  tag: string;
+  description: string;
+  src: string;
+  alt: string;
+};
+
+/** Optional rich profile (currently used by Ragdoll detail). */
+export type CatBreedInfo = {
+  breed_id: string;
+  name_en: string;
+  name_zh_hk: string;
+  aliases: string[];
+  origin: {
+    country: string;
+    state: string;
+    decade: string;
+    creator: string;
+  };
+  physical_characteristics: {
+    eye_color: string;
+    size_category: string;
+    weight_kg: {
+      male: { min: number; max: number };
+      female: { min: number; max: number };
+    };
+    maturation_years: string;
+    coat: {
+      length: string;
+      texture: string;
+      undercoat: string;
+    };
+  };
+  patterns: CatBreedPattern[];
+  colors: CatBreedColor[];
+  personality_traits: string[];
+  care_and_health: {
+    environment: string;
+    genetic_risks: string[];
+    digestive_health: string;
+    diet_management: string;
+    grooming: string;
+  };
+  media_assets: {
+    status: string;
+    instruction_for_cursor?: string;
+    images: CatBreedMediaImage[];
+  };
+};
+
 export type CatBreed = {
   id: string;
   slug: string;
@@ -17,11 +80,118 @@ export type CatBreed = {
   careTips: string[];
   nutritionAdvice: string[];
   fullDescription: string;
+  /** Optional extended profile shown on the detail page. */
+  breedInfo?: CatBreedInfo;
 };
 
 /** Shared Unsplash fallback when a breed portrait fails to load. */
 export const CAT_BREED_IMAGE_FALLBACK =
   "https://images.unsplash.com/photo-1574231164645-d6f0e8553590?q=80&w=600&auto=format&fit=crop";
+
+/** Ragdoll-exclusive rich profile for `/cat-breeds/ragdoll`. */
+export const RAGDOLL_BREED_INFO: CatBreedInfo = {
+  breed_id: "ragdoll",
+  name_en: "Ragdoll",
+  name_zh_hk: "布偶貓",
+  aliases: ["仙女貓", "Puppy Cat", "棉花布娃娃貓"],
+  origin: {
+    country: "United States",
+    state: "California",
+    decade: "1960s",
+    creator: "Ann Baker",
+  },
+  physical_characteristics: {
+    eye_color: "Blue (必為藍眼睛)",
+    size_category: "Large (大型貓)",
+    weight_kg: {
+      male: { min: 6.0, max: 9.0 },
+      female: { min: 4.5, max: 7.0 },
+    },
+    maturation_years: "3-4 年（晚熟型）",
+    coat: {
+      length: "Medium-long (中長毛)",
+      texture: "Silky (絲滑)",
+      undercoat: "Sparse (底毛稀疏)",
+    },
+  },
+  patterns: [
+    {
+      pattern_id: "bicolor",
+      name_zh: "雙色",
+      description: "臉部有對稱倒V字白斑，下巴、胸腹與四肢為白色",
+      image_url:
+        "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      pattern_id: "mitted",
+      name_zh: "手套色",
+      description: "前肢白色手套，後肢白色高筒靴，下巴至腹部有白色帶",
+      image_url:
+        "https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=800&auto=format&fit=crop",
+    },
+    {
+      pattern_id: "colorpoint",
+      name_zh: "重點色",
+      description: "面部、耳朵、四肢與尾巴為深色，軀幹為淺色",
+      image_url:
+        "https://images.unsplash.com/photo-1511044568932-260bbdd4ec27?q=80&w=800&auto=format&fit=crop",
+    },
+  ],
+  colors: [
+    { color_id: "seal", name_zh: "海豹色", description: "經典深褐" },
+    { color_id: "blue", name_zh: "藍色", description: "灰色" },
+    { color_id: "chocolate", name_zh: "巧克力色", description: "淺褐色" },
+    { color_id: "lilac", name_zh: "丁香色", description: "淡紫灰色" },
+    { color_id: "red", name_zh: "紅色", description: "暖橘紅" },
+    { color_id: "cream", name_zh: "奶油色", description: "淺奶油色" },
+    { color_id: "lynx", name_zh: "山貓紋", description: "帶有虎斑紋路" },
+  ],
+  personality_traits: [
+    "極度黏人（Puppy Cat 性格）",
+    "脾氣溫和，對兒童與寵物忍耐力高",
+    "叫聲輕柔安靜",
+    "高情商，善於陪伴與察覺情緒",
+  ],
+  care_and_health: {
+    environment: "100% 室內飼養（防禦力低，切勿放養）",
+    genetic_risks: ["肥厚型心肌病 (HCM)", "多囊性腎臟病 (PKD)"],
+    digestive_health:
+      "玻璃胃（腸胃敏感），換糧需 7-10 天過渡，建議補充益生菌",
+    diet_management: "定時定量餵食，預防肥胖",
+    grooming: "每週 2-3 次梳毛，定期修剪臀部雜毛",
+  },
+  media_assets: {
+    status: "updated",
+    instruction_for_cursor:
+      "請 Cursor 搜尋並更新正確的布偶貓相片 URL 及 Alt Text，修正先前的圖片錯誤。",
+    images: [
+      {
+        tag: "hero",
+        description: "湛藍眼睛與柔順長毛的雙色布偶貓特寫",
+        src: "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=1200&auto=format&fit=crop",
+        alt: "雙色布偶貓湛藍眼睛特寫",
+      },
+      {
+        tag: "bicolor",
+        description: "倒V字雙色布偶貓全身照",
+        src: "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
+        alt: "雙色布偶貓",
+      },
+      {
+        tag: "mitted",
+        description: "手套色布偶貓",
+        src: "https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=800&auto=format&fit=crop",
+        alt: "手套色布偶貓",
+      },
+      {
+        tag: "colorpoint",
+        description: "重點色布偶貓",
+        src: "https://images.unsplash.com/photo-1511044568932-260bbdd4ec27?q=80&w=800&auto=format&fit=crop",
+        alt: "重點色布偶貓",
+      },
+    ],
+  },
+};
 
 export const catBreedsData: CatBreed[] = [
   {
@@ -81,26 +251,32 @@ export const catBreedsData: CatBreed[] = [
     slug: "ragdoll",
     name: "布偶貓",
     coatType: "long",
-    coatLabel: "長毛",
+    coatLabel: "中長毛",
     shortDescription: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
     imageUrl:
       "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
-    origin: "美國",
-    lifespan: "12 - 15 歲",
-    weight: "4.5 - 9.0 kg",
-    personality: ["極度黏人", "溫柔抱抱貓", "聲音輕柔", "沒有攻擊性"],
+    origin: "美國加州",
+    lifespan: "12 - 15 歲（晚熟 3-4 年）",
+    weight: "公 6.0–9.0 kg／母 4.5–7.0 kg",
+    personality: [
+      "極度黏人（Puppy Cat 性格）",
+      "脾氣溫和，對兒童與寵物忍耐力高",
+      "叫聲輕柔安靜",
+      "高情商，善於陪伴與察覺情緒",
+    ],
     careTips: [
-      "絲滑長毛需每天梳理，防止毛髮結塊與毛球症發生。",
-      "布偶貓性格極度依賴主人，不宜長時間單獨在家。",
-      "室內貓咪，避免戶外放養以防受傷。",
+      "100% 室內飼養（防禦力低，切勿放養）",
+      "每週 2-3 次梳毛，定期修剪臀部雜毛",
+      "留意 HCM／PKD 等遺傳風險，定期健康檢查",
     ],
     nutritionAdvice: [
-      "布偶貓腸胃較為敏感（俗稱玻璃胃），建議選擇無穀低敏主食。",
-      "添加益生菌與膳食纖維，幫助維持腸道菌群平衡與排毛。",
-      "補充 Omega-3 / Omega-6 脂肪酸，保持飄逸毛髮柔順。",
+      "玻璃胃（腸胃敏感），換糧需 7-10 天過渡，建議補充益生菌",
+      "定時定量餵食，預防肥胖",
+      "補充 Omega-3 / Omega-6 脂肪酸，保持飄逸毛髮柔順",
     ],
     fullDescription:
-      "被譽為「貓界仙女」的布偶貓，擁有深邃的藍眼睛與豐滿的雙層長毛。當你抱起牠時，牠會像軟綿綿的布偶一樣放鬆，是極具療癒感的情感陪伴寵物。",
+      "被譽為「貓界仙女」的布偶貓，擁有深邃的藍眼睛與豐滿的中長毛。當你抱起牠時，牠會像軟綿綿的布偶一樣放鬆，是極具療癒感的情感陪伴寵物。",
+    breedInfo: RAGDOLL_BREED_INFO,
   },
   {
     id: "4",

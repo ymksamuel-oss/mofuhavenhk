@@ -256,6 +256,15 @@ export const translations = {
     catBreedDetailNoteEyebrow: "溫馨提醒",
     catBreedDetailNote:
       "每隻貓咪都是獨一無二的，請根據自家愛寵的實際情況提供細心照顧。",
+    catBreedDetailPhysical: "【身體特徵】",
+    catBreedDetailEyes: "眼睛",
+    catBreedDetailSize: "體型",
+    catBreedDetailMaturity: "成熟期",
+    catBreedDetailCoat: "被毛",
+    catBreedDetailPatterns: "【花色圖案】",
+    catBreedDetailColors: "【常見毛色】",
+    catBreedDetailHealth: "【健康與照護重點】",
+    catBreedDetailGeneticRisks: "遺傳風險",
   },
   en: {
     brand: "Mofu Haven",

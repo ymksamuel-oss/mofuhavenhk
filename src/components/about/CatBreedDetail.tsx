@@ -30,6 +30,9 @@ type CatBreedDetailProps = {
  */
 export function CatBreedDetail({ breed }: CatBreedDetailProps) {
   const { t } = useI18n();
+  const info = breed.breedInfo;
+  const heroImage =
+    info?.media_assets.images.find((image) => image.tag === "hero") ?? null;
 
   const facts = [
     { label: t("catBreedDetailOrigin"), value: breed.origin },
@@ -71,8 +74,8 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
             <div className="relative aspect-[4/3] w-full bg-[#FAF6F0]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={breed.imageUrl}
-                alt={breed.name}
+                src={heroImage?.src || breed.imageUrl}
+                alt={heroImage?.alt || breed.name}
                 className="absolute inset-0 h-full w-full object-cover"
                 onError={handleBreedImageError}
               />
@@ -84,8 +87,16 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               {breed.coatLabel}
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              {breed.name}
+              {info?.name_zh_hk || breed.name}
             </h1>
+            {info ? (
+              <p className="mt-1 text-sm text-[#4A3B32]/60">
+                {info.name_en}
+                {info.aliases.length > 0
+                  ? ` · ${info.aliases.join("／")}`
+                  : null}
+              </p>
+            ) : null}
             <p className="mt-3 text-base leading-relaxed text-[#4A3B32]/85 sm:text-lg">
               {breed.fullDescription}
             </p>
@@ -108,20 +119,133 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
           ))}
         </ul>
 
-        <div className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
-          {sections.map((section) => (
-            <section key={section.title} className="max-w-3xl">
+        {info ? (
+          <div className="mt-10 space-y-10 sm:mt-12">
+            <section>
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
-                {section.title}
+                {t("catBreedDetailPhysical")}
               </h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
-                {section.items.map((item) => (
-                  <li key={item}>{item}</li>
+              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                  <span className="font-semibold">{t("catBreedDetailEyes")}：</span>
+                  {info.physical_characteristics.eye_color}
+                </li>
+                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                  <span className="font-semibold">{t("catBreedDetailSize")}：</span>
+                  {info.physical_characteristics.size_category}
+                </li>
+                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                  <span className="font-semibold">{t("catBreedDetailMaturity")}：</span>
+                  {info.physical_characteristics.maturation_years}
+                </li>
+                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                  <span className="font-semibold">{t("catBreedDetailCoat")}：</span>
+                  {info.physical_characteristics.coat.length}／
+                  {info.physical_characteristics.coat.texture}／
+                  {info.physical_characteristics.coat.undercoat}
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                {t("catBreedDetailPatterns")}
+              </h2>
+              <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {info.patterns.map((pattern) => (
+                  <li
+                    key={pattern.pattern_id}
+                    className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
+                  >
+                    <div className="relative aspect-[4/3] bg-[#FAF6F0]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={pattern.image_url || CAT_BREED_IMAGE_FALLBACK}
+                        alt={pattern.name_zh}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        onError={handleBreedImageError}
+                      />
+                    </div>
+                    <div className="space-y-1.5 px-4 py-3">
+                      <p className="text-sm font-semibold">{pattern.name_zh}</p>
+                      <p className="text-xs leading-relaxed text-[#4A3B32]/75">
+                        {pattern.description}
+                      </p>
+                    </div>
+                  </li>
                 ))}
               </ul>
             </section>
-          ))}
-        </div>
+
+            <section>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                {t("catBreedDetailColors")}
+              </h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {info.colors.map((color) => (
+                  <li
+                    key={color.color_id}
+                    className="rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1.5 text-xs font-medium"
+                    title={color.description}
+                  >
+                    {color.name_zh}
+                    <span className="ml-1 text-[#4A3B32]/55">
+                      · {color.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="max-w-3xl">
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                {t("catBreedDetailHealth")}
+              </h2>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+                <li>{info.care_and_health.environment}</li>
+                <li>
+                  {t("catBreedDetailGeneticRisks")}：
+                  {info.care_and_health.genetic_risks.join("、")}
+                </li>
+                <li>{info.care_and_health.digestive_health}</li>
+                <li>{info.care_and_health.diet_management}</li>
+                <li>{info.care_and_health.grooming}</li>
+              </ul>
+            </section>
+          </div>
+        ) : (
+          <div className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
+            {sections.map((section) => (
+              <section key={section.title} className="max-w-3xl">
+                <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                  {section.title}
+                </h2>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        )}
+
+        {!info ? null : (
+          <div className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
+            {sections.map((section) => (
+              <section key={section.title} className="max-w-3xl">
+                <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                  {section.title}
+                </h2>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        )}
 
         <aside className="mt-12 rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-5 py-5 shadow-[0_16px_32px_-24px_rgba(74,59,50,0.4)] sm:mt-14 sm:px-6 sm:py-6">
           <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
