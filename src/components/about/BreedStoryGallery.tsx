@@ -118,18 +118,6 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
                     draggable={false}
                     onError={handleSlideImageError}
                   />
-                  <div className="pointer-events-none absolute inset-x-3 top-3 flex gap-1">
-                    {slides.map((dotSlide, dotIndex) => (
-                      <span
-                        key={`${slide.tag}-bar-${dotSlide.tag}`}
-                        className={`h-0.5 flex-1 rounded-full ${
-                          dotIndex <= index
-                            ? "bg-white/95"
-                            : "bg-white/35"
-                        }`}
-                      />
-                    ))}
-                  </div>
                 </div>
                 <p className="px-4 py-3 text-xs leading-relaxed text-[#4A3B32]/75 sm:text-[0.8rem]">
                   {slide.description}
