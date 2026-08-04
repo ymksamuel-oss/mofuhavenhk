@@ -169,149 +169,18 @@ h3 {
 }
 
 .brand-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  line-height: 1;
-  color: var(--ink);
+  line-height: 0;
 }
 
 .brand-logo .logo-letter {
   display: inline-block;
+  transform-box: fill-box;
   transform-origin: center bottom;
 }
 
 .brand-logo .logo-mark {
+  transform-box: fill-box;
   transform-origin: center;
-}
-
-.brand-logo .logo-copy {
-  display: inline-flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 0.08rem;
-}
-
-.brand-logo .logo-copy-top,
-.brand-logo .logo-copy-bottom {
-  display: flex;
-  align-items: flex-end;
-  white-space: nowrap;
-}
-
-.brand-logo .logo-letter-zh {
-  font-family:
-    "Hiragino Rounded GB",
-    "PingFang HK",
-    "Noto Sans HK",
-    var(--font-display),
-    sans-serif;
-  font-size: clamp(0.8rem, 1vw, 1rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-}
-
-.brand-logo .logo-letter-en {
-  font-family:
-    "Snell Roundhand",
-    "Segoe Script",
-    "Brush Script MT",
-    "Apple Chancery",
-    cursive;
-  font-size: clamp(1rem, 1.2vw, 1.25rem);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-}
-
-.brand-logo .logo-space {
-  width: 0.42em;
-}
-
-.brand-logo .logo-cat {
-  position: relative;
-  flex: 0 0 auto;
-  width: 1.8rem;
-  height: 1.55rem;
-  margin-right: 0.05rem;
-}
-
-.brand-logo .logo-cat-body {
-  position: absolute;
-  left: 0.15rem;
-  bottom: 0.15rem;
-  width: 1rem;
-  height: 0.72rem;
-  border-radius: 999px 999px 0.85rem 0.7rem;
-  background: linear-gradient(180deg, #f5c791 0%, var(--accent) 100%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
-}
-
-.brand-logo .logo-cat-head {
-  position: absolute;
-  top: 0.08rem;
-  left: 0.85rem;
-  width: 0.62rem;
-  height: 0.62rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffd9aa 0%, #f0b16d 100%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
-}
-
-.brand-logo .logo-cat-ear {
-  position: absolute;
-  top: -0.12rem;
-  width: 0.18rem;
-  height: 0.22rem;
-  background: #efb16f;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.brand-logo .logo-cat-ear-left {
-  left: 0.08rem;
-  transform: rotate(-10deg);
-}
-
-.brand-logo .logo-cat-ear-right {
-  right: 0.08rem;
-  transform: rotate(10deg);
-}
-
-.brand-logo .logo-cat-face {
-  position: absolute;
-  inset: 0;
-}
-
-.brand-logo .logo-cat-face::before,
-.brand-logo .logo-cat-face::after {
-  content: "";
-  position: absolute;
-  top: 0.23rem;
-  width: 0.06rem;
-  height: 0.06rem;
-  border-radius: 999px;
-  background: var(--ink);
-}
-
-.brand-logo .logo-cat-face::before {
-  left: 0.18rem;
-}
-
-.brand-logo .logo-cat-face::after {
-  right: 0.18rem;
-}
-
-.brand-logo .logo-cat-tail {
-  position: absolute;
-  right: 0.08rem;
-  bottom: 0.42rem;
-  width: 0.68rem;
-  height: 0.22rem;
-  border-top: 0.14rem solid #e0a15f;
-  border-radius: 999px;
-  transform: rotate(28deg);
-  transform-origin: left center;
 }
 
 .brand-logo-link:hover .brand-logo .logo-letter,
@@ -327,35 +196,13 @@ h3 {
   animation: logoMarkBob 0.55s ease both;
 }
 
-.brand-logo-link:hover .brand-logo .logo-cat-tail,
-.brand-logo-link:focus-visible .brand-logo .logo-cat-tail,
-.brand-logo.is-waving .logo-cat-tail {
-  animation: logoTailSwish 0.55s ease both;
-}
-
-@keyframes logoTailSwish {
-  0%,
-  100% {
-    transform: rotate(28deg);
-  }
-  40% {
-    transform: rotate(8deg);
-  }
-  70% {
-    transform: rotate(38deg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .brand-logo-link:hover .brand-logo .logo-letter,
   .brand-logo-link:focus-visible .brand-logo .logo-letter,
   .brand-logo.is-waving .logo-letter,
   .brand-logo-link:hover .brand-logo .logo-mark,
   .brand-logo-link:focus-visible .brand-logo .logo-mark,
-  .brand-logo.is-waving .logo-mark,
-  .brand-logo-link:hover .brand-logo .logo-cat-tail,
-  .brand-logo-link:focus-visible .brand-logo .logo-cat-tail,
-  .brand-logo.is-waving .logo-cat-tail {
+  .brand-logo.is-waving .logo-mark {
     animation: none;
   }
 }

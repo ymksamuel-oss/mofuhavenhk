@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-const ZH_WORD = "毛毛港";
-const EN_WORD = "Mofu Haven";
+const WORD = "Mofu Haven";
 
 type BrandLogoProps = {
   className?: string;
@@ -11,15 +10,17 @@ type BrandLogoProps = {
 };
 
 /**
- * Interactive bilingual wordmark for the header / footer / info pages.
- * A tiny cat mascot "walks" the letters by staggering each glyph bounce.
+ * Interactive SVG wordmark for the header. Each glyph is a separate
+ * `<tspan>` so hover / click can run a staggered wave animation.
+ *
+ * Note: If you have a custom logo SVG, replace the markup inside
+ * `.brand-logo` — keep the `logo-letter` class + `--i` index for the wave.
  */
 export function BrandLogo({
   className = "",
-  title = "毛毛港 Mofu Haven",
+  title = "Mofu Haven",
 }: BrandLogoProps) {
   const [waving, setWaving] = useState(false);
-  const glyphs = [...ZH_WORD, " ", ...EN_WORD];
 
   const triggerWave = () => {
     setWaving(false);
@@ -38,43 +39,44 @@ export function BrandLogo({
           triggerWave();
         }
       }}
-      role="img"
-      aria-label={title}
     >
-      <span className="logo-mark logo-cat" aria-hidden="true">
-        <span className="logo-cat-body" />
-        <span className="logo-cat-head">
-          <span className="logo-cat-ear logo-cat-ear-left" />
-          <span className="logo-cat-ear logo-cat-ear-right" />
-          <span className="logo-cat-face" />
-        </span>
-        <span className="logo-cat-tail" />
-      </span>
-
-      <span className="logo-copy">
-        <span className="logo-copy-top">
-          {ZH_WORD.split("").map((char, index) => (
-            <span
-              key={`zh-${char}-${index}`}
-              className="logo-letter logo-letter-zh"
+      <svg
+        className="h-8 w-auto"
+        viewBox="0 0 168 28"
+        role="img"
+        aria-label={title}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>{title}</title>
+        {/* Soft accent mark — small paw / blob beside the wordmark */}
+        <g className="logo-mark" aria-hidden="true">
+          <circle cx="10" cy="14" r="7" fill="var(--accent)" />
+          <circle cx="5.5" cy="8.5" r="2.2" fill="var(--accent)" />
+          <circle cx="14.5" cy="8.5" r="2.2" fill="var(--accent)" />
+          <circle cx="3.8" cy="13.5" r="1.8" fill="var(--accent)" />
+          <circle cx="16.2" cy="13.5" r="1.8" fill="var(--accent)" />
+        </g>
+        <text
+          x="24"
+          y="20"
+          fill="var(--ink)"
+          fontFamily="var(--font-display), 'Noto Sans HK', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif"
+          fontSize="18"
+          fontWeight="600"
+          letterSpacing="0.02em"
+        >
+          {WORD.split("").map((char, index) => (
+            <tspan
+              key={`${char}-${index}`}
+              className="logo-letter"
               style={{ ["--i" as string]: index }}
-            >
-              {char}
-            </span>
-          ))}
-        </span>
-        <span className="logo-copy-bottom">
-          {glyphs.map((char, index) => (
-            <span
-              key={`en-${char}-${index}`}
-              className={`logo-letter ${char === " " ? "logo-space" : "logo-letter-en"}`}
-              style={{ ["--i" as string]: index + 1 }}
+              dx={index === 0 ? 0 : char === " " ? 5 : 0.2}
             >
               {char === " " ? "\u00A0" : char}
-            </span>
+            </tspan>
           ))}
-        </span>
-      </span>
+        </text>
+      </svg>
     </span>
   );
 }
