@@ -8,19 +8,55 @@ import {
 export const CAT_SUBCATEGORIES = [
   "貓罐罐",
   "貓乾糧",
-  "凍乾零食",
+  "冷凍脫水系列",
 ] as const;
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
+
+/** Dog-products sub-filter keys (shown under 「狗狗商品」). */
+export const DOG_SUBCATEGORIES = ["狗狗食品", "狗狗小食"] as const;
+
+export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
+
+/** Union of cat/dog food-zone subcategories used by product records. */
+export type ProductSubcategory = CatSubcategory | DogSubcategory;
+
+/** URL path segment → cat subcategory key. */
+export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
+  "wet-cans": "貓罐罐",
+  "dry-food": "貓乾糧",
+  "freeze-dried": "冷凍脫水系列",
+};
+
+/** Cat subcategory key → URL path segment. */
+export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
+  貓罐罐: "wet-cans",
+  貓乾糧: "dry-food",
+  冷凍脫水系列: "freeze-dried",
+};
+
+/** URL path segment → dog subcategory key. */
+export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
+  food: "狗狗食品",
+  snacks: "狗狗小食",
+};
+
+/** Dog subcategory key → URL path segment. */
+export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
+  狗狗食品: "food",
+  狗狗小食: "snacks",
+};
 
 export type Product = {
   id: string;
   categorySlug: string;
   /**
-   * Optional cat sub-category used by `/categories/cats` pill filters.
-   * Non-cat products leave this undefined.
+   * Optional food-zone sub-category for `/categories/cats` or `/categories/dogs`.
+   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列）.
+   * 「狗狗小食」= dog treats zone under dog products.
+   * Apparel / toys / supplies leave this undefined.
    */
-  subcategory?: CatSubcategory;
+  subcategory?: ProductSubcategory;
   /**
    * Path (under /public) to a real product photograph for this SKU.
    * Typical locations: `public/products/<id>.webp` or
@@ -36,6 +72,11 @@ export type Product = {
    * next to the current `price`.
    */
   originalPrice?: number;
+  /**
+   * Optional brand/series line for list-style catalog cards
+   * (e.g. 「MAMACOOK 但馬高原」 above the product name).
+   */
+  series?: { zh: string; en: string };
   /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
@@ -296,6 +337,7 @@ const WT_TAG_EN: Record<string, string> = {
   幼貓專用: "For kittens",
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
+  冷凍脫水系列: "Freeze-dried series",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
@@ -333,8 +375,49 @@ const WT_TAG_EN: Record<string, string> = {
   大份裝: "Value pack",
 };
 
+function freezeDriedSeriesForVendor(
+  vendor: string,
+): { zh: string; en: string } | undefined {
+  if (vendor === "MAMACOOK") {
+    return { zh: "MAMACOOK 但馬高原", en: "MAMACOOK Tajima Highlands" };
+  }
+  if (vendor === "Petio") {
+    return { zh: "Petio 冷凍脫水系列", en: "Petio Freeze-Dried Series" };
+  }
+  if (vendor) {
+    return { zh: vendor, en: vendor };
+  }
+  return undefined;
+}
+
+/** Strip series/brand prefix so list cards can show series + name separately. */
+export function freezeDriedProductName(
+  fullName: string,
+  series: string | undefined,
+  locale: "zh" | "en",
+): string {
+  if (!series) return fullName;
+  if (locale === "zh") {
+    if (fullName.startsWith(series)) {
+      return fullName.slice(series.length).replace(/^[・\s\-–—]+/, "").trim();
+    }
+    // Titles like「日本國產無添加冷凍脫水…」without a vendor series prefix.
+    return fullName;
+  }
+  // English names usually already omit the series as a separate prefix.
+  const withoutVendor = fullName
+    .replace(/^MAMACOOK\s+Tajima\s+/i, "")
+    .replace(/^Petio\s+Freeze-Dried\s+/i, "")
+    .trim();
+  return withoutVendor || fullName;
+}
+
 function wtJapanToProduct(p: WtJapanProduct): Product {
   const en = WT_JAPAN_EN[p.id];
+  const series =
+    p.subcategory === "冷凍脫水系列"
+      ? freezeDriedSeriesForVendor(p.vendor)
+      : undefined;
   return {
     id: p.id,
     // Keep in sync with productsData `category` / `categorySlug` (貓咪商品 → cats)
@@ -346,6 +429,8 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
       en: en?.name ?? p.title,
     },
     price: p.price,
+    originalPrice: p.originalPrice,
+    series,
     icon: "cat",
     description: {
       zh: p.description,
@@ -353,7 +438,15 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
     },
     specs: [
       { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
-      { zh: "規格：日本原裝進口", en: "Import: Japan original" },
+      { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
+      ...(p.subcategory === "冷凍脫水系列"
+        ? [
+            {
+              zh: "專區：冷凍食物專區（冷凍脫水系列）",
+              en: "Zone: Cat freeze-dried food (freeze-dried series)",
+            },
+          ]
+        : []),
       ...p.tags.slice(0, 3).map((tag) => ({
         zh: tag,
         en: WT_TAG_EN[tag] ?? tag,
@@ -468,27 +561,64 @@ export const PRODUCTS: Product[] = [
       en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
     },
   },
-  // Real WT Japan 凍乾零食 live in WT_JAPAN_STOREFRONT_PRODUCTS (subcategory 「凍乾零食」).
+  // Real WT Japan 冷凍脫水系列 (cat freeze-dried food zone) live in WT_JAPAN_STOREFRONT_PRODUCTS.
 
-  // CIAO 貓罐罐 + 乾糧 + 凍乾零食（WT Japan）— wired from `@/data/productsData`
+  // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
+  // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
   {
     id: "dog-food-1-5kg",
     categorySlug: "dogs",
+    subcategory: "狗狗食品",
     image: "/products/dog-food-1-5kg.webp",
     name: { zh: "日本天然狗糧 1.5kg", en: "Japanese Natural Dog Food 1.5kg" },
     price: 168,
     icon: "dog",
+    description: {
+      zh: "日本配方天然狗糧，均衡營養適合日常主食。",
+      en: "Japanese-formula natural kibble — balanced nutrition for everyday meals.",
+    },
   },
   {
     id: "dog-dental-chews",
     categorySlug: "dogs",
+    subcategory: "狗狗小食",
     image: "/products/dog-dental-chews.webp",
     name: { zh: "狗狗潔牙骨 12支裝", en: "Dog Dental Chews (12pcs)" },
     price: 88,
     icon: "dog",
+    description: {
+      zh: "潔牙小食雙效設計，磨牙同時清潔齒垢，訓練獎勵都合適。",
+      en: "Dental chew treats that scrub tartar while dogs gnaw — great as a reward too.",
+    },
+  },
+  {
+    id: "dog-dried-meat-treats",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    image: "/products/dog-dried-meat-treats.webp",
+    name: { zh: "狗狗肉乾小食", en: "Dried Meat Dog Treats" },
+    price: 52,
+    icon: "dog",
+    description: {
+      zh: "風乾肉乾小食，高蛋白低負擔，適合日常獎勵同訓練。",
+      en: "Air-dried meat treats — high protein, everyday rewards and training.",
+    },
+  },
+  {
+    id: "snack-chicken-jerky",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    image: "/products/snack-chicken-jerky.webp",
+    name: { zh: "日本雞胸肉乾", en: "Japanese Chicken Breast Jerky" },
+    price: 48,
+    icon: "dog",
+    description: {
+      zh: "100% 雞胸肉低溫烘乾製作，無添加防腐劑，狗狗健康零食首選。",
+      en: "Slow low-temperature dried 100% chicken breast for dogs — no preservatives.",
+    },
   },
   {
     id: "dog-warm-coat",
@@ -559,16 +689,9 @@ export const PRODUCTS: Product[] = [
     },
   },
 
-  // 寵物小食 / Pet Snacks
-  // Cat freeze-dried treats live under cats (WT Japan subcategory 凍乾零食).
-  {
-    id: "dog-dried-meat-treats",
-    categorySlug: "snacks",
-    image: "/products/dog-dried-meat-treats.webp",
-    name: { zh: "狗狗肉乾小食", en: "Dried Meat Dog Treats" },
-    price: 52,
-    icon: "bone",
-  },
+  // 寵物小食 / Pet Snacks（貓狗共用／貓向小食）
+  // Cat freeze-dried treats live under cats only (subcategory 「冷凍脫水系列」).
+  // Dog-only treats live under dogs (subcategory 「狗狗小食」).
   {
     id: "assorted-treats-giftbox",
     categorySlug: "snacks",
@@ -576,18 +699,6 @@ export const PRODUCTS: Product[] = [
     name: { zh: "綜合寵物餅乾禮盒", en: "Assorted Pet Treats Gift Box" },
     price: 88,
     icon: "bone",
-  },
-  {
-    id: "snack-chicken-jerky",
-    categorySlug: "snacks",
-    image: "/products/snack-chicken-jerky.webp",
-    name: { zh: "日本雞胸肉乾", en: "Japanese Chicken Breast Jerky" },
-    price: 48,
-    icon: "bone",
-    description: {
-      zh: "100% 雞胸肉低溫烘乾製作，無添加防腐劑，健康零食首選。",
-      en: "Slow low-temperature dried 100% chicken breast, no preservatives added.",
-    },
   },
   {
     id: "snack-cheese-stick",
@@ -1611,9 +1722,33 @@ export function getCatProductsBySubcategory(
   return cats.filter((product) => product.subcategory === subcategory);
 }
 
+/** Filter dog products by optional subcategory pill (`null` = all). */
+export function getDogProductsBySubcategory(
+  subcategory: DogSubcategory | null,
+): Product[] {
+  const dogs = getProductsByCategory("dogs");
+  if (!subcategory) return dogs;
+  return dogs.filter((product) => product.subcategory === subcategory);
+}
+
 export function getProductById(id: string | null | undefined): Product | null {
   if (!id) return null;
   return PRODUCTS.find((product) => product.id === id) ?? null;
+}
+
+/** Resolve a subcategory path segment for cats or dogs; `null` if unknown. */
+export function resolveCategorySubSlug(
+  categorySlug: string,
+  subSlug: string | null | undefined,
+): ProductSubcategory | null {
+  if (!subSlug) return null;
+  if (categorySlug === "cats") {
+    return CAT_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+  }
+  if (categorySlug === "dogs") {
+    return DOG_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+  }
+  return null;
 }
 
 /** Canonical product detail path. */

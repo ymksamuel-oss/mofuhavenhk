@@ -16,5 +16,5 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  return <ProductCatalog categorySlug={slug} />;
+  return <ProductCatalog categorySlug={slug} subcategory={null} />;
 }

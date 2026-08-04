@@ -60,3 +60,9 @@ export function isCategorySlug(slug: string): boolean {
 export function categoryHref(slug: string): string {
   return `/categories/${slug}`;
 }
+
+/** Canonical path for a category subcategory (e.g. `/categories/dogs/snacks`). */
+export function categorySubHref(slug: string, subSlug: string | null | undefined): string {
+  if (!subSlug) return categoryHref(slug);
+  return `/categories/${slug}/${subSlug}`;
+}

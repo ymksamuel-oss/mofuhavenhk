@@ -8,7 +8,8 @@ import { useCart } from "@/lib/shop/cart";
 type AddToCartButtonProps = {
   productId: string;
   className?: string;
-  size?: "card" | "modal";
+  /** `list` = compact qty stepper for horizontal freeze-dried cards. */
+  size?: "card" | "modal" | "list";
 };
 
 /**
@@ -40,8 +41,69 @@ export function AddToCartButton({
     setQty((current) => Math.min(MAX_QTY, current + 1));
   };
 
+  const stop = (event: React.MouseEvent | React.PointerEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   const stepperBtnClass =
-    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-base font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40";
+    size === "list"
+      ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40"
+      : "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-base font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40";
+
+  const stepper = (
+    <div className="flex items-center gap-1.5" onClick={stop}>
+      <button
+        type="button"
+        onClick={decrease}
+        disabled={qty <= MIN_QTY}
+        aria-label={t("qtyDecrease")}
+        className={stepperBtnClass}
+      >
+        −
+      </button>
+      <span
+        className="min-w-6 text-center text-sm font-semibold tabular-nums text-[color:var(--ink)]"
+        aria-live="polite"
+      >
+        {qty}
+      </span>
+      <button
+        type="button"
+        onClick={increase}
+        disabled={qty >= MAX_QTY}
+        aria-label={t("qtyIncrease")}
+        className={stepperBtnClass}
+      >
+        +
+      </button>
+    </div>
+  );
+
+  if (size === "list") {
+    return (
+      <div className={`flex items-center gap-2 ${className}`}>
+        {stepper}
+        <button
+          type="button"
+          onClick={(event) => {
+            stop(event);
+            addItem(productId, qty);
+            setAdded(true);
+            setQty(MIN_QTY);
+          }}
+          aria-live="polite"
+          className={`inline-flex shrink-0 items-center justify-center rounded-full px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] ${
+            added
+              ? "bg-emerald-600"
+              : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"
+          }`}
+        >
+          {added ? t("menuAddedToCart") : t("menuAddToCart")}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -49,44 +111,14 @@ export function AddToCartButton({
         size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"
       } ${className}`}
     >
-      <div
-        className="flex items-center justify-center gap-2"
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-        }}
-      >
-        <button
-          type="button"
-          onClick={decrease}
-          disabled={qty <= MIN_QTY}
-          aria-label={t("qtyDecrease")}
-          className={stepperBtnClass}
-        >
-          −
-        </button>
-        <span
-          className="min-w-8 text-center text-sm font-semibold tabular-nums text-[color:var(--ink)]"
-          aria-live="polite"
-        >
-          {qty}
-        </span>
-        <button
-          type="button"
-          onClick={increase}
-          disabled={qty >= MAX_QTY}
-          aria-label={t("qtyIncrease")}
-          className={stepperBtnClass}
-        >
-          +
-        </button>
+      <div className="flex items-center justify-center gap-2" onClick={stop}>
+        {stepper}
       </div>
 
       <button
         type="button"
         onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
+          stop(event);
           addItem(productId, qty);
           setAdded(true);
           setQty(MIN_QTY);
