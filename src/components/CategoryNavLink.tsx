@@ -1,13 +1,13 @@
 "use client";
 
-import type { MouseEvent, ReactNode } from "react";
+import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 
 type CategoryNavLinkProps = {
   href: string;
   className?: string;
   children: ReactNode;
-  "aria-label"?: string;
-};
+  onNavigate?: () => void;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "className" | "children">;
 
 /**
  * Hard document navigation for catalog / category chips.
@@ -18,9 +18,12 @@ export function CategoryNavLink({
   href,
   className,
   children,
+  onNavigate,
+  onClick,
   ...rest
 }: CategoryNavLinkProps) {
-  const onClick = (event: MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
     if (
       event.defaultPrevented ||
       event.button !== 0 ||
@@ -34,12 +37,13 @@ export function CategoryNavLink({
 
     // Force a full navigation even if a framework interceptor interferes.
     event.preventDefault();
+    onNavigate?.();
     document.body.style.overflow = "";
     window.location.assign(href);
   };
 
   return (
-    <a href={href} className={className} onClick={onClick} {...rest}>
+    <a href={href} className={className} onClick={handleClick} {...rest}>
       {children}
     </a>
   );
