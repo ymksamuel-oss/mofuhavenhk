@@ -20,6 +20,7 @@ export function BrandLogo({
 }: BrandLogoProps) {
   const [waving, setWaving] = useState(false);
   const zhGlyphs = [...ZH_WORD];
+  const enGlyphs = [...EN_WORD];
 
   const triggerWave = () => {
     setWaving(false);
@@ -42,12 +43,12 @@ export function BrandLogo({
       aria-label={title}
     >
       <span className="logo-copy">
-        <span className="logo-cat-row" aria-hidden="true">
-          <span className="logo-cat-emoji logo-mark" role="presentation">
-            🐱
+        <span className="logo-copy-line">
+          <span className="logo-cat-head logo-mark" aria-hidden="true">
+            <span className="logo-cat-ear logo-cat-ear-left" />
+            <span className="logo-cat-ear logo-cat-ear-right" />
+            <span className="logo-cat-face" />
           </span>
-        </span>
-        <span className="logo-copy-line logo-copy-line-zh">
           {zhGlyphs.map((char, index) => (
             <span
               key={`zh-${char}-${index}`}
@@ -59,7 +60,15 @@ export function BrandLogo({
           ))}
         </span>
         <span className="logo-copy-line logo-copy-line-en">
-          <span className="logo-letter-en">{EN_WORD}</span>
+          {enGlyphs.map((char, index) => (
+            <span
+              key={`en-${char}-${index}`}
+              className={`logo-letter ${char === " " ? "logo-space" : "logo-letter-en"}`}
+              style={{ ["--i" as string]: index + zhGlyphs.length + 1 }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
         </span>
       </span>
     </span>
