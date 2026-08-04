@@ -4,8 +4,10 @@
  * Rules (name / description / tags / specs / productType / id):
  * 1. Freeze-dried + 貓貓／貓用（or freeze-dried series without dog-only mark）
  *    → cats / 冷凍脫水系列 — never dogs.
- * 2. 狗狗／狗用 + edible food／treat signals → dogs / 狗狗食品 or 狗狗小食.
- * 3. Toys, gear, health, cleaning, outdoor keep their storefront category
+ * 2. Cat snack series marks（無添加天然／老貓零食／去毛球／bb貓）
+ *    → cats / 貓貓小食 (keeps authored snackSeries).
+ * 3. 狗狗／狗用 + edible food／treat signals → dogs / 狗狗食品 or 狗狗小食.
+ * 4. Toys, gear, health, cleaning, outdoor keep their storefront category
  *    even when the title says「狗狗」(those are not food SKUs).
  */
 
@@ -13,6 +15,7 @@ export type FoodZoneSubcategory =
   | "貓罐罐"
   | "貓乾糧"
   | "冷凍脫水系列"
+  | "貓貓小食"
   | "狗狗食品"
   | "狗狗小食";
 
@@ -33,11 +36,13 @@ const DOG_MARK = /狗狗|狗用|狗零食|狗肉乾|(?<!貓)狗糧|\bdog\b/i;
 const CAT_MARK = /貓貓|貓用|貓咪|\bcat\b/i;
 /** Shared cat+dog SKUs stay in their marketing / snacks shelf. */
 const SHARED_MARK =
-  /貓狗|貓與狗|cats?\s*[&＋+]\s*dogs?|cat\s*&\s*dog|for cats?\s*(&|and)\s*dogs?/i;
+  /貓狗|貓與狗|小貓小狗|小狗小貓|幼貓幼犬|幼犬幼貓|cats?\s*[&＋+]\s*dogs?|cat\s*&\s*dog|kitten\s*&\s*puppy|puppy\s*&\s*kitten|for cats?\s*(&|and)\s*dogs?/i;
 const FREEZE_MARK =
   /冷凍脫水|凍乾|freeze[\s-]?dried|freeze[\s-]?dry/i;
+const CAT_SNACK_SERIES_MARK =
+  /無添加天然系列|老貓零食|去毛球配方|bb貓零食|BB貓零食|吐毛球配方|毛玉配慮|幼貓用|1歳前|11歳起|14歳起|高齡貓/i;
 const SNACK_MARK =
-  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack/i;
+  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack|糊仔|膏狀|餡餅|奶粉|山羊奶/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
 /** Non-food categories that must not be swallowed into 狗狗食品. */
@@ -122,6 +127,33 @@ export function inferFoodZone(
         ? "冷凍脫水 + 貓貓／貓用 → 貓貓冷凍脫水系列"
         : "冷凍脫水系列預設歸入貓貓專區",
       tags: ["冷凍脫水系列", "貓貓小食", "貓用"],
+    };
+  }
+
+  // ——— Authored cat snack series stay put ———
+  if (product.subcategory === "貓貓小食" && (hasCat || !hasDog)) {
+    return {
+      categorySlug: "cats",
+      subcategory: "貓貓小食",
+      reason: "已歸入貓貓小食專區 → 保持",
+      tags: ["貓貓小食", "貓用"],
+    };
+  }
+
+  // ——— Cat snack series (無添加天然／老貓／去毛球／BB) ———
+  // Keep under cats / 貓貓小食; do not swallow wet-can / dry-food primaries.
+  if (
+    !hasDog &&
+    CAT_SNACK_SERIES_MARK.test(text) &&
+    (hasSnack || /糊仔|膏狀|餡餅|脆餅|餵奶|奶粉|山羊奶/i.test(text)) &&
+    product.subcategory !== "貓罐罐" &&
+    product.subcategory !== "貓乾糧"
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: "貓貓小食",
+      reason: "貓貓零食系列關鍵字 → 貓貓小食專區",
+      tags: ["貓貓小食", "貓用"],
     };
   }
 
