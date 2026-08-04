@@ -48,12 +48,14 @@ function subChipClassName(active: boolean) {
 const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓罐罐: "catSubWetCans",
   貓乾糧: "catSubDryFood",
+  貓貓小食: "catSubSnacks",
   冷凍脫水系列: "catSubFreezeDried",
 };
 
 const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
   狗狗食品: "dogSubFood",
   狗狗小食: "dogSubSnacks",
+  冷凍脫水系列: "dogSubFreezeDried",
 };
 
 type ProductCatalogProps = {
@@ -184,7 +186,9 @@ export function ProductCatalog({
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-  const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showCatFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showDogFreezeDriedZone = dogSubcategory === "冷凍脫水系列";
+  const showFreezeDriedZone = showCatFreezeDriedZone || showDogFreezeDriedZone;
   const showDogSnacksZone = dogSubcategory === "狗狗小食";
 
   return (
@@ -273,17 +277,27 @@ export function ProductCatalog({
 
       {showFreezeDriedZone ? (
         <section
-          aria-label={t("catFreezeDriedZoneTitle")}
+          aria-label={
+            showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneTitle")
+              : t("catFreezeDriedZoneTitle")
+          }
           className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
         >
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
-            {t("catFreezeDriedZoneEyebrow")}
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneEyebrow")
+              : t("catFreezeDriedZoneEyebrow")}
           </p>
           <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
-            {t("catFreezeDriedZoneTitle")}
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneTitle")
+              : t("catFreezeDriedZoneTitle")}
           </h2>
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
-            {t("catFreezeDriedZoneSubtitle")}
+            {showDogFreezeDriedZone
+              ? t("dogFreezeDriedZoneSubtitle")
+              : t("catFreezeDriedZoneSubtitle")}
           </p>
         </section>
       ) : null}
