@@ -133,13 +133,13 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "silver_tabby",
       name_zh: "銀虎斑 (Silver Tabby)",
       description: "帶有清晰斑紋與綠色/榛果色眼睛",
-      image_url: "https://cdn2.thecatapi.com/images/M1Rh3CPp_.jpg",
+      image_url: "https://cdn2.thecatapi.com/images/2b2pFY0-t.jpg",
     },
     {
       pattern_id: "bicolor",
       name_zh: "雙色 (Bicolor)",
       description: "白底配搭藍色、灰色或虎斑塊",
-      image_url: "https://cdn2.thecatapi.com/images/s4wQfYoEk.jpg",
+      image_url: "https://cdn2.thecatapi.com/images/M1Rh3CPp_.jpg",
     },
   ],
   colors: [
