@@ -187,10 +187,8 @@ h3 {
 .brand-logo .logo-copy {
   display: inline-flex;
   min-width: 0;
-  position: relative;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.02rem;
+  flex-direction: row;
+  align-items: center;
 }
 
 .logo-text {
@@ -206,14 +204,6 @@ h3 {
 
 .brand-logo .logo-copy-line-main {
   gap: 0.18rem;
-}
-
-.brand-logo .logo-cat-row {
-  display: flex;
-  width: 100%;
-  height: 0.95rem;
-  align-items: flex-end;
-  overflow: visible;
 }
 
 .brand-logo .logo-letter-zh {
@@ -241,21 +231,20 @@ h3 {
   letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--ink) 72%, white);
   transform: none;
-  margin-left: 0.35rem;
 }
 
 .brand-logo .logo-cat-emoji {
   display: inline-block;
   font-size: 1rem;
   line-height: 1;
+  margin-right: 0.08rem;
   filter: drop-shadow(0 3px 6px rgb(74 54 38 / 0.18));
-  animation: logoCatPiano 1.25s ease-in-out infinite;
 }
 
 .brand-logo-link:hover .brand-logo .logo-cat-emoji,
 .brand-logo-link:focus-visible .brand-logo .logo-cat-emoji,
 .brand-logo.is-waving .logo-cat-emoji {
-  animation-duration: 0.85s;
+  animation: logoMarkBob 0.55s ease both;
 }
 
 .brand-logo-link:hover .brand-logo .logo-letter,
@@ -271,27 +260,6 @@ h3 {
   animation: logoMarkBob 0.55s ease both;
 }
 
-@keyframes logoCatPiano {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  18% {
-    transform: translateX(0.45rem) translateY(-0.22rem);
-  }
-  36% {
-    transform: translateX(0.9rem) translateY(0);
-  }
-  54% {
-    transform: translateX(1.35rem) translateY(-0.22rem);
-  }
-  72% {
-    transform: translateX(1.8rem) translateY(0);
-  }
-  100% {
-    transform: translateX(2.25rem) translateY(-0.16rem);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .brand-logo-link:hover .brand-logo .logo-letter,
   .brand-logo-link:focus-visible .brand-logo .logo-letter,
@@ -299,10 +267,6 @@ h3 {
   .brand-logo-link:hover .brand-logo .logo-mark,
   .brand-logo-link:focus-visible .brand-logo .logo-mark,
   .brand-logo.is-waving .logo-mark {
-    animation: none;
-  }
-
-  .brand-logo .logo-cat-emoji {
     animation: none;
   }
 }

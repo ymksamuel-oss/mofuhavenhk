@@ -192,7 +192,6 @@ function SearchField({
               ? "min-w-0 flex-1 bg-transparent text-base text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)]"
               : "min-w-0 flex-1 bg-transparent text-base text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)]"
           }
-          style={{ fontSize: "16px" }}
           onChange={(event) => {
             setQuery(event.target.value);
             setSuggestionsOpen(true);
