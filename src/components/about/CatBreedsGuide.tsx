@@ -46,7 +46,7 @@ function handleBreedImageError(event: SyntheticEvent<HTMLImageElement>) {
  * Japanese-style cat breed guide with coat-length filters.
  */
 export function CatBreedsGuide() {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const [filter, setFilter] = useState<CatCoatFilter>("all");
   const breeds = useMemo(() => filterCatBreeds(filter), [filter]);
 
@@ -108,8 +108,8 @@ export function CatBreedsGuide() {
                     {/* External Unsplash — native img avoids next.config remotePatterns. */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={breed.image}
-                      alt={breed.imageAlt[locale]}
+                      src={breed.imageUrl}
+                      alt={breed.name}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                       onError={handleBreedImageError}
@@ -117,13 +117,13 @@ export function CatBreedsGuide() {
                   </div>
                   <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
                     <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
-                      {breed.coatLabel[locale]}
+                      {breed.coatLabel}
                     </p>
                     <h2 className="text-xl font-bold tracking-tight">
-                      {breed.name[locale]}
+                      {breed.name}
                     </h2>
                     <p className="text-sm leading-relaxed text-[#4A3B32]/85">
-                      {breed.summary[locale]}
+                      {breed.shortDescription}
                     </p>
                   </div>
                 </Link>

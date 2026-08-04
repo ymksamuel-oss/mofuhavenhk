@@ -29,26 +29,26 @@ type CatBreedDetailProps = {
  * Detail view for a single cat breed — warm picture-book styling.
  */
 export function CatBreedDetail({ breed }: CatBreedDetailProps) {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
 
   const facts = [
-    { label: t("catBreedDetailOrigin"), value: breed.origin[locale] },
-    { label: t("catBreedDetailLifespan"), value: breed.lifespan[locale] },
-    { label: t("catBreedDetailWeight"), value: breed.weight[locale] },
+    { label: t("catBreedDetailOrigin"), value: breed.origin },
+    { label: t("catBreedDetailLifespan"), value: breed.lifespan },
+    { label: t("catBreedDetailWeight"), value: breed.weight },
   ];
 
   const sections = [
     {
       title: t("catBreedDetailPersonality"),
-      body: breed.personality[locale],
+      items: breed.personality,
     },
     {
       title: t("catBreedDetailCare"),
-      body: breed.careTips[locale],
+      items: breed.careTips,
     },
     {
       title: t("catBreedDetailNutrition"),
-      body: breed.nutritionAdvice[locale],
+      items: breed.nutritionAdvice,
     },
   ];
 
@@ -71,8 +71,8 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
             <div className="relative aspect-[4/3] w-full bg-[#FAF6F0]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={breed.image}
-                alt={breed.imageAlt[locale]}
+                src={breed.imageUrl}
+                alt={breed.name}
                 className="absolute inset-0 h-full w-full object-cover"
                 onError={handleBreedImageError}
               />
@@ -81,13 +81,13 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
 
           <header>
             <p className="inline-flex rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/65">
-              {breed.coatLabel[locale]}
+              {breed.coatLabel}
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              {breed.name[locale]}
+              {breed.name}
             </h1>
             <p className="mt-3 text-base leading-relaxed text-[#4A3B32]/85 sm:text-lg">
-              {breed.fullDescription[locale]}
+              {breed.fullDescription}
             </p>
           </header>
         </div>
@@ -114,9 +114,11 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {section.title}
               </h2>
-              <p className="mt-3 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
-                {section.body}
-              </p>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+                {section.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </section>
           ))}
         </div>

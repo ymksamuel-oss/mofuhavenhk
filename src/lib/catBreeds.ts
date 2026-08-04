@@ -1,250 +1,423 @@
 export type CatCoatFilter = "all" | "short" | "long";
 
-export type CatCoatType = "short" | "long" | "both";
-
-export type LocalizedText = { zh: string; en: string };
+export type CatCoatType = "short" | "long";
 
 export type CatBreed = {
   id: string;
   slug: string;
-  coat: CatCoatType;
-  image: string;
-  name: LocalizedText;
-  coatLabel: LocalizedText;
-  summary: LocalizedText;
-  imageAlt: LocalizedText;
-  origin: LocalizedText;
-  lifespan: LocalizedText;
-  weight: LocalizedText;
-  personality: LocalizedText;
-  careTips: LocalizedText;
-  nutritionAdvice: LocalizedText;
-  fullDescription: LocalizedText;
+  name: string;
+  coatType: CatCoatType;
+  coatLabel: string;
+  shortDescription: string;
+  imageUrl: string;
+  origin: string;
+  lifespan: string;
+  weight: string;
+  personality: string[];
+  careTips: string[];
+  nutritionAdvice: string[];
+  fullDescription: string;
 };
 
 /** Shared Unsplash fallback when a breed portrait fails to load. */
 export const CAT_BREED_IMAGE_FALLBACK =
   "https://images.unsplash.com/photo-1574231164645-d6f0e8553590?q=80&w=600&auto=format&fit=crop";
 
-/** Popular breeds for `/cat-breeds` and `/cat-breeds/[slug]`. */
-export const CAT_BREEDS: CatBreed[] = [
+export const catBreedsData: CatBreed[] = [
   {
-    id: "british-shorthair",
+    id: "1",
     slug: "british-shorthair",
-    coat: "short",
-    image:
-      "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&auto=format&fit=crop",
-    name: { zh: "英國短毛貓", en: "British Shorthair" },
-    coatLabel: { zh: "短毛", en: "Short hair" },
-    summary: {
-      zh: "溫和穩定、體型圓滾，注意體重管理。",
-      en: "Gentle and steady with a round build — watch weight carefully.",
-    },
-    imageAlt: {
-      zh: "英國短毛貓肖像",
-      en: "Portrait of a British Shorthair cat",
-    },
-    origin: { zh: "英國", en: "United Kingdom" },
-    lifespan: { zh: "12–17 年", en: "12–17 years" },
-    weight: { zh: "公 4–8 kg／母 3–6 kg", en: "Males 4–8 kg / Females 3–6 kg" },
-    personality: {
-      zh: "性格沉穩、溫柔且不黏人過頭，喜歡安靜陪伴。對家庭環境適應佳，適合節奏平穩的同居生活，不喜歡突兀噪音與過度刺激。",
-      en: "Calm, gentle, and affectionately independent. Adapts well to steady homes and prefers quiet companionship over constant stimulation.",
-    },
-    careTips: {
-      zh: "每週梳毛 1–2 次即可；留意體態與活動量，避免體重快速增加。提供穩固跳台與舒適睡窩，減少關節負擔。定期檢查口腔與指甲。",
-      en: "Brush 1–2 times weekly. Monitor body condition and activity to prevent weight gain. Offer sturdy perches and soft beds, and keep teeth and nails in routine care.",
-    },
-    nutritionAdvice: {
-      zh: "選擇適量熱量的優質成貓糧，必要時改用體重管理配方。定時定量餵食，搭配充足清水與濕糧，維持泌尿與代謝健康。",
-      en: "Choose quality adult food with sensible calories; use weight-management formulas if needed. Feed measured meals with plenty of water and some wet food.",
-    },
-    fullDescription: {
-      zh: "英國短毛貓以圓潤臉型、濃密短毛與穩定氣質聞名，是許多家庭首選的陪伴品種。牠們外表「泰迪熊」般討喜，內心卻安靜內斂；適度遊戲與穩定作息，能讓牠們長期保持健康與好心情。",
-      en: "British Shorthairs are known for round faces, dense short coats, and steady temperaments. Teddy-bear looks meet a quietly affectionate nature — balanced play and routine keep them well for years.",
-    },
+    name: "英國短毛貓",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "溫和穩定、體型圓滾，注意體重管理。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=800&auto=format&fit=crop",
+    origin: "英國",
+    lifespan: "12 - 17 歲",
+    weight: "4.0 - 8.0 kg",
+    personality: ["溫和冷靜", "適應力強", "獨立不黏人", "喜歡陪伴"],
+    careTips: [
+      "換毛季每週需梳毛 2-3 次，減少毛球堆積。",
+      "英短較少主動運動，容易發胖，需每天陪同遊戲 15 分鐘。",
+      "注意保持耳道清潔，定期檢查耳垢。",
+    ],
+    nutritionAdvice: [
+      "建議選擇高蛋白質、低碳水化合物的乾糧或主食罐。",
+      "控制每日熱量攝取，加入 L-肉鹼成分有助於維持理想體型。",
+      "適量補充深海魚油，維持厚實短毛的光澤度。",
+    ],
+    fullDescription:
+      "英國短毛貓擁有悠久歷史，以圓滾滾的臉龐、大眼睛和厚密的「絨毛感」短毛聞名。牠們性格溫和理性，非常適合忙碌的都市家庭。",
   },
   {
-    id: "american-shorthair",
+    id: "2",
     slug: "american-shorthair",
-    coat: "short",
-    image:
+    name: "美國短毛貓",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "活潑好動、適應力強，需補足每日運動量。",
+    imageUrl:
       "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?q=80&w=800&auto=format&fit=crop",
-    name: { zh: "美國短毛貓", en: "American Shorthair" },
-    coatLabel: { zh: "短毛", en: "Short hair" },
-    summary: {
-      zh: "活潑好動、適應力強，需補足每日運動量。",
-      en: "Playful and adaptable — make sure daily exercise is enough.",
-    },
-    imageAlt: {
-      zh: "美國短毛貓肖像",
-      en: "Portrait of an American Shorthair cat",
-    },
-    origin: { zh: "美國", en: "United States" },
-    lifespan: { zh: "15–20 年", en: "15–20 years" },
-    weight: { zh: "公 5–7 kg／母 3.5–5.5 kg", en: "Males 5–7 kg / Females 3.5–5.5 kg" },
-    personality: {
-      zh: "好奇心強、友善且適應力佳，對人與其他寵物通常表現開放。喜愛狩獵遊戲與探索，能融入熱鬧或安靜的家庭節奏。",
-      en: "Curious, friendly, and adaptable with people and other pets. Loves hunting-style play and exploring, fitting both lively and calm households.",
-    },
-    careTips: {
-      zh: "每日安排互動遊戲與爬高空間，滿足活動需求。短毛好照顧，但仍需定期梳毛減少掉毛。注意心血管家族史，定期健康檢查很重要。",
-      en: "Schedule daily interactive play and vertical space. Short coats are easy, but brush regularly. Watch cardiac family history with routine vet checks.",
-    },
-    nutritionAdvice: {
-      zh: "高品質蛋白質主食有助維持肌肉；依活動量調整熱量。避免過度零食，並確保全天候新鮮飲水。",
-      en: "Quality protein supports muscle tone; match calories to activity. Limit treats and keep fresh water available all day.",
-    },
-    fullDescription: {
-      zh: "美國短毛貓是經典的「家庭全能貓」：強壯、聰明又好脾氣。銀虎斑等花色最具辨識度。只要給足遊戲時間與均衡飲食，牠們能成為長期穩定的好夥伴。",
-      en: "American Shorthairs are classic all-round family cats — sturdy, smart, and good-natured. Silver tabbies are especially iconic. With play and balanced meals, they make lasting companions.",
-    },
+    origin: "美國",
+    lifespan: "15 - 20 歲",
+    weight: "3.5 - 7.5 kg",
+    personality: ["聰明活潑", "好奇心強", "友善親人", "體格健壯"],
+    careTips: [
+      "短毛極易照顧，每週梳毛 1 次即可。",
+      "精力充沛，建議提供貓抓板與跳台滿足探索慾望。",
+      "定期清潔牙齒，預防牙周健康問題。",
+    ],
+    nutritionAdvice: [
+      "美短肌肉發達，需補充優質動物性蛋白以維持肌肉質量。",
+      "可搭配軟骨素與葡萄糖胺，照顧日常跳躍的關節健康。",
+      "提供足夠的新鮮飲用水，預防尿路系統問題。",
+    ],
+    fullDescription:
+      "美國短毛貓以強健的體魄與標誌性的虎斑紋路著稱。牠們個性外向且充滿好奇心，能與兒童及其他寵物和睦相處。",
   },
   {
-    id: "ragdoll",
+    id: "3",
     slug: "ragdoll",
-    coat: "long",
-    image:
-      "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
-    name: { zh: "布偶貓", en: "Ragdoll" },
-    coatLabel: { zh: "長毛", en: "Long hair" },
-    summary: {
-      zh: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
-      en: "Sweet-tempered with a plush coat — mind digestion and brushing.",
-    },
-    imageAlt: {
-      zh: "布偶貓肖像",
-      en: "Portrait of a Ragdoll cat",
-    },
-    origin: { zh: "美國加州", en: "California, USA" },
-    lifespan: { zh: "12–17 年", en: "12–17 years" },
-    weight: { zh: "公 6–9 kg／母 4.5–7 kg", en: "Males 6–9 kg / Females 4.5–7 kg" },
-    personality: {
-      zh: "溫柔黏人、安全感強，常被形容為「狗般忠誠」。喜歡跟隨家人走動，對粗暴對待敏感，適合耐心細膩的照顧者。",
-      en: "Gentle and people-oriented — often called dog-like in loyalty. Follows family around and thrives with patient, kind handling.",
-    },
-    careTips: {
-      zh: "長毛需每週多次梳理，重點清理胸腹與後腿防結塊。室內飼養較安全；注意關節負擔，提供低矮舒適休息區。定期檢查心臟相關健康指標。",
-      en: "Brush several times weekly, especially chest and hind legs. Indoor living is safer; ease joints with low soft resting spots and monitor heart health.",
-    },
-    nutritionAdvice: {
-      zh: "腸胃較敏感者可選易消化配方與適度纖維。大型體格需控制總熱量，搭配適量濕糧提升水分攝取。",
-      en: "Sensitive digesters do well on gentle formulas with moderate fiber. Larger frames need calorie control plus wet food for hydration.",
-    },
-    fullDescription: {
-      zh: "布偶貓以藍眼睛、軟綿綿體態與放鬆時「布偶式」癱軟聞名。牠們需要情感陪伴，也需要認真梳毛與體重管理；細心照顧下，是極具療癒感的家庭成員。",
-      en: "Ragdolls are known for blue eyes, plush bodies, and their floppy ‘ragdoll’ relaxation. They need emotional company plus grooming and weight care — deeply soothing family cats when tended well.",
-    },
+    name: "布偶貓",
+    coatType: "long",
+    coatLabel: "長毛",
+    shortDescription: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=800&auto=format&fit=crop",
+    origin: "美國",
+    lifespan: "12 - 15 歲",
+    weight: "4.5 - 9.0 kg",
+    personality: ["極度黏人", "溫柔抱抱貓", "聲音輕柔", "沒有攻擊性"],
+    careTips: [
+      "絲滑長毛需每天梳理，防止毛髮結塊與毛球症發生。",
+      "布偶貓性格極度依賴主人，不宜長時間單獨在家。",
+      "室內貓咪，避免戶外放養以防受傷。",
+    ],
+    nutritionAdvice: [
+      "布偶貓腸胃較為敏感（俗稱玻璃胃），建議選擇無穀低敏主食。",
+      "添加益生菌與膳食纖維，幫助維持腸道菌群平衡與排毛。",
+      "補充 Omega-3 / Omega-6 脂肪酸，保持飄逸毛髮柔順。",
+    ],
+    fullDescription:
+      "被譽為「貓界仙女」的布偶貓，擁有深邃的藍眼睛與豐滿的雙層長毛。當你抱起牠時，牠會像軟綿綿的布偶一樣放鬆，是極具療癒感的情感陪伴寵物。",
   },
   {
-    id: "russian-blue",
+    id: "4",
     slug: "russian-blue",
-    coat: "short",
-    image:
-      "https://images.unsplash.com/photo-1574063413132-3407983637cc?q=80&w=800&auto=format&fit=crop",
-    name: { zh: "俄羅斯藍貓", en: "Russian Blue" },
-    coatLabel: { zh: "短毛", en: "Short hair" },
-    summary: {
-      zh: "敏感聰穎、短毛濃密，提供安靜的休息空間。",
-      en: "Sensitive and bright with dense short fur — offer quiet rest space.",
-    },
-    imageAlt: {
-      zh: "俄羅斯藍貓肖像",
-      en: "Portrait of a Russian Blue cat",
-    },
-    origin: { zh: "俄羅斯／北歐地區", en: "Russia / Northern Europe" },
-    lifespan: { zh: "15–20 年", en: "15–20 years" },
-    weight: { zh: "公 4–6 kg／母 3–5 kg", en: "Males 4–6 kg / Females 3–5 kg" },
-    personality: {
-      zh: "聰明敏感、對熟人溫柔，對陌生人可能害羞。喜歡可預期的日常與專屬安靜角落，適合尊重界線的陪伴方式。",
-      en: "Intelligent and sensitive — soft with familiars, shy with strangers. Prefers predictable routines and quiet corners, with respectful companionship.",
-    },
-    careTips: {
-      zh: "雙層短毛可用橡膠梳輕輕梳理以減少掉毛。保持環境穩定，避免頻繁搬家或嘈雜。提供藏匿處與高處觀察點。",
-      en: "Dense double coat benefits from gentle rubber-brush grooming. Keep the environment steady and offer hideaways plus high lookout spots.",
-    },
-    nutritionAdvice: {
-      zh: "代謝偏高者需注意熱量密度與體態。優質蛋白質與穩定餵食時間有助情緒與腸胃；可適度補充 omega 脂肪酸護毛。",
-      en: "Watch calorie density for active metabolisms. Quality protein and steady meal times help mood and gut; omega fatty acids support the coat.",
-    },
-    fullDescription: {
-      zh: "俄羅斯藍貓以銀藍毛色與翠綠色眼睛為標誌，氣質優雅而內斂。牠們不是「吵鬧型」伴侶，卻能在信任建立後展現深厚情感連結。",
-      en: "Russian Blues are marked by silver-blue coats and emerald eyes — elegant and reserved. Not loud companions, yet deeply bonded once trust is earned.",
-    },
+    name: "俄羅斯藍貓",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "敏感聰穎、短毛濃密，提供安靜的休息空間。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=800&auto=format&fit=crop",
+    origin: "俄羅斯",
+    lifespan: "15 - 20 歲",
+    weight: "3.0 - 5.5 kg",
+    personality: ["文靜內斂", "忠誠專一", "敏銳聰明", "喜歡安靜"],
+    careTips: [
+      "銀藍色雙層短毛幾乎不掉毛，每週梳毛 1 次即可。",
+      "對環境變化較敏感，家中應保持安靜穩定的休息區域。",
+      "喜歡智力挑戰遊戲，如藏食玩具。",
+    ],
+    nutritionAdvice: [
+      "維持高消化率的高品質蛋白質，保持靈巧輕盈的體型。",
+      "控制脂肪攝取，避免因室內運動量較少而引發肥胖。",
+      "補足 Taurine（牛磺酸），保護明亮的綠色眼睛與心臟健康。",
+    ],
+    fullDescription:
+      "俄羅斯藍貓擁有銀光閃耀的藍灰色毛皮與翡翠般的綠眼睛。牠們文靜優雅，雖然對陌生人較為害羞，但對認定的主人非常忠誠親密。",
   },
   {
-    id: "munchkin",
+    id: "5",
     slug: "munchkin",
-    coat: "both",
-    image:
-      "https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=800&auto=format&fit=crop",
-    name: { zh: "曼赤因短腿貓", en: "Munchkin" },
-    coatLabel: { zh: "短毛／長毛", en: "Short / long hair" },
-    summary: {
-      zh: "活潑親人，注意關節與脊椎保健。",
-      en: "Lively and affectionate — mind joint and spine care.",
-    },
-    imageAlt: {
-      zh: "曼赤因短腿貓肖像",
-      en: "Portrait of a Munchkin cat",
-    },
-    origin: { zh: "美國", en: "United States" },
-    lifespan: { zh: "12–15 年", en: "12–15 years" },
-    weight: { zh: "約 2.5–4 kg", en: "About 2.5–4 kg" },
-    personality: {
-      zh: "活潑好奇且親人，短腿並不影響玩耍熱情。喜歡追逐玩具、觀察家人，適合互動頻繁的家庭。",
-      en: "Vivacious, curious, and people-loving — short legs don’t dampen play drive. Enjoys toys and family watching in interactive homes.",
-    },
-    careTips: {
-      zh: "避免過高垂直跳躍與過重負擔；提供斜坡式貓樹與防滑地面。短腿結構需關注關節與脊椎，定期獸醫評估。毛長型需額外梳毛。",
-      en: "Limit extreme jumping and excess weight; use ramped trees and non-slip floors. Monitor joints and spine with vet checkups; long coats need extra brushing.",
-    },
-    nutritionAdvice: {
-      zh: "維持理想體重是關節保健關鍵。選擇營養均衡主食，避免高熱量零食；可與獸醫討論關節支援配方。",
-      en: "Ideal weight is key for joint care. Use balanced staples, skip calorie-heavy treats, and ask your vet about joint-support diets.",
-    },
-    fullDescription: {
-      zh: "曼赤因短腿貓以短肢萌態聞名，活力卻一點不輸。飼養重點在尊重身體結構：安全空間、體重控制與溫柔遊戲，讓牠快樂奔跑又不勉強身體。",
-      en: "Munchkins are famous for short legs and big energy. Care means respecting structure — safe spaces, weight control, and gentle play so they can zip around without strain.",
-    },
+    name: "曼赤因短腿貓",
+    coatType: "short",
+    coatLabel: "短毛 / 長毛",
+    shortDescription: "活潑親人，注意關節與脊椎保健。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=800&auto=format&fit=crop",
+    origin: "美國",
+    lifespan: "12 - 15 歲",
+    weight: "2.5 - 4.0 kg",
+    personality: ["天真活潑", "長不大的孩子", "喜歡奔跑", "社交高手"],
+    careTips: [
+      "雖然腿短但行動極其敏捷，需注意防止從過高處重摔。",
+      "定期檢查與修剪爪子，防止小短腿因踩滑受傷。",
+      "保持適度運動，強健背部與腿部肌肉。",
+    ],
+    nutritionAdvice: [
+      "特別注重骨骼與關節保護，補充有機鈣、維生素 D3 及 MSM。",
+      "嚴格控制體重，減輕短腿與脊椎的承受壓力。",
+      "選擇小顆粒乾糧，方便其較小的口腔咀嚼。",
+    ],
+    fullDescription:
+      "曼赤因貓以標誌性的短腿和長身軀聞名，被稱為「貓界臘腸狗」。牠們性格像小狗般熱情活潑，奔跑速度飛快，是家中的開心果。",
   },
   {
-    id: "norwegian-forest",
+    id: "6",
     slug: "norwegian-forest",
-    coat: "long",
-    image:
-      "https://images.unsplash.com/photo-1513245543132-31f507417b26?w=800&auto=format&fit=crop",
-    name: { zh: "挪威森林貓", en: "Norwegian Forest Cat" },
-    coatLabel: { zh: "長毛", en: "Long hair" },
-    summary: {
-      zh: "體型高大、毛樣厚實，需特別注意毛球排空。",
-      en: "Large and thick-coated — pay special attention to hairball care.",
-    },
-    imageAlt: {
-      zh: "挪威森林貓肖像",
-      en: "Portrait of a Norwegian Forest Cat",
-    },
-    origin: { zh: "挪威", en: "Norway" },
-    lifespan: { zh: "14–16 年", en: "14–16 years" },
-    weight: { zh: "公 5–9 kg／母 4–7 kg", en: "Males 5–9 kg / Females 4–7 kg" },
-    personality: {
-      zh: "獨立中帶溫柔，喜歡高處與觀察。不常過度黏人，但對家庭成員忠誠；適合有空間讓牠攀爬探索的環境。",
-      en: "Independently affectionate and loyal. Loves heights and watching from above — thrives where climbing and exploring are welcome.",
-    },
-    careTips: {
-      zh: "雙層厚毛需勤加梳理，換季尤甚，並協助毛球排出。提供堅固高貓樹；注意腎臟與關節相關健檢。",
-      en: "Brush the double coat often, especially in shed season, and support hairball clearance. Offer sturdy tall trees and monitor kidney and joint health.",
-    },
-    nutritionAdvice: {
-      zh: "大型品種需足夠蛋白質與控管熱量。可選擇有助毛球控制的配方，並確保飲水量充足。",
-      en: "Large breeds need solid protein with calorie control. Hairball-support formulas and strong hydration help thick-coated cats.",
-    },
-    fullDescription: {
-      zh: "挪威森林貓來自北歐神話般的森林印象：厚實鬃毛、強壯體格與優雅攀爬力。牠們需要空間與梳毛時間，回報則是沉穩又有存在感的陪伴。",
-      en: "Norwegian Forest Cats evoke northern woods — thick manes, strong frames, and graceful climbing. They need space and grooming time, returning steady, presence-filled companionship.",
-    },
+    name: "挪威森林貓",
+    coatType: "long",
+    coatLabel: "長毛",
+    shortDescription: "體型高大、毛樣厚實，需特別注意毛球排空。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800&auto=format&fit=crop",
+    origin: "挪威",
+    lifespan: "14 - 16 歲",
+    weight: "4.5 - 8.0 kg",
+    personality: ["勇敢探索", "攀爬高手", "冷靜大氣", "對人友善"],
+    careTips: [
+      "雙層防風防水毛極其厚實，春秋換毛季需每日深度梳理。",
+      "非常喜歡高處，建議家中有高聳的貓樹或牆面跳台。",
+      "夏季室內需維持適宜溫度，防止厚毛引發暑熱。",
+    ],
+    nutritionAdvice: [
+      "大型貓成長期長（約 3-5 年發育成熟），需持續補足高能量與優質肉類。",
+      "富含天然纖維與植物油脂的配方，幫助順暢排出體內大塊毛球。",
+      "加入葡萄糖胺，支持其較大體型的骨骼健康。",
+    ],
+    fullDescription:
+      "源自北歐森林的大型自然貓種，擁有適應嚴寒的厚重毛皮與強壯軀幹。牠們是天生的攀爬者，外表威嚴但性格卻異常溫和包容。",
+  },
+  {
+    id: "7",
+    slug: "exotic-shorthair",
+    name: "異國短毛貓 (加菲貓)",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "扁臉呆萌、性格沉靜，需特別照顧面部與淚腺。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=800&auto=format&fit=crop",
+    origin: "美國",
+    lifespan: "12 - 15 歲",
+    weight: "3.5 - 6.5 kg",
+    personality: ["文靜呆萌", "喜歡討抱", "安靜不吵鬧", "情感豐富"],
+    careTips: [
+      "因為面部結構平扁，淚腺容易積聚，每天需用溫濕棉花清理眼角。",
+      "鼻腔較短，夏天需特別注意室內通風與散熱。",
+      "食碗建議選擇淺口且微傾斜的設計，方便牠們進食。",
+    ],
+    nutritionAdvice: [
+      "選擇易咬碎的特殊形狀顆粒（如三棱形或十字形），方便扁臉貓咀嚼。",
+      "補充葉黃素與抗氧化配方，保護眼睛健康。",
+      "控制飲食熱量，預防發胖增加心肺負擔。",
+    ],
+    fullDescription:
+      "異國短毛貓是波斯貓的短毛版本，擁有標誌性的扁扁大臉與圓滾大眼，性格溫柔討喜，被大家親切地稱為「加菲貓」。",
+  },
+  {
+    id: "8",
+    slug: "maine-coon",
+    name: "緬因貓",
+    coatType: "long",
+    coatLabel: "長毛",
+    shortDescription: "溫柔的巨人、體型龐大，注重心臟與關節保護。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1586289883499-f11d28aaf52f?q=80&w=800&auto=format&fit=crop",
+    origin: "美國",
+    lifespan: "12 - 15 歲",
+    weight: "6.0 - 11.0 kg",
+    personality: ["溫柔巨人", "喜歡玩水", "聲音細小", "智力極高"],
+    careTips: [
+      "長毛需要每週至少梳理 2-3 次，避免腋下與肚皮結塊。",
+      "體型龐大，需配備超大號貓砂盆與加固型高聳貓樹。",
+      "定期進行心臟超聲波檢查（留意 HCM 情況）。",
+    ],
+    nutritionAdvice: [
+      "大顆粒貓糧能強迫牠們咀嚼，促進牙齒健康並減慢進食速度。",
+      "高濃度的軟骨素、葡萄糖胺與 EPA/DHA，全方位維護重型骨骼與關節。",
+      "補充優質肉類脂肪，為龐大體型提供足夠能量。",
+    ],
+    fullDescription:
+      "緬因貓是體型最大的家貓品種之一，耳朵帶有羽狀長毛，尾巴如羽毛般豐滿。雖然外表霸氣，但性格卻像小狗般忠誠溫柔，甚至喜歡玩水！",
+  },
+  {
+    id: "9",
+    slug: "persian",
+    name: "波斯貓",
+    coatType: "long",
+    coatLabel: "長毛",
+    shortDescription: "貓中貴族、華麗長毛，需每天用心梳理毛髮。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1617894070938-857814e985b0?q=80&w=800&auto=format&fit=crop",
+    origin: "伊朗 (波斯)",
+    lifespan: "12 - 17 歲",
+    weight: "3.5 - 6.0 kg",
+    personality: ["高雅端莊", "喜歡安靜", "聲音甜美", "舉止優雅"],
+    careTips: [
+      "濃密的雙層長毛極易打結，必須每天徹底梳理 1 次。",
+      "每天清理臉部褶皺與眼睛周圍，保持乾爽潔淨。",
+      "極少主動劇烈運動，喜歡躺在舒適柔軟的墊子上休息。",
+    ],
+    nutritionAdvice: [
+      "調配排毛球配方（如天然植物纖維與甜菜粕），促進腸道蠕動。",
+      "添加琉璃苣油與鋅元素，滋養奢華華麗的長毛。",
+      "選用高消化率蛋白質，減少腸胃負擔。",
+    ],
+    fullDescription:
+      "波斯貓被譽為「貓中皇后」，擁有極其豐滿華麗的長毛與甜美的面龐。牠們文靜優雅，是室內高品質陪伴的完美選擇。",
+  },
+  {
+    id: "10",
+    slug: "scottish-fold",
+    name: "蘇格蘭折耳貓",
+    coatType: "short",
+    coatLabel: "短毛 / 長毛",
+    shortDescription: "貓頭圓滾、可愛貼耳，特別關注軟骨與骨骼健康。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=800&auto=format&fit=crop",
+    origin: "蘇格蘭",
+    lifespan: "11 - 14 歲",
+    weight: "3.0 - 6.0 kg",
+    personality: ["溫和黏人", "喜歡大叔坐姿", "感情豐富", "性格平靜"],
+    careTips: [
+      "耳折處容易積聚濕氣與耳垢，每週需用專業洗耳液清潔一次。",
+      "密切留意其走姿與尾巴僵硬度（留意基因軟骨發育異常）。",
+      "避免讓其進行高距離跳躍，減少關節衝擊。",
+    ],
+    nutritionAdvice: [
+      "長期補充高品質關節保健品（如綠唇貽貝、葡萄糖胺、軟骨素）。",
+      "控制體重是保護關節的最重要環節，嚴格精算每日熱量。",
+      "補足抗氧化物（維生素 C/E），維護關節組織健康。",
+    ],
+    fullDescription:
+      "蘇格蘭折耳貓以向前下折的耳朵和圓滾滾的「大頭貓」外貌吸引無數主人。牠們性格溫和親人，經常展現像人類一般的可愛坐姿。",
+  },
+  {
+    id: "11",
+    slug: "siamese",
+    name: "暹羅貓",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "貓界話霸、極度熱情，需要大量的互動與愛護。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1513245543132-31f507417b26?q=80&w=800&auto=format&fit=crop",
+    origin: "泰國 (暹羅)",
+    lifespan: "15 - 20 歲",
+    weight: "2.5 - 4.5 kg",
+    personality: ["熱情多話", "極度黏人", "聰明警覺", "好奇心旺盛"],
+    careTips: [
+      "暹羅貓是典型的「話霸」，會用豐富語調與主人聊天說話。",
+      "極度怕冷，冬季需準備暖床或保暖服飾。",
+      "需要極多陪伴，若長時間獨處容易產生分離焦慮。",
+    ],
+    nutritionAdvice: [
+      "修長高挑的體型需要高蛋白、低脂肪的飲食配方。",
+      "其重點色毛皮會隨溫度變冷而變深，補充酪氨酸有助毛色均勻。",
+      "提供多種益智玩具配合藏食，滿足其高智商心智發育。",
+    ],
+    fullDescription:
+      "源自泰國皇室的古老貓種，擁有獨特的重點色面罩、藍色杏仁眼與苗條優雅的體型。牠們熱情且極度依賴主人，是個性最鮮明的貓咪之一。",
+  },
+  {
+    id: "12",
+    slug: "bengal",
+    name: "孟加拉貓 (豹貓)",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "野生豹紋、精力充沛，需要廣闊的活動空間。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1606214174585-fe31582dc6ee?q=80&w=800&auto=format&fit=crop",
+    origin: "美國",
+    lifespan: "12 - 16 歲",
+    weight: "4.0 - 7.5 kg",
+    personality: ["精力無限", "熱愛探索", "喜歡玩水", "自信勇敢"],
+    careTips: [
+      "精力極其旺盛，每天需要至少 30-45 分鐘的高強度逗貓遊戲。",
+      "非常喜歡水，甚至會主動跳入浴室或玩水龍頭。",
+      "建議設置高大複合貓樹與跑輪，釋放剩餘精力。",
+    ],
+    nutritionAdvice: [
+      "需要比一般貓咪更高的動物性蛋白質，支持強大的肌肉力量。",
+      "補充膠原蛋白與關節營養，維護高強度奔跑後的運動系統。",
+      "補充天然牛磺酸與亞麻籽油，令金屬質感的斑紋更加閃亮。",
+    ],
+    fullDescription:
+      "擁有如野生豹子般奢華的玫瑰斑紋（Rosettes），但個性卻溫順友善。牠們是運動型貓咪的極致代表，肌肉發達且充滿活力。",
+  },
+  {
+    id: "13",
+    slug: "sphynx",
+    name: "斯芬克斯無毛貓",
+    coatType: "short",
+    coatLabel: "無毛 / 極短絨毛",
+    shortDescription: "感情專一、親人怕冷，需注重皮膚清潔與保暖。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1520138302061-0081e7d23588?q=80&w=800&auto=format&fit=crop",
+    origin: "加拿大",
+    lifespan: "12 - 15 歲",
+    weight: "3.0 - 5.0 kg",
+    personality: ["熱情如火", "黏人貼心", "友善好客", "智商超高"],
+    careTips: [
+      "雖然沒有毛髮，但皮膚會分泌油脂，每週需要用溫水洗澡 1 次。",
+      "極度怕冷與曬傷，夏天需防曬，冬天必須穿著保暖衣服。",
+      "耳朵與腳趾間容易積聚油脂，需定期細心擦拭。",
+    ],
+    nutritionAdvice: [
+      "因為沒有毛髮保暖，基礎代謝率極高，需要較高卡路里的飲食來維持體溫。",
+      "補充維生素 B 群與 Omega 3/6，強化皮膚屏障功能。",
+      "提供高消化率、高密度的營養配方，維護健康代謝。",
+    ],
+    fullDescription:
+      "加拿大無毛貓看似外星生物，實際上觸感像溫暖柔軟的桃子皮。牠們極度熱情黏人，被稱為「貓界小外星人」，深受對貓毛過敏主人的喜愛。",
+  },
+  {
+    id: "14",
+    slug: "devon-rex",
+    name: "德文卷毛貓",
+    coatType: "short",
+    coatLabel: "短卷毛",
+    shortDescription: "小精靈外貌、不易掉毛，非常適合都市家庭。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=800&auto=format&fit=crop",
+    origin: "英國",
+    lifespan: "12 - 15 歲",
+    weight: "2.5 - 4.5 kg",
+    personality: ["像小精靈", "調皮活潑", "喜感十足", "極親人類"],
+    careTips: [
+      "獨特的波浪狀短卷毛幾乎不掉毛，只需偶爾用濕布擦拭。",
+      "耳朵較大且直立，需定期檢查耳道健康。",
+      "非常喜歡棲息在主人肩膀上，像小精靈一樣陪伴你。",
+    ],
+    nutritionAdvice: [
+      "身材輕巧靈動，需要高品質蛋白質維護強健肌肉。",
+      "適量補充鋅與生物素（Biotin），維護其獨特卷毛的彈性與光澤。",
+      "提供豐富多樣的食物口感（如主食罐搭配乾糧），滿足其好奇挑剔的味蕾。",
+    ],
+    fullDescription:
+      "擁有大耳朵、大眼睛和可愛波浪卷毛的德文卷毛貓，宛如童話故事裡的小精靈。牠們掉毛極少，性格活潑幽默，是室內生活絕佳的開心果。",
+  },
+  {
+    id: "15",
+    slug: "mix-shorthair",
+    name: "唐貓 / 港短 (米克斯)",
+    coatType: "short",
+    coatLabel: "短毛",
+    shortDescription: "基因優秀、體質強健，香港最普遍也最可愛的陪伴者。",
+    imageUrl:
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=800&auto=format&fit=crop",
+    origin: "香港 / 亞洲地區",
+    lifespan: "15 - 20 歲",
+    weight: "3.0 - 6.5 kg",
+    personality: ["聰明機靈", "個性獨特", "適應力極強", "忠誠感恩"],
+    careTips: [
+      "混種基因令牠們遺傳疾病極少，身體非常健壯。",
+      "短毛容易照顧，每週梳毛 1 次並保持環境清潔即可。",
+      "每隻唐貓的個性都獨一無二，給予時間建立信任會非常貼心。",
+    ],
+    nutritionAdvice: [
+      "均衡的全價營養主食即可滿足健康需求。",
+      "多補充水份與濕糧，維護長期泌尿系統健康。",
+      "搭配綜合維生素與益生菌，讓牠們的免疫力更上一層樓。",
+    ],
+    fullDescription:
+      "唐貓（米克斯/混種短毛貓）包含了玳瑁、橘貓、黑貓、三花與玳瑁等豐富花色。牠們擁有極高的智商與強健的體質，是香港家庭中最受歡迎、最溫暖的靈魂伴侶。",
   },
 ];
+
+/** Alias used across listing / detail routes. */
+export const CAT_BREEDS = catBreedsData;
 
 export function filterCatBreeds(
   filter: CatCoatFilter,
@@ -252,9 +425,9 @@ export function filterCatBreeds(
 ): CatBreed[] {
   if (filter === "all") return breeds;
   if (filter === "short") {
-    return breeds.filter((breed) => breed.coat === "short" || breed.coat === "both");
+    return breeds.filter((breed) => breed.coatType === "short");
   }
-  return breeds.filter((breed) => breed.coat === "long" || breed.coat === "both");
+  return breeds.filter((breed) => breed.coatType === "long");
 }
 
 export function getCatBreedBySlug(slug: string): CatBreed | undefined {

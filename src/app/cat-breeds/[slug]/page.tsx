@@ -25,8 +25,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${breed.name.zh}｜貓咪品種圖鑑｜Mofu Haven HK`,
-    description: breed.summary.zh,
+    title: `${breed.name}｜貓咪品種圖鑑｜Mofu Haven HK`,
+    description: breed.shortDescription,
   };
 }
 
