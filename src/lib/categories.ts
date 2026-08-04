@@ -66,3 +66,10 @@ export function categorySubHref(slug: string, subSlug: string | null | undefined
   if (!subSlug) return categoryHref(slug);
   return `/categories/${slug}/${subSlug}`;
 }
+
+/** Dog-snacks zone URL, optionally filtered to a series query (`?series=biscuits`). */
+export function dogSnacksSeriesHref(seriesSlug: string | null | undefined): string {
+  const base = categorySubHref("dogs", "snacks");
+  if (!seriesSlug) return base;
+  return `${base}?series=${encodeURIComponent(seriesSlug)}`;
+}

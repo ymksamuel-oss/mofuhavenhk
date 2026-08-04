@@ -37,7 +37,7 @@ const SHARED_MARK =
 const FREEZE_MARK =
   /冷凍脫水|凍乾|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const SNACK_MARK =
-  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack/i;
+  /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|狗餅|脆餅|百力滋|糊仔|肉泥|膏狀|狗芝士|芝士條|芝士骨|脆片|點心|獎勵零食|snack/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
 /** Non-food categories that must not be swallowed into 狗狗食品. */

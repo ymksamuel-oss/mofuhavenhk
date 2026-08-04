@@ -3,7 +3,15 @@ import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
+import {
+  DOG_SNACK_SERIES,
+  WT_JAPAN_DOG_SNACK_PRODUCTS,
+  type DogSnackSeries,
+  type WtJapanDogSnackProduct,
+} from "@/data/dogSnacksData";
 import { classifyCatalogProducts } from "@/lib/classifyPetFood";
+
+export { DOG_SNACK_SERIES, type DogSnackSeries };
 
 /** Cat-products sub-filter keys (shown under 「貓咪商品」). */
 export const CAT_SUBCATEGORIES = [
@@ -21,6 +29,30 @@ export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
 
 /** Union of cat/dog food-zone subcategories used by product records. */
 export type ProductSubcategory = CatSubcategory | DogSubcategory;
+
+/** Display labels for dog-snack series (existing WT Japan collection folders). */
+export const DOG_SNACK_SERIES_LABEL: Record<
+  DogSnackSeries,
+  { zh: string; en: string }
+> = {
+  餅乾類: { zh: "餅乾類（狗餅）", en: "Dog biscuits" },
+  狗狗糊仔小食: { zh: "狗狗糊仔小食", en: "Dog paste treats" },
+  狗芝士: { zh: "狗芝士", en: "Dog cheese treats" },
+};
+
+/** URL query / path segment → dog snack series key. */
+export const DOG_SNACK_SERIES_BY_SLUG: Record<string, DogSnackSeries> = {
+  biscuits: "餅乾類",
+  paste: "狗狗糊仔小食",
+  cheese: "狗芝士",
+};
+
+/** Dog snack series key → URL segment. */
+export const DOG_SNACK_SERIES_SLUG: Record<DogSnackSeries, string> = {
+  餅乾類: "biscuits",
+  狗狗糊仔小食: "paste",
+  狗芝士: "cheese",
+};
 
 /** URL path segment → cat subcategory key. */
 export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
@@ -75,9 +107,14 @@ export type Product = {
   originalPrice?: number;
   /**
    * Optional brand/series line for list-style catalog cards
-   * (e.g. 「MAMACOOK 但馬高原」 above the product name).
+   * (e.g. 「MAMACOOK 但馬高原」 / 「餅乾類（狗餅）」 above the product name).
    */
   series?: { zh: string; en: string };
+  /**
+   * Optional dog-snack series key for `/categories/dogs/snacks` filters.
+   * Uses existing WT Japan folders: 餅乾類 / 狗狗糊仔小食 / 狗芝士.
+   */
+  snackSeries?: DogSnackSeries;
   /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
@@ -346,6 +383,11 @@ const WT_TAG_EN: Record<string, string> = {
   海鮮味: "Seafood flavors",
   凍乾零食: "Freeze-dried treats",
   冷凍脫水系列: "Freeze-dried series",
+  狗狗小食: "Dog treats",
+  狗餅: "Dog biscuits",
+  狗狗糊仔小食: "Dog paste treats",
+  狗芝士: "Dog cheese",
+  狗用: "For dogs",
   "100%純肉": "100% pure meat",
   無添加: "No additives",
   但馬高原: "Tajima Highlands",
@@ -477,6 +519,54 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
+function wtJapanDogSnackToProduct(p: WtJapanDogSnackProduct): Product {
+  const seriesLabel = DOG_SNACK_SERIES_LABEL[p.series];
+  const tags = Array.from(
+    new Set([...p.tags, "狗狗小食", "狗用", p.series, seriesLabel.zh]),
+  );
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: p.subcategory,
+    image: p.imageUrl,
+    name: {
+      zh: p.title.replace(/\s+/g, " ").trim(),
+      en: p.nameEn,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    series: seriesLabel,
+    snackSeries: p.series,
+    icon: "dog",
+    description: {
+      zh: p.description,
+      en: p.descriptionEn,
+    },
+    tags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
+      {
+        zh: `專區：狗狗小食專區（${seriesLabel.zh}）`,
+        en: `Zone: Dog treats (${seriesLabel.en})`,
+      },
+      {
+        zh: "Collection：/categories/dogs/snacks",
+        en: "Collection: /categories/dogs/snacks",
+      },
+      ...tags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan dog snack series — 餅乾類 / 糊仔 / 狗芝士 under 狗狗小食專區. */
+export const WT_JAPAN_DOG_SNACK_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_DOG_SNACK_PRODUCTS.map(wtJapanDogSnackToProduct);
+
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
  * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
@@ -587,6 +677,9 @@ const PRODUCTS_RAW: Product[] = [
 
   // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
+
+  // 狗狗小食專區系列（WT Japan 既有系列資料夾：餅乾類／狗狗糊仔小食／狗芝士）
+  ...WT_JAPAN_DOG_SNACK_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
   // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
@@ -1766,10 +1859,14 @@ export function getCatProductsBySubcategory(
 /** Filter dog products by optional subcategory pill (`null` = all). */
 export function getDogProductsBySubcategory(
   subcategory: DogSubcategory | null,
+  snackSeries: DogSnackSeries | null = null,
 ): Product[] {
   const dogs = getProductsByCategory("dogs");
-  if (!subcategory) return dogs;
-  return dogs.filter((product) => product.subcategory === subcategory);
+  const bySub = subcategory
+    ? dogs.filter((product) => product.subcategory === subcategory)
+    : dogs;
+  if (!snackSeries || subcategory !== "狗狗小食") return bySub;
+  return bySub.filter((product) => product.snackSeries === snackSeries);
 }
 
 export function getProductById(id: string | null | undefined): Product | null {
@@ -1790,6 +1887,14 @@ export function resolveCategorySubSlug(
     return DOG_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
   }
   return null;
+}
+
+/** Resolve a dog-snack series query/path segment; `null` if unknown. */
+export function resolveDogSnackSeriesSlug(
+  seriesSlug: string | null | undefined,
+): DogSnackSeries | null {
+  if (!seriesSlug) return null;
+  return DOG_SNACK_SERIES_BY_SLUG[seriesSlug] ?? null;
 }
 
 /** Canonical product detail path. */

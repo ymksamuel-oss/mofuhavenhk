@@ -9,6 +9,7 @@ import {
   CATEGORIES,
   categoryHref,
   categorySubHref,
+  dogSnacksSeriesHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -16,6 +17,8 @@ import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
   CAT_SUBCATEGORIES,
   CAT_SUBCATEGORY_SLUG,
+  DOG_SNACK_SERIES,
+  DOG_SNACK_SERIES_SLUG,
   DOG_SUBCATEGORIES,
   DOG_SUBCATEGORY_SLUG,
   freezeDriedProductName,
@@ -24,6 +27,7 @@ import {
   getProductsByCategory,
   productHref,
   type CatSubcategory,
+  type DogSnackSeries,
   type DogSubcategory,
   type Product,
   type ProductSubcategory,
@@ -56,6 +60,12 @@ const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
   狗狗小食: "dogSubSnacks",
 };
 
+const DOG_SNACK_SERIES_LABEL_KEYS: Record<DogSnackSeries, TranslationKey> = {
+  餅乾類: "dogSnackSeriesBiscuits",
+  狗狗糊仔小食: "dogSnackSeriesPaste",
+  狗芝士: "dogSnackSeriesCheese",
+};
+
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
@@ -64,6 +74,11 @@ type ProductCatalogProps = {
    * (`/categories/cats/freeze-dried`, `/categories/dogs/snacks`, …).
    */
   subcategory?: ProductSubcategory | null;
+  /**
+   * Optional dog-snack series filter from `?series=` on
+   * `/categories/dogs/snacks` (餅乾類 / 糊仔 / 狗芝士).
+   */
+  snackSeries?: DogSnackSeries | null;
 };
 
 function FreezeDriedListCard({
@@ -158,6 +173,7 @@ function FreezeDriedListCard({
 export function ProductCatalog({
   categorySlug,
   subcategory = null,
+  snackSeries = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
@@ -171,16 +187,25 @@ export function ProductCatalog({
     isDogs && subcategory && DOG_SUBCATEGORIES.includes(subcategory as DogSubcategory)
       ? (subcategory as DogSubcategory)
       : null;
+  const dogSnackSeries =
+    dogSubcategory === "狗狗小食" ? snackSeries : null;
 
   const products = useMemo(() => {
     if (isCats) {
       return getCatProductsBySubcategory(catSubcategory);
     }
     if (isDogs) {
-      return getDogProductsBySubcategory(dogSubcategory);
+      return getDogProductsBySubcategory(dogSubcategory, dogSnackSeries);
     }
     return getProductsByCategory(categorySlug);
-  }, [isCats, isDogs, catSubcategory, dogSubcategory, categorySlug]);
+  }, [
+    isCats,
+    isDogs,
+    catSubcategory,
+    dogSubcategory,
+    dogSnackSeries,
+    categorySlug,
+  ]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
@@ -302,12 +327,37 @@ export function ProductCatalog({
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
             {t("dogSnacksZoneSubtitle")}
           </p>
+          <div
+            role="tablist"
+            aria-label={t("dogSnackSeriesNavLabel")}
+            className="scrollbar-none mt-4 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+          >
+            <CategoryNavLink
+              href={dogSnacksSeriesHref(null)}
+              role="tab"
+              aria-selected={dogSnackSeries === null}
+              className={subChipClassName(dogSnackSeries === null)}
+            >
+              {t("dogSnackSeriesAll")}
+            </CategoryNavLink>
+            {DOG_SNACK_SERIES.map((series) => (
+              <CategoryNavLink
+                key={series}
+                href={dogSnacksSeriesHref(DOG_SNACK_SERIES_SLUG[series])}
+                role="tab"
+                aria-selected={dogSnackSeries === series}
+                className={subChipClassName(dogSnackSeries === series)}
+              >
+                {t(DOG_SNACK_SERIES_LABEL_KEYS[series])}
+              </CategoryNavLink>
+            ))}
+          </div>
         </section>
       ) : null}
 
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
-      ) : showFreezeDriedZone ? (
+      ) : showFreezeDriedZone || showDogSnacksZone ? (
         <ul className="flex flex-col gap-3 sm:gap-4">
           {products.map((product) => (
             <FreezeDriedListCard
@@ -350,7 +400,7 @@ export function ProductCatalog({
                   </CategoryNavLink>
 
                   {discountPercent ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white">
                       -{discountPercent}%
                     </span>
                   ) : null}
