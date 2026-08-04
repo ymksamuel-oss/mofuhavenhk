@@ -168,25 +168,25 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
       {
         tag: "hero",
         description: "湛藍眼睛與柔順長毛的雙色布偶貓特寫",
-        src: "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=1200&auto=format&fit=crop",
+        src: "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
         alt: "雙色布偶貓湛藍眼睛特寫",
       },
       {
         tag: "bicolor",
         description: "倒V字雙色布偶貓全身照",
-        src: "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
+        src: "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
         alt: "雙色布偶貓",
       },
       {
         tag: "mitted",
         description: "手套色布偶貓",
-        src: "https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=800&auto=format&fit=crop",
+        src: "https://cdn2.thecatapi.com/images/HDxfaNlLj.jpg",
         alt: "手套色布偶貓",
       },
       {
         tag: "colorpoint",
         description: "重點色布偶貓",
-        src: "https://images.unsplash.com/photo-1511044568932-260bbdd4ec27?q=80&w=800&auto=format&fit=crop",
+        src: "https://cdn2.thecatapi.com/images/nqS9tUT3i.jpg",
         alt: "重點色布偶貓",
       },
     ],
@@ -202,7 +202,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "溫和穩定、體型圓滾，注意體重管理。",
     imageUrl:
-      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
     origin: "英國",
     lifespan: "12 - 17 歲",
     weight: "4.0 - 8.0 kg",
@@ -254,7 +254,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "中長毛",
     shortDescription: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
     imageUrl:
-      "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
     origin: "美國加州",
     lifespan: "12 - 15 歲（晚熟 3-4 年）",
     weight: "公 6.0–9.0 kg／母 4.5–7.0 kg",
@@ -312,7 +312,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛 / 長毛",
     shortDescription: "活潑親人，注意關節與脊椎保健。",
     imageUrl:
-      "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "2.5 - 4.0 kg",
@@ -338,7 +338,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "體型高大、毛樣厚實，需特別注意毛球排空。",
     imageUrl:
-      "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/06dgGmEOV.jpg",
     origin: "挪威",
     lifespan: "14 - 16 歲",
     weight: "4.5 - 8.0 kg",
@@ -364,7 +364,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "扁臉呆萌、性格沉靜，需特別照顧面部與淚腺。",
     imageUrl:
-      "https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&w=1200&q=80",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "3.5 - 6.5 kg",
@@ -416,7 +416,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "貓中貴族、華麗長毛，需每天用心梳理毛髮。",
     imageUrl:
-      "https://images.unsplash.com/photo-1617894070938-857814e985b0?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
     origin: "伊朗 (波斯)",
     lifespan: "12 - 17 歲",
     weight: "3.5 - 6.0 kg",
@@ -442,7 +442,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛 / 長毛",
     shortDescription: "貓頭圓滾、可愛貼耳，特別關注軟骨與骨骼健康。",
     imageUrl:
-      "https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1577622190237-821ff489d2ea?auto=format&fit=crop&w=1200&q=80",
     origin: "蘇格蘭",
     lifespan: "11 - 14 歲",
     weight: "3.0 - 6.0 kg",
@@ -468,7 +468,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "貓界話霸、極度熱情，需要大量的互動與愛護。",
     imageUrl:
-      "https://images.unsplash.com/photo-1513245543132-31f507417b26?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1773769730444-7dec13f33b45?auto=format&fit=crop&w=1200&q=80",
     origin: "泰國 (暹羅)",
     lifespan: "15 - 20 歲",
     weight: "2.5 - 4.5 kg",
@@ -494,7 +494,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "野生豹紋、精力充沛，需要廣闊的活動空間。",
     imageUrl:
-      "https://images.unsplash.com/photo-1606214174585-fe31582dc6ee?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
     origin: "美國",
     lifespan: "12 - 16 歲",
     weight: "4.0 - 7.5 kg",
@@ -520,7 +520,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "無毛 / 極短絨毛",
     shortDescription: "感情專一、親人怕冷，需注重皮膚清潔與保暖。",
     imageUrl:
-      "https://images.unsplash.com/photo-1520138302061-0081e7d23588?q=80&w=800&auto=format&fit=crop",
+      "https://cdn2.thecatapi.com/images/Br8qCwbS9.jpg",
     origin: "加拿大",
     lifespan: "12 - 15 歲",
     weight: "3.0 - 5.0 kg",
@@ -546,7 +546,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短卷毛",
     shortDescription: "小精靈外貌、不易掉毛，非常適合都市家庭。",
     imageUrl:
-      "https://images.unsplash.com/photo-1561948955-570b270e7c36?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1767884267022-9c80682bfe65?auto=format&fit=crop&w=1200&q=80",
     origin: "英國",
     lifespan: "12 - 15 歲",
     weight: "2.5 - 4.5 kg",
@@ -572,7 +572,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "短毛",
     shortDescription: "基因優秀、體質強健，香港最普遍也最可愛的陪伴者。",
     imageUrl:
-      "https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
     origin: "香港 / 亞洲地區",
     lifespan: "15 - 20 歲",
     weight: "3.0 - 6.5 kg",

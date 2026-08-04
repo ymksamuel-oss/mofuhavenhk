@@ -1,0 +1,658 @@
+{
+  "cat_breeds": [
+    {
+      "breed_id": "british_shorthair",
+      "name_en": "British Shorthair",
+      "name_zh_hk": "英國短毛貓",
+      "aliases": [
+        "英短",
+        "藍貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Cobby (圓潤厚實、五短身材)",
+        "weight_kg": {
+          "male": {
+            "min": 4.5,
+            "max": 8.0
+          },
+          "female": {
+            "min": 3.0,
+            "max": 5.5
+          }
+        },
+        "coat": "Short, dense, plush (短而濃密、毯子般觸感)",
+        "common_eye_colors": [
+          "Copper/Orange (古銅色/橘色)",
+          "Blue",
+          "Green"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "多囊性腎臟病 (PKD)"
+        ],
+        "grooming": "每週梳毛 1-2 次",
+        "diet_management": "極易肥胖，需嚴格控制熱量"
+      },
+      "media_assets": {
+        "tag": "british_shorthair_hero",
+        "description": "經典藍灰色圓臉大眼的英國短毛貓",
+        "image_search_keywords": "British Shorthair blue cat round face",
+        "src": "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
+        "alt": "英國短毛貓 (British Shorthair)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "american_shorthair",
+      "name_en": "American Shorthair",
+      "name_zh_hk": "美國短毛貓",
+      "aliases": [
+        "美短",
+        "虎斑美短"
+      ],
+      "physical_characteristics": {
+        "body_type": "Rectangular muscular (強健長方型)",
+        "weight_kg": {
+          "male": {
+            "min": 5.0,
+            "max": 7.5
+          },
+          "female": {
+            "min": 3.5,
+            "max": 5.5
+          }
+        },
+        "coat": "Short, hard, dense (短而硬密)",
+        "common_eye_colors": [
+          "Gold",
+          "Green",
+          "Hazel"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)"
+        ],
+        "grooming": "每週梳毛 1 次",
+        "diet_management": "高蛋白維持肌肉，注意體重"
+      },
+      "media_assets": {
+        "tag": "american_shorthair_hero",
+        "description": "健壯虎斑紋路的美國短毛貓",
+        "image_search_keywords": "American Shorthair tabby cat",
+        "src": "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?auto=format&fit=crop&w=1200&q=80",
+        "alt": "美國短毛貓 (American Shorthair)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "ragdoll",
+      "name_en": "Ragdoll",
+      "name_zh_hk": "布偶貓",
+      "aliases": [
+        "仙女貓",
+        "Puppy Cat"
+      ],
+      "physical_characteristics": {
+        "body_type": "Large semi-longhair (大型中長毛)",
+        "weight_kg": {
+          "male": {
+            "min": 6.0,
+            "max": 9.0
+          },
+          "female": {
+            "min": 4.5,
+            "max": 7.0
+          }
+        },
+        "coat": "Medium-long, silky, sparse undercoat (絲滑中長毛)",
+        "common_eye_colors": [
+          "Blue (必為藍眼)"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "多囊性腎臟病 (PKD)"
+        ],
+        "grooming": "每週梳毛 2-3 次，定期修剪臀部",
+        "diet_management": "腸胃敏感，換糧需漸進並控制熱量"
+      },
+      "media_assets": {
+        "tag": "ragdoll_hero",
+        "description": "藍眼睛與重點色中長毛的布偶貓",
+        "image_search_keywords": "Ragdoll cat blue eyes colorpoint fluffy",
+        "src": "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
+        "alt": "布偶貓 (Ragdoll)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "russian_blue",
+      "name_en": "Russian Blue",
+      "name_zh_hk": "俄羅斯藍貓",
+      "aliases": [
+        "俄藍",
+        "藍貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Foreign elegant (修長優雅)",
+        "weight_kg": {
+          "male": {
+            "min": 3.5,
+            "max": 5.5
+          },
+          "female": {
+            "min": 2.5,
+            "max": 4.5
+          }
+        },
+        "coat": "Short double coat, silver-tipped blue (銀光雙層短毛)",
+        "common_eye_colors": [
+          "Vivid Emerald Green (鮮艷翡翠綠)"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "膀胱結石風險偏高"
+        ],
+        "grooming": "每週梳毛 1 次",
+        "diet_management": "維持輕盈體型，控制脂肪"
+      },
+      "media_assets": {
+        "tag": "russian_blue_hero",
+        "description": "銀藍灰短毛與翡翠綠眼睛的俄羅斯藍貓",
+        "image_search_keywords": "Russian Blue cat emerald green eyes silver coat",
+        "src": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=1200&q=80",
+        "alt": "俄羅斯藍貓 (Russian Blue)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "munchkin",
+      "name_en": "Munchkin",
+      "name_zh_hk": "曼赤因短腿貓",
+      "aliases": [
+        "短腿貓",
+        "臘腸貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Short-legged elongated (短腿長身)",
+        "weight_kg": {
+          "male": {
+            "min": 2.7,
+            "max": 4.0
+          },
+          "female": {
+            "min": 2.3,
+            "max": 3.6
+          }
+        },
+        "coat": "Short or long, soft (短毛或長毛)",
+        "common_eye_colors": [
+          "Gold",
+          "Green",
+          "Blue",
+          "Odd-eyed"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "腰椎問題",
+          "關節負擔"
+        ],
+        "grooming": "依毛長每週梳毛 1-3 次",
+        "diet_management": "嚴格控重，減輕脊椎與短腿壓力"
+      },
+      "media_assets": {
+        "tag": "munchkin_hero",
+        "description": "短腿長身的曼赤因貓",
+        "image_search_keywords": "Munchkin cat short legs",
+        "src": "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
+        "alt": "曼赤因短腿貓 (Munchkin)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "norwegian_forest",
+      "name_en": "Norwegian Forest Cat",
+      "name_zh_hk": "挪威森林貓",
+      "aliases": [
+        "挪森",
+        "森林貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Large sturdy (大型強壯)",
+        "weight_kg": {
+          "male": {
+            "min": 5.5,
+            "max": 9.0
+          },
+          "female": {
+            "min": 4.0,
+            "max": 6.5
+          }
+        },
+        "coat": "Long double water-repellent (防水雙層長毛)",
+        "common_eye_colors": [
+          "Green",
+          "Gold",
+          "Copper"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "糖原儲積症 IV 型 (GSD IV)",
+          "髖關節發育不良"
+        ],
+        "grooming": "換毛季每日梳理，平時每週 2-3 次",
+        "diet_management": "高能量成長期長，補纖維助排毛球"
+      },
+      "media_assets": {
+        "tag": "norwegian_forest_hero",
+        "description": "厚重長毛與強壯體型的挪威森林貓",
+        "image_search_keywords": "Norwegian Forest Cat longhair thick coat",
+        "src": "https://cdn2.thecatapi.com/images/06dgGmEOV.jpg",
+        "alt": "挪威森林貓 (Norwegian Forest Cat)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "exotic_shorthair",
+      "name_en": "Exotic Shorthair",
+      "name_zh_hk": "異國短毛貓",
+      "aliases": [
+        "加菲貓",
+        "異短"
+      ],
+      "physical_characteristics": {
+        "body_type": "Cobby brachycephalic (矮胖扁臉)",
+        "weight_kg": {
+          "male": {
+            "min": 4.0,
+            "max": 6.5
+          },
+          "female": {
+            "min": 3.0,
+            "max": 5.0
+          }
+        },
+        "coat": "Short dense plush (短而濃密)",
+        "common_eye_colors": [
+          "Copper",
+          "Blue",
+          "Odd-eyed"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "多囊腎 (PKD)",
+          "呼吸／淚腺問題"
+        ],
+        "grooming": "每日清理眼角與臉摺，每週梳毛",
+        "diet_management": "控重減心肺負擔，選易咀嚼飼料"
+      },
+      "media_assets": {
+        "tag": "exotic_shorthair_hero",
+        "description": "扁臉圓眼的異國短毛貓（加菲貓）",
+        "image_search_keywords": "Exotic Shorthair flat face round eyes",
+        "src": "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&w=1200&q=80",
+        "alt": "異國短毛貓 (Exotic Shorthair)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "maine_coon",
+      "name_en": "Maine Coon",
+      "name_zh_hk": "緬因貓",
+      "aliases": [
+        "緬因庫恩",
+        "溫柔巨人"
+      ],
+      "physical_characteristics": {
+        "body_type": "Extra large rectangular (巨型長軀幹)",
+        "weight_kg": {
+          "male": {
+            "min": 6.0,
+            "max": 11.0
+          },
+          "female": {
+            "min": 4.5,
+            "max": 6.8
+          }
+        },
+        "coat": "Long water-repellent with ruff (防水長毛)",
+        "common_eye_colors": [
+          "Green",
+          "Gold",
+          "Copper"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "髖關節發育不良"
+        ],
+        "grooming": "每週梳毛 2-3 次",
+        "diet_management": "大體型關節保健，控制進食速度"
+      },
+      "media_assets": {
+        "tag": "maine_coon_hero",
+        "description": "巨型長毛與耳端簇毛的緬因貓",
+        "image_search_keywords": "Maine Coon large cat tufted ears",
+        "src": "https://images.unsplash.com/photo-1586289883499-f11d28aaf52f?auto=format&fit=crop&w=1200&q=80",
+        "alt": "緬因貓 (Maine Coon)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "persian",
+      "name_en": "Persian",
+      "name_zh_hk": "波斯貓",
+      "aliases": [
+        "波斯長毛",
+        "貓中皇后"
+      ],
+      "physical_characteristics": {
+        "body_type": "Cobby brachycephalic longhair (矮胖扁臉長毛)",
+        "weight_kg": {
+          "male": {
+            "min": 4.0,
+            "max": 6.0
+          },
+          "female": {
+            "min": 3.0,
+            "max": 5.0
+          }
+        },
+        "coat": "Long dense silky (華麗雙層長毛)",
+        "common_eye_colors": [
+          "Copper",
+          "Blue",
+          "Odd-eyed"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "多囊腎 (PKD)",
+          "呼吸與淚腺問題"
+        ],
+        "grooming": "每天徹底梳毛並清理臉摺",
+        "diet_management": "排毛球配方，高消化率蛋白"
+      },
+      "media_assets": {
+        "tag": "persian_hero",
+        "description": "華麗長毛與扁圓臉的波斯貓",
+        "image_search_keywords": "Persian cat long fluffy white coat",
+        "src": "https://cdn2.thecatapi.com/images/RhBsBQg6y.jpg",
+        "alt": "波斯貓 (Persian)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "scottish_fold",
+      "name_en": "Scottish Fold",
+      "name_zh_hk": "蘇格蘭折耳貓",
+      "aliases": [
+        "折耳",
+        "蘇摺"
+      ],
+      "physical_characteristics": {
+        "body_type": "Rounded medium (圓潤中型)",
+        "weight_kg": {
+          "male": {
+            "min": 4.0,
+            "max": 6.0
+          },
+          "female": {
+            "min": 2.7,
+            "max": 4.5
+          }
+        },
+        "coat": "Short or long, dense (短毛或長毛)",
+        "common_eye_colors": [
+          "Gold",
+          "Copper",
+          "Green",
+          "Blue"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "骨軟骨發育不良 (Osteochondrodysplasia)"
+        ],
+        "grooming": "每週清潔耳道與梳毛",
+        "diet_management": "嚴格控重並長期關節保健"
+      },
+      "media_assets": {
+        "tag": "scottish_fold_hero",
+        "description": "折耳圓臉的蘇格蘭折耳貓",
+        "image_search_keywords": "Scottish Fold folded ears round face",
+        "src": "https://images.unsplash.com/photo-1577622190237-821ff489d2ea?auto=format&fit=crop&w=1200&q=80",
+        "alt": "蘇格蘭折耳貓 (Scottish Fold)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "siamese",
+      "name_en": "Siamese",
+      "name_zh_hk": "暹羅貓",
+      "aliases": [
+        "泰國貓",
+        "重點色貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Oriental slender (東方型修長)",
+        "weight_kg": {
+          "male": {
+            "min": 3.0,
+            "max": 5.0
+          },
+          "female": {
+            "min": 2.5,
+            "max": 4.0
+          }
+        },
+        "coat": "Short fine colorpoint (短毛重點色)",
+        "common_eye_colors": [
+          "Vivid Blue (湛藍)"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "進行性視網膜萎縮 (PRA)",
+          "澱粉樣變性"
+        ],
+        "grooming": "每週輕梳 1 次即可",
+        "diet_management": "高蛋白低碳水，維持修長體型"
+      },
+      "media_assets": {
+        "tag": "siamese_hero",
+        "description": "湛藍眼睛與經典重點色的暹羅貓",
+        "image_search_keywords": "Siamese cat blue eyes colorpoint seal point",
+        "src": "https://images.unsplash.com/photo-1773769730444-7dec13f33b45?auto=format&fit=crop&w=1200&q=80",
+        "alt": "暹羅貓 (Siamese)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "bengal",
+      "name_en": "Bengal",
+      "name_zh_hk": "孟加拉貓",
+      "aliases": [
+        "豹貓",
+        "孟加拉豹貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Athletic muscular (運動肌肉型)",
+        "weight_kg": {
+          "male": {
+            "min": 4.5,
+            "max": 7.5
+          },
+          "female": {
+            "min": 3.5,
+            "max": 5.5
+          }
+        },
+        "coat": "Short dense with rosettes (短毛豹紋／玫瑰斑)",
+        "common_eye_colors": [
+          "Green",
+          "Gold"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "進行性視網膜萎縮"
+        ],
+        "grooming": "每週梳毛 1 次",
+        "diet_management": "高動物蛋白支持高活動量"
+      },
+      "media_assets": {
+        "tag": "bengal_hero",
+        "description": "帶有明顯豹紋玫瑰斑的孟加拉貓",
+        "image_search_keywords": "Bengal cat leopard spots rosettes",
+        "src": "https://cdn2.thecatapi.com/images/LSaDk6OjY.jpg",
+        "alt": "孟加拉貓 (Bengal)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "sphynx",
+      "name_en": "Sphynx",
+      "name_zh_hk": "加拿大無毛貓",
+      "aliases": [
+        "斯芬克斯",
+        "無毛貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Muscular with round belly (肌肉發達)",
+        "weight_kg": {
+          "male": {
+            "min": 3.5,
+            "max": 5.0
+          },
+          "female": {
+            "min": 2.5,
+            "max": 4.0
+          }
+        },
+        "coat": "Hairless / fine peach fuzz (無毛或水蜜桃胎毛)",
+        "common_eye_colors": [
+          "Green",
+          "Gold",
+          "Blue",
+          "Odd-eyed"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "皮膚感染風險"
+        ],
+        "grooming": "每週洗澡擦拭油脂，清潔耳道",
+        "diet_management": "高代謝需較高熱量保溫"
+      },
+      "media_assets": {
+        "tag": "sphynx_hero",
+        "description": "無毛、大耳朵的加拿大無毛貓",
+        "image_search_keywords": "Sphynx hairless cat large ears",
+        "src": "https://cdn2.thecatapi.com/images/Br8qCwbS9.jpg",
+        "alt": "加拿大無毛貓 (Sphynx)",
+        "license_note": "The Cat API image CDN (free for API consumers)"
+      }
+    },
+    {
+      "breed_id": "devon_rex",
+      "name_en": "Devon Rex",
+      "name_zh_hk": "德文卷毛貓",
+      "aliases": [
+        "德文貓",
+        "小精靈貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Slender elfin with large ears (修長大耳)",
+        "weight_kg": {
+          "male": {
+            "min": 3.0,
+            "max": 4.5
+          },
+          "female": {
+            "min": 2.5,
+            "max": 3.5
+          }
+        },
+        "coat": "Short soft wavy/curly (短軟捲毛)",
+        "common_eye_colors": [
+          "Gold",
+          "Green",
+          "Hazel"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "肥厚型心肌病 (HCM)",
+          "先天性肌無力"
+        ],
+        "grooming": "偶爾濕布擦拭，定期清耳",
+        "diet_management": "高品質蛋白維持輕巧肌肉"
+      },
+      "media_assets": {
+        "tag": "devon_rex_hero",
+        "description": "捲曲毛髮與大耳朵的德文卷毛貓",
+        "image_search_keywords": "Devon Rex curly coat large ears elfin",
+        "src": "https://images.unsplash.com/photo-1767884267022-9c80682bfe65?auto=format&fit=crop&w=1200&q=80",
+        "alt": "德文卷毛貓 (Devon Rex)",
+        "license_note": "Unsplash License"
+      }
+    },
+    {
+      "breed_id": "mix_shorthair",
+      "name_en": "Domestic Shorthair Mix",
+      "name_zh_hk": "唐貓 / 港短 (米克斯)",
+      "aliases": [
+        "米克斯",
+        "港短",
+        "唐貓"
+      ],
+      "physical_characteristics": {
+        "body_type": "Variable sturdy (多樣健壯)",
+        "weight_kg": {
+          "male": {
+            "min": 3.5,
+            "max": 6.5
+          },
+          "female": {
+            "min": 2.5,
+            "max": 5.0
+          }
+        },
+        "coat": "Usually short, varied colors (多為短毛、花色豐富)",
+        "common_eye_colors": [
+          "Gold",
+          "Green",
+          "Blue",
+          "Odd-eyed"
+        ]
+      },
+      "care_and_health": {
+        "genetic_risks": [
+          "混種遺傳疾病較少，仍需定期檢查"
+        ],
+        "grooming": "每週梳毛 1 次",
+        "diet_management": "均衡全價營養，多補充水分"
+      },
+      "media_assets": {
+        "tag": "mix_shorthair_hero",
+        "description": "香港常見的唐貓／港短米克斯",
+        "image_search_keywords": "mixed breed domestic shorthair cat Hong Kong",
+        "src": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
+        "alt": "唐貓 / 港短 (米克斯) (Domestic Shorthair Mix)",
+        "license_note": "Unsplash License"
+      }
+    }
+  ]
+}
