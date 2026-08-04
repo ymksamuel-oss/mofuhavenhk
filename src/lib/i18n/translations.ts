@@ -166,8 +166,8 @@ export const translations = {
     footerShopAll: "全部商品",
     footerAbout: "關於我們",
     footerFaq: "常見問題",
-    footerPolicies: "條款與保障",
-    footerShipping: "運送與配送說明",
+    footerPolicies: "顧客服務",
+    footerShipping: "運送政策",
     footerReturns: "退換貨政策",
     footerTerms: "私隱政策與服務條款",
     footerContact: "聯絡我們",
@@ -184,9 +184,24 @@ export const translations = {
     faqPageTitle: "常見問題",
     faqPageBody:
       "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
-    shippingPageTitle: "運送與配送說明",
+    shippingPageTitle: "運送政策",
     shippingPageBody:
-      "我們提供香港本地配送服務。詳細運費、送達時間與順豐自取說明即將公佈；下單時亦會於結帳頁顯示運費。",
+      "Mofu Haven 採用預購／集單出貨：每週日截單，其後約 3–5 個工作天安排出貨；香港本地以順豐速運派送（智能櫃或上門）。若商品缺貨，將安排全額退款。詳見運送政策頁面。",
+    shippingPolicyEyebrow: "Mofu Haven Care",
+    shippingPolicyTitle: "運送政策",
+    shippingPolicyIntro:
+      "多謝支持 Mofu Haven。我哋以預購／集單方式由日本引進優質寵物用品，以下說明發貨節奏、派遞方式同缺貨保障，方便你安心落單。",
+    shippingPolicyCutoffTitle: "關於發貨時間",
+    shippingPolicyCutoffBody:
+      "每週日為截單日。截單後我哋會整理訂單並安排採購／集貨，一般於其後約 3–5 個工作天出貨（公眾假期或日本供應商延誤或會稍有影響）。出貨後會以訂單聯絡方式通知你。",
+    shippingPolicySfTitle: "順豐速運派遞說明",
+    shippingPolicySfBody:
+      "香港本地訂單預設以順豐速運派送，可選擇順豐站／智能櫃自取，或安排上門派遞。請於結帳時填寫正確地址或站點／櫃位代碼；如需更改派遞方式，可於出貨前經 WhatsApp 聯絡我們。",
+    shippingPolicyRefundTitle: "缺貨全額退款保障",
+    shippingPolicyRefundBody:
+      "若個別商品因供應商缺貨、停產或未能如期到貨，我哋會盡快通知你，並為受影響項目安排全額退款（或按你意願改訂其他商品）。你的權益我哋會優先保障。",
+    shippingPolicyFooterNote:
+      "運費會於結帳頁顯示。如有疑問，歡迎隨時經 WhatsApp 或電郵聯絡顧客服務。",
     returnsPageTitle: "退換貨政策",
     returnsPageBody:
       "若商品有瑕疵或寄送問題，請於收貨後盡快透過 WhatsApp 或電郵聯絡我們，我們會盡力協助處理。完整退換貨條款即將上線。",
@@ -446,7 +461,7 @@ export const translations = {
     footerShopAll: "Shop All",
     footerAbout: "About Us",
     footerFaq: "FAQ",
-    footerPolicies: "Policies",
+    footerPolicies: "Customer Care",
     footerShipping: "Shipping Policy",
     footerReturns: "Return & Refund Policy",
     footerTerms: "Privacy & Terms",
@@ -466,7 +481,22 @@ export const translations = {
       "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",
     shippingPageTitle: "Shipping Policy",
     shippingPageBody:
-      "We deliver across Hong Kong. Full details on fees, timing, and SF pickup will be published soon — shipping also appears at checkout.",
+      "Mofu Haven ships via weekly preorder batches: orders close each Sunday and typically leave within 3–5 working days. Hong Kong delivery is via SF Express (locker or door). Out-of-stock items are fully refunded. See the Shipping Policy page for details.",
+    shippingPolicyEyebrow: "Mofu Haven Care",
+    shippingPolicyTitle: "Shipping Policy",
+    shippingPolicyIntro:
+      "Thank you for supporting Mofu Haven. We import quality pet goods from Japan through a preorder / batch model. Here’s how cutoffs, delivery, and stock protection work.",
+    shippingPolicyCutoffTitle: "Dispatch timing",
+    shippingPolicyCutoffBody:
+      "Orders close every Sunday. After cutoff we consolidate and arrange sourcing — packages typically ship within about 3–5 working days (public holidays or supplier delays may add a little time). We’ll notify you using your order contact details once shipped.",
+    shippingPolicySfTitle: "SF Express delivery",
+    shippingPolicySfBody:
+      "Hong Kong orders ship with SF Express. Choose an SF station / smart locker pickup, or door delivery. Please enter a correct address or station/locker code at checkout; message us on WhatsApp before dispatch if you need to change the method.",
+    shippingPolicyRefundTitle: "Out-of-stock full refund",
+    shippingPolicyRefundBody:
+      "If an item is unavailable, discontinued, or cannot arrive on schedule, we’ll contact you promptly and arrange a full refund for the affected item (or switch to another product if you prefer). Your purchase is protected.",
+    shippingPolicyFooterNote:
+      "Shipping fees appear at checkout. For any questions, reach Customer Care anytime via WhatsApp or email.",
     returnsPageTitle: "Return & Refund Policy",
     returnsPageBody:
       "If an item arrives damaged or incorrect, contact us on WhatsApp or email soon after delivery and we’ll help. Full policy coming soon.",

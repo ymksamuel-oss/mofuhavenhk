@@ -26,7 +26,7 @@ const QUICK_LINKS: FooterLink[] = [
 ];
 
 const POLICY_LINKS: FooterLink[] = [
-  { href: "/shipping", labelKey: "footerShipping" },
+  { href: "/shipping-policy", labelKey: "footerShipping" },
   { href: "/returns", labelKey: "footerReturns" },
   { href: "/terms", labelKey: "footerTerms" },
 ];

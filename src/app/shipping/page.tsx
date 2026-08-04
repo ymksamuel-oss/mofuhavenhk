@@ -1,10 +1,6 @@
-import { StaticInfoPage } from "@/components/StaticInfoPage";
+import { redirect } from "next/navigation";
 
+/** Legacy `/shipping` → canonical shipping policy. */
 export default function ShippingPage() {
-  return (
-    <StaticInfoPage
-      titleKey="shippingPageTitle"
-      bodyKey="shippingPageBody"
-    />
-  );
+  redirect("/shipping-policy");
 }
