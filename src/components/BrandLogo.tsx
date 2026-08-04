@@ -42,10 +42,12 @@ export function BrandLogo({
       aria-label={title}
     >
       <span className="logo-copy logo-text">
-        <span className="logo-copy-line logo-copy-line-main">
-          <span className="logo-cat-emoji logo-mark" aria-hidden="true" role="presentation">
+        <span className="logo-cat-row" aria-hidden="true">
+          <span className="logo-cat-emoji logo-mark" role="presentation">
             🐱
           </span>
+        </span>
+        <span className="logo-copy-line logo-copy-line-main">
           {zhGlyphs.map((char, index) => (
             <span
               key={`zh-${char}-${index}`}
