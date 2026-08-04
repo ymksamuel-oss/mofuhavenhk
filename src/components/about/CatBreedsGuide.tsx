@@ -9,7 +9,6 @@ import {
   filterCatBreeds,
   type CatCoatFilter,
 } from "@/lib/catBreeds";
-import { categoryHref } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const zenMaru = Zen_Maru_Gothic({
@@ -111,24 +110,16 @@ export function CatBreedsGuide() {
                     onError={handleBreedImageError}
                   />
                 </div>
-                <div className="flex flex-1 flex-col gap-3 p-5">
-                  <div>
-                    <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
-                      {breed.coatLabel[locale]}
-                    </p>
-                    <h2 className="mt-1 text-xl font-bold tracking-tight">
-                      {breed.name[locale]}
-                    </h2>
-                    <p className="mt-2 text-sm leading-relaxed text-[#4A3B32]/85">
-                      {breed.summary[locale]}
-                    </p>
-                  </div>
-                  <Link
-                    href={categoryHref("cats")}
-                    className="mt-auto inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#4A3B32]/15 bg-[#4A3B32] px-4 py-2.5 text-sm font-semibold text-[#FAF6F0] transition hover:-translate-y-0.5 hover:bg-[#3a2e27]"
-                  >
-                    {t("catBreedsShopCta")}
-                  </Link>
+                <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
+                  <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
+                    {breed.coatLabel[locale]}
+                  </p>
+                  <h2 className="text-xl font-bold tracking-tight">
+                    {breed.name[locale]}
+                  </h2>
+                  <p className="text-sm leading-relaxed text-[#4A3B32]/85">
+                    {breed.summary[locale]}
+                  </p>
                 </div>
               </li>
             ))}
