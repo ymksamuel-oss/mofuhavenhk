@@ -124,11 +124,11 @@ export function AddToCartButton({
           setQty(MIN_QTY);
         }}
         aria-live="polite"
-        className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition active:scale-[0.97] ${
-          added
-            ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]"
-            : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
-        } ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}
+        className={`inline-flex w-full items-center justify-center rounded-full font-semibold leading-tight text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition active:scale-[0.97] ${
+            added
+              ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]"
+              : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
+        } ${size === "modal" ? "px-4 py-3 text-sm" : "min-h-9 px-3 py-2 text-[11px] sm:min-h-10 sm:px-4 sm:py-2.5 sm:text-xs"}`}
       >
         {added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>
