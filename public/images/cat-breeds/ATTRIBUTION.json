@@ -18,18 +18,18 @@
     },
     "munchkin": {
       "src": "/images/cat-breeds/munchkin.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/j5cVSqLer.jpg",
-      "bytes": 373720,
-      "fallback": true
+      "source_url": "https://cdn2.thecatapi.com/images/OjnSd2N2p.jpg",
+      "note": "Longhair Munchkin studio full body (short legs clear)"
     },
     "norwegian-forest": {
       "src": "/images/cat-breeds/norwegian-forest.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/IvIKQQqSP.jpg"
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Norwegian_Forest_Cat_face.jpg/1280px-Norwegian_Forest_Cat_face.jpg",
+      "note": "NFC face portrait with lynx tips"
     },
     "exotic-shorthair": {
       "src": "/images/cat-breeds/exotic-shorthair.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Bissel_3.jpg/1280px-Bissel_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 167213
+      "source_url": "https://cdn2.thecatapi.com/images/dnYQq6Vf3.jpg",
+      "note": "Brown tabby Exotic Shorthair hero"
     },
     "maine-coon": {
       "src": "/images/cat-breeds/maine-coon.jpg",
@@ -85,6 +85,56 @@
     },
     "british-shorthair-cozy": {
       "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
+    },
+    "munchkin-tabby": {
+      "src": "/images/cat-breeds/munchkin-tabby.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Munchkin_Aliska_Karapuz.jpg/1280px-Munchkin_Aliska_Karapuz.jpg"
+    },
+    "munchkin-standing": {
+      "src": "/images/cat-breeds/munchkin-standing.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/a1g4Ycw-z.jpg"
+    },
+    "munchkin-bicolor": {
+      "src": "/images/cat-breeds/munchkin-bicolor.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Munchkin_cat.jpg/1280px-Munchkin_cat.jpg"
+    },
+    "munchkin-play": {
+      "src": "/images/cat-breeds/munchkin-play.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/pzIURJPra.jpg"
+    },
+    "norwegian-forest-snow": {
+      "src": "/images/cat-breeds/norwegian-forest-snow.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/JJF-_Norwegian_Forest_Cat_in_the_snow.jpg/1280px-JJF-_Norwegian_Forest_Cat_in_the_snow.jpg"
+    },
+    "norwegian-forest-outdoor": {
+      "src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/rBuGgH_Wj.jpg"
+    },
+    "norwegian-forest-portrait": {
+      "src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/bsr5KQSJ6.jpg"
+    },
+    "norwegian-forest-pack": {
+      "src": "/images/cat-breeds/norwegian-forest-pack.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/IvIKQQqSP.jpg",
+      "note": "Previous hero retained as snow pack gallery"
+    },
+    "exotic-shorthair-bicolor": {
+      "src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Bissel_3.jpg/1280px-Bissel_3.jpg",
+      "note": "Previous hero retained as blue-white bicolor"
+    },
+    "exotic-shorthair-tabby": {
+      "src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Brown_Exotic_Shorthair_Kitten_Profile.jpg"
+    },
+    "exotic-shorthair-cozy": {
+      "src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/ySzdVwyb1.jpg"
+    },
+    "exotic-shorthair-cream": {
+      "src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/TuXvdAni3.jpg"
     }
   },
   "licenses": {
