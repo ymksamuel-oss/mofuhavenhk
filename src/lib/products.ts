@@ -1,12 +1,17 @@
 import type { CategoryIconName } from "@/lib/categories";
+import {
+  WT_JAPAN_PRODUCTS,
+  type WtJapanProduct,
+} from "@/data/productsData";
 
 export type Product = {
   id: string;
   categorySlug: string;
   /**
    * Path (under /public) to a real product photograph for this SKU.
-   * Files live at `public/products/<productId>.webp` — never use
-   * AI-generated art, cartoons, or shared category illustrations.
+   * Typical locations: `public/products/<id>.webp` or
+   * `public/images/products/<id>.jpg` — never use AI-generated art,
+   * cartoons, or shared category illustrations.
    */
   image: string;
   name: { zh: string; en: string };
@@ -27,6 +32,128 @@ export type Product = {
    */
   specs?: { zh: string; en: string }[];
 };
+
+/** English storefront copy for WT Japan cans (zh lives in productsData.ts). */
+const WT_JAPAN_EN: Record<
+  string,
+  { name: string; description: string; tagLabels?: Record<string, string> }
+> = {
+  "wt-product-1": {
+    name: "CIAO Cat Can — Bonito & Scallop 85g × 6",
+    description:
+      "Inaba CIAO classic cans pairing sweet bonito with scallop in a juicy broth. High-moisture formula encourages drinking, with green-tea deodorizing for a fresher home — a week's ocean feast in six cans.",
+  },
+  "wt-product-2": {
+    name: "CIAO Cat Can — White Meat Tuna Trio 85g × 6",
+    description:
+      "Three tuna layers in one can: silky white meat, crispy tuna flakes, and rich tuna broth. Fine texture picky cats love — more hydration without sacrificing flavor.",
+  },
+  "wt-product-3": {
+    name: "CIAO Cat Can — Chicken & Wagyu 85g × 6",
+    description:
+      "Tender chicken meets Japanese wagyu aroma for layered protein — great for larger or active cats. Juicy enough as a meal or a reward topping, with green-tea odor care.",
+  },
+  "wt-product-4": {
+    name: "CIAO Fresh Meat Cup — Bonito, Tuna & Chicken (11+) 70g × 6",
+    description:
+      "Soft fresh-meat cups for cats 11+. Triple gentle proteins, easy to scoop, gentle to chew — a caring daily wet meal for senior appetites and hydration.",
+  },
+  "wt-product-5": {
+    name: "CIAO Fresh Meat Cup — Tuna (11+) 70g × 6",
+    description:
+      "Pure tuna fresh-meat cups for seniors 11+. A clean single-seafood profile for sensitive palates — open, warm slightly, and serve when appetite dips.",
+  },
+  "wt-product-6": {
+    name: "CIAO Cat Can — Chicken Breast & Sea Bream 85g × 6",
+    description:
+      "Lean chicken breast with delicate sea bream in light broth — elegant, lighter rotation for cats who prefer mild seafood and steady hydration.",
+  },
+  "wt-product-7": {
+    name: "CIAO Cat Can — White Meat Tuna & Whitebait 85g × 6",
+    description:
+      "Silky white-meat tuna dotted with sparkling whitebait for playful crunch. Bright broth and fresh aroma — a happiness boost for curious everyday cats.",
+  },
+  "wt-product-8": {
+    name: "CIAO Cat Can — Chicken, Golden Tuna & Bonito Flakes 85g × 6",
+    description:
+      "Chicken and golden tuna finished with aromatic bonito flakes — open the can for a Japanese dashi-like scent. Ideal alone or poured over kibble.",
+  },
+  "wt-product-9": {
+    name: "CIAO Cat Can — White Meat Tuna & Koshihikari Rice 85g × 6",
+    description:
+      "Silky tuna meets soft Japanese Koshihikari rice — gentle to swallow and kind on sensitive tummies. A calm, comforting bowl for slower eaters.",
+  },
+  "wt-product-10": {
+    name: "CIAO Cat Can — White Meat Tuna & Bonito Flakes 85g × 6",
+    description:
+      "Classic white-meat tuna with fragrant bonito flakes — CIAO's everyday hero. Clear broth, fine texture, green-tea odor care for weekly wet-food rotation.",
+  },
+};
+
+const WT_TAG_EN: Record<string, string> = {
+  高水分補給: "High moisture",
+  海鮮雙拼: "Seafood duo",
+  綠茶消臭: "Green-tea odor care",
+  全齡貓適用: "All life stages",
+  白肉金槍魚: "White-meat tuna",
+  層次鮮味: "Layered flavor",
+  挑嘴貓友好: "Picky-eater friendly",
+  高蛋白配方: "High protein",
+  和牛奢華: "Wagyu luxury",
+  活力補給: "Energy support",
+  熟齡貓專用: "Senior formula",
+  軟質好入口: "Soft & easy",
+  三重蛋白: "Triple protein",
+  單一海鮮: "Single seafood",
+  清爽好消化: "Light & digestible",
+  杯裝便利: "Cup convenience",
+  清淡海鮮: "Mild seafood",
+  雞胸低負擔: "Lean chicken",
+  輪替菜單: "Menu rotation",
+  白飯魚點綴: "Whitebait topping",
+  趣味口感: "Playful texture",
+  木魚乾香氣: "Bonito aroma",
+  乾濕混餵: "Wet–dry mix",
+  活力菜單: "Active menu",
+  柔滑好吞嚥: "Easy to swallow",
+  越光米配方: "Koshihikari rice",
+  腸胃溫和: "Gentle on tummy",
+  軟食友好: "Soft-food friendly",
+  經典日系味: "Classic Japanese",
+  鰹魚乾點綴: "Bonito flakes",
+  日常輪替: "Daily rotation",
+};
+
+function wtJapanToProduct(p: WtJapanProduct): Product {
+  const en = WT_JAPAN_EN[p.id];
+  return {
+    id: p.id,
+    categorySlug: "cats",
+    image: p.imageUrl,
+    name: {
+      zh: p.title,
+      en: en?.name ?? p.title,
+    },
+    price: p.price,
+    icon: "cat",
+    description: {
+      zh: p.description,
+      en: en?.description ?? p.description,
+    },
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口", en: "Import: Japan original" },
+      ...p.tags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan CIAO cat cans — merged from `@/data/productsData`. */
+export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
 export const PRODUCTS: Product[] = [
   // 貓咪商品 / Cat Products
@@ -129,6 +256,9 @@ export const PRODUCTS: Product[] = [
       en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
     },
   },
+
+  // CIAO 貓罐罐（WT Japan）— wired from `@/data/productsData`
+  ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
   {
