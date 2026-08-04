@@ -3,6 +3,7 @@ import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
+import { classifyCatalogProducts } from "@/lib/classifyPetFood";
 
 /** Cat-products sub-filter keys (shown under 「貓咪商品」). */
 export const CAT_SUBCATEGORIES = [
@@ -86,6 +87,13 @@ export type Product = {
    * shown in the product quick-view modal opened from the /menu card.
    */
   specs?: { zh: string; en: string }[];
+  /**
+   * Optional collection / selling-point tags used by keyword food-zone
+   * classification（例如「冷凍脫水系列」「狗狗小食」「貓用」）.
+   */
+  tags?: string[];
+  /** Optional WT Japan / vendor product type label. */
+  productType?: string;
 };
 
 /** English storefront copy for WT Japan cans (zh lives in productsData.ts). */
@@ -418,6 +426,10 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
     p.subcategory === "冷凍脫水系列"
       ? freezeDriedSeriesForVendor(p.vendor)
       : undefined;
+  const collectionTags =
+    p.subcategory === "冷凍脫水系列"
+      ? Array.from(new Set([...p.tags, "冷凍脫水系列", "貓貓小食", "貓用"]))
+      : p.tags;
   return {
     id: p.id,
     // Keep in sync with productsData `category` / `categorySlug` (貓咪商品 → cats)
@@ -436,6 +448,8 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
       zh: p.description,
       en: en?.description ?? p.description,
     },
+    tags: collectionTags,
+    productType: p.productType,
     specs: [
       { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
       { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
@@ -445,9 +459,13 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
               zh: "專區：冷凍食物專區（冷凍脫水系列）",
               en: "Zone: Cat freeze-dried food (freeze-dried series)",
             },
+            {
+              zh: "Collection：/categories/cats/freeze-dried",
+              en: "Collection: /categories/cats/freeze-dried",
+            },
           ]
         : []),
-      ...p.tags.slice(0, 3).map((tag) => ({
+      ...collectionTags.slice(0, 3).map((tag) => ({
         zh: tag,
         en: WT_TAG_EN[tag] ?? tag,
       })),
@@ -459,7 +477,11 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
-export const PRODUCTS: Product[] = [
+/**
+ * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
+ * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
+ */
+const PRODUCTS_RAW: Product[] = [
   // 貓咪商品 / Cat Products
   // Temporarily hidden dummy / test products (not shown on storefront):
   // {
@@ -568,6 +590,7 @@ export const PRODUCTS: Product[] = [
 
   // 狗狗商品 / Dog Products
   // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
+  // Final category/subcategory are enforced by classifyCatalogProducts() keywords.
   {
     id: "dog-food-1-5kg",
     categorySlug: "dogs",
@@ -576,6 +599,7 @@ export const PRODUCTS: Product[] = [
     name: { zh: "日本天然狗糧 1.5kg", en: "Japanese Natural Dog Food 1.5kg" },
     price: 168,
     icon: "dog",
+    tags: ["狗狗食品", "狗糧"],
     description: {
       zh: "日本配方天然狗糧，均衡營養適合日常主食。",
       en: "Japanese-formula natural kibble — balanced nutrition for everyday meals.",
@@ -589,6 +613,7 @@ export const PRODUCTS: Product[] = [
     name: { zh: "狗狗潔牙骨 12支裝", en: "Dog Dental Chews (12pcs)" },
     price: 88,
     icon: "dog",
+    tags: ["狗狗小食", "狗用", "潔牙骨"],
     description: {
       zh: "潔牙小食雙效設計，磨牙同時清潔齒垢，訓練獎勵都合適。",
       en: "Dental chew treats that scrub tartar while dogs gnaw — great as a reward too.",
@@ -602,6 +627,7 @@ export const PRODUCTS: Product[] = [
     name: { zh: "狗狗肉乾小食", en: "Dried Meat Dog Treats" },
     price: 52,
     icon: "dog",
+    tags: ["狗狗小食", "狗用", "肉乾"],
     description: {
       zh: "風乾肉乾小食，高蛋白低負擔，適合日常獎勵同訓練。",
       en: "Air-dried meat treats — high protein, everyday rewards and training.",
@@ -612,9 +638,10 @@ export const PRODUCTS: Product[] = [
     categorySlug: "dogs",
     subcategory: "狗狗小食",
     image: "/products/snack-chicken-jerky.webp",
-    name: { zh: "日本雞胸肉乾", en: "Japanese Chicken Breast Jerky" },
+    name: { zh: "日本雞胸肉乾（狗用）", en: "Japanese Chicken Breast Jerky (for dogs)" },
     price: 48,
     icon: "dog",
+    tags: ["狗狗小食", "狗用", "肉乾"],
     description: {
       zh: "100% 雞胸肉低溫烘乾製作，無添加防腐劑，狗狗健康零食首選。",
       en: "Slow low-temperature dried 100% chicken breast for dogs — no preservatives.",
@@ -1536,6 +1563,7 @@ export const PRODUCTS: Product[] = [
   },
 
   // 熱賣商品 / Best Sellers
+  // Dog treat gift boxes carry 狗狗／狗零食 keywords → auto-filed to dogs/狗狗小食.
   {
     id: "bestseller-dog-giftbox",
     categorySlug: "bestsellers",
@@ -1543,6 +1571,11 @@ export const PRODUCTS: Product[] = [
     name: { zh: "人氣日本狗零食禮盒", en: "Popular Japanese Dog Treat Gift Box" },
     price: 128,
     icon: "fire",
+    tags: ["狗狗小食", "狗零食", "禮盒"],
+    description: {
+      zh: "人氣日本狗零食禮盒，適合狗狗日常獎勵同送禮。",
+      en: "Popular Japanese dog-treat gift box — everyday rewards and gifting.",
+    },
   },
   {
     id: "bestseller-cat-scratcher",
@@ -1615,6 +1648,7 @@ export const PRODUCTS: Product[] = [
     name: { zh: "人氣狗狗肉乾禮盒", en: "Popular Dog Jerky Gift Box" },
     price: 118,
     icon: "fire",
+    tags: ["狗狗小食", "狗用", "肉乾", "禮盒"],
     description: {
       zh: "多口味肉乾組合禮盒，狗狗最愛嘅人氣小食首選。",
       en: "A multi-flavor jerky gift box — dogs' favorite go-to treat.",
@@ -1707,6 +1741,13 @@ export const PRODUCTS: Product[] = [
     },
   },
 ];
+
+/**
+ * Storefront catalog after keyword food-zone classification.
+ * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
+ * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
+ */
+export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
 
 export function getProductsByCategory(slug: string | null): Product[] {
   if (!slug) return PRODUCTS;
