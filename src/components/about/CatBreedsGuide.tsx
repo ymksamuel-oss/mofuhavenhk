@@ -108,6 +108,7 @@ export function CatBreedsGuide() {
                     alt={breed.imageAlt[locale]}
                     className="absolute inset-0 h-full w-full object-cover"
                     loading="lazy"
+                    onError={handleBreedImageError}
                   />
                 </div>
                 <div className="flex flex-1 flex-col gap-3 p-5">
