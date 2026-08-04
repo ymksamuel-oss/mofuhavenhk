@@ -133,7 +133,7 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "silver_tabby",
       name_zh: "銀虎斑 (Silver Tabby)",
       description: "帶有清晰斑紋與綠色/榛果色眼睛",
-      image_url: "https://cdn2.thecatapi.com/images/2b2pFY0-t.jpg",
+      image_url: "/images/cat-breeds/british-shorthair-silver-tabby.jpg",
     },
     {
       pattern_id: "bicolor",
@@ -178,32 +178,44 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
     ],
     digestive_health: "圓骨架體質，絕育後需特別留意熱量與體重管理",
     diet_management:
-      "絕育後極容易發胖，必須嚴格定時定量控制熱量，並提供足夠的活水與溫和運動",
+      "絕育後極容易發胖，且屬於圓骨架體質，必須嚴格定時定量控制熱量，並提供足夠的活水與溫和運動",
     grooming:
-      "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季掉毛量大，需增加梳毛頻率以防毛球症",
+      "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季時掉毛量大，需增加梳毛頻率以防毛球症",
   },
   media_assets: {
-    status: "updated_from_ui_reference",
+    status: "ready_for_cursor_multi_image_scraping",
     instruction_for_cursor:
-      "請參考 UI 介面截圖風格與金漸層幼貓的高質感圖片，為英短專頁更新高解析度且切合「金漸層/藍貓」特色的相片與背景。",
+      "請為以下多個英短展示位搜尋並配搭對應品種特色（藍貓、金漸層、銀虎斑）的高解析度相片，確保前端圖庫/相片牆豐富。",
     images: [
       {
         tag: "hero",
         description: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
         src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
-        alt: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+        alt: "金漸層英國短毛貓特寫",
       },
       {
-        tag: "british_blue",
-        description: "經典藍灰色英國短毛貓",
+        tag: "hero_main",
+        description: "擁有金漸層毛色與大眼活潑伸爪的英國短毛貓",
+        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
+        alt: "金漸層英國短毛貓特寫",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "標誌性純藍灰色圓臉大眼英短",
         src: "https://images.unsplash.com/photo-1758431151232-890ae89275c8?auto=format&fit=crop&w=1200&q=80",
         alt: "經典藍灰色英國短毛貓",
       },
       {
-        tag: "golden_shade",
-        description: "金漸層英國短毛貓",
-        src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1200&q=80",
-        alt: "金漸層英國短毛貓",
+        tag: "gallery_item_2",
+        description: "帶有明顯川字/旋渦紋理的銀虎斑英短",
+        src: "/images/cat-breeds/british-shorthair-silver-tabby.jpg",
+        alt: "銀虎斑英國短毛貓",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "英短趴在梳化上休息的溫馨日常照",
+        src: "https://images.unsplash.com/photo-1676734661920-12210a474929?auto=format&fit=crop&w=1200&q=80",
+        alt: "室內休息的英國短毛貓",
       },
     ],
   },

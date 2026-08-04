@@ -32,7 +32,13 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
   const { t } = useI18n();
   const info = breed.breedInfo;
   const heroImage =
-    info?.media_assets.images.find((image) => image.tag === "hero") ?? null;
+    info?.media_assets.images.find(
+      (image) => image.tag === "hero_main" || image.tag === "hero",
+    ) ?? null;
+  const galleryImages =
+    info?.media_assets.images.filter((image) =>
+      image.tag.startsWith("gallery_item"),
+    ) ?? [];
 
   const facts = [
     { label: t("catBreedDetailOrigin"), value: breed.origin },
@@ -118,6 +124,35 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
             </li>
           ))}
         </ul>
+
+        {galleryImages.length > 0 ? (
+          <section className="mt-10 sm:mt-12">
+            <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+              {t("catBreedDetailGallery")}
+            </h2>
+            <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {galleryImages.map((image) => (
+                <li
+                  key={image.tag}
+                  className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
+                >
+                  <div className="relative aspect-[4/3] bg-[#FAF6F0]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={image.src || CAT_BREED_IMAGE_FALLBACK}
+                      alt={image.alt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      onError={handleBreedImageError}
+                    />
+                  </div>
+                  <p className="px-4 py-3 text-xs leading-relaxed text-[#4A3B32]/75">
+                    {image.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {info ? (
           <div className="mt-10 space-y-10 sm:mt-12">
