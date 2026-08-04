@@ -21,12 +21,12 @@ function MenuRedirectOrCatalog() {
     window.location.replace(categoryHref(legacySlug));
   }, [legacySlug]);
 
-  return <ProductCatalog categorySlug={legacySlug} />;
+  return <ProductCatalog categorySlug={legacySlug} subcategory={null} />;
 }
 
 export default function MenuPage() {
   return (
-    <Suspense fallback={<ProductCatalog categorySlug={null} />}>
+    <Suspense fallback={<ProductCatalog categorySlug={null} subcategory={null} />}>
       <MenuRedirectOrCatalog />
     </Suspense>
   );

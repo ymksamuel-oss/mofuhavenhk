@@ -1,23 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ExplorePetsDropdown } from "@/components/menu/ExplorePetsDropdown";
 import {
   CATEGORIES,
   categoryHref,
+  categorySubHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
   CAT_SUBCATEGORIES,
+  CAT_SUBCATEGORY_SLUG,
+  DOG_SUBCATEGORIES,
+  DOG_SUBCATEGORY_SLUG,
+  freezeDriedProductName,
   getCatProductsBySubcategory,
+  getDogProductsBySubcategory,
   getProductsByCategory,
   productHref,
   type CatSubcategory,
+  type DogSubcategory,
+  type Product,
+  type ProductSubcategory,
 } from "@/lib/products";
 
 function chipClassName(active: boolean) {
@@ -39,42 +48,144 @@ function subChipClassName(active: boolean) {
 const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓罐罐: "catSubWetCans",
   貓乾糧: "catSubDryFood",
-  凍乾零食: "catSubFreezeDried",
+  冷凍脫水系列: "catSubFreezeDried",
+};
+
+const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
+  狗狗食品: "dogSubFood",
+  狗狗小食: "dogSubSnacks",
 };
 
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
+  /**
+   * Optional food-zone subcategory from the URL path
+   * (`/categories/cats/freeze-dried`, `/categories/dogs/snacks`, …).
+   */
+  subcategory?: ProductSubcategory | null;
 };
 
+function FreezeDriedListCard({
+  product,
+  locale,
+  viewDetailsLabel,
+}: {
+  product: Product;
+  locale: "zh" | "en";
+  viewDetailsLabel: string;
+}) {
+  const href = productHref(product.id);
+  const series = product.series?.[locale];
+  const nameLine = freezeDriedProductName(
+    product.name[locale],
+    series,
+    locale,
+  );
+  const discountPercent = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : null;
+
+  return (
+    <li className="milk-tea-card overflow-hidden transition-shadow duration-200 hover:shadow-[0_18px_32px_-24px_rgba(74,54,38,0.55)]">
+      <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
+        <CategoryNavLink
+          href={href}
+          aria-label={`${viewDetailsLabel}: ${product.name[locale]}`}
+          className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] sm:h-32 sm:w-32"
+        >
+          <Image
+            src={product.image}
+            alt={product.name[locale]}
+            fill
+            sizes="128px"
+            className="object-cover"
+          />
+          {discountPercent ? (
+            <span className="absolute left-1.5 top-1.5 rounded-full bg-[#c0483a] px-1.5 py-0.5 text-[9px] font-bold text-white">
+              -{discountPercent}%
+            </span>
+          ) : null}
+        </CategoryNavLink>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          {series ? (
+            <CategoryNavLink
+              href={href}
+              className="text-sm font-bold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+            >
+              {series}
+            </CategoryNavLink>
+          ) : null}
+          <CategoryNavLink
+            href={href}
+            className={`text-sm leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] ${
+              series ? "mt-0.5 font-medium" : "font-semibold"
+            }`}
+          >
+            {nameLine}
+          </CategoryNavLink>
+          {product.description ? (
+            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-[color:var(--muted)] sm:line-clamp-3">
+              {product.description[locale]}
+            </p>
+          ) : null}
+
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <p className="text-base font-semibold tabular-nums text-[color:var(--accent)] sm:text-lg">
+                {formatMoney(product.price, locale)}
+              </p>
+              {product.originalPrice ? (
+                <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
+                  {formatMoney(product.originalPrice, locale)}
+                </p>
+              ) : null}
+            </div>
+            <AddToCartButton productId={product.id} size="list" />
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 /**
- * Shared catalog UI for `/menu` and `/categories/[slug]`.
+ * Shared catalog UI for `/menu`, `/categories/[slug]`, and
+ * `/categories/[slug]/[sub]` food-zone pages.
  * Product cards hard-navigate to `/product/[id]` detail pages.
  */
-export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
+export function ProductCatalog({
+  categorySlug,
+  subcategory = null,
+}: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
-  const [catSubcategory, setCatSubcategory] = useState<CatSubcategory | null>(
-    null,
-  );
-  const [isPending, startTransition] = useTransition();
+  const isDogs = categorySlug === "dogs";
+  const catSubcategory =
+    isCats && subcategory && CAT_SUBCATEGORIES.includes(subcategory as CatSubcategory)
+      ? (subcategory as CatSubcategory)
+      : null;
+  const dogSubcategory =
+    isDogs && subcategory && DOG_SUBCATEGORIES.includes(subcategory as DogSubcategory)
+      ? (subcategory as DogSubcategory)
+      : null;
 
   const products = useMemo(() => {
     if (isCats) {
       return getCatProductsBySubcategory(catSubcategory);
     }
+    if (isDogs) {
+      return getDogProductsBySubcategory(dogSubcategory);
+    }
     return getProductsByCategory(categorySlug);
-  }, [isCats, catSubcategory, categorySlug]);
+  }, [isCats, isDogs, catSubcategory, dogSubcategory, categorySlug]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-
-  const selectCatSub = (next: CatSubcategory | null) => {
-    startTransition(() => {
-      setCatSubcategory(next);
-    });
-  };
+  const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showDogSnacksZone = dogSubcategory === "狗狗小食";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -108,40 +219,107 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         <div
           role="tablist"
           aria-label={t("catSubNavLabel")}
-          className="scrollbar-none mb-8 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+          className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
         >
-          <button
-            type="button"
+          <CategoryNavLink
+            href={categoryHref("cats")}
             role="tab"
             aria-selected={catSubcategory === null}
             className={subChipClassName(catSubcategory === null)}
-            onClick={() => selectCatSub(null)}
           >
             {t("catSubAll")}
-          </button>
+          </CategoryNavLink>
           {CAT_SUBCATEGORIES.map((sub) => (
-            <button
+            <CategoryNavLink
               key={sub}
-              type="button"
+              href={categorySubHref("cats", CAT_SUBCATEGORY_SLUG[sub])}
               role="tab"
               aria-selected={catSubcategory === sub}
               className={subChipClassName(catSubcategory === sub)}
-              onClick={() => selectCatSub(sub)}
             >
               {t(CAT_SUB_LABEL_KEYS[sub])}
-            </button>
+            </CategoryNavLink>
           ))}
         </div>
       ) : null}
 
+      {isDogs ? (
+        <div
+          role="tablist"
+          aria-label={t("dogSubNavLabel")}
+          className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
+        >
+          <CategoryNavLink
+            href={categoryHref("dogs")}
+            role="tab"
+            aria-selected={dogSubcategory === null}
+            className={subChipClassName(dogSubcategory === null)}
+          >
+            {t("dogSubAll")}
+          </CategoryNavLink>
+          {DOG_SUBCATEGORIES.map((sub) => (
+            <CategoryNavLink
+              key={sub}
+              href={categorySubHref("dogs", DOG_SUBCATEGORY_SLUG[sub])}
+              role="tab"
+              aria-selected={dogSubcategory === sub}
+              className={subChipClassName(dogSubcategory === sub)}
+            >
+              {t(DOG_SUB_LABEL_KEYS[sub])}
+            </CategoryNavLink>
+          ))}
+        </div>
+      ) : null}
+
+      {showFreezeDriedZone ? (
+        <section
+          aria-label={t("catFreezeDriedZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("catFreezeDriedZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("catFreezeDriedZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("catFreezeDriedZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
+      {showDogSnacksZone ? (
+        <section
+          aria-label={t("dogSnacksZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("dogSnacksZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("dogSnacksZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("dogSnacksZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
+      ) : showFreezeDriedZone ? (
+        <ul className="flex flex-col gap-3 sm:gap-4">
+          {products.map((product) => (
+            <FreezeDriedListCard
+              key={product.id}
+              product={product}
+              locale={locale}
+              viewDetailsLabel={t("productViewDetails")}
+            />
+          ))}
+        </ul>
       ) : (
-        <ul
-          className={`grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 ${
-            isPending ? "opacity-70 transition-opacity" : "transition-opacity"
-          }`}
-        >
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
