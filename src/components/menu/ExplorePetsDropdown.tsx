@@ -86,6 +86,14 @@ export function ExplorePetsDropdown() {
           >
             {t("exploreAboutCat")}
           </CategoryNavLink>
+          <CategoryNavLink
+            href="/cat-breeds"
+            role="menuitem"
+            className="block px-4 py-2.5 text-sm font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
+            onNavigate={() => setOpen(false)}
+          >
+            {t("exploreCatBreeds")}
+          </CategoryNavLink>
         </div>
       ) : null}
     </div>
