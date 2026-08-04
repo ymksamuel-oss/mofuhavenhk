@@ -37,7 +37,8 @@ export const CAT_BREEDS: CatBreed[] = [
   {
     id: "american-shorthair",
     coat: "short",
-    image: CAT_BREED_IMAGE_FALLBACK,
+    image:
+      "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?q=80&w=800&auto=format&fit=crop",
     name: { zh: "美國短毛貓", en: "American Shorthair" },
     coatLabel: { zh: "短毛", en: "Short hair" },
     summary: {
@@ -69,7 +70,7 @@ export const CAT_BREEDS: CatBreed[] = [
     id: "russian-blue",
     coat: "short",
     image:
-      "https://images.unsplash.com/photo-1513360371669-4adf35527152?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1574063413132-3407983637cc?q=80&w=800&auto=format&fit=crop",
     name: { zh: "俄羅斯藍貓", en: "Russian Blue" },
     coatLabel: { zh: "短毛", en: "Short hair" },
     summary: {
