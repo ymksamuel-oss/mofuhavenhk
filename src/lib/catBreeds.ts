@@ -54,7 +54,7 @@ export const CAT_BREEDS: CatBreed[] = [
     id: "ragdoll",
     coat: "long",
     image:
-      "https://images.unsplash.com/photo-1586289883499-f11d28aaf54e?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
     name: { zh: "布偶貓", en: "Ragdoll" },
     coatLabel: { zh: "長毛", en: "Long hair" },
     summary: {
