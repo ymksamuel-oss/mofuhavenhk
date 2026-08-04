@@ -1,25 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ExplorePetsDropdown } from "@/components/menu/ExplorePetsDropdown";
 import {
   CATEGORIES,
   categoryHref,
+  categorySubHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
   CAT_SUBCATEGORIES,
+  CAT_SUBCATEGORY_SLUG,
+  DOG_SUBCATEGORIES,
+  DOG_SUBCATEGORY_SLUG,
   freezeDriedProductName,
   getCatProductsBySubcategory,
+  getDogProductsBySubcategory,
   getProductsByCategory,
   productHref,
   type CatSubcategory,
+  type DogSubcategory,
   type Product,
+  type ProductSubcategory,
 } from "@/lib/products";
 
 function chipClassName(active: boolean) {
@@ -44,9 +51,19 @@ const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   冷凍脫水系列: "catSubFreezeDried",
 };
 
+const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
+  狗狗食品: "dogSubFood",
+  狗狗小食: "dogSubSnacks",
+};
+
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
+  /**
+   * Optional food-zone subcategory from the URL path
+   * (`/categories/cats/freeze-dried`, `/categories/dogs/snacks`, …).
+   */
+  subcategory?: ProductSubcategory | null;
 };
 
 function FreezeDriedListCard({
@@ -134,34 +151,41 @@ function FreezeDriedListCard({
 }
 
 /**
- * Shared catalog UI for `/menu` and `/categories/[slug]`.
+ * Shared catalog UI for `/menu`, `/categories/[slug]`, and
+ * `/categories/[slug]/[sub]` food-zone pages.
  * Product cards hard-navigate to `/product/[id]` detail pages.
  */
-export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
+export function ProductCatalog({
+  categorySlug,
+  subcategory = null,
+}: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
-  const [catSubcategory, setCatSubcategory] = useState<CatSubcategory | null>(
-    null,
-  );
-  const [isPending, startTransition] = useTransition();
+  const isDogs = categorySlug === "dogs";
+  const catSubcategory =
+    isCats && subcategory && CAT_SUBCATEGORIES.includes(subcategory as CatSubcategory)
+      ? (subcategory as CatSubcategory)
+      : null;
+  const dogSubcategory =
+    isDogs && subcategory && DOG_SUBCATEGORIES.includes(subcategory as DogSubcategory)
+      ? (subcategory as DogSubcategory)
+      : null;
 
   const products = useMemo(() => {
     if (isCats) {
       return getCatProductsBySubcategory(catSubcategory);
     }
+    if (isDogs) {
+      return getDogProductsBySubcategory(dogSubcategory);
+    }
     return getProductsByCategory(categorySlug);
-  }, [isCats, catSubcategory, categorySlug]);
+  }, [isCats, isDogs, catSubcategory, dogSubcategory, categorySlug]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-  const showFreezeDriedZone = isCats && catSubcategory === "冷凍脫水系列";
-
-  const selectCatSub = (next: CatSubcategory | null) => {
-    startTransition(() => {
-      setCatSubcategory(next);
-    });
-  };
+  const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showDogSnacksZone = dogSubcategory === "狗狗小食";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -197,26 +221,52 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
           aria-label={t("catSubNavLabel")}
           className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
         >
-          <button
-            type="button"
+          <CategoryNavLink
+            href={categoryHref("cats")}
             role="tab"
             aria-selected={catSubcategory === null}
             className={subChipClassName(catSubcategory === null)}
-            onClick={() => selectCatSub(null)}
           >
             {t("catSubAll")}
-          </button>
+          </CategoryNavLink>
           {CAT_SUBCATEGORIES.map((sub) => (
-            <button
+            <CategoryNavLink
               key={sub}
-              type="button"
+              href={categorySubHref("cats", CAT_SUBCATEGORY_SLUG[sub])}
               role="tab"
               aria-selected={catSubcategory === sub}
               className={subChipClassName(catSubcategory === sub)}
-              onClick={() => selectCatSub(sub)}
             >
               {t(CAT_SUB_LABEL_KEYS[sub])}
-            </button>
+            </CategoryNavLink>
+          ))}
+        </div>
+      ) : null}
+
+      {isDogs ? (
+        <div
+          role="tablist"
+          aria-label={t("dogSubNavLabel")}
+          className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
+        >
+          <CategoryNavLink
+            href={categoryHref("dogs")}
+            role="tab"
+            aria-selected={dogSubcategory === null}
+            className={subChipClassName(dogSubcategory === null)}
+          >
+            {t("dogSubAll")}
+          </CategoryNavLink>
+          {DOG_SUBCATEGORIES.map((sub) => (
+            <CategoryNavLink
+              key={sub}
+              href={categorySubHref("dogs", DOG_SUBCATEGORY_SLUG[sub])}
+              role="tab"
+              aria-selected={dogSubcategory === sub}
+              className={subChipClassName(dogSubcategory === sub)}
+            >
+              {t(DOG_SUB_LABEL_KEYS[sub])}
+            </CategoryNavLink>
           ))}
         </div>
       ) : null}
@@ -238,14 +288,27 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
         </section>
       ) : null}
 
+      {showDogSnacksZone ? (
+        <section
+          aria-label={t("dogSnacksZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("dogSnacksZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("dogSnacksZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("dogSnacksZoneSubtitle")}
+          </p>
+        </section>
+      ) : null}
+
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : showFreezeDriedZone ? (
-        <ul
-          className={`flex flex-col gap-3 sm:gap-4 ${
-            isPending ? "opacity-70 transition-opacity" : "transition-opacity"
-          }`}
-        >
+        <ul className="flex flex-col gap-3 sm:gap-4">
           {products.map((product) => (
             <FreezeDriedListCard
               key={product.id}
@@ -256,11 +319,7 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
           ))}
         </ul>
       ) : (
-        <ul
-          className={`grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 ${
-            isPending ? "opacity-70 transition-opacity" : "transition-opacity"
-          }`}
-        >
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)

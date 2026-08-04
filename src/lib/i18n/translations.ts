@@ -151,6 +151,14 @@ export const translations = {
     catFreezeDriedZoneTitle: "冷凍食物專區",
     catFreezeDriedZoneSubtitle:
       "精選日本原裝冷凍脫水零食，專為貓貓而設。以下產品屬貓咪食品／貓貓小食，規格與售價已對齊官方冷凍脫水系列。",
+    dogSubNavLabel: "狗狗商品子分類",
+    dogSubAll: "全部狗狗商品",
+    dogSubFood: "狗狗食品",
+    dogSubSnacks: "狗狗小食",
+    dogSnacksZoneEyebrow: "狗狗食品 · 狗狗小食",
+    dogSnacksZoneTitle: "狗狗小食專區",
+    dogSnacksZoneSubtitle:
+      "精選狗狗零食同獎勵小食，獨立歸入狗狗商品，方便喺狗狗食品下面直接揀。",
     menuAddToCheckout: "前往結帳",
     menuAddToCart: "加入購物籃",
     menuAddedToCart: "已加入購物籃 ✓",
@@ -491,6 +499,14 @@ export const translations = {
     catFreezeDriedZoneTitle: "Freeze-dried food zone",
     catFreezeDriedZoneSubtitle:
       "Japan-imported freeze-dried treats made for cats. Specs and prices match the official freeze-dried series — cat food / cat snacks only.",
+    dogSubNavLabel: "Dog product subcategories",
+    dogSubAll: "All dog products",
+    dogSubFood: "Dog food",
+    dogSubSnacks: "Dog treats",
+    dogSnacksZoneEyebrow: "Dog food · Dog treats",
+    dogSnacksZoneTitle: "Dog treats zone",
+    dogSnacksZoneSubtitle:
+      "Dog snacks and reward treats, filed under Dog Products so you can shop them right below dog food.",
     menuAddToCheckout: "Go to Checkout",
     menuAddToCart: "Add to basket",
     menuAddedToCart: "Added to basket ✓",

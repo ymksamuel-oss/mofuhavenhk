@@ -7,7 +7,10 @@
  *   - 冷凍脫水系列（貓貓冷凍食物專區）:
  *                 https://www.wt-japan.com/collections/冷凍脫水系列
  *                 (scrape_wt_japan_freeze_dried.py)
+ *                 Storefront path: /categories/cats/freeze-dried
  * Freeze-dried treats are cat-only — never listed under dogs.
+ * Keyword classifier (`classifyPetFood`) re-asserts cats / 冷凍脫水系列
+ * from title tags「貓貓用」「冷凍脫水」.
  */
 
 /** Canonical storefront category key used by `/categories/cats` (“貓咪商品”). */
