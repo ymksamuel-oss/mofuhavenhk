@@ -13,8 +13,8 @@
     },
     "russian-blue": {
       "src": "/images/cat-breeds/russian-blue.jpg",
-      "source_url": "https://cdn2.thecatapi.com/images/DdmsQrCAv.jpg",
-      "bytes": 314628
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Russian_Blue_Cat_American_type.jpg/1280px-Russian_Blue_Cat_American_type.jpg",
+      "note": "American-type Russian Blue hero"
     },
     "munchkin": {
       "src": "/images/cat-breeds/munchkin.jpg",
@@ -85,6 +85,30 @@
     },
     "british-shorthair-cozy": {
       "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
+    },
+    "russian-blue-portrait": {
+      "src": "/images/cat-breeds/russian-blue-portrait.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Russian_Blue_AB.jpg/1280px-Russian_Blue_AB.jpg"
+    },
+    "russian-blue-elegant": {
+      "src": "/images/cat-breeds/russian-blue-elegant.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/dK0max215.jpg"
+    },
+    "russian-blue-window": {
+      "src": "/images/cat-breeds/russian-blue-window.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Cat_Russian_Blue_02.jpg/1280px-Cat_Russian_Blue_02.jpg"
+    },
+    "russian-blue-cozy": {
+      "src": "/images/cat-breeds/russian-blue-cozy.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/iPMgEn50-.jpg"
+    },
+    "russian-blue-pose": {
+      "src": "/images/cat-breeds/russian-blue-pose.jpg",
+      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Russian_Blue_Cat_Looking_Up.jpg/1280px-Russian_Blue_Cat_Looking_Up.jpg"
+    },
+    "russian-blue-paw": {
+      "src": "/images/cat-breeds/russian-blue-paw.jpg",
+      "source_url": "https://cdn2.thecatapi.com/images/S-1YzA7-_.jpg"
     }
   },
   "licenses": {
