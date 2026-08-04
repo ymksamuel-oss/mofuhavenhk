@@ -9,16 +9,16 @@ const SECTIONS: {
   bodyKey: TranslationKey;
 }[] = [
   {
-    titleKey: "shippingPolicyCutoffTitle",
-    bodyKey: "shippingPolicyCutoffBody",
+    titleKey: "shippingPolicySourceTitle",
+    bodyKey: "shippingPolicySourceBody",
   },
   {
-    titleKey: "shippingPolicySfTitle",
-    bodyKey: "shippingPolicySfBody",
+    titleKey: "shippingPolicyTimingTitle",
+    bodyKey: "shippingPolicyTimingBody",
   },
   {
-    titleKey: "shippingPolicyRefundTitle",
-    bodyKey: "shippingPolicyRefundBody",
+    titleKey: "shippingPolicyHkTitle",
+    bodyKey: "shippingPolicyHkBody",
   },
 ];
 
