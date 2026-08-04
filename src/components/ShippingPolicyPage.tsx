@@ -20,7 +20,31 @@ const SECTIONS: {
     titleKey: "shippingPolicyHkTitle",
     bodyKey: "shippingPolicyHkBody",
   },
+  {
+    titleKey: "shippingPolicyNoticeTitle",
+    bodyKey: "shippingPolicyNoticeBody",
+  },
 ];
+
+function PolicyParagraphs({ text }: { text: string }) {
+  const parts = text
+    .split(/\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  return (
+    <div className="space-y-2.5">
+      {parts.map((part, index) => (
+        <p
+          key={`${index}-${part.length}`}
+          className="text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]"
+        >
+          {part}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 /**
  * Shipping / preorder fulfillment policy — Japanese-minimal milk-tea layout.
@@ -62,13 +86,11 @@ export function ShippingPolicyPage() {
                 >
                   {index + 1}
                 </span>
-                <div className="min-w-0 space-y-2">
+                <div className="min-w-0 space-y-2.5">
                   <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-[color:var(--ink)]">
                     {t(section.titleKey)}
                   </h2>
-                  <p className="text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-                    {t(section.bodyKey)}
-                  </p>
+                  <PolicyParagraphs text={t(section.bodyKey)} />
                 </div>
               </div>
             </li>

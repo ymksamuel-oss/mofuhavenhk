@@ -192,7 +192,7 @@ export const translations = {
       "貨源以日本優質品牌為主，由罐罐、乾糧到日常用品，我哋都會仔細核對規格同新鮮度，只上架我哋自己都放心俾屋企毛孩用嘅產品。",
     aboutPromise2Title: "透明預購・準時交代",
     aboutPromise2Body:
-      "日本現貨／預購訂單一般約需 7–14 個工作天空運到港並安排派送；時效同派遞安排公開清楚，有延誤會盡快通知你。",
+      "為保持食品新鮮，毛毛港採取每週定期集單；一般日本直送／預購商品於截單後約 7–14 個工作天空運抵港並安排順豐發貨，有延誤會主動通知。",
     aboutPromise3Title: "以毛孩為先・貼心跟進",
     aboutPromise3Body:
       "由選品、包裝到售後查詢，都以毛孩健康同主人安心為先。有問題隨時 WhatsApp 聯絡，我哋會用人話、慢慢講清楚。",
@@ -206,32 +206,34 @@ export const translations = {
       "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
     shippingPageTitle: "運送與發貨政策",
     shippingPageBody:
-      "全店產品由日本直送或香港正規授權代理供貨。日本現貨／預購約需 7–14 個工作天到港派送；香港本地以順豐速運派送（順豐站、智能櫃或上門）。",
+      "全店商品由日本直輸或香港正規授權代理嚴選引進，100% 正版正貨。毛毛港採每週定期集單；截單後約 7–14 個工作天空運抵港並安排順豐發貨。滿指定金額可享本地免運（詳見主頁公告）。",
     shippingPolicyEyebrow: "Mofu Haven 毛毛港",
     shippingPolicyTitle: "運送與發貨政策",
     shippingPolicyIntro:
-      "以下說明 Mofu Haven（毛毛港）的貨品來源、出貨預購時效，以及香港本地派送安排，方便你安心落單。",
-    shippingPolicySourceTitle: "貨品來源與品質",
+      "以下為毛毛港 Mofu Haven 的貨品來源、集單出貨時效、香港本地派送與收件注意事項，請各位家長安心選購。",
+    shippingPolicySourceTitle: "貨品來源與品質保障",
     shippingPolicySourceBody:
-      "全店產品均由日本直送或香港正規授權代理供貨，100% 正版正貨。",
-    shippingPolicyTimingTitle: "出貨與預購時間",
+      "全店商品均由日本直輸或經香港正規授權代理嚴選引進，100% 正版正貨，請各位家長放心選購。",
+    shippingPolicyTimingTitle: "關於出貨與預購時效",
     shippingPolicyTimingBody:
-      "日本現貨／預購訂單：下單後需時約 7–14 個工作天經日本空運到港並安排派送。如遇日本當地假期、海關繁忙期，空運時效或有輕微延誤，感謝閣下的體諒。",
-    shippingPolicyHkTitle: "香港本地派送",
+      "為確保主子們拿到最新鮮保質期的食品，毛毛港採取「每週定期集單」模式。\n一般日本直送／預購商品，將於截單後約 7–14 個工作天內空運抵港並安排順豐發貨。\n若遇日本當地公眾假期、海關抽查或節日航班繁忙期，或會出現輕微延誤，若有特殊情況我們將會主動通知。",
+    shippingPolicyHkTitle: "香港本地派送與運費",
     shippingPolicyHkBody:
-      "預設採用「順豐速運 (SF Express)」，支援順豐站、智能櫃及住宅／工商地址上門。結帳時請務必核對收件人姓名、電話及地址／網點代碼，以確保包裹順利送達。",
+      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。\n全店購物滿指定金額即享本地免運費優惠（詳情請參閱主頁公告）。",
+    shippingPolicyNoticeTitle: "收件注意事項",
+    shippingPolicyNoticeBody:
+      "請閣下於結帳時仔細核對收件人姓名、電話及正確的順豐點碼／地址。\n若因提供不正確地址或資料導致包裹須要重新派送，產生的額外順豐運費將需由買家承擔，敬請見諒。\n如遇個別商品因日本供應商突發斷貨，我們將於 24 小時內聯絡閣下並安排全額退款。",
     shippingPolicyFooterNote:
-      "運費會於結帳頁顯示。如有疑問，歡迎隨時經 WhatsApp 或電郵聯絡顧客服務。",
-    // Legacy keys kept for any cached references
-    shippingPolicyCutoffTitle: "出貨與預購時間",
+      "如有疑問，歡迎隨時經 WhatsApp 或電郵聯絡毛毛港顧客服務。",
+    shippingPolicyCutoffTitle: "關於出貨與預購時效",
     shippingPolicyCutoffBody:
-      "日本現貨／預購訂單：下單後需時約 7–14 個工作天經日本空運到港並安排派送。如遇日本當地假期、海關繁忙期，空運時效或有輕微延誤，感謝閣下的體諒。",
-    shippingPolicySfTitle: "香港本地派送",
+      "為確保主子們拿到最新鮮保質期的食品，毛毛港採取「每週定期集單」模式。一般日本直送／預購商品，將於截單後約 7–14 個工作天內空運抵港並安排順豐發貨。",
+    shippingPolicySfTitle: "香港本地派送與運費",
     shippingPolicySfBody:
-      "預設採用「順豐速運 (SF Express)」，支援順豐站、智能櫃及住宅／工商地址上門。結帳時請務必核對收件人姓名、電話及地址／網點代碼，以確保包裹順利送達。",
-    shippingPolicyRefundTitle: "貨品來源與品質",
+      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。全店購物滿指定金額即享本地免運費優惠（詳情請參閱主頁公告）。",
+    shippingPolicyRefundTitle: "收件注意事項",
     shippingPolicyRefundBody:
-      "全店產品均由日本直送或香港正規授權代理供貨，100% 正版正貨。",
+      "請仔細核對收件資料。因錯誤地址需重新派送的額外運費由買家承擔；供應商突發斷貨將於 24 小時內聯絡並全額退款。",
     returnsPageTitle: "退換貨政策",
     returnsPageBody:
       "若商品有瑕疵或寄送問題，請於收貨後盡快透過 WhatsApp 或電郵聯絡我們，我們會盡力協助處理。完整退換貨條款即將上線。",
@@ -517,7 +519,7 @@ export const translations = {
       "We focus on trusted Japanese brands — from wet cans and dry food to everyday essentials — checking specs and freshness so we only list what we’d gladly use for our own companions.",
     aboutPromise2Title: "Transparent preorders, honest timing",
     aboutPromise2Body:
-      "Japan in-stock / preorder orders typically take about 7–14 working days by air to Hong Kong for dispatch. Timing and delivery details stay clear — and we’ll update you promptly if delays arise.",
+      "To keep food fresh, Mofu Haven batches orders weekly. Japan-direct / preorder items typically reach Hong Kong by air within about 7–14 working days after cutoff for SF dispatch — and we’ll notify you if delays arise.",
     aboutPromise3Title: "Pets first, human follow-through",
     aboutPromise3Body:
       "From sourcing and packing to after-sales care, pet wellbeing and owner peace of mind come first. Message us on WhatsApp anytime — we’ll explain things simply and kindly.",
@@ -531,31 +533,34 @@ export const translations = {
       "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",
     shippingPageTitle: "Shipping & Dispatch Policy",
     shippingPageBody:
-      "All products are Japan-direct or from authorised Hong Kong agents — 100% authentic. Japan in-stock / preorder orders typically take about 7–14 working days by air to Hong Kong for delivery. Local delivery uses SF Express (stations, lockers, or door).",
+      "All products are Japan-direct or from authorised Hong Kong agents — 100% authentic. We batch orders weekly; after cutoff, Japan-direct / preorder items typically arrive by air within about 7–14 working days for SF dispatch. Free local shipping applies above a stated threshold (see homepage notice).",
     shippingPolicyEyebrow: "Mofu Haven 毛毛港",
     shippingPolicyTitle: "Shipping & Dispatch Policy",
     shippingPolicyIntro:
-      "Here’s how Mofu Haven（毛毛港）handles product sourcing, preorder timing, and Hong Kong local delivery.",
-    shippingPolicySourceTitle: "Product sourcing & quality",
+      "Here’s how Mofu Haven（毛毛港）covers product authenticity, weekly batch timing, Hong Kong delivery & fees, and receiving guidelines.",
+    shippingPolicySourceTitle: "Product sourcing & authenticity",
     shippingPolicySourceBody:
-      "Every product in our store is shipped directly from Japan or supplied by authorised Hong Kong agents — 100% authentic goods.",
+      "Every item is imported directly from Japan or carefully sourced via authorised Hong Kong agents — 100% authentic goods. Shop with confidence.",
     shippingPolicyTimingTitle: "Dispatch & preorder timing",
     shippingPolicyTimingBody:
-      "Japan in-stock / preorder orders: after you place an order, please allow about 7–14 working days for air freight to Hong Kong and local dispatch. Japanese public holidays or busy customs periods may cause slight delays — thank you for your understanding.",
-    shippingPolicyHkTitle: "Hong Kong local delivery",
+      "To keep food as fresh as possible, Mofu Haven runs a weekly order-batching schedule.\nJapan-direct / preorder items are typically air-freighted to Hong Kong and handed to SF Express within about 7–14 working days after cutoff.\nJapanese public holidays, customs checks, or busy holiday flight periods may cause slight delays — we’ll proactively notify you if anything unusual comes up.",
+    shippingPolicyHkTitle: "Hong Kong delivery & shipping fees",
     shippingPolicyHkBody:
-      "We ship with SF Express by default, supporting SF stations, smart lockers, and residential / business door delivery. Please double-check the recipient name, phone, and address / station code at checkout so your parcel arrives smoothly.",
+      "We ship with SF Express by default, covering SF stations, smart lockers, and business / residential addresses across Hong Kong.\nOrders that reach the stated amount enjoy free local shipping (see the homepage notice for the current threshold).",
+    shippingPolicyNoticeTitle: "Receiving checklist",
+    shippingPolicyNoticeBody:
+      "Please carefully check the recipient name, phone, and correct SF point code / address at checkout.\nIf incorrect details cause a re-delivery, any extra SF fees will be borne by the buyer — thank you for understanding.\nIf a Japanese supplier suddenly runs out of stock, we’ll contact you within 24 hours and arrange a full refund.",
     shippingPolicyFooterNote:
-      "Shipping fees appear at checkout. For any questions, reach Customer Care anytime via WhatsApp or email.",
+      "Questions? Message Mofu Haven Customer Care anytime via WhatsApp or email.",
     shippingPolicyCutoffTitle: "Dispatch & preorder timing",
     shippingPolicyCutoffBody:
-      "Japan in-stock / preorder orders: after you place an order, please allow about 7–14 working days for air freight to Hong Kong and local dispatch. Japanese public holidays or busy customs periods may cause slight delays — thank you for your understanding.",
-    shippingPolicySfTitle: "Hong Kong local delivery",
+      "To keep food as fresh as possible, Mofu Haven runs a weekly order-batching schedule. Japan-direct / preorder items are typically air-freighted to Hong Kong and handed to SF Express within about 7–14 working days after cutoff.",
+    shippingPolicySfTitle: "Hong Kong delivery & shipping fees",
     shippingPolicySfBody:
-      "We ship with SF Express by default, supporting SF stations, smart lockers, and residential / business door delivery. Please double-check the recipient name, phone, and address / station code at checkout so your parcel arrives smoothly.",
-    shippingPolicyRefundTitle: "Product sourcing & quality",
+      "We ship with SF Express by default, covering SF stations, smart lockers, and business / residential addresses across Hong Kong. Orders that reach the stated amount enjoy free local shipping (see the homepage notice).",
+    shippingPolicyRefundTitle: "Receiving checklist",
     shippingPolicyRefundBody:
-      "Every product in our store is shipped directly from Japan or supplied by authorised Hong Kong agents — 100% authentic goods.",
+      "Please carefully check recipient details at checkout. Extra SF fees from incorrect addresses are borne by the buyer. Sudden supplier stockouts: we’ll contact you within 24 hours and refund in full.",
     returnsPageTitle: "Return & Refund Policy",
     returnsPageBody:
       "If an item arrives damaged or incorrect, contact us on WhatsApp or email soon after delivery and we’ll help. Full policy coming soon.",
