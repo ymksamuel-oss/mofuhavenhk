@@ -179,19 +179,73 @@ export const translations = {
     termsPageTitle: "私隱政策與服務條款",
     termsPageBody:
       "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物與客戶服務。完整私隱政策與服務條款文件即將發佈。",
-    explorePetWorld: "探索寵物世界",
+    explorePetsWorld: "探索寵物世界",
     exploreAboutDog: "關於犬",
     exploreAboutCat: "關於貓",
-    aboutCatEyebrow: "貓咪繪本指南",
+    exploreCatBreeds: "貓咪品種圖鑑",
+    aboutCatBackToCatalog: "返回商品目錄",
+    aboutCatEyebrow: "Mofu Haven 貓咪繪本",
     aboutCatTitle: "關於貓",
     aboutCatSubtitle:
-      "以溫暖圖文，陪你一步步認識與照顧家中貓咪——從迎貓回家到日常健康守護。",
-    aboutCatBackToMenu: "返回商品目錄",
+      "以溫柔的圖文書節奏，陪你一步步認識貓咪的日常——從迎貓回家到健康守護。",
     aboutCatShopCta: "前往選購貓咪用品 🛒",
+    aboutCatChapter1Title: "【迎貓回家】新手安全與必備物資",
+    aboutCatChapter1Body:
+      "為新成員準備一個安靜的小角落：貓砂盆、食水碗、舒適窩墊與安全門窗檢查，是迎貓回家的第一課。先讓貓咪慢慢熟悉氣味與空間，比一次開放全家更安心。",
+    aboutCatChapter1Alt: "溫馨的貓咪休息空間示意",
+    aboutCatChapter2Title: "【貓咪美味學】健康飲食與補水密碼",
+    aboutCatChapter2Body:
+      "優質主食、定時定量，再加上充足清水，是維持泌尿與消化健康的關鍵。可搭配濕糧或飲水機提高喝水意願，並依年齡與體況調整熱量，讓每日餐桌既美味又均衡。",
+    aboutCatChapter2Alt: "貓咪飲水與飲食照護示意",
+    aboutCatChapter3Title: "【日常溫柔照護】梳毛、剪甲與清潔",
+    aboutCatChapter3Body:
+      "定期梳毛可減少毛球與掉毛；剪甲前先讓貓咪習慣碰爪。砂盆保持清潔、環境無刺鼻氣味，日常照護就會變成彼此信任的溫柔時光。",
+    aboutCatChapter3Alt: "貓咪清潔與日常護理示意",
+    aboutCatChapter4Title: "【瞭解貓咪心事】陪伴與心理健康",
+    aboutCatChapter4Body:
+      "貓咪用尾巴、耳朵與輕聲呼喚表達情緒。提供藏匿處、爬高點與玩具互動，能緩解壓力；尊重牠想獨處的時刻，也是愛的一種語言。",
+    aboutCatChapter4Alt: "貓咪玩耍與陪伴示意",
+    aboutCatChapter5Title: "【健康守護神】預防醫療與生病警號",
+    aboutCatChapter5Body:
+      "定期驅蟲、疫苗與健康檢查，是守護長遠幸福的底氣。若出現食慾驟降、頻繁嘔吐、尿量異常或精神萎靡，請儘快就醫；日常也可搭配益生菌等保健，穩穩守住腸胃與免疫力。",
+    aboutCatChapter5Alt: "貓咪健康保健示意",
+    aboutDogBackToCatalog: "返回商品目錄",
+    aboutDogEyebrow: "Mofu Haven 狗狗繪本",
     aboutDogTitle: "關於犬",
-    aboutDogBody:
-      "犬隻繪本指南正在精心編寫中。你可先瀏覽犬隻商品分類，為毛孩挑選合適好物。",
-    aboutDogShopCta: "前往選購犬隻用品",
+    aboutDogSubtitle:
+      "以溫柔的圖文書節奏，陪你一步步認識狗狗的日常——從迎犬回家到健康防護。",
+    aboutDogShopCta: "前往選購狗狗用品 🐶🛒",
+    aboutDogChapter1Title: "【迎犬回家】新手安全與必備物資",
+    aboutDogChapter1Body:
+      "為狗狗準備舒適狗窩、牽引繩、食水碗與安全圍欄。讓新成員安心熟悉新家。",
+    aboutDogChapter1Alt: "溫暖迎接狗狗回家的示意",
+    aboutDogChapter2Title: "【狗狗營養學】均衡膳食與能量補充",
+    aboutDogChapter2Body:
+      "選擇優質蛋白質主食，定時定量，並根據體型與活動量補足水分與營養。",
+    aboutDogChapter2Alt: "狗狗健康飲食示意",
+    aboutDogChapter3Title: "【日常溫柔照護】梳毛、潔牙與爪子護理",
+    aboutDogChapter3Body:
+      "定期梳理毛髮防結塊，維護口腔清潔與修剪趾甲，保持狗狗皮膚健康。",
+    aboutDogChapter3Alt: "狗狗梳毛與日常護理示意",
+    aboutDogChapter4Title: "【瞭解狗狗心事】散步與社會化陪伴",
+    aboutDogChapter4Body:
+      "每日足量散步放電，透過嗅聞與陪伴獲得安全感，建立良好的信任關係。",
+    aboutDogChapter4Alt: "狗狗散步與陪伴示意",
+    aboutDogChapter5Title: "【健康防護線】預防醫療與日常守護",
+    aboutDogChapter5Body:
+      "按時接種疫苗與定期驅蟲，密切留意食慾與精神狀況，守護全生命週期健康。",
+    aboutDogChapter5Alt: "狗狗健康守護示意",
+    catBreedsBackToCatalog: "返回商品目錄",
+    catBreedsEyebrow: "Mofu Haven 貓咪圖鑑",
+    catBreedsTitle: "貓咪品種圖鑑 —— 探索貓咪的日常與護理",
+    catBreedsSubtitle:
+      "認識常見熱門貓種的性格與護理重點，為毛孩挑選更貼合的日常照顧方式。",
+    catBreedsFilterLabel: "毛長分類",
+    catBreedsFilterAll: "全部",
+    catBreedsFilterShort: "短毛",
+    catBreedsFilterLong: "中長毛 / 長毛",
+    catBreedsShopCta: "查看推薦用品 🛒",
+    catBreedsEmpty: "此分類暫時沒有品種，請試試其他篩選。",
   },
   en: {
     brand: "Mofu Haven",
@@ -370,19 +424,73 @@ export const translations = {
     termsPageTitle: "Privacy & Terms",
     termsPageBody:
       "We respect your privacy and only use order and contact details to fulfil purchases and support. Full privacy and terms documents are coming soon.",
-    explorePetWorld: "Explore Pet World",
+    explorePetsWorld: "Explore Pet World",
     exploreAboutDog: "About Dogs",
     exploreAboutCat: "About Cats",
-    aboutCatEyebrow: "Cat Picture Guide",
+    exploreCatBreeds: "Cat Breed Guide",
+    aboutCatBackToCatalog: "Back to catalog",
+    aboutCatEyebrow: "Mofu Haven Cat Picture Book",
     aboutCatTitle: "About Cats",
     aboutCatSubtitle:
-      "A warm illustrated guide to welcoming and caring for your cat — from first days home to everyday health.",
-    aboutCatBackToMenu: "Back to catalog",
+      "A gentle picture-book guide to everyday cat care — from bringing kitty home to lifelong health.",
     aboutCatShopCta: "Shop cat essentials 🛒",
+    aboutCatChapter1Title: "【Welcome Home】Safety & starter essentials",
+    aboutCatChapter1Body:
+      "Prepare a quiet corner with a litter box, food and water bowls, a soft bed, and a home safety check. Let your new cat settle into scents and spaces gradually before opening the whole house.",
+    aboutCatChapter1Alt: "Cozy cat resting space",
+    aboutCatChapter2Title: "【Tasty Nutrition】Healthy meals & hydration",
+    aboutCatChapter2Body:
+      "Quality staple food, steady portions, and fresh water protect urinary and digestive health. Wet food or a fountain can encourage drinking — adjust calories for age and condition so every meal is balanced.",
+    aboutCatChapter2Alt: "Cat hydration and feeding care",
+    aboutCatChapter3Title: "【Gentle Daily Care】Grooming, nails & cleaning",
+    aboutCatChapter3Body:
+      "Regular brushing reduces hairballs and shedding; introduce nail trims by gently handling paws first. A clean litter box and a low-odor home turn care routines into moments of trust.",
+    aboutCatChapter3Alt: "Cat grooming and daily care",
+    aboutCatChapter4Title: "【Cat Feelings】Companionship & mental wellness",
+    aboutCatChapter4Body:
+      "Tails, ears, and soft calls tell you how a cat feels. Hideaways, high perches, and play ease stress — and respecting alone time is also a language of love.",
+    aboutCatChapter4Alt: "Cat play and companionship",
+    aboutCatChapter5Title: "【Health Guardian】Prevention & warning signs",
+    aboutCatChapter5Body:
+      "Parasite control, vaccines, and checkups build long-term wellness. Seek care quickly for sudden appetite loss, frequent vomiting, unusual urination, or lethargy — daily supports like probiotics can also steady gut and immunity.",
+    aboutCatChapter5Alt: "Cat health and wellness care",
+    aboutDogBackToCatalog: "Back to catalog",
+    aboutDogEyebrow: "Mofu Haven Dog Picture Book",
     aboutDogTitle: "About Dogs",
-    aboutDogBody:
-      "Our dog picture guide is being written with care. Meanwhile, browse dog products to find thoughtful picks for your companion.",
-    aboutDogShopCta: "Shop dog essentials",
+    aboutDogSubtitle:
+      "A gentle picture-book guide to everyday dog care — from bringing pup home to lifelong health.",
+    aboutDogShopCta: "Shop dog essentials 🐶🛒",
+    aboutDogChapter1Title: "【Welcome Home】Safety & starter essentials",
+    aboutDogChapter1Body:
+      "Prepare a cozy bed, leash, food and water bowls, and a safe playpen so your new dog can settle into the home with calm confidence.",
+    aboutDogChapter1Alt: "Warm welcome for a new dog at home",
+    aboutDogChapter2Title: "【Dog Nutrition】Balanced meals & energy",
+    aboutDogChapter2Body:
+      "Choose quality protein staples, feed on a steady schedule, and match water and nutrition to body size and activity level.",
+    aboutDogChapter2Alt: "Healthy dog dining",
+    aboutDogChapter3Title: "【Gentle Daily Care】Brushing, teeth & nails",
+    aboutDogChapter3Body:
+      "Brush regularly to prevent mats, keep teeth clean, and trim nails so skin and paws stay comfortable and healthy.",
+    aboutDogChapter3Alt: "Gentle dog grooming care",
+    aboutDogChapter4Title: "【Dog Feelings】Walks & social companionship",
+    aboutDogChapter4Body:
+      "Daily walks help burn energy; sniffing and companionship build safety and trust between you and your dog.",
+    aboutDogChapter4Alt: "Dog walking and companionship",
+    aboutDogChapter5Title: "【Health Shield】Prevention & everyday care",
+    aboutDogChapter5Body:
+      "Stay current on vaccines and parasite control, and watch appetite and energy closely to protect health across every life stage.",
+    aboutDogChapter5Alt: "Dog health and preventive care",
+    catBreedsBackToCatalog: "Back to catalog",
+    catBreedsEyebrow: "Mofu Haven Cat Breeds",
+    catBreedsTitle: "Cat Breed Guide — Everyday Traits & Care",
+    catBreedsSubtitle:
+      "Learn popular cat breeds’ personalities and care notes to match daily routines with your companion.",
+    catBreedsFilterLabel: "Coat length",
+    catBreedsFilterAll: "All",
+    catBreedsFilterShort: "Short hair",
+    catBreedsFilterLong: "Medium / long hair",
+    catBreedsShopCta: "View recommended products 🛒",
+    catBreedsEmpty: "No breeds in this filter — try another option.",
   },
 } as const;
 

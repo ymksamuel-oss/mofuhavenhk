@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { ExplorePetWorldMenu } from "@/components/menu/ExplorePetWorldMenu";
+import { ExplorePetsDropdown } from "@/components/menu/ExplorePetsDropdown";
 import {
   CATEGORIES,
   categoryHref,
@@ -63,7 +63,7 @@ export function ProductCatalog({ categorySlug }: ProductCatalogProps) {
             {t(labelKey)}
           </CategoryNavLink>
         ))}
-        <ExplorePetWorldMenu />
+        <ExplorePetsDropdown />
       </nav>
 
       {products.length === 0 ? (
