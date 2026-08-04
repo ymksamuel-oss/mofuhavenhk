@@ -9,16 +9,19 @@ import {
 } from "react";
 import { CAT_BREED_IMAGE_FALLBACK } from "@/lib/catBreeds";
 
-export type BreedStorySlide = {
+export type BreedGallerySlide = {
   tag: string;
   src: string;
   alt: string;
   description: string;
 };
 
-type BreedStoryGalleryProps = {
+/** @deprecated Use BreedGallerySlide */
+export type BreedStorySlide = BreedGallerySlide;
+
+type BreedGalleryProps = {
   title: string;
-  slides: BreedStorySlide[];
+  slides: BreedGallerySlide[];
 };
 
 function handleSlideImageError(event: SyntheticEvent<HTMLImageElement>) {
@@ -30,9 +33,9 @@ function handleSlideImageError(event: SyntheticEvent<HTMLImageElement>) {
 
 /**
  * Horizontal card-swipe gallery for breed detail photos.
- * Image area is photo-only — no top progress / segmented bar overlays.
+ * Photo frame only — no top segmented progress-bar overlays.
  */
-export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
+export function BreedGallery({ title, slides }: BreedGalleryProps) {
   const scrollerRef = useRef<HTMLUListElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -110,6 +113,7 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
               aria-current={index === activeIndex ? "true" : undefined}
             >
               <article className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
+                {/* Image only — intentionally no absolute top progress segments */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-[#FAF6F0]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -153,3 +157,6 @@ export function BreedStoryGallery({ title, slides }: BreedStoryGalleryProps) {
     </section>
   );
 }
+
+/** @deprecated Use BreedGallery */
+export const BreedStoryGallery = BreedGallery;

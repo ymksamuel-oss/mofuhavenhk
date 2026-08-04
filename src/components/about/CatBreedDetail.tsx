@@ -3,7 +3,7 @@
 import { useMemo, type SyntheticEvent } from "react";
 import Link from "next/link";
 import { Zen_Maru_Gothic } from "next/font/google";
-import { BreedStoryGallery } from "@/components/about/BreedStoryGallery";
+import { BreedGallery } from "@/components/about/BreedGallery";
 import {
   CAT_BREED_IMAGE_FALLBACK,
   type CatBreed,
@@ -127,7 +127,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
         </ul>
 
         {view.gallerySlides.length > 0 ? (
-          <BreedStoryGallery
+          <BreedGallery
             title={t("catBreedDetailGallery")}
             slides={view.gallerySlides}
           />
