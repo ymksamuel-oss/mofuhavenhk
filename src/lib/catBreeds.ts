@@ -84,7 +84,7 @@ export const catBreedsData: CatBreed[] = [
     coatLabel: "長毛",
     shortDescription: "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
     imageUrl:
-      "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
     origin: "美國",
     lifespan: "12 - 15 歲",
     weight: "4.5 - 9.0 kg",
