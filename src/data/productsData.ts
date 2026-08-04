@@ -8,6 +8,9 @@
  *                 https://www.wt-japan.com/collections/冷凍脫水系列
  *                 (scrape_wt_japan_freeze_dried.py)
  *                 Storefront path: /categories/cats/freeze-dried
+ *   - Cat snack series (see `@/data/catSnacksData`):
+ *                 無添加天然系列 / 老貓零食 / 去毛球配方 / bb貓零食
+ *                 Storefront path: /categories/cats/snacks
  * Freeze-dried treats are cat-only — never listed under dogs.
  * Keyword classifier (`classifyPetFood`) re-asserts cats / 冷凍脫水系列
  * from title tags「貓貓用」「冷凍脫水」.

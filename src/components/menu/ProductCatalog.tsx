@@ -9,11 +9,14 @@ import {
   CATEGORIES,
   categoryHref,
   categorySubHref,
+  catSnacksSeriesHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
+  CAT_SNACK_SERIES,
+  CAT_SNACK_SERIES_SLUG,
   CAT_SUBCATEGORIES,
   CAT_SUBCATEGORY_SLUG,
   DOG_SUBCATEGORIES,
@@ -23,6 +26,7 @@ import {
   getDogProductsBySubcategory,
   getProductsByCategory,
   productHref,
+  type CatSnackSeries,
   type CatSubcategory,
   type DogSubcategory,
   type Product,
@@ -49,6 +53,7 @@ const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓罐罐: "catSubWetCans",
   貓乾糧: "catSubDryFood",
   冷凍脫水系列: "catSubFreezeDried",
+  貓貓小食: "catSubSnacks",
 };
 
 const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
@@ -56,17 +61,27 @@ const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
   狗狗小食: "dogSubSnacks",
 };
 
+const CAT_SNACK_SERIES_LABEL_KEYS: Record<CatSnackSeries, TranslationKey> = {
+  無添加天然系列: "catSnackSeriesNatural",
+  老貓零食: "catSnackSeriesSenior",
+  去毛球配方: "catSnackSeriesHairball",
+  bb貓零食: "catSnackSeriesKitten",
+};
+
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
   /**
    * Optional food-zone subcategory from the URL path
-   * (`/categories/cats/freeze-dried`, `/categories/dogs/snacks`, …).
+   * (`/categories/cats/freeze-dried`, `/categories/cats/snacks`, …).
    */
   subcategory?: ProductSubcategory | null;
+  /** Optional cat-snack series filter (`?series=natural|senior|hairball|kitten`). */
+  snackSeries?: CatSnackSeries | null;
 };
 
-function FreezeDriedListCard({
+/** List-style card: image + title/specs/price in a clear flex row (no overlap). */
+function TreatListCard({
   product,
   locale,
   viewDetailsLabel,
@@ -108,31 +123,31 @@ function FreezeDriedListCard({
           ) : null}
         </CategoryNavLink>
 
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
           {series ? (
             <CategoryNavLink
               href={href}
-              className="text-sm font-bold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+              className="break-words text-sm font-bold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
             >
               {series}
             </CategoryNavLink>
           ) : null}
           <CategoryNavLink
             href={href}
-            className={`text-sm leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] ${
-              series ? "mt-0.5 font-medium" : "font-semibold"
+            className={`break-words text-sm leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] ${
+              series ? "font-medium" : "font-semibold"
             }`}
           >
             {nameLine}
           </CategoryNavLink>
           {product.description ? (
-            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-[color:var(--muted)] sm:line-clamp-3">
+            <p className="line-clamp-2 text-xs leading-relaxed break-words text-[color:var(--muted)] sm:line-clamp-3">
               {product.description[locale]}
             </p>
           ) : null}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
-            <div className="flex flex-wrap items-baseline gap-x-2">
+            <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
               <p className="text-base font-semibold tabular-nums text-[color:var(--accent)] sm:text-lg">
                 {formatMoney(product.price, locale)}
               </p>
@@ -158,6 +173,7 @@ function FreezeDriedListCard({
 export function ProductCatalog({
   categorySlug,
   subcategory = null,
+  snackSeries = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
@@ -171,21 +187,32 @@ export function ProductCatalog({
     isDogs && subcategory && DOG_SUBCATEGORIES.includes(subcategory as DogSubcategory)
       ? (subcategory as DogSubcategory)
       : null;
+  const catSnackSeries =
+    catSubcategory === "貓貓小食" ? snackSeries : null;
 
   const products = useMemo(() => {
     if (isCats) {
-      return getCatProductsBySubcategory(catSubcategory);
+      return getCatProductsBySubcategory(catSubcategory, catSnackSeries);
     }
     if (isDogs) {
       return getDogProductsBySubcategory(dogSubcategory);
     }
     return getProductsByCategory(categorySlug);
-  }, [isCats, isDogs, catSubcategory, dogSubcategory, categorySlug]);
+  }, [
+    isCats,
+    isDogs,
+    catSubcategory,
+    dogSubcategory,
+    catSnackSeries,
+    categorySlug,
+  ]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
   const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
+  const showCatSnacksZone = catSubcategory === "貓貓小食";
   const showDogSnacksZone = dogSubcategory === "狗狗小食";
+  const useListLayout = showFreezeDriedZone || showCatSnacksZone || showDogSnacksZone;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -288,6 +315,48 @@ export function ProductCatalog({
         </section>
       ) : null}
 
+      {showCatSnacksZone ? (
+        <section
+          aria-label={t("catSnacksZoneTitle")}
+          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
+            {t("catSnacksZoneEyebrow")}
+          </p>
+          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
+            {t("catSnacksZoneTitle")}
+          </h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
+            {t("catSnacksZoneSubtitle")}
+          </p>
+          <div
+            role="tablist"
+            aria-label={t("catSnackSeriesNavLabel")}
+            className="scrollbar-none mt-4 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
+          >
+            <CategoryNavLink
+              href={catSnacksSeriesHref(null)}
+              role="tab"
+              aria-selected={catSnackSeries === null}
+              className={subChipClassName(catSnackSeries === null)}
+            >
+              {t("catSnackSeriesAll")}
+            </CategoryNavLink>
+            {CAT_SNACK_SERIES.map((series) => (
+              <CategoryNavLink
+                key={series}
+                href={catSnacksSeriesHref(CAT_SNACK_SERIES_SLUG[series])}
+                role="tab"
+                aria-selected={catSnackSeries === series}
+                className={subChipClassName(catSnackSeries === series)}
+              >
+                {t(CAT_SNACK_SERIES_LABEL_KEYS[series])}
+              </CategoryNavLink>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       {showDogSnacksZone ? (
         <section
           aria-label={t("dogSnacksZoneTitle")}
@@ -307,10 +376,10 @@ export function ProductCatalog({
 
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
-      ) : showFreezeDriedZone ? (
+      ) : useListLayout ? (
         <ul className="flex flex-col gap-3 sm:gap-4">
           {products.map((product) => (
-            <FreezeDriedListCard
+            <TreatListCard
               key={product.id}
               product={product}
               locale={locale}
@@ -319,7 +388,7 @@ export function ProductCatalog({
           ))}
         </ul>
       ) : (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -329,9 +398,9 @@ export function ProductCatalog({
             return (
               <li
                 key={product.id}
-                className="milk-tea-card group flex flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
+                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
-                <div className="relative aspect-square w-full overflow-hidden bg-[color:var(--background)]">
+                <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                   <CategoryNavLink
                     href={href}
                     aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
@@ -350,25 +419,25 @@ export function ProductCatalog({
                   </CategoryNavLink>
 
                   {discountPercent ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white">
                       -{discountPercent}%
                     </span>
                   ) : null}
                 </div>
 
-                <div className="flex flex-1 flex-col gap-2 p-4">
+                <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                   <CategoryNavLink
                     href={href}
-                    className="text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+                    className="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                   >
                     {product.name[locale]}
                   </CategoryNavLink>
                   {product.description ? (
-                    <p className="text-xs leading-snug text-[color:var(--muted)]">
+                    <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
                       {product.description[locale]}
                     </p>
                   ) : null}
-                  <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
+                  <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
                     <p className="text-lg font-semibold tabular-nums text-[color:var(--accent)]">
                       {formatMoney(product.price, locale)}
                     </p>

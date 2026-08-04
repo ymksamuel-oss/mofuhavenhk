@@ -3,13 +3,22 @@ import {
   WT_JAPAN_PRODUCTS,
   type WtJapanProduct,
 } from "@/data/productsData";
+import {
+  CAT_SNACK_SERIES,
+  WT_JAPAN_CAT_SNACK_PRODUCTS,
+  type CatSnackSeries,
+  type WtJapanCatSnackProduct,
+} from "@/data/catSnacksData";
 import { classifyCatalogProducts } from "@/lib/classifyPetFood";
+
+export { CAT_SNACK_SERIES, type CatSnackSeries };
 
 /** Cat-products sub-filter keys (shown under 「貓咪商品」). */
 export const CAT_SUBCATEGORIES = [
   "貓罐罐",
   "貓乾糧",
   "冷凍脫水系列",
+  "貓貓小食",
 ] as const;
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
@@ -22,11 +31,39 @@ export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
 /** Union of cat/dog food-zone subcategories used by product records. */
 export type ProductSubcategory = CatSubcategory | DogSubcategory;
 
+/** Display labels for cat-snack series (existing WT Japan collection folders). */
+export const CAT_SNACK_SERIES_LABEL: Record<
+  CatSnackSeries,
+  { zh: string; en: string }
+> = {
+  無添加天然系列: { zh: "無添加天然系列", en: "No-additive natural" },
+  老貓零食: { zh: "老貓零食", en: "Senior cat treats" },
+  去毛球配方: { zh: "去毛球配方", en: "Hairball-care formula" },
+  bb貓零食: { zh: "BB貓零食", en: "Kitten treats" },
+};
+
+/** URL query segment → cat snack series key. */
+export const CAT_SNACK_SERIES_BY_SLUG: Record<string, CatSnackSeries> = {
+  natural: "無添加天然系列",
+  senior: "老貓零食",
+  hairball: "去毛球配方",
+  kitten: "bb貓零食",
+};
+
+/** Cat snack series key → URL segment. */
+export const CAT_SNACK_SERIES_SLUG: Record<CatSnackSeries, string> = {
+  無添加天然系列: "natural",
+  老貓零食: "senior",
+  去毛球配方: "hairball",
+  bb貓零食: "kitten",
+};
+
 /** URL path segment → cat subcategory key. */
 export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "wet-cans": "貓罐罐",
   "dry-food": "貓乾糧",
   "freeze-dried": "冷凍脫水系列",
+  snacks: "貓貓小食",
 };
 
 /** Cat subcategory key → URL path segment. */
@@ -34,6 +71,7 @@ export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
   貓罐罐: "wet-cans",
   貓乾糧: "dry-food",
   冷凍脫水系列: "freeze-dried",
+  貓貓小食: "snacks",
 };
 
 /** URL path segment → dog subcategory key. */
@@ -53,7 +91,8 @@ export type Product = {
   categorySlug: string;
   /**
    * Optional food-zone sub-category for `/categories/cats` or `/categories/dogs`.
-   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列／冷凍食物專區）.
+   * 「冷凍脫水系列」= cat-only freeze-dried snacks（冷凍食物專區）.
+   * 「貓貓小食」= cat treats zone（無添加天然／老貓／去毛球／BB貓系列）.
    * 「狗狗小食」= dog treats zone under dog products.
    * Apparel / toys / supplies leave this undefined.
    */
@@ -75,9 +114,14 @@ export type Product = {
   originalPrice?: number;
   /**
    * Optional brand/series line for list-style catalog cards
-   * (e.g. 「MAMACOOK 但馬高原」 above the product name).
+   * (e.g. 「MAMACOOK 但馬高原」 / 「無添加天然系列」 above the product name).
    */
   series?: { zh: string; en: string };
+  /**
+   * Optional cat-snack series key for `/categories/cats/snacks` filters.
+   * Uses existing WT Japan folders: 無添加天然系列 / 老貓零食 / 去毛球配方 / bb貓零食.
+   */
+  snackSeries?: CatSnackSeries;
   /** Fallback icon, still used by the homepage category grid. */
   icon: CategoryIconName;
   /** Optional short blurb shown under the product name on the /menu catalog card. */
@@ -383,6 +427,23 @@ const WT_TAG_EN: Record<string, string> = {
   西太公魚: "Capelin",
   整尾凍乾: "Whole-fish freeze-dried",
   大份裝: "Value pack",
+  無添加天然系列: "No-additive natural series",
+  老貓零食: "Senior cat treats",
+  去毛球配方: "Hairball-care formula",
+  bb貓零食: "Kitten treats",
+  BB貓零食: "Kitten treats",
+  毛玉配慮: "Hairball care",
+  吐毛球配方: "Hairball formula",
+  天然系列: "Natural series",
+  糊仔: "Paste treats",
+  膏狀小食: "Creamy treats",
+  貓貓脆餅: "Cat crisps",
+  烤鰹魚: "Grilled bonito",
+  魚條: "Fish sticks",
+  奶粉: "Milk powder",
+  山羊奶: "Goat milk",
+  狗狗小食: "Dog treats",
+  狗用: "For dogs",
 };
 
 function freezeDriedSeriesForVendor(
@@ -478,6 +539,54 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
 /** WT Japan CIAO cans + dry food + freeze-dried — merged from `@/data/productsData`. */
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
+
+function wtJapanCatSnackToProduct(p: WtJapanCatSnackProduct): Product {
+  const seriesLabel = CAT_SNACK_SERIES_LABEL[p.series];
+  const tags = Array.from(
+    new Set([...p.tags, "貓貓小食", "貓用", p.series, seriesLabel.zh]),
+  );
+  return {
+    id: p.id,
+    categorySlug: p.categorySlug,
+    subcategory: p.subcategory,
+    image: p.imageUrl,
+    name: {
+      zh: p.title.replace(/\s+/g, " ").trim(),
+      en: p.nameEn,
+    },
+    price: p.price,
+    originalPrice: p.originalPrice,
+    series: seriesLabel,
+    snackSeries: p.series,
+    icon: "cat",
+    description: {
+      zh: p.description,
+      en: p.descriptionEn,
+    },
+    tags,
+    productType: p.productType,
+    specs: [
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
+      { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
+      {
+        zh: `專區：貓貓小食專區（${seriesLabel.zh}）`,
+        en: `Zone: Cat treats (${seriesLabel.en})`,
+      },
+      {
+        zh: "Collection：/categories/cats/snacks",
+        en: "Collection: /categories/cats/snacks",
+      },
+      ...tags.slice(0, 3).map((tag) => ({
+        zh: tag,
+        en: WT_TAG_EN[tag] ?? tag,
+      })),
+    ],
+  };
+}
+
+/** WT Japan cat snack series under 貓貓小食專區. */
+export const WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS: Product[] =
+  WT_JAPAN_CAT_SNACK_PRODUCTS.map(wtJapanCatSnackToProduct);
 
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
@@ -586,9 +695,13 @@ const PRODUCTS_RAW: Product[] = [
     },
   },
   // Real WT Japan 冷凍脫水系列 (cat freeze-dried food zone) live in WT_JAPAN_STOREFRONT_PRODUCTS.
+  // Cat snack series (無添加天然／老貓／去毛球／BB貓) live in WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS.
 
   // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
+
+  // 無添加天然系列 / 老貓零食 / 去毛球配方 / bb貓零食（貓貓小食專區）
+  ...WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
   // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
@@ -1747,6 +1860,7 @@ const PRODUCTS_RAW: Product[] = [
 /**
  * Storefront catalog after keyword food-zone classification.
  * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
+ * - 貓貓小食系列（無添加／老貓／去毛球／BB）→ cats / 貓貓小食
  * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
@@ -1756,13 +1870,16 @@ export function getProductsByCategory(slug: string | null): Product[] {
   return PRODUCTS.filter((product) => product.categorySlug === slug);
 }
 
-/** Filter cat products by optional subcategory pill (`null` = all). */
+/** Filter cat products by optional subcategory / snack-series pill (`null` = all). */
 export function getCatProductsBySubcategory(
   subcategory: CatSubcategory | null,
+  snackSeries: CatSnackSeries | null = null,
 ): Product[] {
   const cats = getProductsByCategory("cats");
   if (!subcategory) return cats;
-  return cats.filter((product) => product.subcategory === subcategory);
+  const bySub = cats.filter((product) => product.subcategory === subcategory);
+  if (!snackSeries || subcategory !== "貓貓小食") return bySub;
+  return bySub.filter((product) => product.snackSeries === snackSeries);
 }
 
 /** Filter dog products by optional subcategory pill (`null` = all). */
@@ -1792,6 +1909,14 @@ export function resolveCategorySubSlug(
     return DOG_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
   }
   return null;
+}
+
+/** Resolve `?series=` on `/categories/cats/snacks`; `null` if unknown / absent. */
+export function resolveCatSnackSeriesSlug(
+  seriesSlug: string | null | undefined,
+): CatSnackSeries | null {
+  if (!seriesSlug) return null;
+  return CAT_SNACK_SERIES_BY_SLUG[seriesSlug] ?? null;
 }
 
 /** Canonical product detail path. */
