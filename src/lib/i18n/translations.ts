@@ -234,6 +234,17 @@ export const translations = {
     aboutDogChapter5Body:
       "按時接種疫苗與定期驅蟲，密切留意食慾與精神狀況，守護全生命週期健康。",
     aboutDogChapter5Alt: "狗狗健康守護示意",
+    catBreedsBackToCatalog: "返回商品目錄",
+    catBreedsEyebrow: "Mofu Haven 貓咪圖鑑",
+    catBreedsTitle: "貓咪品種圖鑑 —— 探索貓咪的日常與護理",
+    catBreedsSubtitle:
+      "認識常見熱門貓種的性格與護理重點，為毛孩挑選更貼合的日常照顧方式。",
+    catBreedsFilterLabel: "毛長分類",
+    catBreedsFilterAll: "全部",
+    catBreedsFilterShort: "短毛",
+    catBreedsFilterLong: "中長毛 / 長毛",
+    catBreedsShopCta: "查看推薦用品 🛒",
+    catBreedsEmpty: "此分類暫時沒有品種，請試試其他篩選。",
   },
   en: {
     brand: "Mofu Haven",
@@ -467,6 +478,17 @@ export const translations = {
     aboutDogChapter5Body:
       "Stay current on vaccines and parasite control, and watch appetite and energy closely to protect health across every life stage.",
     aboutDogChapter5Alt: "Dog health and preventive care",
+    catBreedsBackToCatalog: "Back to catalog",
+    catBreedsEyebrow: "Mofu Haven Cat Breeds",
+    catBreedsTitle: "Cat Breed Guide — Everyday Traits & Care",
+    catBreedsSubtitle:
+      "Learn popular cat breeds’ personalities and care notes to match daily routines with your companion.",
+    catBreedsFilterLabel: "Coat length",
+    catBreedsFilterAll: "All",
+    catBreedsFilterShort: "Short hair",
+    catBreedsFilterLong: "Medium / long hair",
+    catBreedsShopCta: "View recommended products 🛒",
+    catBreedsEmpty: "No breeds in this filter — try another option.",
   },
 } as const;
 

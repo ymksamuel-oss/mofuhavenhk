@@ -49,7 +49,9 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const isCategoryPage = pathname.startsWith("/categories/");
   const isProductPage = pathname.startsWith("/product/");
   const isPictureBookPage =
-    pathname === "/about-dog" || pathname === "/about-cat";
+    pathname === "/about-dog" ||
+    pathname === "/about-cat" ||
+    pathname === "/cat-breeds";
   const showBottomContinue =
     pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
 
