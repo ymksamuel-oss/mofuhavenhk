@@ -187,19 +187,23 @@ h3 {
 .brand-logo .logo-copy {
   display: inline-flex;
   min-width: 0;
-  flex-wrap: nowrap;
-  align-items: baseline;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.08rem;
 }
 
 .brand-logo .logo-copy-line {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   white-space: nowrap;
 }
 
+.brand-logo .logo-copy-line-zh {
+  gap: 0.18rem;
+}
+
 .brand-logo .logo-copy-line-en {
-  gap: 0;
+  justify-content: center;
 }
 
 .brand-logo .logo-letter-zh {
@@ -209,24 +213,42 @@ h3 {
     "Noto Sans HK",
     var(--font-display),
     sans-serif;
-  font-size: clamp(0.88rem, 1vw, 1rem);
+  font-size: clamp(0.95rem, 1.15vw, 1.1rem);
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .brand-logo .logo-letter-en {
   font-family:
     "Avenir Next",
-    "Trebuchet MS",
-    "Gill Sans",
     "Segoe UI",
+    "Trebuchet MS",
     sans-serif;
-  font-size: clamp(0.9rem, 1.1vw, 1.02rem);
+  font-size: clamp(0.66rem, 0.9vw, 0.78rem);
   font-style: normal;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--ink);
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--ink) 72%, white);
+}
+
+.brand-logo .logo-cat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.02rem;
+}
+
+.brand-logo .logo-cat-emoji {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 6px rgb(74 54 38 / 0.18));
+}
+
+.brand-logo-link:hover .brand-logo .logo-cat-emoji,
+.brand-logo-link:focus-visible .brand-logo .logo-cat-emoji,
+.brand-logo.is-waving .logo-cat-emoji {
+  animation: logoMarkBob 0.55s ease both;
 }
 
 .brand-logo .logo-space {
