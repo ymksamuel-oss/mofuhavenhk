@@ -3,6 +3,7 @@
 import { getImageProps } from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
+import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function HomePage() {
@@ -92,6 +93,23 @@ export default function HomePage() {
       </section>
 
       <div className="relative z-10 -mt-6 rounded-t-[2.5rem] bg-[color:var(--surface)] shadow-[0_-24px_44px_-30px_rgba(74,54,38,0.4)] sm:-mt-10">
+        <section
+          aria-labelledby="home-product-search-title"
+          className="mx-auto max-w-5xl px-4 pb-2 pt-10 sm:px-6 sm:pt-14"
+        >
+          <div className="mb-4 max-w-2xl">
+            <h2
+              id="home-product-search-title"
+              className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-2xl"
+            >
+              {t("productSearchHomeTitle")}
+            </h2>
+            <p className="mt-1.5 text-sm text-[color:var(--muted)] sm:text-base">
+              {t("productSearchHomeSub")}
+            </p>
+          </div>
+          <ProductSearch variant="home" className="max-w-2xl" />
+        </section>
         <CategoryGrid />
       </div>
     </>
