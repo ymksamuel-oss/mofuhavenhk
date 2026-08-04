@@ -270,10 +270,17 @@
       "name_zh_hk": "俄羅斯藍貓",
       "aliases": [
         "俄藍",
-        "藍貓"
+        "藍貓",
+        "Archangel Cat"
       ],
+      "origin": {
+        "country": "俄羅斯",
+        "state": "阿爾漢格爾斯克（Archangel）一帶",
+        "history_overview": "相傳源自俄羅斯北部港口阿爾漢格爾斯克的自然短毛貓，後經英國與北歐育種家選育定型。以銀光藍灰毛與翡翠綠眼睛聞名，是氣質優雅、聲音輕柔的經典短毛品種。"
+      },
+      "lifespan": "15 - 20 歲",
       "physical_characteristics": {
-        "body_type": "Foreign elegant (修長優雅)",
+        "body_type": "Foreign／Semi-foreign（修長優雅、骨量適中而肌肉結實）",
         "weight_kg": {
           "male": {
             "min": 3.5,
@@ -284,25 +291,106 @@
             "max": 4.5
           }
         },
-        "coat": "Short double coat, silver-tipped blue (銀光雙層短毛)",
+        "coat": "短而厚密雙層毛，表毛銀尖帶金屬光澤",
         "common_eye_colors": [
-          "Vivid Emerald Green (鮮艷翡翠綠)"
+          "鮮艷翡翠綠（成貓）",
+          "黃／琥珀色（幼貓過渡期）"
         ]
       },
+      "popular_colors_and_patterns": [
+        {
+          "color_id": "silver_tipped_blue",
+          "name_zh": "銀尖藍灰色 (Silver-tipped Blue)",
+          "description": "絕大多數貓協認可的唯一標準色；毛尖銀白，整體呈金屬光澤"
+        },
+        {
+          "color_id": "american_type",
+          "name_zh": "美國型 (American Type)",
+          "description": "頭部稍圓、臉頰較豐滿，被毛更厚實絨密"
+        },
+        {
+          "color_id": "european_type",
+          "name_zh": "歐洲型 (European Type)",
+          "description": "臉型較尖、耳位較高，體型更修長優雅"
+        },
+        {
+          "color_id": "emerald_eyes",
+          "name_zh": "翡翠綠眼睛",
+          "description": "成貓必備標誌；幼貓眼色由黃轉綠約需一年以上"
+        }
+      ],
+      "personality_traits": [
+        "對陌生人偏害羞內斂，對認定的家人極為忠誠親密",
+        "叫聲輕柔、氣質安靜，適合喜歡寧靜居家氛圍的飼主",
+        "聰慧敏銳，喜歡觀察與智力遊戲（藏食玩具等）",
+        "環境敏感度高，需要穩定作息與專屬安全休息區"
+      ],
       "care_and_health": {
         "genetic_risks": [
-          "膀胱結石風險偏高"
+          "膀胱結石／泌尿道問題風險相對偏高（多喝水、留意尿量）",
+          "整體屬健康長壽品種，仍建議定期健康檢查"
         ],
-        "grooming": "每週梳毛 1 次",
-        "diet_management": "維持輕盈體型，控制脂肪"
+        "grooming": "銀藍雙層短毛掉毛量相對少，每週梳毛 1 次即可；換毛季可略增次數以保持銀光澤。",
+        "diet_management": "維持輕盈優雅體型，控制脂肪與熱量；補充牛磺酸有助眼睛與心臟健康；鼓勵多喝水。"
       },
       "media_assets": {
+        "status": "localized_gallery_sync",
+        "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "russian_blue_hero",
-        "description": "銀藍灰綠眼俄羅斯藍貓",
-        "image_search_keywords": "Russian Blue cat emerald green eyes silver coat",
+        "description": "美國型銀藍俄藍（翡翠綠眼睛）",
         "src": "/images/cat-breeds/russian-blue.jpg",
-        "alt": "俄羅斯藍貓",
-        "status": "verified_local_assets"
+        "alt": "銀藍灰色俄羅斯藍貓",
+        "gallery_images": [
+          {
+            "tag": "hero_main",
+            "target_feature": "美國型銀藍",
+            "local_src": "/images/cat-breeds/russian-blue.jpg",
+            "src": "/images/cat-breeds/russian-blue.jpg",
+            "alt": "銀藍灰色俄羅斯藍貓"
+          },
+          {
+            "tag": "gallery_item_1",
+            "target_feature": "臉部特寫",
+            "local_src": "/images/cat-breeds/russian-blue-portrait.jpg",
+            "src": "/images/cat-breeds/russian-blue-portrait.jpg",
+            "alt": "俄羅斯藍貓臉部特寫"
+          },
+          {
+            "tag": "gallery_item_2",
+            "target_feature": "優雅側身",
+            "local_src": "/images/cat-breeds/russian-blue-elegant.jpg",
+            "src": "/images/cat-breeds/russian-blue-elegant.jpg",
+            "alt": "優雅姿態的俄羅斯藍貓"
+          },
+          {
+            "tag": "gallery_item_3",
+            "target_feature": "窗邊銀光",
+            "local_src": "/images/cat-breeds/russian-blue-window.jpg",
+            "src": "/images/cat-breeds/russian-blue-window.jpg",
+            "alt": "窗邊的俄羅斯藍貓"
+          },
+          {
+            "tag": "gallery_item_4",
+            "target_feature": "居家慵懶",
+            "local_src": "/images/cat-breeds/russian-blue-cozy.jpg",
+            "src": "/images/cat-breeds/russian-blue-cozy.jpg",
+            "alt": "室內休息的俄羅斯藍貓"
+          },
+          {
+            "tag": "gallery_item_5",
+            "target_feature": "桌邊姿態",
+            "local_src": "/images/cat-breeds/russian-blue-pose.jpg",
+            "src": "/images/cat-breeds/russian-blue-pose.jpg",
+            "alt": "桌邊的俄羅斯藍貓"
+          },
+          {
+            "tag": "gallery_item_6",
+            "target_feature": "薰衣草肉墊",
+            "local_src": "/images/cat-breeds/russian-blue-paw.jpg",
+            "src": "/images/cat-breeds/russian-blue-paw.jpg",
+            "alt": "展示肉墊的俄羅斯藍貓"
+          }
+        ]
       }
     },
     {
