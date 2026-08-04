@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 import { WhatsAppLogo } from "@/components/icons/PaymentIcons";
@@ -8,42 +7,27 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 
-/** Footer payment marks — transparent SVG assets from /public/images. */
+/** Footer payment marks — public Wikimedia SVG logos (CDN, no local assets). */
 const FOOTER_PAYMENT_LOGOS = [
   {
-    src: "/images/wechat-pay-logo.svg",
+    src: "https://upload.wikimedia.org/wikipedia/commons/a/a2/WeChat_Pay_logo.svg",
     alt: "WeChat Pay",
-    width: 24,
-    height: 24,
-    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
   },
   {
-    src: "/images/apple-pay-logo.svg",
+    src: "https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg",
     alt: "Apple Pay",
-    width: 64,
-    height: 24,
-    className: "h-6 w-auto sm:h-7",
   },
   {
-    src: "/images/alipayhk-logo.svg",
-    alt: "AlipayHK",
-    width: 24,
-    height: 24,
-    className: "h-6 w-6 rounded-[0.35rem] sm:h-7 sm:w-7",
+    src: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Alipay_logo.svg",
+    alt: "Alipay",
   },
   {
-    src: "/images/visa-logo.svg",
+    src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg",
     alt: "Visa",
-    width: 48,
-    height: 24,
-    className: "h-4 w-auto mix-blend-multiply sm:h-5",
   },
   {
-    src: "/images/mastercard-logo.svg",
+    src: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
     alt: "Mastercard",
-    width: 40,
-    height: 24,
-    className: "h-6 w-auto sm:h-7",
   },
 ] as const;
 
@@ -119,24 +103,19 @@ function FooterNavColumn({
 }
 
 /**
- * Transparent payment logos (no white chips).
- * Flex row on desktop; wraps cleanly on narrow screens.
+ * Public CDN payment logos — no chips, frames, or filled backgrounds.
  */
 function PaymentMarks() {
   return (
-    <ul className="mt-1 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-2 sm:mt-0 sm:w-auto sm:justify-end sm:gap-x-3.5 sm:gap-y-2.5">
+    <ul className="mt-1 flex w-full max-w-full flex-wrap items-center justify-center gap-4 sm:mt-0 sm:w-auto">
       {FOOTER_PAYMENT_LOGOS.map((logo) => (
-        <li
-          key={logo.alt}
-          className="flex h-6 items-center justify-center sm:h-7"
-        >
-          <Image
+        <li key={logo.alt} className="flex items-center justify-center">
+          {/* External Wikimedia SVGs — native img avoids next.config remotePatterns. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={logo.src}
             alt={logo.alt}
-            width={logo.width}
-            height={logo.height}
-            className={`max-h-full object-contain ${logo.className}`}
-            unoptimized
+            className="h-6 w-auto object-contain"
           />
         </li>
       ))}
