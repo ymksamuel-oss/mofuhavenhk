@@ -120,21 +120,21 @@ export const RAGDOLL_BREED_INFO: CatBreedInfo = {
       name_zh: "雙色",
       description: "臉部有對稱倒V字白斑，下巴、胸腹與四肢為白色",
       image_url:
-        "https://images.unsplash.com/photo-1627341394541-11910609a632?q=80&w=800&auto=format&fit=crop",
+        "https://cdn2.thecatapi.com/images/oGefY4YoG.jpg",
     },
     {
       pattern_id: "mitted",
       name_zh: "手套色",
       description: "前肢白色手套，後肢白色高筒靴，下巴至腹部有白色帶",
       image_url:
-        "https://images.unsplash.com/photo-1571566882372-1598d88abd90?q=80&w=800&auto=format&fit=crop",
+        "https://cdn2.thecatapi.com/images/HDxfaNlLj.jpg",
     },
     {
       pattern_id: "colorpoint",
       name_zh: "重點色",
       description: "面部、耳朵、四肢與尾巴為深色，軀幹為淺色",
       image_url:
-        "https://images.unsplash.com/photo-1511044568932-260bbdd4ec27?q=80&w=800&auto=format&fit=crop",
+        "https://cdn2.thecatapi.com/images/nqS9tUT3i.jpg",
     },
   ],
   colors: [
