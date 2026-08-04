@@ -146,7 +146,7 @@ export const translations = {
     catSubAll: "全部貓咪商品",
     catSubWetCans: "罐罐 / 濕糧",
     catSubDryFood: "貓乾糧 / 主糧",
-    catSubFreezeDried: "凍乾零食",
+    catSubFreezeDried: "貓貓小食／冷凍脫水系列",
     catFreezeDriedZoneEyebrow: "貓貓小食 · 冷凍脫水系列",
     catFreezeDriedZoneTitle: "冷凍食物專區",
     catFreezeDriedZoneSubtitle:
@@ -494,7 +494,7 @@ export const translations = {
     catSubAll: "All cat products",
     catSubWetCans: "Cans / Wet food",
     catSubDryFood: "Dry food / Staple",
-    catSubFreezeDried: "Freeze-dried treats",
+    catSubFreezeDried: "Cat treats / Freeze-dried series",
     catFreezeDriedZoneEyebrow: "Cat treats · Freeze-dried series",
     catFreezeDriedZoneTitle: "Freeze-dried food zone",
     catFreezeDriedZoneSubtitle:

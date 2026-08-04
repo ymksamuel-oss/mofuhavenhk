@@ -53,7 +53,7 @@ export type Product = {
   categorySlug: string;
   /**
    * Optional food-zone sub-category for `/categories/cats` or `/categories/dogs`.
-   * 「冷凍脫水系列」= cat-only freeze-dried food zone（凍乾零食／冷凍食物專區）.
+   * 「冷凍脫水系列」= cat-only freeze-dried snacks（貓貓小食／冷凍脫水系列／冷凍食物專區）.
    * 「狗狗小食」= dog treats zone under dog products.
    * Apparel / toys / supplies leave this undefined.
    */
