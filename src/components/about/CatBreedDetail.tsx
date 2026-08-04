@@ -190,30 +190,47 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {t("catBreedDetailPatterns")}
               </h2>
-              <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {info.patterns.map((pattern) => (
-                  <li
-                    key={pattern.pattern_id}
-                    className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
-                  >
-                    <div className="relative aspect-[4/3] bg-[#FAF6F0]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={pattern.image_url || CAT_BREED_IMAGE_FALLBACK}
-                        alt={pattern.name_zh}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        onError={handleBreedImageError}
-                      />
-                    </div>
-                    <div className="space-y-1.5 px-4 py-3">
-                      <p className="text-sm font-semibold">{pattern.name_zh}</p>
-                      <p className="text-xs leading-relaxed text-[#4A3B32]/75">
-                        {pattern.description}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {galleryImages.length > 0 ? (
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {info.patterns.map((pattern) => (
+                    <li
+                      key={pattern.pattern_id}
+                      className="rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1.5 text-xs font-medium"
+                      title={pattern.description}
+                    >
+                      {pattern.name_zh}
+                      <span className="ml-1 text-[#4A3B32]/55">
+                        · {pattern.description}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {info.patterns.map((pattern) => (
+                    <li
+                      key={pattern.pattern_id}
+                      className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
+                    >
+                      <div className="relative aspect-[4/3] bg-[#FAF6F0]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={pattern.image_url || CAT_BREED_IMAGE_FALLBACK}
+                          alt={pattern.name_zh}
+                          className="absolute inset-0 h-full w-full object-cover"
+                          onError={handleBreedImageError}
+                        />
+                      </div>
+                      <div className="space-y-1.5 px-4 py-3">
+                        <p className="text-sm font-semibold">{pattern.name_zh}</p>
+                        <p className="text-xs leading-relaxed text-[#4A3B32]/75">
+                          {pattern.description}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </section>
 
             <section>

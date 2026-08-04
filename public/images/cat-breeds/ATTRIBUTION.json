@@ -1,11 +1,6 @@
 {
   "note": "Local breed portraits verified for Mofu Haven HK cat breeds guide.",
   "assets": {
-    "british-shorthair": {
-      "src": "/images/cat-breeds/british-shorthair.jpg",
-      "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/British_Shorthair._Female._18_months_old.jpg/1280px-British_Shorthair._Female._18_months_old.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "bytes": 436433
-    },
     "american-shorthair": {
       "src": "/images/cat-breeds/american-shorthair.jpg",
       "source_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/American_shorthair_cat_Portrait.jpg/1280px-American_shorthair_cat_Portrait.jpg",
@@ -76,6 +71,20 @@
       "src": "/images/cat-breeds/mix-shorthair.jpg",
       "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80",
       "bytes": 86410
+    },
+    "british-shorthair-blue": {
+      "src": "/images/cat-breeds/british-shorthair-blue.jpg",
+      "note": "Canonical blue British Shorthair portrait"
+    },
+    "british-shorthair-silver": {
+      "src": "/images/cat-breeds/british-shorthair-silver.jpg",
+      "note": "Canonical silver tabby British Shorthair portrait"
+    },
+    "british-shorthair-golden": {
+      "src": "/images/cat-breeds/british-shorthair-golden.jpg"
+    },
+    "british-shorthair-cozy": {
+      "src": "/images/cat-breeds/british-shorthair-cozy.jpg"
     }
   },
   "licenses": {

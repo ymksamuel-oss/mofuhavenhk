@@ -119,25 +119,25 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "british_blue",
       name_zh: "經典藍灰色 (British Blue)",
       description: "最標誌性單色",
-      image_url: "/images/cat-breeds/british-shorthair-blue.jpg",
+      image_url: "",
     },
     {
       pattern_id: "golden_shade",
       name_zh: "金漸層 (Golden Shaded / NY12等)",
       description: "近年極受歡迎的溫暖金色調，毛尖帶黑色暈染",
-      image_url: "/images/cat-breeds/british-shorthair-golden.jpg",
+      image_url: "",
     },
     {
       pattern_id: "silver_tabby",
       name_zh: "銀虎斑 (Silver Tabby)",
       description: "帶有清晰斑紋與綠色/榛果色眼睛",
-      image_url: "/images/cat-breeds/british-shorthair-silver.jpg",
+      image_url: "",
     },
     {
       pattern_id: "bicolor",
       name_zh: "雙色 (Bicolor)",
       description: "白底配搭藍色、灰色或虎斑塊",
-      image_url: "/images/cat-breeds/british-shorthair-cozy.jpg",
+      image_url: "",
     },
   ],
   colors: [
@@ -185,12 +185,6 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
     instruction_for_cursor:
       "英短圖庫已本地化：金漸層 / 藍貓 / 銀虎斑 / 日常，路徑 /images/cat-breeds/*.jpg",
     images: [
-      {
-        tag: "hero",
-        description: "金漸層幼貓 (Golden Shaded)",
-        src: "/images/cat-breeds/british-shorthair-golden.jpg",
-        alt: "金漸層英國短毛貓特寫",
-      },
       {
         tag: "hero_main",
         description: "金漸層幼貓 (Golden Shaded)",
