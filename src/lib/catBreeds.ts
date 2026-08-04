@@ -119,7 +119,7 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "british_blue",
       name_zh: "經典藍灰色 (British Blue)",
       description: "最標誌性單色",
-      image_url: "/images/cat-breeds/british-shorthair.jpg",
+      image_url: "/images/cat-breeds/british-shorthair-blue.jpg",
     },
     {
       pattern_id: "golden_shade",
@@ -131,7 +131,7 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       pattern_id: "silver_tabby",
       name_zh: "銀虎斑 (Silver Tabby)",
       description: "帶有清晰斑紋與綠色/榛果色眼睛",
-      image_url: "/images/cat-breeds/british-shorthair-silver-tabby.jpg",
+      image_url: "/images/cat-breeds/british-shorthair-silver.jpg",
     },
     {
       pattern_id: "bicolor",
@@ -181,43 +181,37 @@ export const BRITISH_SHORTHAIR_BREED_INFO: CatBreedInfo = {
       "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次；換毛季時掉毛量大，需增加梳毛頻率以防毛球症",
   },
   media_assets: {
-    status: "verified_local_assets",
+    status: "localized_gallery_sync",
     instruction_for_cursor:
-      "英短圖庫已改用本地核對圖片：藍貓、金漸層、銀虎斑與居家日常。",
+      "英短圖庫已本地化：金漸層 / 藍貓 / 銀虎斑 / 日常，路徑 /images/cat-breeds/*.jpg",
     images: [
       {
         tag: "hero",
-        description: "經典藍灰色圓臉英國短毛貓",
-        src: "/images/cat-breeds/british-shorthair.jpg",
-        alt: "經典藍灰色英國短毛貓",
-      },
-      {
-        tag: "hero_main",
-        description: "經典藍灰色圓臉英國短毛貓",
-        src: "/images/cat-breeds/british-shorthair.jpg",
-        alt: "經典藍灰色英國短毛貓",
-      },
-      {
-        tag: "gallery_item_1",
-        description: "標誌性純藍灰色圓臉大眼英短",
-        src: "/images/cat-breeds/british-shorthair.jpg",
-        alt: "經典藍灰色英國短毛貓",
-      },
-      {
-        tag: "gallery_item_2",
-        description: "帶有明顯川字/旋渦紋理的銀虎斑英短",
-        src: "/images/cat-breeds/british-shorthair-silver-tabby.jpg",
-        alt: "銀虎斑英國短毛貓",
-      },
-      {
-        tag: "gallery_item_3",
-        description: "金漸層英短幼貓活潑伸爪",
+        description: "金漸層幼貓 (Golden Shaded)",
         src: "/images/cat-breeds/british-shorthair-golden.jpg",
         alt: "金漸層英國短毛貓特寫",
       },
       {
-        tag: "gallery_item_4",
-        description: "英短室內休息的溫馨日常照",
+        tag: "hero_main",
+        description: "金漸層幼貓 (Golden Shaded)",
+        src: "/images/cat-breeds/british-shorthair-golden.jpg",
+        alt: "金漸層英國短毛貓特寫",
+      },
+      {
+        tag: "gallery_item_1",
+        description: "經典藍貓 (British Blue)",
+        src: "/images/cat-breeds/british-shorthair-blue.jpg",
+        alt: "經典藍灰色英國短毛貓",
+      },
+      {
+        tag: "gallery_item_2",
+        description: "銀虎斑 (Silver Tabby)",
+        src: "/images/cat-breeds/british-shorthair-silver.jpg",
+        alt: "銀虎斑英國短毛貓",
+      },
+      {
+        tag: "gallery_item_3",
+        description: "日常慵懶/居家情境",
         src: "/images/cat-breeds/british-shorthair-cozy.jpg",
         alt: "室內休息的英國短毛貓",
       },
@@ -337,8 +331,7 @@ export const catBreedsData: CatBreed[] = [
     coatType: "short",
     coatLabel: "短毛",
     shortDescription: "溫和穩定、體型圓滾，注意體重管理。",
-    imageUrl:
-      "/images/cat-breeds/british-shorthair.jpg",
+    imageUrl: "/images/cat-breeds/british-shorthair-golden.jpg",
     origin: "英國",
     lifespan: "12 - 17 歲",
     weight: "公 5.0–8.0 kg／母 4.0–6.0 kg",
