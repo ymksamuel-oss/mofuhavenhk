@@ -1,7 +1,9 @@
 /**
- * WT Japan 貓罐罐 catalog — curated for Mofu Haven.
- * Images sourced via scrape_wt_japan.py; copy & tags hand-polished.
- * Source collection: https://www.wt-japan.com/collections/貓罐罐/罐罐
+ * WT Japan cat catalog — curated for Mofu Haven.
+ * Images sourced via scrape scripts; copy & tags hand-polished.
+ * Sources:
+ *   - 貓罐罐: https://www.wt-japan.com/collections/貓罐罐/罐罐
+ *   - 乾糧:   https://www.wt-japan.com/collections/乾糧
  */
 
 /** Canonical storefront category key used by `/categories/cats` (“貓咪商品”). */
@@ -218,6 +220,208 @@ export const WT_JAPAN_PRODUCTS: WtJapanProduct[] = [
     handle: "ciao-貓罐罐-白肉金槍魚-鰹魚乾-85g-x-6個",
     productType: "貓罐罐",
     sourceUrl: "https://www.wt-japan.com/products/ciao-貓罐罐-白肉金槍魚-鰹魚乾-85g-x-6個",
+  },
+
+  // ——— WT Japan 乾糧 / Dry food (https://www.wt-japan.com/collections/乾糧) ———
+  {
+    id: "wt-dry-food-1",
+    title: "CIAO 1兆個乳酸菌乾糧 · 鰹魚乾味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-1.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651663.jpg?v=1606713062",
+    description:
+      "日本 Inaba CIAO 乳酸菌乾糧，每盒盛載高達 1 兆個乳酸菌守護腸道節奏。鮮香鰹魚乾味鼓勵挑嘴貓主動進食，綠茶消臭成分溫和照顧家居氣味。獨立小袋方便分餐與外出攜帶，一箱 6 盒（每盒 10 袋）為日常乾糧輪替做足儲備。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "1兆乳酸菌", "鰹魚乾味", "日本直送"],
+    recommendedBreeds: ["siamese", "ragdoll", "mix-shorthair", "russian-blue"],
+    handle: "ciao-1兆個乳酸菌乾糧-鰹魚乾味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-鰹魚乾味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-2",
+    title: "CIAO 乳酸糧脆條 · 雞肉味（5條裝 × 6盒）",
+    price: 155.0,
+    imageUrl: "/images/products/wt-dry-food-2.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651571.jpg?v=1593663832",
+    description:
+      "獨立包裝脆條，每條約 22g，內含約 100 億個乳酸菌，溫柔守護腸胃健康。香濃雞肉味適合愛肉的活潑貓，可作獎勵零食或拌乾糧提升食慾。日本原裝 5 條 × 6 盒，出街旅行都合適。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "乳酸菌", "雞肉味", "獨立包裝"],
+    recommendedBreeds: ["maine-coon", "bengal", "american-shorthair", "british-shorthair"],
+    handle: "ciao-乳酸糧-5條裝-雞肉味-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-乳酸糧-5條裝-雞肉味-x-6",
+  },
+  {
+    id: "wt-dry-food-3",
+    title: "CIAO 1兆個乳酸菌乾糧 · 金槍魚乾味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-3.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651656.jpg?v=1606713192",
+    description:
+      "以金槍魚乾的層次鮮味為軸心，搭配 1 兆乳酸菌配方，兼顧美味與腸道舒適。細緻顆粒易入口，適合日常主食乾糧或與濕食混餵。綠茶消臭照顧家中氣味，一箱 6 盒（每盒 10 袋）安心備糧。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "1兆乳酸菌", "金槍魚乾", "日本直送"],
+    recommendedBreeds: ["bengal", "siamese", "american-shorthair", "devon-rex"],
+    handle: "ciao-1兆個乳酸菌乾糧-金槍魚乾味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-金槍魚乾味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-4",
+    title: "CIAO 1兆個乳酸菌乾糧 · 三款金槍魚味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-4.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651694.jpg?v=1606712478",
+    description:
+      "一盒收納三種金槍魚風味變化，讓貓貓每餐都有新鮮感。1 兆乳酸菌呵護腸道，綠茶消臭配方更貼心。適合想用乾糧輪替口味、又不想犧牲腸胃舒適度的家庭——6 盒家庭裝，輕鬆應付一季的日系小確幸。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "口味輪替", "1兆乳酸菌", "金槍魚"],
+    recommendedBreeds: ["ragdoll", "norwegian-forest", "mix-shorthair", "siamese"],
+    handle: "ciao-1兆個乳酸菌乾糧-3款金槍魚味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款金槍魚味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-5",
+    title: "CIAO 1兆個乳酸菌乾糧 · 三款木魚乾味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-5.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651700.jpg?v=1606712358",
+    description:
+      "木魚乾的日式高湯香氣，打開袋口就像一碗暖心的鰹節風味。三款變化搭配 1 兆乳酸菌，挑嘴貓也願意主動靠近糧碗。綠茶消臭溫和鎖味，適合嗅覺敏銳、愛「聞香下飯」的貓貓日常。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "木魚乾香氣", "1兆乳酸菌", "日本直送"],
+    recommendedBreeds: ["bengal", "maine-coon", "american-shorthair", "mix-shorthair"],
+    handle: "ciao-1兆個乳酸菌乾糧-3款木魚乾味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款木魚乾味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-6",
+    title: "CIAO 1兆個乳酸菌乾糧 · 三款雞肉味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-6.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651717.jpg?v=1606712183",
+    description:
+      "柔和雞肉三重奏，蛋白質層次分明，適合中大型或動能充沛的貓貓。1 兆乳酸菌照顧腸道節奏，獨立小袋精準控量。一箱 6 盒，是活力家庭最穩妥的日系乾糧備貨選擇。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "雞肉蛋白", "1兆乳酸菌", "活力菜單"],
+    recommendedBreeds: ["maine-coon", "norwegian-forest", "bengal", "british-shorthair"],
+    handle: "ciao-1兆個乳酸菌乾糧-3款雞肉味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款雞肉味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-7",
+    title: "CIAO 乳酸糧脆條 · 鰹魚味（5條裝 × 6盒）",
+    price: 155.0,
+    imageUrl: "/images/products/wt-dry-food-7.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/files/chanet_260725.jpg?v=1705570114",
+    description:
+      "經典鰹魚香氣的乳酸菌脆條，每條約 22g、獨立包裝，內含約 100 億乳酸菌。可作訓練獎勵、出遊小食，亦可掰碎撒在乾糧上瞬間提升誘食力。日本製 5 條 × 6 盒，方便又實用。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "乳酸菌", "鰹魚味", "獨立包裝"],
+    recommendedBreeds: ["siamese", "russian-blue", "ragdoll", "mix-shorthair"],
+    handle: "ciao-乳酸糧-5條裝-鰹魚味-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-乳酸糧-5條裝-鰹魚味-x-6",
+  },
+  {
+    id: "wt-dry-food-8",
+    title: "CIAO 1兆個乳酸菌乾糧 · 金槍魚味（幼貓用｜10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-8.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651687.jpg?v=1606712643",
+    description:
+      "專為 1 歲前幼貓調配的金槍魚味乳酸菌乾糧，顆粒與營養節奏更貼合成長期需求。1 兆乳酸菌溫柔呵護幼嫩腸胃，綠茶消臭照顧家居氣味。小袋分裝方便爸媽精準餵食，一箱 6 盒陪伴毛孩快樂長大。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "幼貓專用", "1兆乳酸菌", "金槍魚"],
+    recommendedBreeds: ["bengal", "maine-coon", "munchkin", "mix-shorthair"],
+    handle: "ciao-1兆個乳酸菌乾糧-金槍魚味-幼貓用-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl:
+      "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-金槍魚味-幼貓用-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-9",
+    title: "CIAO 乳酸糧脆條 · 金槍魚乾味（5條裝 × 6盒）",
+    price: 155.0,
+    imageUrl: "/images/products/wt-dry-food-9.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651540.jpg?v=1593663733",
+    description:
+      "金槍魚乾的濃郁鮮味收進輕巧脆條，每條約 22g 獨立包裝，內含約 100 億乳酸菌。適合當零食獎勵，也適合掰碎做乾濕混餵的提味小幫手。日本原裝 5 條 × 6 盒，日常與旅行都帶得走。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "乳酸菌", "金槍魚乾", "獨立包裝"],
+    recommendedBreeds: ["persian", "exotic-shorthair", "british-shorthair", "scottish-fold"],
+    handle: "ciao-乳酸糧-5條裝-金槍魚乾味-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-乳酸糧-5條裝-金槍魚乾味-x-6",
+  },
+  {
+    id: "wt-dry-food-10",
+    title: "CIAO 1兆個乳酸菌乾糧 · 三款金槍魚鰹魚味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-10.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651724.jpg?v=1606712073",
+    description:
+      "金槍魚與鰹魚雙重海洋風味輪替，鮮味層次豐富。1 兆乳酸菌守護腸道，綠茶消臭成分讓開糧時刻更安心。適合喜歡海鮮系乾糧、又想用口味變化維持食慾的貓家庭——6 盒家庭裝一次備足。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "海鮮雙拼", "1兆乳酸菌", "日本直送"],
+    recommendedBreeds: ["siamese", "ragdoll", "norwegian-forest", "devon-rex"],
+    handle: "ciao-1兆個乳酸菌乾糧-3款金槍魚鰹魚味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl:
+      "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款金槍魚鰹魚味-10袋-x-6",
+  },
+  {
+    id: "wt-dry-food-11",
+    title: "CIAO 1兆個乳酸菌乾糧 · 三款海鮮味（10袋 × 6盒）",
+    price: 268.0,
+    imageUrl: "/images/products/wt-dry-food-11.jpg",
+    sourceImageUrl:
+      "https://cdn.shopify.com/s/files/1/0280/1428/0749/products/4901133651731.jpg?v=1606711831",
+    description:
+      "三款海鮮風味一次收藏，像為貓貓準備迷你海洋菜單。1 兆乳酸菌呵護腸胃舒適，綠茶消臭溫和鎖住居家氣味。獨立小袋控量方便，一箱 6 盒（每盒 10 袋）是海鮮控毛孩的日系乾糧首選。",
+    vendor: "CIAO",
+    category: "貓咪商品",
+    categorySlug: "cats",
+    tags: ["乾糧", "海鮮味", "1兆乳酸菌", "口味輪替"],
+    recommendedBreeds: ["siamese", "bengal", "russian-blue", "mix-shorthair"],
+    handle: "ciao-1兆個乳酸菌乾糧-3款海鮮味-10袋-x-6",
+    productType: "乾糧",
+    sourceUrl: "https://www.wt-japan.com/products/ciao-1兆個乳酸菌乾糧-3款海鮮味-10袋-x-6",
   },
 ];
 

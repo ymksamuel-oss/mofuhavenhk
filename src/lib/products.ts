@@ -88,6 +88,61 @@ const WT_JAPAN_EN: Record<
     description:
       "Classic white-meat tuna with fragrant bonito flakes — CIAO's everyday hero. Clear broth, fine texture, green-tea odor care for weekly wet-food rotation.",
   },
+  "wt-dry-food-1": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Bonito Flake (10 bags × 6)",
+    description:
+      "Inaba CIAO dry food with up to 1 trillion lactic acid bacteria for gut comfort. Fragrant bonito-flake flavor encourages picky eaters; green-tea odor care keeps home fresher. Individual sachets for portioning — six boxes of 10 bags each.",
+  },
+  "wt-dry-food-2": {
+    name: "CIAO Probiotic Crunchy Sticks — Chicken (5 sticks × 6)",
+    description:
+      "Individually wrapped sticks (~22g each) with about 10 billion probiotics for gentle gut support. Savory chicken flavor works as a reward or kibble topper — Japan-made 5-stick packs, six boxes.",
+  },
+  "wt-dry-food-3": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Dried Tuna (10 bags × 6)",
+    description:
+      "Dried-tuna depth with a 1-trillion probiotic formula for taste and tummy comfort. Fine kibbles suit daily meals or wet–dry mixing, with green-tea odor care — six boxes of 10 bags.",
+  },
+  "wt-dry-food-4": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Triple Tuna Flavors (10 bags × 6)",
+    description:
+      "Three tuna flavor variations in one box keep mealtime interesting. 1 trillion probiotics plus green-tea odor care — a family pack of six boxes for seasonal rotation.",
+  },
+  "wt-dry-food-5": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Triple Bonito Flake Flavors (10 bags × 6)",
+    description:
+      "Dashi-like bonito aroma in three variations, paired with 1 trillion probiotics. Ideal for scent-driven cats — green-tea odor care for everyday calm.",
+  },
+  "wt-dry-food-6": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Triple Chicken Flavors (10 bags × 6)",
+    description:
+      "A gentle chicken trio for larger or active cats. 1 trillion probiotics and portion sachets — six-box family stocking for energetic households.",
+  },
+  "wt-dry-food-7": {
+    name: "CIAO Probiotic Crunchy Sticks — Bonito (5 sticks × 6)",
+    description:
+      "Classic bonito aroma in ~22g sticks with about 10 billion probiotics. Great for training, travel, or crumbling over kibble — Japan-made 5×6 packs.",
+  },
+  "wt-dry-food-8": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Tuna (Kitten · 10 bags × 6)",
+    description:
+      "Tuna dry food tuned for cats under 1 year. 1 trillion probiotics support growing tummies; sachets help precise feeding — six boxes to grow with your kitten.",
+  },
+  "wt-dry-food-9": {
+    name: "CIAO Probiotic Crunchy Sticks — Dried Tuna (5 sticks × 6)",
+    description:
+      "Rich dried-tuna sticks (~22g) with about 10 billion probiotics. Use as treats or a wet–dry flavor boost — Japan-made 5 sticks × 6 boxes.",
+  },
+  "wt-dry-food-10": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Triple Tuna & Bonito (10 bags × 6)",
+    description:
+      "Ocean layers of tuna and bonito in rotating flavors. 1 trillion probiotics and green-tea odor care — six-box stock for seafood-loving homes.",
+  },
+  "wt-dry-food-11": {
+    name: "CIAO 1 Trillion Probiotic Dry Food — Triple Seafood Flavors (10 bags × 6)",
+    description:
+      "Three seafood profiles like a mini ocean menu. 1 trillion probiotics, green-tea odor care, and easy sachets — six boxes of 10 bags for seafood fans.",
+  },
 };
 
 const WT_TAG_EN: Record<string, string> = {
@@ -122,6 +177,20 @@ const WT_TAG_EN: Record<string, string> = {
   經典日系味: "Classic Japanese",
   鰹魚乾點綴: "Bonito flakes",
   日常輪替: "Daily rotation",
+  乾糧: "Dry food",
+  "1兆乳酸菌": "1 trillion probiotics",
+  鰹魚乾味: "Bonito flake flavor",
+  日本直送: "Direct from Japan",
+  乳酸菌: "Probiotics",
+  雞肉味: "Chicken flavor",
+  獨立包裝: "Individually wrapped",
+  金槍魚乾: "Dried tuna",
+  口味輪替: "Flavor rotation",
+  金槍魚: "Tuna",
+  雞肉蛋白: "Chicken protein",
+  鰹魚味: "Bonito flavor",
+  幼貓專用: "For kittens",
+  海鮮味: "Seafood flavors",
 };
 
 function wtJapanToProduct(p: WtJapanProduct): Product {
@@ -152,7 +221,7 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
   };
 }
 
-/** WT Japan CIAO cat cans — merged from `@/data/productsData`. */
+/** WT Japan CIAO cans + dry food — merged from `@/data/productsData`. */
 export const WT_JAPAN_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_PRODUCTS.map(wtJapanToProduct);
 
@@ -259,7 +328,7 @@ export const PRODUCTS: Product[] = [
     },
   },
 
-  // CIAO 貓罐罐（WT Japan）— wired from `@/data/productsData`
+  // CIAO 貓罐罐 + 乾糧（WT Japan）— wired from `@/data/productsData`
   ...WT_JAPAN_STOREFRONT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
