@@ -589,6 +589,52 @@ export const WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_CAT_SNACK_PRODUCTS.map(wtJapanCatSnackToProduct);
 
 /**
+ * Convert WT Japan dog treat products from JSON to storefront Product format.
+ * These products are loaded dynamically from /public/wt_japan_products.json
+ */
+export function wtJapanDogProductToProduct(p: {
+  id: string;
+  brand: string;
+  name: string;
+  category: string;
+  categoryName: string;
+  price: number;
+  originalPrice: number | null;
+  spec: string;
+  inStock: boolean;
+}): Product {
+  return {
+    id: p.id,
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    image: "/products/wt-japan-dog-treats.webp", // Fallback image
+    name: {
+      zh: p.name,
+      en: p.name, // Use Japanese name as fallback for English
+    },
+    price: p.price,
+    originalPrice: p.originalPrice ?? undefined,
+    series: {
+      zh: p.brand,
+      en: p.brand,
+    },
+    icon: "dog",
+    description: {
+      zh: `${p.brand} - ${p.categoryName}`,
+      en: `${p.brand} - ${p.categoryName}`,
+    },
+    tags: ["狗狗小食", "狗用", "天然無添加", p.brand],
+    productType: "狗狗小食",
+    specs: [
+      { zh: `品牌：${p.brand}`, en: `Brand: ${p.brand}` },
+      { zh: `規格：${p.spec}`, en: `Spec: ${p.spec}` },
+      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
+      { zh: "特色：天然無添加", en: "Feature: No additives" },
+    ],
+  };
+}
+
+/**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
  * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
  */
@@ -1862,8 +1908,28 @@ const PRODUCTS_RAW: Product[] = [
  * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
  * - 貓貓小食系列（無添加／老貓／去毛球／BB）→ cats / 貓貓小食
  * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
+ * - WT Japan dog treats (from wt_japan_products.json) → dogs / 狗狗小食
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
+
+/**
+ * Load WT Japan dog products from the JSON file and convert to Product format.
+ * This is called by ProductCatalog to dynamically include dog treats.
+ */
+export async function loadWTJapanDogProducts(): Promise<Product[]> {
+  try {
+    const response = await fetch('/wt_japan_products.json');
+    if (!response.ok) {
+      console.warn('Failed to load WT Japan dog products');
+      return [];
+    }
+    const data = await response.json();
+    return data.map(wtJapanDogProductToProduct);
+  } catch (error) {
+    console.warn('Error loading WT Japan dog products:', error);
+    return [];
+  }
+}
 
 export function getProductsByCategory(slug: string | null): Product[] {
   if (!slug) return PRODUCTS;
