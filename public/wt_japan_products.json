@@ -1,0 +1,57 @@
+[
+  {
+    "id": "wt-japan-001",
+    "brand": "MAMACOOK",
+    "name": "但馬高原 - 冷凍脫水雞胸肉雞冠 (狗狗用) 18g x 10袋",
+    "category": "dog-snacks",
+    "categoryName": "狗狗小食 / 雞肉系列",
+    "price": 425.0,
+    "originalPrice": 440.0,
+    "spec": "18g x 10袋",
+    "inStock": true
+  },
+  {
+    "id": "wt-japan-002",
+    "brand": "PETPRO",
+    "name": "日本國產無添加狗狗小食 - 雞肝乾 100g x 10",
+    "category": "dog-snacks",
+    "categoryName": "狗狗小食 / 內臟系列",
+    "price": 588.0,
+    "originalPrice": null,
+    "spec": "100g x 10",
+    "inStock": true
+  },
+  {
+    "id": "wt-japan-003",
+    "brand": "PETPRO",
+    "name": "日本國產無添加狗狗小食 - 薄切牛舌乾 50g x 10",
+    "category": "dog-snacks",
+    "categoryName": "狗狗小食 / 牛肉系列",
+    "price": 558.0,
+    "originalPrice": null,
+    "spec": "50g x 10",
+    "inStock": true
+  },
+  {
+    "id": "wt-japan-004",
+    "brand": "PETPRO",
+    "name": "日本國產無添加狗狗小食 - 鹿肉乾 30g x 10",
+    "category": "dog-snacks",
+    "categoryName": "狗狗小食 / 鹿肉系列",
+    "price": 558.0,
+    "originalPrice": null,
+    "spec": "30g x 10",
+    "inStock": true
+  },
+  {
+    "id": "wt-japan-005",
+    "brand": "PETPRO",
+    "name": "日本國產無添加狗狗小食 - 牛筋長條 (牛アキレスロング) 80g x 10",
+    "category": "dog-snacks",
+    "categoryName": "狗狗小食 / 牛肉系列",
+    "price": 558.0,
+    "originalPrice": null,
+    "spec": "80g x 10",
+    "inStock": true
+  }
+]
