@@ -2,18 +2,12 @@
 
 import { useMemo, useState, type SyntheticEvent } from "react";
 import Link from "next/link";
-import { Zen_Maru_Gothic } from "next/font/google";
 import {
   CAT_BREED_IMAGE_FALLBACK,
   filterCatBreeds,
   type CatCoatFilter,
 } from "@/lib/catBreeds";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-
-const zenMaru = Zen_Maru_Gothic({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 const FILTERS: {
   id: CatCoatFilter;
@@ -52,9 +46,7 @@ export function CatBreedsGuide() {
   const isEn = locale === "en";
 
   return (
-    <div
-      className={`${zenMaru.className} min-h-[70vh] bg-[#FAF6F0] text-[#4A3B32]`}
-    >
+    <div className="min-h-[70vh] bg-[#FAF6F0] font-sans text-[#4A3B32]">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link

@@ -2,19 +2,13 @@
  * Server-side "new order" WhatsApp notification for @MofuHavenHK.
  * Only import from server code (API routes) — never from client bundles.
  *
- * Primary path: CallMeBot (free). Defaults below are the shop's CallMeBot
- * credentials so Production works even before Vercel env is filled in.
- * Override anytime with WHATSAPP_PHONE / WHATSAPP_API_KEY on Vercel.
+ * Primary path: CallMeBot (free). Credentials must be supplied only through
+ * environment variables; the repository never carries plaintext secrets.
  */
 
 const SHOP_HANDLE = process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK";
 const SITE_LABEL =
   process.env.SHOP_SITE_LABEL?.trim() || "mofuhavenhk.com";
-
-/** @MofuHavenHK CallMeBot phone (digits). Overridable via WHATSAPP_PHONE. */
-const DEFAULT_WHATSAPP_PHONE = "85298646585";
-/** @MofuHavenHK CallMeBot apikey. Overridable via WHATSAPP_API_KEY. */
-const DEFAULT_WHATSAPP_API_KEY = "6352845";
 
 export type NotifyOrderInput = {
   orderNumber: string;
@@ -90,7 +84,7 @@ export function getShopWhatsAppPhoneDigits(): string {
     process.env.TWILIO_WHATSAPP_TO?.replace(/^whatsapp:/i, "").trim() ||
     process.env.WHATSAPP_CLOUD_TO?.trim() ||
     process.env.GREEN_API_CHAT_ID?.replace(/@c\.us$/i, "").trim() ||
-    DEFAULT_WHATSAPP_PHONE;
+    "";
   return raw.replace(/\D/g, "");
 }
 
@@ -99,7 +93,7 @@ export function getCallMeBotApiKey(): string {
   return (
     process.env.WHATSAPP_API_KEY?.trim() ||
     process.env.CALLMEBOT_APIKEY?.trim() ||
-    DEFAULT_WHATSAPP_API_KEY
+    ""
   );
 }
 
@@ -335,7 +329,7 @@ export async function sendWhatsAppNotification(
   if (providers.length === 0) {
     console.error(
       `[notify-order] @${SHOP_HANDLE}: CallMeBot not configured. ` +
-        `Set WHATSAPP_PHONE + WHATSAPP_API_KEY on Vercel.`,
+        `Set WHATSAPP_PHONE + WHATSAPP_API_KEY in the server environment.`,
     );
     return { ok: false, error: "not_configured" };
   }

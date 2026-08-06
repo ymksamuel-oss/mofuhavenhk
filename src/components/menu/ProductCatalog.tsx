@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { ExplorePetsDropdown } from "@/components/menu/ExplorePetsDropdown";
 import {
   CATEGORIES,
   categoryHref,
@@ -25,7 +24,6 @@ import {
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
   getProductsByCategory,
-  loadWTJapanDogProducts,
   productHref,
   type CatSnackSeries,
   type CatSubcategory,
@@ -34,11 +32,11 @@ import {
   type ProductSubcategory,
 } from "@/lib/products";
 
-function chipClassName(active: boolean) {
-  return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
+function categoryMenuLinkClassName(active: boolean) {
+  return `group/link flex min-h-11 items-center justify-between border-b px-1 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
     active
-      ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_10px_20px_-12px_rgba(169,124,80,0.8)]"
-      : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/60 hover:text-[color:var(--accent)]"
+      ? "border-[color:var(--accent)] font-semibold text-[color:var(--ink)]"
+      : "border-[color:var(--line)]/70 font-medium text-[color:var(--muted)] hover:border-[color:var(--accent)]/70 hover:text-[color:var(--ink)]"
   }`;
 }
 
@@ -86,10 +84,12 @@ function TreatListCard({
   product,
   locale,
   viewDetailsLabel,
+  soldOutLabel,
 }: {
   product: Product;
   locale: "zh" | "en";
   viewDetailsLabel: string;
+  soldOutLabel: string;
 }) {
   const href = productHref(product.id);
   const series = product.series?.[locale];
@@ -117,7 +117,11 @@ function TreatListCard({
             sizes="128px"
             className="object-cover"
           />
-          {discountPercent ? (
+          {product.inStock === false ? (
+            <span className="absolute left-1.5 top-1.5 rounded-full bg-[color:var(--ink)] px-2 py-0.5 text-[9px] font-bold text-white">
+              {soldOutLabel}
+            </span>
+          ) : discountPercent ? (
             <span className="absolute left-1.5 top-1.5 rounded-full bg-[#c0483a] px-1.5 py-0.5 text-[9px] font-bold text-white">
               -{discountPercent}%
             </span>
@@ -177,23 +181,6 @@ export function ProductCatalog({
   snackSeries = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
-  const [wtJapanDogProducts, setWtJapanDogProducts] = useState<Product[]>([]);
-
-  // Load WT Japan dog products when component mounts or category changes
-  useEffect(() => {
-    if (categorySlug === 'dogs') {
-      loadWTJapanDogProducts()
-        .then(products => {
-          setWtJapanDogProducts(products);
-        })
-        .catch(error => {
-          console.error('Failed to load WT Japan dog products:', error);
-        });
-    } else {
-      setWtJapanDogProducts([]);
-    }
-  }, [categorySlug]);
-
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
   const isDogs = categorySlug === "dogs";
@@ -215,11 +202,6 @@ export function ProductCatalog({
       baseProducts = getCatProductsBySubcategory(catSubcategory, catSnackSeries);
     } else if (isDogs) {
       baseProducts = getDogProductsBySubcategory(dogSubcategory);
-      // Merge WT Japan dog products with existing dog products
-      const filteredWTProducts = dogSubcategory
-        ? wtJapanDogProducts.filter(p => p.subcategory === dogSubcategory)
-        : wtJapanDogProducts;
-      baseProducts = [...baseProducts, ...filteredWTProducts];
     } else {
       baseProducts = getProductsByCategory(categorySlug);
     }
@@ -232,7 +214,6 @@ export function ProductCatalog({
     dogSubcategory,
     catSnackSeries,
     categorySlug,
-    wtJapanDogProducts,
   ]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
@@ -251,24 +232,79 @@ export function ProductCatalog({
         <p className="mt-2 text-[color:var(--muted)]">{subtitle}</p>
       </header>
 
-      <nav
-        aria-label={t("categoryNavLabel")}
-        className="mb-4 flex flex-wrap gap-2 sm:mb-5"
-      >
-        <CategoryNavLink href="/menu" className={chipClassName(!categorySlug)}>
-          {t("menuAllCategories")}
-        </CategoryNavLink>
-        {CATEGORIES.map(({ slug, labelKey }) => (
-          <CategoryNavLink
-            key={slug}
-            href={categoryHref(slug)}
-            className={chipClassName(categorySlug === slug)}
+      {/* @section: product-categories */}
+      <details className="group mb-5 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(74,54,38,0.5)] sm:mb-6">
+        <summary className="flex min-h-11 cursor-pointer list-none touch-manipulation items-center justify-between gap-3 px-4 py-3 font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent)] [&::-webkit-details-marker]:hidden sm:px-5">
+          <span className="min-w-0">
+            <span className="block">{t("categoryNavLabel")}</span>
+            <span className="mt-0.5 block truncate text-xs font-normal text-[color:var(--muted)]">
+              {category ? t(category.labelKey) : t("menuAllCategories")}
+            </span>
+          </span>
+          <svg
+            viewBox="0 0 20 20"
+            className="h-5 w-5 shrink-0 text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
+            fill="none"
+            aria-hidden="true"
           >
-            {t(labelKey)}
-          </CategoryNavLink>
-        ))}
-        <ExplorePetsDropdown />
-      </nav>
+            <path
+              d="m5 7.5 5 5 5-5"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </summary>
+
+        <nav
+          aria-label={t("categoryNavLabel")}
+          className="border-t border-[color:var(--line)] px-3 py-3 sm:px-4 sm:py-4"
+        >
+          <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
+            {CATEGORIES.map(({ slug, labelKey }) => {
+              const active = categorySlug === slug;
+              return (
+                <CategoryNavLink
+                  key={slug}
+                  href={categoryHref(slug)}
+                  aria-current={active ? "page" : undefined}
+                  className={categoryMenuLinkClassName(active)}
+                >
+                  <span>{t(labelKey)}</span>
+                  {active ? <span aria-hidden="true">✓</span> : null}
+                </CategoryNavLink>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 border-t border-[color:var(--line)] pt-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.1em] text-[color:var(--accent)]">
+              {t("explorePetsWorld")}
+            </p>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              <CategoryNavLink
+                href="/about-dog"
+                className={categoryMenuLinkClassName(false)}
+              >
+                {t("exploreAboutDog")}
+              </CategoryNavLink>
+              <CategoryNavLink
+                href="/about-cat"
+                className={categoryMenuLinkClassName(false)}
+              >
+                {t("exploreAboutCat")}
+              </CategoryNavLink>
+              <CategoryNavLink
+                href="/cat-breeds"
+                className={categoryMenuLinkClassName(false)}
+              >
+                {t("exploreCatBreeds")}
+              </CategoryNavLink>
+            </div>
+          </div>
+        </nav>
+      </details>
 
       {isCats ? (
         <div
@@ -412,6 +448,7 @@ export function ProductCatalog({
               product={product}
               locale={locale}
               viewDetailsLabel={t("productViewDetails")}
+              soldOutLabel={t("productSoldOut")}
             />
           ))}
         </ul>
@@ -446,7 +483,11 @@ export function ProductCatalog({
                     </span>
                   </CategoryNavLink>
 
-                  {discountPercent ? (
+                  {product.inStock === false ? (
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[color:var(--ink)] px-2.5 py-1 text-[10px] font-bold text-white">
+                      {t("productSoldOut")}
+                    </span>
+                  ) : discountPercent ? (
                     <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white">
                       -{discountPercent}%
                     </span>

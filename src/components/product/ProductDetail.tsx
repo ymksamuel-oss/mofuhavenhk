@@ -114,14 +114,37 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
+          {product.inStock === false ? (
+            <div
+              className="mt-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-3"
+              role="status"
+            >
+              <p className="text-sm font-semibold text-[color:var(--ink)]">
+                {t("productSoldOut")}
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-[color:var(--muted)]">
+                {t("productOutOfStockMessage")}
+              </p>
+            </div>
+          ) : null}
+
           <div className="space-y-3">
             <AddToCartButton productId={product.id} size="modal" />
-            <CategoryNavLink
-              href="/checkout"
-              className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
-            >
-              {t("menuAddToCheckout")}
-            </CategoryNavLink>
+            {product.inStock === false ? (
+              <span
+                aria-disabled="true"
+                className="inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center rounded-2xl border border-[color:var(--line)] bg-[color:var(--muted)] px-4 py-3 text-sm font-semibold text-white opacity-70"
+              >
+                {t("productSoldOut")}
+              </span>
+            ) : (
+              <CategoryNavLink
+                href="/checkout"
+                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
+              >
+                {t("menuAddToCheckout")}
+              </CategoryNavLink>
+            )}
           </div>
         </div>
       </div>

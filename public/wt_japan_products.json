@@ -34,8 +34,8 @@
   },
   {
     "id": "wt-japan-004",
-    "brand": "PETPRO",
-    "name": "日本國產無添加狗狗小食 - 鹿肉乾 30g x 10",
+    "brand": "HappyDays",
+    "name": "HappyDays 日本國產狗狗小食 - 鹿肉薄片 30g x 10",
     "category": "dog-snacks",
     "categoryName": "狗狗小食 / 鹿肉系列",
     "price": 558.0,
@@ -46,12 +46,12 @@
   {
     "id": "wt-japan-005",
     "brand": "PETPRO",
-    "name": "日本國產無添加狗狗小食 - 牛筋長條 (牛アキレスロング) 80g x 10",
+    "name": "日本國產無添加狗狗小食 - 牛筋長條 (牛アキレスロング) 70g x 10",
     "category": "dog-snacks",
     "categoryName": "狗狗小食 / 牛肉系列",
     "price": 558.0,
     "originalPrice": null,
-    "spec": "80g x 10",
+    "spec": "70g x 10",
     "inStock": true
   }
 ]

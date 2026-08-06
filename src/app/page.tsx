@@ -51,7 +51,6 @@ export default function HomePage() {
             srcSet={desktopSrcSet}
             sizes="100vw"
           />
-          {/* eslint-disable-next-line @next/next/no-img-element -- art-directed via getImageProps */}
           <img
             {...desktopRest}
             alt={t("brand")}

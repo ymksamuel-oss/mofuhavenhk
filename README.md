@@ -1,35 +1,66 @@
 # Mofu Haven HK
 
-Japanese pet supplies storefront, delivered in Hong Kong (Next.js + Tailwind).
+Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物用品網店，採用 Next.js 16、React 19、TypeScript strict mode 及 Tailwind CSS 4。介面沿用日系奶茶色設計 tokens；付款及通知流程保留 Stripe、Apple Pay、WeChat Pay、AlipayHK 與 WhatsApp 現有整合。
 
-## Fixes in this update
+## 產品目錄
 
-1. **Checkout payment icons** — icon containers use `items-center`, horizontal/vertical padding, and `overflow: visible` so payment marks are not clipped by borders.
-2. **i18n** — Chinese / English toggle updates copy **and** formatted totals together; preference is persisted in `localStorage` (`mofuhavenhk-locale`).
-3. **Header** — narrow screens use `gap-1.5` between brand and nav to avoid crowding/squeezing.
-4. **Category grid** — homepage pet category navigation (cats, dogs, snacks, health, cleaning, deals, best sellers, outdoor, **toys**) with circular warm caramel/milk-tea icon buttons. Each category links to `/menu?category=<slug>`.
-5. **Payment methods (Stripe)** — checkout charges real **Credit Card** and **Apple Pay** via Stripe Payment Element (`@stripe/react-stripe-js`). Server routes: `POST /api/stripe/create-payment-intent`, `POST /api/stripe/complete-order`, `GET /api/stripe/config`. Set `STRIPE_PUBLISHABLE_KEY` + `STRIPE_SECRET_KEY` on Vercel. Apple Pay appears automatically on supported devices once the domain is verified in the Stripe Dashboard.
-6. **WhatsApp ordering / shop notify** — after a **successful Stripe payment**, `complete-order` verifies the PaymentIntent and sends the fixed Chinese template to `@MofuHavenHK` via CallMeBot. Manual `wa.me` backup remains on checkout. See `.env.example`. Template: `src/lib/notifyWhatsapp.ts`.
+目前統一目錄共有 **166 筆產品**。`src/lib/products.ts` 匯出的 `PRODUCTS` 是店面所有產品功能的共同權威輸出，資料由以下受控來源組裝及分類：
 
-7. **Product catalog (`/menu`)** — full product data lives in `src/lib/products.ts` (**93** Japanese pet products across **9** categories, including **28** pet toys under `toys`). Each product has id, category, bilingual name, price, an optional bilingual `description`, a per-SKU `image`, and an `icon`. Toy products also carry optional `originalPrice` (for strikethrough / discount badges) and bilingual `specs` (size, material, etc.). **Every `image` is a real product photograph** at `public/products/<productId>.webp` (no AI art, cartoons, or shared category illustrations). Source credits live in `public/products/ATTRIBUTION.json`. There is no separate products API or CMS; `products.ts` is the single source of truth. The `/menu` page lists products with category filter chips — this is where the homepage category grid and the "Shop Now" hero button link to. Clicking a product image or title opens a **quick-view modal** (`src/components/menu/ProductQuickView.tsx`) with the real photo, features, specs, discount info, and a checkout CTA. Checkout order lines also show the same real photos. Each product card has a "Go to Checkout" button linking to `/checkout?category=<slug>`; `src/lib/order.ts` (`getOrderItems`) reads from the shared catalog to build the checkout order summary for that category.
-8. **Theme colors (Japanese milk-tea / 奶茶風)** — all theme colors are CSS custom properties defined once in `src/app/globals.css` (`:root`, the `body` background gradient, and `.hero-plane`) and consumed everywhere else via `var(--...)`, so there is no separate Tailwind config to edit. The palette is a warm, soft milk-tea style: cream/ivory backgrounds (`--background`, `--surface`), warm coffee-brown text (`--ink`, `--muted`), and caramel/toffee accents (`--accent`, `--hero-deep`, `--category-bg*`) — no cool green/teal tones. The homepage category grid (`src/components/home/CategoryGrid.tsx`) still uses the small inline SVG icon set (`src/components/icons/CategoryIcons.tsx`) on a caramel circular background for its compact nav icons, while `/menu` product cards and checkout use the per-SKU real product photographs described above.
-9. **Checkout / payment layout** — the payment method list, order summary, and WhatsApp order sections on `/checkout` all share the `.milk-tea-card` utility class (defined in `globals.css`: rounded corners + a soft warm-toned shadow) so the three sections read as one cohesive, elevated card group instead of a plain flat list. The payment method buttons use a rounded radio-style indicator and a warm highlight/shadow when selected, and the primary "確認付款" / WhatsApp CTA buttons are fully rounded with a subtle warm shadow and press feedback (`active:scale-[0.99]`) to match the softer, café-like milk-tea aesthetic. Stripe/WhatsApp ordering logic (`src/lib/whatsapp.ts`, `src/lib/order.ts`) was not touched.
-10. **Homepage & product catalog polish (Japanese milk-tea style)** — a full visual pass to make the storefront read as a premium Japanese pet boutique:
-    - The homepage hero uses a **full-bleed real pet photograph** as the edge-to-edge background plane (not a flat solid color). Desktop uses the wide `public/hero.webp`; mobile (`<sm`) uses a native 3:4 crop `public/hero-mobile.webp` with a matching `aspect-[3/4]` frame so the scene is not over-zoomed/blurred. `.hero-plane` is a warm milk-tea scrim (top-weighted on mobile, bottom-weighted on desktop) so brand copy stays readable without covering the main subject.
-    - The hero adds a small pill "eyebrow" badge (e.g. "日本直送・嚴選寵物好物") above the brand name, and the "立即選購" CTA is now a fully rounded button with a soft shadow, hover lift, and arrow icon — consistent with the rounded, elevated button language used on `/checkout`.
-    - The homepage body (category grid) now sits inside a rounded "shelf" panel (`rounded-t-[2.5rem]`) that slightly overlaps the bottom of the hero with its own soft shadow, giving a sense of depth instead of an abrupt color cut between sections.
-    - Category icon badges (`CategoryGrid.tsx`) got a glossy inset highlight + warm drop shadow and a slightly larger hover lift/icon-scale, and both the homepage category grid and `/menu` product list now show a small uppercase "eyebrow" label above their heading for consistent section framing.
-    - **Product thumbnails on `/menu` are full-bleed real photographs** (square `object-cover`), not circular illustration badges.
-    - Product cards use the same `.milk-tea-card` treatment as checkout (soft border + shadow) with a hover lift, larger accent-colored price text, and a fully rounded "前往結帳" button; category filter chips now use a solid accent fill for the active chip (instead of a faint tint) so the selected category is unambiguous.
-    - The header's nav links now underline/bold the current page (`usePathname`), and the zh/en language toggle is now a rounded pill switcher instead of two plain text buttons — small details that make the whole shell feel more considered.
-11. **Pet toys catalog** — new `toys` category (寵物玩具 / Pet Toys) with 28 real Japanese pet toy SKUs (prices, original prices, bilingual specs). Homepage category grid includes a toy icon; `/menu?category=toys` filters to the full set. Cards show discount badges and strikethrough original prices; the quick-view modal surfaces features + specs before checkout.
-12. **Real product photography only** — all catalog, quick-view, and checkout/cart product images use real photographs (`public/products/<id>.webp`). The previous AI/illustration category artworks (`cats.webp`, `dogs.webp`, etc.) have been removed. Re-fetch helper: `scripts/fetch_real_product_photos.py`.
+- `src/lib/products.ts`：手寫店面商品。
+- `src/data/productsData.ts`：39 筆 WT Japan 貓罐、乾糧及冷凍脫水商品。
+- `src/data/catSnacksData.ts`：34 筆 WT Japan 貓小食。
+- `public/wt_japan_products.json`：5 筆 WT Japan 狗小食；這是唯一保留的狗商品 JSON。
 
-## Develop
+每組 WT Japan 資料只會在 `PRODUCTS_RAW` 加入一次，並由 `classifyCatalogProducts()` 統一分類。瀏覽目錄、分類頁、動態產品詳情、購物車、結帳、Stripe PaymentIntent、訂單通知及全站搜尋均使用同一 `PRODUCTS` 集合；不再存在客戶端 `fetch('/wt_japan_products.json')` 或手動 merge 旁路。
+
+統一 `Product` 格式涵蓋 ID、中英文名稱、售價／原價、分類／子分類、本地圖片、中英文描述、規格、tags、系列、品牌、供應商、product type、handle、來源分類、來源頁、來源圖片、適用品種及 `inStock`。五筆狗商品使用 `public/images/products/wt-japan-001.webp` 至 `wt-japan-005.webp` 的穩定本地圖片。一般手寫商品圖片位於 `public/products/`；圖片治理記錄位於 `public/products/ATTRIBUTION.json`。
+
+## 搜尋與庫存規則
+
+`src/lib/searchProducts.ts` 搜尋完整 166 筆 `PRODUCTS`，索引：
+
+- ID、中英文名稱及描述
+- 分類、子分類、品牌、供應商及系列
+- tags、specs、product type、handle 及來源分類
+- 適用品種 slug 與中英文品種名稱
+
+搜尋建議使用統一 `Product` 欄位，顯示本地圖片、中英文名稱、價格、品牌／系列及適用時的「售罄／Sold out」標籤，並保留桌面鍵盤導覽、ARIA 與手機搜尋 modal。
+
+`inStock === false` 會在所有購買路徑生效：
+
+- 商品卡、列表、快速檢視及詳情頁不能加入購物車；數量步進器禁用。
+- 詳情頁不能透過結帳 CTA 繼續購買，並顯示雙語缺貨說明。
+- `sanitizeLines()` 會在讀取舊 localStorage 時移除不存在或缺貨商品並合併重複行。
+- `addItem()` 拒絕不存在或缺貨商品；`setQty()` 遇到這些商品會移除該行。
+- `getOrderItems()` 不會預選缺貨商品。
+- `buildOrderItemsFromLines()` 會排除不存在／缺貨商品、合併重複 SKU、限制每個 SKU 最多 20 件，並以伺服器目錄價格重建項目。Stripe PaymentIntent 與訂單通知 API 共用此防線。
+
+## 驗證
+
+資料完整性驗證直接編譯並執行真實 `PRODUCTS` 與搜尋／訂單模組，不以文字正則代替執行結果：
+
+```bash
+npm run validate:products
+```
+
+驗證涵蓋：166 筆產品、ID 唯一、必填欄位、中英文名稱、合理價格／原價、所有本地圖片存在、166/166 搜尋覆蓋、四筆已批准實驗商品不存在、五筆狗商品完整且分類／圖片正確、單一狗 JSON、無動態 fetch，以及伺服器訂單重建規則。
+
+完整交付檢查：
+
+```bash
+npx tsc --noEmit
+npm run lint
+npm run validate:products
+npm run build
+```
+
+## 本地開發
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), `/menu` for the product catalog, and `/checkout` for the payment UI.
+開啟 `http://localhost:3000`；`/menu` 是完整產品目錄，`/product/<id>` 是動態產品詳情，`/checkout` 是購物車與付款流程。
+
+`scripts/fetch_real_product_photos.py` 只管理 `src/lib/products.ts` 內明確使用 `/products/<id>.webp` 的手寫 SKU，不會覆寫由 `src/data/` 或 `public/wt_japan_products.json` 匯入的 WT Japan 本地圖片。

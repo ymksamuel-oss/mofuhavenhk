@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { MAX_QTY, MIN_QTY } from "@/lib/order";
+import { getProductById } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 
 type AddToCartButtonProps = {
@@ -24,6 +25,8 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const { t } = useI18n();
   const { addItem } = useCart();
+  const product = getProductById(productId);
+  const purchasable = Boolean(product && product.inStock !== false);
   const [qty, setQty] = useState(MIN_QTY);
   const [added, setAdded] = useState(false);
 
@@ -56,7 +59,7 @@ export function AddToCartButton({
       <button
         type="button"
         onClick={decrease}
-        disabled={qty <= MIN_QTY}
+        disabled={!purchasable || qty <= MIN_QTY}
         aria-label={t("qtyDecrease")}
         className={stepperBtnClass}
       >
@@ -71,7 +74,7 @@ export function AddToCartButton({
       <button
         type="button"
         onClick={increase}
-        disabled={qty >= MAX_QTY}
+        disabled={!purchasable || qty >= MAX_QTY}
         aria-label={t("qtyIncrease")}
         className={stepperBtnClass}
       >
@@ -88,18 +91,24 @@ export function AddToCartButton({
           type="button"
           onClick={(event) => {
             stop(event);
+            if (!purchasable) return;
             addItem(productId, qty);
             setAdded(true);
             setQty(MIN_QTY);
           }}
+          disabled={!purchasable}
           aria-live="polite"
-          className={`inline-flex shrink-0 items-center justify-center rounded-full px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] ${
+          className={`inline-flex shrink-0 items-center justify-center rounded-full px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${
             added
               ? "bg-emerald-600"
               : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"
           }`}
         >
-          {added ? t("menuAddedToCart") : t("menuAddToCart")}
+          {!purchasable
+            ? t("productSoldOut")
+            : added
+              ? t("menuAddedToCart")
+              : t("menuAddToCart")}
         </button>
       </div>
     );
@@ -119,18 +128,24 @@ export function AddToCartButton({
         type="button"
         onClick={(event) => {
           stop(event);
+          if (!purchasable) return;
           addItem(productId, qty);
           setAdded(true);
           setQty(MIN_QTY);
         }}
+        disabled={!purchasable}
         aria-live="polite"
-        className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition active:scale-[0.97] ${
+        className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${
           added
             ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]"
             : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
         } ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}
       >
-        {added ? t("menuAddedToCart") : t("menuAddToCart")}
+        {!purchasable
+          ? t("productSoldOut")
+          : added
+            ? t("menuAddedToCart")
+            : t("menuAddToCart")}
       </button>
     </div>
   );

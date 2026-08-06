@@ -43,12 +43,11 @@ export function MastercardLogo({ className = "" }: LogoProps) {
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`inline-flex h-9 w-[4.5rem] shrink-0 items-center justify-start gap-1.5 ${className}`}
-      aria-label="Visa and Mastercard"
-      role="img"
+      className={`inline-flex h-9 w-[7.25rem] min-w-[7.25rem] shrink-0 items-center justify-start gap-2 overflow-visible ${className}`}
+      aria-hidden="true"
     >
-      <VisaLogo className="h-6" />
-      <MastercardLogo className="h-6" />
+      <VisaLogo className="!h-5 !max-h-5" />
+      <MastercardLogo className="!h-5 !max-h-5" />
     </span>
   );
 }
@@ -119,6 +118,46 @@ export function AlipayHkLogo({ className = "" }: LogoProps) {
         fill="#FFFFFF"
         d="M21.09 28H45.09V20H49.94V28H74.42V32.61H49.94V42.06H68.85V46.18Q64 57.82 54.06 64.61Q62.79 68.48 75.15 70.67L73.21 76Q59.15 73.82 48.73 67.76Q37.33 73.82 22.06 75.76L20.85 71.39Q35.15 69.94 44.36 64.85Q35.64 58.55 29.82 46.67H25.94V42.06H45.09V32.61H21.09ZM34.91 46.67Q41.21 57.58 49.21 62.18Q58.67 56.12 63.27 46.67Z"
       />
+    </svg>
+  );
+}
+
+/** Octopus — local vector acceptance mark for Hong Kong payments. */
+export function OctopusLogo({ className = "" }: LogoProps) {
+  return (
+    <svg
+      viewBox="0 0 116 40"
+      className={`h-6 w-auto shrink-0 ${className}`}
+      aria-label="Octopus"
+      role="img"
+    >
+      <g transform="translate(2 2)">
+        <path
+          d="M18 2.8c8.4 0 15.2 6.8 15.2 15.2S26.4 33.2 18 33.2 2.8 26.4 2.8 18 9.6 2.8 18 2.8Z"
+          fill="none"
+          stroke="#E5478A"
+          strokeWidth="5.6"
+        />
+        <path
+          d="M18 9.2a8.8 8.8 0 1 1-6.2 15"
+          fill="none"
+          stroke="#F39A2E"
+          strokeLinecap="round"
+          strokeWidth="5.2"
+        />
+        <circle cx="18" cy="18" r="3.6" fill="#E5478A" />
+      </g>
+      <text
+        x="43"
+        y="25.5"
+        fill="#4A3626"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontSize="15"
+        fontWeight="700"
+        letterSpacing="0.1"
+      >
+        Octopus
+      </text>
     </svg>
   );
 }

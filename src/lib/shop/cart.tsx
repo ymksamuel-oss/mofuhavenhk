@@ -35,20 +35,22 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-function sanitizeLines(raw: unknown): CartLine[] {
+export function sanitizeLines(raw: unknown): CartLine[] {
   if (!Array.isArray(raw)) return [];
-  const known = new Set(PRODUCTS.map((p) => p.id));
+  const purchasable = new Set(
+    PRODUCTS.filter((product) => product.inStock !== false).map(
+      (product) => product.id,
+    ),
+  );
   const byId = new Map<string, number>();
   for (const entry of raw) {
     if (!entry || typeof entry !== "object") continue;
     const id = (entry as { id?: unknown }).id;
     const qty = (entry as { qty?: unknown }).qty;
-    if (typeof id !== "string" || !known.has(id)) continue;
-    const n = Math.min(
-      MAX_QTY,
-      Math.max(1, Math.floor(Number(qty) || 0)),
-    );
-    if (n < 1) continue;
+    if (typeof id !== "string" || !purchasable.has(id)) continue;
+    const numericQty = Math.floor(Number(qty));
+    if (!Number.isFinite(numericQty) || numericQty < 1) continue;
+    const n = Math.min(MAX_QTY, numericQty);
     byId.set(id, Math.min(MAX_QTY, (byId.get(id) ?? 0) + n));
   }
   return Array.from(byId.entries()).map(([id, qty]) => ({ id, qty }));
@@ -78,11 +80,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [lines, ready]);
 
   const addItem = useCallback((productId: string, qty = 1) => {
-    const addQty = Math.min(MAX_QTY, Math.max(1, Math.floor(qty)));
+    const product = PRODUCTS.find((candidate) => candidate.id === productId);
+    if (!product || product.inStock === false) return;
+    const numericQty = Math.floor(Number(qty));
+    if (!Number.isFinite(numericQty) || numericQty < 1) return;
+    const addQty = Math.min(MAX_QTY, numericQty);
     setLines((current) => {
       const existing = current.find((line) => line.id === productId);
       if (!existing) {
-        if (!PRODUCTS.some((p) => p.id === productId)) return current;
         return [...current, { id: productId, qty: addQty }];
       }
       return current.map((line) =>
@@ -94,9 +99,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setQty = useCallback((productId: string, qty: number) => {
-    const next = Math.min(MAX_QTY, Math.max(0, Math.floor(qty)));
+    const product = PRODUCTS.find((candidate) => candidate.id === productId);
+    const numericQty = Math.floor(Number(qty));
+    const next = Number.isFinite(numericQty)
+      ? Math.min(MAX_QTY, Math.max(0, numericQty))
+      : 0;
     setLines((current) => {
-      if (next < 1) return current.filter((line) => line.id !== productId);
+      if (!product || product.inStock === false || next < 1) {
+        return current.filter((line) => line.id !== productId);
+      }
       return current.map((line) =>
         line.id === productId ? { ...line, qty: next } : line,
       );

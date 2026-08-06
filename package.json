@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "validate:products": "tsc -p tsconfig.validate.json && node scripts/run-product-validation.cjs"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.8.0",

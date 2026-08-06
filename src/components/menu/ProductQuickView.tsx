@@ -18,7 +18,7 @@ type ProductQuickViewProps = {
  * showing the full product name, discounted/original price, feature
  * highlights, and detailed specs (material, size, contents, etc.) without
  * navigating away from the catalog — keeps browsing smooth while still
- * surfacing all the detail a customer needs before adding to checkout.
+ * surfacing all the detail a customer needs before adding to the basket.
  */
 export function ProductQuickView({
   product,
@@ -133,6 +133,20 @@ export function ProductQuickView({
                 </li>
               ))}
             </ul>
+          </div>
+        ) : null}
+
+        {product.inStock === false ? (
+          <div
+            className="mt-5 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-3 text-center"
+            role="status"
+          >
+            <p className="text-sm font-semibold text-[color:var(--ink)]">
+              {t("productSoldOut")}
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-[color:var(--muted)]">
+              {t("productOutOfStockMessage")}
+            </p>
           </div>
         ) : null}
 

@@ -1,10 +1,7 @@
 import { catBreedsData } from "@/lib/catBreeds";
-import {
-  WT_JAPAN_PRODUCTS,
-  type WtJapanProduct,
-} from "@/data/productsData";
+import { PRODUCTS, type Product } from "@/lib/products";
 
-export type ProductSearchHit = WtJapanProduct & {
+export type ProductSearchHit = Product & {
   /** Ranking score — higher is a closer match. */
   score: number;
 };
@@ -21,62 +18,77 @@ export function normalizeSearchText(value: string): string {
     .replace(/[\s\u3000\-_/·・,，.。:：;；()（）【】\[\]「」『』]/g, "");
 }
 
-function fieldScore(haystack: string, needle: string, weight: number): number {
+function fieldScore(haystack: string | undefined, needle: string, weight: number): number {
   if (!haystack || !needle) return 0;
-  const h = normalizeSearchText(haystack);
-  const n = needle;
-  if (!h.includes(n)) return 0;
-  // Prefer matches near the start / exact-ish hits.
-  if (h === n) return weight * 2;
-  if (h.startsWith(n)) return weight + Math.floor(weight / 2);
+  const normalized = normalizeSearchText(haystack);
+  if (!normalized.includes(needle)) return 0;
+  if (normalized === needle) return weight * 2;
+  if (normalized.startsWith(needle)) return weight + Math.floor(weight / 2);
   return weight;
 }
 
 /**
- * Instant fuzzy filter over WT Japan catalog (`@/data/productsData`).
- * Matches title, description, tags, category, vendor, and related breed names.
- * Query and fields are lowercased for case-insensitive substring matching
- * (e.g. 「罐罐」「罐」「CIAO」 → CIAO 貓罐罐).
+ * Instant fuzzy search over the complete, classified storefront catalog.
+ * Every result retains the unified Product shape consumed by product cards,
+ * product details, cart, checkout, and server-side price validation.
  */
-export function searchWtJapanProducts(
-  query: string,
-  limit = 12,
+export function buildSearchIndex(
+  products: readonly Product[] = PRODUCTS,
 ): ProductSearchHit[] {
+  return products.map((product) => ({ ...product, score: 0 }));
+}
+
+export function searchProducts(query: string, limit = 12): ProductSearchHit[] {
   const needle = normalizeSearchText(query.trim());
   if (!needle) return [];
 
   const ranked: ProductSearchHit[] = [];
 
-  for (const product of WT_JAPAN_PRODUCTS) {
+  for (const product of PRODUCTS) {
     let score = 0;
-    score += fieldScore(product.title, needle, 12);
-    score += fieldScore(product.description, needle, 8);
+    score += fieldScore(product.id, needle, 14);
+    score += fieldScore(product.name.zh, needle, 13);
+    score += fieldScore(product.name.en, needle, 13);
+    score += fieldScore(product.description?.zh, needle, 8);
+    score += fieldScore(product.description?.en, needle, 8);
+    score += fieldScore(product.categorySlug, needle, 7);
+    score += fieldScore(product.subcategory, needle, 9);
+    score += fieldScore(product.brand, needle, 10);
     score += fieldScore(product.vendor, needle, 9);
-    score += fieldScore(product.productType, needle, 7);
-    score += fieldScore(product.category, needle, 8);
-    score += fieldScore(product.categorySlug, needle, 6);
-    score += fieldScore(product.subcategory, needle, 8);
-    score += fieldScore(product.handle, needle, 4);
+    score += fieldScore(product.series?.zh, needle, 9);
+    score += fieldScore(product.series?.en, needle, 9);
+    score += fieldScore(product.snackSeries, needle, 8);
+    score += fieldScore(product.productType, needle, 8);
+    score += fieldScore(product.handle, needle, 5);
+    score += fieldScore(product.sourceCategory, needle, 7);
 
-    for (const tag of product.tags) {
+    for (const tag of product.tags ?? []) {
       score += fieldScore(tag, needle, 7);
     }
 
-    for (const slug of product.recommendedBreeds) {
-      score += fieldScore(slug, needle, 5);
-      score += fieldScore(slug.replace(/-/g, " "), needle, 5);
+    for (const spec of product.specs ?? []) {
+      score += fieldScore(spec.zh, needle, 6);
+      score += fieldScore(spec.en, needle, 6);
+    }
+
+    for (const slug of product.recommendedBreeds ?? []) {
+      score += fieldScore(slug, needle, 6);
+      score += fieldScore(slug.replace(/-/g, " "), needle, 6);
       const breed = BREED_BY_SLUG.get(slug);
       if (breed) {
-        score += fieldScore(breed.name, needle, 6);
-        score += fieldScore(breed.nameEn, needle, 6);
+        score += fieldScore(breed.name, needle, 7);
+        score += fieldScore(breed.nameEn, needle, 7);
       }
     }
 
-    if (score > 0) {
-      ranked.push({ ...product, score });
-    }
+    if (score > 0) ranked.push({ ...product, score });
   }
 
-  ranked.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, "zh-HK"));
-  return ranked.slice(0, limit);
+  ranked.sort(
+    (a, b) => b.score - a.score || a.name.zh.localeCompare(b.name.zh, "zh-HK"),
+  );
+  return ranked.slice(0, Math.max(0, limit));
 }
+
+/** @deprecated Use searchProducts; retained for source compatibility. */
+export const searchWtJapanProducts = searchProducts;

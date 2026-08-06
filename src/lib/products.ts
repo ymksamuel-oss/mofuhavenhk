@@ -10,6 +10,7 @@ import {
   type WtJapanCatSnackProduct,
 } from "@/data/catSnacksData";
 import { classifyCatalogProducts } from "@/lib/classifyPetFood";
+import WT_JAPAN_DOG_PRODUCTS_JSON from "../../public/wt_japan_products.json";
 
 export { CAT_SNACK_SERIES, type CatSnackSeries };
 
@@ -138,6 +139,22 @@ export type Product = {
   tags?: string[];
   /** Optional WT Japan / vendor product type label. */
   productType?: string;
+  /** Purchasable unless explicitly marked false. */
+  inStock?: boolean;
+  /** Normalized brand shown in search and governance exports. */
+  brand?: string;
+  /** Original supplier/vendor label when it differs from the storefront brand. */
+  vendor?: string;
+  /** Original product detail page used to curate this record. */
+  sourceUrl?: string;
+  /** Original remote image URL retained for attribution/governance. */
+  sourceImageUrl?: string;
+  /** Source-platform handle or stable slug, where available. */
+  handle?: string;
+  /** Source catalog breed recommendations, where available. */
+  recommendedBreeds?: string[];
+  /** Original source category label retained for governance. */
+  sourceCategory?: string;
 };
 
 /** English storefront copy for WT Japan cans (zh lives in productsData.ts). */
@@ -513,6 +530,14 @@ function wtJapanToProduct(p: WtJapanProduct): Product {
     },
     tags: collectionTags,
     productType: p.productType,
+    inStock: true,
+    brand: p.vendor,
+    vendor: p.vendor,
+    sourceUrl: p.sourceUrl,
+    sourceImageUrl: p.sourceImageUrl,
+    handle: p.handle,
+    recommendedBreeds: p.recommendedBreeds,
+    sourceCategory: p.category,
     specs: [
       { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
       { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
@@ -565,6 +590,13 @@ function wtJapanCatSnackToProduct(p: WtJapanCatSnackProduct): Product {
     },
     tags,
     productType: p.productType,
+    inStock: true,
+    brand: p.vendor,
+    vendor: p.vendor,
+    sourceUrl: p.sourceUrl,
+    sourceImageUrl: p.sourceImageUrl,
+    handle: p.handle,
+    sourceCategory: p.category,
     specs: [
       { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
       { zh: "規格：日本原裝進口・貓貓用", en: "Import: Japan original · for cats" },
@@ -588,11 +620,8 @@ function wtJapanCatSnackToProduct(p: WtJapanCatSnackProduct): Product {
 export const WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_CAT_SNACK_PRODUCTS.map(wtJapanCatSnackToProduct);
 
-/**
- * Convert WT Japan dog treat products from JSON to storefront Product format.
- * These products are loaded dynamically from /public/wt_japan_products.json
- */
-export function wtJapanDogProductToProduct(p: {
+/** Raw fields in the single authoritative WT Japan dog-product JSON. */
+export type WtJapanDogProduct = {
   id: string;
   brand: string;
   name: string;
@@ -602,37 +631,104 @@ export function wtJapanDogProductToProduct(p: {
   originalPrice: number | null;
   spec: string;
   inStock: boolean;
-}): Product {
+};
+
+const WT_JAPAN_DOG_EN: Record<string, { name: string; description: string }> = {
+  "wt-japan-001": {
+    name: "MAMACOOK Freeze-Dried Chicken Breast & Comb Mix for Dogs 18g × 10",
+    description: "Japan-made MAMACOOK freeze-dried dog treats made from chicken breast and dried comb, in ten 18g pouches.",
+  },
+  "wt-japan-002": {
+    name: "PetPro Japan-Made Additive-Free Chicken Liver Treats 100g × 10",
+    description: "Japan-made PetPro chicken-liver treats with no added colorants or preservatives, in ten 100g pouches.",
+  },
+  "wt-japan-003": {
+    name: "PetPro Japan-Made Additive-Free Sliced Beef Tongue Skin 50g × 10",
+    description: "Thin-cut, Japan-made PetPro beef tongue skin treats with no added colorants or preservatives, in ten 50g pouches.",
+  },
+  "wt-japan-004": {
+    name: "HappyDays Japan-Made Venison Slices for Dogs 30g × 10",
+    description: "HappyDays venison slices made from Japanese deer, with no added colorants or preservatives, in ten 30g pouches.",
+  },
+  "wt-japan-005": {
+    name: "PetPro Japan-Made Additive-Free Long Beef Achilles Treats 70g × 10",
+    description: "Long-cut PetPro beef Achilles treats for a satisfying chew, made without added colorants, preservatives, or antioxidants, in ten 70g pouches.",
+  },
+};
+
+const WT_JAPAN_DOG_SOURCE: Record<
+  string,
+  { brand?: string; sourceUrl: string; sourceImageUrl?: string; handle: string }
+> = {
+  "wt-japan-001": {
+    sourceUrl: "https://www.mamacook.co.jp/lineup/?detail=20181016104753",
+    handle: "freeze-dried-chicken-breast-comb-mix-dog-18g",
+  },
+  "wt-japan-002": {
+    sourceUrl: "https://petpro.jp/",
+    handle: "made-in-japan-additive-free-chicken-liver-100g",
+  },
+  "wt-japan-003": {
+    sourceUrl: "https://petpro.jp/",
+    handle: "made-in-japan-additive-free-beef-tongue-skin-50g",
+  },
+  "wt-japan-004": {
+    brand: "HappyDays",
+    sourceUrl: "https://petpro.jp/post-24445/",
+    handle: "happydays-japan-venison-slices-dog-30g",
+  },
+  "wt-japan-005": {
+    sourceUrl: "https://petpro.jp/16680-2/",
+    sourceImageUrl: "https://petpro.jp/wp-content/uploads/2022/11/4981528362633-1.jpg",
+    handle: "made-in-japan-additive-free-beef-achilles-long-70g",
+  },
+};
+
+/** Convert one statically imported WT Japan dog record to the unified catalog. */
+export function wtJapanDogProductToProduct(p: WtJapanDogProduct): Product {
+  const english = WT_JAPAN_DOG_EN[p.id];
+  const source = WT_JAPAN_DOG_SOURCE[p.id];
+  const brand = source?.brand ?? p.brand;
   return {
     id: p.id,
     categorySlug: "dogs",
     subcategory: "狗狗小食",
-    image: "/products/wt-japan-dog-treats.webp", // Fallback image
+    image: `/images/products/${p.id}.webp`,
     name: {
       zh: p.name,
-      en: p.name, // Use Japanese name as fallback for English
+      en: english?.name ?? p.name,
     },
     price: p.price,
     originalPrice: p.originalPrice ?? undefined,
-    series: {
-      zh: p.brand,
-      en: p.brand,
-    },
+    series: { zh: brand, en: brand },
     icon: "dog",
     description: {
-      zh: `${p.brand} - ${p.categoryName}`,
-      en: `${p.brand} - ${p.categoryName}`,
+      zh: `${brand} 日本原裝狗狗小食；${p.categoryName}，每箱 ${p.spec}。`,
+      en: english?.description ?? `${brand} dog treats imported from Japan.`,
     },
-    tags: ["狗狗小食", "狗用", "天然無添加", p.brand],
-    productType: "狗狗小食",
     specs: [
-      { zh: `品牌：${p.brand}`, en: `Brand: ${p.brand}` },
+      { zh: `品牌：${brand}`, en: `Brand: ${brand}` },
       { zh: `規格：${p.spec}`, en: `Spec: ${p.spec}` },
-      { zh: "規格：日本原裝進口・狗狗用", en: "Import: Japan original · for dogs" },
-      { zh: "特色：天然無添加", en: "Feature: No additives" },
+      { zh: "產地：日本・狗狗用", en: "Origin: Japan · for dogs" },
+      { zh: `分類：${p.categoryName}`, en: "Category: Dog treats" },
     ],
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", brand],
+    productType: "狗狗小食",
+    inStock: p.inStock,
+    brand,
+    vendor: p.brand,
+    sourceUrl: source?.sourceUrl,
+    sourceImageUrl: source?.sourceImageUrl,
+    handle: source?.handle,
+    sourceCategory: p.categoryName,
   };
 }
+
+/** Five WT Japan dog treats, statically imported from the single public JSON. */
+export const WT_JAPAN_DOG_STOREFRONT_PRODUCTS: Product[] =
+  (WT_JAPAN_DOG_PRODUCTS_JSON as WtJapanDogProduct[]).map(
+    wtJapanDogProductToProduct,
+  );
 
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
@@ -640,46 +736,6 @@ export function wtJapanDogProductToProduct(p: {
  */
 const PRODUCTS_RAW: Product[] = [
   // 貓咪商品 / Cat Products
-  // Temporarily hidden dummy / test products (not shown on storefront):
-  // {
-  //   id: "cat-food-1kg",
-  //   categorySlug: "cats",
-  //   image: "/products/cat-food-1kg.webp",
-  //   name: { zh: "日本天然貓糧 1kg", en: "Japanese Natural Cat Food 1kg" },
-  //   price: 138,
-  //   icon: "cat",
-  // },
-  // {
-  //   id: "cat-scratcher-set",
-  //   categorySlug: "cats",
-  //   image: "/products/cat-scratcher-set.webp",
-  //   name: { zh: "貓咪抓板組合", en: "Cat Scratcher Set" },
-  //   price: 98,
-  //   icon: "cat",
-  // },
-  // {
-  //   id: "litter-deodorizer",
-  //   categorySlug: "cats",
-  //   image: "/products/litter-deodorizer.webp",
-  //   name: { zh: "貓砂盆除臭劑", en: "Litter Box Deodorizer" },
-  //   price: 68,
-  //   icon: "cat",
-  // },
-  {
-    id: "ciao-tuna-paste-20pk",
-    categorySlug: "cats",
-    image: "/products/ciao-tuna-paste-20pk.webp",
-    name: {
-      zh: "CIAO 貓咪極上吞拿魚肉泥 (20支裝)",
-      en: "CIAO Cat Tuna Paste Treats (20 sticks)",
-    },
-    price: 88,
-    icon: "bone",
-    description: {
-      zh: "日本原裝進口，貓貓最愛的經典美味肉泥。",
-      en: "Imported directly from Japan — the classic tuna paste treat cats love.",
-    },
-  },
   {
     id: "cat-bonito-flakes",
     categorySlug: "cats",
@@ -692,62 +748,7 @@ const PRODUCTS_RAW: Product[] = [
       en: "Shaved straight from Hokkaido, Japan — irresistibly aromatic sprinkled on any meal.",
     },
   },
-  {
-    id: "cat-auto-water-fountain",
-    categorySlug: "cats",
-    image: "/products/cat-auto-water-fountain.webp",
-    name: { zh: "貓咪靜音循環飲水機", en: "Cat Auto Water Fountain" },
-    price: 258,
-    icon: "cat",
-    description: {
-      zh: "活性碳循環過濾，鼓勵貓貓多飲水，維持泌尿系統健康。",
-      en: "Quiet carbon-filtered circulation encourages cats to drink more for urinary health.",
-    },
-  },
-  {
-    id: "cat-tofu-litter-6l",
-    categorySlug: "cats",
-    image: "/products/cat-tofu-litter-6l.webp",
-    name: { zh: "日本製豆腐貓砂 6L", en: "Japanese Tofu Cat Litter 6L" },
-    price: 88,
-    icon: "cat",
-    description: {
-      zh: "天然豆腐渣製造，凝結力強、可直接沖廁，對貓貓同環境都溫和。",
-      en: "Made from natural tofu pulp — strong clumping, flushable, and gentle on cats and the environment.",
-    },
-  },
-  {
-    id: "cat-catnip-toy",
-    categorySlug: "cats",
-    image: "/products/cat-catnip-toy.webp",
-    name: { zh: "貓草玩具球", en: "Catnip Toy Ball" },
-    price: 35,
-    icon: "cat",
-    description: {
-      zh: "天然貓草填充玩具球，逗貓解悶，紓緩壓力好幫手。",
-      en: "Filled with natural catnip — a fun way to relieve stress and beat boredom.",
-    },
-  },
-  {
-    id: "cat-window-perch",
-    categorySlug: "cats",
-    image: "/products/cat-window-perch.webp",
-    name: { zh: "貓咪吸盤窗台跳台", en: "Suction Cup Window Perch" },
-    price: 328,
-    icon: "cat",
-    description: {
-      zh: "強力吸盤穩固安裝，讓貓貓享受曬太陽同賞街景嘅樂趣。",
-      en: "Strong suction cups hold it firmly in place so cats can sunbathe and watch the world go by.",
-    },
-  },
-  // Real WT Japan 冷凍脫水系列 (cat freeze-dried food zone) live in WT_JAPAN_STOREFRONT_PRODUCTS.
-  // Cat snack series (無添加天然／老貓／去毛球／BB貓) live in WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS.
-
-  // CIAO 貓罐罐 + 乾糧 + 冷凍脫水系列（WT Japan 貓貓冷凍食物專區）
-  ...WT_JAPAN_STOREFRONT_PRODUCTS,
-
-  // 無添加天然系列 / 老貓零食 / 去毛球配方 / bb貓零食（貓貓小食專區）
-  ...WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS,
+  // WT Japan 貓食品、貓小食及狗小食在陣列尾端各統一加入一次。
 
   // 狗狗商品 / Dog Products
   // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.
@@ -806,74 +807,6 @@ const PRODUCTS_RAW: Product[] = [
     description: {
       zh: "100% 雞胸肉低溫烘乾製作，無添加防腐劑，狗狗健康零食首選。",
       en: "Slow low-temperature dried 100% chicken breast for dogs — no preservatives.",
-    },
-  },
-  {
-    id: "dog-warm-coat",
-    categorySlug: "dogs",
-    image: "/products/dog-warm-coat.webp",
-    name: { zh: "狗狗保暖大衣", en: "Dog Warm Coat" },
-    price: 158,
-    icon: "dog",
-  },
-  {
-    id: "dog-training-pads",
-    categorySlug: "dogs",
-    image: "/products/dog-training-pads.webp",
-    name: { zh: "狗狗尿墊 (30片裝)", en: "Dog Training Pads (30pcs)" },
-    price: 118,
-    icon: "dog",
-    description: {
-      zh: "高效吸水鎖味，加大加厚設計，室內如廁訓練必備。",
-      en: "Extra-large, super-absorbent pads that lock in odor — essential for indoor potty training.",
-    },
-  },
-  {
-    id: "dog-raincoat",
-    categorySlug: "dogs",
-    image: "/products/dog-raincoat.webp",
-    name: { zh: "狗狗反光防水雨衣", en: "Dog Reflective Raincoat" },
-    price: 128,
-    icon: "dog",
-    description: {
-      zh: "輕便防水物料配合反光條設計，落雨天散步都安心。",
-      en: "Lightweight waterproof fabric with reflective strips for safe rainy-day walks.",
-    },
-  },
-  {
-    id: "dog-wafuu-collar",
-    categorySlug: "dogs",
-    image: "/products/dog-wafuu-collar.webp",
-    name: { zh: "日式和風頸帶連鈴鐺", en: "Japanese-Style Collar with Bell" },
-    price: 68,
-    icon: "dog",
-    description: {
-      zh: "手工和風布藝頸帶，附小鈴鐺，散步時清脆悅耳。",
-      en: "Handcrafted wafuu fabric collar with a tiny bell that jingles softly on every walk.",
-    },
-  },
-  {
-    id: "dog-chew-toy",
-    categorySlug: "dogs",
-    image: "/products/dog-chew-toy.webp",
-    name: { zh: "耐咬橡膠潔齒玩具", en: "Durable Rubber Dental Chew Toy" },
-    price: 78,
-    icon: "dog",
-    description: {
-      zh: "天然橡膠製造，耐咬耐磨，同時清潔牙齒去除牙石。",
-      en: "Made from natural rubber — tough and long-lasting while helping clean teeth and reduce tartar.",
-    },
-  },
-  {
-    id: "dog-travel-bowl",
-    categorySlug: "dogs",
-    image: "/products/dog-travel-bowl.webp",
-    name: { zh: "摺疊旅行飯碗連袋", en: "Foldable Travel Bowl with Pouch" },
-    price: 48,
-    icon: "dog",
-    description: {
-      zh: "矽膠摺疊設計輕巧防漏，出門散步餵食都方便。",
-      en: "Silicone foldable design is lightweight and leak-proof — perfect for feeding on walks.",
     },
   },
 
@@ -938,532 +871,6 @@ const PRODUCTS_RAW: Product[] = [
   },
 
   // 寵物玩具 / Pet Toys
-  {
-    id: "toy-neko-ichi-wobble-wand",
-    categorySlug: "toys",
-    image: "/products/toy-neko-ichi-wobble-wand.webp",
-    name: {
-      zh: "【貓壱 (Neko Ichi)】貓用不倒翁羽毛逗貓棒玩具",
-      en: "Neko Ichi Wobble Feather Teaser Toy",
-    },
-    price: 88,
-    originalPrice: 128,
-    icon: "toy",
-    description: {
-      zh: "底部重心設計不倒翁造型，配合天然羽毛與鈴鐺，吸引貓咪自主玩耍。",
-      en: "A weighted wobble base paired with natural feathers and a bell keeps cats engaged in independent play.",
-    },
-    specs: [
-      { zh: "材質：ABS樹脂、天然羽毛", en: "Material: ABS resin, natural feathers" },
-      { zh: "尺寸：7 x 7 x 15 cm", en: "Size: 7 x 7 x 15 cm" },
-    ],
-  },
-  {
-    id: "toy-petio-silvervine-chew",
-    categorySlug: "toys",
-    image: "/products/toy-petio-silvervine-chew.webp",
-    name: {
-      zh: "【Petio (培ティオ)】貓用天然木天蓼潔齒咀嚼玩具",
-      en: "Petio Natural Silvervine Chew Toy",
-    },
-    price: 48,
-    originalPrice: 68,
-    icon: "toy",
-    description: {
-      zh: "精選日本天然木天蓼及高品質麻繩編織，舒緩壓力、磨牙潔齒。",
-      en: "Woven from premium Japanese silvervine (matatabi) and quality hemp rope to relieve stress while cleaning teeth.",
-    },
-    specs: [
-      { zh: "規格：1入裝", en: "Pack size: 1 piece" },
-      { zh: "長度約 18cm", en: "Length: approx. 18cm" },
-    ],
-  },
-  {
-    id: "toy-richell-treat-ball",
-    categorySlug: "toys",
-    image: "/products/toy-richell-treat-ball.webp",
-    name: {
-      zh: "【Richell (利其爾)】貓咪趣味滾動零食發聲球",
-      en: "Richell Rolling Treat-Dispensing Sound Ball",
-    },
-    price: 118,
-    originalPrice: 158,
-    icon: "toy",
-    description: {
-      zh: "結合益智與餵食功能，滾動時掉落小零食並發出輕柔聲響。",
-      en: "Combines puzzle play with feeding — treats drop out as it rolls, with a gentle rattling sound.",
-    },
-    specs: [
-      { zh: "材質：食用級PP塑料", en: "Material: Food-grade PP plastic" },
-      { zh: "直徑約 8cm", en: "Diameter: approx. 8cm" },
-    ],
-  },
-  {
-    id: "toy-doggyman-cotton-rope-bone",
-    categorySlug: "toys",
-    image: "/products/toy-doggyman-cotton-rope-bone.webp",
-    name: {
-      zh: "【DoggyMan】狗狗耐咬潔齒棉繩骨頭玩具",
-      en: "DoggyMan Bite-Resistant Cotton Rope Bone Toy",
-    },
-    price: 55,
-    originalPrice: 75,
-    icon: "toy",
-    description: {
-      zh: "天然棉線緊密編織，強韌耐咬，深入牙縫清除牙垢與牙菌斑。",
-      en: "Tightly woven from natural cotton rope — tough and chew-resistant, reaching into gaps to clear plaque and tartar.",
-    },
-    specs: [{ zh: "尺寸：M號 (約 25cm)", en: "Size: M (approx. 25cm)" }],
-  },
-  {
-    id: "toy-supercat-disc-launcher",
-    categorySlug: "toys",
-    image: "/products/toy-supercat-disc-launcher.webp",
-    name: {
-      zh: "【Super Cat】貓用跳躍捕捉飛碟彈射玩具",
-      en: "Super Cat Jump & Catch Disc Launcher",
-    },
-    price: 95,
-    originalPrice: 130,
-    icon: "toy",
-    description: {
-      zh: "輕輕一按將旋轉飛碟彈向空中，激發貓咪極致跳躍與撲克本能。",
-      en: "A gentle press launches a spinning disc into the air, triggering your cat's ultimate jump-and-pounce instincts.",
-    },
-    specs: [
-      { zh: "內容物：發射器 x1 + 飛碟 x4", en: "Contents: 1x launcher + 4x discs" },
-    ],
-  },
-  {
-    id: "toy-adies-tunnel-scratcher",
-    categorySlug: "toys",
-    image: "/products/toy-adies-tunnel-scratcher.webp",
-    name: {
-      zh: "【Adies】貓咪立體紙箱隧道抓板兩用玩具",
-      en: "Adies 2-in-1 Cardboard Tunnel & Scratcher",
-    },
-    price: 138,
-    originalPrice: 188,
-    icon: "toy",
-    description: {
-      zh: "集隧道躲藏、磨爪抓板於一體，高密度瓦楞紙耐磨耐抓。",
-      en: "Combines a hide-and-seek tunnel with a scratching pad, made from dense, wear-resistant corrugated cardboard.",
-    },
-    specs: [{ zh: "尺寸：50 x 30 x 25 cm", en: "Size: 50 x 30 x 25 cm" }],
-  },
-  {
-    id: "toy-petio-plush-squeaky-animal",
-    categorySlug: "toys",
-    image: "/products/toy-petio-plush-squeaky-animal.webp",
-    name: {
-      zh: "【Petio (培ティオ)】狗狗互動毛絨發聲小動物玩具",
-      en: "Petio Plush Squeaky Animal Toy",
-    },
-    price: 62,
-    originalPrice: 88,
-    icon: "toy",
-    description: {
-      zh: "柔軟毛絨材質，內置安全發聲器，陪伴狗狗度過無聊時光。",
-      en: "Soft plush fabric with a built-in safe squeaker to keep dogs entertained through idle moments.",
-    },
-    specs: [
-      { zh: "材質：聚酯纖維", en: "Material: Polyester fiber" },
-      { zh: "長度約 20cm", en: "Length: approx. 20cm" },
-    ],
-  },
-  {
-    id: "toy-mindup-feather-wand",
-    categorySlug: "toys",
-    image: "/products/toy-mindup-feather-wand.webp",
-    name: {
-      zh: "【Mind Up】貓用安全逗貓羽毛伸縮棒",
-      en: "Mind Up Retractable Feather Teaser Wand",
-    },
-    price: 72,
-    originalPrice: 98,
-    icon: "toy",
-    description: {
-      zh: "高彈性碳纖維伸縮桿，揮動輕盈不費力，多款可替換鈴鐺羽毛。",
-      en: "A high-elasticity carbon-fiber wand that's light and effortless to swing, with interchangeable bell-and-feather attachments.",
-    },
-    specs: [
-      { zh: "桿長：可伸縮 40cm 至 95cm", en: "Rod length: extends from 40cm to 95cm" },
-    ],
-  },
-  {
-    id: "toy-planetdog-bounce-ball",
-    categorySlug: "toys",
-    image: "/products/toy-planetdog-bounce-ball.webp",
-    name: {
-      zh: "【Planet Dog】狗狗高彈力耐咬尋回球",
-      en: "Planet Dog High-Bounce Retrieving Ball",
-    },
-    price: 85,
-    originalPrice: 110,
-    icon: "toy",
-    description: {
-      zh: "無毒環保高彈橡膠，彈力極佳且能浮在水面上，戶外玩耍首選。",
-      en: "Non-toxic, eco-friendly rubber with excellent bounce that floats on water — perfect for outdoor fetch.",
-    },
-    specs: [{ zh: "尺寸：S/M 號直徑 6.5cm", en: "Size: S/M, 6.5cm diameter" }],
-  },
-  {
-    id: "toy-cattyman-spinning-butterfly",
-    categorySlug: "toys",
-    image: "/products/toy-cattyman-spinning-butterfly.webp",
-    name: {
-      zh: "【CattyMan】貓用智能電動旋轉蝴蝶逗趣玩具",
-      en: "CattyMan Smart Spinning Butterfly Toy",
-    },
-    price: 158,
-    originalPrice: 218,
-    icon: "toy",
-    description: {
-      zh: "360度不規則旋轉蝴蝶，模擬真實昆蟲飛舞軌跡。",
-      en: "Spins a butterfly through unpredictable 360° paths, mimicking the flight of a real insect.",
-    },
-    specs: [
-      { zh: "電源：乾電池式 (AA x 3)", en: "Power: 3x AA batteries (not included)" },
-    ],
-  },
-  {
-    id: "toy-richell-snuffle-mat",
-    categorySlug: "toys",
-    image: "/products/toy-richell-snuffle-mat.webp",
-    name: {
-      zh: "【Richell (利其爾)】幼犬益智慢食藏食嗅聞墊玩具",
-      en: "Richell Puppy Snuffle Mat & Slow Feeder",
-    },
-    price: 145,
-    originalPrice: 190,
-    icon: "toy",
-    description: {
-      zh: "多層次藏食設計，嗅聞尋找零食，消耗精力並緩解焦慮。",
-      en: "A multi-layered hide-and-seek mat that encourages sniffing for treats, burning energy and easing anxiety.",
-    },
-    specs: [
-      { zh: "尺寸：45 x 45 cm", en: "Size: 45 x 45 cm" },
-      { zh: "可機洗", en: "Machine washable" },
-    ],
-  },
-  {
-    id: "toy-petio-catnip-fish-pillow",
-    categorySlug: "toys",
-    image: "/products/toy-petio-catnip-fish-pillow.webp",
-    name: {
-      zh: "【Petio (培ティオ)】貓草夾心毛絨耐咬魚形抱枕",
-      en: "Petio Catnip-Filled Plush Fish Pillow",
-    },
-    price: 58,
-    originalPrice: 78,
-    icon: "toy",
-    description: {
-      zh: "內含濃郁貓薄荷粉，外層耐抓厚實帆布，適合抱著踢腳啃咬。",
-      en: "Filled with potent catnip powder and wrapped in durable, scratch-resistant canvas — perfect for kicking and biting.",
-    },
-    specs: [{ zh: "長度：約 22cm", en: "Length: approx. 22cm" }],
-  },
-  {
-    id: "toy-doggyman-dumbbell-chew",
-    categorySlug: "toys",
-    image: "/products/toy-doggyman-dumbbell-chew.webp",
-    name: {
-      zh: "【DoggyMan】狗狗潔齒橡膠漏食啞鈴玩具",
-      en: "DoggyMan Dumbbell Treat-Dispensing Chew Toy",
-    },
-    price: 78,
-    originalPrice: 105,
-    icon: "toy",
-    description: {
-      zh: "啞鈴造型方便爪握與啃咬，凹槽可填入肉泥，兼具潔齒與益智。",
-      en: "A dumbbell shape that's easy to paw and chew, with grooves for filling with pâté — combining dental care with mental stimulation.",
-    },
-    specs: [
-      { zh: "材質：天然橡膠", en: "Material: Natural rubber" },
-      { zh: "長度 16cm", en: "Length: 16cm" },
-    ],
-  },
-  {
-    id: "toy-nekoichi-bowl-scratcher",
-    categorySlug: "toys",
-    image: "/products/toy-nekoichi-bowl-scratcher.webp",
-    name: {
-      zh: "【貓壱 (Neko Ichi)】貓咪專用趣味紙箱抓盤玩具",
-      en: "Neko Ichi Bowl-Shaped Scratcher & Ball Track",
-    },
-    price: 98,
-    originalPrice: 138,
-    icon: "toy",
-    description: {
-      zh: "圓形碗狀貼合身體曲線，內含滾動軌道小球，邊磨爪邊追逐。",
-      en: "A round, body-hugging bowl shape with a built-in rolling ball track for scratching and chasing at once.",
-    },
-    specs: [
-      { zh: "直徑：38cm", en: "Diameter: 38cm" },
-      { zh: "深度 12cm", en: "Depth: 12cm" },
-    ],
-  },
-  {
-    id: "toy-koneko-bell-ball-set",
-    categorySlug: "toys",
-    image: "/products/toy-koneko-bell-ball-set.webp",
-    name: {
-      zh: "【Koneko】幼貓專用鈴鐺彩球毛絨玩具套裝",
-      en: "Koneko Kitten Bell Ball Toy Set",
-    },
-    price: 42,
-    originalPrice: 60,
-    icon: "toy",
-    description: {
-      zh: "6件不同材質小體積彩球，內置清脆鈴鐺，專為幼貓設計。",
-      en: "A set of 6 small, differently-textured balls with crisp bells inside, designed specifically for kittens.",
-    },
-    specs: [
-      { zh: "數量：6入裝", en: "Quantity: 6-piece set" },
-      { zh: "直徑約 4cm", en: "Diameter: approx. 4cm each" },
-    ],
-  },
-  {
-    id: "toy-petio-laser-chaser",
-    categorySlug: "toys",
-    image: "/products/toy-petio-laser-chaser.webp",
-    name: {
-      zh: "【Petio (培ティオ)】貓用互動雷射光自動追逐玩具",
-      en: "Petio Automatic Laser Chase Toy",
-    },
-    price: 128,
-    originalPrice: 168,
-    icon: "toy",
-    description: {
-      zh: "自動不規則紅外線雷射軌跡，解放主人雙手進行體能鍛鍊。",
-      en: "Projects an unpredictable infrared laser path automatically, giving cats a workout hands-free.",
-    },
-    specs: [
-      { zh: "自動關機保護：15分鐘", en: "Auto shut-off: after 15 minutes" },
-    ],
-  },
-  {
-    id: "toy-doggyman-ring-frisbee",
-    categorySlug: "toys",
-    image: "/products/toy-doggyman-ring-frisbee.webp",
-    name: {
-      zh: "【DoggyMan】飛盤耐咬環形訓練玩具",
-      en: "DoggyMan Bite-Resistant Ring Frisbee",
-    },
-    price: 68,
-    originalPrice: 92,
-    icon: "toy",
-    description: {
-      zh: "輕量化高韌性EVA材質，飛行穩定，適合戶外草地拋接。",
-      en: "Lightweight, high-durability EVA material with stable flight — ideal for outdoor fetch on grass.",
-    },
-    specs: [
-      { zh: "直徑：22cm", en: "Diameter: 22cm" },
-      { zh: "厚度 3cm", en: "Thickness: 3cm" },
-    ],
-  },
-  {
-    id: "toy-richell-cardboard-house",
-    categorySlug: "toys",
-    image: "/products/toy-richell-cardboard-house.webp",
-    name: {
-      zh: "【Richell (利其爾)】貓咪躲藏立體紙箱屋玩具",
-      en: "Richell Hideaway Cardboard Cat House",
-    },
-    price: 168,
-    originalPrice: 230,
-    icon: "toy",
-    description: {
-      zh: "日系簡約木紋印花紙箱屋，多個圓孔與抓板設計。",
-      en: "A minimalist Japanese-style wood-grain print cardboard house with multiple peekaboo holes and a built-in scratcher.",
-    },
-    specs: [{ zh: "尺寸：40 x 40 x 40 cm", en: "Size: 40 x 40 x 40 cm" }],
-  },
-  {
-    id: "toy-supercat-catnip-mouse",
-    categorySlug: "toys",
-    image: "/products/toy-supercat-catnip-mouse.webp",
-    name: {
-      zh: "【Super Cat】貓草噴霧絨毛仿真老鼠玩具",
-      en: "Super Cat Catnip Spray Plush Mouse",
-    },
-    price: 45,
-    originalPrice: 65,
-    icon: "toy",
-    description: {
-      zh: "仿真外型搭配專用濃縮貓草噴霧，散發致命吸引力。",
-      en: "A lifelike plush mouse paired with a concentrated catnip spray for irresistible appeal.",
-    },
-    specs: [
-      { zh: "長度：12cm", en: "Length: 12cm" },
-      { zh: "附 15ml 貓草噴霧", en: "Includes 15ml catnip spray" },
-    ],
-  },
-  {
-    id: "toy-petio-slider-puzzle",
-    categorySlug: "toys",
-    image: "/products/toy-petio-slider-puzzle.webp",
-    name: {
-      zh: "【Petio (培ティオ)】狗狗益智尋寶翻蓋滑塊玩具",
-      en: "Petio Treasure Hunt Slider Puzzle Toy",
-    },
-    price: 155,
-    originalPrice: 208,
-    icon: "toy",
-    description: {
-      zh: "推動滑塊、掀開蓋子才能吃到獎勵零食，開發狗狗智力。",
-      en: "Dogs must slide and flip covers to reach the reward treats underneath — a fun way to build problem-solving skills.",
-    },
-    specs: [{ zh: "尺寸：30 x 30 cm", en: "Size: 30 x 30 cm" }],
-  },
-  {
-    id: "toy-cattyman-ball-tower",
-    categorySlug: "toys",
-    image: "/products/toy-cattyman-ball-tower.webp",
-    name: {
-      zh: "【CattyMan】貓用三層旋轉彩球軌道塔",
-      en: "CattyMan 3-Tier Spinning Ball Track Tower",
-    },
-    price: 112,
-    originalPrice: 150,
-    icon: "toy",
-    description: {
-      zh: "三層獨立轉動軌道，彩色小球高速滾動不飛出，多貓家庭首選。",
-      en: "Three independently spinning tracks let colorful balls race around without flying out — great for multi-cat households.",
-    },
-    specs: [
-      { zh: "底座直徑：25cm", en: "Base diameter: 25cm" },
-      { zh: "高度 18cm", en: "Height: 18cm" },
-    ],
-  },
-  {
-    id: "toy-doggyman-dental-tennis-balls",
-    categorySlug: "toys",
-    image: "/products/toy-doggyman-dental-tennis-balls.webp",
-    name: {
-      zh: "【DoggyMan】狗狗潔齒潔牙網球玩具組",
-      en: "DoggyMan Dental Tennis Ball Set",
-    },
-    price: 59,
-    originalPrice: 82,
-    icon: "toy",
-    description: {
-      zh: "不傷牙齒表層絨毛設計，內置發聲器，高彈力網球。",
-      en: "Gentle felt exterior that's kind on teeth, with a built-in squeaker and high-bounce rubber core.",
-    },
-    specs: [
-      { zh: "規格：2入裝", en: "Pack size: 2 pieces" },
-      { zh: "直徑 6cm", en: "Diameter: 6cm" },
-    ],
-  },
-  {
-    id: "toy-nekoichi-feather-spring",
-    categorySlug: "toys",
-    image: "/products/toy-nekoichi-feather-spring.webp",
-    name: {
-      zh: "【貓壱 (Neko Ichi)】貓咪專用羽毛不倒翁彈簧玩具",
-      en: "Neko Ichi Feather Spring Wobble Toy",
-    },
-    price: 82,
-    originalPrice: 115,
-    icon: "toy",
-    description: {
-      zh: "強力吸盤固定底座配合鋼製彈簧，頂端天然羽毛隨風搖曳。",
-      en: "A strong suction-cup base with a steel spring — the natural feather on top sways enticingly in the air.",
-    },
-    specs: [{ zh: "高度：約 25cm", en: "Height: approx. 25cm" }],
-  },
-  {
-    id: "toy-richell-sisal-mouse",
-    categorySlug: "toys",
-    image: "/products/toy-richell-sisal-mouse.webp",
-    name: {
-      zh: "【Richell (利其爾)】貓咪舒壓劍麻編織老鼠玩具",
-      en: "Richell Sisal-Wrapped Mouse Toy",
-    },
-    price: 49,
-    originalPrice: 69,
-    icon: "toy",
-    description: {
-      zh: "天然環保劍麻材質纏繞，耐咬耐抓不掉屑，清潔指甲。",
-      en: "Wrapped in natural, eco-friendly sisal fiber — chew- and scratch-resistant without shedding, and great for nail health.",
-    },
-    specs: [{ zh: "長度：14cm", en: "Length: 14cm" }],
-  },
-  {
-    id: "toy-petio-cooling-chew-bone",
-    categorySlug: "toys",
-    image: "/products/toy-petio-cooling-chew-bone.webp",
-    name: {
-      zh: "【Petio (培ティオ)】狗狗耐咬冰涼舒緩磨牙骨玩具",
-      en: "Petio Cooling Chew Bone Toy",
-    },
-    price: 75,
-    originalPrice: 99,
-    icon: "toy",
-    description: {
-      zh: "可注水後放冰箱冷藏，冰涼觸感舒緩炎熱煩躁與出牙不適。",
-      en: "Fill with water and chill in the fridge — the cool texture soothes summer discomfort and teething irritation.",
-    },
-    specs: [{ zh: "材質：TPR食品級橡膠", en: "Material: Food-grade TPR rubber" }],
-  },
-  {
-    id: "toy-cattyman-crinkle-tunnel",
-    categorySlug: "toys",
-    image: "/products/toy-cattyman-crinkle-tunnel.webp",
-    name: {
-      zh: "【CattyMan】貓用羽毛紙鈴聲響隧道玩具",
-      en: "CattyMan Crinkle Tunnel with Feather",
-    },
-    price: 99,
-    originalPrice: 139,
-    icon: "toy",
-    description: {
-      zh: "內層加入沙沙聲響紙，配合出口處垂掛羽毛。",
-      en: "Lined with crinkly paper for an enticing rustle, with a feather dangling at the exit to lure cats in and out.",
-    },
-    specs: [
-      { zh: "展開尺寸：長 50cm", en: "Extended length: 50cm" },
-      { zh: "直徑 25cm", en: "Diameter: 25cm" },
-    ],
-  },
-  {
-    id: "toy-doggyman-tugofwar-rope-ball",
-    categorySlug: "toys",
-    image: "/products/toy-doggyman-tugofwar-rope-ball.webp",
-    name: {
-      zh: "【DoggyMan】狗狗拔河專用結實麻繩球玩具",
-      en: "DoggyMan Tug-of-War Rope Ball Toy",
-    },
-    price: 65,
-    originalPrice: 88,
-    icon: "toy",
-    description: {
-      zh: "超強韌棉麻繩索編織大球，手柄設計方便拔河互動。",
-      en: "A large ball woven from ultra-tough cotton-hemp rope with a built-in handle for interactive tug-of-war play.",
-    },
-    specs: [
-      { zh: "總長：35cm", en: "Total length: 35cm" },
-      { zh: "球體徑 9cm", en: "Ball diameter: 9cm" },
-    ],
-  },
-  {
-    id: "toy-supercat-chirping-bird",
-    categorySlug: "toys",
-    image: "/products/toy-supercat-chirping-bird.webp",
-    name: {
-      zh: "【Super Cat】貓薄荷充絨發聲小鳥玩具",
-      en: "Super Cat Catnip Chirping Bird Toy",
-    },
-    price: 52,
-    originalPrice: 72,
-    icon: "toy",
-    description: {
-      zh: "精製日系小鳥造型，內含天然貓薄荷與仿真鳥叫發聲器。",
-      en: "A finely-crafted Japanese-style bird plush filled with natural catnip and a realistic chirping squeaker.",
-    },
-    specs: [{ zh: "尺寸：13 x 8 cm", en: "Size: 13 x 8 cm" }],
-  },
 
   // 營養保健 / Health & Wellness
   {
@@ -1552,90 +959,6 @@ const PRODUCTS_RAW: Product[] = [
   },
 
   // 居家清潔 / Home Cleaning
-  {
-    id: "pet-odor-spray",
-    categorySlug: "cleaning",
-    image: "/products/pet-odor-spray.webp",
-    name: { zh: "寵物除臭噴霧", en: "Pet Odor Eliminator Spray" },
-    price: 58,
-    icon: "cleaning",
-  },
-  {
-    id: "litter-cleaning-kit",
-    categorySlug: "cleaning",
-    image: "/products/litter-cleaning-kit.webp",
-    name: { zh: "貓砂盆清潔套裝", en: "Litter Box Cleaning Kit" },
-    price: 98,
-    icon: "cleaning",
-  },
-  {
-    id: "pet-shampoo",
-    categorySlug: "cleaning",
-    image: "/products/pet-shampoo.webp",
-    name: { zh: "寵物專用洗毛精", en: "Pet Shampoo" },
-    price: 88,
-    icon: "cleaning",
-  },
-  {
-    id: "cleaning-lint-roller",
-    categorySlug: "cleaning",
-    image: "/products/cleaning-lint-roller.webp",
-    name: { zh: "寵物毛髮黏塵滾筒", en: "Pet Hair Lint Roller" },
-    price: 38,
-    icon: "cleaning",
-    description: {
-      zh: "強力黏性設計，快速清走衣物同梳化上嘅寵物毛髮。",
-      en: "Strong adhesive design quickly lifts pet hair off clothes and furniture.",
-    },
-  },
-  {
-    id: "cleaning-air-freshener",
-    categorySlug: "cleaning",
-    image: "/products/cleaning-air-freshener.webp",
-    name: { zh: "寵物專用室內除臭噴霧", en: "Pet Odor Eliminating Room Spray" },
-    price: 68,
-    icon: "cleaning",
-    description: {
-      zh: "天然香氛配方中和寵物異味，還原室內清新空氣。",
-      en: "Natural fragrance formula neutralizes pet odors for a fresh home.",
-    },
-  },
-  {
-    id: "cleaning-paw-wipes",
-    categorySlug: "cleaning",
-    image: "/products/cleaning-paw-wipes.webp",
-    name: { zh: "寵物潔爪濕紙巾 (80片)", en: "Pet Paw Cleaning Wipes (80pcs)" },
-    price: 45,
-    icon: "cleaning",
-    description: {
-      zh: "溫和配方，散步後快速清潔腳掌，減少細菌帶入屋企。",
-      en: "Gentle formula quickly cleans paws after walks, keeping germs out of the house.",
-    },
-  },
-  {
-    id: "cleaning-deodorizing-mat",
-    categorySlug: "cleaning",
-    image: "/products/cleaning-deodorizing-mat.webp",
-    name: { zh: "貓砂盆除臭墊", en: "Litter Box Deodorizing Mats" },
-    price: 58,
-    icon: "cleaning",
-    description: {
-      zh: "高效吸附異味墊片，配合貓砂使用，維持室內清新。",
-      en: "Highly absorbent mats that pair with litter to keep odors under control.",
-    },
-  },
-  {
-    id: "cleaning-pet-toothbrush-kit",
-    categorySlug: "cleaning",
-    image: "/products/cleaning-pet-toothbrush-kit.webp",
-    name: { zh: "寵物潔牙套裝 (牙刷連牙膏)", en: "Pet Toothbrush & Toothpaste Kit" },
-    price: 68,
-    icon: "cleaning",
-    description: {
-      zh: "專為寵物設計嘅牙刷牙膏套裝，日常護理輕鬆做到。",
-      en: "A dedicated brush-and-paste set that makes daily dental care easy.",
-    },
-  },
 
   // 限時優惠 / Limited-Time Deals
   {
@@ -1663,18 +986,6 @@ const PRODUCTS_RAW: Product[] = [
     icon: "clock",
   },
   {
-    id: "deal-cleaning-bundle",
-    categorySlug: "deals",
-    image: "/products/deal-cleaning-bundle.webp",
-    name: { zh: "居家清潔用品限時套裝", en: "Home Cleaning Essentials Bundle" },
-    price: 129,
-    icon: "clock",
-    description: {
-      zh: "精選清潔用品組合，限時優惠價，家居清潔一次搞掂。",
-      en: "Curated cleaning essentials at a limited-time bundle price — home cleaning sorted in one go.",
-    },
-  },
-  {
     id: "deal-health-trio",
     categorySlug: "deals",
     image: "/products/deal-health-trio.webp",
@@ -1684,42 +995,6 @@ const PRODUCTS_RAW: Product[] = [
     description: {
       zh: "關節、腸胃、美毛三合一保健品組合，限時特價發售。",
       en: "Joint, digestive, and coat-care supplements bundled together at a limited-time price.",
-    },
-  },
-  {
-    id: "deal-newyear-hamper",
-    categorySlug: "deals",
-    image: "/products/deal-newyear-hamper.webp",
-    name: { zh: "寵物迎新福袋", en: "Pet New Year Lucky Bag" },
-    price: 199,
-    icon: "clock",
-    description: {
-      zh: "精選小食同用品福袋，限量發售，數量有限、售完即止。",
-      en: "Curated treats and essentials in a limited lucky bag — while supplies last.",
-    },
-  },
-  {
-    id: "deal-toy-clearance",
-    categorySlug: "deals",
-    image: "/products/deal-toy-clearance.webp",
-    name: { zh: "玩具清倉限時優惠", en: "Toy Clearance Sale" },
-    price: 59,
-    icon: "clock",
-    description: {
-      zh: "精選寵物玩具清倉價發售，數量有限，售完即止。",
-      en: "Selected pet toys at clearance prices — limited stock, while supplies last.",
-    },
-  },
-  {
-    id: "deal-outdoor-combo",
-    categorySlug: "deals",
-    image: "/products/deal-outdoor-combo.webp",
-    name: { zh: "外出用品限時套裝優惠", en: "Outdoor Essentials Combo Deal" },
-    price: 259,
-    icon: "clock",
-    description: {
-      zh: "牽引帶、飲水器同背包組合優惠價，方便帶寵物出街。",
-      en: "Leash, water bottle, and backpack bundled together at a special price for outings.",
     },
   },
 
@@ -1736,58 +1011,6 @@ const PRODUCTS_RAW: Product[] = [
     description: {
       zh: "人氣日本狗零食禮盒，適合狗狗日常獎勵同送禮。",
       en: "Popular Japanese dog-treat gift box — everyday rewards and gifting.",
-    },
-  },
-  {
-    id: "bestseller-cat-scratcher",
-    categorySlug: "bestsellers",
-    image: "/products/bestseller-cat-scratcher.webp",
-    name: { zh: "人氣貓抓板組合", en: "Popular Cat Scratcher Set" },
-    price: 98,
-    icon: "fire",
-  },
-  {
-    id: "bestseller-pet-bed",
-    categorySlug: "bestsellers",
-    image: "/products/bestseller-pet-bed.webp",
-    name: { zh: "人氣寵物保暖窩", en: "Popular Pet Warm Bed" },
-    price: 188,
-    icon: "fire",
-  },
-  {
-    id: "bestseller-cat-tower",
-    categorySlug: "bestsellers",
-    image: "/products/bestseller-cat-tower.webp",
-    name: { zh: "人氣貓咪跳台", en: "Popular Cat Tower" },
-    price: 328,
-    icon: "fire",
-    description: {
-      zh: "多層設計滿足貓貓攀爬同磨爪需求，長期熱賣人氣之選。",
-      en: "Multi-level design satisfies climbing and scratching needs — a long-time bestseller.",
-    },
-  },
-  {
-    id: "bestseller-dog-harness",
-    categorySlug: "bestsellers",
-    image: "/products/bestseller-dog-harness.webp",
-    name: { zh: "人氣狗狗胸背帶", en: "Popular Dog Harness" },
-    price: 138,
-    icon: "fire",
-    description: {
-      zh: "透氣網布物料均勻分散拉力，減少頸部負擔，大受歡迎。",
-      en: "Breathable mesh fabric evenly distributes pulling force to reduce neck strain.",
-    },
-  },
-  {
-    id: "bestseller-litter-box",
-    categorySlug: "bestsellers",
-    image: "/products/bestseller-litter-box.webp",
-    name: { zh: "人氣全封閉貓砂盆", en: "Popular Fully-Enclosed Litter Box" },
-    price: 268,
-    icon: "fire",
-    description: {
-      zh: "全封閉設計減少砂粒飛濺，內置活性碳除臭層，熱賣首選。",
-      en: "Enclosed design reduces litter scatter, with a built-in activated carbon odor filter.",
     },
   },
   {
@@ -1817,90 +1040,9 @@ const PRODUCTS_RAW: Product[] = [
   },
 
   // 外出用品 / Outdoor Gear
-  {
-    id: "pet-travel-backpack",
-    categorySlug: "outdoor",
-    image: "/products/pet-travel-backpack.webp",
-    name: { zh: "寵物外出背包", en: "Pet Travel Backpack" },
-    price: 228,
-    icon: "bag",
-  },
-  {
-    id: "pet-foldable-bottle",
-    categorySlug: "outdoor",
-    image: "/products/pet-foldable-bottle.webp",
-    name: { zh: "摺疊寵物飲水器", en: "Foldable Pet Water Bottle" },
-    price: 68,
-    icon: "bag",
-  },
-  {
-    id: "pet-leash-set",
-    categorySlug: "outdoor",
-    image: "/products/pet-leash-set.webp",
-    name: { zh: "寵物牽引帶套裝", en: "Pet Leash Set" },
-    price: 98,
-    icon: "bag",
-  },
-  {
-    id: "outdoor-pet-stroller",
-    categorySlug: "outdoor",
-    image: "/products/outdoor-pet-stroller.webp",
-    name: { zh: "寵物四輪推車", en: "Pet Stroller (4 Wheels)" },
-    price: 588,
-    icon: "bag",
-    description: {
-      zh: "適合年長或體弱寵物出行，穩固四輪設計，輕鬆推行。",
-      en: "Great for senior or less mobile pets — sturdy four-wheel design for easy pushing.",
-    },
-  },
-  {
-    id: "outdoor-collapsible-bowl-set",
-    categorySlug: "outdoor",
-    image: "/products/outdoor-collapsible-bowl-set.webp",
-    name: { zh: "摺疊寵物飯盒套裝", en: "Collapsible Pet Bowl Set" },
-    price: 58,
-    icon: "bag",
-    description: {
-      zh: "輕便可摺疊設計方便攜帶，外出用餐都方便衛生。",
-      en: "Lightweight, foldable design — convenient and hygienic for meals on the go.",
-    },
-  },
-  {
-    id: "outdoor-pet-carrier",
-    categorySlug: "outdoor",
-    image: "/products/outdoor-pet-carrier.webp",
-    name: { zh: "寵物外出手提包", en: "Pet Travel Carrier Bag" },
-    price: 198,
-    icon: "bag",
-    description: {
-      zh: "透氣網面設計，肩背手提兩用，短途外出首選。",
-      en: "Breathable mesh design, wearable as a shoulder or hand bag — perfect for short trips.",
-    },
-  },
-  {
-    id: "outdoor-led-collar",
-    categorySlug: "outdoor",
-    image: "/products/outdoor-led-collar.webp",
-    name: { zh: "寵物LED發光頸圈", en: "Pet LED Light-Up Collar" },
-    price: 58,
-    icon: "bag",
-    description: {
-      zh: "夜間散步必備，USB充電發光頸圈，提升寵物出行安全。",
-      en: "USB-rechargeable glowing collar — a night-walk essential for extra visibility and safety.",
-    },
-  },
-  {
-    id: "outdoor-car-seat-cover",
-    categorySlug: "outdoor",
-    image: "/products/outdoor-car-seat-cover.webp",
-    name: { zh: "寵物汽車防護座墊", en: "Pet Car Seat Protector" },
-    price: 168,
-    icon: "bag",
-    description: {
-      zh: "防水防刮設計，保護車廂座椅，寵物乘車更安心。",
-      en: "Waterproof and scratch-resistant design protects your seats for worry-free car rides.",
-    },
-  },
+  ...WT_JAPAN_STOREFRONT_PRODUCTS,
+  ...WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS,
+  ...WT_JAPAN_DOG_STOREFRONT_PRODUCTS,
 ];
 
 /**
@@ -1908,28 +1050,9 @@ const PRODUCTS_RAW: Product[] = [
  * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
  * - 貓貓小食系列（無添加／老貓／去毛球／BB）→ cats / 貓貓小食
  * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
- * - WT Japan dog treats (from wt_japan_products.json) → dogs / 狗狗小食
+ * - WT Japan dog treats (statically imported from wt_japan_products.json) → dogs / 狗狗小食
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
-
-/**
- * Load WT Japan dog products from the JSON file and convert to Product format.
- * This is called by ProductCatalog to dynamically include dog treats.
- */
-export async function loadWTJapanDogProducts(): Promise<Product[]> {
-  try {
-    const response = await fetch('/wt_japan_products.json');
-    if (!response.ok) {
-      console.warn('Failed to load WT Japan dog products');
-      return [];
-    }
-    const data = await response.json();
-    return data.map(wtJapanDogProductToProduct);
-  } catch (error) {
-    console.warn('Error loading WT Japan dog products:', error);
-    return [];
-  }
-}
 
 export function getProductsByCategory(slug: string | null): Product[] {
   if (!slug) return PRODUCTS;

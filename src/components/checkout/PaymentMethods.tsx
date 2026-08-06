@@ -35,7 +35,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
   return (
     <section
       aria-labelledby="payment-title"
-      className="milk-tea-card max-w-full space-y-5 overflow-x-clip p-5 sm:p-6"
+      className="milk-tea-card max-w-full space-y-5 p-5 sm:p-6"
     >
       <div className="space-y-1.5">
         <h2
@@ -49,7 +49,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         </p>
       </div>
 
-      <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-3">
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
 
@@ -58,23 +58,26 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`flex h-[4.75rem] w-full items-center gap-3.5 rounded-[1.15rem] border px-3.5 text-left transition duration-200 sm:h-[5rem] sm:gap-4 sm:px-4 ${
+                className={`grid min-h-[5rem] w-full grid-cols-[7.25rem_minmax(0,1fr)_1.125rem] items-center gap-x-2.5 gap-y-2 rounded-[1.15rem] border px-3 py-3.5 text-left transition duration-200 sm:min-h-20 sm:grid-cols-[7.25rem_minmax(0,1fr)_1.125rem] sm:gap-x-4 sm:px-4 ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_8px_20px_-12px_rgba(169,124,80,0.55)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_1px_2px_rgba(74,54,38,0.04)] hover:border-[color:var(--accent)]/45 hover:bg-[color:var(--accent-soft)]/35"
                 }`}
                 aria-pressed={active}
               >
-                <span className="flex h-9 w-[4.5rem] shrink-0 items-center justify-start">
+                <span
+                  className="flex h-9 w-[7.25rem] min-w-0 items-center justify-start overflow-visible"
+                  aria-hidden="true"
+                >
                   <Icon />
                 </span>
 
-                <span className="min-w-0 flex-1 break-words text-left text-[0.925rem] font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)]">
+                <span className="min-w-0 text-left text-[0.925rem] font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)] sm:text-base">
                   {t(labelKey)}
                 </span>
 
                 <span
-                  className={`ml-auto h-[1.125rem] w-[1.125rem] shrink-0 rounded-full border-[1.5px] transition ${
+                  className={`h-[1.125rem] w-[1.125rem] rounded-full border-[1.5px] transition ${
                     active
                       ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_2px_var(--surface)]"
                       : "border-[color:var(--line)] bg-transparent"

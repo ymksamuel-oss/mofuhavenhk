@@ -17,10 +17,7 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { productHref } from "@/lib/products";
-import {
-  searchWtJapanProducts,
-  type ProductSearchHit,
-} from "@/lib/searchProducts";
+import { searchProducts, type ProductSearchHit } from "@/lib/searchProducts";
 
 export function SearchGlyph({ className = "" }: { className?: string }) {
   return (
@@ -175,6 +172,7 @@ function SearchField({
         <input
           ref={inputRef}
           type="search"
+          role="combobox"
           autoComplete="off"
           autoFocus={autoFocus}
           enterKeyHint="search"
@@ -253,22 +251,38 @@ function SearchField({
                     >
                       <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <Image
-                          src={hit.imageUrl}
-                          alt=""
+                          src={hit.image}
+                          alt={hit.name[locale]}
                           fill
                           sizes="48px"
                           className="object-cover"
                         />
+                        {hit.inStock === false ? (
+                          <span className="absolute inset-x-0 bottom-0 bg-[color:var(--ink)]/75 px-1 py-0.5 text-center text-[9px] font-semibold text-white">
+                            {t("productSoldOut")}
+                          </span>
+                        ) : null}
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-[color:var(--ink)]">
-                          {hit.title}
+                          {hit.name[locale]}
                         </span>
                         <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[color:var(--muted)]">
                           <span className="font-semibold tabular-nums text-[color:var(--accent)]">
                             {formatMoney(hit.price, locale)}
                           </span>
-                          {hit.vendor ? <span>{hit.vendor}</span> : null}
+                          {hit.series?.[locale] ? (
+                            <span>{hit.series[locale]}</span>
+                          ) : hit.brand ? (
+                            <span>{hit.brand}</span>
+                          ) : hit.vendor ? (
+                            <span>{hit.vendor}</span>
+                          ) : null}
+                          {hit.inStock === false ? (
+                            <span className="font-semibold text-[color:var(--ink)]">
+                              {t("productSoldOut")}
+                            </span>
+                          ) : null}
                         </span>
                       </span>
                     </CategoryNavLink>
@@ -291,7 +305,7 @@ type ProductSearchProps = {
 
 /**
  * Homepage: always-visible search bar with dropdown suggestions.
- * Header: always-visible compact input on `sm+`; magnifier opens a modal on xs.
+ * Header: a prominent magnifier on every screen size opens the same search modal.
  */
 export function ProductSearch({
   variant = "header",
@@ -315,7 +329,7 @@ export function ProductSearch({
   // shows results immediately — avoid deferred-query lag hiding the panel.
   const trimmedQuery = query.trim();
   const hits =
-    trimmedQuery.length > 0 ? searchWtJapanProducts(trimmedQuery, 12) : [];
+    trimmedQuery.length > 0 ? searchProducts(trimmedQuery, 12) : [];
   const showPanel = suggestionsOpen && trimmedQuery.length > 0;
 
   const closeModal = () => {
@@ -407,7 +421,7 @@ export function ProductSearch({
     modalOpen && portalReady
       ? createPortal(
           <div
-            className="fixed inset-0 z-[110] flex items-start justify-center overflow-y-auto bg-[color:var(--ink)]/45 px-3 pb-8 pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:items-center sm:px-6"
+            className="fixed inset-0 z-[110] flex items-start justify-center overflow-y-auto bg-[color:var(--ink)]/45 px-3 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:items-center sm:px-6"
             role="dialog"
             aria-modal="true"
             aria-label={t("productSearchLabel")}
@@ -432,7 +446,7 @@ export function ProductSearch({
                 </p>
                 <button
                   type="button"
-                  className="flex h-10 w-10 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  className="flex h-11 w-11 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
                   aria-label={t("productSearchClose")}
                   onClick={closeModal}
                 >
@@ -471,28 +485,11 @@ export function ProductSearch({
         className={`relative flex items-center ${className}`}
         data-testid="header-product-search"
       >
-        {/* Always-visible search input between checkout nav and cart (sm+) */}
-        <div className="relative hidden w-[min(42vw,15.5rem)] sm:block md:w-[min(36vw,17.5rem)] lg:w-[min(28vw,18.5rem)]">
-          <SearchField
-            listId={listId}
-            query={query}
-            setQuery={setQuery}
-            setSuggestionsOpen={setSuggestionsOpen}
-            activeIndex={activeIndex}
-            setActiveIndex={setActiveIndex}
-            hits={hits}
-            showPanel={showPanel}
-            inputRef={inputRef}
-            size="compact"
-            panelClassName="absolute right-0 z-50 mt-2 w-[min(90vw,22rem)]"
-          />
-        </div>
-
-        {/* xs: magnifier opens full search modal */}
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] sm:hidden"
+          className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
           aria-label={t("productSearchOpen")}
+          aria-haspopup="dialog"
           aria-expanded={modalOpen}
           data-testid="header-product-search-icon"
           onClick={() => {

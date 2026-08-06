@@ -22,8 +22,13 @@ export function calcSubtotal(items: OrderItem[]): number {
  * category; otherwise it falls back to a default selection.
  */
 export function getOrderItems(categorySlug: string | null): OrderItem[] {
-  const matched = getProductsByCategory(categorySlug);
-  const source = matched.length > 0 ? matched : PRODUCTS;
+  const matched = getProductsByCategory(categorySlug).filter(
+    (product) => product.inStock !== false,
+  );
+  const source =
+    matched.length > 0
+      ? matched
+      : PRODUCTS.filter((product) => product.inStock !== false);
   return source.slice(0, 3).map((product) => ({
     id: product.id,
     name: product.name,
@@ -44,27 +49,30 @@ export function buildOrderItemsFromLines(
   lines: Array<{ id: string; qty: number }>,
 ): OrderItem[] {
   const byId = new Map(PRODUCTS.map((product) => [product.id, product]));
-  const items: OrderItem[] = [];
+  const qtyById = new Map<string, number>();
 
   for (const line of lines) {
     if (!line || typeof line.id !== "string") continue;
     const product = byId.get(line.id);
-    if (!product) continue;
-    const qty = Math.min(
-      MAX_QTY,
-      Math.max(MIN_QTY, Math.floor(Number(line.qty) || 0)),
+    if (!product || product.inStock === false) continue;
+    const numericQty = Math.floor(Number(line.qty));
+    if (!Number.isFinite(numericQty) || numericQty < MIN_QTY) continue;
+    qtyById.set(
+      product.id,
+      Math.min(MAX_QTY, (qtyById.get(product.id) ?? 0) + numericQty),
     );
-    if (qty < MIN_QTY) continue;
-    items.push({
+  }
+
+  return Array.from(qtyById.entries()).map(([id, qty]) => {
+    const product = byId.get(id)!;
+    return {
       id: product.id,
       name: product.name,
       image: product.image,
       qty,
       unit: product.price,
-    });
-  }
-
-  return items;
+    };
+  });
 }
 
 export function generateOrderNumber(): string {

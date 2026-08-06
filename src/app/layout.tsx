@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans_HK } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
@@ -7,15 +6,7 @@ import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import "./globals.css";
 
-/**
- * Premium HK-friendly sans for the whole site (nav → checkout → footer).
- * Falls back to SF Pro / system UI via globals.css.
- */
-const notoSansHk = Noto_Sans_HK({
-  variable: "--font-sans-face",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+/** Uses the HK-friendly system font stack defined in globals.css. */
 
 export const metadata: Metadata = {
   title: "Mofu Haven HK",
@@ -39,10 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="zh-HK"
-      className={`${notoSansHk.variable} bg-[color:var(--background)]`}
-    >
+    <html lang="zh-HK" className="bg-[color:var(--background)]">
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
           <CartProvider>

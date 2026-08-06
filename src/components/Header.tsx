@@ -84,20 +84,36 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
-    // Never leave a stuck drawer lock after navigation.
-    document.body.style.overflow = "";
   }, [pathname]);
 
   useEffect(() => {
     if (!menuOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+
+    const body = document.body;
+    const root = document.documentElement;
+    const previousBodyStyles = {
+      overflow: body.style.overflow,
+      overscrollBehavior: body.style.overscrollBehavior,
+      touchAction: body.style.touchAction,
+    };
+    const previousRootOverflow = root.style.overflow;
+
+    // Lock both scrolling roots without changing page position on iOS.
+    body.style.overflow = "hidden";
+    body.style.overscrollBehavior = "none";
+    body.style.touchAction = "none";
+    root.style.overflow = "hidden";
+
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
     window.addEventListener("keydown", onKey);
+
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.overflow = previousBodyStyles.overflow;
+      body.style.overscrollBehavior = previousBodyStyles.overscrollBehavior;
+      body.style.touchAction = previousBodyStyles.touchAction;
+      root.style.overflow = previousRootOverflow;
       window.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
@@ -123,7 +139,7 @@ export function Header() {
     menuOpen && portalReady
       ? createPortal(
           <div
-            className="fixed inset-0 z-[100] md:hidden"
+            className="fixed inset-0 z-[100] h-[100dvh] min-h-[100dvh] w-screen max-w-[100vw] overflow-hidden overscroll-none md:hidden"
             role="dialog"
             aria-modal="true"
             aria-label={t("navOpenMenu")}
@@ -137,13 +153,13 @@ export function Header() {
             />
             <nav
               id={drawerId}
-              className="absolute inset-y-0 right-0 z-[101] flex h-full w-[62vw] max-w-[15.5rem] flex-col border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(74,54,38,0.55)]"
+              className="absolute right-0 top-0 z-[101] flex h-[100dvh] max-h-[100dvh] w-[min(82vw,20rem)] max-w-full flex-col overflow-hidden overscroll-contain border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(74,54,38,0.55)]"
               style={{
                 background:
                   "linear-gradient(180deg, #fffaf1 0%, #f8f0e2 55%, #f3e6d2 100%)",
               }}
             >
-              <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+              <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
                 <span className="font-[family-name:var(--font-display)] text-sm font-semibold leading-none text-[color:var(--ink)]">
                   {t("brand")}
                 </span>
@@ -156,7 +172,7 @@ export function Header() {
                   <MenuIcon open />
                 </button>
               </div>
-              <ul className="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
+              <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-[max(1.5rem,calc(env(safe-area-inset-bottom,0px)+1rem))] pt-3 [-webkit-overflow-scrolling:touch]">
                 {navItems.map((item) => (
                   <li key={item.href} className="block w-full">
                     <Link
@@ -216,27 +232,31 @@ export function Header() {
 
             <Link
               href="/checkout"
-              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
               data-testid="header-cart"
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (
-                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">
+                <span
+                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
             </Link>
 
             <div
-              className="flex shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
+              className="flex h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
               role="group"
               aria-label="Language"
             >
               <button
                 type="button"
                 onClick={() => switchLocale("zh")}
-                className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
+                className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
                   locale === "zh"
                     ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
@@ -248,7 +268,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => switchLocale("en")}
-                className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
+                className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
                   locale === "en"
                     ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
@@ -261,7 +281,7 @@ export function Header() {
 
             <button
               type="button"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] lg:hidden"
+              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 lg:hidden"
               aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
               aria-expanded={menuOpen}
               aria-controls={drawerId}

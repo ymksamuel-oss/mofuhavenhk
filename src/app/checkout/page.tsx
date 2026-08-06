@@ -229,7 +229,7 @@ function CheckoutContent() {
       setPhase("paid_notify_failed");
     }
   }, [
-    cart.clear,
+    cart,
     items,
     liveTotalHkd,
     orderNumber,

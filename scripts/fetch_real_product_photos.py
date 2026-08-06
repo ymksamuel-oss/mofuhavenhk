@@ -76,10 +76,6 @@ CURATED_UNSPLASH: list[tuple[list[str], str]] = [
 
 # Direct Wikimedia / Flickr product-style photographs for hard-to-match SKUs.
 DIRECT_URLS: dict[str, tuple[str, str]] = {
-    "cat-food-1kg": (
-        "https://upload.wikimedia.org/wikipedia/commons/9/90/Aozi_Cat_Food.jpg",
-        "Wikimedia Commons — Aozi Cat Food.jpg",
-    ),
     "cat-tofu-litter-6l": (
         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Fresh_cat_litter.JPG/1280px-Fresh_cat_litter.JPG",
         "Wikimedia Commons — Fresh cat litter.JPG",
@@ -100,18 +96,10 @@ DIRECT_URLS: dict[str, tuple[str, str]] = {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Pet_shampoo_bar_virgin_coconut_oil_Gliricidia_sepium5.jpg/1280px-Pet_shampoo_bar_virgin_coconut_oil_Gliricidia_sepium5.jpg",
         "Wikimedia Commons — Pet shampoo bar virgin coconut oil…",
     ),
-    "litter-deodorizer": (
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Selection_Clumping_Cat_Litter_Jug_%2833270513293%29.jpg/1280px-Selection_Clumping_Cat_Litter_Jug_%2833270513293%29.jpg",
-        "Wikimedia Commons — Selection Clumping Cat Litter Jug",
-    ),
 }
 
 # Openverse / Wikimedia search queries per product id.
 QUERIES: dict[str, list[str]] = {
-    "cat-food-1kg": ["cat food bag", "cat food package"],
-    "cat-scratcher-set": ["cat scratching post", "cardboard cat scratcher"],
-    "litter-deodorizer": ["cat litter jug", "cat litter container"],
-    "ciao-tuna-paste-20pk": ["cat treat paste", "cat liquid snack tube", "cat treats package"],
     "cat-bonito-flakes": ["bonito flakes package", "katsuobushi", "dried fish flakes food"],
     "cat-auto-water-fountain": ["cat water fountain", "pet water fountain"],
     "cat-tofu-litter-6l": ["cat litter bag", "tofu cat litter"],
@@ -217,8 +205,17 @@ def http_bytes(url: str) -> bytes:
 
 
 def product_ids() -> list[str]:
+    """Return only hand-authored Product blocks with /products images.
+
+    WT Japan cat/snack records come from src/data and dog records come from the
+    authoritative JSON; their stable local image paths are governed separately.
+    """
     text = PRODUCTS_TS.read_text(encoding="utf-8")
-    return re.findall(r'id:\s*"([^"]+)"', text)
+    pattern = re.compile(
+        r'id:\s*"(?P<id>[^"]+)"[\s\S]*?image:\s*"/products/(?P=id)\.webp"',
+        re.M,
+    )
+    return [match.group("id") for match in pattern.finditer(text)]
 
 
 def score_title(title: str, query: str) -> int:
