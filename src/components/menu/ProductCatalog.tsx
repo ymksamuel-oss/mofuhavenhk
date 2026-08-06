@@ -25,6 +25,7 @@ import {
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
   getProductsByCategory,
+  loadWTJapanDogProducts,
   productHref,
   type CatSnackSeries,
   type CatSubcategory,
@@ -176,6 +177,23 @@ export function ProductCatalog({
   snackSeries = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
+  const [wtJapanDogProducts, setWtJapanDogProducts] = useState<Product[]>([]);
+
+  // Load WT Japan dog products when component mounts or category changes
+  useEffect(() => {
+    if (categorySlug === 'dogs') {
+      loadWTJapanDogProducts()
+        .then(products => {
+          setWtJapanDogProducts(products);
+        })
+        .catch(error => {
+          console.error('Failed to load WT Japan dog products:', error);
+        });
+    } else {
+      setWtJapanDogProducts([]);
+    }
+  }, [categorySlug]);
+
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
   const isDogs = categorySlug === "dogs";
@@ -191,13 +209,22 @@ export function ProductCatalog({
     catSubcategory === "貓貓小食" ? snackSeries : null;
 
   const products = useMemo(() => {
+    let baseProducts: Product[] = [];
+    
     if (isCats) {
-      return getCatProductsBySubcategory(catSubcategory, catSnackSeries);
+      baseProducts = getCatProductsBySubcategory(catSubcategory, catSnackSeries);
+    } else if (isDogs) {
+      baseProducts = getDogProductsBySubcategory(dogSubcategory);
+      // Merge WT Japan dog products with existing dog products
+      const filteredWTProducts = dogSubcategory
+        ? wtJapanDogProducts.filter(p => p.subcategory === dogSubcategory)
+        : wtJapanDogProducts;
+      baseProducts = [...baseProducts, ...filteredWTProducts];
+    } else {
+      baseProducts = getProductsByCategory(categorySlug);
     }
-    if (isDogs) {
-      return getDogProductsBySubcategory(dogSubcategory);
-    }
-    return getProductsByCategory(categorySlug);
+    
+    return baseProducts;
   }, [
     isCats,
     isDogs,
@@ -205,6 +232,7 @@ export function ProductCatalog({
     dogSubcategory,
     catSnackSeries,
     categorySlug,
+    wtJapanDogProducts,
   ]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
