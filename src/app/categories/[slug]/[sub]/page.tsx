@@ -59,6 +59,7 @@ export default async function CategorySubPage({
       categorySlug={slug}
       subcategory={subcategory}
       snackSeries={snackSeries}
+      showProductSearch
     />
   );
 }

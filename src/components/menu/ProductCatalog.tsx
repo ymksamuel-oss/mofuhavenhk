@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
+import { ProductSearch } from "@/components/ProductSearch";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import {
   CATEGORIES,
@@ -77,6 +78,8 @@ type ProductCatalogProps = {
   subcategory?: ProductSubcategory | null;
   /** Optional cat-snack series filter (`?series=natural|senior|hairball|kitten`). */
   snackSeries?: CatSnackSeries | null;
+  /** Show the homepage-style search section on `/categories/...` pages only. */
+  showProductSearch?: boolean;
 };
 
 /** List-style card: image + title/specs/price in a clear flex row (no overlap). */
@@ -179,6 +182,7 @@ export function ProductCatalog({
   categorySlug,
   subcategory = null,
   snackSeries = null,
+  showProductSearch = false,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const category = getCategoryBySlug(categorySlug);
@@ -231,6 +235,26 @@ export function ProductCatalog({
         </h1>
         <p className="mt-2 text-[color:var(--muted)]">{subtitle}</p>
       </header>
+
+      {showProductSearch ? (
+        <section
+          aria-labelledby="category-product-search-title"
+          className="relative z-20 mb-6 max-w-2xl sm:mb-8"
+        >
+          <div className="mb-4">
+            <h2
+              id="category-product-search-title"
+              className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-2xl"
+            >
+              {t("productSearchHomeTitle")}
+            </h2>
+            <p className="mt-1.5 text-sm text-[color:var(--muted)] sm:text-base">
+              {t("productSearchHomeSub")}
+            </p>
+          </div>
+          <ProductSearch variant="home" />
+        </section>
+      ) : null}
 
       {/* @section: product-categories */}
       <details className="group mb-5 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(74,54,38,0.5)] sm:mb-6">

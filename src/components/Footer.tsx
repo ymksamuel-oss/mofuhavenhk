@@ -6,7 +6,6 @@ import {
   AlipayHkLogo,
   ApplePayLogo,
   MastercardLogo,
-  OctopusLogo,
   VisaLogo,
   WeChatPayLogo,
   WhatsAppLogo,
@@ -86,32 +85,27 @@ function FooterNavColumn({
   );
 }
 
-/**
- * Inline SVG payment logos in separate responsive acceptance-mark containers.
- */
+/** Five locally hosted payment marks in balanced responsive containers. */
 function PaymentMarks() {
   const markClassName =
-    "flex h-11 min-w-0 items-center justify-center rounded-xl border border-[color:var(--line)]/80 bg-[color:var(--surface)]/80 px-2 sm:min-w-[4.75rem] sm:px-3";
+    "col-span-2 flex h-11 min-w-0 items-center justify-center rounded-xl border border-[color:var(--line)]/80 bg-[color:var(--surface)]/80 px-2 sm:min-w-[4.75rem] sm:px-3";
 
   return (
-    <ul className="grid w-full max-w-full grid-cols-3 items-center gap-2 py-2 sm:flex sm:w-auto sm:flex-wrap sm:justify-end sm:gap-2.5">
+    <ul className="grid w-full max-w-full grid-cols-6 items-center gap-2 py-2 sm:flex sm:w-auto sm:flex-wrap sm:justify-end sm:gap-2.5">
       <li className={markClassName}>
         <ApplePayLogo className="h-5 w-auto" />
       </li>
       <li className={markClassName}>
-        <WeChatPayLogo className="h-6 w-auto" />
+        <WeChatPayLogo className="!h-4 max-w-full !w-auto min-[360px]:!h-[1.125rem]" />
       </li>
       <li className={markClassName}>
-        <AlipayHkLogo className="h-6 w-auto" />
+        <AlipayHkLogo className="!h-4 max-w-full !w-auto min-[360px]:!h-[1.125rem]" />
       </li>
-      <li className={markClassName}>
+      <li className={`${markClassName} col-start-2 sm:col-start-auto`}>
         <VisaLogo className="h-5 w-auto" />
       </li>
       <li className={markClassName}>
-        <MastercardLogo className="h-6 w-auto" />
-      </li>
-      <li className={`${markClassName} sm:min-w-[7.5rem]`}>
-        <OctopusLogo className="h-5 w-auto sm:h-6" />
+        <MastercardLogo className="h-5 w-auto" />
       </li>
     </ul>
   );

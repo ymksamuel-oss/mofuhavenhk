@@ -69,7 +69,13 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   className="flex h-9 w-[7.25rem] min-w-0 items-center justify-start overflow-visible"
                   aria-hidden="true"
                 >
-                  <Icon />
+                  <Icon
+                    className={
+                      id === "wechatpay" || id === "alipayhk"
+                        ? "!h-5 max-w-full !w-auto"
+                        : ""
+                    }
+                  />
                 </span>
 
                 <span className="min-w-0 text-left text-[0.925rem] font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)] sm:text-base">
