@@ -58,15 +58,15 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`grid min-h-[5rem] w-full grid-cols-[7.25rem_minmax(0,1fr)_1.125rem] items-center gap-x-2.5 gap-y-2 rounded-[1.15rem] border px-3 py-3.5 text-left transition duration-200 sm:min-h-20 sm:grid-cols-[7.25rem_minmax(0,1fr)_1.125rem] sm:gap-x-4 sm:px-4 ${
+                className={`grid min-h-[4.5rem] w-full grid-cols-[6.5rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 px-1 py-3 text-left transition duration-200 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.75rem] sm:gap-x-4 sm:px-2 ${
                   active
-                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_8px_20px_-12px_rgba(169,124,80,0.55)]"
-                    : "border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_1px_2px_rgba(74,54,38,0.04)] hover:border-[color:var(--accent)]/45 hover:bg-[color:var(--accent-soft)]/35"
+                    ? "text-[color:var(--ink)]"
+                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
                 }`}
                 aria-pressed={active}
               >
                 <span
-                  className="flex h-9 w-[7.25rem] min-w-0 items-center justify-start overflow-visible"
+                  className="flex h-9 w-[6.5rem] min-w-0 items-center justify-start overflow-visible"
                   aria-hidden="true"
                 >
                   <Icon
