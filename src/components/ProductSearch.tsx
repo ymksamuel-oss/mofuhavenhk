@@ -187,8 +187,8 @@ function SearchField({
           placeholder={t("productSearchPlaceholder")}
           className={
             comfortable
-              ? "min-w-0 flex-1 bg-transparent text-sm text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)] sm:text-base"
-              : "min-w-0 flex-1 bg-transparent text-xs text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)] sm:text-sm"
+              ? "min-w-0 flex-1 bg-transparent text-base text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)]"
+              : "min-w-0 flex-1 bg-transparent text-base text-[color:var(--ink)] outline-none placeholder:text-[color:var(--muted)] sm:text-sm"
           }
           onChange={(event) => {
             setQuery(event.target.value);
