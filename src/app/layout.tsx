@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
+import { CatalogProvider } from "@/lib/catalog-context";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import "./globals.css";
@@ -24,24 +26,28 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const catalog = await getCatalogSnapshot();
+
   return (
     <html lang="zh-HK" className="bg-[color:var(--background)]">
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
-          <CartProvider>
-            <Header />
-            <ShopFlowNav>
-              <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
-                {children}
-              </main>
-            </ShopFlowNav>
-            <Footer />
-          </CartProvider>
+          <CatalogProvider products={catalog.products}>
+            <CartProvider>
+              <Header />
+              <ShopFlowNav>
+                <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
+                  {children}
+                </main>
+              </ShopFlowNav>
+              <Footer />
+            </CartProvider>
+          </CatalogProvider>
         </I18nProvider>
       </body>
     </html>

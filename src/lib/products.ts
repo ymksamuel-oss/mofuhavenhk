@@ -1054,17 +1054,21 @@ const PRODUCTS_RAW: Product[] = [
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
 
-export function getProductsByCategory(slug: string | null): Product[] {
-  if (!slug) return PRODUCTS;
-  return PRODUCTS.filter((product) => product.categorySlug === slug);
+export function getProductsByCategory(
+  slug: string | null,
+  products: readonly Product[] = PRODUCTS,
+): Product[] {
+  if (!slug) return [...products];
+  return products.filter((product) => product.categorySlug === slug);
 }
 
 /** Filter cat products by optional subcategory / snack-series pill (`null` = all). */
 export function getCatProductsBySubcategory(
   subcategory: CatSubcategory | null,
   snackSeries: CatSnackSeries | null = null,
+  products: readonly Product[] = PRODUCTS,
 ): Product[] {
-  const cats = getProductsByCategory("cats");
+  const cats = getProductsByCategory("cats", products);
   if (!subcategory) return cats;
   const bySub = cats.filter((product) => product.subcategory === subcategory);
   if (!snackSeries || subcategory !== "貓貓小食") return bySub;
@@ -1074,15 +1078,19 @@ export function getCatProductsBySubcategory(
 /** Filter dog products by optional subcategory pill (`null` = all). */
 export function getDogProductsBySubcategory(
   subcategory: DogSubcategory | null,
+  products: readonly Product[] = PRODUCTS,
 ): Product[] {
-  const dogs = getProductsByCategory("dogs");
+  const dogs = getProductsByCategory("dogs", products);
   if (!subcategory) return dogs;
   return dogs.filter((product) => product.subcategory === subcategory);
 }
 
-export function getProductById(id: string | null | undefined): Product | null {
+export function getProductById(
+  id: string | null | undefined,
+  products: readonly Product[] = PRODUCTS,
+): Product | null {
   if (!id) return null;
-  return PRODUCTS.find((product) => product.id === id) ?? null;
+  return products.find((product) => product.id === id) ?? null;
 }
 
 /** Resolve a subcategory path segment for cats or dogs; `null` if unknown. */

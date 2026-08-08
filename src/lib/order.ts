@@ -1,4 +1,8 @@
-import { PRODUCTS, getProductsByCategory } from "@/lib/products";
+import {
+  PRODUCTS,
+  getProductsByCategory,
+  type Product,
+} from "@/lib/products";
 
 export type OrderItem = {
   id: string;
@@ -21,14 +25,17 @@ export function calcSubtotal(items: OrderItem[]): number {
  * from the homepage's category grid, the order reflects products from that
  * category; otherwise it falls back to a default selection.
  */
-export function getOrderItems(categorySlug: string | null): OrderItem[] {
-  const matched = getProductsByCategory(categorySlug).filter(
+export function getOrderItems(
+  categorySlug: string | null,
+  products: readonly Product[] = PRODUCTS,
+): OrderItem[] {
+  const matched = getProductsByCategory(categorySlug, products).filter(
     (product) => product.inStock !== false,
   );
   const source =
     matched.length > 0
       ? matched
-      : PRODUCTS.filter((product) => product.inStock !== false);
+      : products.filter((product) => product.inStock !== false);
   return source.slice(0, 3).map((product) => ({
     id: product.id,
     name: product.name,
@@ -47,8 +54,9 @@ export const MAX_QTY = 20;
  */
 export function buildOrderItemsFromLines(
   lines: Array<{ id: string; qty: number }>,
+  products: readonly Product[] = PRODUCTS,
 ): OrderItem[] {
-  const byId = new Map(PRODUCTS.map((product) => [product.id, product]));
+  const byId = new Map(products.map((product) => [product.id, product]));
   const qtyById = new Map<string, number>();
 
   for (const line of lines) {

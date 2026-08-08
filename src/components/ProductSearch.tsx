@@ -14,6 +14,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { productHref } from "@/lib/products";
@@ -313,6 +314,7 @@ export function ProductSearch({
   autoFocus = false,
 }: ProductSearchProps) {
   const { t } = useI18n();
+  const { products } = useCatalog();
   const pathname = usePathname();
   const listId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -329,7 +331,9 @@ export function ProductSearch({
   // shows results immediately — avoid deferred-query lag hiding the panel.
   const trimmedQuery = query.trim();
   const hits =
-    trimmedQuery.length > 0 ? searchProducts(trimmedQuery, 12) : [];
+    trimmedQuery.length > 0
+      ? searchProducts(trimmedQuery, 12, products)
+      : [];
   const showPanel = suggestionsOpen && trimmedQuery.length > 0;
 
   const closeModal = () => {

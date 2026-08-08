@@ -35,6 +35,49 @@ Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物�
 - `getOrderItems()` 不會預選缺貨商品。
 - `buildOrderItemsFromLines()` 會排除不存在／缺貨商品、合併重複 SKU、限制每個 SKU 最多 20 件，並以伺服器目錄價格重建項目。Stripe PaymentIntent 與訂單通知 API 共用此防線。
 
+## Google Sheet 動態價格
+
+網站保留 `src/lib/products.ts` 嘅 `PRODUCTS` 作完整商品目錄同安全 fallback；Netlify server 會按商品 `id` 從 Google Sheet CSV 動態覆蓋價錢。前台商品列表、搜尋、商品詳情、購物車、Stripe PaymentIntent 同訂單通知會共用同一份合併後 catalog。
+
+Parser 會自動掃描前 20 個非空白行尋找表頭，所以第一行可以保留例如 `Mofu Haven HK | 102 項保留商品核心目錄` 嘅大標題，而第二行先放真正欄位。
+
+英文格式：
+
+```csv
+id,price,originalPrice,inStock
+dog-food-1-5kg,168,,true
+```
+
+亦支援現有核心目錄嘅中文格式：
+
+```csv
+Mofu Haven HK | 102 項保留商品核心目錄
+商品 ID,商品名稱,售價 (HKD),原價 (HKD),庫存狀態
+dog-food-1-5kg,日本天然狗糧 1.5kg,HK$100.00,,在售
+```
+
+- `id`／`商品 ID`、`price`／`售價 (HKD)` 必填；商品 ID 必須同 `src/lib/products.ts` 完全一致。
+- `originalPrice`／`原價 (HKD)`、`inStock`／`庫存狀態` 選填。
+- 庫存值接受 `true/false`、`1/0`、`yes/no`、`有貨/售罄`、`在售/停售`、`上架/下架`。
+- 無效價錢行會被忽略；重複 `id`、錯誤 CSV、下載失敗或完全無匹配商品時，網站會使用原有 `PRODUCTS`，唔會以未驗證資料收款。
+- 預設快取 60 秒；設定 `GOOGLE_SHEET_PRICE_CACHE_SECONDS=0` 可每次請求重新讀取。
+
+程式已將目前「102 項保留商品核心目錄」原分頁設為預設 CSV 來源，毋須填寫 `gid`：
+
+```bash
+GOOGLE_SHEET_CSV_URL=https://docs.google.com/spreadsheets/d/1zTZxk-cidcgcmGsM79jMQD72Fznmd7CfAQNS79pp6i0/export?format=csv
+```
+
+即使 Netlify 未設定 `GOOGLE_SHEET_CSV_URL`，server 亦會使用以上固定 URL。日後如要改用另一份 Sheet，先需要用環境變數覆蓋；亦可分開設定：
+
+```bash
+GOOGLE_SHEET_ID=your_spreadsheet_id
+GOOGLE_SHEET_GID=0
+GOOGLE_SHEET_PRICE_CACHE_SECONDS=60
+```
+
+`GOOGLE_SHEET_CSV_URL` 存在時會優先使用。首次加入或改動環境變數後要重新部署 Netlify；之後 Sheet 價錢會按快取時間自動更新，毋須再次改程式碼。
+
 ## 驗證
 
 資料完整性驗證直接編譯並執行真實 `PRODUCTS` 與搜尋／訂單模組，不以文字正則代替執行結果：

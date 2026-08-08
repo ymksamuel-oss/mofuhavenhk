@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
 import {
   buildOrderItemsFromLines,
   calcSubtotal,
@@ -69,7 +70,8 @@ export async function POST(request: Request) {
       ? body.category.trim()
       : null;
 
-  let items = getOrderItems(category);
+  const catalog = await getCatalogSnapshot();
+  let items = getOrderItems(category, catalog.products);
   if (Array.isArray(body.lines)) {
     const lines = body.lines
       .map((line) => {
@@ -82,7 +84,7 @@ export async function POST(request: Request) {
         };
       })
       .filter((line): line is { id: string; qty: number } => Boolean(line));
-    const rebuilt = buildOrderItemsFromLines(lines);
+    const rebuilt = buildOrderItemsFromLines(lines, catalog.products);
     if (rebuilt.length > 0) items = rebuilt;
   }
 
@@ -155,6 +157,7 @@ export async function POST(request: Request) {
       orderNumber,
       amount: total,
       currency: "HK$",
+      items,
     });
   } catch (err) {
     console.error("[stripe] create-payment-intent failed", err);

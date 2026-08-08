@@ -5,6 +5,10 @@ import {
   WT_JAPAN_DOG_STOREFRONT_PRODUCTS,
   getDogProductsBySubcategory,
 } from "@/lib/products";
+import {
+  applyProductPriceOverrides,
+  parseProductOverridesCsv,
+} from "@/lib/catalog-overrides";
 import { buildSearchIndex, searchProducts } from "@/lib/searchProducts";
 import { buildOrderItemsFromLines, MAX_QTY } from "@/lib/order";
 
@@ -107,6 +111,58 @@ const failures: string[] = [];
 function check(condition: unknown, message: string): asserts condition {
   if (!condition) failures.push(message);
 }
+
+const overrideCsv = [
+  "\uFEFFMofu Haven HK | 102 項保留商品核心目錄",
+  "商品 ID,商品名稱,售價 (HKD),原價（HKD）,庫存狀態",
+  'dog-food-1-5kg,日本天然狗糧 1.5kg," HK$ 1,234.50 ","HK$ 1,299.00",售罄',
+  'missing-product,測試商品,"$ 88 ",,在售',
+  "invalid-price,錯誤價格,not-a-number,,在售",
+].join("\n");
+const parsedOverrides = parseProductOverridesCsv(overrideCsv);
+const overriddenCatalog = applyProductPriceOverrides(
+  PRODUCTS,
+  parsedOverrides.overrides,
+);
+const overriddenDogFood = overriddenCatalog.products.find(
+  (product) => product.id === "dog-food-1-5kg",
+);
+const staticDogFood = PRODUCTS.find(
+  (product) => product.id === "dog-food-1-5kg",
+);
+check(
+  parsedOverrides.headerRow === 2 &&
+    parsedOverrides.acceptedRows === 2 &&
+    parsedOverrides.ignoredRows === 1,
+  "Google Sheet parser must detect a second-row Chinese header, accept valid rows, and ignore invalid prices",
+);
+check(
+  overriddenCatalog.matchedOverrides === 1,
+  "Only Sheet IDs present in the catalog may be applied",
+);
+check(
+  overriddenDogFood?.price === 1234.5 &&
+    overriddenDogFood.originalPrice === 1299 &&
+    overriddenDogFood.inStock === false,
+  "Google Sheet formatted price, originalPrice, and inStock overrides were not applied",
+);
+check(
+  staticDogFood?.price === 168 && staticDogFood.inStock !== false,
+  "Applying Google Sheet overrides must not mutate static PRODUCTS fallback",
+);
+
+let duplicateOverrideRejected = false;
+try {
+  parseProductOverridesCsv(
+    ["id,price", "dog-food-1-5kg,199", "dog-food-1-5kg,209"].join("\n"),
+  );
+} catch {
+  duplicateOverrideRejected = true;
+}
+check(
+  duplicateOverrideRejected,
+  "Duplicate Google Sheet product IDs must invalidate the override source",
+);
 
 check(
   PRODUCTS.length === EXPECTED_PRODUCT_COUNT,
@@ -258,4 +314,6 @@ console.log(
   `Search coverage passed: ${indexedIds.size}/${uniqueIds.size} product IDs (100%, missing=${missingFromSearch.length}, unexpected=${unexpectedInSearch.length}).`,
 );
 console.log(`WT Japan dog products passed: ${DOG_PRODUCT_IDS.length}/${DOG_PRODUCT_IDS.length}.`);
-console.log("Images, pricing, required fields, authority, and order rebuilding checks passed.");
+console.log(
+  "Images, pricing, Google Sheet overrides, fallback immutability, authority, and order rebuilding checks passed.",
+);

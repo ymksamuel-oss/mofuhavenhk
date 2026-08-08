@@ -9,7 +9,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { PRODUCTS } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog-context";
+import { PRODUCTS, type Product } from "@/lib/products";
 import {
   buildOrderItemsFromLines,
   MAX_QTY,
@@ -35,10 +36,13 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-export function sanitizeLines(raw: unknown): CartLine[] {
+export function sanitizeLines(
+  raw: unknown,
+  products: readonly Product[] = PRODUCTS,
+): CartLine[] {
   if (!Array.isArray(raw)) return [];
   const purchasable = new Set(
-    PRODUCTS.filter((product) => product.inStock !== false).map(
+    products.filter((product) => product.inStock !== false).map(
       (product) => product.id,
     ),
   );
@@ -57,18 +61,19 @@ export function sanitizeLines(raw: unknown): CartLine[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const { products } = useCatalog();
   const [lines, setLines] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(CART_STORAGE_KEY);
-      setLines(raw ? sanitizeLines(JSON.parse(raw)) : []);
+      setLines(raw ? sanitizeLines(JSON.parse(raw), products) : []);
     } catch {
       setLines([]);
     }
     setReady(true);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     if (!ready) return;
@@ -80,7 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [lines, ready]);
 
   const addItem = useCallback((productId: string, qty = 1) => {
-    const product = PRODUCTS.find((candidate) => candidate.id === productId);
+    const product = products.find((candidate) => candidate.id === productId);
     if (!product || product.inStock === false) return;
     const numericQty = Math.floor(Number(qty));
     if (!Number.isFinite(numericQty) || numericQty < 1) return;
@@ -96,10 +101,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           : line,
       );
     });
-  }, []);
+  }, [products]);
 
   const setQty = useCallback((productId: string, qty: number) => {
-    const product = PRODUCTS.find((candidate) => candidate.id === productId);
+    const product = products.find((candidate) => candidate.id === productId);
     const numericQty = Math.floor(Number(qty));
     const next = Number.isFinite(numericQty)
       ? Math.min(MAX_QTY, Math.max(0, numericQty))
@@ -112,7 +117,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         line.id === productId ? { ...line, qty: next } : line,
       );
     });
-  }, []);
+  }, [products]);
 
   const removeItem = useCallback((productId: string) => {
     setLines((current) => current.filter((line) => line.id !== productId));
@@ -128,8 +133,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toOrderItems = useCallback(
-    () => buildOrderItemsFromLines(lines),
-    [lines],
+    () => buildOrderItemsFromLines(lines, products),
+    [lines, products],
   );
 
   const itemCount = useMemo(

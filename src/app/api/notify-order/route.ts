@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
 import {
   buildNotifyMessage,
   getConfiguredProviders,
@@ -86,7 +87,8 @@ export async function POST(request: Request) {
 
   let resolvedTotal: number | null = null;
   if (lines) {
-    const items = buildOrderItemsFromLines(lines);
+    const catalog = await getCatalogSnapshot();
+    const items = buildOrderItemsFromLines(lines, catalog.products);
     if (items.length > 0) {
       resolvedTotal = calcSubtotal(items) + SHIPPING;
     }

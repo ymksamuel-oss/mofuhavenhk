@@ -20,6 +20,7 @@ import {
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { ContinueShoppingButton } from "@/components/ContinueShoppingButton";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   calcSubtotal,
@@ -54,10 +55,11 @@ function CheckoutContent() {
   const { locale, t } = useI18n();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const { products } = useCatalog();
   const cart = useCart();
 
   const [items, setItems] = useState<OrderItem[]>(() =>
-    getOrderItems(category),
+    getOrderItems(category, products),
   );
   const [hydratedFromCart, setHydratedFromCart] = useState(false);
   const amountHkd =
@@ -129,12 +131,12 @@ function CheckoutContent() {
     ) {
       return;
     }
-    setItems(getOrderItems(category));
+    setItems(getOrderItems(category, products));
     setClientSecret(null);
     setPhase((current) =>
       current === "stripe_missing" ? current : "idle",
     );
-  }, [category, cart.ready, cart.lines.length, phase]);
+  }, [category, cart.ready, cart.lines.length, phase, products]);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
@@ -401,6 +403,7 @@ function CheckoutContent() {
         clientSecret?: string;
         orderNumber?: string;
         detail?: string;
+        items?: OrderItem[];
       };
 
       if (data.error === "stripe_not_configured" || res.status === 503) {
@@ -414,6 +417,9 @@ function CheckoutContent() {
       }
 
       if (data.orderNumber) setOrderNumber(data.orderNumber);
+      if (Array.isArray(data.items) && data.items.length > 0) {
+        setItems(data.items);
+      }
       setClientSecret(data.clientSecret);
       setPhase("ready");
     } catch {

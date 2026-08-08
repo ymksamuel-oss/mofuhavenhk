@@ -38,13 +38,17 @@ export function buildSearchIndex(
   return products.map((product) => ({ ...product, score: 0 }));
 }
 
-export function searchProducts(query: string, limit = 12): ProductSearchHit[] {
+export function searchProducts(
+  query: string,
+  limit = 12,
+  products: readonly Product[] = PRODUCTS,
+): ProductSearchHit[] {
   const needle = normalizeSearchText(query.trim());
   if (!needle) return [];
 
   const ranked: ProductSearchHit[] = [];
 
-  for (const product of PRODUCTS) {
+  for (const product of products) {
     let score = 0;
     score += fieldScore(product.id, needle, 14);
     score += fieldScore(product.name.zh, needle, 13);

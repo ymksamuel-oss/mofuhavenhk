@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { MAX_QTY, MIN_QTY } from "@/lib/order";
-import { getProductById } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 
 type AddToCartButtonProps = {
@@ -24,6 +24,7 @@ export function AddToCartButton({
   size = "card",
 }: AddToCartButtonProps) {
   const { t } = useI18n();
+  const { getProductById } = useCatalog();
   const { addItem } = useCart();
   const product = getProductById(productId);
   const purchasable = Boolean(product && product.inStock !== false);

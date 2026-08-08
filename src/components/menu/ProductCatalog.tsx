@@ -12,6 +12,7 @@ import {
   catSnacksSeriesHref,
   getCategoryBySlug,
 } from "@/lib/categories";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
 import {
@@ -185,6 +186,7 @@ export function ProductCatalog({
   showProductSearch = false,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
+  const { products: catalogProducts } = useCatalog();
   const category = getCategoryBySlug(categorySlug);
   const isCats = categorySlug === "cats";
   const isDogs = categorySlug === "dogs";
@@ -203,11 +205,18 @@ export function ProductCatalog({
     let baseProducts: Product[] = [];
     
     if (isCats) {
-      baseProducts = getCatProductsBySubcategory(catSubcategory, catSnackSeries);
+      baseProducts = getCatProductsBySubcategory(
+        catSubcategory,
+        catSnackSeries,
+        catalogProducts,
+      );
     } else if (isDogs) {
-      baseProducts = getDogProductsBySubcategory(dogSubcategory);
+      baseProducts = getDogProductsBySubcategory(
+        dogSubcategory,
+        catalogProducts,
+      );
     } else {
-      baseProducts = getProductsByCategory(categorySlug);
+      baseProducts = getProductsByCategory(categorySlug, catalogProducts);
     }
     
     return baseProducts;
@@ -218,6 +227,7 @@ export function ProductCatalog({
     dogSubcategory,
     catSnackSeries,
     categorySlug,
+    catalogProducts,
   ]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
