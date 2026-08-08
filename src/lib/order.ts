@@ -7,7 +7,7 @@ import {
 export type OrderItem = {
   id: string;
   name: { zh: string; en: string };
-  /** Real product photograph path under /public. */
+  /** Real product photograph from the active catalog (local path or URL). */
   image: string;
   qty: number;
   unit: number;

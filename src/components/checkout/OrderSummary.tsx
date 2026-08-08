@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
@@ -92,10 +92,9 @@ export function OrderSummary({
           >
             <div className="flex min-w-0 items-start gap-3">
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
-                <Image
+                <ProductImage
                   src={item.image}
                   alt={item.name[locale]}
-                  fill
                   sizes="56px"
                   className="object-cover"
                 />

@@ -30,8 +30,10 @@ export function generateStaticParams() {
  * - `/categories/cats/freeze-dried` → 冷凍脫水系列
  * - `/categories/cats/snacks` → 貓貓小食
  * - `/categories/cats/snacks?series=natural|senior|hairball|kitten` → series filters
+ * - `/categories/cats/pill-treats` → 貓用投藥餵藥專用小食
  * - `/categories/dogs/snacks` → 狗狗小食
  * - `/categories/dogs/food` → 狗狗食品
+ * - `/categories/dogs/pill-treats` → 狗用投藥餵藥專用小食
  */
 export default async function CategorySubPage({
   params,

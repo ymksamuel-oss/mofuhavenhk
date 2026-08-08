@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { ProductImage } from "@/components/product/ProductImage";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -45,10 +45,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
         <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-[color:var(--surface)] ring-1 ring-[color:var(--line)]">
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name[locale]}
-            fill
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"

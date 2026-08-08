@@ -3,17 +3,18 @@ import path from "node:path";
 import {
   PRODUCTS,
   WT_JAPAN_DOG_STOREFRONT_PRODUCTS,
+  getCatProductsBySubcategory,
   getDogProductsBySubcategory,
 } from "@/lib/products";
 import {
-  applyProductPriceOverrides,
-  parseProductOverridesCsv,
+  applyProductCatalogRecords,
+  parseProductCatalogCsv,
 } from "@/lib/catalog-overrides";
 import { buildSearchIndex, searchProducts } from "@/lib/searchProducts";
 import { buildOrderItemsFromLines, MAX_QTY } from "@/lib/order";
 
 const ROOT = process.cwd();
-const EXPECTED_PRODUCT_COUNT = 102;
+const EXPECTED_PRODUCT_COUNT = 114;
 const REMOVED_EXPERIMENT_IDS = [
   "cat-food-1kg",
   "cat-scratcher-set",
@@ -105,6 +106,116 @@ const DOG_PRODUCT_IDS = [
   "wt-japan-004",
   "wt-japan-005",
 ] as const;
+const PILL_TREAT_EXPECTATIONS = {
+  "pill-pocket-greenies-dog-chicken": {
+    categorySlug: "dogs",
+    image: "/products/pill-pocket-greenies-dog-chicken.webp",
+    title: "GREENIES 綠的 Pill Pockets 健綠犬用投藥零食（雞肉風味）",
+    price: 98,
+    originalPrice: 110,
+    brand: "GREENIES",
+    spec: "規格：30 顆裝 (224g)",
+  },
+  "pill-pocket-greenies-dog-peanut-butter": {
+    categorySlug: "dogs",
+    image: "/products/pill-pocket-greenies-dog-peanut-butter.webp",
+    title: "GREENIES 綠的 Pill Pockets 健綠犬用投藥零食（花生醬風味）",
+    price: 98,
+    originalPrice: 110,
+    brand: "GREENIES",
+    spec: "規格：30 顆裝 (224g)",
+  },
+  "pill-assist-royal-canin-cat": {
+    categorySlug: "cats",
+    image: "/products/pill-assist-royal-canin-cat.webp",
+    title: "ROYAL CANIN 皇家 Pill Assist 貓用投藥輔助軟錠",
+    price: 72,
+    originalPrice: 80,
+    brand: "ROYAL CANIN",
+    spec: "規格：45g (約30顆)",
+  },
+  "pill-assist-royal-canin-dog-small": {
+    categorySlug: "dogs",
+    image: "/products/pill-assist-royal-canin-dog-small.webp",
+    title: "ROYAL CANIN 皇家 Pill Assist 小型犬用投藥輔助軟錠",
+    price: 78,
+    originalPrice: 88,
+    brand: "ROYAL CANIN",
+    spec: "規格：90g (約30顆)",
+  },
+  "mediball-vets-labo-dog-cheese": {
+    categorySlug: "dogs",
+    image: "/products/mediball-vets-labo-dog-cheese.webp",
+    title: "VET'S Labo Mediball 獸醫研發犬用投藥小丸子（起司味）",
+    price: 48,
+    originalPrice: 55,
+    brand: "VET'S Labo",
+    spec: "規格：15 顆裝 (20g)",
+  },
+  "mediball-vets-labo-dog-chicken": {
+    categorySlug: "dogs",
+    image: "/products/mediball-vets-labo-dog-chicken.webp",
+    title: "VET'S Labo Mediball 獸醫研發犬用投藥小丸子（雞肉味）",
+    price: 48,
+    originalPrice: 55,
+    brand: "VET'S Labo",
+    spec: "規格：15 顆裝 (20g)",
+  },
+  "mediball-vets-labo-cat-tuna": {
+    categorySlug: "cats",
+    image: "/products/mediball-vets-labo-cat-tuna.webp",
+    title: "VET'S Labo Mediball 獸醫研發貓用投藥小丸子（鮪魚味）",
+    price: 48,
+    originalPrice: 55,
+    brand: "VET'S Labo",
+    spec: "規格：15 顆裝 (20g)",
+  },
+  "mediball-vets-labo-cat-bonito": {
+    categorySlug: "cats",
+    image: "/products/mediball-vets-labo-cat-bonito.webp",
+    title: "VET'S Labo Mediball 獸醫研發貓用投藥小丸子（鰹魚味）",
+    price: 48,
+    originalPrice: 55,
+    brand: "VET'S Labo",
+    spec: "規格：15 顆裝 (20g)",
+  },
+  "ciao-churu-vet-pill-paste": {
+    categorySlug: "cats",
+    image: "/products/ciao-churu-vet-pill-paste.webp",
+    title: "CIAO 獸醫專用高黏度投藥輔助肉泥膏（鮪魚味）",
+    price: 38,
+    originalPrice: 45,
+    brand: "CIAO",
+    spec: "規格：12g x 4 本",
+  },
+  "ciao-churu-vet-pill-paste-chicken": {
+    categorySlug: "cats",
+    image: "/products/ciao-churu-vet-pill-paste-chicken.webp",
+    title: "CIAO 獸醫專用高黏度投藥輔助肉泥膏（雞肉味）",
+    price: 38,
+    originalPrice: 45,
+    brand: "CIAO",
+    spec: "規格：12g x 4 本",
+  },
+  "tomlyn-pill-mask-bacon": {
+    categorySlug: "dogs",
+    image: "/products/tomlyn-pill-mask-bacon.webp",
+    title: "Tomlyn 湯姆林 投藥軟膏/偽裝膏（煙燻培根風味）",
+    price: 85,
+    originalPrice: 98,
+    brand: "Tomlyn",
+    spec: "規格：113g",
+  },
+  "easy-pill-cat-poultry": {
+    categorySlug: "cats",
+    image: "/products/easy-pill-cat-poultry.webp",
+    title: "EasyPill 貓用投藥軟膏（禽肉風味）",
+    price: 65,
+    originalPrice: 75,
+    brand: "EasyPill",
+    spec: "規格：10g x 3 條",
+  },
+} as const;
 
 const failures: string[] = [];
 
@@ -114,15 +225,16 @@ function check(condition: unknown, message: string): asserts condition {
 
 const overrideCsv = [
   "\uFEFFMofu Haven HK | 102 項保留商品核心目錄",
-  "商品 ID,商品名稱,售價 (HKD),原價（HKD）,庫存狀態",
-  'dog-food-1-5kg,日本天然狗糧 1.5kg," HK$ 1,234.50 ","HK$ 1,299.00",售罄',
-  'missing-product,測試商品,"$ 88 ",,在售',
-  "invalid-price,錯誤價格,not-a-number,,在售",
+  "商品 ID,中文商品名稱,英文商品名稱,售價 (HKD),原價（HKD）,庫存狀態,中文描述,英文描述,本地圖片路徑,來源圖片 URL",
+  'dog-food-1-5kg,Sheet 狗糧,Sheet Dog Food," HK$ 1,234.50 ","HK$ 1,299.00",售罄,Sheet 中文介紹,Sheet English description,/products/dog-food-1-5kg.webp,https://cdn.shopify.com/example.jpg',
+  'dog-dental-chews,Sheet 潔牙骨,Sheet Dental Chews,"$88",,在售,,,,https://cdn.shopify.com/remote-product.jpg',
+  'missing-product,測試商品,Test Product,"$ 88 ",,在售,測試介紹,Test description,,',
+  "invalid-price,錯誤價格,Invalid Price,not-a-number,,在售,錯誤,Invalid,/products/dog-food-1-5kg.webp,",
 ].join("\n");
-const parsedOverrides = parseProductOverridesCsv(overrideCsv);
-const overriddenCatalog = applyProductPriceOverrides(
+const parsedOverrides = parseProductCatalogCsv(overrideCsv);
+const overriddenCatalog = applyProductCatalogRecords(
   PRODUCTS,
-  parsedOverrides.overrides,
+  parsedOverrides.records,
 );
 const overriddenDogFood = overriddenCatalog.products.find(
   (product) => product.id === "dog-food-1-5kg",
@@ -130,31 +242,55 @@ const overriddenDogFood = overriddenCatalog.products.find(
 const staticDogFood = PRODUCTS.find(
   (product) => product.id === "dog-food-1-5kg",
 );
+const overriddenDentalChews = overriddenCatalog.products.find(
+  (product) => product.id === "dog-dental-chews",
+);
+const staticDentalChews = PRODUCTS.find(
+  (product) => product.id === "dog-dental-chews",
+);
 check(
   parsedOverrides.headerRow === 2 &&
     parsedOverrides.acceptedRows === 2 &&
-    parsedOverrides.ignoredRows === 1,
-  "Google Sheet parser must detect a second-row Chinese header, accept valid rows, and ignore invalid prices",
+    parsedOverrides.ignoredRows === 2,
+  "Google Sheet parser must detect a second-row Chinese header, accept complete rows, and ignore incomplete catalog rows",
 );
 check(
-  overriddenCatalog.matchedOverrides === 1,
+  overriddenCatalog.matchedRecords === 2,
   "Only Sheet IDs present in the catalog may be applied",
 );
 check(
   overriddenDogFood?.price === 1234.5 &&
     overriddenDogFood.originalPrice === 1299 &&
-    overriddenDogFood.inStock === false,
-  "Google Sheet formatted price, originalPrice, and inStock overrides were not applied",
+    overriddenDogFood.inStock === false &&
+    overriddenDogFood.image === "/products/dog-food-1-5kg.webp" &&
+    overriddenDogFood.name.zh === "Sheet 狗糧" &&
+    overriddenDogFood.name.en === "Sheet Dog Food" &&
+    overriddenDogFood.description?.zh === "Sheet 中文介紹" &&
+    overriddenDogFood.description?.en === "Sheet English description",
+  "Google Sheet image, title, description, price, originalPrice, and stock fields were not applied",
 );
 check(
-  staticDogFood?.price === 168 && staticDogFood.inStock !== false,
+  overriddenDentalChews?.image ===
+    "https://cdn.shopify.com/remote-product.jpg" &&
+    overriddenDentalChews.description === undefined &&
+    staticDentalChews?.description !== undefined,
+  "Google Sheet remote images must be accepted and blank descriptions must remove stale static descriptions",
+);
+check(
+  staticDogFood?.price === 168 &&
+    staticDogFood.inStock !== false &&
+    staticDogFood.name.zh === "日本天然狗糧 1.5kg",
   "Applying Google Sheet overrides must not mutate static PRODUCTS fallback",
 );
 
 let duplicateOverrideRejected = false;
 try {
-  parseProductOverridesCsv(
-    ["id,price", "dog-food-1-5kg,199", "dog-food-1-5kg,209"].join("\n"),
+  parseProductCatalogCsv(
+    [
+      "id,price,inStock,title,description,image",
+      "dog-food-1-5kg,199,true,Dog Food,First description,/products/dog-food-1-5kg.webp",
+      "dog-food-1-5kg,209,true,Dog Food,Second description,/products/dog-food-1-5kg.webp",
+    ].join("\n"),
   );
 } catch {
   duplicateOverrideRejected = true;
@@ -163,6 +299,43 @@ check(
   duplicateOverrideRejected,
   "Duplicate Google Sheet product IDs must invalidate the override source",
 );
+
+let missingRequiredColumnRejected = false;
+try {
+  parseProductCatalogCsv(
+    [
+      "id,price,inStock,title,image",
+      "dog-food-1-5kg,199,true,Dog Food,/products/dog-food-1-5kg.webp",
+    ].join("\n"),
+  );
+} catch {
+  missingRequiredColumnRejected = true;
+}
+check(
+  missingRequiredColumnRejected,
+  "A Sheet without all five required product field groups must be rejected",
+);
+
+const invalidImages = [
+  "//example.com/product.jpg",
+  "/products/../secret.jpg",
+  "/products\\secret.jpg",
+];
+for (const image of invalidImages) {
+  const parsed = parseProductCatalogCsv(
+    [
+      "id,price,inStock,title,description,image",
+      "dog-food-1-5kg,199,true,Safe Product,Safe description,/products/dog-food-1-5kg.webp",
+      `unsafe-image,199,true,Unsafe Product,Unsafe description,${image}`,
+    ].join("\n"),
+  );
+  check(
+    parsed.records.size === 1 &&
+      !parsed.records.has("unsafe-image") &&
+      parsed.ignoredRows === 1,
+    `Unsafe Sheet image path must be rejected: ${image}`,
+  );
+}
 
 check(
   PRODUCTS.length === EXPECTED_PRODUCT_COUNT,
@@ -217,6 +390,55 @@ for (const id of REMOVED_NON_CONSUMABLE_IDS) {
 for (const id of REQUIRED_CONSUMABLE_IDS) {
   check(uniqueIds.has(id), `${id}: required consumable product is missing`);
 }
+
+const pillTreatProducts = new Map(
+  PRODUCTS.filter(
+    (product) => product.subcategory === "投藥餵藥專用小食",
+  ).map((product) => [product.id, product]),
+);
+for (const [id, expected] of Object.entries(PILL_TREAT_EXPECTATIONS)) {
+  const product = pillTreatProducts.get(id);
+  check(Boolean(product), `${id}: medication-assistance product is missing`);
+  if (!product) continue;
+  check(
+    product.categorySlug === expected.categorySlug,
+    `${id}: expected ${expected.categorySlug} category, found ${product.categorySlug}`,
+  );
+  check(
+    product.subcategory === "投藥餵藥專用小食",
+    `${id}: dedicated medication-assistance subcategory was overwritten`,
+  );
+  check(product.image === expected.image, `${id}: image path does not match`);
+  check(product.name.zh === expected.title, `${id}: Chinese title does not match`);
+  check(product.price === expected.price, `${id}: price does not match`);
+  check(
+    product.originalPrice === expected.originalPrice,
+    `${id}: original price does not match`,
+  );
+  check(product.brand === expected.brand, `${id}: brand does not match`);
+  check(
+    product.specs?.some((spec) => spec.zh === expected.spec),
+    `${id}: Chinese specification does not match`,
+  );
+  check(
+    Boolean(product.description?.zh.trim()) &&
+      Boolean(product.description?.en.trim()),
+    `${id}: bilingual description is required`,
+  );
+  check(product.inStock !== false, `${id}: product must be purchasable`);
+}
+check(
+  pillTreatProducts.size === Object.keys(PILL_TREAT_EXPECTATIONS).length,
+  `Expected ${Object.keys(PILL_TREAT_EXPECTATIONS).length} medication-assistance products, found ${pillTreatProducts.size}`,
+);
+check(
+  getCatProductsBySubcategory("投藥餵藥專用小食").length === 6,
+  "Cat medication-assistance category must contain 6 products",
+);
+check(
+  getDogProductsBySubcategory("投藥餵藥專用小食").length === 6,
+  "Dog medication-assistance category must contain 6 products",
+);
 
 const indexedIds = new Set(buildSearchIndex(PRODUCTS).map((product) => product.id));
 const missingFromSearch = [...uniqueIds].filter((id) => !indexedIds.has(id));

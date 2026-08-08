@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getReceipt, type ReceiptRecord } from "@/lib/receipt";
@@ -99,10 +99,9 @@ export function ReceiptPage({ orderNumber }: ReceiptPageProps) {
                   <li key={item.id} className="flex items-start justify-between gap-3 py-3.5">
                     <div className="flex min-w-0 items-start gap-3">
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
-                        <Image
+                        <ProductImage
                           src={item.image}
                           alt={item.name[locale]}
-                          fill
                           sizes="56px"
                           className="object-cover"
                         />

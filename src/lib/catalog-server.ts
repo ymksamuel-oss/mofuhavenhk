@@ -2,8 +2,8 @@ import "server-only";
 
 import { cache } from "react";
 import {
-  applyProductPriceOverrides,
-  parseProductOverridesCsv,
+  applyProductCatalogRecords,
+  parseProductCatalogCsv,
 } from "@/lib/catalog-overrides";
 import { PRODUCTS, type Product } from "@/lib/products";
 
@@ -13,7 +13,7 @@ const DEFAULT_GOOGLE_SHEET_CSV_URL =
 export type CatalogSnapshot = {
   products: Product[];
   source: "google-sheet" | "static";
-  matchedOverrides: number;
+  matchedRecords: number;
 };
 
 function positiveInteger(value: string | undefined, fallback: number): number {
@@ -51,7 +51,8 @@ function getGoogleSheetCsvUrl(): string {
 
 async function fetchSheetCsv(url: string): Promise<string> {
   const revalidateSeconds = positiveInteger(
-    process.env.GOOGLE_SHEET_PRICE_CACHE_SECONDS,
+    process.env.GOOGLE_SHEET_CACHE_SECONDS ??
+      process.env.GOOGLE_SHEET_PRICE_CACHE_SECONDS,
     60,
   );
   const timeoutMs = Math.max(
@@ -85,28 +86,31 @@ async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
     const url = getGoogleSheetCsvUrl();
     const csv = await fetchSheetCsv(url);
-    const parsed = parseProductOverridesCsv(csv);
-    const merged = applyProductPriceOverrides(PRODUCTS, parsed.overrides);
-    if (merged.matchedOverrides === 0) {
+    const parsed = parseProductCatalogCsv(csv);
+    const merged = applyProductCatalogRecords(PRODUCTS, parsed.records);
+    if (merged.matchedRecords !== PRODUCTS.length) {
+      const missingIds = PRODUCTS.filter(
+        (product) => !parsed.records.has(product.id),
+      ).map((product) => product.id);
       throw new Error(
-        "Google Sheet has valid rows, but none match the code catalog IDs",
+        `Google Sheet catalog coverage failed: matched=${merged.matchedRecords}/${PRODUCTS.length}, missing=${missingIds.slice(0, 10).join(",")}`,
       );
     }
 
     return {
       products: merged.products,
       source: "google-sheet",
-      matchedOverrides: merged.matchedOverrides,
+      matchedRecords: merged.matchedRecords,
     };
   } catch (error) {
     console.error(
-      "[catalog] Google Sheet price override failed; using static PRODUCTS fallback.",
+      "[catalog] Google Sheet catalog sync failed; using static PRODUCTS fallback.",
       error instanceof Error ? error.message : String(error),
     );
     return {
       products: PRODUCTS,
       source: "static",
-      matchedOverrides: 0,
+      matchedRecords: 0,
     };
   }
 }

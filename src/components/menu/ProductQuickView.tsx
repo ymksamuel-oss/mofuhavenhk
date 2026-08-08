@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { ProductImage } from "@/components/product/ProductImage";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
 
@@ -65,10 +65,9 @@ export function ProductQuickView({
         </button>
 
         <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[color:var(--background)]">
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name[locale]}
-            fill
             sizes="(min-width: 640px) 512px, 100vw"
             className="object-cover"
             priority

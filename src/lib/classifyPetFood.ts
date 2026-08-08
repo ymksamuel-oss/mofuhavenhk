@@ -6,8 +6,9 @@
  *    → cats / 冷凍脫水系列 — never dogs.
  * 2. Cat snack series marks（無添加天然／老貓零食／去毛球／bb貓）
  *    → cats / 貓貓小食 (keeps authored snackSeries).
- * 3. 狗狗／狗用 + edible food／treat signals → dogs / 狗狗食品 or 狗狗小食.
- * 4. Toys, gear, health, cleaning, outdoor keep their storefront category
+ * 3. Authored 投藥餵藥專用小食 stays under its cats / dogs parent category.
+ * 4. 狗狗／狗用 + edible food／treat signals → dogs / 狗狗食品 or 狗狗小食.
+ * 5. Toys, gear, health, cleaning, outdoor keep their storefront category
  *    even when the title says「狗狗」(those are not food SKUs).
  */
 
@@ -17,7 +18,8 @@ export type FoodZoneSubcategory =
   | "冷凍脫水系列"
   | "貓貓小食"
   | "狗狗食品"
-  | "狗狗小食";
+  | "狗狗小食"
+  | "投藥餵藥專用小食";
 
 export type ClassifiableProduct = {
   id: string;
@@ -106,6 +108,22 @@ export function inferFoodZone(
   // Shared cat+dog food/treat deals stay on their original shelf (deals/snacks).
   if (hasShared && !hasFreeze) {
     return null;
+  }
+
+  // ——— Authored medication-assistance treats stay in their dedicated zone ———
+  if (
+    product.subcategory === "投藥餵藥專用小食" &&
+    (product.categorySlug === "cats" || product.categorySlug === "dogs")
+  ) {
+    return {
+      categorySlug: product.categorySlug,
+      subcategory: "投藥餵藥專用小食",
+      reason: `已歸入${product.categorySlug === "cats" ? "貓咪" : "狗狗"}投藥餵藥專用小食 → 保持`,
+      tags: [
+        "投藥餵藥專用小食",
+        product.categorySlug === "cats" ? "貓用" : "狗用",
+      ],
+    };
   }
 
   // ——— Freeze-dried series ———

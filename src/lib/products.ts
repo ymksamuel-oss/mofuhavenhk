@@ -20,12 +20,17 @@ export const CAT_SUBCATEGORIES = [
   "貓乾糧",
   "冷凍脫水系列",
   "貓貓小食",
+  "投藥餵藥專用小食",
 ] as const;
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
 
 /** Dog-products sub-filter keys (shown under 「狗狗商品」). */
-export const DOG_SUBCATEGORIES = ["狗狗食品", "狗狗小食"] as const;
+export const DOG_SUBCATEGORIES = [
+  "狗狗食品",
+  "狗狗小食",
+  "投藥餵藥專用小食",
+] as const;
 
 export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
 
@@ -65,6 +70,7 @@ export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "dry-food": "貓乾糧",
   "freeze-dried": "冷凍脫水系列",
   snacks: "貓貓小食",
+  "pill-treats": "投藥餵藥專用小食",
 };
 
 /** Cat subcategory key → URL path segment. */
@@ -73,18 +79,21 @@ export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
   貓乾糧: "dry-food",
   冷凍脫水系列: "freeze-dried",
   貓貓小食: "snacks",
+  投藥餵藥專用小食: "pill-treats",
 };
 
 /** URL path segment → dog subcategory key. */
 export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
   food: "狗狗食品",
   snacks: "狗狗小食",
+  "pill-treats": "投藥餵藥專用小食",
 };
 
 /** Dog subcategory key → URL path segment. */
 export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
   狗狗食品: "food",
   狗狗小食: "snacks",
+  投藥餵藥專用小食: "pill-treats",
 };
 
 export type Product = {
@@ -95,14 +104,15 @@ export type Product = {
    * 「冷凍脫水系列」= cat-only freeze-dried snacks（冷凍食物專區）.
    * 「貓貓小食」= cat treats zone（無添加天然／老貓／去毛球／BB貓系列）.
    * 「狗狗小食」= dog treats zone under dog products.
+   * 「投藥餵藥專用小食」= medication-assistance treats under cats or dogs.
    * Apparel / toys / supplies leave this undefined.
    */
   subcategory?: ProductSubcategory;
   /**
-   * Path (under /public) to a real product photograph for this SKU.
+   * Local /public path or HTTP(S) URL to a real product photograph for this SKU.
    * Typical locations: `public/products/<id>.webp` or
-   * `public/images/products/<id>.jpg` — never use AI-generated art,
-   * cartoons, or shared category illustrations.
+   * `public/images/products/<id>.jpg`. The Google Sheet catalog may replace
+   * this with a validated remote URL at runtime.
    */
   image: string;
   name: { zh: string; en: string };
@@ -730,6 +740,334 @@ export const WT_JAPAN_DOG_STOREFRONT_PRODUCTS: Product[] =
     wtJapanDogProductToProduct,
   );
 
+/** Medication-assistance treats shared by the cat and dog storefront zones. */
+const PILL_TREAT_PRODUCTS: Product[] = [
+  {
+    id: "pill-pocket-greenies-dog-chicken",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/pill-pocket-greenies-dog-chicken.webp",
+    name: {
+      zh: "GREENIES 綠的 Pill Pockets 健綠犬用投藥零食（雞肉風味）",
+      en: "GREENIES Pill Pockets Dog Treat - Chicken Flavor",
+    },
+    price: 98,
+    originalPrice: 110,
+    series: { zh: "GREENIES", en: "GREENIES" },
+    icon: "dog",
+    description: {
+      zh: "專為隱藏藥丸與膠囊設計的軟質餡餅，專利空腔可輕鬆捏合封口。濃郁雞肉香氣有效遮蓋藥物氣味。",
+      en: "Soft treats designed to hide pills and capsules. The patented pocket is easy to pinch closed, while the rich chicken aroma helps mask medicine odors.",
+    },
+    specs: [
+      { zh: "品牌：GREENIES", en: "Brand: GREENIES" },
+      { zh: "規格：30 顆裝 (224g)", en: "Spec: 30 pieces (224g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "雞肉風味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "GREENIES",
+    vendor: "GREENIES",
+  },
+  {
+    id: "pill-pocket-greenies-dog-peanut-butter",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/pill-pocket-greenies-dog-peanut-butter.webp",
+    name: {
+      zh: "GREENIES 綠的 Pill Pockets 健綠犬用投藥零食（花生醬風味）",
+      en: "GREENIES Pill Pockets Dog Treat - Peanut Butter Flavor",
+    },
+    price: 98,
+    originalPrice: 110,
+    series: { zh: "GREENIES", en: "GREENIES" },
+    icon: "dog",
+    description: {
+      zh: "濃郁花生醬香氣能完美遮蔽藥物味道，質地柔軟可捏合密封。",
+      en: "A rich peanut-butter aroma helps mask the taste of medicine, and the soft texture can be pinched closed around a pill.",
+    },
+    specs: [
+      { zh: "品牌：GREENIES", en: "Brand: GREENIES" },
+      { zh: "規格：30 顆裝 (224g)", en: "Spec: 30 pieces (224g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "花生醬風味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "GREENIES",
+    vendor: "GREENIES",
+  },
+  {
+    id: "pill-assist-royal-canin-cat",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/pill-assist-royal-canin-cat.webp",
+    name: {
+      zh: "ROYAL CANIN 皇家 Pill Assist 貓用投藥輔助軟錠",
+      en: "ROYAL CANIN Pill Assist Cat Treats",
+    },
+    price: 72,
+    originalPrice: 80,
+    series: { zh: "ROYAL CANIN", en: "ROYAL CANIN" },
+    icon: "cat",
+    description: {
+      zh: "獸醫師參與研發，柔軟易塑形，完整包覆藥丸。高達 91% 服藥成功率，每顆約 3 kcal。",
+      en: "Developed with veterinarians, these soft, moldable treats fully enclose pills. They offer a medication acceptance rate of up to 91%, with about 3 kcal per piece.",
+    },
+    specs: [
+      { zh: "品牌：ROYAL CANIN", en: "Brand: ROYAL CANIN" },
+      { zh: "規格：45g (約30顆)", en: "Spec: 45g (about 30 pieces)" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "ROYAL CANIN",
+    vendor: "ROYAL CANIN",
+  },
+  {
+    id: "pill-assist-royal-canin-dog-small",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/pill-assist-royal-canin-dog-small.webp",
+    name: {
+      zh: "ROYAL CANIN 皇家 Pill Assist 小型犬用投藥輔助軟錠",
+      en: "ROYAL CANIN Pill Assist Small Dog Treats",
+    },
+    price: 78,
+    originalPrice: 88,
+    series: { zh: "ROYAL CANIN", en: "ROYAL CANIN" },
+    icon: "dog",
+    description: {
+      zh: "專為體重 10kg 以下小型犬設計，質地柔軟易包裹藥丸，幫助減少服藥抗拒。",
+      en: "Designed for small dogs under 10kg, the soft texture wraps easily around pills and helps reduce resistance to medication.",
+    },
+    specs: [
+      { zh: "品牌：ROYAL CANIN", en: "Brand: ROYAL CANIN" },
+      { zh: "規格：90g (約30顆)", en: "Spec: 90g (about 30 pieces)" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "小型犬"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "ROYAL CANIN",
+    vendor: "ROYAL CANIN",
+  },
+  {
+    id: "mediball-vets-labo-dog-cheese",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/mediball-vets-labo-dog-cheese.webp",
+    name: {
+      zh: "VET'S Labo Mediball 獸醫研發犬用投藥小丸子（起司味）",
+      en: "VET'S Labo Mediball Dog Pill Treats - Cheese Flavor",
+    },
+    price: 48,
+    originalPrice: 55,
+    series: { zh: "VET'S Labo", en: "VET'S Labo" },
+    icon: "dog",
+    description: {
+      zh: "日本獸醫師團隊研發，質地柔軟黏性佳，不易掉渣且能完美包覆藥丸。",
+      en: "Developed by a team of Japanese veterinarians, these soft, tacky treats resist crumbling and wrap neatly around pills.",
+    },
+    specs: [
+      { zh: "品牌：VET'S Labo", en: "Brand: VET'S Labo" },
+      { zh: "規格：15 顆裝 (20g)", en: "Spec: 15 pieces (20g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "起司味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "VET'S Labo",
+    vendor: "VET'S Labo",
+  },
+  {
+    id: "mediball-vets-labo-dog-chicken",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/mediball-vets-labo-dog-chicken.webp",
+    name: {
+      zh: "VET'S Labo Mediball 獸醫研發犬用投藥小丸子（雞肉味）",
+      en: "VET'S Labo Mediball Dog Pill Treats - Chicken Flavor",
+    },
+    price: 48,
+    originalPrice: 55,
+    series: { zh: "VET'S Labo", en: "VET'S Labo" },
+    icon: "dog",
+    description: {
+      zh: "日本獸醫師推薦，高延展性與軟Q口感，能將錠劑或膠囊密實搓揉成小丸子餵食。",
+      en: "Recommended by Japanese veterinarians, the pliable, soft-chewy texture can be shaped tightly around tablets or capsules for feeding.",
+    },
+    specs: [
+      { zh: "品牌：VET'S Labo", en: "Brand: VET'S Labo" },
+      { zh: "規格：15 顆裝 (20g)", en: "Spec: 15 pieces (20g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "雞肉味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "VET'S Labo",
+    vendor: "VET'S Labo",
+  },
+  {
+    id: "mediball-vets-labo-cat-tuna",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/mediball-vets-labo-cat-tuna.webp",
+    name: {
+      zh: "VET'S Labo Mediball 獸醫研發貓用投藥小丸子（鮪魚味）",
+      en: "VET'S Labo Mediball Cat Pill Treats - Tuna Flavor",
+    },
+    price: 48,
+    originalPrice: 55,
+    series: { zh: "VET'S Labo", en: "VET'S Labo" },
+    icon: "cat",
+    description: {
+      zh: "日本國產品質，高適口性鮪魚風味。質地柔細延展性高，能輕易密合藥丸。",
+      en: "Made in Japan with a highly palatable tuna flavor, the fine, flexible texture seals easily around pills.",
+    },
+    specs: [
+      { zh: "品牌：VET'S Labo", en: "Brand: VET'S Labo" },
+      { zh: "規格：15 顆裝 (20g)", en: "Spec: 15 pieces (20g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥", "鮪魚味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "VET'S Labo",
+    vendor: "VET'S Labo",
+  },
+  {
+    id: "mediball-vets-labo-cat-bonito",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/mediball-vets-labo-cat-bonito.webp",
+    name: {
+      zh: "VET'S Labo Mediball 獸醫研發貓用投藥小丸子（鰹魚味）",
+      en: "VET'S Labo Mediball Cat Pill Treats - Bonito Flavor",
+    },
+    price: 48,
+    originalPrice: 55,
+    series: { zh: "VET'S Labo", en: "VET'S Labo" },
+    icon: "cat",
+    description: {
+      zh: "濃郁鰹魚香氣，專為挑食貓咪設計。軟Q質地不掉屑，可將硬錠完全捏入肉丸中。",
+      en: "Rich bonito aroma makes this suitable for picky cats. The soft-chewy, low-crumb texture can completely enclose hard tablets.",
+    },
+    specs: [
+      { zh: "品牌：VET'S Labo", en: "Brand: VET'S Labo" },
+      { zh: "規格：15 顆裝 (20g)", en: "Spec: 15 pieces (20g)" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥", "鰹魚味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "VET'S Labo",
+    vendor: "VET'S Labo",
+  },
+  {
+    id: "ciao-churu-vet-pill-paste",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/ciao-churu-vet-pill-paste.webp",
+    name: {
+      zh: "CIAO 獸醫專用高黏度投藥輔助肉泥膏（鮪魚味）",
+      en: "CIAO Churu Vet High-Viscosity Pill Paste - Tuna Flavor",
+    },
+    price: 38,
+    originalPrice: 45,
+    series: { zh: "CIAO", en: "CIAO" },
+    icon: "cat",
+    description: {
+      zh: "專為餵藥設計的高黏度濃稠肉泥，能緊密包覆藥粉、藥水或碎藥丸。",
+      en: "A thick, high-viscosity puree designed for medication, helping closely coat powders, liquids, or crushed pills.",
+    },
+    specs: [
+      { zh: "品牌：CIAO", en: "Brand: CIAO" },
+      { zh: "規格：12g x 4 本", en: "Spec: 12g × 4 tubes" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥", "鮪魚味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "CIAO",
+    vendor: "CIAO",
+  },
+  {
+    id: "ciao-churu-vet-pill-paste-chicken",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/ciao-churu-vet-pill-paste-chicken.webp",
+    name: {
+      zh: "CIAO 獸醫專用高黏度投藥輔助肉泥膏（雞肉味）",
+      en: "CIAO Churu Vet High-Viscosity Pill Paste - Chicken Flavor",
+    },
+    price: 38,
+    originalPrice: 45,
+    series: { zh: "CIAO", en: "CIAO" },
+    icon: "cat",
+    description: {
+      zh: "日本 CIAO 獸醫通路限定版，高黏稠度配方可將藥粉及顆粒牢牢包覆。",
+      en: "A Japan-market CIAO veterinary-channel formula whose high viscosity holds medicine powders and granules securely.",
+    },
+    specs: [
+      { zh: "品牌：CIAO", en: "Brand: CIAO" },
+      { zh: "規格：12g x 4 本", en: "Spec: 12g × 4 tubes" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥", "雞肉味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "CIAO",
+    vendor: "CIAO",
+  },
+  {
+    id: "tomlyn-pill-mask-bacon",
+    categorySlug: "dogs",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/tomlyn-pill-mask-bacon.webp",
+    name: {
+      zh: "Tomlyn 湯姆林 投藥軟膏/偽裝膏（煙燻培根風味）",
+      en: "Tomlyn Pill-Mask Paste for Dogs - Bacon Flavor",
+    },
+    price: 85,
+    originalPrice: 98,
+    series: { zh: "Tomlyn", en: "Tomlyn" },
+    icon: "dog",
+    description: {
+      zh: "可任意捏塑形狀的投藥肉膏，無論多大顆或形狀奇特的藥丸都能完美包裹。",
+      en: "A moldable pill paste that can wrap medicine of virtually any size or unusual shape.",
+    },
+    specs: [
+      { zh: "品牌：Tomlyn", en: "Brand: Tomlyn" },
+      { zh: "規格：113g", en: "Spec: 113g" },
+    ],
+    tags: ["投藥餵藥專用小食", "狗用", "投藥", "餵藥", "煙燻培根風味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "Tomlyn",
+    vendor: "Tomlyn",
+  },
+  {
+    id: "easy-pill-cat-poultry",
+    categorySlug: "cats",
+    subcategory: "投藥餵藥專用小食",
+    image: "/products/easy-pill-cat-poultry.webp",
+    name: {
+      zh: "EasyPill 貓用投藥軟膏（禽肉風味）",
+      en: "EasyPill Cat Pill Treat - Poultry Flavor",
+    },
+    price: 65,
+    originalPrice: 75,
+    series: { zh: "EasyPill", en: "EasyPill" },
+    icon: "cat",
+    description: {
+      zh: "法國進口專業獸醫投藥產品，具備極高適口性與柔軟延展性，輕鬆包裹藥物。",
+      en: "A professional veterinary pill product imported from France, with high palatability and a soft, flexible texture that wraps easily around medicine.",
+    },
+    specs: [
+      { zh: "品牌：EasyPill", en: "Brand: EasyPill" },
+      { zh: "規格：10g x 3 條", en: "Spec: 10g × 3 sticks" },
+    ],
+    tags: ["投藥餵藥專用小食", "貓用", "投藥", "餵藥", "禽肉風味"],
+    productType: "投藥餵藥專用小食",
+    inStock: true,
+    brand: "EasyPill",
+    vendor: "EasyPill",
+  },
+];
+
 /**
  * Raw hand-authored + WT Japan catalog before keyword food-zone classification.
  * Prefer exporting {@link PRODUCTS}, which runs {@link classifyCatalogProducts}.
@@ -749,6 +1087,8 @@ const PRODUCTS_RAW: Product[] = [
     },
   },
   // WT Japan 貓食品、貓小食及狗小食在陣列尾端各統一加入一次。
+
+  ...PILL_TREAT_PRODUCTS,
 
   // 狗狗商品 / Dog Products
   // Food zones use subcategory 「狗狗食品」 / 「狗狗小食」; gear stays untagged.

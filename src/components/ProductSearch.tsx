@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { ProductImage } from "@/components/product/ProductImage";
 import {
   useEffect,
   useId,
@@ -251,10 +251,9 @@ function SearchField({
                       onNavigate={dismissForNavigation}
                     >
                       <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
-                        <Image
+                        <ProductImage
                           src={hit.image}
                           alt={hit.name[locale]}
-                          fill
                           sizes="48px"
                           className="object-cover"
                         />

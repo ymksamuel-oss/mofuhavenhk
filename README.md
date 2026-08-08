@@ -4,20 +4,28 @@ Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物�
 
 ## 產品目錄
 
-目前統一目錄共有 **166 筆產品**。`src/lib/products.ts` 匯出的 `PRODUCTS` 是店面所有產品功能的共同權威輸出，資料由以下受控來源組裝及分類：
+目前統一目錄共有 **114 筆產品**。`src/lib/products.ts` 匯出的 `PRODUCTS` 定義商品 ID、分類、tags、規格等結構資料，亦是 Google Sheet 失效時的完整安全 fallback。正常運作時，五項客戶可見及交易相關欄位會由 Google Sheet 統一提供：
 
-- `src/lib/products.ts`：手寫店面商品。
-- `src/data/productsData.ts`：39 筆 WT Japan 貓罐、乾糧及冷凍脫水商品。
-- `src/data/catSnacksData.ts`：34 筆 WT Japan 貓小食。
-- `public/wt_japan_products.json`：5 筆 WT Japan 狗小食；這是唯一保留的狗商品 JSON。
+- Image：產品圖片
+- Title：中英文產品名稱
+- Description：中英文詳細介紹（可留空）
+- Stock：庫存／上架狀態
+- Price：售價及選填原價
 
-每組 WT Japan 資料只會在 `PRODUCTS_RAW` 加入一次，並由 `classifyCatalogProducts()` 統一分類。瀏覽目錄、分類頁、動態產品詳情、購物車、結帳、Stripe PaymentIntent、訂單通知及全站搜尋均使用同一 `PRODUCTS` 集合；不再存在客戶端 `fetch('/wt_japan_products.json')` 或手動 merge 旁路。
+瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe PaymentIntent、收據及訂單通知全部使用同一份伺服器合併後 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
 
-統一 `Product` 格式涵蓋 ID、中英文名稱、售價／原價、分類／子分類、本地圖片、中英文描述、規格、tags、系列、品牌、供應商、product type、handle、來源分類、來源頁、來源圖片、適用品種及 `inStock`。五筆狗商品使用 `public/images/products/wt-japan-001.webp` 至 `wt-japan-005.webp` 的穩定本地圖片。一般手寫商品圖片位於 `public/products/`；圖片治理記錄位於 `public/products/ATTRIBUTION.json`。
+Sheet 只需讀取，不會由網站寫回。新增或刪除商品 ID、改分類／規格等結構資料仍需程式更新；現有 114 個 ID 的五類展示／交易欄位則全部由 Sheet 管理。
+
+新增的「投藥餵藥專用小食」在貓咪及狗狗商品各有 6 款，可透過以下固定路徑瀏覽：
+
+- `/categories/cats/pill-treats`
+- `/categories/dogs/pill-treats`
+
+12 款商品全部使用 `/products/<商品-id>.webp` 穩定本地路徑。ZIP 內可可靠對應的 4 張產品圖已使用原圖；其餘 8 張因 ZIP 沒有精確品牌／口味對應，暫時沿用中性小食圖，待同名正確圖片直接覆蓋即可，毋須再修改商品資料。
 
 ## 搜尋與庫存規則
 
-`src/lib/searchProducts.ts` 搜尋完整 166 筆 `PRODUCTS`，索引：
+`src/lib/searchProducts.ts` 搜尋完整 114 筆合併後 catalog，索引：
 
 - ID、中英文名稱及描述
 - 分類、子分類、品牌、供應商及系列
@@ -35,34 +43,38 @@ Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物�
 - `getOrderItems()` 不會預選缺貨商品。
 - `buildOrderItemsFromLines()` 會排除不存在／缺貨商品、合併重複 SKU、限制每個 SKU 最多 20 件，並以伺服器目錄價格重建項目。Stripe PaymentIntent 與訂單通知 API 共用此防線。
 
-## Google Sheet 動態價格
+## Google Sheet 單一主源
 
-網站保留 `src/lib/products.ts` 嘅 `PRODUCTS` 作完整商品目錄同安全 fallback；Netlify server 會按商品 `id` 從 Google Sheet CSV 動態覆蓋價錢。前台商品列表、搜尋、商品詳情、購物車、Stripe PaymentIntent 同訂單通知會共用同一份合併後 catalog。
+Server 會讀取以下 Google Sheet CSV，按 `商品 ID` 對應現有 114 個商品，並一次過套用圖片、名稱、介紹、庫存及價錢。只要 Sheet 完整通過驗證，這五類欄位就以 Sheet 為唯一主源；程式內舊值只會在整份 Sheet 失效時作 fallback。
 
-Parser 會自動掃描前 20 個非空白行尋找表頭，所以第一行可以保留例如 `Mofu Haven HK | 102 項保留商品核心目錄` 嘅大標題，而第二行先放真正欄位。
+Parser 會自動掃描前 20 個非空白行尋找表頭，所以第一行可以保留例如 `Mofu Haven HK | 114 項保留商品核心目錄` 嘅大標題，而第二行先放真正欄位。
 
-英文格式：
-
-```csv
-id,price,originalPrice,inStock
-dog-food-1-5kg,168,,true
-```
-
-亦支援現有核心目錄嘅中文格式：
+建議表格格式：
 
 ```csv
-Mofu Haven HK | 102 項保留商品核心目錄
-商品 ID,商品名稱,售價 (HKD),原價 (HKD),庫存狀態
-dog-food-1-5kg,日本天然狗糧 1.5kg,HK$100.00,,在售
+Mofu Haven HK | 114 項保留商品核心目錄
+商品 ID,中文商品名稱,英文商品名稱,售價 (HKD),原價 (HKD),庫存狀態,中文描述,英文描述,本地圖片路徑,來源圖片 URL
+dog-food-1-5kg,日本天然狗糧 1.5kg,Japanese Natural Dog Food 1.5kg,HK$100.00,,在售,日本配方天然狗糧。,Japanese-formula natural kibble.,/products/dog-food-1-5kg.webp,
 ```
 
-- `id`／`商品 ID`、`price`／`售價 (HKD)` 必填；商品 ID 必須同 `src/lib/products.ts` 完全一致。
-- `originalPrice`／`原價 (HKD)`、`inStock`／`庫存狀態` 選填。
+亦支援英文欄位名稱：
+
+```csv
+id,title,titleEn,price,originalPrice,inStock,description,descriptionEn,image,sourceImageUrl
+dog-food-1-5kg,日本天然狗糧 1.5kg,Japanese Natural Dog Food 1.5kg,100,,true,日本配方天然狗糧。,Japanese-formula natural kibble.,/products/dog-food-1-5kg.webp,
+```
+
+- Parser 會掃描前 20 個非空白行，所以第一行可以保留大標題，第二行才放欄位名稱。
+- 必須有 ID、圖片、名稱、介紹、庫存及售價欄位；`originalPrice`／`原價 (HKD)` 選填。
+- `商品 ID` 必須同 `src/lib/products.ts` 的既有 ID 完全一致。114 個既有 ID 必須全部有一筆有效資料。
+- 中文／英文名稱可只填其中一種，缺少的語言會使用另一種；介紹欄位可以留空，留空即網站不顯示舊介紹。
+- 圖片可填 `/products/...` 或 `/images/...` 本地 public 路徑，亦可填 `http://`／`https://` 遠端圖片。危險相對路徑、`..`、反斜線及 protocol-relative URL 會被拒絕。
 - 庫存值接受 `true/false`、`1/0`、`yes/no`、`有貨/售罄`、`在售/停售`、`上架/下架`。
-- 無效價錢行會被忽略；重複 `id`、錯誤 CSV、下載失敗或完全無匹配商品時，網站會使用原有 `PRODUCTS`，唔會以未驗證資料收款。
-- 預設快取 60 秒；設定 `GOOGLE_SHEET_PRICE_CACHE_SECONDS=0` 可每次請求重新讀取。
+- 價錢會自動移除 `HK$`、`$`、逗號及空格等非數字格式，例如 `HK$ 1,234.50` 會解析成 `1234.5`。
+- 重複 ID、下載／CSV 錯誤、缺少任何既有商品、或任何既有商品的必要欄位無效時，整份 catalog 會退回靜態 `PRODUCTS`；不會把部分 Sheet 商品同部分舊資料混合。
+- 預設快取 60 秒。設定 `GOOGLE_SHEET_CACHE_SECONDS=0` 可每次 server request 重新讀取；舊的 `GOOGLE_SHEET_PRICE_CACHE_SECONDS` 仍兼容。
 
-程式已將目前「102 項保留商品核心目錄」原分頁設為預設 CSV 來源，毋須填寫 `gid`：
+程式已將原有「102 項保留商品核心目錄」分頁設為預設 CSV 來源，毋須填寫 `gid`：
 
 ```bash
 GOOGLE_SHEET_CSV_URL=https://docs.google.com/spreadsheets/d/1zTZxk-cidcgcmGsM79jMQD72Fznmd7CfAQNS79pp6i0/export?format=csv
@@ -73,10 +85,12 @@ GOOGLE_SHEET_CSV_URL=https://docs.google.com/spreadsheets/d/1zTZxk-cidcgcmGsM79j
 ```bash
 GOOGLE_SHEET_ID=your_spreadsheet_id
 GOOGLE_SHEET_GID=0
-GOOGLE_SHEET_PRICE_CACHE_SECONDS=60
+GOOGLE_SHEET_CACHE_SECONDS=60
 ```
 
-`GOOGLE_SHEET_CSV_URL` 存在時會優先使用。首次加入或改動環境變數後要重新部署 Netlify；之後 Sheet 價錢會按快取時間自動更新，毋須再次改程式碼。
+`GOOGLE_SHEET_CSV_URL` 存在時會優先使用。首次加入或改動環境變數後要重新部署 Netlify；之後 Sheet 五類欄位會按快取時間自動更新，毋須再次改程式碼。
+
+加入本批 12 款商品後，Google Sheet 必須補上相同 12 個商品 ID，令有效資料由 102 行增至 114 行；未補齊之前，完整覆蓋檢查會按設計退回 114 款靜態 catalog，避免新舊資料混合。
 
 ## 驗證
 
@@ -86,12 +100,12 @@ GOOGLE_SHEET_PRICE_CACHE_SECONDS=60
 npm run validate:products
 ```
 
-驗證涵蓋：166 筆產品、ID 唯一、必填欄位、中英文名稱、合理價格／原價、所有本地圖片存在、166/166 搜尋覆蓋、四筆已批准實驗商品不存在、五筆狗商品完整且分類／圖片正確、單一狗 JSON、無動態 fetch，以及伺服器訂單重建規則。
+驗證涵蓋：114 筆產品、ID 唯一、必填欄位、中英文名稱、合理價格／原價、所有靜態 fallback 圖片存在、114/114 搜尋覆蓋、貓狗各 6 款投藥餵藥專用小食、Sheet 第二行中文表頭、五類欄位覆蓋、遠端圖片、空白介紹、價錢格式清理、不安全圖片路徑、重複 ID、fallback 不變性，以及伺服器訂單重建規則。
 
 完整交付檢查：
 
 ```bash
-npx tsc --noEmit
+./node_modules/.bin/tsc --noEmit
 npm run lint
 npm run validate:products
 npm run build

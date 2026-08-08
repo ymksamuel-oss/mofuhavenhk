@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductSearch } from "@/components/ProductSearch";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { ProductImage } from "@/components/product/ProductImage";
 import {
   CATEGORIES,
   categoryHref,
@@ -55,11 +55,13 @@ const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
   貓乾糧: "catSubDryFood",
   冷凍脫水系列: "catSubFreezeDried",
   貓貓小食: "catSubSnacks",
+  投藥餵藥專用小食: "pillTreatsSubcategory",
 };
 
 const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
   狗狗食品: "dogSubFood",
   狗狗小食: "dogSubSnacks",
+  投藥餵藥專用小食: "pillTreatsSubcategory",
 };
 
 const CAT_SNACK_SERIES_LABEL_KEYS: Record<CatSnackSeries, TranslationKey> = {
@@ -114,10 +116,9 @@ function TreatListCard({
           aria-label={`${viewDetailsLabel}: ${product.name[locale]}`}
           className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] sm:h-32 sm:w-32"
         >
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name[locale]}
-            fill
             sizes="128px"
             className="object-cover"
           />
@@ -235,7 +236,14 @@ export function ProductCatalog({
   const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
   const showCatSnacksZone = catSubcategory === "貓貓小食";
   const showDogSnacksZone = dogSubcategory === "狗狗小食";
-  const useListLayout = showFreezeDriedZone || showCatSnacksZone || showDogSnacksZone;
+  const showPillTreatsZone =
+    catSubcategory === "投藥餵藥專用小食" ||
+    dogSubcategory === "投藥餵藥專用小食";
+  const useListLayout =
+    showFreezeDriedZone ||
+    showCatSnacksZone ||
+    showDogSnacksZone ||
+    showPillTreatsZone;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -505,10 +513,9 @@ export function ProductCatalog({
                     aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
                     className="absolute inset-0 block"
                   >
-                    <Image
+                    <ProductImage
                       src={product.image}
                       alt={product.name[locale]}
-                      fill
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />

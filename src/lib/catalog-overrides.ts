@@ -1,14 +1,18 @@
 import type { Product } from "@/lib/products";
 
-export type ProductPriceOverride = {
+export type ProductSheetRecord = {
   id: string;
+  image: string;
+  name: { zh: string; en: string };
+  description?: { zh: string; en: string };
   price: number;
   originalPrice?: number;
-  inStock?: boolean;
+  inStock: boolean;
+  sourceImageUrl?: string;
 };
 
-export type ParsedProductOverrides = {
-  overrides: Map<string, ProductPriceOverride>;
+export type ParsedProductCatalog = {
+  records: Map<string, ProductSheetRecord>;
   acceptedRows: number;
   ignoredRows: number;
   /** 1-based non-empty CSV row containing the detected column headers. */
@@ -131,20 +135,59 @@ function parseStock(value: string): boolean | undefined {
   return undefined;
 }
 
+function parseImage(
+  localValue: string,
+  sourceValue: string,
+): { image: string; sourceImageUrl?: string } | null {
+  const local = localValue.trim();
+  const source = sourceValue.trim();
+
+  const isSafeLocalPath = (value: string) =>
+    value.startsWith("/") &&
+    !value.startsWith("//") &&
+    !value.includes("..") &&
+    !value.includes("\\");
+  const isHttpUrl = (value: string) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "https:" || url.protocol === "http:";
+    } catch {
+      return false;
+    }
+  };
+
+  const image = isSafeLocalPath(local)
+    ? local
+    : isHttpUrl(local)
+      ? local
+      : isHttpUrl(source)
+        ? source
+        : null;
+  if (!image) return null;
+
+  return {
+    image,
+    ...(isHttpUrl(source) ? { sourceImageUrl: source } : {}),
+  };
+}
+
 /**
  * The first 20 non-empty rows are scanned for a supported header row, so a
  * Sheet may keep a title row above the actual columns.
  *
  * Supported columns:
  * - id / productId / sku / 商品 ID
+ * - image / 本地圖片路徑 / 來源圖片 URL
+ * - title / 中文商品名稱 / 英文商品名稱
+ * - description / 中文描述 / 英文描述
  * - price / salePrice / 售價 (HKD)
  * - originalPrice / compareAtPrice / 原價 (HKD) (optional)
- * - inStock / availability / 庫存狀態 (optional)
+ * - inStock / availability / 庫存狀態
  *
  * Invalid data rows are ignored. Duplicate IDs invalidate the complete Sheet
  * so the caller can safely fall back to the code catalog.
  */
-export function parseProductOverridesCsv(csv: string): ParsedProductOverrides {
+export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
   const rows = parseCsvRows(csv);
   if (rows.length === 0) {
     throw new Error("Google Sheet CSV is empty");
@@ -156,6 +199,12 @@ export function parseProductOverridesCsv(csv: string): ParsedProductOverrides {
   let priceColumn = -1;
   let originalPriceColumn = -1;
   let stockColumn = -1;
+  let localImageColumn = -1;
+  let sourceImageColumn = -1;
+  let zhTitleColumn = -1;
+  let enTitleColumn = -1;
+  let zhDescriptionColumn = -1;
+  let enDescriptionColumn = -1;
 
   for (let rowIndex = 0; rowIndex < headerScanLimit; rowIndex += 1) {
     const headers = rows[rowIndex].map(normalizeHeader);
@@ -202,6 +251,57 @@ export function parseProductOverridesCsv(csv: string): ParsedProductOverrides {
       "存貨",
       "存貨狀態",
     ]);
+    localImageColumn = findColumn(headers, [
+      "image",
+      "imagepath",
+      "imageurl",
+      "產品圖片",
+      "商品圖片",
+      "圖片",
+      "本地圖片",
+      "本地圖片路徑",
+    ]);
+    sourceImageColumn = findColumn(headers, [
+      "sourceimage",
+      "sourceimageurl",
+      "來源圖片",
+      "來源圖片url",
+      "原始圖片",
+      "原始圖片url",
+    ]);
+    zhTitleColumn = findColumn(headers, [
+      "title",
+      "name",
+      "producttitle",
+      "productname",
+      "產品名稱",
+      "商品名稱",
+      "中文商品名稱",
+      "中文名稱",
+    ]);
+    enTitleColumn = findColumn(headers, [
+      "titleen",
+      "nameen",
+      "englishtitle",
+      "englishname",
+      "英文商品名稱",
+      "英文名稱",
+    ]);
+    zhDescriptionColumn = findColumn(headers, [
+      "description",
+      "productdescription",
+      "產品介紹",
+      "商品介紹",
+      "詳細介紹",
+      "中文描述",
+      "中文介紹",
+    ]);
+    enDescriptionColumn = findColumn(headers, [
+      "descriptionen",
+      "englishdescription",
+      "英文描述",
+      "英文介紹",
+    ]);
     break;
   }
 
@@ -210,18 +310,44 @@ export function parseProductOverridesCsv(csv: string): ParsedProductOverrides {
       "Google Sheet requires id/price or 商品 ID/售價 (HKD) columns within the first 20 non-empty rows",
     );
   }
+  if (
+    stockColumn < 0 ||
+    (localImageColumn < 0 && sourceImageColumn < 0) ||
+    (zhTitleColumn < 0 && enTitleColumn < 0) ||
+    (zhDescriptionColumn < 0 && enDescriptionColumn < 0)
+  ) {
+    throw new Error(
+      "Google Sheet requires image, title, description, stock, and price columns for catalog sync",
+    );
+  }
 
-  const overrides = new Map<string, ProductPriceOverride>();
+  const records = new Map<string, ProductSheetRecord>();
   let ignoredRows = 0;
 
   for (const row of rows.slice(headerRowIndex + 1)) {
     const id = (row[idColumn] ?? "").trim();
     const price = parseMoney(row[priceColumn] ?? "");
-    if (!id || price === null) {
+    const inStock = parseStock(row[stockColumn] ?? "");
+    const image = parseImage(
+      localImageColumn >= 0 ? (row[localImageColumn] ?? "") : "",
+      sourceImageColumn >= 0 ? (row[sourceImageColumn] ?? "") : "",
+    );
+    const zhTitle =
+      zhTitleColumn >= 0 ? (row[zhTitleColumn] ?? "").trim() : "";
+    const enTitle =
+      enTitleColumn >= 0 ? (row[enTitleColumn] ?? "").trim() : "";
+
+    if (
+      !id ||
+      price === null ||
+      inStock === undefined ||
+      !image ||
+      (!zhTitle && !enTitle)
+    ) {
       ignoredRows += 1;
       continue;
     }
-    if (overrides.has(id)) {
+    if (records.has(id)) {
       throw new Error(`Google Sheet contains duplicate product id: ${id}`);
     }
 
@@ -229,58 +355,92 @@ export function parseProductOverridesCsv(csv: string): ParsedProductOverrides {
       originalPriceColumn >= 0
         ? parseMoney(row[originalPriceColumn] ?? "")
         : null;
-    const inStock =
-      stockColumn >= 0 ? parseStock(row[stockColumn] ?? "") : undefined;
+    const zhDescription =
+      zhDescriptionColumn >= 0
+        ? (row[zhDescriptionColumn] ?? "").trim()
+        : "";
+    const enDescription =
+      enDescriptionColumn >= 0
+        ? (row[enDescriptionColumn] ?? "").trim()
+        : "";
 
-    overrides.set(id, {
+    records.set(id, {
       id,
+      image: image.image,
+      name: {
+        zh: zhTitle || enTitle,
+        en: enTitle || zhTitle,
+      },
+      ...((zhDescription || enDescription)
+        ? {
+            description: {
+              zh: zhDescription || enDescription,
+              en: enDescription || zhDescription,
+            },
+          }
+        : {}),
       price,
       ...(originalPrice !== null && originalPrice >= price
         ? { originalPrice }
         : {}),
-      ...(inStock !== undefined ? { inStock } : {}),
+      inStock,
+      ...(image.sourceImageUrl
+        ? { sourceImageUrl: image.sourceImageUrl }
+        : {}),
     });
   }
 
-  if (overrides.size === 0) {
-    throw new Error("Google Sheet contains no valid product price rows");
+  if (records.size === 0) {
+    throw new Error("Google Sheet contains no valid product catalog rows");
   }
 
   return {
-    overrides,
-    acceptedRows: overrides.size,
+    records,
+    acceptedRows: records.size,
     ignoredRows,
     headerRow: headerRowIndex + 1,
   };
 }
 
-export function applyProductPriceOverrides(
+export function applyProductCatalogRecords(
   products: readonly Product[],
-  overrides: ReadonlyMap<string, ProductPriceOverride>,
-): { products: Product[]; matchedOverrides: number } {
-  let matchedOverrides = 0;
+  records: ReadonlyMap<string, ProductSheetRecord>,
+): { products: Product[]; matchedRecords: number } {
+  let matchedRecords = 0;
   const merged = products.map((product) => {
-    const override = overrides.get(product.id);
-    if (!override) return product;
-    matchedOverrides += 1;
+    const record = records.get(product.id);
+    if (!record) return product;
+    matchedRecords += 1;
 
-    const originalPrice = override.originalPrice ?? product.originalPrice;
     const next: Product = {
       ...product,
-      price: override.price,
-      ...(override.inStock !== undefined
-        ? { inStock: override.inStock }
-        : {}),
+      image: record.image,
+      name: record.name,
+      price: record.price,
+      inStock: record.inStock,
     };
 
-    if (originalPrice !== undefined && originalPrice >= override.price) {
-      next.originalPrice = originalPrice;
+    if (record.description) {
+      next.description = record.description;
+    } else {
+      delete next.description;
+    }
+    if (
+      record.originalPrice !== undefined &&
+      record.originalPrice >= record.price
+    ) {
+      next.originalPrice = record.originalPrice;
     } else {
       delete next.originalPrice;
+    }
+    if (record.sourceImageUrl) {
+      next.sourceImageUrl = record.sourceImageUrl;
+    } else {
+      delete next.sourceImageUrl;
     }
 
     return next;
   });
 
-  return { products: merged, matchedOverrides };
+  return { products: merged, matchedRecords };
 }
