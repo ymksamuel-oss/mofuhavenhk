@@ -55,7 +55,7 @@ export default function HomePage() {
           <img
             {...desktopRest}
             alt={t("brand")}
-            className="absolute inset-0 h-full w-full object-cover object-[center_42%] sm:object-[50%_40%]"
+            className="absolute inset-0 h-full w-full object-cover object-[right_42%] sm:object-[50%_40%]"
           />
         </picture>
 
