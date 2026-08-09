@@ -21,7 +21,7 @@ export default function HomePage() {
     props: { srcSet: mobileSrcSet },
   } = getImageProps({
     ...common,
-    src: "/hero-mobile.webp",
+    src: "/images/mofu-haven-website-b.png",
     quality: 88,
   });
 
@@ -29,7 +29,7 @@ export default function HomePage() {
     props: { srcSet: desktopSrcSet, ...desktopRest },
   } = getImageProps({
     ...common,
-    src: "/hero.webp",
+    src: "/images/mofu-haven-website-b.png",
     quality: 85,
   });
 
