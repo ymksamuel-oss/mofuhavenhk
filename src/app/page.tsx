@@ -121,32 +121,29 @@ export default function HomePage() {
             <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-[#e8d4c0]/30 blur-2xl" />
 
             <div className="relative flex flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:gap-8 sm:px-8 sm:py-16">
-              {/* Image Placeholder */}
-              <div className="flex-1">
-                <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-[#f0e4d4] to-[#e8d8c8] shadow-[0_4px_12px_rgba(74,54,38,0.12)]">
-                  {/* Placeholder for healing pet image */}
-                  <div className="flex h-full w-full items-center justify-center">
-                    <div className="text-center">
-                      <div className="mb-3 text-4xl">🐱</div>
-                      <p className="text-sm font-medium text-[color:var(--muted)]">日系治癒風寵物相</p>
-                      <p className="mt-1 text-xs text-[color:var(--muted)]/70">圖片預留位</p>
-                    </div>
-                  </div>
+              {/* Image Section */}
+              <div className="w-full sm:flex-1">
+                <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_8px_24px_rgba(74,54,38,0.15)]">
+                  <img
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/mKbuHceqjdZDmmaf.PNG"
+                    alt="與毛孩的日常治癒"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
 
               {/* Content */}
-              <div className="flex-1 text-center sm:text-left">
+              <div className="w-full text-center sm:flex-1 sm:text-left">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/60 px-3 py-1 text-xs font-medium text-[#8b6f47] ring-1 ring-[#d4c4b0]/40 backdrop-blur-sm">
                   ✨ 溫馨時刻
                 </span>
-                <h3 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-3xl">
+                <h3 className="mt-4 font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[color:var(--ink)] sm:mt-3 sm:text-3xl">
                   與毛孩的日常治癒
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[color:var(--muted)] sm:text-base">
+                <p className="mt-3 text-sm leading-relaxed text-[color:var(--muted)] sm:text-base">
                   精選日本天然寵物用品，陪伴毛孩每一個溫暖時刻。從營養美食到舒適用品，讓毛孩享受最好的照顧。
                 </p>
-                <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-3">
+                <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
                   <CategoryNavLink
                     href="/menu"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8b6f47] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_4px_12px_rgba(139,111,71,0.25)] transition hover:-translate-y-0.5 hover:bg-[#7a5f3f] hover:shadow-[0_6px_16px_rgba(139,111,71,0.3)] sm:justify-start"
