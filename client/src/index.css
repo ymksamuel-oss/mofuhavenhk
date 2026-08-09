@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Google Fonts: Noto Sans CJK for Japanese-inspired typography */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -43,39 +46,62 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  /* Mofu Haven: Japanese Healing Aesthetic */
+  /* Primary: Soft Green - Nature, Health, Life */
+  --primary: oklch(0.72 0.08 142);
+  --primary-foreground: oklch(0.98 0.001 0);
+  --sidebar-primary: oklch(0.68 0.08 140);
+  --sidebar-primary-foreground: oklch(0.98 0.001 0);
+  
+  /* Chart colors: Warm palette */
+  --chart-1: oklch(0.72 0.08 142);
+  --chart-2: oklch(0.65 0.08 120);
+  --chart-3: oklch(0.55 0.08 35);
+  --chart-4: oklch(0.75 0.06 70);
+  --chart-5: oklch(0.68 0.08 140);
+  
+  --radius: 0.75rem;
+  
+  /* Background: Warm Cream */
+  --background: oklch(0.98 0.001 70);
+  --foreground: oklch(0.35 0.01 65);
+  
+  /* Card: Soft White */
+  --card: oklch(0.99 0.001 0);
+  --card-foreground: oklch(0.35 0.01 65);
+  
+  /* Popover: Warm Cream */
+  --popover: oklch(0.98 0.001 70);
+  --popover-foreground: oklch(0.35 0.01 65);
+  
+  /* Secondary: Warm Brown */
+  --secondary: oklch(0.55 0.08 35);
+  --secondary-foreground: oklch(0.98 0.001 0);
+  
+  /* Muted: Soft Beige */
+  --muted: oklch(0.92 0.01 70);
+  --muted-foreground: oklch(0.55 0.02 65);
+  
+  /* Accent: Soft Green */
+  --accent: oklch(0.72 0.08 142);
+  --accent-foreground: oklch(0.98 0.001 0);
+  
+  /* Destructive: Warm Red */
+  --destructive: oklch(0.62 0.18 25);
+  --destructive-foreground: oklch(0.98 0.001 0);
+  
+  /* Border: Light Beige */
+  --border: oklch(0.92 0.01 70);
+  --input: oklch(0.96 0.005 70);
+  --ring: oklch(0.72 0.08 142);
+  
+  /* Sidebar */
+  --sidebar: oklch(0.99 0.001 0);
+  --sidebar-foreground: oklch(0.35 0.01 65);
+  --sidebar-accent: oklch(0.72 0.08 142);
+  --sidebar-accent-foreground: oklch(0.98 0.001 0);
+  --sidebar-border: oklch(0.92 0.01 70);
+  --sidebar-ring: oklch(0.72 0.08 142);
 }
 
 .dark {
@@ -117,8 +143,34 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    background-image: url('/manus-storage/hero-pattern_018ec1c3.png');
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Noto Sans JP', serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -175,3 +227,29 @@
     }
   }
 }
+
+  /* Mofu Haven: Signature Design Elements */
+  
+  /* Soft felt-like border for cards and sections */
+  .felt-border {
+    border: 2px dashed oklch(0.72 0.08 142 / 0.3);
+    border-radius: 1rem;
+  }
+
+  /* Warm natural light glow effect */
+  .warm-glow {
+    box-shadow: 0 0 40px oklch(0.72 0.08 142 / 0.15),
+                inset 0 0 40px oklch(0.95 0.01 70 / 0.5);
+  }
+
+  /* Soft shadow for cards */
+  .soft-shadow {
+    box-shadow: 0 4px 20px oklch(0 0 0 / 0.08),
+                0 2px 8px oklch(0 0 0 / 0.04);
+  }
+
+  /* Healing aesthetic text */
+  .healing-text {
+    color: oklch(0.35 0.01 65);
+    letter-spacing: 0.02em;
+  }
