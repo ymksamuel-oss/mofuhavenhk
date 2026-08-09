@@ -28,12 +28,12 @@ export default function HomePage() {
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
 
-        {/* Desktop: ultra-wide full-bleed banner */}
-        <div className="relative hidden aspect-[33/14] w-full overflow-hidden sm:block">
+        {/* Desktop: ultra-wide full-bleed banner - no forced aspect ratio */}
+        <div className="relative hidden w-full bg-gradient-to-b from-[#f5f1ed] to-[#ede8e3] sm:block">
           <img
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
             alt={t("brand")}
-            className="h-full w-full object-cover"
+            className="w-full h-auto object-contain"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
