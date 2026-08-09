@@ -21,7 +21,7 @@ export default function HomePage() {
     props: { srcSet: mobileSrcSet },
   } = getImageProps({
     ...common,
-    src: "/images/mofu-haven-website-b.png",
+    src: "https://res.cloudinary.com/jlzllo8s/image/upload/v1786249080/mofu-haven-website-b.png_eegeur.png",
     quality: 88,
   });
 
@@ -29,7 +29,7 @@ export default function HomePage() {
     props: { srcSet: desktopSrcSet, ...desktopRest },
   } = getImageProps({
     ...common,
-    src: "/images/mofu-haven-website-b.png",
+    src: "https://res.cloudinary.com/jlzllo8s/image/upload/v1786249080/mofu-haven-website-b.png_eegeur.png",
     quality: 85,
   });
 
