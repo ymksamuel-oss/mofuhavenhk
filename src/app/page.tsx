@@ -123,7 +123,7 @@ export default function HomePage() {
             <div className="relative flex flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:gap-8 sm:px-8 sm:py-16">
               {/* Image Placeholder */}
               <div className="flex-1">
-                <div className="relative aspect-square overflow-hidden rounded-xl bg-gradient-to-br from-[#f0e4d4] to-[#e8d8c8] shadow-[0_4px_12px_rgba(74,54,38,0.12)]">
+                <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-[#f0e4d4] to-[#e8d8c8] shadow-[0_4px_12px_rgba(74,54,38,0.12)]">
                   {/* Placeholder for healing pet image */}
                   <div className="flex h-full w-full items-center justify-center">
                     <div className="text-center">
