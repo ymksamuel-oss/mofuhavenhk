@@ -1,2 +1,4 @@
 [2026-08-10T08:43:26.860Z] {"timestamp":1786351406676,"kind":"scroll","url":"http://127.0.0.1:3000/","viewport":{"width":1279,"height":941},"payload":{"scrollX":0,"scrollY":471,"documentHeight":2972,"viewportHeight":941}}
 [2026-08-10T08:43:28.858Z] {"timestamp":1786351407285,"kind":"scroll","url":"http://127.0.0.1:3000/","viewport":{"width":1279,"height":941},"payload":{"scrollX":0,"scrollY":0,"documentHeight":2972,"viewportHeight":941}}
+[2026-08-10T11:18:42.989Z] {"timestamp":1786360722985,"kind":"scroll","url":"http://127.0.0.1:3000/","viewport":{"width":1279,"height":941},"payload":{"scrollX":0,"scrollY":471,"documentHeight":2972,"viewportHeight":941}}
+[2026-08-10T11:18:44.989Z] {"timestamp":1786360723587,"kind":"scroll","url":"http://127.0.0.1:3000/","viewport":{"width":1279,"height":941},"payload":{"scrollX":0,"scrollY":0,"documentHeight":2972,"viewportHeight":941}}
