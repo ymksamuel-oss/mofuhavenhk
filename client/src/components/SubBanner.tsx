@@ -5,7 +5,7 @@ export default function SubBanner() {
 
         {/* 副 Banner 圖片：使用 Vite public 內的本地圖片，確保 production 可顯示 */}
         <img
-          src="/images/secondary-banner.jpg"
+          src="/images/IMG_0383.webp"
           alt="與毛孩的日常治癒"
           className="w-full h-auto object-contain block mx-auto rounded-2xl"
         />
