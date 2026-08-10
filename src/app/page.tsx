@@ -21,9 +21,9 @@ export default function HomePage() {
         {/* Mobile: 3/4 aspect ratio */}
         <div className="relative aspect-[3/4] w-full sm:hidden">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/images/mofu-haven-website-b.png"
             alt={t("brand")}
-            className="h-full w-full object-cover object-left"
+            className="h-full w-full object-cover object-center"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
@@ -31,7 +31,7 @@ export default function HomePage() {
         {/* Desktop: ultra-wide full-bleed banner - no forced aspect ratio */}
         <div className="relative hidden w-full bg-gradient-to-b from-[#f5f1ed] to-[#ede8e3] sm:block">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/images/mofu-haven-website-b.png"
             alt={t("brand")}
             className="w-full h-auto object-contain"
           />
