@@ -57,3 +57,28 @@
 [2026-08-10T09:13:21.070Z] 5598 |  :root {
 [2026-08-10T09:13:21.070Z] 5599 |    --primary: oklch(0.72 0.08 142);
 [2026-08-10T09:13:35.665Z] 9:13:35 AM [vite] (client) hmr update /src/index.css
+[2026-08-10T09:14:02.376Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T09:14:02.376Z] 5595 |    initial-value: 0;
+[2026-08-10T09:14:02.376Z] 5596 |  }
+[2026-08-10T09:14:02.376Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T09:14:02.376Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T09:14:02.376Z] 5598 |  :root {
+[2026-08-10T09:14:02.376Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T09:17:38.975Z] 9:17:38 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-10T09:17:45.774Z] ELIFECYCLE  Command failed.
+[2026-08-10T09:17:45.791Z] Dev server exited with code -1
+[2026-08-10T09:17:46.896Z] Starting dev server with command: pnpm run dev
+[2026-08-10T09:17:47.714Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-10T09:17:47.714Z] > vite --host
+[2026-08-10T09:17:48.171Z] VITE v7.1.9  ready in 407 ms
+[2026-08-10T09:17:48.171Z] ➜  Local:   http://localhost:3000/
+[2026-08-10T09:17:48.171Z] ➜  Network: http://169.254.0.21:3000/
+[2026-08-10T09:17:49.148Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-10T09:17:49.829Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T09:17:49.829Z] 5595 |    initial-value: 0;
+[2026-08-10T09:17:49.829Z] 5596 |  }
+[2026-08-10T09:17:49.829Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T09:17:49.829Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T09:17:49.829Z] 5598 |  :root {
+[2026-08-10T09:17:49.829Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T09:18:05.182Z] 9:18:05 AM [vite] (client) hmr update /src/index.css
