@@ -1,6 +1,6 @@
 export default function SubBanner() {
   return (
-    <section className="relative w-full max-w-7xl mx-auto px-4 py-8">
+    <section id="about" className="scroll-mt-24 relative w-full max-w-7xl mx-auto px-4 py-8">
       <div className="relative w-full rounded-2xl overflow-hidden shadow-sm bg-[oklch(0.95_0.01_70)] transition-all duration-300 ease-out hover:shadow-md">
 
         {/* 副 Banner 圖片：使用 Vite public 內的本地圖片，確保 production 可顯示 */}

@@ -11,7 +11,7 @@ import { Mail, MessageCircle } from "lucide-react";
  */
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-secondary/10 to-primary/5 border-t border-border mt-16 md:mt-24">
+    <footer id="contact" className="scroll-mt-24 bg-gradient-to-b from-secondary/10 to-primary/5 border-t border-border mt-16 md:mt-24">
       <div className="container py-12 md:py-16">
         {/* Footer Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
@@ -19,11 +19,9 @@ export default function Footer() {
           <div className="md:col-span-1">
             <a href="/" className="inline-block group mb-4">
               <div className="flex items-center gap-2 group-hover:scale-105 transition-transform">
-                <img
-                  src="/manus-storage/mofu-haven-logo_75fb6778.png"
-                  alt="Mofu Haven"
-                  className="w-8 h-8"
-                />
+                <span className="flex w-8 h-8 items-center justify-center rounded-lg border border-primary/30 bg-primary/10 text-sm font-bold text-primary">
+                  毛
+                </span>
                 <div>
                   <h3 className="font-bold text-foreground">毛毛港</h3>
                   <p className="text-xs text-primary font-semibold">Mofu Haven</p>
@@ -40,9 +38,9 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">快捷連結</h4>
             <ul className="space-y-2">
               {[
-                { label: "全部商品", href: "#" },
-                { label: "關於我們", href: "#" },
-                { label: "常見問題", href: "#" }
+                { label: "全部商品", href: "#products" },
+                { label: "關於我們", href: "#about" },
+                { label: "常見問題", href: "#contact" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a
@@ -62,9 +60,9 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">顧客服務</h4>
             <ul className="space-y-2">
               {[
-                { label: "運送與發貨政策", href: "#" },
-                { label: "退換貨政策", href: "#" },
-                { label: "私隱政策與服務條款", href: "#" }
+                { label: "運送與發貨政策", href: "#contact" },
+                { label: "退換貨政策", href: "#contact" },
+                { label: "私隱政策與服務條款", href: "#contact" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a
