@@ -1,0 +1,30 @@
+[2026-08-10T08:42:37.856Z] 8:42:37 AM [vite] (client) page reload client/index.html
+[2026-08-10T08:42:37.864Z] 8:42:37 AM [vite] changed tsconfig file detected: /home/ubuntu/mofu-haven-website/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2026-08-10T08:42:43.498Z] ELIFECYCLE  Command failed.
+[2026-08-10T08:42:43.499Z] WARN   Local package.json exists, but node_modules missing, did you mean to install?
+[2026-08-10T08:42:43.515Z] Dev server exited with code -1
+[2026-08-10T08:42:44.607Z] Starting dev server with command: pnpm run dev
+[2026-08-10T08:42:45.209Z] [WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.patchedDependencies", "pnpm.overrides". See https://pnpm.io/settings for the new home of each setting.
+[2026-08-10T08:42:45.860Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-10T08:42:45.860Z] > vite --host
+[2026-08-10T08:42:45.863Z] sh: 1: vite: not found
+[2026-08-10T08:42:45.867Z] ELIFECYCLE  Command failed.
+[2026-08-10T08:42:45.868Z] WARN   Local package.json exists, but node_modules missing, did you mean to install?
+[2026-08-10T08:42:45.900Z] Dev server exited with code 1
+[2026-08-10T08:43:07.614Z] Starting dev server with command: pnpm run dev
+[2026-08-10T08:43:08.411Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-10T08:43:08.411Z] > vite --host
+[2026-08-10T08:43:08.875Z] VITE v7.1.9  ready in 416 ms
+[2026-08-10T08:43:08.875Z] ➜  Local:   http://localhost:3000/
+[2026-08-10T08:43:08.875Z] ➜  Network: http://169.254.0.21:3000/
+[2026-08-10T08:43:09.883Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-10T08:43:10.583Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T08:43:10.583Z] 5595 |    initial-value: 0;
+[2026-08-10T08:43:10.583Z] 5596 |  }
+[2026-08-10T08:43:10.584Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T08:43:10.584Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T08:43:10.584Z] 5598 |  :root {
+[2026-08-10T08:43:10.584Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T08:43:44.429Z] 8:43:44 AM [vite] (client) hmr update /src/index.css
+[2026-08-10T08:44:40.340Z] 8:44:40 AM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
+[2026-08-10T08:44:40.345Z] 8:44:40 AM [vite] (client) hmr update /src/index.css
