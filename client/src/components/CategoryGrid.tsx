@@ -37,8 +37,8 @@ export default function CategoryGrid() {
   return (
     <section className="py-16 md:py-24 relative overflow-hidden">
       {/* Decorative Elements */}
-      <div className="absolute left-0 top-1/3 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute right-0 bottom-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute left-0 top-1/3 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute right-0 bottom-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
       <div className="container relative z-10">
         {/* Section Header - Warm, Inviting */}
@@ -65,7 +65,7 @@ export default function CategoryGrid() {
                   {/* Icon Container with Warm Glow */}
                   <div className="mb-4 p-4 bg-gradient-to-br from-primary/15 to-primary/5 rounded-full group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300 relative">
                     {/* Subtle glow effect */}
-                    <div className="absolute inset-0 rounded-full bg-primary/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 rounded-full bg-primary/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                     <Icon className="w-6 h-6 md:w-8 md:h-8 text-primary relative z-10" />
                   </div>
 

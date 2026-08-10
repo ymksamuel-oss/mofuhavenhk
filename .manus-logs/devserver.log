@@ -109,3 +109,16 @@
 [2026-08-10T11:18:27.475Z] ➜  Network: http://169.254.0.21:3000/
 [2026-08-10T11:18:28.418Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-10T11:18:58.827Z] 11:18:58 AM [vite] (client) hmr update /src/index.css
+[2026-08-10T19:25:05.003Z] 7:25:05 PM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-10T19:25:18.143Z] 7:25:18 PM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
+[2026-08-10T19:25:34.255Z] 7:25:34 PM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-10T19:26:02.511Z] ELIFECYCLE  Command failed.
+[2026-08-10T19:26:02.525Z] Dev server exited with code -1
+[2026-08-10T19:26:03.615Z] Starting dev server with command: pnpm run dev
+[2026-08-10T19:26:04.328Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-10T19:26:04.328Z] > vite --host
+[2026-08-10T19:26:04.740Z] VITE v7.1.9  ready in 369 ms
+[2026-08-10T19:26:04.740Z] ➜  Local:   http://localhost:3000/
+[2026-08-10T19:26:04.740Z] ➜  Network: http://169.254.0.21:3000/
+[2026-08-10T19:26:05.840Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-10T19:26:25.045Z] 7:26:25 PM [vite] (client) hmr update /src/index.css

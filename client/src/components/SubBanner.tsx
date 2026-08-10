@@ -13,14 +13,14 @@ export default function SubBanner() {
     <section className="relative py-12 md:py-24 overflow-hidden">
       {/* Decorative Background with Warm Glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
-      <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left: Image with Felt-like Border */}
           <div className="relative group">
             {/* Warm glow background */}
-            <div className="absolute -inset-4 bg-gradient-to-br from-primary/15 to-secondary/10 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute -inset-4 bg-gradient-to-br from-primary/15 to-secondary/10 rounded-3xl blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             
             {/* Image with felt border effect */}
             <div className="relative border-4 border-dashed border-primary/20 rounded-2xl p-2 bg-white/50 backdrop-blur-sm">
@@ -35,7 +35,7 @@ export default function SubBanner() {
           {/* Right: Content with Warm Aesthetic */}
           <div className="space-y-6">
             {/* Accent Badge with Signature Style */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 pointer-events-none">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm font-semibold text-primary">✨ 溫馨時刻</span>
             </div>

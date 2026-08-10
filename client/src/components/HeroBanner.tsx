@@ -20,13 +20,13 @@ export default function HeroBanner() {
       />
 
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent pointer-events-none" />
 
       {/* Content Overlay */}
-      <div className="absolute inset-0 flex flex-col justify-center items-start container">
+      <div className="absolute inset-0 flex flex-col justify-center items-start container pointer-events-auto">
         <div className="max-w-md md:max-w-lg space-y-4 md:space-y-6 text-white">
           {/* Badge */}
-          <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30">
+          <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 pointer-events-none">
             <span className="text-sm font-medium">日本直送・嚴選寵物好物</span>
           </div>
 
