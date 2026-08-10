@@ -7,6 +7,7 @@ import { Play } from "lucide-react";
  * - Main banner image: mofu-haven-website-b.png (complete, no cropping)
  * - Overlay with brand message
  * - Soft, warm aesthetic
+ * Cache Bust: 2026-08-10T09:27:00Z
  */
 export default function HeroBanner() {
   return (

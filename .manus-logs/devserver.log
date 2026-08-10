@@ -82,3 +82,12 @@
 [2026-08-10T09:17:49.829Z] 5598 |  :root {
 [2026-08-10T09:17:49.829Z] 5599 |    --primary: oklch(0.72 0.08 142);
 [2026-08-10T09:18:05.182Z] 9:18:05 AM [vite] (client) hmr update /src/index.css
+[2026-08-10T09:18:37.685Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T09:18:37.685Z] 5595 |    initial-value: 0;
+[2026-08-10T09:18:37.685Z] 5596 |  }
+[2026-08-10T09:18:37.685Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T09:18:37.685Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T09:18:37.685Z] 5598 |  :root {
+[2026-08-10T09:18:37.685Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T09:27:10.264Z] 9:27:10 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-10T09:27:20.139Z] 9:27:20 AM [vite] (client) hmr update /src/index.css
