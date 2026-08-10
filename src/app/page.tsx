@@ -104,7 +104,7 @@ export default function HomePage() {
               <div className="w-full sm:flex-1">
                 <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_8px_24px_rgba(74,54,38,0.15)]">
                   <img
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/mKbuHceqjdZDmmaf.PNG"
+                    src="/images/IMG_0969.png"
                     alt="與毛孩的日常治癒"
                     className="h-full w-full object-cover"
                   />
