@@ -31,3 +31,29 @@
 [2026-08-10T08:44:50.585Z] 8:44:50 AM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
 [2026-08-10T08:44:50.587Z] 8:44:50 AM [vite] (client) hmr update /src/index.css
 [2026-08-10T08:49:42.986Z] 8:49:42 AM [vite] (client) hmr update /src/index.css
+[2026-08-10T08:50:16.305Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T08:50:16.305Z] 5595 |    initial-value: 0;
+[2026-08-10T08:50:16.305Z] 5596 |  }
+[2026-08-10T08:50:16.305Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T08:50:16.305Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T08:50:16.305Z] 5598 |  :root {
+[2026-08-10T08:50:16.305Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T09:12:41.516Z] 9:12:41 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-10T09:13:09.170Z] 9:13:09 AM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
+[2026-08-10T09:13:17.057Z] ELIFECYCLE  Command failed.
+[2026-08-10T09:13:17.068Z] Dev server exited with code -1
+[2026-08-10T09:13:18.165Z] Starting dev server with command: pnpm run dev
+[2026-08-10T09:13:18.893Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-10T09:13:18.893Z] > vite --host
+[2026-08-10T09:13:19.305Z] VITE v7.1.9  ready in 367 ms
+[2026-08-10T09:13:19.305Z] ➜  Local:   http://localhost:3000/
+[2026-08-10T09:13:19.305Z] ➜  Network: http://169.254.0.21:3000/
+[2026-08-10T09:13:20.400Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-10T09:13:21.069Z] [vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+[2026-08-10T09:13:21.069Z] 5595 |    initial-value: 0;
+[2026-08-10T09:13:21.069Z] 5596 |  }
+[2026-08-10T09:13:21.070Z] 5597 |  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Playfair+Display:wght@...
+[2026-08-10T09:13:21.070Z] |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-08-10T09:13:21.070Z] 5598 |  :root {
+[2026-08-10T09:13:21.070Z] 5599 |    --primary: oklch(0.72 0.08 142);
+[2026-08-10T09:13:35.665Z] 9:13:35 AM [vite] (client) hmr update /src/index.css
