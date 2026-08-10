@@ -13,7 +13,7 @@ export default function HeroBanner() {
     <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
       {/* Main Banner Image */}
       <img
-        src="/manus-storage/mofu-haven-website-b.png(5)_36506602.png"
+        src="/images/mofu-haven-website-b.png"
         alt="Mofu Haven - 寵物與產品"
         className="w-full h-full object-cover"
       />
@@ -47,18 +47,22 @@ export default function HeroBanner() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button
+              asChild
               size="lg"
               className="bg-white text-primary hover:bg-white/90 font-semibold"
             >
-              立即選購 →
+              <a href="#products">立即選購 →</a>
             </Button>
             <Button
+              asChild
               size="lg"
               variant="outline"
               className="border-white text-white hover:bg-white/10"
             >
-              <Play className="w-4 h-4 mr-2" />
-              觀看短片
+              <a href="/video/hero-short.mp4" target="_blank" rel="noopener noreferrer">
+                <Play className="w-4 h-4 mr-2" />
+                觀看短片
+              </a>
             </Button>
           </div>
         </div>

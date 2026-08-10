@@ -21,9 +21,9 @@ export default function HomePage() {
         {/* Mobile: 3/4 aspect ratio */}
         <div className="relative aspect-[3/4] w-full sm:hidden">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/images/mofu-haven-website-b.png"
             alt={t("brand")}
-            className="h-full w-full object-cover object-left"
+            className="h-full w-full object-cover object-center"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
@@ -31,7 +31,7 @@ export default function HomePage() {
         {/* Desktop: ultra-wide full-bleed banner - no forced aspect ratio */}
         <div className="relative hidden w-full bg-gradient-to-b from-[#f5f1ed] to-[#ede8e3] sm:block">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/images/mofu-haven-website-b.png"
             alt={t("brand")}
             className="w-full h-auto object-contain"
           />
@@ -104,7 +104,7 @@ export default function HomePage() {
               <div className="w-full sm:flex-1">
                 <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_8px_24px_rgba(74,54,38,0.15)]">
                   <img
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/mKbuHceqjdZDmmaf.PNG"
+                    src="/images/IMG_0969.png"
                     alt="與毛孩的日常治癒"
                     className="h-full w-full object-cover"
                   />
