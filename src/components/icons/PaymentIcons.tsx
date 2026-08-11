@@ -32,11 +32,11 @@ export function MastercardLogo({ className = "" }: LogoProps) {
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
-      className={`inline-flex h-9 w-[6.5rem] min-w-[6.5rem] shrink-0 items-center justify-start gap-2 overflow-visible ${className}`}
+      className={`inline-flex h-9 w-[4.75rem] min-w-[4.75rem] shrink-0 items-center justify-start gap-1 overflow-hidden ${className}`}
       aria-hidden="true"
     >
-      <VisaLogo className="!h-5 !max-h-5" />
-      <MastercardLogo className="!h-5 !max-h-5" />
+      <VisaLogo className="!h-[0.9rem] !max-h-[0.9rem]" />
+      <MastercardLogo className="!h-[1.1rem] !max-h-[1.1rem]" />
     </span>
   );
 }
