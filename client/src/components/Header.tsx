@@ -17,11 +17,11 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo & Brand - Enhanced Wordmark */}
-        <a href="/" className="flex items-center gap-3 group">
+        <a href="/" className="mr-3 flex min-w-0 shrink-0 items-center gap-4 group sm:mr-4">
           <img
             src="/manus-storage/mofu-haven-logo_75fb6778.png"
             alt="Mofu Haven Logo"
-            className="w-8 h-8 md:w-10 md:h-10 group-hover:scale-110 transition-transform duration-300"
+            className="h-8 w-8 shrink-0 transition-transform duration-300 group-hover:scale-110 md:h-10 md:w-10"
           />
           <div className="hidden sm:block">
             <div className="flex items-baseline gap-1">

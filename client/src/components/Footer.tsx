@@ -120,15 +120,35 @@ export default function Footer() {
           {/* Payment Methods */}
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <span className="text-xs text-muted-foreground font-medium">接受付款方式：</span>
-            <div className="flex items-center gap-3">
-              {["WeChat Pay", "AlipayHK", "Visa", "Mastercard"].map((method, idx) => (
-                <span
-                  key={idx}
-                  className="text-xs font-medium text-foreground/70 px-2 py-1 bg-white/50 rounded-full"
-                >
-                  {method}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
+              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+                <img
+                  src="/payment/wechat-pay-logo.png"
+                  alt="WeChat Pay"
+                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                />
+              </span>
+              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+                <img
+                  src="/payment/alipayhk-logo.svg"
+                  alt="AlipayHK"
+                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                />
+              </span>
+              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+                <img
+                  src="/payment/visa-brandmark-blue.png"
+                  alt="Visa"
+                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                />
+              </span>
+              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+                <img
+                  src="/payment/mastercard-symbol.png"
+                  alt="Mastercard"
+                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                />
+              </span>
             </div>
           </div>
         </div>
