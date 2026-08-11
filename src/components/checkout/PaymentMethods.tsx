@@ -49,7 +49,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         </p>
       </div>
 
-      <ul className="grid grid-cols-1 gap-3">
+      <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
 
@@ -58,21 +58,21 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`grid min-h-[4.5rem] w-full grid-cols-[6.5rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 px-1 py-3 text-left transition duration-200 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.75rem] sm:gap-x-4 sm:px-2 ${
+                className={`grid min-h-[5.5rem] w-full grid-cols-[3.25rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 rounded-[1.25rem] border px-4 py-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5.75rem] ${
                   active
-                    ? "text-[color:var(--ink)]"
-                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
+                    ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--ink)]"
+                    : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/50 hover:text-[color:var(--ink)]"
                 }`}
                 aria-pressed={active}
               >
                 <span
-                  className="flex h-9 w-[6.5rem] min-w-0 items-center justify-start overflow-visible"
+                  className="flex h-10 w-[3.25rem] min-w-0 items-center justify-center overflow-hidden"
                   aria-hidden="true"
                 >
                   <Icon
                     className={
                       id === "wechatpay" || id === "alipayhk"
-                        ? "!h-5 max-w-full !w-auto"
+                        ? "!h-6 !max-w-[3.25rem] !w-auto"
                         : ""
                     }
                   />
