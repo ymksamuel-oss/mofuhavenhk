@@ -58,7 +58,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`grid min-h-[5.5rem] w-full grid-cols-[3.25rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 rounded-[1.25rem] border px-4 py-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5.75rem] ${
+                className={`grid min-h-[5.5rem] w-full grid-cols-[4.75rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 rounded-[1.25rem] border px-4 py-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5.75rem] ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--ink)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/50 hover:text-[color:var(--ink)]"
@@ -66,13 +66,13 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 aria-pressed={active}
               >
                 <span
-                  className="flex h-10 w-[3.25rem] min-w-0 items-center justify-center overflow-hidden"
+                  className="flex h-10 w-[4.75rem] min-w-0 items-center justify-center overflow-hidden"
                   aria-hidden="true"
                 >
                   <Icon
                     className={
                       id === "wechatpay" || id === "alipayhk"
-                        ? "!h-6 !max-w-[3.25rem] !w-auto"
+                        ? "!h-6 !max-w-[4.75rem] !w-auto"
                         : ""
                     }
                   />
