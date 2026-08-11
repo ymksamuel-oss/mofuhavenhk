@@ -2,6 +2,7 @@
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
+import { HeroVideoModal } from "@/components/home/HeroVideoModal";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -32,7 +33,7 @@ export default function HomePage() {
             <p className="mt-2 max-w-md text-sm leading-relaxed text-white/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] sm:mt-3 sm:text-base">
               {t("homeSub")}
             </p>
-            <div className="mt-6 sm:mt-8">
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
               <CategoryNavLink
                 href="/menu"
                 className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--hero-deep)] shadow-[0_16px_32px_-14px_rgba(0,0,0,0.5)] transition hover:-translate-y-0.5 hover:bg-[color:var(--accent-soft)] hover:shadow-[0_20px_36px_-14px_rgba(0,0,0,0.55)]"
@@ -45,6 +46,7 @@ export default function HomePage() {
                   →
                 </span>
               </CategoryNavLink>
+              <HeroVideoModal />
             </div>
           </div>
         </div>
