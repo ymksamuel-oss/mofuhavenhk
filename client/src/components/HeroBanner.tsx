@@ -13,7 +13,7 @@ export default function HeroBanner() {
     <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
       {/* Main Banner Image */}
       <img
-        src="/manus-storage/mofu-haven-website-b.png(5)_36506602.png"
+        src="/mofu-haven-website-b.png.png"
         alt="Mofu Haven - 寵物與產品"
         className="w-full h-full object-cover"
       />
