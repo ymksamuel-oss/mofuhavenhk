@@ -5,7 +5,7 @@ export default function HeroBanner() {
 
         {/* 主 Banner 圖片：使用系統認得嘅正確檔名，保證完整顯示、不被裁剪 */}
         <img
-          src="/mofu-haven-website-b.png.png"
+          src="/banner-secondary.webp"
           alt="Mofu Haven 毛毛港 日系質感寵物選物主視覺"
           className="w-full h-auto object-contain block mx-auto rounded-2xl"
         />
