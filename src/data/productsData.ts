@@ -824,21 +824,5 @@ export const WT_JAPAN_PRODUCTS: WtJapanProduct[] = [
     productType: "貓貓小食",
     sourceUrl:
       "https://www.wt-japan.com/products/貓貓小食-日本國產無添加冷凍脫水雞肉貓貓用-40g-x-8",
-  }, 
-   {
-  id: "wt-product-mamacook-chicken-breast-comb",
-  title: "MAMACOOK 但馬高原 - 冷凍脫水雞胸肉雞冠 (狗狗用) 18g x 10袋",
-  price: 425.0,
-  imageUrl: "/images/products/wt-product-mamacook.jpg",
-  sourceImageUrl: "https://www.wt-japan.com/cdn/shop/products/mamacook-tajima-chicken-breast-comb.jpg",
-  description: "選用日本國產新鮮雞胸肉與雞冠，採用先進冷凍脫水技術製成。富含天然透明質酸，有助皮膚與毛髮健康。無添加任何化學成分，完整保留雞肉原味與營養。18g x 10袋超值包裝，方便餵食，適合追求高品質天然食材的愛犬。",
-  vendor: "MAMACOOK",
-  category: "狗狗商品",
-  categorySlug: "dogs",
-  subcategory: "狗狗小食",
-  tags: ["狗小食", "冷凍脫水", "雞胸肉", "雞冠", "天然無添加", "皮膚毛髮健康"],
-  recommendedBreeds: ["poodle", "shiba-inu", "golden-retriever", "mix-dog"],
-  handle: "mamacook-但馬高原-冷凍脫水雞胸肉雞冠-狗狗用-18g-x10袋",
-  productType: "狗狗小食",
-  sourceUrl: "https://www.wt-japan.com/products/mamacook-但馬高原-冷凍脫水雞胸肉雞冠-狗狗用-18g-x10袋",
-};
+  },
+];
