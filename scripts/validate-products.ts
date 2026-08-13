@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { WT_JAPAN_DOG_PRODUCTS } from "@/data/productsData";
 import {
   PRODUCTS,
   WT_JAPAN_DOG_STOREFRONT_PRODUCTS,
@@ -467,15 +468,15 @@ for (const id of DOG_PRODUCT_IDS) {
   );
 }
 
-const jsonFiles = [
-  path.join(ROOT, "public", "wt_japan_products.json"),
-  path.join(ROOT, "public", "products", "wt_japan_products.json"),
-].filter(fs.existsSync);
 check(
-  jsonFiles.length === 1 &&
-    jsonFiles[0] === path.join(ROOT, "public", "wt_japan_products.json"),
-  "Exactly one authoritative WT Japan dog JSON must remain at public/wt_japan_products.json",
+  WT_JAPAN_DOG_PRODUCTS.length === DOG_PRODUCT_IDS.length,
+  `Expected ${DOG_PRODUCT_IDS.length} WT Japan dog products in productsData.ts, found ${WT_JAPAN_DOG_PRODUCTS.length}`,
 );
+for (const product of WT_JAPAN_DOG_PRODUCTS) {
+  check(product.category === "狗狗商品", `${product.id}: must use 狗狗商品 category`);
+  check(product.categorySlug === "dogs", `${product.id}: must use dogs category slug`);
+  check(fs.existsSync(path.join(ROOT, "public", product.imageUrl)), `${product.id}: local image is missing`);
+}
 
 const dynamicFetchHits: string[] = [];
 for (const rootName of ["src", "Src"]) {
