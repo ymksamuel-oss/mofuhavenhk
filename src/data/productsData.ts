@@ -824,11 +824,6 @@ export const WT_JAPAN_PRODUCTS: WtJapanProduct[] = [
     productType: "貓貓小食",
     sourceUrl:
       "https://www.wt-japan.com/products/貓貓小食-日本國產無添加冷凍脫水雞肉貓貓用-40g-x-8",
-  },
-{
-  id: "wt-japan-002", 
-  title: "PETPRO 日本國產無添加狗狗小食 - 雞肝乾 100g x 10",
-  price: 588.00,
-  imageUrl: "/images/products/4981528361162_1_1200x1200.jpg",
-  https://www.wt-japan.com/products/petpro-日本國產無添加狗狗小食-雞肝乾100g-x10  category: "狗狗小食" 
-},
+  }, 
+
+  
