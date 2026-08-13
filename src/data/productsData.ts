@@ -57,6 +57,142 @@ export type WtJapanProduct = {
   sourceUrl: string;
 };
 
+/** Canonical storefront category key used by `/categories/dogs` (“狗狗商品”). */
+export const DOG_PRODUCTS_CATEGORY = "狗狗商品" as const;
+export const DOG_PRODUCTS_CATEGORY_SLUG = "dogs" as const;
+
+export type WtJapanDogProduct = {
+  id: string;
+  title: string;
+  titleEn: string;
+  /** Storefront price in HKD (as listed on WT Japan). */
+  price: number;
+  /** Local path under /public for the downloaded hero image. */
+  imageUrl: string;
+  /** Mofu Haven storefront blurb (plain text). */
+  description: string;
+  descriptionEn: string;
+  vendor: string;
+  /** Must be the canonical 狗狗商品 category label. */
+  category: typeof DOG_PRODUCTS_CATEGORY;
+  /** Storefront filter key (`CATEGORIES[].slug`) — must be `"dogs"`. */
+  categorySlug: typeof DOG_PRODUCTS_CATEGORY_SLUG;
+  subcategory: "狗狗小食";
+  /** Optional compare-at / list price when on sale. */
+  originalPrice?: number;
+  spec: string;
+  tags: string[];
+  handle: string;
+  productType: "狗狗小食";
+  sourceUrl: string;
+  sourceImageUrl?: string;
+  inStock: boolean;
+};
+
+/**
+ * WT Japan dog-treat catalog. Every dog item uses the dogs category and its
+ * matching downloaded WebP image, rather than sharing the cat product array.
+ */
+export const WT_JAPAN_DOG_PRODUCTS: WtJapanDogProduct[] = [
+  {
+    id: "wt-japan-001",
+    titleEn: "MAMACOOK Freeze-Dried Chicken Breast & Comb Mix for Dogs 18g × 10",
+    title: "但馬高原 - 冷凍脫水雞胸肉雞冠 (狗狗用) 18g x 10袋",
+    price: 425.0,
+    originalPrice: 440.0,
+    spec: "18g x 10袋",
+    imageUrl: "/images/products/wt-japan-001.webp",
+    description: "MAMACOOK 日本製冷凍脫水雞胸肉配雞冠，18g 獨立小包共 10 袋，適合狗狗作日常獎勵小食。",
+    descriptionEn: "Japan-made MAMACOOK freeze-dried dog treats made from chicken breast and dried comb, in ten 18g pouches.",
+    vendor: "MAMACOOK",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", "雞肉系列"],
+    handle: "freeze-dried-chicken-breast-comb-mix-dog-18g",
+    productType: "狗狗小食",
+    sourceUrl: "https://www.mamacook.co.jp/lineup/?detail=20181016104753",
+    inStock: true,
+  },
+  {
+    id: "wt-japan-002",
+    titleEn: "PetPro Japan-Made Additive-Free Chicken Liver Treats 100g × 10",
+    title: "日本國產無添加狗狗小食 - 雞肝乾 100g x 10",
+    price: 588.0,
+    spec: "100g x 10",
+    imageUrl: "/images/products/wt-japan-002.webp",
+    description: "PETPRO 日本國產無添加雞肝乾，100g 包裝共 10 袋；不添加色素及防腐劑。",
+    descriptionEn: "Japan-made PetPro chicken-liver treats with no added colorants or preservatives, in ten 100g pouches.",
+    vendor: "PETPRO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", "內臟系列"],
+    handle: "made-in-japan-additive-free-chicken-liver-100g",
+    productType: "狗狗小食",
+    sourceUrl: "https://petpro.jp/",
+    inStock: true,
+  },
+  {
+    id: "wt-japan-003",
+    titleEn: "PetPro Japan-Made Additive-Free Sliced Beef Tongue Skin 50g × 10",
+    title: "日本國產無添加狗狗小食 - 薄切牛舌乾 50g x 10",
+    price: 558.0,
+    spec: "50g x 10",
+    imageUrl: "/images/products/wt-japan-003.webp",
+    description: "PETPRO 日本國產無添加薄切牛舌乾，50g 包裝共 10 袋；不添加色素及防腐劑。",
+    descriptionEn: "Thin-cut, Japan-made PetPro beef tongue skin treats with no added colorants or preservatives, in ten 50g pouches.",
+    vendor: "PETPRO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", "牛肉系列"],
+    handle: "made-in-japan-additive-free-beef-tongue-skin-50g",
+    productType: "狗狗小食",
+    sourceUrl: "https://petpro.jp/",
+    inStock: true,
+  },
+  {
+    id: "wt-japan-004",
+    titleEn: "HappyDays Japan-Made Venison Slices for Dogs 30g × 10",
+    title: "HappyDays 日本國產狗狗小食 - 鹿肉薄片 30g x 10",
+    price: 558.0,
+    spec: "30g x 10",
+    imageUrl: "/images/products/wt-japan-004.webp",
+    description: "HappyDays 日本國產鹿肉薄片，30g 包裝共 10 袋；不添加色素及防腐劑。",
+    descriptionEn: "HappyDays venison slices made from Japanese deer, with no added colorants or preservatives, in ten 30g pouches.",
+    vendor: "HappyDays",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", "鹿肉系列"],
+    handle: "happydays-japan-venison-slices-dog-30g",
+    productType: "狗狗小食",
+    sourceUrl: "https://petpro.jp/post-24445/",
+    inStock: true,
+  },
+  {
+    id: "wt-japan-005",
+    titleEn: "PetPro Japan-Made Additive-Free Long Beef Achilles Treats 70g × 10",
+    title: "日本國產無添加狗狗小食 - 牛筋長條 (牛アキレスロング) 70g x 10",
+    price: 558.0,
+    spec: "70g x 10",
+    imageUrl: "/images/products/wt-japan-005.webp",
+    description: "PETPRO 日本國產無添加牛筋長條，70g 包裝共 10 袋；不添加色素、防腐劑及抗氧化劑。",
+    descriptionEn: "Long-cut PetPro beef Achilles treats for a satisfying chew, made without added colorants, preservatives, or antioxidants, in ten 70g pouches.",
+    vendor: "PETPRO",
+    category: "狗狗商品",
+    categorySlug: "dogs",
+    subcategory: "狗狗小食",
+    tags: ["狗狗小食", "狗用", "日本國產", "無添加", "牛肉系列"],
+    handle: "made-in-japan-additive-free-beef-achilles-long-70g",
+    productType: "狗狗小食",
+    sourceUrl: "https://petpro.jp/16680-2/",
+    inStock: true,
+    sourceImageUrl: "https://petpro.jp/wp-content/uploads/2022/11/4981528362633-1.jpg",
+  },
+];
+
 export const WT_JAPAN_PRODUCTS: WtJapanProduct[] = [
   {
     id: "wt-product-1",

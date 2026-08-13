@@ -120,4 +120,4 @@ npm run dev
 
 開啟 `http://localhost:3000`；`/menu` 是完整產品目錄，`/product/<id>` 是動態產品詳情，`/checkout` 是購物車與付款流程。
 
-`scripts/fetch_real_product_photos.py` 只管理 `src/lib/products.ts` 內明確使用 `/products/<id>.webp` 的手寫 SKU，不會覆寫由 `src/data/` 或 `public/wt_japan_products.json` 匯入的 WT Japan 本地圖片。
+`scripts/fetch_real_product_photos.py` 只管理 `src/lib/products.ts` 內明確使用 `/products/<id>.webp` 的手寫 SKU，不會覆寫由 `src/data/` 匯入的 WT Japan 本地圖片。

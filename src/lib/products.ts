@@ -1,6 +1,8 @@
 import type { CategoryIconName } from "@/lib/categories";
 import {
+  WT_JAPAN_DOG_PRODUCTS,
   WT_JAPAN_PRODUCTS,
+  type WtJapanDogProduct,
   type WtJapanProduct,
 } from "@/data/productsData";
 import {
@@ -10,7 +12,6 @@ import {
   type WtJapanCatSnackProduct,
 } from "@/data/catSnacksData";
 import { classifyCatalogProducts } from "@/lib/classifyPetFood";
-import WT_JAPAN_DOG_PRODUCTS_JSON from "../../public/wt_japan_products.json";
 
 export { CAT_SNACK_SERIES, type CatSnackSeries };
 
@@ -630,115 +631,40 @@ function wtJapanCatSnackToProduct(p: WtJapanCatSnackProduct): Product {
 export const WT_JAPAN_CAT_SNACK_STOREFRONT_PRODUCTS: Product[] =
   WT_JAPAN_CAT_SNACK_PRODUCTS.map(wtJapanCatSnackToProduct);
 
-/** Raw fields in the single authoritative WT Japan dog-product JSON. */
-export type WtJapanDogProduct = {
-  id: string;
-  brand: string;
-  name: string;
-  category: string;
-  categoryName: string;
-  price: number;
-  originalPrice: number | null;
-  spec: string;
-  inStock: boolean;
-};
-
-const WT_JAPAN_DOG_EN: Record<string, { name: string; description: string }> = {
-  "wt-japan-001": {
-    name: "MAMACOOK Freeze-Dried Chicken Breast & Comb Mix for Dogs 18g × 10",
-    description: "Japan-made MAMACOOK freeze-dried dog treats made from chicken breast and dried comb, in ten 18g pouches.",
-  },
-  "wt-japan-002": {
-    name: "PetPro Japan-Made Additive-Free Chicken Liver Treats 100g × 10",
-    description: "Japan-made PetPro chicken-liver treats with no added colorants or preservatives, in ten 100g pouches.",
-  },
-  "wt-japan-003": {
-    name: "PetPro Japan-Made Additive-Free Sliced Beef Tongue Skin 50g × 10",
-    description: "Thin-cut, Japan-made PetPro beef tongue skin treats with no added colorants or preservatives, in ten 50g pouches.",
-  },
-  "wt-japan-004": {
-    name: "HappyDays Japan-Made Venison Slices for Dogs 30g × 10",
-    description: "HappyDays venison slices made from Japanese deer, with no added colorants or preservatives, in ten 30g pouches.",
-  },
-  "wt-japan-005": {
-    name: "PetPro Japan-Made Additive-Free Long Beef Achilles Treats 70g × 10",
-    description: "Long-cut PetPro beef Achilles treats for a satisfying chew, made without added colorants, preservatives, or antioxidants, in ten 70g pouches.",
-  },
-};
-
-const WT_JAPAN_DOG_SOURCE: Record<
-  string,
-  { brand?: string; sourceUrl: string; sourceImageUrl?: string; handle: string }
-> = {
-  "wt-japan-001": {
-    sourceUrl: "https://www.mamacook.co.jp/lineup/?detail=20181016104753",
-    handle: "freeze-dried-chicken-breast-comb-mix-dog-18g",
-  },
-  "wt-japan-002": {
-    sourceUrl: "https://petpro.jp/",
-    handle: "made-in-japan-additive-free-chicken-liver-100g",
-  },
-  "wt-japan-003": {
-    sourceUrl: "https://petpro.jp/",
-    handle: "made-in-japan-additive-free-beef-tongue-skin-50g",
-  },
-  "wt-japan-004": {
-    brand: "HappyDays",
-    sourceUrl: "https://petpro.jp/post-24445/",
-    handle: "happydays-japan-venison-slices-dog-30g",
-  },
-  "wt-japan-005": {
-    sourceUrl: "https://petpro.jp/16680-2/",
-    sourceImageUrl: "https://petpro.jp/wp-content/uploads/2022/11/4981528362633-1.jpg",
-    handle: "made-in-japan-additive-free-beef-achilles-long-70g",
-  },
-};
-
-/** Convert one statically imported WT Japan dog record to the unified catalog. */
+/** Convert one statically maintained WT Japan dog record to the unified catalog. */
 export function wtJapanDogProductToProduct(p: WtJapanDogProduct): Product {
-  const english = WT_JAPAN_DOG_EN[p.id];
-  const source = WT_JAPAN_DOG_SOURCE[p.id];
-  const brand = source?.brand ?? p.brand;
   return {
     id: p.id,
-    categorySlug: "dogs",
-    subcategory: "狗狗小食",
-    image: `/images/products/${p.id}.webp`,
-    name: {
-      zh: p.name,
-      en: english?.name ?? p.name,
-    },
+    categorySlug: p.categorySlug,
+    subcategory: p.subcategory,
+    image: p.imageUrl,
+    name: { zh: p.title, en: p.titleEn },
     price: p.price,
-    originalPrice: p.originalPrice ?? undefined,
-    series: { zh: brand, en: brand },
+    originalPrice: p.originalPrice,
+    series: { zh: p.vendor, en: p.vendor },
     icon: "dog",
-    description: {
-      zh: `${brand} 日本原裝狗狗小食；${p.categoryName}，每箱 ${p.spec}。`,
-      en: english?.description ?? `${brand} dog treats imported from Japan.`,
-    },
+    description: { zh: p.description, en: p.descriptionEn },
     specs: [
-      { zh: `品牌：${brand}`, en: `Brand: ${brand}` },
+      { zh: `品牌：${p.vendor}`, en: `Brand: ${p.vendor}` },
       { zh: `規格：${p.spec}`, en: `Spec: ${p.spec}` },
       { zh: "產地：日本・狗狗用", en: "Origin: Japan · for dogs" },
-      { zh: `分類：${p.categoryName}`, en: "Category: Dog treats" },
+      { zh: `分類：${p.subcategory}`, en: "Category: Dog treats" },
     ],
-    tags: ["狗狗小食", "狗用", "日本國產", "無添加", brand],
-    productType: "狗狗小食",
+    tags: p.tags,
+    productType: p.productType,
     inStock: p.inStock,
-    brand,
-    vendor: p.brand,
-    sourceUrl: source?.sourceUrl,
-    sourceImageUrl: source?.sourceImageUrl,
-    handle: source?.handle,
-    sourceCategory: p.categoryName,
+    brand: p.vendor,
+    vendor: p.vendor,
+    sourceUrl: p.sourceUrl,
+    sourceImageUrl: p.sourceImageUrl,
+    handle: p.handle,
+    sourceCategory: p.category,
   };
 }
 
-/** Five WT Japan dog treats, statically imported from the single public JSON. */
+/** Five WT Japan dog treats maintained in `@/data/productsData`. */
 export const WT_JAPAN_DOG_STOREFRONT_PRODUCTS: Product[] =
-  (WT_JAPAN_DOG_PRODUCTS_JSON as WtJapanDogProduct[]).map(
-    wtJapanDogProductToProduct,
-  );
+  WT_JAPAN_DOG_PRODUCTS.map(wtJapanDogProductToProduct);
 
 /** Medication-assistance treats shared by the cat and dog storefront zones. */
 const PILL_TREAT_PRODUCTS: Product[] = [
@@ -1390,7 +1316,7 @@ const PRODUCTS_RAW: Product[] = [
  * - 冷凍脫水／貓貓・貓用 → cats / 冷凍脫水系列
  * - 貓貓小食系列（無添加／老貓／去毛球／BB）→ cats / 貓貓小食
  * - 狗狗／狗用 edible snacks & staple food → dogs / 狗狗小食 or 狗狗食品
- * - WT Japan dog treats (statically imported from wt_japan_products.json) → dogs / 狗狗小食
+ * - WT Japan dog treats (maintained in productsData.ts) → dogs / 狗狗小食
  */
 export const PRODUCTS: Product[] = classifyCatalogProducts(PRODUCTS_RAW);
 
