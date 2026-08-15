@@ -121,7 +121,7 @@ async function main() {
     });
     const productInput = {
       name: product.name,
-      description: product.description,
+      ...(product.description ? { description: product.description } : {}),
       images: [product.image],
       metadata: { id: product.id },
     };
