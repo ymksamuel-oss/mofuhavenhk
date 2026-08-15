@@ -87,7 +87,9 @@ async function loadBatchFromSheet(): Promise<StripeCatalogProduct[]> {
 
   const parsed = parseProductCatalogCsv(await response.text());
   if (parsed.ignoredRows > 0) {
-    throw new Error(`Google Sheet has ${parsed.ignoredRows} invalid or incomplete product rows`);
+    console.warn(
+      `Google Sheet skipped ${parsed.ignoredRows} invalid or incomplete row(s); syncing ${parsed.acceptedRows} valid products only.`,
+    );
   }
 
   const products = [...parsed.records.values()]
