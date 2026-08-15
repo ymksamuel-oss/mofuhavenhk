@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "if [ \"${SYNC_STRIPE_ON_BUILD:-}\" = \"1\" ]; then npm run sync:stripe; fi && next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "validate:products": "tsc -p tsconfig.validate.json && node scripts/run-product-validation.cjs",

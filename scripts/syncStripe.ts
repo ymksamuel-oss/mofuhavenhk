@@ -43,7 +43,7 @@ async function main() {
       (await stripe.products.create({
         name: product.name,
         description: product.description,
-        images: product.originalImage ? [product.originalImage] : [],
+        images: product.originalImage ? [new URL(product.originalImage).toString()] : [],
         metadata: {
           id: product.id,
           slug: product.slug,
