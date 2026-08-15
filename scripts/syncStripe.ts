@@ -38,19 +38,21 @@ async function main() {
       query: `metadata['id']:'${product.id}'`,
       limit: 1,
     });
-    const stripeProduct =
-      existingProducts.data[0] ??
-      (await stripe.products.create({
-        name: product.name,
-        description: product.description,
-        images: product.originalImage ? [new URL(product.originalImage).toString()] : [],
-        metadata: {
-          id: product.id,
-          slug: product.slug,
-          category: product.category,
-          brand: product.brand,
-        },
-      }));
+    const productInput = {
+      name: product.name,
+      description: product.description,
+      images: [new URL(product.image, "https://mofuhavenhk.com").toString()],
+      metadata: {
+        id: product.id,
+        slug: product.slug,
+        category: product.category,
+        brand: product.brand,
+      },
+    };
+    const existingProduct = existingProducts.data[0];
+    const stripeProduct = existingProduct
+      ? await stripe.products.update(existingProduct.id, productInput)
+      : await stripe.products.create(productInput);
 
     const existingPrices = await stripe.prices.list({
       product: stripeProduct.id,
@@ -68,7 +70,7 @@ async function main() {
       }));
 
     console.log(
-      `${existingProducts.data[0] ? "Reused" : "Created"} ${product.id}: product ${stripeProduct.id}, price ${stripePrice.id} (${unitAmount} cents)`,
+      `${existingProduct ? "Updated" : "Created"} ${product.id}: product ${stripeProduct.id}, price ${stripePrice.id} (${unitAmount} cents)`,
     );
 
     await sleep(DELAY_MS);
