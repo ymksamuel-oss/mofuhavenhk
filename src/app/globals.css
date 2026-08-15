@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("..");
 
 :root {
   /* Warm milk-tea cream — solid base for overscroll / browser chrome */
