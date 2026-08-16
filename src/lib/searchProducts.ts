@@ -1,5 +1,5 @@
 import { catBreedsData } from "@/lib/catBreeds";
-import { PRODUCTS, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 
 export type ProductSearchHit = Product & {
   /** Ranking score — higher is a closer match. */
@@ -33,7 +33,7 @@ function fieldScore(haystack: string | undefined, needle: string, weight: number
  * product details, cart, checkout, and server-side price validation.
  */
 export function buildSearchIndex(
-  products: readonly Product[] = PRODUCTS,
+  products: readonly Product[] = [],
 ): ProductSearchHit[] {
   return products.map((product) => ({ ...product, score: 0 }));
 }
@@ -41,7 +41,7 @@ export function buildSearchIndex(
 export function searchProducts(
   query: string,
   limit = 12,
-  products: readonly Product[] = PRODUCTS,
+  products: readonly Product[] = [],
 ): ProductSearchHit[] {
   const needle = normalizeSearchText(query.trim());
   if (!needle) return [];

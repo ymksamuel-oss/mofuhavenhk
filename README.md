@@ -4,24 +4,9 @@ Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物�
 
 ## 產品目錄
 
-目前統一目錄共有 **178 筆產品**。`src/lib/products.ts` 匯出的 `PRODUCTS` 定義商品 ID、分類、tags、規格等結構資料，亦是 Google Sheet 失效時的完整安全 fallback。正常運作時，五項客戶可見及交易相關欄位會由 Google Sheet 統一提供：
+Google Sheet 是唯一產品主源。瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe PaymentIntent、收據及訂單通知全部使用同一份伺服器載入的 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
 
-- Image：產品圖片
-- Title：中英文產品名稱
-- Description：中英文詳細介紹（可留空）
-- Stock：庫存／上架狀態
-- Price：售價及選填原價
-
-瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe PaymentIntent、收據及訂單通知全部使用同一份伺服器合併後 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
-
-Sheet 只需讀取，不會由網站寫回。新增或刪除商品 ID、改分類／規格等結構資料仍需程式更新；現有 178 個 ID 的五類展示／交易欄位則全部由 Sheet 管理。
-
-新增的「投藥餵藥專用小食」在貓咪及狗狗商品各有 6 款，可透過以下固定路徑瀏覽：
-
-- `/categories/cats/pill-treats`
-- `/categories/dogs/pill-treats`
-
-12 款商品全部使用 `/products/<商品-id>.webp` 穩定本地路徑。ZIP 內可可靠對應的 4 張產品圖已使用原圖；其餘 8 張因 ZIP 沒有精確品牌／口味對應，暫時沿用中性小食圖，待同名正確圖片直接覆蓋即可，毋須再修改商品資料。
+網站不保留 hardcoded、mock 或 sample 產品資料。Sheet 下載、解析失敗或沒有有效商品時，catalog 會回傳空陣列並顯示 Empty State；不會展示舊產品。
 
 ## 搜尋與庫存規則
 
@@ -71,7 +56,7 @@ dog-food-1-5kg,dogs,日本天然狗糧 1.5kg,Japanese Natural Dog Food 1.5kg,100
 - 圖片可填 `/products/...` 或 `/images/...` 本地 public 路徑，亦可填 `http://`／`https://` 遠端圖片。危險相對路徑、`..`、反斜線及 protocol-relative URL 會被拒絕。
 - 庫存值接受 `true/false`、`1/0`、`yes/no`、`有貨/售罄`、`在售/停售`、`上架/下架`。
 - 價錢會自動移除 `HK$`、`$`、逗號及空格等非數字格式，例如 `HK$ 1,234.50` 會解析成 `1234.5`。
-- 重複 ID、下載／CSV 錯誤或無有效資料時，catalog request 會失敗；網站不會回退到程式內靜態商品。
+- 重複 ID、下載／CSV 錯誤或無有效資料時，catalog 會是空陣列；網站不會回退到程式內產品。
 - catalog fetch 使用 `no-store`；每次 server request 都直接讀取 Sheet，毋須 rebuild 或手動清 cache。
 
 程式已將原有「102 項保留商品核心目錄」分頁設為預設 CSV 來源，毋須填寫 `gid`：
@@ -91,22 +76,11 @@ GOOGLE_SHEET_GID=0
 
 ## 驗證
 
-資料完整性驗證直接編譯並執行真實 `PRODUCTS` 與搜尋／訂單模組，不以文字正則代替執行結果：
-
 ```bash
 npm run validate:products
 ```
 
-驗證涵蓋：178 筆產品、ID 唯一、必填欄位、中英文名稱、合理價格／原價、所有靜態 fallback 圖片���在、178/178 搜尋覆蓋、���狗各 6 款投藥餵藥專用小食、Sheet 第二行中文表頭、五類欄位覆蓋、遠端圖片、空白介紹、價錢格式清理、不安全圖片路徑、重複 ID、fallback 不變性，以及伺服器訂單重建規則。
-
-完整交付檢查：
-
-```bash
-./node_modules/.bin/tsc --noEmit
-npm run lint
-npm run validate:products
-npm run build
-```
+驗證會確認空目錄維持空陣列，以及空白 Google Sheet 不會產生產品資料。
 
 ## 本地開發
 
@@ -116,5 +90,3 @@ npm run dev
 ```
 
 開啟 `http://localhost:3000`；`/menu` 是完整產品目錄，`/product/<id>` 是動態產品詳情，`/checkout` 是購物車與付款流程。
-
-`scripts/fetch_real_product_photos.py` 只管理 `src/lib/products.ts` 內明確使用 `/products/<id>.webp` 的手寫 SKU，不會覆寫由 `src/data/` 匯入的 WT Japan 本地圖片。

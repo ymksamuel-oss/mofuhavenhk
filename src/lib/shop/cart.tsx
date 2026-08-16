@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useCatalog } from "@/lib/catalog-context";
-import { PRODUCTS, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import {
   buildOrderItemsFromLines,
   MAX_QTY,
@@ -38,7 +38,7 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function sanitizeLines(
   raw: unknown,
-  products: readonly Product[] = PRODUCTS,
+  products: readonly Product[] = [],
 ): CartLine[] {
   if (!Array.isArray(raw)) return [];
   const purchasable = new Set(
