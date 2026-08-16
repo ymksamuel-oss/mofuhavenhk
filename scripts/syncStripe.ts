@@ -64,7 +64,7 @@ function sheetRecordToProduct(record: ProductSheetRecord): StripeCatalogProduct 
   };
 }
 
-async function loadBatchFromSheet(): Promise<StripeCatalogProduct[]> {
+async function loadProductsFromSheet(): Promise<StripeCatalogProduct[]> {
   const csvUrl = process.env.STRIPE_SYNC_SHEET_CSV_URL?.trim();
   if (!csvUrl) {
     throw new Error(
@@ -92,15 +92,32 @@ async function loadBatchFromSheet(): Promise<StripeCatalogProduct[]> {
   const products = [...parsed.records.values()]
     .map(sheetRecordToProduct)
     .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
-  const batch = parseBatch(process.env.STRIPE_SYNC_BATCH);
-  const batchSize = Math.ceil(products.length / BATCH_COUNT);
-  const selected = products.slice((batch - 1) * batchSize, batch * batchSize);
-  if (selected.length === 0) {
-    throw new Error(`Batch ${batch} has no products in the Google Sheet`);
-  }
+  return products;
+}
 
-  console.log(`Google Sheet accepted ${products.length} products; syncing Batch ${batch}/${BATCH_COUNT} (${selected.length} products).`);
-  return selected;
+async function listActiveStripeProducts(stripe: Stripe): Promise<Stripe.Product[]> {
+  const products: Stripe.Product[] = [];
+  for await (const product of stripe.products.list({ active: true, limit: 100 })) {
+    products.push(product);
+  }
+  return products;
+}
+
+async function archiveProductsMissingFromSheet(
+  stripe: Stripe,
+  sheetProductIds: Set<string>,
+) {
+  const activeStripeProducts = await listActiveStripeProducts(stripe);
+  const staleProducts = activeStripeProducts.filter(
+    (product) =>
+      product.metadata.id && !sheetProductIds.has(product.metadata.id),
+  );
+
+  for (const product of staleProducts) {
+    await stripe.products.update(product.id, { active: false });
+    console.log(`Archived ${product.id}: missing from Google Sheet`);
+    await sleep(DELAY_MS);
+  }
 }
 
 async function main() {
@@ -110,7 +127,21 @@ async function main() {
   }
 
   const stripe = new Stripe(secretKey);
-  const products = await loadBatchFromSheet();
+  const allProducts = await loadProductsFromSheet();
+  const batch = parseBatch(process.env.STRIPE_SYNC_BATCH);
+  const batchSize = Math.ceil(allProducts.length / BATCH_COUNT);
+  const products = allProducts.slice((batch - 1) * batchSize, batch * batchSize);
+  if (products.length === 0) {
+    throw new Error(`Batch ${batch} has no products in the Google Sheet`);
+  }
+
+  console.log(
+    `Google Sheet accepted ${allProducts.length} products; syncing Batch ${batch}/${BATCH_COUNT} (${products.length} products).`,
+  );
+  await archiveProductsMissingFromSheet(
+    stripe,
+    new Set(allProducts.map((product) => product.id)),
+  );
 
   for (const product of products) {
     const unitAmount = hkdToCents(product.price);
