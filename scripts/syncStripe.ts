@@ -4,7 +4,6 @@ import { parseProductCatalogCsv, type ProductSheetRecord } from "../src/lib/cata
 
 const DELAY_MS = 200;
 const SITE_URL = "https://mofuhavenhk.com";
-const BATCH_COUNT = 3;
 
 type StripeCatalogProduct = {
   id: string;
@@ -40,18 +39,6 @@ function normalizeImageUrl(image: string): string {
     throw new Error(`Product image must use HTTPS: ${image}`);
   }
   return url.toString();
-}
-
-function parseBatch(value: string | undefined): number {
-  const batch = Number(value ?? "1");
-  if (!Number.isInteger(batch) || batch < 1 || batch > BATCH_COUNT) {
-    throw new Error(`STRIPE_SYNC_BATCH must be an integer from 1 to ${BATCH_COUNT}`);
-  }
-  return batch;
-}
-
-function escapeStripeSearchValue(value: string): string {
-  return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 
 function sheetRecordToProduct(record: ProductSheetRecord): StripeCatalogProduct {
@@ -95,9 +82,9 @@ async function loadProductsFromSheet(): Promise<StripeCatalogProduct[]> {
   return products;
 }
 
-async function listActiveStripeProducts(stripe: Stripe): Promise<Stripe.Product[]> {
+async function listStripeProducts(stripe: Stripe): Promise<Stripe.Product[]> {
   const products: Stripe.Product[] = [];
-  for await (const product of stripe.products.list({ active: true, limit: 100 })) {
+  for await (const product of stripe.products.list({ limit: 100 })) {
     products.push(product);
   }
   return products;
@@ -105,12 +92,11 @@ async function listActiveStripeProducts(stripe: Stripe): Promise<Stripe.Product[
 
 async function archiveProductsMissingFromSheet(
   stripe: Stripe,
+  stripeProducts: Stripe.Product[],
   sheetProductIds: Set<string>,
 ) {
-  const activeStripeProducts = await listActiveStripeProducts(stripe);
-  const staleProducts = activeStripeProducts.filter(
-    (product) =>
-      product.metadata.id && !sheetProductIds.has(product.metadata.id),
+  const staleProducts = stripeProducts.filter(
+    (product) => product.active && product.metadata.id && !sheetProductIds.has(product.metadata.id),
   );
 
   for (const product of staleProducts) {
@@ -127,35 +113,39 @@ async function main() {
   }
 
   const stripe = new Stripe(secretKey);
-  const allProducts = await loadProductsFromSheet();
-  const batch = parseBatch(process.env.STRIPE_SYNC_BATCH);
-  const batchSize = Math.ceil(allProducts.length / BATCH_COUNT);
-  const products = allProducts.slice((batch - 1) * batchSize, batch * batchSize);
-  if (products.length === 0) {
-    throw new Error(`Batch ${batch} has no products in the Google Sheet`);
+  const sheetProducts = await loadProductsFromSheet();
+  if (sheetProducts.length === 0) {
+    throw new Error("Google Sheet has no products to sync");
+  }
+
+  const stripeProducts = await listStripeProducts(stripe);
+  const stripeProductsBySheetId = new Map<string, Stripe.Product>();
+  for (const product of stripeProducts) {
+    const sheetId = product.metadata.id;
+    if (sheetId && (!stripeProductsBySheetId.has(sheetId) || product.active)) {
+      stripeProductsBySheetId.set(sheetId, product);
+    }
   }
 
   console.log(
-    `Google Sheet accepted ${allProducts.length} products; syncing Batch ${batch}/${BATCH_COUNT} (${products.length} products).`,
+    `Google Sheet accepted ${sheetProducts.length} products; syncing all products against ${stripeProducts.length} Stripe products.`,
   );
   await archiveProductsMissingFromSheet(
     stripe,
-    new Set(allProducts.map((product) => product.id)),
+    stripeProducts,
+    new Set(sheetProducts.map((product) => product.id)),
   );
 
-  for (const product of products) {
+  for (const product of sheetProducts) {
     const unitAmount = hkdToCents(product.price);
-    const existingProducts = await stripe.products.search({
-      query: `metadata['id']:'${escapeStripeSearchValue(product.id)}'`,
-      limit: 1,
-    });
     const productInput = {
+      active: true,
       name: product.name,
       description: product.description,
       images: [product.image],
       metadata: { id: product.id },
     };
-    const existingProduct = existingProducts.data[0];
+    const existingProduct = stripeProductsBySheetId.get(product.id);
     const stripeProduct = existingProduct
       ? await stripe.products.update(existingProduct.id, productInput)
       : await stripe.products.create(productInput);
