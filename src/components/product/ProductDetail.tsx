@@ -60,7 +60,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         <div className="milk-tea-card p-5 sm:p-7">
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
+          <p className="text-sm text-[#777777]">商品編號：{product.id}</p>
+          <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
             {product.name[locale]}
           </h1>
 
