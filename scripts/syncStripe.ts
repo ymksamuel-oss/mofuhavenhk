@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 
 import { parseProductCatalogCsv, type ProductSheetRecord } from "../src/lib/catalog-overrides";
-import { productData } from "../src/data/productsData";
 
 const DELAY_MS = 200;
 const SITE_URL = "https://mofuhavenhk.com";
@@ -67,13 +66,11 @@ function sheetRecordToProduct(record: ProductSheetRecord): StripeCatalogProduct 
 
 async function loadBatchFromSheet(): Promise<StripeCatalogProduct[]> {
   const csvUrl = process.env.STRIPE_SYNC_SHEET_CSV_URL?.trim();
-  if (!csvUrl) return productData.map((product) => ({
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    image: normalizeImageUrl(product.image),
-  }));
+  if (!csvUrl) {
+    throw new Error(
+      "STRIPE_SYNC_SHEET_CSV_URL is required; Stripe sync only uses the Google Sheet catalog",
+    );
+  }
 
   const url = new URL(csvUrl);
   if (url.protocol !== "https:" || url.hostname !== "docs.google.com") {

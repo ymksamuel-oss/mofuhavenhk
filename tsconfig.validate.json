@@ -13,12 +13,9 @@
   },
   "include": [
     "scripts/validate-products.ts",
-    "src/data/productsData.ts",
-    "src/data/catSnacksData.ts",
     "src/lib/categories.ts",
     "src/lib/catalog-overrides.ts",
     "src/lib/catBreeds.ts",
-    "src/lib/classifyPetFood.ts",
     "src/lib/products.ts",
     "src/lib/searchProducts.ts",
     "src/lib/order.ts"

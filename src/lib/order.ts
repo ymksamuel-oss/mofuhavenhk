@@ -1,8 +1,4 @@
-import {
-  PRODUCTS,
-  getProductsByCategory,
-  type Product,
-} from "@/lib/products";
+import { getProductsByCategory, type Product } from "@/lib/products";
 
 export type OrderItem = {
   id: string;
@@ -27,7 +23,7 @@ export function calcSubtotal(items: OrderItem[]): number {
  */
 export function getOrderItems(
   categorySlug: string | null,
-  products: readonly Product[] = PRODUCTS,
+  products: readonly Product[] = [],
 ): OrderItem[] {
   const matched = getProductsByCategory(categorySlug, products).filter(
     (product) => product.inStock !== false,
@@ -54,7 +50,7 @@ export const MAX_QTY = 20;
  */
 export function buildOrderItemsFromLines(
   lines: Array<{ id: string; qty: number }>,
-  products: readonly Product[] = PRODUCTS,
+  products: readonly Product[] = [],
 ): OrderItem[] {
   const byId = new Map(products.map((product) => [product.id, product]));
   const qtyById = new Map<string, number>();

@@ -65,14 +65,22 @@ async function fetchSheetCsv(url: string): Promise<string> {
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
-  const url = getGoogleSheetCsvUrl();
-  const csv = await fetchSheetCsv(url);
-  const parsed = parseProductCatalogCsv(csv);
-  const products = productRecordsToProducts(parsed.records);
+  try {
+    const url = getGoogleSheetCsvUrl();
+    const csv = await fetchSheetCsv(url);
+    const parsed = parseProductCatalogCsv(csv);
+    const products = productRecordsToProducts(parsed.records);
 
-  return {
-    products,
-    source: "google-sheet",
-    matchedRecords: products.length,
-  };
+    return {
+      products,
+      source: "google-sheet",
+      matchedRecords: products.length,
+    };
+  } catch {
+    return {
+      products: [],
+      source: "google-sheet",
+      matchedRecords: 0,
+    };
+  }
 }
