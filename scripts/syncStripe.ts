@@ -90,19 +90,69 @@ async function listStripeProducts(stripe: Stripe): Promise<Stripe.Product[]> {
   return products;
 }
 
-async function archiveProductsMissingFromSheet(
-  stripe: Stripe,
+function chooseCanonicalProduct(products: Stripe.Product[]): Stripe.Product {
+  return [...products].sort(
+    (left, right) => Number(right.active) - Number(left.active) || left.created - right.created,
+  )[0]!;
+}
+
+function buildStripeCatalogIndex(stripeProducts: Stripe.Product[]) {
+  const productsBySheetId = new Map<string, Stripe.Product[]>();
+  const productsWithoutSheetId: Stripe.Product[] = [];
+
+  for (const product of stripeProducts) {
+    const sheetId = product.metadata.id?.trim();
+    if (!sheetId) {
+      productsWithoutSheetId.push(product);
+      continue;
+    }
+    const matchingProducts = productsBySheetId.get(sheetId) ?? [];
+    matchingProducts.push(product);
+    productsBySheetId.set(sheetId, matchingProducts);
+  }
+
+  return { productsBySheetId, productsWithoutSheetId };
+}
+
+function getProductsToArchive(
   stripeProducts: Stripe.Product[],
   sheetProductIds: Set<string>,
 ) {
-  const staleProducts = stripeProducts.filter(
-    (product) => product.active && product.metadata.id && !sheetProductIds.has(product.metadata.id),
-  );
+  const { productsBySheetId, productsWithoutSheetId } =
+    buildStripeCatalogIndex(stripeProducts);
+  const productsToArchive = [...productsWithoutSheetId];
+  const canonicalProductsBySheetId = new Map<string, Stripe.Product>();
 
-  for (const product of staleProducts) {
-    await stripe.products.update(product.id, { active: false });
-    console.log(`Archived ${product.id}: missing from Google Sheet`);
-    await sleep(DELAY_MS);
+  for (const [sheetId, matchingProducts] of productsBySheetId) {
+    const canonicalProduct = chooseCanonicalProduct(matchingProducts);
+    canonicalProductsBySheetId.set(sheetId, canonicalProduct);
+
+    if (!sheetProductIds.has(sheetId)) {
+      productsToArchive.push(...matchingProducts);
+      continue;
+    }
+    productsToArchive.push(
+      ...matchingProducts.filter((product) => product.id !== canonicalProduct.id),
+    );
+  }
+
+  return { canonicalProductsBySheetId, productsToArchive };
+}
+
+async function archiveProducts(
+  stripe: Stripe,
+  productsToArchive: Stripe.Product[],
+  dryRun: boolean,
+) {
+  for (const product of productsToArchive) {
+    if (!product.active) continue;
+    console.log(
+      `${dryRun ? "Would archive" : "Archived"} ${product.id}: ${product.metadata.id || "missing metadata.id"}`,
+    );
+    if (!dryRun) {
+      await stripe.products.update(product.id, { active: false });
+      await sleep(DELAY_MS);
+    }
   }
 }
 
@@ -119,22 +169,16 @@ async function main() {
   }
 
   const stripeProducts = await listStripeProducts(stripe);
-  const stripeProductsBySheetId = new Map<string, Stripe.Product>();
-  for (const product of stripeProducts) {
-    const sheetId = product.metadata.id;
-    if (sheetId && (!stripeProductsBySheetId.has(sheetId) || product.active)) {
-      stripeProductsBySheetId.set(sheetId, product);
-    }
-  }
-
-  console.log(
-    `Google Sheet accepted ${sheetProducts.length} products; syncing all products against ${stripeProducts.length} Stripe products.`,
-  );
-  await archiveProductsMissingFromSheet(
-    stripe,
+  const dryRun = process.env.STRIPE_SYNC_DRY_RUN === "1";
+  const { canonicalProductsBySheetId, productsToArchive } = getProductsToArchive(
     stripeProducts,
     new Set(sheetProducts.map((product) => product.id)),
   );
+
+  console.log(
+    `Google Sheet accepted ${sheetProducts.length} products; reconciling ${stripeProducts.length} Stripe products${dryRun ? " (dry run)" : ""}.`,
+  );
+  await archiveProducts(stripe, productsToArchive, dryRun);
 
   for (const product of sheetProducts) {
     const unitAmount = hkdToCents(product.price);
@@ -145,7 +189,11 @@ async function main() {
       images: [product.image],
       metadata: { id: product.id },
     };
-    const existingProduct = stripeProductsBySheetId.get(product.id);
+    const existingProduct = canonicalProductsBySheetId.get(product.id);
+    if (dryRun) {
+      console.log(`${existingProduct ? "Would update" : "Would create"} ${product.id}`);
+      continue;
+    }
     const stripeProduct = existingProduct
       ? await stripe.products.update(existingProduct.id, productInput)
       : await stripe.products.create(productInput);
