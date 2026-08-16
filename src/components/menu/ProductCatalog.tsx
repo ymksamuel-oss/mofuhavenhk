@@ -22,7 +22,6 @@ import {
   CAT_SUBCATEGORY_SLUG,
   DOG_SUBCATEGORIES,
   DOG_SUBCATEGORY_SLUG,
-  freezeDriedProductName,
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
   getProductsByCategory,
@@ -99,11 +98,7 @@ function TreatListCard({
 }) {
   const href = productHref(product.id);
   const series = product.series?.[locale];
-  const nameLine = freezeDriedProductName(
-    product.name[locale],
-    series,
-    locale,
-  );
+  const nameLine = product.name[locale];
   const discountPercent = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null;
