@@ -1,7 +1,12 @@
+import {
+  CATEGORIES,
+  type CategoryIconName,
+} from "@/lib/categories";
 import type { Product } from "@/lib/products";
 
 export type ProductSheetRecord = {
   id: string;
+  categorySlug: string;
   image: string;
   name: { zh: string; en: string };
   description?: { zh: string; en: string };
@@ -177,6 +182,7 @@ function parseImage(
  *
  * Supported columns:
  * - id / productId / sku / 商品 ID
+ * - categorySlug / 主分類代碼
  * - image / 本地圖片路徑 / 來源圖片 URL
  * - title / 中文商品名稱 / 英文商品名稱
  * - description / 中文描述 / 英文描述
@@ -185,7 +191,7 @@ function parseImage(
  * - inStock / availability / 庫存狀態
  *
  * Invalid data rows are ignored. Duplicate IDs invalidate the complete Sheet
- * so the caller can safely fall back to the code catalog.
+ * so callers do not serve an ambiguous catalog.
  */
 export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
   const rows = parseCsvRows(csv);
@@ -196,6 +202,7 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
   const headerScanLimit = Math.min(rows.length, 20);
   let headerRowIndex = -1;
   let idColumn = -1;
+  let categoryColumn = -1;
   let priceColumn = -1;
   let originalPriceColumn = -1;
   let stockColumn = -1;
@@ -217,6 +224,11 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
       "產品id",
       "產品編號",
     ]);
+    const candidateCategoryColumn = findColumn(headers, [
+      "categoryslug",
+      "主分類代碼",
+      "主分类代码",
+    ]);
     const candidatePriceColumn = findColumn(headers, [
       "price",
       "saleprice",
@@ -228,12 +240,17 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
       "價錢hkd",
     ]);
 
-    if (candidateIdColumn < 0 || candidatePriceColumn < 0) {
+    if (
+      candidateIdColumn < 0 ||
+      candidateCategoryColumn < 0 ||
+      candidatePriceColumn < 0
+    ) {
       continue;
     }
 
     headerRowIndex = rowIndex;
     idColumn = candidateIdColumn;
+    categoryColumn = candidateCategoryColumn;
     priceColumn = candidatePriceColumn;
     originalPriceColumn = findColumn(headers, [
       "originalprice",
@@ -307,7 +324,7 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
 
   if (headerRowIndex < 0) {
     throw new Error(
-      "Google Sheet requires id/price or 商品 ID/售價 (HKD) columns within the first 20 non-empty rows",
+      "Google Sheet requires 商品 ID, 主分類代碼, and 售價 (HKD) columns within the first 20 non-empty rows",
     );
   }
   if (
@@ -326,6 +343,7 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
 
   for (const row of rows.slice(headerRowIndex + 1)) {
     const id = (row[idColumn] ?? "").trim();
+    const categorySlug = (row[categoryColumn] ?? "").trim();
     const price = parseMoney(row[priceColumn] ?? "");
     const inStock = parseStock(row[stockColumn] ?? "");
     const image = parseImage(
@@ -339,6 +357,7 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
 
     if (
       !id ||
+      !CATEGORIES.some((category) => category.slug === categorySlug) ||
       price === null ||
       inStock === undefined ||
       !image ||
@@ -366,6 +385,7 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
 
     records.set(id, {
       id,
+      categorySlug,
       image: image.image,
       name: {
         zh: zhTitle || enTitle,
@@ -402,45 +422,25 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
   };
 }
 
-export function applyProductCatalogRecords(
-  products: readonly Product[],
+export function productRecordsToProducts(
   records: ReadonlyMap<string, ProductSheetRecord>,
-): { products: Product[]; matchedRecords: number } {
-  let matchedRecords = 0;
-  const merged = products.flatMap((product) => {
-    const record = records.get(product.id);
-    if (!record) return [];
-    matchedRecords += 1;
+): Product[] {
+  const categoryIcons = new Map<string, CategoryIconName>(
+    CATEGORIES.map((category) => [category.slug, category.icon]),
+  );
 
-    const next: Product = {
-      ...product,
-      image: record.image,
-      name: record.name,
-      price: record.price,
-      inStock: record.inStock,
-    };
-
-    if (record.description) {
-      next.description = record.description;
-    } else {
-      delete next.description;
-    }
-    if (
-      record.originalPrice !== undefined &&
-      record.originalPrice >= record.price
-    ) {
-      next.originalPrice = record.originalPrice;
-    } else {
-      delete next.originalPrice;
-    }
-    if (record.sourceImageUrl) {
-      next.sourceImageUrl = record.sourceImageUrl;
-    } else {
-      delete next.sourceImageUrl;
-    }
-
-    return next;
-  });
-
-  return { products: merged, matchedRecords };
+  return Array.from(records.values(), (record) => ({
+    id: record.id,
+    categorySlug: record.categorySlug,
+    icon: categoryIcons.get(record.categorySlug)!,
+    image: record.image,
+    name: record.name,
+    price: record.price,
+    inStock: record.inStock,
+    ...(record.description ? { description: record.description } : {}),
+    ...(record.originalPrice !== undefined
+      ? { originalPrice: record.originalPrice }
+      : {}),
+    ...(record.sourceImageUrl ? { sourceImageUrl: record.sourceImageUrl } : {}),
+  }));
 }
