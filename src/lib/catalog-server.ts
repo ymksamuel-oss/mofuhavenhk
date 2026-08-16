@@ -88,14 +88,6 @@ async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
     const csv = await fetchSheetCsv(url);
     const parsed = parseProductCatalogCsv(csv);
     const merged = applyProductCatalogRecords(PRODUCTS, parsed.records);
-    if (merged.matchedRecords !== PRODUCTS.length) {
-      const missingIds = PRODUCTS.filter(
-        (product) => !parsed.records.has(product.id),
-      ).map((product) => product.id);
-      throw new Error(
-        `Google Sheet catalog coverage failed: matched=${merged.matchedRecords}/${PRODUCTS.length}, missing=${missingIds.slice(0, 10).join(",")}`,
-      );
-    }
 
     return {
       products: merged.products,

@@ -250,8 +250,12 @@ check(
   "Google Sheet parser must detect a second-row Chinese header, accept complete rows, and ignore incomplete catalog rows",
 );
 check(
-  overriddenCatalog.matchedRecords === 2,
-  "Only Sheet IDs present in the catalog may be applied",
+  overriddenCatalog.matchedRecords === 2 &&
+    overriddenCatalog.products.length === 2 &&
+    overriddenCatalog.products.every((product) =>
+      parsedOverrides.records.has(product.id),
+    ),
+  "Only Sheet IDs present in the catalog may be published",
 );
 check(
   overriddenDogFood?.price === 1234.5 &&

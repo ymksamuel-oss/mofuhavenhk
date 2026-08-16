@@ -407,9 +407,9 @@ export function applyProductCatalogRecords(
   records: ReadonlyMap<string, ProductSheetRecord>,
 ): { products: Product[]; matchedRecords: number } {
   let matchedRecords = 0;
-  const merged = products.map((product) => {
+  const merged = products.flatMap((product) => {
     const record = records.get(product.id);
-    if (!record) return product;
+    if (!record) return [];
     matchedRecords += 1;
 
     const next: Product = {
