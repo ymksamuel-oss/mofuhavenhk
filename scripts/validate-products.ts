@@ -8,8 +8,8 @@ import {
   getDogProductsBySubcategory,
 } from "@/lib/products";
 import {
-  applyProductCatalogRecords,
   parseProductCatalogCsv,
+  productRecordsToProducts,
 } from "@/lib/catalog-overrides";
 import { buildSearchIndex, searchProducts } from "@/lib/searchProducts";
 import { buildOrderItemsFromLines, MAX_QTY } from "@/lib/order";
@@ -220,24 +220,21 @@ function check(condition: unknown, message: string): asserts condition {
 
 const overrideCsv = [
   "\uFEFFMofu Haven HK | 102 項保留商品核心目錄",
-  "商品 ID,中文商品名稱,英文商品名稱,售價 (HKD),原價（HKD）,庫存狀態,中文描述,英文描述,本地圖片路徑,來源圖片 URL",
-  'dog-food-1-5kg,Sheet 狗糧,Sheet Dog Food," HK$ 1,234.50 ","HK$ 1,299.00",售罄,Sheet 中文介紹,Sheet English description,/products/dog-food-1-5kg.webp,https://cdn.shopify.com/example.jpg',
-  'dog-dental-chews,Sheet 潔牙骨,Sheet Dental Chews,"$88",,在售,,,,https://cdn.shopify.com/remote-product.jpg',
-  'missing-product,測試商品,Test Product,"$ 88 ",,在售,測試介紹,Test description,,',
-  "invalid-price,錯誤價格,Invalid Price,not-a-number,,在售,錯誤,Invalid,/products/dog-food-1-5kg.webp,",
+  "商品 ID,主分類代碼,中文商品名稱,英文商品名稱,售價 (HKD),原價（HKD）,庫存狀態,中文描述,英文描述,本地圖片路徑,來源圖片 URL",
+  'dog-food-1-5kg,dogs,Sheet 狗糧,Sheet Dog Food," HK$ 1,234.50 ","HK$ 1,299.00",售罄,Sheet 中文介紹,Sheet English description,/products/dog-food-1-5kg.webp,https://cdn.shopify.com/example.jpg',
+  'dog-dental-chews,dogs,Sheet 潔牙骨,Sheet Dental Chews,"$88",,在售,,,,https://cdn.shopify.com/remote-product.jpg',
+  'missing-product,cats,測試商品,Test Product,"$ 88 ",,在售,測試介紹,Test description,,',
+  "invalid-price,cats,錯誤價格,Invalid Price,not-a-number,,在售,錯誤,Invalid,/products/dog-food-1-5kg.webp,",
 ].join("\n");
 const parsedOverrides = parseProductCatalogCsv(overrideCsv);
-const overriddenCatalog = applyProductCatalogRecords(
-  PRODUCTS,
-  parsedOverrides.records,
-);
-const overriddenDogFood = overriddenCatalog.products.find(
+const overriddenCatalog = productRecordsToProducts(parsedOverrides.records);
+const overriddenDogFood = overriddenCatalog.find(
   (product) => product.id === "dog-food-1-5kg",
 );
 const staticDogFood = PRODUCTS.find(
   (product) => product.id === "dog-food-1-5kg",
 );
-const overriddenDentalChews = overriddenCatalog.products.find(
+const overriddenDentalChews = overriddenCatalog.find(
   (product) => product.id === "dog-dental-chews",
 );
 const staticDentalChews = PRODUCTS.find(
@@ -250,11 +247,8 @@ check(
   "Google Sheet parser must detect a second-row Chinese header, accept complete rows, and ignore incomplete catalog rows",
 );
 check(
-  overriddenCatalog.matchedRecords === 2 &&
-    overriddenCatalog.products.length === 2 &&
-    overriddenCatalog.products.every((product) =>
-      parsedOverrides.records.has(product.id),
-    ),
+  overriddenCatalog.length === 2 &&
+    overriddenCatalog.every((product) => parsedOverrides.records.has(product.id)),
   "Only Sheet IDs present in the catalog may be published",
 );
 check(
@@ -286,9 +280,9 @@ let duplicateOverrideRejected = false;
 try {
   parseProductCatalogCsv(
     [
-      "id,price,inStock,title,description,image",
-      "dog-food-1-5kg,199,true,Dog Food,First description,/products/dog-food-1-5kg.webp",
-      "dog-food-1-5kg,209,true,Dog Food,Second description,/products/dog-food-1-5kg.webp",
+      "id,categorySlug,price,inStock,title,description,image",
+      "dog-food-1-5kg,dogs,199,true,Dog Food,First description,/products/dog-food-1-5kg.webp",
+      "dog-food-1-5kg,dogs,209,true,Dog Food,Second description,/products/dog-food-1-5kg.webp",
     ].join("\n"),
   );
 } catch {

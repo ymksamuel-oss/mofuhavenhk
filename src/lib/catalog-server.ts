@@ -1,27 +1,19 @@
 import "server-only";
 
-import { cache } from "react";
 import {
-  applyProductCatalogRecords,
   parseProductCatalogCsv,
+  productRecordsToProducts,
 } from "@/lib/catalog-overrides";
-import { PRODUCTS, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 
 const DEFAULT_GOOGLE_SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/1zTZxk-cidcgcmGsM79jMQD72Fznmd7CfAQNS79pp6i0/export?format=csv";
 
 export type CatalogSnapshot = {
   products: Product[];
-  source: "google-sheet" | "static";
+  source: "google-sheet";
   matchedRecords: number;
 };
-
-function positiveInteger(value: string | undefined, fallback: number): number {
-  if (!value?.trim()) return fallback;
-  const parsed = Number(value);
-  if (!Number.isInteger(parsed) || parsed < 0) return fallback;
-  return parsed;
-}
 
 function getGoogleSheetCsvUrl(): string {
   const directUrl = process.env.GOOGLE_SHEET_CSV_URL?.trim();
@@ -50,27 +42,17 @@ function getGoogleSheetCsvUrl(): string {
 }
 
 async function fetchSheetCsv(url: string): Promise<string> {
-  const revalidateSeconds = positiveInteger(
-    process.env.GOOGLE_SHEET_CACHE_SECONDS ??
-      process.env.GOOGLE_SHEET_PRICE_CACHE_SECONDS,
-    60,
-  );
-  const timeoutMs = Math.max(
-    1000,
-    Math.min(
-      positiveInteger(process.env.GOOGLE_SHEET_TIMEOUT_MS, 5000),
-      15000,
-    ),
-  );
+  const configuredTimeoutMs = Number(process.env.GOOGLE_SHEET_TIMEOUT_MS);
+  const timeoutMs = Number.isInteger(configuredTimeoutMs)
+    ? Math.max(1000, Math.min(configuredTimeoutMs, 15000))
+    : 5000;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const response = await fetch(url, {
       signal: controller.signal,
-      ...(revalidateSeconds === 0
-        ? { cache: "no-store" as const }
-        : { next: { revalidate: revalidateSeconds } }),
+      cache: "no-store",
       headers: { Accept: "text/csv" },
     });
     if (!response.ok) {
@@ -82,30 +64,15 @@ async function fetchSheetCsv(url: string): Promise<string> {
   }
 }
 
-async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
-  try {
-    const url = getGoogleSheetCsvUrl();
-    const csv = await fetchSheetCsv(url);
-    const parsed = parseProductCatalogCsv(csv);
-    const merged = applyProductCatalogRecords(PRODUCTS, parsed.records);
+export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
+  const url = getGoogleSheetCsvUrl();
+  const csv = await fetchSheetCsv(url);
+  const parsed = parseProductCatalogCsv(csv);
+  const products = productRecordsToProducts(parsed.records);
 
-    return {
-      products: merged.products,
-      source: "google-sheet",
-      matchedRecords: merged.matchedRecords,
-    };
-  } catch (error) {
-    console.error(
-      "[catalog] Google Sheet catalog sync failed; using static PRODUCTS fallback.",
-      error instanceof Error ? error.message : String(error),
-    );
-    return {
-      products: PRODUCTS,
-      source: "static",
-      matchedRecords: 0,
-    };
-  }
+  return {
+    products,
+    source: "google-sheet",
+    matchedRecords: products.length,
+  };
 }
-
-/** Deduplicates repeated catalog reads within one React server render. */
-export const getCatalogSnapshot = cache(loadCatalogSnapshot);

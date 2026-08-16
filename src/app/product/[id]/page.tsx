@@ -1,20 +1,17 @@
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
-import { PRODUCTS, getProductById } from "@/lib/products";
+
+export const dynamic = "force-dynamic";
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export function generateStaticParams() {
-  return PRODUCTS.map(({ id }) => ({ id }));
-}
-
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
   const catalog = await getCatalogSnapshot();
-  const product = getProductById(id, catalog.products);
+  const product = catalog.products.find((candidate) => candidate.id === id);
   if (!product) {
     notFound();
   }
