@@ -109,14 +109,66 @@ export type Product = {
   handle?: string;
   recommendedBreeds?: string[];
   sourceCategory?: string;
+  /** Raw normalized taxonomy values retained from Stripe metadata. */
+  taxonomyTerms?: string[];
 };
+
+const CATEGORY_TAXONOMY: Record<string, string[]> = {
+  cats: ["cats", "cat", "貓咪商品", "貓咪", "貓用", "貓"],
+  dogs: ["dogs", "dog", "狗狗商品", "狗狗", "狗用", "狗"],
+};
+
+const SUBCATEGORY_TAXONOMY: Record<ProductSubcategory, string[]> = {
+  "貓罐罐": ["貓罐罐", "罐罐", "罐頭", "濕糧", "濕食", "wet food", "canned"],
+  "貓乾糧": ["貓乾糧", "貓糧", "乾糧", "dry food", "kibble"],
+  "冷凍脫水系列": ["冷凍脫水系列", "冷凍脫水", "凍乾", "freeze dried", "freeze dry"],
+  "貓貓小食": ["貓貓小食", "貓咪小食", "貓零食", "cat snacks", "cat treats", "小食", "零食", "snack", "treat"],
+  "狗狗食品": ["狗狗食品", "狗糧", "狗食", "dog food"],
+  "狗狗小食": ["狗狗小食", "狗零食", "dog snacks", "dog treats", "小食", "零食", "snack", "treat"],
+  "投藥餵藥專用小食": ["投藥餵藥專用小食", "投藥", "餵藥", "pill treats", "pill treat"],
+};
+
+const SNACK_SERIES_TAXONOMY: Record<CatSnackSeries, string[]> = {
+  "無添加天然系列": ["無添加天然系列", "無添加", "天然系列", "no additive", "natural"],
+  "老貓零食": ["老貓零食", "老貓", "senior cat", "senior"],
+  "去毛球配方": ["去毛球配方", "去毛球", "吐毛球", "hairball"],
+  "bb貓零食": ["bb貓零食", "幼貓零食", "kitten treats", "kitten"],
+};
+
+function normalizeTaxonomy(value: string): string {
+  return value.toLocaleLowerCase().replace(/[\s_\-/／,|]+/g, "");
+}
+
+function taxonomyMatches(terms: readonly string[] | undefined, aliases: readonly string[]): boolean {
+  if (!terms?.length) return false;
+  const normalizedAliases = aliases.map(normalizeTaxonomy).filter(Boolean);
+  return terms.some((term) => {
+    const normalizedTerm = normalizeTaxonomy(term);
+    if (!normalizedTerm) return false;
+    return normalizedAliases.some(
+      (alias) => normalizedTerm.includes(alias) || alias.includes(normalizedTerm),
+    );
+  });
+}
+
+function hasCategory(product: Product, categorySlug: string): boolean {
+  return product.categorySlug === categorySlug || taxonomyMatches(product.taxonomyTerms, CATEGORY_TAXONOMY[categorySlug] ?? []);
+}
+
+function hasSubcategory(product: Product, subcategory: ProductSubcategory): boolean {
+  return product.subcategory === subcategory || taxonomyMatches(product.taxonomyTerms, SUBCATEGORY_TAXONOMY[subcategory]);
+}
+
+function hasSnackSeries(product: Product, snackSeries: CatSnackSeries): boolean {
+  return product.snackSeries === snackSeries || taxonomyMatches(product.taxonomyTerms, SNACK_SERIES_TAXONOMY[snackSeries]);
+}
 
 export function getProductsByCategory(
   slug: string | null,
   products: readonly Product[] = [],
 ): Product[] {
   if (!slug) return [...products];
-  return products.filter((product) => product.categorySlug === slug);
+  return products.filter((product) => hasCategory(product, slug));
 }
 
 export function getCatProductsBySubcategory(
@@ -126,9 +178,9 @@ export function getCatProductsBySubcategory(
 ): Product[] {
   const cats = getProductsByCategory("cats", products);
   if (!subcategory) return cats;
-  const bySub = cats.filter((product) => product.subcategory === subcategory);
+  const bySub = cats.filter((product) => hasSubcategory(product, subcategory));
   if (!snackSeries || subcategory !== "貓貓小食") return bySub;
-  return bySub.filter((product) => product.snackSeries === snackSeries);
+  return bySub.filter((product) => hasSnackSeries(product, snackSeries));
 }
 
 export function getDogProductsBySubcategory(
@@ -137,7 +189,7 @@ export function getDogProductsBySubcategory(
 ): Product[] {
   const dogs = getProductsByCategory("dogs", products);
   if (!subcategory) return dogs;
-  return dogs.filter((product) => product.subcategory === subcategory);
+  return dogs.filter((product) => hasSubcategory(product, subcategory));
 }
 
 export function getProductById(

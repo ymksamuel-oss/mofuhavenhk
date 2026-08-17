@@ -22,6 +22,7 @@ Module._resolveFilename = function resolveValidationAlias(
 
 try {
   require(path.join(buildRoot, "scripts", "validate-products.js"));
+  require(path.join(buildRoot, "scripts", "validate-product-filtering.js"));
 } finally {
   fs.rmSync(buildRoot, { recursive: true, force: true });
 }

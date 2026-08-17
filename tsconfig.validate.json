@@ -13,6 +13,7 @@
   },
   "include": [
     "scripts/validate-products.ts",
+    "scripts/validate-product-filtering.ts",
     "src/lib/categories.ts",
     "src/lib/catalog-overrides.ts",
     "src/lib/catBreeds.ts",

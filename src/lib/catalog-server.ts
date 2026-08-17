@@ -21,6 +21,25 @@ function metadataValue(product: Stripe.Product, ...keys: string[]): string {
   return "";
 }
 
+const TAXONOMY_METADATA_FIELDS = ["category", "parent_category", "subcategory", "type", "tags"] as const;
+
+function taxonomyTerms(product: Stripe.Product): string[] {
+  return TAXONOMY_METADATA_FIELDS.flatMap((field) =>
+    (product.metadata[field] ?? "")
+      .split(/[|,;\n]/)
+      .map((value) => value.trim())
+      .filter(Boolean),
+  );
+}
+
+function matchesMetadata(product: Stripe.Product, aliases: readonly string[]): boolean {
+  const terms = taxonomyTerms(product).map((term) => term.toLocaleLowerCase());
+  return aliases.some((alias) => {
+    const normalized = alias.toLocaleLowerCase();
+    return terms.some((term) => term.includes(normalized) || normalized.includes(term));
+  });
+}
+
 /**
  * Stripe is the source of truth for the Pet Snacks landing page. Keep this
  * Chinese metadata check ahead of legacy taxonomy and name-based inference.
@@ -46,6 +65,8 @@ function categoryFromProduct(product: Stripe.Product): string {
     "category_slug",
     "category",
   ).toLowerCase();
+  if (matchesMetadata(product, ["cats", "cat", "貓咪商品", "貓咪", "貓用"])) return "cats";
+  if (matchesMetadata(product, ["dogs", "dog", "狗狗商品", "狗狗", "狗用"])) return "dogs";
   const categoryAliases: Record<string, string> = {
     cat: "cats",
     cats: "cats",
@@ -97,7 +118,16 @@ function subcategoryFromProduct(product: Stripe.Product): Product["subcategory"]
     "pill-treats": "投藥餵藥專用小食",
     "投藥餵藥專用小食": "投藥餵藥專用小食",
   };
-  return aliases[value.toLowerCase()] ?? aliases[value];
+  const exact = aliases[value.toLowerCase()] ?? aliases[value];
+  if (exact) return exact;
+  if (matchesMetadata(product, ["貓罐罐", "罐罐", "罐頭", "濕糧", "wet food", "canned"])) return "貓罐罐";
+  if (matchesMetadata(product, ["貓乾糧", "貓糧", "乾糧", "dry food", "kibble"])) return "貓乾糧";
+  if (matchesMetadata(product, ["冷凍脫水", "凍乾", "freeze dried", "freeze dry"])) return "冷凍脫水系列";
+  if (matchesMetadata(product, ["投藥", "餵藥", "pill treats"])) return "投藥餵藥專用小食";
+  if (matchesMetadata(product, ["狗狗小食", "狗零食", "dog snacks", "dog treats"])) return "狗狗小食";
+  if (matchesMetadata(product, ["狗狗食品", "狗糧", "dog food"])) return "狗狗食品";
+  if (matchesMetadata(product, ["貓貓小食", "貓咪小食", "貓零食", "cat snacks", "cat treats"])) return "貓貓小食";
+  return undefined;
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
@@ -177,6 +207,7 @@ function stripeProductToCatalogProduct(
     name: { zh: product.name, en: product.name },
     price,
     inStock: true,
+    taxonomyTerms: taxonomyTerms(product),
     ...(product.description
       ? { description: { zh: product.description, en: product.description } }
       : {}),

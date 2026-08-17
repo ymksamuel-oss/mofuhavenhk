@@ -3,6 +3,7 @@ import { ProductDetail } from "@/components/product/ProductDetail";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;

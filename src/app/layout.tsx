@@ -9,6 +9,7 @@ import { CartProvider } from "@/lib/shop/cart";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 /** Uses the HK-friendly system font stack defined in globals.css. */
 
