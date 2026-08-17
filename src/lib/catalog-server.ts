@@ -1,6 +1,5 @@
 import "server-only";
 
-import { unstable_cache } from "next/cache";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
@@ -22,7 +21,25 @@ function metadataValue(product: Stripe.Product, ...keys: string[]): string {
   return "";
 }
 
+/**
+ * Stripe is the source of truth for the Pet Snacks landing page. Keep this
+ * Chinese metadata check ahead of legacy taxonomy and name-based inference.
+ */
+function isPetSnackProduct(product: Stripe.Product): boolean {
+  const { parent_category, category, subcategory, type, tags } = product.metadata;
+
+  return (
+    parent_category?.includes("寵物小食") === true ||
+    category?.includes("小食") === true ||
+    subcategory?.includes("小食") === true ||
+    type === "寵物小食" ||
+    tags?.includes("小食") === true
+  );
+}
+
 function categoryFromProduct(product: Stripe.Product): string {
+  if (isPetSnackProduct(product)) return "snacks";
+
   const metadataCategory = metadataValue(
     product,
     "categorySlug",
@@ -165,6 +182,10 @@ function stripeProductToCatalogProduct(
       : {}),
   };
 
+  // Do not let the legacy cat/dog name classifier override explicit Chinese
+  // Pet Snacks metadata used by the 寵物小食 category button.
+  if (isPetSnackProduct(product)) return catalogProduct;
+
   const foodZone = inferFoodZone(catalogProduct);
   return foodZone
     ? {
@@ -182,6 +203,12 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     listAllActiveProducts(stripe),
     listAllActiveHkdPrices(stripe),
   ]);
+  // Server-side Vercel log: confirms the metadata received from Stripe before filtering.
+  console.log(
+    "Fetched Stripe product metadata before Pet Snacks filtering",
+    stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
+  );
+
   const products = stripeProducts
     .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
     .filter((product): product is Product => product !== null)
@@ -193,12 +220,6 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
 
   return { products, source: "stripe", matchedRecords: products.length };
 }
-
-const getCachedCatalog = unstable_cache(
-  fetchCatalogFromStripe,
-  ["stripe-active-product-catalog"],
-  { revalidate: 300 },
-);
 
 function stripeErrorDetails(error: unknown) {
   if (error instanceof Stripe.errors.StripeError) {
@@ -215,7 +236,8 @@ function stripeErrorDetails(error: unknown) {
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
-    return await getCachedCatalog();
+    // Intentionally uncached: fetch live Stripe catalog data on every request.
+    return await fetchCatalogFromStripe();
   } catch (error) {
     console.error("Storefront Stripe catalog fetch failed", stripeErrorDetails(error));
     throw new Error("Storefront catalog is temporarily unavailable");
