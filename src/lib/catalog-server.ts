@@ -1,93 +1,130 @@
 import "server-only";
 
-import {
-  parseProductCatalogCsv,
-  productRecordsToProducts,
-} from "@/lib/catalog-overrides";
-import type { Product } from "@/lib/products";
+import Stripe from "stripe";
 
-const DEFAULT_GOOGLE_SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/1zTZxk-cidcgcmGsM79jMQD72Fznmd7CfAQNS79pp6i0/export?format=csv";
+import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { inferFoodZone } from "@/lib/classifyPetFood";
+import type { Product } from "@/lib/products";
+import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
   products: Product[];
-  source: "google-sheet";
+  source: "stripe";
   matchedRecords: number;
 };
 
-function getGoogleSheetCsvUrl(): string {
-  // Keep storefront reads aligned with the catalog source used by Stripe sync.
-  const directUrl =
-    process.env.GOOGLE_SHEET_CSV_URL?.trim() ||
-    process.env.STRIPE_SYNC_SHEET_CSV_URL?.trim();
-  if (directUrl) {
-    const url = new URL(directUrl);
-    if (url.protocol !== "https:" || url.hostname !== "docs.google.com") {
-      throw new Error(
-        "Google Sheet catalog URL must be an HTTPS docs.google.com CSV URL",
-      );
-    }
-    return url.toString();
+function categoryFromProduct(product: Stripe.Product): string {
+  const explicitCategory = product.metadata.categorySlug?.trim();
+  if (explicitCategory && CATEGORIES.some(({ slug }) => slug === explicitCategory)) {
+    return explicitCategory;
   }
 
-  const sheetId = process.env.GOOGLE_SHEET_ID?.trim();
-  if (!sheetId) return DEFAULT_GOOGLE_SHEET_CSV_URL;
-  if (!/^[A-Za-z0-9_-]+$/.test(sheetId)) {
-    throw new Error("GOOGLE_SHEET_ID has an invalid format");
-  }
-
-  const gid = process.env.GOOGLE_SHEET_GID?.trim() || "0";
-  if (!/^\d+$/.test(gid)) {
-    throw new Error("GOOGLE_SHEET_GID must be numeric");
-  }
-
-  return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+  const text = `${product.metadata.id ?? ""}\n${product.name}\n${product.description ?? ""}`.toLowerCase();
+  if (/clean|litter|air-freshener|尿墊|貓砂|清潔/.test(text)) return "cleaning";
+  if (/health|supplement|probiotic|omega|dental-water|保健|益生菌|營養/.test(text)) return "health";
+  if (/toy|玩具/.test(text)) return "toys";
+  if (/coat|harness|leash|collar|outdoor|大衣|胸背|牽引/.test(text)) return "outdoor";
+  if (/^bestseller-/.test(product.metadata.id ?? "")) return "bestsellers";
+  if (/^deal-/.test(product.metadata.id ?? "")) return "deals";
+  if (/(^|[-_])dog|狗/.test(text)) return "dogs";
+  if (/(^|[-_])cat|貓|^wt-/.test(text)) return "cats";
+  return "snacks";
 }
 
-async function fetchSheetCsv(url: string): Promise<string> {
-  const configuredTimeoutMs = Number(process.env.GOOGLE_SHEET_TIMEOUT_MS);
-  const timeoutMs = Number.isInteger(configuredTimeoutMs)
-    ? Math.max(1000, Math.min(configuredTimeoutMs, 15000))
-    : 5000;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+function iconForCategory(categorySlug: string): CategoryIconName {
+  return CATEGORIES.find(({ slug }) => slug === categorySlug)?.icon ?? "bone";
+}
 
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      cache: "no-store",
-      headers: { Accept: "text/csv" },
-    });
-    if (!response.ok) {
-      throw new Error(`Google Sheet returned HTTP ${response.status}`);
+async function getActiveHkdPrice(
+  stripe: Stripe,
+  product: Stripe.Product,
+): Promise<number | null> {
+  if (typeof product.default_price !== "string" && product.default_price) {
+    const price = product.default_price;
+    if (price.active && price.currency === "hkd" && price.unit_amount !== null) {
+      return fromStripeAmountHkd(price.unit_amount);
     }
-    return await response.text();
-  } finally {
-    clearTimeout(timeout);
   }
+
+  for await (const price of stripe.prices.list({
+    product: product.id,
+    active: true,
+    currency: "hkd",
+    limit: 100,
+  })) {
+    if (price.unit_amount !== null) return fromStripeAmountHkd(price.unit_amount);
+  }
+  return null;
+}
+
+async function stripeProductToCatalogProduct(
+  stripe: Stripe,
+  product: Stripe.Product,
+): Promise<Product | null> {
+  const price = await getActiveHkdPrice(stripe, product);
+  const image = product.images[0];
+  const id = product.metadata.id?.trim() || product.id;
+  if (price === null || !image) {
+    console.warn("Stripe catalog product skipped: missing HKD price or image", {
+      id,
+      stripeProductId: product.id,
+    });
+    return null;
+  }
+
+  const categorySlug = categoryFromProduct(product);
+  const catalogProduct: Product = {
+    id,
+    categorySlug,
+    icon: iconForCategory(categorySlug),
+    image,
+    name: { zh: product.name, en: product.name },
+    price,
+    inStock: true,
+    ...(product.description
+      ? { description: { zh: product.description, en: product.description } }
+      : {}),
+  };
+
+  const foodZone = inferFoodZone(catalogProduct);
+  return foodZone
+    ? {
+        ...catalogProduct,
+        categorySlug: foodZone.categorySlug,
+        subcategory: foodZone.subcategory,
+        icon: iconForCategory(foodZone.categorySlug),
+      }
+    : catalogProduct;
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
-    const url = getGoogleSheetCsvUrl();
-    const csv = await fetchSheetCsv(url);
-    const parsed = parseProductCatalogCsv(csv);
-    const products = productRecordsToProducts(parsed.records);
+    const stripe = getStripe();
+    const products: Stripe.Product[] = [];
+    for await (const product of stripe.products.list({ active: true, limit: 100 })) {
+      products.push(product);
+    }
+
+    const catalogProducts = (
+      await Promise.all(products.map((product) => stripeProductToCatalogProduct(stripe, product)))
+    )
+      .filter((product): product is Product => product !== null)
+      .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+
+    if (catalogProducts.length === 0) {
+      throw new Error("Stripe returned no active catalog products with HKD prices and images");
+    }
 
     return {
-      products,
-      source: "google-sheet",
-      matchedRecords: products.length,
+      products: catalogProducts,
+      source: "stripe",
+      matchedRecords: catalogProducts.length,
     };
   } catch (error) {
     console.error(
-      "Storefront catalog fetch failed:",
+      "Storefront Stripe catalog fetch failed:",
       error instanceof Error ? error.message : "unknown error",
     );
-    return {
-      products: [],
-      source: "google-sheet",
-      matchedRecords: 0,
-    };
+    return { products: [], source: "stripe", matchedRecords: 0 };
   }
 }
