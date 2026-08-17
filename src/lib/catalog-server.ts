@@ -14,11 +14,31 @@ export type CatalogSnapshot = {
   matchedRecords: number;
 };
 
-function categoryFromProduct(product: Stripe.Product): string {
-  const explicitCategory = product.metadata.categorySlug?.trim();
-  if (explicitCategory && CATEGORIES.some(({ slug }) => slug === explicitCategory)) {
-    return explicitCategory;
+function metadataValue(product: Stripe.Product, ...keys: string[]): string {
+  for (const key of keys) {
+    const value = product.metadata[key]?.trim();
+    if (value) return value;
   }
+  return "";
+}
+
+function categoryFromProduct(product: Stripe.Product): string {
+  const metadataCategory = metadataValue(
+    product,
+    "categorySlug",
+    "category_slug",
+    "category",
+  ).toLowerCase();
+  const categoryAliases: Record<string, string> = {
+    cat: "cats",
+    cats: "cats",
+    dog: "dogs",
+    dogs: "dogs",
+    snack: "snacks",
+    snacks: "snacks",
+  };
+  const explicitCategory = categoryAliases[metadataCategory] ?? metadataCategory;
+  if (CATEGORIES.some(({ slug }) => slug === explicitCategory)) return explicitCategory;
 
   const text = `${product.metadata.id ?? ""}\n${product.name}\n${product.description ?? ""}`.toLowerCase();
   if (/clean|litter|air-freshener|尿墊|貓砂|清潔/.test(text)) return "cleaning";
@@ -30,6 +50,37 @@ function categoryFromProduct(product: Stripe.Product): string {
   if (/(^|[-_])dog|狗/.test(text)) return "dogs";
   if (/(^|[-_])cat|貓|^wt-/.test(text)) return "cats";
   return "snacks";
+}
+
+function subcategoryFromProduct(product: Stripe.Product): Product["subcategory"] {
+  const value = metadataValue(
+    product,
+    "subcategory",
+    "subCategory",
+    "subcategorySlug",
+    "subcategory_slug",
+  );
+  const aliases: Record<string, Product["subcategory"]> = {
+    "wet-cans": "貓罐罐",
+    wet: "貓罐罐",
+    "貓罐罐": "貓罐罐",
+    "dry-food": "貓乾糧",
+    dry: "貓乾糧",
+    "貓乾糧": "貓乾糧",
+    "freeze-dried": "冷凍脫水系列",
+    "冷凍脫水系列": "冷凍脫水系列",
+    snacks: "貓貓小食",
+    "cat-snacks": "貓貓小食",
+    "貓貓小食": "貓貓小食",
+    food: "狗狗食品",
+    "dog-food": "狗狗食品",
+    "狗狗食品": "狗狗食品",
+    "dog-snacks": "狗狗小食",
+    "狗狗小食": "狗狗小食",
+    "pill-treats": "投藥餵藥專用小食",
+    "投藥餵藥專用小食": "投藥餵藥專用小食",
+  };
+  return aliases[value.toLowerCase()] ?? aliases[value];
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
@@ -99,9 +150,11 @@ function stripeProductToCatalogProduct(
   }
 
   const categorySlug = categoryFromProduct(product);
+  const subcategory = subcategoryFromProduct(product);
   const catalogProduct: Product = {
     id,
     categorySlug,
+    ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
     image,
     name: { zh: product.name, en: product.name },

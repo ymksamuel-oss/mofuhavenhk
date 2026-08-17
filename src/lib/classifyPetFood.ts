@@ -47,6 +47,9 @@ const SNACK_MARK =
   /小食|零食|肉乾|潔牙骨|treat|jerky|chew(?!\s*toy)|餅乾|脆片|點心|獎勵零食|snack|糊仔|膏狀|餡餅|奶粉|山羊奶/i;
 const STAPLE_FOOD_MARK =
   /(?<!貓)狗糧|主糧|(?<!貓)乾糧|食品(?!級)|kibble|dog\s*food|staple/i;
+const WET_FOOD_MARK =
+  /罐頭|罐罐|濕糧|濕食|wet\s*food|canned|can\b|pouch/i;
+const DRY_FOOD_MARK = /貓糧|乾糧|dry\s*food|kibble/i;
 /** Non-food categories that must not be swallowed into 狗狗食品. */
 const NON_FOOD_CATEGORY = new Set([
   "toys",
@@ -104,26 +107,62 @@ export function inferFoodZone(
   const hasFreeze = FREEZE_MARK.test(text);
   const hasSnack = SNACK_MARK.test(text);
   const hasStaple = STAPLE_FOOD_MARK.test(text);
+  const hasWetFood = WET_FOOD_MARK.test(text);
+  const hasDryFood = DRY_FOOD_MARK.test(text);
+
+  // ——— Explicit Stripe metadata stays authoritative when valid ———
+  if (
+    product.categorySlug === "cats" &&
+    (product.subcategory === "貓罐罐" ||
+      product.subcategory === "貓乾糧" ||
+      product.subcategory === "冷凍脫水系列" ||
+      product.subcategory === "貓貓小食" ||
+      product.subcategory === "投藥餵藥專用小食")
+  ) {
+    return {
+      categorySlug: "cats",
+      subcategory: product.subcategory,
+      reason: "Stripe metadata 指定貓咪子分類 → 保持",
+      tags: [product.subcategory, "貓用"],
+    };
+  }
+  if (
+    product.categorySlug === "dogs" &&
+    (product.subcategory === "狗狗食品" ||
+      product.subcategory === "狗狗小食" ||
+      product.subcategory === "投藥餵藥專用小食")
+  ) {
+    return {
+      categorySlug: "dogs",
+      subcategory: product.subcategory,
+      reason: "Stripe metadata 指定狗狗子分類 → 保持",
+      tags: [product.subcategory, "狗用"],
+    };
+  }
 
   // Shared cat+dog food/treat deals stay on their original shelf (deals/snacks).
   if (hasShared && !hasFreeze) {
     return null;
   }
 
-  // ——— Authored medication-assistance treats stay in their dedicated zone ———
-  if (
-    product.subcategory === "投藥餵藥專用小食" &&
-    (product.categorySlug === "cats" || product.categorySlug === "dogs")
-  ) {
-    return {
-      categorySlug: product.categorySlug,
-      subcategory: "投藥餵藥專用小食",
-      reason: `已歸入${product.categorySlug === "cats" ? "貓咪" : "狗狗"}投藥餵藥專用小食 → 保持`,
-      tags: [
-        "投藥餵藥專用小食",
-        product.categorySlug === "cats" ? "貓用" : "狗用",
-      ],
-    };
+  // ——— Cat wet/dry food ———
+  if (!hasFreeze && !hasDog && (hasCat || product.categorySlug === "cats")) {
+    if (hasWetFood) {
+      return {
+        categorySlug: "cats",
+        subcategory: "貓罐罐",
+        reason: "貓咪罐頭／濕糧關鍵字 → 貓罐罐",
+        tags: ["貓罐罐", "貓用"],
+      };
+    }
+    if (hasDryFood) {
+      return {
+        categorySlug: "cats",
+        subcategory: "貓乾糧",
+        reason: "貓咪乾糧關鍵字 → 貓乾糧",
+        tags: ["貓乾糧", "貓用"],
+      };
+    }
   }
 
   // ——— Freeze-dried series ———
@@ -172,6 +211,24 @@ export function inferFoodZone(
       subcategory: "貓貓小食",
       reason: "貓貓零食系列關鍵字 → 貓貓小食專區",
       tags: ["貓貓小食", "貓用"],
+    };
+  }
+
+  // ——— Cat snack fallback / default food shelf ———
+  if (!hasDog && (hasCat || product.categorySlug === "cats")) {
+    if (hasSnack) {
+      return {
+        categorySlug: "cats",
+        subcategory: "貓貓小食",
+        reason: "貓咪零食關鍵字 → 貓貓小食",
+        tags: ["貓貓小食", "貓用"],
+      };
+    }
+    return {
+      categorySlug: "cats",
+      subcategory: "貓罐罐",
+      reason: "Stripe 未提供子分類；貓咪食品預設歸入罐頭／濕糧",
+      tags: ["貓罐罐", "貓用"],
     };
   }
 
