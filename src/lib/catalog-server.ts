@@ -16,12 +16,15 @@ export type CatalogSnapshot = {
 };
 
 function getGoogleSheetCsvUrl(): string {
-  const directUrl = process.env.GOOGLE_SHEET_CSV_URL?.trim();
+  // Keep storefront reads aligned with the catalog source used by Stripe sync.
+  const directUrl =
+    process.env.GOOGLE_SHEET_CSV_URL?.trim() ||
+    process.env.STRIPE_SYNC_SHEET_CSV_URL?.trim();
   if (directUrl) {
     const url = new URL(directUrl);
     if (url.protocol !== "https:" || url.hostname !== "docs.google.com") {
       throw new Error(
-        "GOOGLE_SHEET_CSV_URL must be an HTTPS docs.google.com CSV URL",
+        "Google Sheet catalog URL must be an HTTPS docs.google.com CSV URL",
       );
     }
     return url.toString();
@@ -76,7 +79,11 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
       source: "google-sheet",
       matchedRecords: products.length,
     };
-  } catch {
+  } catch (error) {
+    console.error(
+      "Storefront catalog fetch failed:",
+      error instanceof Error ? error.message : "unknown error",
+    );
     return {
       products: [],
       source: "google-sheet",
