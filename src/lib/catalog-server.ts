@@ -1,5 +1,6 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
@@ -35,36 +36,61 @@ function iconForCategory(categorySlug: string): CategoryIconName {
   return CATEGORIES.find(({ slug }) => slug === categorySlug)?.icon ?? "bone";
 }
 
-async function getActiveHkdPrice(
-  stripe: Stripe,
-  product: Stripe.Product,
-): Promise<number | null> {
-  if (typeof product.default_price !== "string" && product.default_price) {
-    const price = product.default_price;
-    if (price.active && price.currency === "hkd" && price.unit_amount !== null) {
-      return fromStripeAmountHkd(price.unit_amount);
-    }
-  }
+async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> {
+  const products: Stripe.Product[] = [];
+  let startingAfter: string | undefined;
 
-  for await (const price of stripe.prices.list({
-    product: product.id,
-    active: true,
-    currency: "hkd",
-    limit: 100,
-  })) {
-    if (price.unit_amount !== null) return fromStripeAmountHkd(price.unit_amount);
-  }
-  return null;
+  do {
+    const page = await stripe.products.list({
+      active: true,
+      limit: 100,
+      ...(startingAfter ? { starting_after: startingAfter } : {}),
+    });
+    products.push(...page.data);
+    startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
+    if (page.has_more && !startingAfter) {
+      throw new Error("Stripe products pagination returned has_more without a cursor");
+    }
+  } while (startingAfter);
+
+  return products;
 }
 
-async function stripeProductToCatalogProduct(
-  stripe: Stripe,
+async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, number>> {
+  const pricesByProductId = new Map<string, number>();
+  let startingAfter: string | undefined;
+
+  do {
+    const page = await stripe.prices.list({
+      active: true,
+      currency: "hkd",
+      limit: 100,
+      ...(startingAfter ? { starting_after: startingAfter } : {}),
+    });
+    for (const price of page.data) {
+      if (price.unit_amount === null) continue;
+      const productId = typeof price.product === "string" ? price.product : price.product.id;
+      if (!pricesByProductId.has(productId)) {
+        pricesByProductId.set(productId, fromStripeAmountHkd(price.unit_amount));
+      }
+    }
+    startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
+    if (page.has_more && !startingAfter) {
+      throw new Error("Stripe prices pagination returned has_more without a cursor");
+    }
+  } while (startingAfter);
+
+  return pricesByProductId;
+}
+
+function stripeProductToCatalogProduct(
   product: Stripe.Product,
-): Promise<Product | null> {
-  const price = await getActiveHkdPrice(stripe, product);
+  pricesByProductId: ReadonlyMap<string, number>,
+): Product | null {
+  const price = pricesByProductId.get(product.id);
   const image = product.images[0];
   const id = product.metadata.id?.trim() || product.id;
-  if (price === null || !image) {
+  if (price === undefined || !image) {
     console.warn("Stripe catalog product skipped: missing HKD price or image", {
       id,
       stripeProductId: product.id,
@@ -97,34 +123,48 @@ async function stripeProductToCatalogProduct(
     : catalogProduct;
 }
 
+async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
+  const stripe = getStripe();
+  const [stripeProducts, pricesByProductId] = await Promise.all([
+    listAllActiveProducts(stripe),
+    listAllActiveHkdPrices(stripe),
+  ]);
+  const products = stripeProducts
+    .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
+    .filter((product): product is Product => product !== null)
+    .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+
+  if (products.length === 0) {
+    throw new Error("Stripe returned no active catalog products with HKD prices and images");
+  }
+
+  return { products, source: "stripe", matchedRecords: products.length };
+}
+
+const getCachedCatalog = unstable_cache(
+  fetchCatalogFromStripe,
+  ["stripe-active-product-catalog"],
+  { revalidate: 300 },
+);
+
+function stripeErrorDetails(error: unknown) {
+  if (error instanceof Stripe.errors.StripeError) {
+    return {
+      type: error.type,
+      code: error.code ?? null,
+      statusCode: error.statusCode ?? null,
+      requestId: error.requestId ?? null,
+      message: error.message,
+    };
+  }
+  return { message: error instanceof Error ? error.message : "unknown error" };
+}
+
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
-    const stripe = getStripe();
-    const products: Stripe.Product[] = [];
-    for await (const product of stripe.products.list({ active: true, limit: 100 })) {
-      products.push(product);
-    }
-
-    const catalogProducts = (
-      await Promise.all(products.map((product) => stripeProductToCatalogProduct(stripe, product)))
-    )
-      .filter((product): product is Product => product !== null)
-      .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
-
-    if (catalogProducts.length === 0) {
-      throw new Error("Stripe returned no active catalog products with HKD prices and images");
-    }
-
-    return {
-      products: catalogProducts,
-      source: "stripe",
-      matchedRecords: catalogProducts.length,
-    };
+    return await getCachedCatalog();
   } catch (error) {
-    console.error(
-      "Storefront Stripe catalog fetch failed:",
-      error instanceof Error ? error.message : "unknown error",
-    );
-    return { products: [], source: "stripe", matchedRecords: 0 };
+    console.error("Storefront Stripe catalog fetch failed", stripeErrorDetails(error));
+    throw new Error("Storefront catalog is temporarily unavailable");
   }
 }
