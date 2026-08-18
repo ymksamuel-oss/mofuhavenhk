@@ -3,12 +3,7 @@ import "server-only";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
-import { inferFoodZone } from "@/lib/classifyPetFood";
-import {
-  categorySlugFromMetadata,
-  subcategoryFromMetadata,
-  type Product,
-} from "@/lib/products";
+import { type Product } from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
@@ -17,71 +12,15 @@ export type CatalogSnapshot = {
   matchedRecords: number;
 };
 
-function metadataValue(product: Stripe.Product, ...keys: string[]): string {
-  for (const key of keys) {
-    const value = product.metadata[key]?.trim();
-    if (value) return value;
-  }
-  return "";
+function productMetadata(product: Stripe.Product): Record<string, string> {
+  return product.metadata ?? {};
 }
 
-function categoryFromProduct(product: Stripe.Product): string {
-  // `metadata.category` is the Stripe taxonomy source of truth. Resolve it
-  // before legacy keys and name-based inference so category buttons use the
-  // same values that are authored in Stripe.
-  const stripeCategory = product.metadata.category?.trim();
-  const categoryFromStripe = categorySlugFromMetadata(stripeCategory);
-  if (categoryFromStripe) return categoryFromStripe;
-
-  const legacyCategory = metadataValue(product, "categorySlug", "category_slug");
-  const legacySlug = categorySlugFromMetadata(legacyCategory);
-  if (legacySlug) return legacySlug;
-
-  const text = `${product.metadata.id ?? ""}\n${product.name}\n${product.description ?? ""}`.toLowerCase();
-  if (/clean|litter|air-freshener|尿墊|貓砂|清潔/.test(text)) return "cleaning";
-  if (/health|supplement|probiotic|omega|dental-water|保健|益生菌|營養/.test(text)) return "health";
-  if (/toy|玩具/.test(text)) return "toys";
-  if (/coat|harness|leash|collar|outdoor|大衣|胸背|牽引/.test(text)) return "outdoor";
-  if (/^bestseller-/.test(product.metadata.id ?? "")) return "bestsellers";
-  if (/^deal-/.test(product.metadata.id ?? "")) return "deals";
-  if (/(^|[-_])dog|狗/.test(text)) return "dogs";
-  if (/(^|[-_])cat|貓|^wt-/.test(text)) return "cats";
-  return "snacks";
-}
-
-function subcategoryFromProduct(product: Stripe.Product): Product["subcategory"] {
-  const stripeCategory = product.metadata.category?.trim();
-  const categorySubcategory = subcategoryFromMetadata(stripeCategory);
-  if (categorySubcategory) return categorySubcategory;
-
-  const value = metadataValue(
-    product,
-    "subcategory",
-    "subCategory",
-    "subcategorySlug",
-    "subcategory_slug",
-  );
-  const aliases: Record<string, Product["subcategory"]> = {
-    "wet-cans": "貓罐罐",
-    wet: "貓罐罐",
-    "貓罐罐": "貓罐罐",
-    "dry-food": "貓乾糧",
-    dry: "貓乾糧",
-    "貓乾糧": "貓乾糧",
-    "freeze-dried": "冷凍脫水系列",
-    "冷凍脫水系列": "冷凍脫水系列",
-    snacks: "貓貓小食",
-    "cat-snacks": "貓貓小食",
-    "貓貓小食": "貓貓小食",
-    food: "狗狗食品",
-    "dog-food": "狗狗食品",
-    "狗狗食品": "狗狗食品",
-    "dog-snacks": "狗狗小食",
-    "狗狗小食": "狗狗小食",
-    "pill-treats": "投藥餵藥專用小食",
-    "投藥餵藥專用小食": "投藥餵藥專用小食",
-  };
-  return aliases[value.toLowerCase()] ?? aliases[value];
+function categoryFromProduct(product: Stripe.Product): "cats" | "dogs" {
+  const metadata = productMetadata(product);
+  const metadataText = Object.values(metadata).join("\n");
+  const text = `${product.name ?? ""}\n${metadataText}`;
+  return /狗|dog/i.test(text) ? "dogs" : "cats";
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
@@ -139,9 +78,10 @@ function stripeProductToCatalogProduct(
   product: Stripe.Product,
   pricesByProductId: ReadonlyMap<string, number>,
 ): Product | null {
+  const metadata = productMetadata(product);
   const price = pricesByProductId.get(product.id);
-  const image = product.images[0];
-  const id = product.metadata.id?.trim() || product.id;
+  const image = product.images?.[0];
+  const id = metadata.id?.trim() || product.id;
   if (price === undefined || !image) {
     console.warn("Stripe catalog product skipped: missing HKD price or image", {
       id,
@@ -151,15 +91,13 @@ function stripeProductToCatalogProduct(
   }
 
   const categorySlug = categoryFromProduct(product);
-  const subcategory = subcategoryFromProduct(product);
   const catalogProduct: Product = {
     id,
-    metadata: { ...product.metadata },
+    metadata,
     categorySlug,
-    ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
     image,
-    name: { zh: product.name, en: product.name },
+    name: { zh: product.name ?? "", en: product.name ?? "" },
     price,
     inStock: true,
     ...(product.description
@@ -167,19 +105,7 @@ function stripeProductToCatalogProduct(
       : {}),
   };
 
-  // A recognized Stripe `metadata.category` must not be overwritten by legacy
-  // name-based classification.
-  if (categorySlugFromMetadata(product.metadata.category)) return catalogProduct;
-
-  const foodZone = inferFoodZone(catalogProduct);
-  return foodZone
-    ? {
-        ...catalogProduct,
-        categorySlug: foodZone.categorySlug,
-        subcategory: foodZone.subcategory,
-        icon: iconForCategory(foodZone.categorySlug),
-      }
-    : catalogProduct;
+  return catalogProduct;
 }
 
 async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
@@ -198,10 +124,6 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
     .filter((product): product is Product => product !== null)
     .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
-
-  if (products.length === 0) {
-    throw new Error("Stripe returned no active catalog products with HKD prices and images");
-  }
 
   return { products, source: "stripe", matchedRecords: products.length };
 }
@@ -225,6 +147,6 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     return await fetchCatalogFromStripe();
   } catch (error) {
     console.error("Storefront Stripe catalog fetch failed", stripeErrorDetails(error));
-    throw new Error("Storefront catalog is temporarily unavailable");
+    return { products: [], source: "stripe", matchedRecords: 0 };
   }
 }
