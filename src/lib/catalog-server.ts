@@ -83,6 +83,26 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, numbe
   return pricesByProductId;
 }
 
+function normalizedProductTitle(product: Stripe.Product): string {
+  return product.name.trim().toLocaleLowerCase() || product.id;
+}
+
+function latestActivePricedProducts(
+  products: readonly Stripe.Product[],
+  pricesByProductId: ReadonlyMap<string, number>,
+): Stripe.Product[] {
+  const latestByTitle = new Map<string, Stripe.Product>();
+  for (const product of products) {
+    if (!pricesByProductId.has(product.id)) continue;
+    const title = normalizedProductTitle(product);
+    const current = latestByTitle.get(title);
+    if (!current || product.created > current.created) {
+      latestByTitle.set(title, product);
+    }
+  }
+  return Array.from(latestByTitle.values());
+}
+
 function stripeProductToCatalogProduct(
   product: Stripe.Product,
   pricesByProductId: ReadonlyMap<string, number>,
@@ -130,7 +150,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
   );
 
   const products = uniqueProductsById(
-    stripeProducts
+    latestActivePricedProducts(stripeProducts, pricesByProductId)
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
       .filter((product): product is Product => product !== null),
   ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
