@@ -88,6 +88,8 @@ export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
 
 export type Product = {
   id: string;
+  /** Stripe metadata delivered with the catalog. `category` is the canonical taxonomy key. */
+  metadata?: Record<string, string>;
   categorySlug: string;
   subcategory?: ProductSubcategory;
   image: string;
@@ -111,12 +113,78 @@ export type Product = {
   sourceCategory?: string;
 };
 
+const CATEGORY_SLUG_BY_METADATA: Record<string, string> = {
+  cats: "cats",
+  cat: "cats",
+  "貓咪商品": "cats",
+  dogs: "dogs",
+  dog: "dogs",
+  "狗狗商品": "dogs",
+  "small-pets": "small-pets",
+  "小動物": "small-pets",
+  "小寵物": "small-pets",
+  snacks: "snacks",
+  snack: "snacks",
+  "寵物小食": "snacks",
+  toys: "toys",
+  "寵物玩具": "toys",
+  health: "health",
+  "營養保健": "health",
+  cleaning: "cleaning",
+  "居家清潔": "cleaning",
+  deals: "deals",
+  "限時優惠": "deals",
+  bestsellers: "bestsellers",
+  "熱賣商品": "bestsellers",
+  outdoor: "outdoor",
+  "外出用品": "outdoor",
+};
+
+const SUBCATEGORY_PARENT_BY_METADATA: Record<
+  string,
+  { parent: string; subcategory: ProductSubcategory }
+> = {
+  "貓罐罐": { parent: "cats", subcategory: "貓罐罐" },
+  "貓乾糧": { parent: "cats", subcategory: "貓乾糧" },
+  "冷凍脫水系列": { parent: "cats", subcategory: "冷凍脫水系列" },
+  "貓貓小食": { parent: "cats", subcategory: "貓貓小食" },
+  "狗狗食品": { parent: "dogs", subcategory: "狗狗食品" },
+  "狗狗小食": { parent: "dogs", subcategory: "狗狗小食" },
+};
+
+export function categorySlugFromMetadata(category: string | undefined): string | null {
+  const value = category?.trim();
+  if (!value) return null;
+  return (
+    CATEGORY_SLUG_BY_METADATA[value.toLowerCase()] ??
+    SUBCATEGORY_PARENT_BY_METADATA[value]?.parent ??
+    null
+  );
+}
+
+export function subcategoryFromMetadata(category: string | undefined): ProductSubcategory | null {
+  const value = category?.trim();
+  if (!value) return null;
+  return (
+    SUBCATEGORY_PARENT_BY_METADATA[value]?.subcategory ??
+    (value === "投藥餵藥專用小食" ? "投藥餵藥專用小食" : null)
+  );
+}
+
+function productCategorySlug(product: Product): string {
+  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
+}
+
+function productSubcategory(product: Product): ProductSubcategory | undefined {
+  return subcategoryFromMetadata(product.metadata?.category) ?? product.subcategory;
+}
+
 export function getProductsByCategory(
   slug: string | null,
   products: readonly Product[] = [],
 ): Product[] {
   if (!slug) return [...products];
-  return products.filter((product) => product.categorySlug === slug);
+  return products.filter((product) => productCategorySlug(product) === slug);
 }
 
 export function getCatProductsBySubcategory(
@@ -126,7 +194,7 @@ export function getCatProductsBySubcategory(
 ): Product[] {
   const cats = getProductsByCategory("cats", products);
   if (!subcategory) return cats;
-  const bySub = cats.filter((product) => product.subcategory === subcategory);
+  const bySub = cats.filter((product) => productSubcategory(product) === subcategory);
   if (!snackSeries || subcategory !== "貓貓小食") return bySub;
   return bySub.filter((product) => product.snackSeries === snackSeries);
 }
@@ -137,7 +205,7 @@ export function getDogProductsBySubcategory(
 ): Product[] {
   const dogs = getProductsByCategory("dogs", products);
   if (!subcategory) return dogs;
-  return dogs.filter((product) => product.subcategory === subcategory);
+  return dogs.filter((product) => productSubcategory(product) === subcategory);
 }
 
 export function getProductById(

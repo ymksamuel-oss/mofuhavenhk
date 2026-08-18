@@ -4,7 +4,11 @@ import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { inferFoodZone } from "@/lib/classifyPetFood";
-import type { Product } from "@/lib/products";
+import {
+  categorySlugFromMetadata,
+  subcategoryFromMetadata,
+  type Product,
+} from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
@@ -21,41 +25,17 @@ function metadataValue(product: Stripe.Product, ...keys: string[]): string {
   return "";
 }
 
-/**
- * Stripe is the source of truth for the Pet Snacks landing page. Keep this
- * Chinese metadata check ahead of legacy taxonomy and name-based inference.
- */
-function isPetSnackProduct(product: Stripe.Product): boolean {
-  const { parent_category, category, subcategory, type, tags } = product.metadata;
-
-  return (
-    parent_category?.includes("寵物小食") === true ||
-    category?.includes("小食") === true ||
-    subcategory?.includes("小食") === true ||
-    type === "寵物小食" ||
-    tags?.includes("小食") === true
-  );
-}
-
 function categoryFromProduct(product: Stripe.Product): string {
-  if (isPetSnackProduct(product)) return "snacks";
+  // `metadata.category` is the Stripe taxonomy source of truth. Resolve it
+  // before legacy keys and name-based inference so category buttons use the
+  // same values that are authored in Stripe.
+  const stripeCategory = product.metadata.category?.trim();
+  const categoryFromStripe = categorySlugFromMetadata(stripeCategory);
+  if (categoryFromStripe) return categoryFromStripe;
 
-  const metadataCategory = metadataValue(
-    product,
-    "categorySlug",
-    "category_slug",
-    "category",
-  ).toLowerCase();
-  const categoryAliases: Record<string, string> = {
-    cat: "cats",
-    cats: "cats",
-    dog: "dogs",
-    dogs: "dogs",
-    snack: "snacks",
-    snacks: "snacks",
-  };
-  const explicitCategory = categoryAliases[metadataCategory] ?? metadataCategory;
-  if (CATEGORIES.some(({ slug }) => slug === explicitCategory)) return explicitCategory;
+  const legacyCategory = metadataValue(product, "categorySlug", "category_slug");
+  const legacySlug = categorySlugFromMetadata(legacyCategory);
+  if (legacySlug) return legacySlug;
 
   const text = `${product.metadata.id ?? ""}\n${product.name}\n${product.description ?? ""}`.toLowerCase();
   if (/clean|litter|air-freshener|尿墊|貓砂|清潔/.test(text)) return "cleaning";
@@ -70,6 +50,10 @@ function categoryFromProduct(product: Stripe.Product): string {
 }
 
 function subcategoryFromProduct(product: Stripe.Product): Product["subcategory"] {
+  const stripeCategory = product.metadata.category?.trim();
+  const categorySubcategory = subcategoryFromMetadata(stripeCategory);
+  if (categorySubcategory) return categorySubcategory;
+
   const value = metadataValue(
     product,
     "subcategory",
@@ -170,6 +154,7 @@ function stripeProductToCatalogProduct(
   const subcategory = subcategoryFromProduct(product);
   const catalogProduct: Product = {
     id,
+    metadata: { ...product.metadata },
     categorySlug,
     ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
@@ -182,9 +167,9 @@ function stripeProductToCatalogProduct(
       : {}),
   };
 
-  // Do not let the legacy cat/dog name classifier override explicit Chinese
-  // Pet Snacks metadata used by the 寵物小食 category button.
-  if (isPetSnackProduct(product)) return catalogProduct;
+  // A recognized Stripe `metadata.category` must not be overwritten by legacy
+  // name-based classification.
+  if (categorySlugFromMetadata(product.metadata.category)) return catalogProduct;
 
   const foodZone = inferFoodZone(catalogProduct);
   return foodZone
