@@ -110,7 +110,7 @@ function stripeProductToCatalogProduct(
   const metadata = productMetadata(product);
   const price = pricesByProductId.get(product.id);
   const image = product.images?.[0] || CATALOG_IMAGE_FALLBACK;
-  const id = metadata.id?.trim() || product.id;
+  const id = product.id;
   if (price === undefined) {
     console.warn("Stripe catalog product skipped: missing HKD price", {
       id,
