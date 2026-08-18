@@ -171,6 +171,14 @@ export function subcategoryFromMetadata(category: string | undefined): ProductSu
   );
 }
 
+export function uniqueProductsById(products: readonly Product[] = []): Product[] {
+  const productsById = new Map<string, Product>();
+  for (const product of products) {
+    if (!productsById.has(product.id)) productsById.set(product.id, product);
+  }
+  return Array.from(productsById.values());
+}
+
 function productCategorySlug(product: Product): string {
   return product.categorySlug;
 }

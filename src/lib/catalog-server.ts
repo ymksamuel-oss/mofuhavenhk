@@ -3,7 +3,7 @@ import "server-only";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
-import { type Product } from "@/lib/products";
+import { type Product, uniqueProductsById } from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
@@ -119,10 +119,11 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
   );
 
-  const products = stripeProducts
-    .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
-    .filter((product): product is Product => product !== null)
-    .sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+  const products = uniqueProductsById(
+    stripeProducts
+      .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
+      .filter((product): product is Product => product !== null),
+  ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
   return { products, source: "stripe", matchedRecords: products.length };
 }
