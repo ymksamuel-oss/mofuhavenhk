@@ -172,7 +172,7 @@ export function subcategoryFromMetadata(category: string | undefined): ProductSu
 }
 
 function productCategorySlug(product: Product): string {
-  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
+  return product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {

@@ -17,10 +17,7 @@ function productMetadata(product: Stripe.Product): Record<string, string> {
 }
 
 function categoryFromProduct(product: Stripe.Product): "cats" | "dogs" {
-  const metadata = productMetadata(product);
-  const metadataText = Object.values(metadata).join("\n");
-  const text = `${product.name ?? ""}\n${metadataText}`;
-  return /狗|dog/i.test(text) ? "dogs" : "cats";
+  return /狗|dog/i.test(product.name ?? "") ? "dogs" : "cats";
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
