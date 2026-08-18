@@ -12,6 +12,8 @@ export type CatalogSnapshot = {
   matchedRecords: number;
 };
 
+const CATALOG_IMAGE_FALLBACK = "/mofu-haven-website-b.png";
+
 function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
 }
@@ -77,10 +79,10 @@ function stripeProductToCatalogProduct(
 ): Product | null {
   const metadata = productMetadata(product);
   const price = pricesByProductId.get(product.id);
-  const image = product.images?.[0];
+  const image = product.images?.[0] || CATALOG_IMAGE_FALLBACK;
   const id = metadata.id?.trim() || product.id;
-  if (price === undefined || !image) {
-    console.warn("Stripe catalog product skipped: missing HKD price or image", {
+  if (price === undefined) {
+    console.warn("Stripe catalog product skipped: missing HKD price", {
       id,
       stripeProductId: product.id,
     });
