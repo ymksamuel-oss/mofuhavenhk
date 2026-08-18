@@ -215,7 +215,7 @@ export function ProductCatalog({
       baseProducts = getProductsByCategory(categorySlug, catalogProducts);
     }
     
-    return baseProducts;
+    return baseProducts.length > 0 ? baseProducts : [...catalogProducts];
   }, [
     isCats,
     isDogs,
