@@ -191,8 +191,9 @@ export function getProductsByCategory(
   slug: string | null,
   products: readonly Product[] = [],
 ): Product[] {
-  if (!slug) return [...products];
-  return products.filter((product) => productCategorySlug(product) === slug);
+  const uniqueProducts = uniqueProductsById(products);
+  if (!slug) return uniqueProducts;
+  return uniqueProducts.filter((product) => productCategorySlug(product) === slug);
 }
 
 export function getCatProductsBySubcategory(
