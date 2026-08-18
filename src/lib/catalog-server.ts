@@ -3,7 +3,11 @@ import "server-only";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
-import { type Product, uniqueProductsById } from "@/lib/products";
+import {
+  categorySlugFromMetadata,
+  type Product,
+  uniqueProductsById,
+} from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
@@ -18,8 +22,14 @@ function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
 }
 
-function categoryFromProduct(product: Stripe.Product): "cats" | "dogs" {
-  return /狗|dog/i.test(product.name ?? "") ? "dogs" : "cats";
+function categoryFromProduct(product: Stripe.Product): string {
+  const metadata = productMetadata(product);
+  const metadataCategory =
+    metadata.category ?? metadata.category_code ?? metadata["主分類代碼"];
+  return (
+    categorySlugFromMetadata(metadataCategory) ??
+    (/狗|dog/i.test(product.name ?? "") ? "dogs" : "cats")
+  );
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
