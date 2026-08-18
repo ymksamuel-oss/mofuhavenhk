@@ -46,10 +46,10 @@ export function ProductCatalog({
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const category = getCategoryBySlug(categorySlug);
-  const products = useMemo(() => {
-    const assignedProducts = getProductsByCategory(categorySlug, catalogProducts);
-    return assignedProducts.length > 0 ? assignedProducts : [...catalogProducts];
-  }, [categorySlug, catalogProducts]);
+  const products = useMemo(
+    () => getProductsByCategory(categorySlug, catalogProducts),
+    [categorySlug, catalogProducts],
+  );
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
