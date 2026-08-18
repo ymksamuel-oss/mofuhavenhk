@@ -6,7 +6,7 @@ import {
   useMemo,
   type ReactNode,
 } from "react";
-import type { Product } from "@/lib/products";
+import { type Product, uniqueProductsById } from "@/lib/products";
 
 type CatalogContextValue = {
   products: Product[];
@@ -23,9 +23,10 @@ export function CatalogProvider({
   children: ReactNode;
 }) {
   const value = useMemo<CatalogContextValue>(() => {
-    const byId = new Map(products.map((product) => [product.id, product]));
+    const uniqueProducts = uniqueProductsById(products);
+    const byId = new Map(uniqueProducts.map((product) => [product.id, product]));
     return {
-      products,
+      products: uniqueProducts,
       getProductById: (id) => (id ? byId.get(id) ?? null : null),
     };
   }, [products]);
