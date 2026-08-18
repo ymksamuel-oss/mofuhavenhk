@@ -8,30 +8,12 @@ import { ProductImage } from "@/components/product/ProductImage";
 import {
   CATEGORIES,
   categoryHref,
-  categorySubHref,
-  catSnacksSeriesHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { formatMoney, type TranslationKey } from "@/lib/i18n/translations";
-import {
-  CAT_SNACK_SERIES,
-  CAT_SNACK_SERIES_SLUG,
-  CAT_SUBCATEGORIES,
-  CAT_SUBCATEGORY_SLUG,
-  DOG_SUBCATEGORIES,
-  DOG_SUBCATEGORY_SLUG,
-  getCatProductsBySubcategory,
-  getDogProductsBySubcategory,
-  getProductsByCategory,
-  productHref,
-  type CatSnackSeries,
-  type CatSubcategory,
-  type DogSubcategory,
-  type Product,
-  type ProductSubcategory,
-} from "@/lib/products";
+import { formatMoney } from "@/lib/i18n/translations";
+import { getProductsByCategory, productHref } from "@/lib/products";
 
 function categoryMenuLinkClassName(active: boolean) {
   return `group/link flex min-h-11 items-center justify-between border-b px-1 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
@@ -41,134 +23,16 @@ function categoryMenuLinkClassName(active: boolean) {
   }`;
 }
 
-function subChipClassName(active: boolean) {
-  return `shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-medium transition sm:text-sm ${
-    active
-      ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
-      : "border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/50 hover:text-[color:var(--ink)]"
-  }`;
-}
-
-const CAT_SUB_LABEL_KEYS: Record<CatSubcategory, TranslationKey> = {
-  貓罐罐: "catSubWetCans",
-  貓乾糧: "catSubDryFood",
-  冷凍脫水系列: "catSubFreezeDried",
-  貓貓小食: "catSubSnacks",
-  投藥餵藥專用小食: "pillTreatsSubcategory",
-};
-
-const DOG_SUB_LABEL_KEYS: Record<DogSubcategory, TranslationKey> = {
-  狗狗食品: "dogSubFood",
-  狗狗小食: "dogSubSnacks",
-  投藥餵藥專用小食: "pillTreatsSubcategory",
-};
-
-const CAT_SNACK_SERIES_LABEL_KEYS: Record<CatSnackSeries, TranslationKey> = {
-  無添加天然系列: "catSnackSeriesNatural",
-  老貓零食: "catSnackSeriesSenior",
-  去毛球配方: "catSnackSeriesHairball",
-  bb貓零食: "catSnackSeriesKitten",
-};
 
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
-  /**
-   * Optional food-zone subcategory from the URL path
-   * (`/categories/cats/freeze-dried`, `/categories/cats/snacks`, …).
-   */
-  subcategory?: ProductSubcategory | null;
-  /** Optional cat-snack series filter (`?series=natural|senior|hairball|kitten`). */
-  snackSeries?: CatSnackSeries | null;
+  /** Ignored legacy route parameters retained for route compatibility. */
+  subcategory?: unknown;
+  snackSeries?: unknown;
   /** Show the homepage-style search section on `/categories/...` pages only. */
   showProductSearch?: boolean;
 };
-
-/** List-style card: image + title/specs/price in a clear flex row (no overlap). */
-function TreatListCard({
-  product,
-  locale,
-  viewDetailsLabel,
-  soldOutLabel,
-}: {
-  product: Product;
-  locale: "zh" | "en";
-  viewDetailsLabel: string;
-  soldOutLabel: string;
-}) {
-  const href = productHref(product.id);
-  const series = product.series?.[locale];
-  const nameLine = product.name[locale];
-  const discountPercent = product.originalPrice
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
-    : null;
-
-  return (
-    <li className="milk-tea-card overflow-hidden transition-shadow duration-200 hover:shadow-[0_18px_32px_-24px_rgba(74,54,38,0.55)]">
-      <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
-        <CategoryNavLink
-          href={href}
-          aria-label={`${viewDetailsLabel}: ${product.name[locale]}`}
-          className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] sm:h-32 sm:w-32"
-        >
-          <ProductImage
-            src={product.image}
-            alt={product.name[locale]}
-            sizes="128px"
-            className="object-cover"
-          />
-          {product.inStock === false ? (
-            <span className="absolute left-1.5 top-1.5 rounded-full bg-[color:var(--ink)] px-2 py-0.5 text-[9px] font-bold text-white">
-              {soldOutLabel}
-            </span>
-          ) : discountPercent ? (
-            <span className="absolute left-1.5 top-1.5 rounded-full bg-[#c0483a] px-1.5 py-0.5 text-[9px] font-bold text-white">
-              -{discountPercent}%
-            </span>
-          ) : null}
-        </CategoryNavLink>
-
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          {series ? (
-            <CategoryNavLink
-              href={href}
-              className="break-words text-sm font-bold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
-            >
-              {series}
-            </CategoryNavLink>
-          ) : null}
-          <CategoryNavLink
-            href={href}
-            className={`break-words text-sm leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)] ${
-              series ? "font-medium" : "font-semibold"
-            }`}
-          >
-            {nameLine}
-          </CategoryNavLink>
-          {product.description ? (
-            <p className="line-clamp-2 text-xs leading-relaxed break-words text-[color:var(--muted)] sm:line-clamp-3">
-              {product.description[locale]}
-            </p>
-          ) : null}
-
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
-            <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              <p className="text-base font-semibold tabular-nums text-[color:var(--accent)] sm:text-lg">
-                {formatMoney(product.price, locale)}
-              </p>
-              {product.originalPrice ? (
-                <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                  {formatMoney(product.originalPrice, locale)}
-                </p>
-              ) : null}
-            </div>
-            <AddToCartButton productId={product.id} size="list" />
-          </div>
-        </div>
-      </div>
-    </li>
-  );
-}
 
 /**
  * Shared catalog UI for `/menu`, `/categories/[slug]`, and
@@ -177,68 +41,18 @@ function TreatListCard({
  */
 export function ProductCatalog({
   categorySlug,
-  subcategory = null,
-  snackSeries = null,
   showProductSearch = false,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const category = getCategoryBySlug(categorySlug);
-  const isCats = categorySlug === "cats";
-  const isDogs = categorySlug === "dogs";
-  const catSubcategory =
-    isCats && subcategory && CAT_SUBCATEGORIES.includes(subcategory as CatSubcategory)
-      ? (subcategory as CatSubcategory)
-      : null;
-  const dogSubcategory =
-    isDogs && subcategory && DOG_SUBCATEGORIES.includes(subcategory as DogSubcategory)
-      ? (subcategory as DogSubcategory)
-      : null;
-  const catSnackSeries =
-    catSubcategory === "貓貓小食" ? snackSeries : null;
-
   const products = useMemo(() => {
-    let baseProducts: Product[] = [];
-    
-    if (isCats) {
-      baseProducts = getCatProductsBySubcategory(
-        catSubcategory,
-        catSnackSeries,
-        catalogProducts,
-      );
-    } else if (isDogs) {
-      baseProducts = getDogProductsBySubcategory(
-        dogSubcategory,
-        catalogProducts,
-      );
-    } else {
-      baseProducts = getProductsByCategory(categorySlug, catalogProducts);
-    }
-    
-    return baseProducts.length > 0 ? baseProducts : [...catalogProducts];
-  }, [
-    isCats,
-    isDogs,
-    catSubcategory,
-    dogSubcategory,
-    catSnackSeries,
-    categorySlug,
-    catalogProducts,
-  ]);
+    const assignedProducts = getProductsByCategory(categorySlug, catalogProducts);
+    return assignedProducts.length > 0 ? assignedProducts : [...catalogProducts];
+  }, [categorySlug, catalogProducts]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-  const showFreezeDriedZone = catSubcategory === "冷凍脫水系列";
-  const showCatSnacksZone = catSubcategory === "貓貓小食";
-  const showDogSnacksZone = dogSubcategory === "狗狗小食";
-  const showPillTreatsZone =
-    catSubcategory === "投藥餵藥專用小食" ||
-    dogSubcategory === "投藥餵藥專用小食";
-  const useListLayout =
-    showFreezeDriedZone ||
-    showCatSnacksZone ||
-    showDogSnacksZone ||
-    showPillTreatsZone;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
@@ -343,152 +157,8 @@ export function ProductCatalog({
         </nav>
       </details>
 
-      {isCats ? (
-        <div
-          role="tablist"
-          aria-label={t("catSubNavLabel")}
-          className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
-        >
-          <CategoryNavLink
-            href={categoryHref("cats")}
-            role="tab"
-            aria-selected={catSubcategory === null}
-            className={subChipClassName(catSubcategory === null)}
-          >
-            {t("catSubAll")}
-          </CategoryNavLink>
-          {CAT_SUBCATEGORIES.map((sub) => (
-            <CategoryNavLink
-              key={sub}
-              href={categorySubHref("cats", CAT_SUBCATEGORY_SLUG[sub])}
-              role="tab"
-              aria-selected={catSubcategory === sub}
-              className={subChipClassName(catSubcategory === sub)}
-            >
-              {t(CAT_SUB_LABEL_KEYS[sub])}
-            </CategoryNavLink>
-          ))}
-        </div>
-      ) : null}
-
-      {isDogs ? (
-        <div
-          role="tablist"
-          aria-label={t("dogSubNavLabel")}
-          className="scrollbar-none mb-6 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch] sm:mb-8"
-        >
-          <CategoryNavLink
-            href={categoryHref("dogs")}
-            role="tab"
-            aria-selected={dogSubcategory === null}
-            className={subChipClassName(dogSubcategory === null)}
-          >
-            {t("dogSubAll")}
-          </CategoryNavLink>
-          {DOG_SUBCATEGORIES.map((sub) => (
-            <CategoryNavLink
-              key={sub}
-              href={categorySubHref("dogs", DOG_SUBCATEGORY_SLUG[sub])}
-              role="tab"
-              aria-selected={dogSubcategory === sub}
-              className={subChipClassName(dogSubcategory === sub)}
-            >
-              {t(DOG_SUB_LABEL_KEYS[sub])}
-            </CategoryNavLink>
-          ))}
-        </div>
-      ) : null}
-
-      {showFreezeDriedZone ? (
-        <section
-          aria-label={t("catFreezeDriedZoneTitle")}
-          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
-        >
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
-            {t("catFreezeDriedZoneEyebrow")}
-          </p>
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
-            {t("catFreezeDriedZoneTitle")}
-          </h2>
-          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
-            {t("catFreezeDriedZoneSubtitle")}
-          </p>
-        </section>
-      ) : null}
-
-      {showCatSnacksZone ? (
-        <section
-          aria-label={t("catSnacksZoneTitle")}
-          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
-        >
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
-            {t("catSnacksZoneEyebrow")}
-          </p>
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
-            {t("catSnacksZoneTitle")}
-          </h2>
-          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
-            {t("catSnacksZoneSubtitle")}
-          </p>
-          <div
-            role="tablist"
-            aria-label={t("catSnackSeriesNavLabel")}
-            className="scrollbar-none mt-4 flex gap-2 overflow-x-auto overscroll-x-contain pb-1 [-webkit-overflow-scrolling:touch]"
-          >
-            <CategoryNavLink
-              href={catSnacksSeriesHref(null)}
-              role="tab"
-              aria-selected={catSnackSeries === null}
-              className={subChipClassName(catSnackSeries === null)}
-            >
-              {t("catSnackSeriesAll")}
-            </CategoryNavLink>
-            {CAT_SNACK_SERIES.map((series) => (
-              <CategoryNavLink
-                key={series}
-                href={catSnacksSeriesHref(CAT_SNACK_SERIES_SLUG[series])}
-                role="tab"
-                aria-selected={catSnackSeries === series}
-                className={subChipClassName(catSnackSeries === series)}
-              >
-                {t(CAT_SNACK_SERIES_LABEL_KEYS[series])}
-              </CategoryNavLink>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      {showDogSnacksZone ? (
-        <section
-          aria-label={t("dogSnacksZoneTitle")}
-          className="mb-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-4 sm:mb-8 sm:px-5"
-        >
-          <p className="text-xs font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
-            {t("dogSnacksZoneEyebrow")}
-          </p>
-          <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold text-[color:var(--ink)] sm:text-2xl">
-            {t("dogSnacksZoneTitle")}
-          </h2>
-          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-[color:var(--muted)]">
-            {t("dogSnacksZoneSubtitle")}
-          </p>
-        </section>
-      ) : null}
-
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
-      ) : useListLayout ? (
-        <ul className="flex flex-col gap-3 sm:gap-4">
-          {products.map((product) => (
-            <TreatListCard
-              key={product.id}
-              product={product}
-              locale={locale}
-              viewDetailsLabel={t("productViewDetails")}
-              soldOutLabel={t("productSoldOut")}
-            />
-          ))}
-        </ul>
       ) : (
         <ul className="grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
