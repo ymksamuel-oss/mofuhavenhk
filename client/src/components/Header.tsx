@@ -18,23 +18,23 @@ export default function Header() {
         <a href="/" className="group flex min-w-0 items-center gap-2.5">
           <img src="/manus-storage/IMG_1091_01330d38.JPG" alt="Mofu Haven 毛毛港 Logo" className="h-[42px] w-auto max-w-[52px] object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03]" />
           <div className="hidden min-w-0 sm:block">
-            <div className="flex items-baseline gap-1"><h1 className="text-lg font-bold text-foreground md:text-xl">毛毛港</h1><span className="text-xs font-semibold text-primary md:text-sm">Mofu Haven</span></div>
+            <div className="flex items-baseline gap-1"><h1 className="text-lg font-bold text-foreground md:text-xl">毛毛港</h1><span className="text-xs font-semibold text-[#8C6B53] md:text-sm">Mofu Haven</span></div>
             <p className="text-xs leading-none text-muted-foreground">日本寵物用品專門店</p>
           </div>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="主選單">
-          {navItems.map((item) => <a key={item.href} href={item.href} className="group relative text-sm font-medium text-foreground transition-colors duration-200 hover:text-primary">{item.label}<span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" /></a>)}
+          {navItems.map((item) => <a key={item.href} href={item.href} className="group relative text-sm font-medium text-foreground transition-colors duration-200 hover:text-[#8C6B53]">{item.label}<span className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#D3A87C] transition-all duration-300 group-hover:w-full" /></a>)}
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <a href="/?category=all#products" aria-label="搜尋及瀏覽商品" className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground transition-colors hover:bg-primary/10 hover:text-primary"><Search className="h-5 w-5" /></a>
-          <Button variant="ghost" size="icon" className="relative transition-colors hover:bg-primary/10" aria-label="購物車"><ShoppingCart className="h-5 w-5 text-foreground" /><span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">0</span></Button>
-          <button className="rounded-lg p-2 transition-colors hover:bg-primary/10 md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label="開啟選單" aria-expanded={isMenuOpen}>{isMenuOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}</button>
+          <a href="/?category=all#products" aria-label="搜尋及瀏覽商品" className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white"><Search className="h-5 w-5" /></a>
+          <Button variant="ghost" size="icon" className="relative rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white" aria-label="購物車"><ShoppingCart className="h-5 w-5" /><span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D3A87C] text-xs font-semibold text-white">0</span></Button>
+          <button className="rounded-full bg-[#FFFDF9] p-2 text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label="開啟選單" aria-expanded={isMenuOpen}>{isMenuOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}</button>
         </div>
       </div>
 
-      {isMenuOpen && <nav className="border-t border-border bg-white/90 backdrop-blur-sm md:hidden" aria-label="手機主選單"><div className="container flex flex-col gap-3 py-4">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="text-sm font-medium text-foreground transition-all hover:pl-2 hover:text-primary">{item.label}</a>)}</div></nav>}
+      {isMenuOpen && <nav className="border-t border-border bg-white/90 backdrop-blur-sm md:hidden" aria-label="手機主選單"><div className="container flex flex-col gap-3 py-4">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="text-sm font-medium text-foreground transition-all hover:pl-2 hover:text-[#8C6B53]">{item.label}</a>)}</div></nav>}
     </header>
   );
 }

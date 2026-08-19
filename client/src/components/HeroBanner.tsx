@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 /**
  * Hero Banner Component
@@ -48,18 +48,19 @@ export default function HeroBanner() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button
+              asChild
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 font-semibold"
+              className="bg-[#D3A87C] text-white hover:bg-[#C2976B] font-semibold shadow-md"
             >
-              立即選購 →
+              <a href="/?category=all#products">立即選購 →</a>
             </Button>
             <Button
+              asChild
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white/10"
+              className="border-[#F3E5D5] bg-transparent text-white hover:bg-[#D3A87C]/30 hover:text-white"
             >
-              <Play className="w-4 h-4 mr-2" />
-              觀看短片
+              <a href="/#about"><ArrowDown className="w-4 h-4 mr-2" />探索品牌故事</a>
             </Button>
           </div>
         </div>

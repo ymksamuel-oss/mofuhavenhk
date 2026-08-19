@@ -330,3 +330,21 @@
 [2026-08-19T08:02:04.606Z] [Auth] Missing session cookie
 [2026-08-19T08:06:49.586Z] 8:06:49 AM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
 [2026-08-19T08:09:21.455Z] 8:09:21 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T08:10:17.662Z] [Auth] Missing session cookie
+[2026-08-19T08:10:19.520Z] [Auth] Missing session cookie
+[2026-08-19T08:16:45.849Z] 8:16:45 AM [vite] (client) hmr update /src/components/ui/button.tsx, /src/index.css
+[2026-08-19T08:17:11.027Z] 8:17:11 AM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T08:17:22.335Z] 8:17:22 AM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T08:17:37.791Z] 8:17:37 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-19T08:17:45.146Z] 8:17:45 AM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
+[2026-08-19T08:20:35.905Z] 8:20:35 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T08:20:48.007Z] 8:20:48 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T08:21:05.568Z] 8:21:05 AM [vite] (client) hmr update /src/components/ErrorBoundary.tsx, /src/index.css
+[2026-08-19T08:22:31.545Z] 8:22:31 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-19T08:22:41.793Z] 8:22:41 AM [vite] (client) hmr update /src/components/SubBanner.tsx, /src/index.css
+[2026-08-19T08:22:54.452Z] [Auth] Missing session cookie
+[2026-08-19T08:23:10.233Z] [Auth] Missing session cookie
+[2026-08-19T08:23:24.482Z] [Auth] Missing session cookie
+[2026-08-19T08:23:36.728Z] [Auth] Missing session cookie
+[2026-08-19T08:23:52.004Z] [Auth] Missing session cookie
+[2026-08-19T08:25:18.086Z] 8:25:18 AM [vite] (client) hmr update /src/index.css

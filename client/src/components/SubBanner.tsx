@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
  */
 export default function SubBanner() {
   return (
-    <section className="relative py-12 md:py-24 overflow-hidden">
+    <section id="about" className="relative scroll-mt-20 py-12 md:py-24 overflow-hidden">
       {/* Decorative Background with Warm Glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
       <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none" />
@@ -72,7 +72,7 @@ export default function SubBanner() {
             <div className="pt-4">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
+                className="bg-[#D3A87C] text-white hover:bg-[#C2976B] font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
               >
                 為毛孩探索更多 →
                 <span className="ml-2 group-hover/btn:translate-x-1 transition-transform" />

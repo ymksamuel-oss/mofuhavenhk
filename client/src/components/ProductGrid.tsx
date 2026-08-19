@@ -3,9 +3,23 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import { normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
-import { ExternalLink, ImageOff, RefreshCw, Search, ShoppingBag, X } from "lucide-react";
+import { Backpack, Bone, Cat, Dog, Droplet, ExternalLink, Gamepad2, Heart, ImageOff, LayoutGrid, Rabbit, RefreshCw, Search, ShoppingBag, Tag, TrendingUp, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+
+const categoryIcons: Record<ProductCategory, typeof Cat> = {
+  all: LayoutGrid,
+  cats: Cat,
+  dogs: Dog,
+  treats: Bone,
+  "wet-cans": Droplet,
+  toys: Gamepad2,
+  supplements: Heart,
+  "small-pets": Rabbit,
+  deals: Tag,
+  bestsellers: TrendingUp,
+  outdoor: Backpack,
+};
 
 const categoryLabels: Record<ProductCategory, string> = {
   all: "全部商品",
@@ -159,11 +173,23 @@ export default function ProductGrid() {
         </form>
 
         <div className="mb-8 flex flex-wrap items-center gap-2">
-          {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => (
-            <Button key={category} type="button" size="sm" variant={filters.category === category ? "default" : "outline"} onClick={() => updateUrl({ category })}>
-              {categoryLabels[category]}
-            </Button>
-          ))}
+          {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
+            const CategoryIcon = categoryIcons[category];
+            const isActive = filters.category === category;
+            return (
+              <Button
+                key={category}
+                type="button"
+                size="sm"
+                variant={isActive ? "default" : "outline"}
+                className={`h-9 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
+                onClick={() => updateUrl({ category })}
+              >
+                <CategoryIcon className="h-3.5 w-3.5" />
+                {categoryLabels[category]}
+              </Button>
+            );
+          })}
           {hasFilter && <Button type="button" size="sm" variant="ghost" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}><X className="h-4 w-4" />清除篩選</Button>}
         </div>
 
@@ -175,7 +201,7 @@ export default function ProductGrid() {
 
         {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data?.products.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{productsQuery.data.products.map((product) => <Card key={product.id} className="group flex h-full min-h-[26rem] flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"><ProductImage src={product.image} alt={product.name} /><CardHeader className="gap-2 p-4"><h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3><p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p></CardHeader>{product.description && <CardContent className="flex-1 px-4 pb-2 pt-0"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}{!product.description && <div className="flex-1" />}<CardFooter className="mt-auto flex justify-center p-4 pt-2"><Button size="sm" className="h-9 w-auto max-w-full px-4 text-xs md:text-sm" disabled={!product.priceId || checkout.isPending} onClick={() => void handleBuy(product.priceId)}>{checkout.isPending ? "處理中…" : "查看及購買"}<ExternalLink className="h-3.5 w-3.5" /></Button></CardFooter></Card>)}</div>}
+        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{productsQuery.data.products.map((product) => <Card key={product.id} className="group flex h-full min-h-[26rem] flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"><ProductImage src={product.image} alt={product.name} /><CardHeader className="gap-2 p-4"><h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3><p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p></CardHeader>{product.description && <CardContent className="flex-1 px-4 pb-2 pt-0"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}{!product.description && <div className="flex-1" />}<CardFooter className="mt-auto flex justify-center p-4 pt-2"><Button size="sm" className="h-9 w-auto max-w-full px-4 text-xs md:text-sm" disabled={!product.priceId || checkout.isPending} onClick={() => void handleBuy(product.priceId)}>{checkout.isPending ? "處理中…" : "加入購物車"}<ExternalLink className="h-3.5 w-3.5" /></Button></CardFooter></Card>)}</div>}
       </div>
     </section>
   );
