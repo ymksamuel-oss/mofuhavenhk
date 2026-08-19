@@ -47,61 +47,61 @@
 
 :root {
   /* Mofu Haven: Japanese Healing Aesthetic */
-  /* Primary: Soft Green - Nature, Health, Life */
-  --primary: oklch(0.72 0.08 142);
+  /* Primary: Mofu Haven milk-tea brown */
+  --primary: #C2976B;
   --primary-foreground: oklch(0.98 0.001 0);
-  --sidebar-primary: oklch(0.68 0.08 140);
+  --sidebar-primary: #B28760;
   --sidebar-primary-foreground: oklch(0.98 0.001 0);
   
   /* Chart colors: Warm palette */
-  --chart-1: oklch(0.72 0.08 142);
-  --chart-2: oklch(0.65 0.08 120);
-  --chart-3: oklch(0.55 0.08 35);
-  --chart-4: oklch(0.75 0.06 70);
-  --chart-5: oklch(0.68 0.08 140);
+  --chart-1: #D3A87C;
+  --chart-2: #C2976B;
+  --chart-3: #8C6B53;
+  --chart-4: #EAD2B9;
+  --chart-5: #B28760;
   
   --radius: 0.75rem;
   
-  /* Background: Warm Cream */
-  --background: oklch(0.98 0.001 70);
-  --foreground: oklch(0.35 0.01 65);
+  /* Background: unified warm milky beige */
+  --background: #F3E5D5;
+  --foreground: #6F5645;
   
-  /* Card: Soft White */
-  --card: oklch(0.99 0.001 0);
-  --card-foreground: oklch(0.35 0.01 65);
+  /* Card: clean soft white surface */
+  --card: #FFFCF7;
+  --card-foreground: #6F5645;
   
-  /* Popover: Warm Cream */
-  --popover: oklch(0.98 0.001 70);
-  --popover-foreground: oklch(0.35 0.01 65);
+  /* Popover: clean soft white surface */
+  --popover: #FFFCF7;
+  --popover-foreground: #6F5645;
   
-  /* Secondary: Warm Brown */
-  --secondary: oklch(0.55 0.08 35);
-  --secondary-foreground: oklch(0.98 0.001 0);
+  /* Secondary: warm milk-tea accent */
+  --secondary: #D3A87C;
+  --secondary-foreground: #FFFFFF;
   
-  /* Muted: Soft Beige */
-  --muted: oklch(0.92 0.01 70);
-  --muted-foreground: oklch(0.55 0.02 65);
+  /* Muted: soft beige */
+  --muted: #EAD2B9;
+  --muted-foreground: #8C6B53;
   
-  /* Accent: Soft Green */
-  --accent: oklch(0.72 0.08 142);
-  --accent-foreground: oklch(0.98 0.001 0);
+  /* Accent: warm milk-tea */
+  --accent: #D3A87C;
+  --accent-foreground: #FFFFFF;
   
   /* Destructive: Warm Red */
   --destructive: oklch(0.62 0.18 25);
   --destructive-foreground: oklch(0.98 0.001 0);
   
-  /* Border: Light Beige */
-  --border: oklch(0.92 0.01 70);
-  --input: oklch(0.96 0.005 70);
-  --ring: oklch(0.72 0.08 142);
+  /* Border: soft milk-tea beige */
+  --border: #E1C8A9;
+  --input: #F7EEE5;
+  --ring: #D3A87C;
   
   /* Sidebar */
   --sidebar: oklch(0.99 0.001 0);
   --sidebar-foreground: oklch(0.35 0.01 65);
-  --sidebar-accent: oklch(0.72 0.08 142);
+  --sidebar-accent: #D3A87C;
   --sidebar-accent-foreground: oklch(0.98 0.001 0);
-  --sidebar-border: oklch(0.92 0.01 70);
-  --sidebar-ring: oklch(0.72 0.08 142);
+  --sidebar-border: #E1C8A9;
+  --sidebar-ring: #D3A87C;
 }
 
 .dark {
@@ -150,9 +150,8 @@
   
   body {
     @apply bg-background text-foreground;
-    background-image: url('/manus-storage/hero-pattern_018ec1c3.png');
-    background-attachment: fixed;
-    background-size: cover;
+    background-color: #F3E5D5;
+    background-image: none;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -210,6 +209,21 @@
   .flex {
     min-height: 0;
     min-width: 0;
+  }
+
+  .horizontal-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none;
   }
 
   @media (min-width: 640px) {
