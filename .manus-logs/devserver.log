@@ -122,3 +122,112 @@
 [2026-08-10T19:26:04.740Z] ➜  Network: http://169.254.0.21:3000/
 [2026-08-10T19:26:05.840Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-10T19:26:25.045Z] 7:26:25 PM [vite] (client) hmr update /src/index.css
+[2026-08-19T01:41:50.495Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:41:52.510Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:41:52.510Z] > vite --host
+[2026-08-19T01:41:53.017Z] VITE v7.1.9  ready in 463 ms
+[2026-08-19T01:41:53.017Z] ➜  Local:   http://localhost:3000/
+[2026-08-19T01:41:53.017Z] ➜  Network: http://169.254.0.21:3000/
+[2026-08-19T01:43:02.652Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:43:02.668Z] Dev server exited with code -1
+[2026-08-19T01:43:03.812Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:43:04.527Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:43:04.527Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:43:04.992Z] node:internal/modules/run_main:122
+[2026-08-19T01:43:04.992Z] triggerUncaughtException(
+[2026-08-19T01:43:04.992Z] ^
+[2026-08-19T01:43:04.993Z] Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dotenv' imported from /home/ubuntu/mofu-haven-website/server/_core/index.ts
+[2026-08-19T01:43:04.993Z] at packageResolve (node:internal/modules/esm/resolve:857:9)
+[2026-08-19T01:43:04.993Z] at moduleResolve (node:internal/modules/esm/resolve:926:18)
+[2026-08-19T01:43:04.993Z] at defaultResolve (node:internal/modules/esm/resolve:1056:11)
+[2026-08-19T01:43:04.993Z] at nextResolve (node:internal/modules/esm/hooks:748:28)
+[2026-08-19T01:43:04.993Z] at resolveBase (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787103784847:2:3744)
+[2026-08-19T01:43:04.993Z] at resolveDirectory (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787103784847:2:4243)
+[2026-08-19T01:43:04.993Z] at resolveTsPaths (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787103784847:2:4984)
+[2026-08-19T01:43:04.993Z] at async resolve (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787103784847:2:5355)
+[2026-08-19T01:43:04.993Z] at async nextResolve (node:internal/modules/esm/hooks:748:22)
+[2026-08-19T01:43:04.993Z] at async Hooks.resolve (node:internal/modules/esm/hooks:240:24) {
+[2026-08-19T01:43:04.993Z] code: 'ERR_MODULE_NOT_FOUND'
+[2026-08-19T01:43:04.993Z] }
+[2026-08-19T01:43:04.993Z] Node.js v22.13.0
+[2026-08-19T01:43:53.431Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:43:53.443Z] Dev server exited with code -1
+[2026-08-19T01:43:54.541Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:43:55.281Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:43:55.282Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:43:56.879Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:43:57.107Z] 1:43:57 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+[2026-08-19T01:43:57.129Z] Server running on http://localhost:3000/
+[2026-08-19T01:44:02.769Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T01:44:09.553Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:44:09.612Z] Dev server exited with code -1
+[2026-08-19T01:44:10.673Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:44:11.400Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:44:11.400Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:44:13.005Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:44:13.218Z] Server running on http://localhost:3000/
+[2026-08-19T01:44:13.279Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:44:13.351Z] Dev server exited with code -1
+[2026-08-19T01:44:14.396Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:44:15.112Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:44:15.112Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:44:16.649Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:44:16.858Z] Server running on http://localhost:3000/
+[2026-08-19T01:44:51.653Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:44:51.707Z] Dev server exited with code -1
+[2026-08-19T01:44:52.769Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:44:53.525Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:44:53.525Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:44:55.141Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:44:55.372Z] 1:44:55 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+[2026-08-19T01:44:55.400Z] Server running on http://localhost:3000/
+[2026-08-19T01:45:44.160Z] 1:45:44 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T01:45:45.736Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:45:45.953Z] Server running on http://localhost:3000/
+[2026-08-19T01:46:31.216Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:46:31.255Z] Dev server exited with code -1
+[2026-08-19T01:46:32.321Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:46:33.080Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:46:33.080Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:46:34.755Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:46:34.958Z] Server running on http://localhost:3000/
+[2026-08-19T01:47:34.969Z] ELIFECYCLE  Command failed.
+[2026-08-19T01:47:35.019Z] Dev server exited with code -1
+[2026-08-19T01:47:36.074Z] Starting dev server with command: pnpm run dev
+[2026-08-19T01:47:36.809Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T01:47:36.809Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T01:47:38.550Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T01:47:38.764Z] Server running on http://localhost:3000/
+[2026-08-19T01:47:55.048Z] [Auth] Missing session cookie
+[2026-08-19T02:41:26.287Z] ELIFECYCLE  Command failed.
+[2026-08-19T02:41:26.343Z] Dev server exited with code -1
+[2026-08-19T02:41:27.393Z] Starting dev server with command: pnpm run dev
+[2026-08-19T02:41:28.075Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T02:41:28.075Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T02:41:29.696Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T02:41:29.898Z] Server running on http://localhost:3000/
+[2026-08-19T03:05:39.407Z] 3:05:39 AM [tsx] change in ./server/stripeProducts.ts Restarting...
+[2026-08-19T03:05:41.094Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T03:05:41.320Z] Server running on http://localhost:3000/
+[2026-08-19T03:05:52.109Z] 3:05:52 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T03:05:53.752Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T03:05:53.957Z] Server running on http://localhost:3000/
+[2026-08-19T03:06:36.416Z] ELIFECYCLE  Command failed.
+[2026-08-19T03:06:36.451Z] Dev server exited with code -1
+[2026-08-19T03:06:37.521Z] Starting dev server with command: pnpm run dev
+[2026-08-19T03:06:38.223Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T03:06:38.223Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T03:06:39.807Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T03:06:40.012Z] Server running on http://localhost:3000/
+[2026-08-19T03:07:03.521Z] [Auth] Missing session cookie
+[2026-08-19T03:07:13.399Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T03:13:32.648Z] ELIFECYCLE  Command failed.
+[2026-08-19T03:13:32.707Z] Dev server exited with code -1
+[2026-08-19T03:13:33.754Z] Starting dev server with command: pnpm run dev
+[2026-08-19T03:13:34.492Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T03:13:34.492Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T03:13:36.136Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T03:13:36.351Z] Server running on http://localhost:3000/
+[2026-08-19T03:13:50.019Z] [Auth] Missing session cookie
+[2026-08-19T03:14:42.260Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T03:15:35.341Z] 3:15:35 AM [vite] (client) hmr update /src/index.css
