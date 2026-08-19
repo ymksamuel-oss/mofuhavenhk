@@ -157,7 +157,7 @@ function ProductImage({ src, alt, className = "" }: { src: string | null; alt: s
         alt={alt}
         loading="lazy"
         decoding="async"
-        className="h-full w-full object-contain p-4 transition-transform duration-300 md:p-6"
+        className="h-full w-full object-contain p-2.5 transition-transform duration-300 md:p-6"
         onError={() => setImageSrc((current) => current === PRODUCT_PLACEHOLDER ? current : PRODUCT_PLACEHOLDER)}
       />
       {imageSrc === PRODUCT_PLACEHOLDER && (
@@ -346,6 +346,12 @@ export default function ProductGrid() {
     updateUrl({ category: resolveSearchCategory(filters.category, query), q: query });
   };
 
+  const selectCategory = (category: ProductCategory) => {
+    setSearchInput("");
+    setDebouncedSearch("");
+    updateUrl({ category, q: "" });
+  };
+
   const { addItem } = useCart();
   const isProductsPage = window.location.pathname === "/products";
   const activeCategory = debouncedSearch.trim() ? "all" : filters.category;
@@ -396,7 +402,7 @@ export default function ProductGrid() {
                 const CategoryIcon = categoryIcons[category] ?? LayoutGrid;
                 const isActive = activeCatalogKey === category;
                 return (
-                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
+                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => selectCategory(category)}>
                     <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category] ?? category}
                   </Button>
                 );
@@ -408,7 +414,7 @@ export default function ProductGrid() {
                   const SubCategoryIcon = categoryIcons[subCatalog.key] ?? LayoutGrid;
                   const isActive = activeCategory === subCatalog.key;
                   return (
-                    <Button key={subCatalog.key} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-8 shrink-0 rounded-full px-2.5 text-[11px] md:text-xs ${isActive ? "bg-[#C2976B] text-white hover:bg-[#B28760]" : "border-[#D3A87C]/40 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category: subCatalog.key })}>
+                    <Button key={subCatalog.key} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-8 shrink-0 rounded-full px-2.5 text-[11px] md:text-xs ${isActive ? "bg-[#C2976B] text-white hover:bg-[#B28760]" : "border-[#D3A87C]/40 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => selectCategory(subCatalog.key)}>
                       <SubCategoryIcon className="h-3.5 w-3.5" />{subCatalog.label}
                     </Button>
                   );
@@ -441,20 +447,18 @@ export default function ProductGrid() {
                 aria-label={`查看 ${product.name} 商品詳情`}
                 onClick={() => setSelectedProduct(product as StoreProduct)}
                 onKeyDown={(event) => handleCardKeyDown(event, product as StoreProduct)}
-                className="group flex h-full min-h-[26rem] cursor-pointer flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C]"
+                className="group flex h-full min-h-0 cursor-pointer flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C] md:min-h-[21rem]"
               >
                 <ProductImage src={product.image} alt={product.name} />
-                <CardHeader className="gap-2 p-4 text-left">
-                  <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3>
-                  <p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#8C6B53]">查看商品詳情 <ArrowUpRight className="h-3.5 w-3.5" /></span>
+                <CardHeader className="gap-1.5 p-2.5 text-left md:p-4">
+                  <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-[#8C6B53] md:text-xs">{product.metadata.brand || product.metadata.brand_name || product.metadata.vendor || "Mofu Haven 精選"}</p>
+                  <h3 className="line-clamp-2 text-xs font-semibold leading-4 text-foreground md:text-base md:leading-5">{product.name}</h3>
+                  <p className="text-sm font-bold text-primary md:text-base">{formatPrice(product.unitAmount, product.currency)}</p>
                 </CardHeader>
-                {product.description && <CardContent className="flex-1 px-4 pb-2 pt-0 text-left"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}
-                {!product.description && <div className="flex-1" />}
-                <CardFooter className="mt-auto flex justify-center p-4 pt-2">
+                <CardFooter className="mt-auto flex justify-center p-2.5 pt-1.5 md:p-4 md:pt-2">
                   <Button
                     size="sm"
-                    className="h-9 w-auto max-w-full rounded-full px-4 text-xs md:text-sm"
+                    className="h-8 w-auto max-w-full rounded-full px-3 text-[11px] md:h-9 md:px-4 md:text-sm"
                     disabled={!product.priceId}
                     onClick={(event) => { event.stopPropagation(); handleAddToCart(product as StoreProduct); }}
                   >

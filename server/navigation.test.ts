@@ -30,7 +30,7 @@ describe("storefront navigation and pet world content", () => {
 
   it("keeps the restored cat breed and care guide content complete", () => {
     expect(catBreedGuides).toHaveLength(12);
-    expect(catBreedGuides.every((breed) => breed.name && breed.temperament && breed.care && breed.note)).toBe(true);
+    expect(catBreedGuides.every((breed) => breed.name && breed.image.startsWith("/manus-storage/") && breed.temperament && breed.care && breed.note)).toBe(true);
     expect(catCareGuides).toHaveLength(6);
     expect(catCareGuides.every((guide) => guide.title && guide.body)).toBe(true);
   });
