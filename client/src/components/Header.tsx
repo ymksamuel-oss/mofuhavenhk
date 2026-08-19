@@ -15,9 +15,9 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-sm backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between md:h-20">
-        <a href="/" className="group flex items-center gap-3">
-          <img src="/manus-storage/mofu-haven-logo_75fb6778.png" alt="Mofu Haven Logo" className="h-8 w-8 transition-transform duration-300 group-hover:scale-110 md:h-10 md:w-10" />
-          <div className="hidden sm:block">
+        <a href="/" className="group flex min-w-0 items-center gap-2.5">
+          <img src="/manus-storage/IMG_1091_01330d38.JPG" alt="Mofu Haven 毛毛港 Logo" className="h-[42px] w-auto max-w-[52px] object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03]" />
+          <div className="hidden min-w-0 sm:block">
             <div className="flex items-baseline gap-1"><h1 className="text-lg font-bold text-foreground md:text-xl">毛毛港</h1><span className="text-xs font-semibold text-primary md:text-sm">Mofu Haven</span></div>
             <p className="text-xs leading-none text-muted-foreground">日本寵物用品專門店</p>
           </div>
