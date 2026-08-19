@@ -5,6 +5,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { listStoreProducts } from "./stripeProducts";
+import { filterCatalogProducts, type ProductCategory } from "../shared/productCatalog";
 
 function getStripeClient(): Stripe {
   const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -14,6 +15,11 @@ function getStripeClient(): Stripe {
 
   return new Stripe(secretKey);
 }
+
+const productQueryInput = z.object({
+  category: z.enum(["all", "cats", "dogs", "treats", "wet-cans", "toys", "supplements", "cleaning", "deals", "bestsellers", "outdoor"]).optional(),
+  q: z.string().trim().max(120).optional(),
+}).optional();
 
 export const appRouter = router({
   system: systemRouter,
@@ -26,12 +32,18 @@ export const appRouter = router({
     }),
   }),
   store: router({
-    products: publicProcedure.query(async () => {
+    products: publicProcedure.input(productQueryInput).query(async ({ input }) => {
       const result = await listStoreProducts(getStripeClient());
+      const category = (input?.category ?? "all") as ProductCategory;
+      const query = input?.q ?? "";
+      const products = filterCatalogProducts(result.products, category, query);
+
       return {
-        products: result.products,
-        total: result.products.length,
+        products,
+        total: products.length,
+        totalAvailable: result.products.length,
         source: result.source,
+        filter: { category, q: query },
       };
     }),
     checkout: publicProcedure

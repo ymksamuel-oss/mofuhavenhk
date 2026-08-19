@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type Stripe from "stripe";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
+import { filterCatalogProducts, normalizeProductCategories } from "../shared/productCatalog";
 import { selectProductPrice, toStoreProduct } from "./stripeProducts";
 
 function product(overrides: Partial<Stripe.Product> = {}): Stripe.Product {
@@ -86,5 +87,26 @@ describe("Stripe store product mapping", () => {
     expect(stripeProductsSnapshot.every((item) => item.active && item.priceId && item.images.length > 0)).toBe(true);
     expect(stripeProductsSnapshot.some((item) => item.metadata.category === "cats")).toBe(true);
     expect(stripeProductsSnapshot.some((item) => item.metadata.category === "dogs")).toBe(true);
+  });
+
+  it("normalizes mixed metadata for cat food, treats, and wet cans", () => {
+    const catProducts = filterCatalogProducts(stripeProductsSnapshot, "cats");
+    const treats = filterCatalogProducts(stripeProductsSnapshot, "treats");
+    const wetCans = filterCatalogProducts(stripeProductsSnapshot, "wet-cans");
+
+    expect(catProducts.length).toBeGreaterThan(0);
+    expect(treats.length).toBeGreaterThan(0);
+    expect(wetCans).toHaveLength(9);
+    expect(wetCans.every((item) => /(罐罐|罐頭|濕糧|濕食|鮮肉杯|wet|canned)/i.test(item.name))).toBe(true);
+    expect(wetCans.some((item) => item.name.includes("CIAO 貓罐罐"))).toBe(true);
+    expect(wetCans.some((item) => item.name.includes("1兆個乳酸菌乾糧"))).toBe(false);
+    expect(wetCans.some((item) => item.name.includes("冷凍脫水"))).toBe(false);
+    expect(normalizeProductCategories(catProducts[0]!)).toContain("cats");
+  });
+
+  it("matches product search terms across names and metadata", () => {
+    const results = filterCatalogProducts(stripeProductsSnapshot, "all", "CIAO");
+    expect(results.length).toBeGreaterThan(0);
+    expect(results.every((item) => item.name.includes("CIAO") || Object.values(item.metadata).some((value) => value.includes("CIAO")))).toBe(true);
   });
 });
