@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
-import { filterCatalogProducts, normalizeProductCategories, normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "../shared/productCatalog";
+import { canonicalCatalogFields, filterCatalogProducts, normalizeProductCategories, normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "../shared/productCatalog";
+import { catalogHierarchy, getParentCatalogKey } from "../shared/catalogHierarchy";
 
 describe("product category mapping", () => {
   it("migrates the legacy cleaning category to small-pets", () => {
@@ -18,6 +19,14 @@ describe("product category mapping", () => {
     const outdoorCatResults = filterCatalogProducts(stripeProductsSnapshot, "outdoor", "貓");
     expect(allCatResults.length).toBeGreaterThan(outdoorCatResults.length);
     expect(allCatResults.length).toBeGreaterThan(0);
+  });
+
+  it("normalizes legacy labels to the canonical catalog and sub-catalog keys", () => {
+    expect(normalizeRequestedCategory("cats")).toBe("cat");
+    expect(normalizeRequestedCategory("dogs")).toBe("dog");
+    expect(normalizeRequestedCategory("cat-cans")).toBe("cat-wet-food");
+    expect(normalizeRequestedCategory("貓咪罐罐")).toBe("cat-wet-food");
+    expect(normalizeRequestedCategory("cat-treats")).toBe("cat-treats");
   });
 
   it("normalizes pet-snack labels to the canonical treats category", () => {
@@ -54,7 +63,32 @@ describe("product category mapping", () => {
     expect(chickenResults.some((product) => product.id === chickenRelatedProduct!.id)).toBe(true);
   });
 
-  it("keeps every category button mapped to a valid result set", () => {
+  it("assigns every snapshot product to one requested catalog and sub-catalog", () => {
+    const expectedSubCatalogs = catalogHierarchy.flatMap((catalog) => catalog.subCatalogs.map((subCatalog) => subCatalog.key));
+    for (const product of stripeProductsSnapshot) {
+      const assignment = canonicalCatalogFields(product);
+      expect(["cat", "dog", "small-pets"]).toContain(assignment.category);
+      expect(expectedSubCatalogs).toContain(assignment.sub_category);
+      expect(getParentCatalogKey(assignment.sub_category)).toBe(assignment.category);
+    }
+  });
+
+  it("filters by a main catalog and then by its exact sub-catalog", () => {
+    const catProducts = filterCatalogProducts(stripeProductsSnapshot, "cat");
+    const catWetFood = filterCatalogProducts(stripeProductsSnapshot, "cat-wet-food");
+    const dogTreats = filterCatalogProducts(stripeProductsSnapshot, "dog-treats");
+    const smallPetSupplies = filterCatalogProducts(stripeProductsSnapshot, "small-pet-supplies");
+
+    expect(catProducts.length).toBeGreaterThan(catWetFood.length);
+    expect(catWetFood.length).toBeGreaterThan(0);
+    expect(dogTreats.length).toBeGreaterThan(0);
+    expect(smallPetSupplies.length).toBeGreaterThan(0);
+    expect(catWetFood.every((product) => canonicalCatalogFields(product).sub_category === "cat-wet-food")).toBe(true);
+    expect(dogTreats.every((product) => canonicalCatalogFields(product).sub_category === "dog-treats")).toBe(true);
+    expect(smallPetSupplies.every((product) => canonicalCatalogFields(product).sub_category === "small-pet-supplies")).toBe(true);
+  });
+
+  it("keeps every legacy category button mapped to a valid result set", () => {
     const categories: ProductCategory[] = ["all", "cats", "dogs", "treats", "wet-cans", "toys", "supplements", "small-pets", "deals", "bestsellers", "outdoor"];
     const expectedNonEmpty = new Set<ProductCategory>(["all", "cats", "dogs", "treats", "wet-cans", "supplements", "small-pets", "bestsellers", "outdoor"]);
 
@@ -92,11 +126,14 @@ describe("product category mapping", () => {
     expect(smallPetProducts).toHaveLength(6);
   });
 
-  it("keeps the wet-cans filter populated with the cat cans", () => {
+  it("keeps the wet-cans alias populated with canonical cat wet food", () => {
     const wetCanProducts = filterCatalogProducts(stripeProductsSnapshot, "wet-cans");
+    const canonicalWetFood = filterCatalogProducts(stripeProductsSnapshot, "cat-wet-food");
 
-    expect(wetCanProducts).toHaveLength(9);
+    expect(wetCanProducts).toHaveLength(canonicalWetFood.length);
+    expect(wetCanProducts.length).toBeGreaterThan(0);
     expect(wetCanProducts.some((product) => product.name.includes("CIAO 貓罐罐"))).toBe(true);
+    expect(wetCanProducts.every((product) => canonicalCatalogFields(product).sub_category === "cat-wet-food")).toBe(true);
   });
 
   it("does not classify food as small pets because its description mentions deodorizing", () => {

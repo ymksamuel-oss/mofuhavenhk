@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
+import { canonicalCatalogFields } from "../shared/productCatalog";
 
 export type StoreProduct = {
   id: string;
@@ -11,12 +12,20 @@ export type StoreProduct = {
   unitAmount: number | null;
   currency: string | null;
   active: boolean;
+  category: string;
+  sub_category: string;
   metadata: Record<string, string>;
 };
 
 export type ProductSource = "stripe" | "mcp-live-snapshot";
 
 const knownUnavailableProductImage = /^https?:\/\/mofuhavenhk\.com\/(?:images\/products|products)\//i;
+
+function sanitizeMetadata(metadata: Stripe.Metadata | Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(metadata ?? {}).filter(([, value]) => typeof value === "string"),
+  ) as Record<string, string>;
+}
 
 export function sanitizeProductImages(images: string[]): string[] {
   return images.filter((image) => {
@@ -52,6 +61,8 @@ export function toStoreProduct(
 ): StoreProduct {
   const price = selectProductPrice(product, activePrices);
   const images = sanitizeProductImages(product.images.filter(Boolean));
+  const rawMetadata = sanitizeMetadata(product.metadata ?? {});
+  const catalogFields = canonicalCatalogFields({ name: product.name, description: product.description, metadata: rawMetadata });
 
   return {
     id: product.id,
@@ -63,11 +74,14 @@ export function toStoreProduct(
     unitAmount: price?.unit_amount ?? null,
     currency: price?.currency ?? null,
     active: product.active,
-    metadata: product.metadata ?? {},
+    ...catalogFields,
+    metadata: { ...rawMetadata, ...catalogFields, parent_category: catalogFields.category },
   };
 }
 
 function snapshotToStoreProduct(product: (typeof stripeProductsSnapshot)[number]): StoreProduct {
+  const catalogFields = canonicalCatalogFields({ name: product.name, description: product.description, metadata: product.metadata });
+
   return {
     id: product.id,
     name: product.name,
@@ -78,7 +92,8 @@ function snapshotToStoreProduct(product: (typeof stripeProductsSnapshot)[number]
     unitAmount: product.unitAmount,
     currency: product.currency,
     active: product.active,
-    metadata: product.metadata,
+    ...catalogFields,
+    metadata: { ...product.metadata, ...catalogFields, parent_category: catalogFields.category },
   };
 }
 

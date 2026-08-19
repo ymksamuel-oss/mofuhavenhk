@@ -94,8 +94,13 @@ describe("Stripe store product mapping", () => {
       unitAmount: 8800,
       currency: "hkd",
       active: true,
-      metadata: { category: "cat" },
+      category: "cat",
+      sub_category: "cat-treats",
+      metadata: { category: "cat", sub_category: "cat-treats", parent_category: "cat" },
     });
+    expect(mapped.category).toBe("cat");
+    expect(mapped.sub_category).toBe("cat-treats");
+    expect(mapped.metadata.sub_category).toBe("cat-treats");
   });
 
   it("contains the MCP-verified Live storefront inventory", () => {
@@ -112,7 +117,7 @@ describe("Stripe store product mapping", () => {
 
     expect(catProducts.length).toBeGreaterThan(0);
     expect(treats.length).toBeGreaterThan(0);
-    expect(wetCans).toHaveLength(9);
+    expect(wetCans).toHaveLength(8);
     expect(wetCans.every((item) => /(罐罐|罐頭|濕糧|濕食|鮮肉杯|wet|canned)/i.test(item.name))).toBe(true);
     expect(wetCans.some((item) => item.name.includes("CIAO 貓罐罐"))).toBe(true);
     expect(wetCans.some((item) => item.name.includes("1兆個乳酸菌乾糧"))).toBe(false);

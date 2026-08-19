@@ -19,7 +19,7 @@ export default function CheckoutReturn() {
             {isSuccess ? "Stripe 已將你帶回 Mofu Haven。若使用 AlipayHK 或 WeChat Pay，最終付款狀態會以 Stripe Dashboard 及付款通知為準。" : "今次付款未完成，你可以返回商品頁繼續購物，購物車內容會保留。"}
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><a href="/products?category=all"><ShoppingBag className="h-4 w-4" />繼續購物</a></Button>
+            <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><a href="/products"><ShoppingBag className="h-4 w-4" />繼續購物</a></Button>
             <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/50 text-[#8C6B53] hover:bg-[#F3E5D5]"><a href="/">返回首頁</a></Button>
           </div>
         </section>

@@ -1,36 +1,39 @@
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
+  Backpack,
+  Bone,
   Cat,
   Dog,
-  Bone,
+  Droplet,
   Gamepad2,
   Heart,
-  Droplet,
-  Tag,
-  TrendingUp,
-  Backpack,
+  LayoutGrid,
   Rabbit,
+  Sparkles,
 } from "lucide-react";
-import { storefrontCategories } from "@shared/categoryNavigation";
+import { catalogHierarchy, type CatalogKey, type SubCatalogKey } from "@shared/catalogHierarchy";
 
-const categoryIcons = {
-  cats: Cat,
-  dogs: Dog,
+const categoryIcons: Record<CatalogKey, typeof Cat> = {
+  cat: Cat,
+  dog: Dog,
   "small-pets": Rabbit,
-  treats: Bone,
-  "wet-cans": Droplet,
-  toys: Gamepad2,
-  supplements: Heart,
-  deals: Tag,
-  bestsellers: TrendingUp,
-  outdoor: Backpack,
-} as const;
+};
 
-const categories = storefrontCategories.map((category) => ({
-  ...category,
-  icon: categoryIcons[category.slug],
-}));
+const subCatalogIcons: Record<SubCatalogKey, typeof Cat> = {
+  "cat-wet-food": Droplet,
+  "cat-dry-food": LayoutGrid,
+  "cat-litter": Sparkles,
+  "cat-treats": Bone,
+  "cat-supplies": Heart,
+  "dog-wet-food": Droplet,
+  "dog-dry-food": LayoutGrid,
+  "dog-treats": Bone,
+  "dog-supplies": Heart,
+  "small-pet-food": LayoutGrid,
+  "small-pet-treats": Bone,
+  "small-pet-supplies": Backpack,
+};
 
 export default function CategoryGrid() {
   return (
@@ -42,21 +45,20 @@ export default function CategoryGrid() {
         <div className="mb-2 hidden text-center md:mb-5 md:block">
           <h2 className="text-2xl font-bold text-foreground md:text-3xl">寵物分類導覽</h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-foreground/70 md:text-base">
-            為毛孩慢慢挑選心水商品，每一件都是我們精心把關的好物。
+            先選擇毛孩種類，再按需要挑選主食、零食或日常用品。
           </p>
         </div>
 
-        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {categories.map((category) => {
-            const Icon = category.icon;
+        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類">
+          {catalogHierarchy.map((category) => {
+            const Icon = categoryIcons[category.key];
             return (
-              <a key={category.slug} href={`/products?category=${category.slug}`} className="group shrink-0 snap-start">
-                <Card className="flex h-9 min-h-9 w-max cursor-pointer flex-row items-center justify-center gap-1.5 rounded-full border border-[#D3A87C]/55 bg-[#FFFDF9]/95 px-2.5 text-center shadow-[0_5px_16px_rgba(140,107,83,0.08)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C9A47C] hover:bg-[#F3E5D5] hover:shadow-[0_8px_20px_rgba(140,107,83,0.15)]">
+              <a key={category.key} href={`/products?category=${category.key}`} className="group shrink-0 snap-start">
+                <Card className="flex h-10 min-h-10 w-max cursor-pointer flex-row items-center justify-center gap-1.5 rounded-full border border-[#D3A87C]/55 bg-[#FFFDF9]/95 px-3 text-center shadow-[0_5px_16px_rgba(140,107,83,0.08)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C9A47C] hover:bg-[#F3E5D5] hover:shadow-[0_8px_20px_rgba(140,107,83,0.15)]">
                   <div className="relative flex shrink-0 items-center justify-center rounded-full border border-[#D3A87C]/35 bg-[#F3E5D5] p-1 transition-all duration-200 group-hover:bg-[#EAD2B9]">
-                    <div className="pointer-events-none absolute inset-0 rounded-full bg-[#D3A87C]/25 blur-md opacity-0 transition-opacity group-hover:opacity-100" />
                     <Icon className="relative z-10 h-4 w-4 text-[#8C6B53]" />
                   </div>
-                  <h3 className="mb-0 whitespace-nowrap text-[11px] font-semibold text-[#6F5645] transition-colors group-hover:text-[#8C6B53]">
+                  <h3 className="mb-0 whitespace-nowrap text-xs font-semibold text-[#6F5645] transition-colors group-hover:text-[#8C6B53]">
                     {category.label}
                   </h3>
                 </Card>
@@ -65,9 +67,23 @@ export default function CategoryGrid() {
           })}
         </div>
 
+        <div className="mt-1 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類">
+          {catalogHierarchy.flatMap((category) => category.subCatalogs).map((subCatalog) => {
+            const Icon = subCatalogIcons[subCatalog.key];
+            return (
+              <a key={subCatalog.key} href={`/products?category=${subCatalog.key}`} className="group shrink-0 snap-start">
+                <Card className="flex h-8 min-h-8 w-max cursor-pointer flex-row items-center gap-1 rounded-full border border-[#D3A87C]/35 bg-[#FFFDF9]/80 px-2.5 text-center transition-all duration-200 hover:border-[#C9A47C] hover:bg-[#F3E5D5]">
+                  <Icon className="h-3.5 w-3.5 text-[#8C6B53]" />
+                  <span className="whitespace-nowrap text-[11px] font-medium text-[#6F5645]">{subCatalog.label}</span>
+                </Card>
+              </a>
+            );
+          })}
+        </div>
+
         <div className="mt-3 hidden text-center md:mt-8 md:block">
           <Button asChild size="lg" className="rounded-full bg-[#C9A47C] px-7 font-semibold text-white shadow-[0_8px_20px_rgba(140,107,83,0.18)] transition-all duration-300 hover:bg-[#8C6B53] hover:shadow-[0_12px_26px_rgba(140,107,83,0.24)]">
-            <a href="/products?category=all">為毛孩繼續選購 →</a>
+            <a href="/products">查看商品目錄 →</a>
           </Button>
         </div>
       </div>

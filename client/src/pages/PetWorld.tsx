@@ -74,7 +74,7 @@ export default function PetWorld() {
             </div>
             <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-6 text-muted-foreground">本頁為一般照顧資訊，不能取代獸醫的個別診斷或治療建議。如貓咪出現持續或明顯異常，請盡快向合資格獸醫查詢。</p>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><Link href="/products?category=cats">瀏覽貓咪商品</Link></Button>
+              <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><Link href="/products?category=cat">瀏覽貓咪商品</Link></Button>
               <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F3E5D5]"><Link href="/"><ArrowLeft className="h-4 w-4" />返回首頁</Link></Button>
             </div>
           </div>

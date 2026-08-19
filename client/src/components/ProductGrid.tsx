@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
-import { filterCatalogProducts, normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
-import { storefrontCategories, type StorefrontCategory } from "@shared/categoryNavigation";
+import { filterCatalogProducts, getSubCatalogs, normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
+import { storefrontCategories } from "@shared/categoryNavigation";
+import { isCatalogKey, type CatalogKey, type SubCatalogKey } from "@shared/catalogHierarchy";
 import {
   ArrowUpRight,
   Backpack,
@@ -28,6 +29,7 @@ import {
   RefreshCw,
   Search,
   ShoppingBag,
+  Sparkles,
   Tag,
   TrendingUp,
   X,
@@ -48,34 +50,64 @@ type StoreProduct = {
   unitAmount: number | null;
   currency: string | null;
   active: boolean;
+  category: string;
+  sub_category: string;
   metadata: Record<string, string>;
 };
 
-const categoryIcons: Record<ProductCategory, typeof Cat> = {
+const categoryIcons: Partial<Record<ProductCategory, typeof Cat>> = {
   all: LayoutGrid,
+  cat: Cat,
+  dog: Dog,
+  "small-pets": Rabbit,
   cats: Cat,
   dogs: Dog,
   treats: Bone,
   "wet-cans": Droplet,
   toys: Gamepad2,
   supplements: Heart,
-  "small-pets": Rabbit,
+  "cat-wet-food": Droplet,
+  "cat-dry-food": LayoutGrid,
+  "cat-litter": Sparkles,
+  "cat-treats": Bone,
+  "cat-supplies": Heart,
+  "dog-wet-food": Droplet,
+  "dog-dry-food": LayoutGrid,
+  "dog-treats": Bone,
+  "dog-supplies": Heart,
+  "small-pet-food": LayoutGrid,
+  "small-pet-treats": Bone,
+  "small-pet-supplies": Backpack,
   deals: Tag,
   bestsellers: TrendingUp,
   outdoor: Backpack,
 };
 
-const compactCategories: StorefrontCategory[] = ["cats", "dogs", "small-pets", "treats"];
+const compactCategories: CatalogKey[] = ["cat", "dog", "small-pets"];
 
-const categoryLabels: Record<ProductCategory, string> = {
+const categoryLabels: Partial<Record<ProductCategory, string>> = {
   all: "全部商品",
+  cat: "貓咪商品",
+  dog: "狗狗商品",
+  "small-pets": "小寵物商品",
   cats: "貓咪商品",
   dogs: "狗狗商品",
   treats: "寵物零食",
   "wet-cans": "貓咪罐罐",
   toys: "寵物玩具",
   supplements: "營養保健",
-  "small-pets": "小寵物商品",
+  "cat-wet-food": "貓罐頭／濕糧",
+  "cat-dry-food": "乾糧／主食糧",
+  "cat-litter": "貓砂／清潔用品",
+  "cat-treats": "貓咪零食／凍乾",
+  "cat-supplies": "用品／玩具／保健",
+  "dog-wet-food": "狗狗罐頭／濕糧",
+  "dog-dry-food": "乾糧／主食糧",
+  "dog-treats": "狗狗零食／骨頭",
+  "dog-supplies": "用品／玩具／保健",
+  "small-pet-food": "主食／牧草",
+  "small-pet-treats": "零食／點心",
+  "small-pet-supplies": "墊材／用品",
   deals: "限時優惠",
   bestsellers: "熱賣商品",
   outdoor: "外出用品",
@@ -317,6 +349,8 @@ export default function ProductGrid() {
   const { addItem } = useCart();
   const isProductsPage = window.location.pathname === "/products";
   const activeCategory = debouncedSearch.trim() ? "all" : filters.category;
+  const activeCatalogKey: CatalogKey | null = isCatalogKey(activeCategory) ? activeCategory : null;
+  const activeSubCatalogs = activeCatalogKey ? getSubCatalogs(activeCatalogKey) : [];
   const visibleProducts = useMemo(
     () => filterCatalogProducts(productsQuery.data?.products ?? [], activeCategory, debouncedSearch),
     [productsQuery.data?.products, activeCategory, debouncedSearch],
@@ -357,28 +391,30 @@ export default function ProductGrid() {
 
         {isProductsPage && (
           <>
-            <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="mb-2 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類篩選">
               {compactCategories.map((category) => {
-                const CategoryIcon = categoryIcons[category];
-                const isActive = activeCategory === category;
+                const CategoryIcon = categoryIcons[category] ?? LayoutGrid;
+                const isActive = activeCatalogKey === category;
                 return (
-                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
-                    <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
+                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
+                    <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category] ?? category}
                   </Button>
                 );
               })}
             </div>
-            <div className="mb-3 hidden items-center gap-2 overflow-x-auto pb-1 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {storefrontCategories.map(({ slug: category }) => {
-                const CategoryIcon = categoryIcons[category];
-                const isActive = activeCategory === category;
-                return (
-                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
-                    <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
-                  </Button>
-                );
-              })}
-            </div>
+            {activeSubCatalogs.length > 0 && (
+              <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類篩選">
+                {activeSubCatalogs.map((subCatalog) => {
+                  const SubCategoryIcon = categoryIcons[subCatalog.key] ?? LayoutGrid;
+                  const isActive = activeCategory === subCatalog.key;
+                  return (
+                    <Button key={subCatalog.key} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-8 shrink-0 rounded-full px-2.5 text-[11px] md:text-xs ${isActive ? "bg-[#C2976B] text-white hover:bg-[#B28760]" : "border-[#D3A87C]/40 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category: subCatalog.key })}>
+                      <SubCategoryIcon className="h-3.5 w-3.5" />{subCatalog.label}
+                    </Button>
+                  );
+                })}
+              </div>
+            )}
           </>
         )}
 

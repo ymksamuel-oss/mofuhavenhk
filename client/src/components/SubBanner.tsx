@@ -75,7 +75,7 @@ export default function SubBanner() {
                 size="lg"
                 className="bg-[#D3A87C] text-white hover:bg-[#C2976B] font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
               >
-                <a href="/?category=all#products">
+                <a href="/products">
                   為毛孩探索更多 →
                   <span className="ml-2 inline-block transition-transform group-hover/btn:translate-x-1" />
                 </a>
