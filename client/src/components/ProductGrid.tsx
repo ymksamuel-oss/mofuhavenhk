@@ -1,11 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import { normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
-import { Backpack, Bone, Cat, Dog, Droplet, ExternalLink, Gamepad2, Heart, ImageOff, LayoutGrid, Rabbit, RefreshCw, Search, ShoppingBag, Tag, TrendingUp, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Backpack,
+  Bone,
+  Cat,
+  Dog,
+  Droplet,
+  ExternalLink,
+  Gamepad2,
+  Heart,
+  ImageOff,
+  LayoutGrid,
+  Maximize2,
+  Rabbit,
+  RefreshCw,
+  Search,
+  ShoppingBag,
+  Tag,
+  TrendingUp,
+  X,
+} from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+
+const PRODUCT_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
+
+type StoreProduct = {
+  id: string;
+  name: string;
+  description: string | null;
+  image: string | null;
+  images: string[];
+  priceId: string | null;
+  unitAmount: number | null;
+  currency: string | null;
+  active: boolean;
+  metadata: Record<string, string>;
+};
 
 const categoryIcons: Record<ProductCategory, typeof Cat> = {
   all: LayoutGrid,
@@ -65,34 +108,157 @@ function ProductSkeleton() {
   );
 }
 
-function ProductImage({ src, alt }: { src: string | null; alt: string }) {
-  const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const failed = !src || failedSrc === src;
+function ProductImage({ src, alt, className = "" }: { src: string | null; alt: string; className?: string }) {
+  const [imageSrc, setImageSrc] = useState(src || PRODUCT_PLACEHOLDER);
+
+  useEffect(() => {
+    setImageSrc(src || PRODUCT_PLACEHOLDER);
+  }, [src]);
 
   return (
-    <div className="relative flex aspect-square items-center justify-center overflow-hidden border-b border-border/60 bg-[#f5f0eb]">
-      {!failed && src ? (
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.02] md:p-6"
-          onError={() => setFailedSrc(src)}
-        />
-      ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-2 px-4 text-center text-muted-foreground" role="img" aria-label={`${alt} 圖片暫時不可用`}>
-          <ImageOff className="h-8 w-8 text-primary/45" />
-          <span className="text-xs">圖片暫時不可用</span>
-        </div>
+    <div className={`relative flex aspect-square items-center justify-center overflow-hidden border-b border-border/60 bg-[#f5f0eb] ${className}`}>
+      <img
+        src={imageSrc}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        className="h-full w-full object-contain p-4 transition-transform duration-300 md:p-6"
+        onError={() => setImageSrc((current) => current === PRODUCT_PLACEHOLDER ? current : PRODUCT_PLACEHOLDER)}
+      />
+      {imageSrc === PRODUCT_PLACEHOLDER && (
+        <span className="pointer-events-none absolute bottom-3 inline-flex items-center gap-1 rounded-full bg-white/85 px-3 py-1 text-xs text-[#8C6B53] shadow-sm">
+          <ImageOff className="h-3.5 w-3.5" />圖片暫時不可用
+        </span>
       )}
     </div>
+  );
+}
+
+function ProductDetailModal({
+  product,
+  open,
+  onOpenChange,
+  onBuy,
+  isCheckoutPending,
+}: {
+  product: StoreProduct | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onBuy: (priceId: string | null) => void;
+  isCheckoutPending: boolean;
+}) {
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    const firstImage = product?.image ?? product?.images[0] ?? null;
+    setActiveImage(firstImage);
+    setLightboxOpen(false);
+  }, [product]);
+
+  if (!product) return null;
+
+  const gallery = Array.from(new Set([product.image, ...product.images].filter(Boolean))) as string[];
+  const currentImage = activeImage ?? gallery[0] ?? null;
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-h-[92vh] max-w-4xl overflow-y-auto border-[#D3A87C]/25 bg-[#FFFDF9] p-5 sm:p-7">
+          <DialogHeader className="pr-8 text-left">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8C6B53]">Mofu Haven 商品詳情</p>
+            <DialogTitle className="text-xl leading-8 text-foreground md:text-2xl">{product.name}</DialogTitle>
+            <DialogDescription className="text-sm leading-6 text-muted-foreground">
+              {product.description || "這件商品的詳細介紹正在整理中，請以結帳頁顯示的資料為準。"}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-6 md:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] md:items-start">
+            <div>
+              <button
+                type="button"
+                className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-border/70 bg-[#f5f0eb] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C]"
+                onClick={() => setLightboxOpen(true)}
+                aria-label={`放大查看 ${product.name} 商品圖片`}
+              >
+                <ProductImage src={currentImage} alt={product.name} className="border-0 bg-transparent" />
+                <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[#8C6B53] shadow-sm transition-transform group-hover:scale-[1.03]">
+                  <Maximize2 className="h-4 w-4" />放大查看
+                </span>
+              </button>
+
+              {gallery.length > 1 && (
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="商品圖片選擇">
+                  {gallery.map((image, index) => (
+                    <button
+                      key={image}
+                      type="button"
+                      onClick={() => setActiveImage(image)}
+                      className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border bg-[#f5f0eb] ${currentImage === image ? "border-[#D3A87C] ring-2 ring-[#D3A87C]/25" : "border-border/70"}`}
+                      aria-label={`查看第 ${index + 1} 張商品圖片`}
+                    >
+                      <img src={image} alt="" className="h-full w-full object-contain p-1" onError={(event) => { event.currentTarget.src = PRODUCT_PLACEHOLDER; }} />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex min-h-full flex-col rounded-2xl border border-primary/15 bg-white/70 p-5">
+              <p className="text-2xl font-bold text-[#8C6B53]">{formatPrice(product.unitAmount, product.currency)}</p>
+              <div className="mt-5 space-y-4">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">詳細介紹</h3>
+                  <p className="mt-2 whitespace-pre-line text-sm leading-7 text-muted-foreground">
+                    {product.description || "目前沒有額外商品介紹。你可以先查看商品名稱及價格，或聯絡我們了解更多資料。"}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">商品狀態</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{product.active ? "目前可購買" : "目前暫停供應"}</p>
+                </div>
+              </div>
+
+              <DialogFooter className="mt-auto pt-7 sm:justify-start">
+                <Button
+                  type="button"
+                  className="w-full rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"
+                  disabled={!product.priceId || isCheckoutPending}
+                  onClick={() => onBuy(product.priceId)}
+                >
+                  {isCheckoutPending ? "處理中…" : "加入購物車"}
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              </DialogFooter>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+        <DialogContent className="max-w-6xl border-white/10 bg-black/90 p-3 sm:p-5" aria-describedby={undefined}>
+          <DialogHeader className="sr-only">
+            <DialogTitle>放大查看：{product.name}</DialogTitle>
+          </DialogHeader>
+          <div className="flex max-h-[82vh] items-center justify-center overflow-hidden rounded-xl bg-black/30">
+            <img
+              src={currentImage || PRODUCT_PLACEHOLDER}
+              alt={`${product.name} 大圖`}
+              className="max-h-[80vh] w-full object-contain"
+              onError={(event) => { event.currentTarget.src = PRODUCT_PLACEHOLDER; }}
+            />
+          </div>
+          <DialogDescription className="text-center text-xs text-white/70">點擊右上角關閉圖片放大檢視</DialogDescription>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
 export default function ProductGrid() {
   const [filters, setFilters] = useState(getUrlFilters);
   const [searchInput, setSearchInput] = useState(filters.q);
+  const [selectedProduct, setSelectedProduct] = useState<StoreProduct | null>(null);
   const input = useMemo(() => ({ category: filters.category, q: filters.q }), [filters.category, filters.q]);
   const productsQuery = trpc.store.products.useQuery(input, { staleTime: 60_000, retry: 2 });
   const checkout = trpc.store.checkout.useMutation();
@@ -153,6 +319,14 @@ export default function ProductGrid() {
     }
   };
 
+  const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, product: StoreProduct) => {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setSelectedProduct(product);
+    }
+  };
+
   const hasFilter = filters.category !== "all" || Boolean(filters.q);
 
   return (
@@ -205,8 +379,49 @@ export default function ProductGrid() {
 
         {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data?.products.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{productsQuery.data.products.map((product) => <Card key={product.id} className="group flex h-full min-h-[26rem] flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"><ProductImage src={product.image} alt={product.name} /><CardHeader className="gap-2 p-4"><h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3><p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p></CardHeader>{product.description && <CardContent className="flex-1 px-4 pb-2 pt-0"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}{!product.description && <div className="flex-1" />}<CardFooter className="mt-auto flex justify-center p-4 pt-2"><Button size="sm" className="h-9 w-auto max-w-full px-4 text-xs md:text-sm" disabled={!product.priceId || checkout.isPending} onClick={() => void handleBuy(product.priceId)}>{checkout.isPending ? "處理中…" : "加入購物車"}<ExternalLink className="h-3.5 w-3.5" /></Button></CardFooter></Card>)}</div>}
+        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && (
+          <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {productsQuery.data.products.map((product) => (
+              <Card
+                key={product.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`查看 ${product.name} 商品詳情`}
+                onClick={() => setSelectedProduct(product as StoreProduct)}
+                onKeyDown={(event) => handleCardKeyDown(event, product as StoreProduct)}
+                className="group flex h-full min-h-[26rem] cursor-pointer flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C]"
+              >
+                <ProductImage src={product.image} alt={product.name} />
+                <CardHeader className="gap-2 p-4 text-left">
+                  <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3>
+                  <p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#8C6B53]">查看商品詳情 <ArrowUpRight className="h-3.5 w-3.5" /></span>
+                </CardHeader>
+                {product.description && <CardContent className="flex-1 px-4 pb-2 pt-0 text-left"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}
+                {!product.description && <div className="flex-1" />}
+                <CardFooter className="mt-auto flex justify-center p-4 pt-2">
+                  <Button
+                    size="sm"
+                    className="h-9 w-auto max-w-full rounded-full px-4 text-xs md:text-sm"
+                    disabled={!product.priceId || checkout.isPending}
+                    onClick={(event) => { event.stopPropagation(); void handleBuy(product.priceId); }}
+                  >
+                    {checkout.isPending ? "處理中…" : "加入購物車"}<ExternalLink className="h-3.5 w-3.5" />
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
+
+      <ProductDetailModal
+        product={selectedProduct}
+        open={Boolean(selectedProduct)}
+        onOpenChange={(open) => { if (!open) setSelectedProduct(null); }}
+        onBuy={(priceId) => void handleBuy(priceId)}
+        isCheckoutPending={checkout.isPending}
+      />
     </section>
   );
 }

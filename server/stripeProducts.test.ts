@@ -79,6 +79,11 @@ describe("Stripe store product mapping", () => {
     ]);
   });
 
+  it("drops empty or malformed image entries for frontend fallback handling", () => {
+    expect(sanitizeProductImages([])).toEqual([]);
+    expect(sanitizeProductImages(["", "not-a-url", "ftp://images.example/file.jpg"])).toEqual([]);
+  });
+
   it("returns frontend-safe product fields without duplicating Stripe data", () => {
     const mapped = toStoreProduct(product(), [price()]);
     expect(mapped).toMatchObject({

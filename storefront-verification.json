@@ -1,0 +1,60 @@
+{
+  "productCards": 91,
+  "modalOpened": true,
+  "modalHasTitle": true,
+  "modalHasPrice": true,
+  "modalHasDescription": true,
+  "lightboxOpened": true,
+  "lightboxClosed": true,
+  "placeholderFallback": true,
+  "headerNav": [
+    "首頁",
+    "產品",
+    "關於我們"
+  ],
+  "footerLinks": [
+    {
+      "text": "",
+      "href": "/"
+    },
+    {
+      "text": "全部商品",
+      "href": "/products"
+    },
+    {
+      "text": "關於我們",
+      "href": "/about"
+    },
+    {
+      "text": "常見問題",
+      "href": "/faq"
+    },
+    {
+      "text": "運送與發貨政策",
+      "href": "/shipping-policy"
+    },
+    {
+      "text": "退換貨政策",
+      "href": "/returns-policy"
+    },
+    {
+      "text": "私隱政策與服務條款",
+      "href": "/privacy-policy"
+    },
+    {
+      "text": "WhatsApp 查詢",
+      "href": "https://wa.me/85298646585?text=Mofu%20Haven%20%E2%80%94%20WhatsApp%20%E5%B0%88%E4%BA%BA%E6%9F%A5%E8%A9%A2"
+    },
+    {
+      "text": "hello@mofuhavenhk.com",
+      "href": "mailto:hello@mofuhavenhk.com"
+    }
+  ],
+  "infoRoutes": {
+    "/about": 200,
+    "/faq": 200,
+    "/shipping-policy": 200,
+    "/returns-policy": 200,
+    "/privacy-policy": 200
+  }
+}

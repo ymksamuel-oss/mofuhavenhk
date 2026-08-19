@@ -5,8 +5,7 @@ import { useState } from "react";
 const navItems = [
   { label: "首頁", href: "/" },
   { label: "產品", href: "/products?category=all" },
-  { label: "關於我們", href: "/#about" },
-  { label: "聯絡", href: "/#contact" },
+  { label: "關於我們", href: "/about" },
 ];
 
 export default function Header() {

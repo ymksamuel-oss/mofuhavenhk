@@ -5,7 +5,14 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
+import Products from "@/pages/Products";
+import InfoPage from "@/pages/InfoPage";
+
+function AboutPage() { return <InfoPage page="about" />; }
+function FaqPage() { return <InfoPage page="faq" />; }
+function ShippingPolicyPage() { return <InfoPage page="shipping-policy" />; }
+function ReturnsPolicyPage() { return <InfoPage page="returns-policy" />; }
+function PrivacyPolicyPage() { return <InfoPage page="privacy-policy" />; }
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -13,6 +20,11 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/products"} component={Products} />
+      <Route path={"/about"} component={AboutPage} />
+      <Route path={"/faq"} component={FaqPage} />
+      <Route path={"/shipping-policy"} component={ShippingPolicyPage} />
+      <Route path={"/returns-policy"} component={ReturnsPolicyPage} />
+      <Route path={"/privacy-policy"} component={PrivacyPolicyPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

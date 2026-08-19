@@ -34,9 +34,9 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">快捷連結</h4>
             <ul className="space-y-2">
               {[
-                { label: "全部商品", href: "#" },
-                { label: "關於我們", href: "#" },
-                { label: "常見問題", href: "#" }
+                { label: "全部商品", href: "/products" },
+                { label: "關於我們", href: "/about" },
+                { label: "常見問題", href: "/faq" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a
@@ -56,9 +56,9 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">顧客服務</h4>
             <ul className="space-y-2">
               {[
-                { label: "運送與發貨政策", href: "#" },
-                { label: "退換貨政策", href: "#" },
-                { label: "私隱政策與服務條款", href: "#" }
+                { label: "運送與發貨政策", href: "/shipping-policy" },
+                { label: "退換貨政策", href: "/returns-policy" },
+                { label: "私隱政策與服務條款", href: "/privacy-policy" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a

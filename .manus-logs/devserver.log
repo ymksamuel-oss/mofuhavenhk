@@ -396,3 +396,25 @@
 [2026-08-19T09:34:09.598Z] [Auth] Missing session cookie
 [2026-08-19T09:34:20.206Z] [Auth] Missing session cookie
 [2026-08-19T09:36:00.143Z] 9:36:00 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T09:36:33.168Z] [Auth] Missing session cookie
+[2026-08-19T09:38:30.497Z] [Auth] Missing session cookie
+[2026-08-19T09:38:32.518Z] [Auth] Missing session cookie
+[2026-08-19T09:54:39.961Z] 9:54:39 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T09:54:47.476Z] 9:54:47 AM [vite] (client) hmr update /src/components/Footer.tsx, /src/index.css
+[2026-08-19T09:55:26.404Z] 9:55:26 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T09:55:37.563Z] 9:55:37 AM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-08-19T09:56:31.579Z] 9:56:31 AM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T09:57:00.774Z] 9:57:00 AM [vite] (client) ✨ new dependencies optimized: @radix-ui/react-dialog
+[2026-08-19T09:57:00.774Z] 9:57:00 AM [vite] (client) ✨ optimized dependencies changed. reloading
+[2026-08-19T10:01:10.514Z] ELIFECYCLE  Command failed.
+[2026-08-19T10:01:10.585Z] Dev server exited with code -1
+[2026-08-19T10:01:11.625Z] Starting dev server with command: pnpm run dev
+[2026-08-19T10:01:12.470Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T10:01:12.470Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T10:01:14.289Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T10:01:14.515Z] 10:01:14 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+[2026-08-19T10:01:14.537Z] Server running on http://localhost:3000/
+[2026-08-19T10:02:08.396Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T10:02:09.947Z] [Auth] Missing session cookie
+[2026-08-19T10:02:35.432Z] [Auth] Missing session cookie
+[2026-08-19T10:03:59.194Z] 10:03:59 AM [vite] (client) hmr update /src/index.css
