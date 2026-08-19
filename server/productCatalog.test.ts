@@ -1,12 +1,23 @@
 import { describe, expect, it } from "vitest";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
-import { filterCatalogProducts, normalizeProductCategories, normalizeRequestedCategory } from "../shared/productCatalog";
+import { filterCatalogProducts, normalizeProductCategories, normalizeRequestedCategory, resolveSearchCategory } from "../shared/productCatalog";
 
 describe("product category mapping", () => {
   it("migrates the legacy cleaning category to small-pets", () => {
     expect(normalizeRequestedCategory("cleaning")).toBe("small-pets");
     expect(normalizeRequestedCategory("small-pets")).toBe("small-pets");
     expect(normalizeRequestedCategory("unknown")).toBe("all");
+  });
+
+  it("uses the all-products scope when a search query is present", () => {
+    expect(resolveSearchCategory("outdoor", "貓")).toBe("all");
+    expect(resolveSearchCategory("cats", "  CIAO  ")).toBe("all");
+    expect(resolveSearchCategory("outdoor", "")).toBe("outdoor");
+
+    const allCatResults = filterCatalogProducts(stripeProductsSnapshot, "all", "貓");
+    const outdoorCatResults = filterCatalogProducts(stripeProductsSnapshot, "outdoor", "貓");
+    expect(allCatResults.length).toBeGreaterThan(outdoorCatResults.length);
+    expect(allCatResults.length).toBeGreaterThan(0);
   });
 
   it("keeps cat cans out of the small-pets category", () => {

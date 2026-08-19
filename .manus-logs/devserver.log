@@ -304,3 +304,23 @@
 [2026-08-19T07:04:23.518Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-19T07:05:33.634Z] 7:05:33 AM [vite] (client) hmr update /src/index.css
 [2026-08-19T07:06:56.214Z] 7:06:56 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T07:11:32.803Z] [Auth] Missing session cookie
+[2026-08-19T07:11:35.065Z] [Auth] Missing session cookie
+[2026-08-19T07:31:00.489Z] 7:31:00 AM [vite] (client) hmr update /src/components/ProductGrid.tsx
+[2026-08-19T07:31:00.588Z] 7:31:00 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T07:31:02.241Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:31:02.456Z] Server running on http://localhost:3000/
+[2026-08-19T07:32:44.222Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T07:33:26.533Z] [Auth] Missing session cookie
+[2026-08-19T07:35:14.807Z] [Auth] Missing session cookie
+[2026-08-19T07:35:15.074Z] [Auth] Missing session cookie
+[2026-08-19T07:35:15.284Z] [Auth] Missing session cookie
+[2026-08-19T07:35:15.495Z] [Auth] Missing session cookie
+[2026-08-19T07:35:44.768Z] 7:35:44 AM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T07:39:32.354Z] 7:39:32 AM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T07:40:15.263Z] 7:40:15 AM [tsx] change in ./server/stripeProducts.ts Restarting...
+[2026-08-19T07:40:17.028Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:40:17.249Z] Server running on http://localhost:3000/
+[2026-08-19T07:45:21.841Z] [Auth] Missing session cookie
+[2026-08-19T07:46:12.576Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T07:53:10.608Z] 7:53:10 AM [vite] (client) hmr update /src/index.css

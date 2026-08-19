@@ -16,6 +16,19 @@ export type StoreProduct = {
 
 export type ProductSource = "stripe" | "mcp-live-snapshot";
 
+const knownUnavailableProductImage = /^https?:\/\/mofuhavenhk\.com\/(?:images\/products|products)\//i;
+
+export function sanitizeProductImages(images: string[]): string[] {
+  return images.filter((image) => {
+    try {
+      const url = new URL(image);
+      return (url.protocol === "http:" || url.protocol === "https:") && !knownUnavailableProductImage.test(image);
+    } catch {
+      return false;
+    }
+  });
+}
+
 export function selectProductPrice(
   product: Stripe.Product,
   activePrices: Stripe.Price[],
@@ -38,7 +51,7 @@ export function toStoreProduct(
   activePrices: Stripe.Price[],
 ): StoreProduct {
   const price = selectProductPrice(product, activePrices);
-  const images = product.images.filter(Boolean);
+  const images = sanitizeProductImages(product.images.filter(Boolean));
 
   return {
     id: product.id,
@@ -59,8 +72,8 @@ function snapshotToStoreProduct(product: (typeof stripeProductsSnapshot)[number]
     id: product.id,
     name: product.name,
     description: product.description,
-    image: product.images[0] ?? null,
-    images: product.images,
+    image: sanitizeProductImages(product.images)[0] ?? null,
+    images: sanitizeProductImages(product.images),
     priceId: product.priceId,
     unitAmount: product.unitAmount,
     currency: product.currency,

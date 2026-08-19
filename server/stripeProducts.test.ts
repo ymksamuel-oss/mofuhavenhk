@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type Stripe from "stripe";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
 import { filterCatalogProducts, normalizeProductCategories } from "../shared/productCatalog";
-import { selectProductPrice, toStoreProduct } from "./stripeProducts";
+import { sanitizeProductImages, selectProductPrice, toStoreProduct } from "./stripeProducts";
 
 function product(overrides: Partial<Stripe.Product> = {}): Stripe.Product {
   return {
@@ -66,6 +66,17 @@ describe("Stripe store product mapping", () => {
       price({ id: "price_other", product: "prod_other", created: 99 }),
     ]);
     expect(selected?.id).toBe("price_new");
+  });
+
+  it("filters known legacy 404 image URLs without removing valid image assets", () => {
+    expect(sanitizeProductImages([
+      "https://mofuhavenhk.com/images/products/wt-product-10.jpg",
+      "https://files.stripe.com/links/valid-image",
+      "https://images.example/cat-food.jpg",
+    ])).toEqual([
+      "https://files.stripe.com/links/valid-image",
+      "https://images.example/cat-food.jpg",
+    ]);
   });
 
   it("returns frontend-safe product fields without duplicating Stripe data", () => {

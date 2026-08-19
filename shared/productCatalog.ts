@@ -40,6 +40,10 @@ export function normalizeRequestedCategory(value: string | null | undefined): Pr
   return legacyCategoryAliases[candidate] ?? (productCategorySet.has(candidate as ProductCategory) ? candidate as ProductCategory : "all");
 }
 
+export function resolveSearchCategory(currentCategory: ProductCategory, query: string): ProductCategory {
+  return query.trim() ? "all" : currentCategory;
+}
+
 const normalized = (value: string) => value.toLocaleLowerCase("zh-HK");
 
 const searchableText = (product: CatalogProduct) =>

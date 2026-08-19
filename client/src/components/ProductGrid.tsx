@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
-import { normalizeRequestedCategory, type ProductCategory } from "@shared/productCatalog";
-import { ExternalLink, RefreshCw, Search, ShoppingBag, X } from "lucide-react";
+import { normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
+import { ExternalLink, ImageOff, RefreshCw, Search, ShoppingBag, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -23,9 +23,11 @@ const categoryLabels: Record<ProductCategory, string> = {
 
 function getUrlFilters(): { category: ProductCategory; q: string } {
   const params = new URLSearchParams(window.location.search);
+  const q = params.get("q") ?? "";
+  const category = normalizeRequestedCategory(params.get("category"));
   return {
-    category: normalizeRequestedCategory(params.get("category")),
-    q: params.get("q") ?? "",
+    category: resolveSearchCategory(category, q),
+    q,
   };
 }
 
@@ -44,8 +46,33 @@ function ProductSkeleton() {
       <Skeleton className="aspect-square w-full rounded-none" />
       <CardHeader className="space-y-2"><Skeleton className="h-5 w-4/5" /><Skeleton className="h-4 w-2/5" /></CardHeader>
       <CardContent><Skeleton className="h-4 w-full" /></CardContent>
-      <CardFooter><Skeleton className="h-10 w-full" /></CardFooter>
+      <CardFooter className="flex justify-center"><Skeleton className="h-9 w-32" /></CardFooter>
     </Card>
+  );
+}
+
+function ProductImage({ src, alt }: { src: string | null; alt: string }) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const failed = !src || failedSrc === src;
+
+  return (
+    <div className="relative flex aspect-square items-center justify-center overflow-hidden border-b border-border/60 bg-[#f5f0eb]">
+      {!failed && src ? (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.02] md:p-6"
+          onError={() => setFailedSrc(src)}
+        />
+      ) : (
+        <div className="flex h-full w-full flex-col items-center justify-center gap-2 px-4 text-center text-muted-foreground" role="img" aria-label={`${alt} 圖片暫時不可用`}>
+          <ImageOff className="h-8 w-8 text-primary/45" />
+          <span className="text-xs">圖片暫時不可用</span>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -62,6 +89,15 @@ export default function ProductGrid() {
       setFilters(next);
       setSearchInput(next.q);
     };
+
+    const params = new URLSearchParams(window.location.search);
+    const initial = getUrlFilters();
+    if (initial.q && params.has("category")) {
+      params.delete("category");
+      const query = params.toString();
+      window.history.replaceState({}, "", `/${query ? `?${query}` : ""}#products`);
+    }
+    syncFromUrl();
     window.addEventListener("popstate", syncFromUrl);
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
@@ -80,7 +116,8 @@ export default function ProductGrid() {
 
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    updateUrl({ q: searchInput.trim() });
+    const query = searchInput.trim();
+    updateUrl({ category: resolveSearchCategory(filters.category, query), q: query });
   };
 
   const handleBuy = async (priceId: string | null) => {
@@ -138,7 +175,7 @@ export default function ProductGrid() {
 
         {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data?.products.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{productsQuery.data.products.map((product) => <Card key={product.id} className="group flex h-full flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"><div className="relative aspect-square overflow-hidden bg-muted">{product.image ? <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" /> : <div className="flex h-full items-center justify-center text-muted-foreground"><ShoppingBag className="h-10 w-10" /></div>}</div><CardHeader className="gap-2 p-4"><h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3><p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p></CardHeader>{product.description && <CardContent className="flex-1 px-4 pb-2 pt-0"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}<CardFooter className="p-4 pt-2"><Button className="w-full" disabled={!product.priceId || checkout.isPending} onClick={() => void handleBuy(product.priceId)}>{checkout.isPending ? "處理中…" : "查看及購買"}<ExternalLink className="h-4 w-4" /></Button></CardFooter></Card>)}</div>}
+        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{productsQuery.data.products.map((product) => <Card key={product.id} className="group flex h-full min-h-[26rem] flex-col overflow-hidden border-border/70 bg-background/90 transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg"><ProductImage src={product.image} alt={product.name} /><CardHeader className="gap-2 p-4"><h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground md:text-base">{product.name}</h3><p className="text-base font-bold text-primary">{formatPrice(product.unitAmount, product.currency)}</p></CardHeader>{product.description && <CardContent className="flex-1 px-4 pb-2 pt-0"><p className="line-clamp-3 text-xs leading-5 text-muted-foreground">{product.description}</p></CardContent>}{!product.description && <div className="flex-1" />}<CardFooter className="mt-auto flex justify-center p-4 pt-2"><Button size="sm" className="h-9 w-auto max-w-full px-4 text-xs md:text-sm" disabled={!product.priceId || checkout.isPending} onClick={() => void handleBuy(product.priceId)}>{checkout.isPending ? "處理中…" : "查看及購買"}<ExternalLink className="h-3.5 w-3.5" /></Button></CardFooter></Card>)}</div>}
       </div>
     </section>
   );
