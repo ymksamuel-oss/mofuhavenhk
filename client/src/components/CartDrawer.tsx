@@ -3,7 +3,10 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { trpc } from "@/lib/trpc";
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import CheckoutDetailsDialog from "@/components/CheckoutDetailsDialog";
+import type { CheckoutDeliveryDetails } from "@shared/cart";
 
 const PRODUCT_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
 
@@ -19,8 +22,9 @@ function formatPrice(amount: number | null, currency: string | null) {
 export default function CartDrawer() {
   const { items, subtotal, isOpen, closeCart, updateQuantity, removeItem } = useCart();
   const checkout = trpc.store.checkout.useMutation();
+  const [deliveryDialogOpen, setDeliveryDialogOpen] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (delivery: CheckoutDeliveryDetails) => {
     const checkoutItems = items
       .filter((item) => item.priceId)
       .map((item) => ({ priceId: item.priceId as string, quantity: item.quantity }));
@@ -29,9 +33,10 @@ export default function CartDrawer() {
       return;
     }
     try {
-      const result = await checkout.mutateAsync({ items: checkoutItems });
-      window.open(result.url, "_blank", "noopener,noreferrer");
-      toast.success("正在開啟安全結帳頁面");
+      const result = await checkout.mutateAsync({ items: checkoutItems, delivery });
+      setDeliveryDialogOpen(false);
+      closeCart();
+      window.location.assign(result.url);
     } catch (error) {
       console.error("[Cart] Checkout failed", error);
       toast.error("暫時未能建立結帳頁面，請稍後再試或聯絡我們。");
@@ -39,7 +44,8 @@ export default function CartDrawer() {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => { if (!open) closeCart(); }}>
+    <>
+      <Sheet open={isOpen} onOpenChange={(open) => { if (!open) closeCart(); }}>
       <SheetContent side="right" className="w-full border-[#D3A87C]/25 bg-[#FFFDF9] sm:max-w-md">
         <SheetHeader className="border-b border-border/70 pr-10">
           <SheetTitle className="flex items-center gap-2 text-[#8C6B53]"><ShoppingBag className="h-5 w-5" />你的購物車</SheetTitle>
@@ -83,12 +89,14 @@ export default function CartDrawer() {
 
         <SheetFooter className="border-t border-border/70 bg-white/70">
           <div className="flex items-center justify-between text-sm"><span className="text-muted-foreground">商品小計</span><strong className="text-lg text-[#8C6B53]">{formatPrice(subtotal, items[0]?.currency ?? "hkd")}</strong></div>
-          <Button type="button" disabled={!items.length || checkout.isPending} onClick={() => void handleCheckout()} className="w-full rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]">
-            {checkout.isPending ? "建立結帳中…" : "前往結帳"}<ArrowRight className="h-4 w-4" />
+          <Button type="button" disabled={!items.length || checkout.isPending} onClick={() => setDeliveryDialogOpen(true)} className="w-full rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]">
+            {checkout.isPending ? "建立結帳中…" : "填寫收貨資料並結帳"}<ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-center text-xs text-muted-foreground">結帳頁將提供信用卡，以及已在 Stripe Dashboard 啟用的 AlipayHK／WeChat Pay 選項。</p>
+          <p className="text-center text-xs text-muted-foreground">先填寫香港收貨資料，再進入 Stripe 安全付款頁。</p>
         </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+      <CheckoutDetailsDialog open={deliveryDialogOpen} onOpenChange={setDeliveryDialogOpen} isPending={checkout.isPending} onSubmit={handleCheckout} />
+    </>
   );
 }

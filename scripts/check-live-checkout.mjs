@@ -12,7 +12,7 @@ if (!product?.priceId) throw new Error("No active HKD product price was returned
 const checkoutResponse = await fetch(`${baseUrl}/api/trpc/store.checkout?batch=1`, {
   method: "POST",
   headers: { "content-type": "application/json", origin: baseUrl },
-  body: JSON.stringify({ "0": { json: { items: [{ priceId: product.priceId, quantity: 1 }] } } }),
+  body: JSON.stringify({ "0": { json: { items: [{ priceId: product.priceId, quantity: 1 }], delivery: { recipientName: "測試收件人", contactPhone: "91234567", deliveryMethod: "sf_station", pickupCode: "SF-TEST-001" } } } }),
 });
 if (!checkoutResponse.ok) {
   const errorBody = await checkoutResponse.text();
@@ -46,8 +46,9 @@ const result = {
   cancelUrl: session.cancel_url ?? null,
   shippingAddressCountries: session.shipping_address_collection?.allowed_countries ?? [],
   phoneNumberCollectionEnabled: session.phone_number_collection?.enabled ?? false,
+  expressCheckoutTypesPresent: paymentMethods.filter((method) => ["link", "apple_pay"].includes(method)),
   paymentStatus: session.payment_status ?? null,
 };
 console.log(JSON.stringify(result, null, 2));
 
-if (session.livemode !== true || session.currency !== "hkd" || session.payment_status !== "unpaid" || !paymentMethods.includes("card") || !String(session.success_url).includes("/checkout/return") || !session.shipping_address_collection?.allowed_countries?.includes("HK") || session.phone_number_collection?.enabled !== true) process.exitCode = 1;
+if (session.livemode !== true || session.currency !== "hkd" || session.payment_status !== "unpaid" || !paymentMethods.includes("card") || !paymentMethods.includes("alipay") || paymentMethods.includes("link") || paymentMethods.includes("apple_pay") || !String(session.success_url).includes("/checkout/return") || session.shipping_address_collection !== null || session.phone_number_collection?.enabled === true) process.exitCode = 1;

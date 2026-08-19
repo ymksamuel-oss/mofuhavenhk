@@ -8,6 +8,9 @@ import { TRPCError } from "@trpc/server";
 import { listStoreProducts } from "./stripeProducts";
 import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/productCatalog";
 
+const checkoutPaymentMethods: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ["card", "alipay"];
+if (process.env.STRIPE_ENABLE_WECHAT_PAY === "true") checkoutPaymentMethods.push("wechat_pay");
+
 function getStripeClient(): Stripe {
   const secretKey = process.env.STRIPE_LIVE_SECRET_KEY ?? process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
@@ -50,6 +53,16 @@ export const appRouter = router({
     checkout: publicProcedure
       .input(z.object({
         items: z.array(z.object({ priceId: z.string().min(1), quantity: z.number().int().min(1).max(99) })).min(1).max(99),
+        delivery: z.object({
+          recipientName: z.string().trim().min(2).max(80),
+          contactPhone: z.string().trim().regex(/^(?:\+852)?[2-9]\d{7}$/, "請輸入有效的香港電話號碼。"),
+          deliveryMethod: z.enum(["home_delivery", "sf_station", "smart_locker"]),
+          pickupCode: z.string().trim().max(80).optional(),
+        }).superRefine((delivery, ctx) => {
+          if (delivery.deliveryMethod !== "home_delivery" && !delivery.pickupCode) {
+            ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["pickupCode"], message: "選擇自取方式時必須提供站點或櫃點資料。" });
+          }
+        }),
       }))
       .mutation(async ({ input, ctx }) => {
         const stripe = getStripeClient();
@@ -63,8 +76,13 @@ export const appRouter = router({
         const session = await stripe.checkout.sessions.create({
           mode: "payment",
           line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
-          shipping_address_collection: { allowed_countries: ["HK"] },
-          phone_number_collection: { enabled: true },
+          payment_method_types: checkoutPaymentMethods,
+          metadata: {
+            recipient_name: input.delivery.recipientName,
+            contact_phone: input.delivery.contactPhone,
+            delivery_method: input.delivery.deliveryMethod,
+            ...(input.delivery.pickupCode ? { pickup_code: input.delivery.pickupCode } : {}),
+          },
           allow_promotion_codes: true,
           success_url: `${origin}/checkout/return?status=success&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${origin}/checkout/return?status=cancelled`,

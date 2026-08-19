@@ -13,6 +13,15 @@ export type CartProduct = {
 
 export type CartItem = CartProduct & { quantity: number };
 
+export type DeliveryMethod = "home_delivery" | "sf_station" | "smart_locker";
+
+export type CheckoutDeliveryDetails = {
+  recipientName: string;
+  contactPhone: string;
+  deliveryMethod: DeliveryMethod;
+  pickupCode?: string;
+};
+
 export function mergeCartItem(items: CartItem[], product: CartProduct): CartItem[] {
   if (!product.priceId) return items;
   const existing = items.find((item) => item.id === product.id);

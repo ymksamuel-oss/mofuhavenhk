@@ -304,6 +304,7 @@ export default function ProductGrid() {
   };
 
   const { addItem } = useCart();
+  const isProductsPage = window.location.pathname === "/products";
 
   const handleAddToCart = (product: StoreProduct) => {
     if (!product.priceId) {
@@ -338,51 +339,39 @@ export default function ProductGrid() {
           {productsQuery.data && <span className="shrink-0 text-sm font-medium text-muted-foreground">目前顯示 {productsQuery.data.total} 件／共 {productsQuery.data.totalAvailable} 件</span>}
         </div>
 
+        {isProductsPage && (
+          <>
+            <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {compactCategories.map((category) => {
+                const CategoryIcon = categoryIcons[category];
+                const isActive = filters.category === category;
+                return (
+                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
+                    <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
+                  </Button>
+                );
+              })}
+            </div>
+            <div className="mb-3 hidden items-center gap-2 overflow-x-auto pb-1 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
+                const CategoryIcon = categoryIcons[category];
+                const isActive = filters.category === category;
+                return (
+                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
+                    <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
+                  </Button>
+                );
+              })}
+            </div>
+          </>
+        )}
+
         <form onSubmit={submitSearch} className="mb-2 flex">
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-10 w-full rounded-full border border-border bg-background pl-10 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
           </div>
         </form>
-
-        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {compactCategories.map((category) => {
-            const CategoryIcon = categoryIcons[category];
-            const isActive = filters.category === category;
-            return (
-              <Button
-                key={category}
-                type="button"
-                size="sm"
-                variant={isActive ? "default" : "outline"}
-                className={`h-9 shrink-0 rounded-full px-3 text-xs ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
-                onClick={() => updateUrl({ category })}
-              >
-                <CategoryIcon className="h-3.5 w-3.5" />
-                {categoryLabels[category]}
-              </Button>
-            );
-          })}
-        </div>
-        <div className="mb-3 hidden items-center gap-2 overflow-x-auto pb-1 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
-            const CategoryIcon = categoryIcons[category];
-            const isActive = filters.category === category;
-            return (
-              <Button
-                key={category}
-                type="button"
-                size="sm"
-                variant={isActive ? "default" : "outline"}
-                className={`h-9 shrink-0 rounded-full px-3 text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
-                onClick={() => updateUrl({ category })}
-              >
-                <CategoryIcon className="h-3.5 w-3.5" />
-                {categoryLabels[category]}
-              </Button>
-            );
-          })}
-        </div>
 
         {productsQuery.isLoading && <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{Array.from({ length: 8 }).map((_, index) => <ProductSkeleton key={index} />)}</div>}
 
