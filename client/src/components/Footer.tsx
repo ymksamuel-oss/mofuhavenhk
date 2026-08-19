@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { Mail, MessageCircle } from "lucide-react";
+import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shared/footerContent";
 
 /**
  * Footer Component
@@ -33,12 +34,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-foreground mb-4">快捷連結</h4>
             <ul className="space-y-2">
-              {[
-                { label: "全部商品", href: "/products" },
-                { label: "關於我們", href: "/about" },
-                { label: "常見問題", href: "/faq" }
-              ].map((link, idx) => (
-                <li key={idx}>
+              {footerQuickLinks.map((link) => (
+                <li key={link.href}>
                   <a
                     href={link.href}
                     className="text-sm text-foreground/70 hover:text-primary transition-colors duration-200 relative group/link"
@@ -87,11 +84,11 @@ export default function Footer() {
                 WhatsApp 查詢
               </a>
               <a
-                href="mailto:hello@mofuhavenhk.com"
+                href={footerContactMailto}
                 className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors duration-200 group/contact"
               >
                 <Mail className="w-4 h-4 group-hover/contact:scale-110 transition-transform" />
-                hello@mofuhavenhk.com
+                {footerContactEmail}
               </a>
               <p className="text-xs text-muted-foreground pt-2 border-t border-border/50">
                 <span className="font-semibold text-foreground/70">服務時間</span><br />
@@ -117,7 +114,7 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               {["WeChat Pay", "AlipayHK", "Visa", "Mastercard"].map((method, idx) => (
                 <span
-                  key={idx}
+                  key={method}
                   className="text-xs font-medium text-foreground/70 px-2 py-1 bg-white/50 rounded-full"
                 >
                   {method}

@@ -319,3 +319,9 @@
 
 - [x] 將手機版 Header Logo 高度調整至約 46px，並保持寬度自動比例
 - [x] 調整手機 Header 內距與右側圖示垂直對齊，完成手機及桌面 Preview 驗證
+
+## Footer 聯絡資訊與快捷連結更新
+
+- [x] 將 Footer 聯絡電郵及 mailto 更新為 MofuHavenHK@Gmail.com
+- [x] 移除 Footer 快捷連結的「全部商品」，加入「探索寵物世界」連結
+- [x] 完成 Footer 桌面／手機 Preview、連結及測試驗證並保存 checkpoint
