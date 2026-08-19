@@ -16,6 +16,7 @@ type FavoriteEntry = { key: string; title: string };
 export default function PetWorld() {
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
   const [sharedKey, setSharedKey] = useState<string | null>(null);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     try {
@@ -98,19 +99,37 @@ export default function PetWorld() {
                     {catBreedGuides.map((breed, index) => {
                       const favoriteKey = `breed:${breed.name}`;
                       const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
+                      const showPhoto = Boolean(breed.image) && !failedImages[breed.name];
                       return (
                       <article id={`breed-${index + 1}`} key={breed.name} className="scroll-mt-24 overflow-hidden rounded-3xl border border-[#D3A87C]/25 bg-white shadow-[0_8px_24px_rgba(140,107,83,0.07)] transition-transform duration-200 hover:-translate-y-1">
-                        <div className="aspect-[4/3] overflow-hidden bg-[#F3E5D5]">
-                          <img
-                            src={breed.image}
-                            alt={`${breed.name} 品種圖片`}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                            onError={(event) => { event.currentTarget.src = BREED_PLACEHOLDER; event.currentTarget.className = "h-full w-full object-contain p-12"; }}
-                          />
+                        <div className="aspect-[4/3] relative overflow-hidden bg-[#FDF8F2] flex items-center justify-center border-b border-[#D3A87C]/15">
+                          {showPhoto ? (
+                            <img
+                              src={breed.image}
+                              alt={`${breed.name} 品種圖片`}
+                              loading="lazy"
+                              decoding="async"
+                              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                              onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
+                            />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center p-6 text-center">
+                              <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-[#D3A87C]/15 text-[#8C6B53]">
+                                <PawPrint className="h-7 w-7" />
+                              </div>
+                              <span className="text-xs font-semibold tracking-wide text-[#8C6B53]">真實圖片準備中</span>
+                              <span className="mt-1 text-[10px] text-muted-foreground">嚴選實景拍攝 ‧ 非 AI 生成</span>
+                            </div>
+                          )}
                         </div>
                         <div className="p-5">
+                          {breed.isRealPhoto && breed.photoCredit && breed.sourceUrl ? (
+                            <p className="mb-3 text-[10px] leading-4 text-muted-foreground">
+                              相片來源：<a className="underline underline-offset-2 hover:text-[#8C6B53]" href={breed.sourceUrl} target="_blank" rel="noreferrer">{breed.photoCredit}</a>
+                            </p>
+                          ) : (
+                            <p className="mb-3 text-[10px] leading-4 text-muted-foreground">暫未找到可核對的真實品種相片，嚴禁以 AI 圖片代替。</p>
+                          )}
                           <div className="flex items-start justify-between gap-3">
                             <h3 className="text-lg font-bold text-[#6F5645]">{breed.name}</h3>
                             <Heart className={`mt-0.5 h-5 w-5 shrink-0 text-[#D3A87C] ${isFavorite ? "fill-[#D3A87C]" : ""}`} />
