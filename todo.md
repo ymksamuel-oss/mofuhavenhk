@@ -25,7 +25,7 @@
 
 ## www 自訂域名綁定與 Cloudflare 1001 修復
 
-- [ ] 核對 www.mofuhavenhk.com 的 DNS、Cloudflare 代理及 Manus 域名狀態
+- [x] 核對 www.mofuhavenhk.com 的 DNS、Cloudflare 代理及 Manus 域名狀態（已確認根域名仍指向 GoDaddy、www TLS 尚未完成）
 - [ ] 在 Manus 專案完成 www.mofuhavenhk.com 自訂域名註冊／驗證
 - [ ] 校正 GoDaddy／Cloudflare 設定，排除 Error 1001
 - [ ] 驗證 www、根域名轉址及網站內容
@@ -111,8 +111,8 @@
 - [x] 修正分類按鈕導向正確商品篩選頁
 - [x] 修正「為毛孩繼續選購」CTA 導向商品列表而非首頁 Banner
 - [x] 驗證桌面／手機 Preview、實際導航及測試
-- [ ] 保存並部署本輪 Logo、分類與連結修正
-- [ ] 回報本輪修復結果
+- [x] 保存並部署本輪 Logo、分類與連結修正
+- [x] 回報本輪修復結果
 
 ## IMG_0907 透明 Logo 修正
 
@@ -120,8 +120,8 @@
 - [x] 移除 Header 舊 Logo 與旁邊品牌文字，改用唯一約 45px 透明 Logo
 - [x] 驗證單行細 Pill 分類與 SubBanner 商品導向修正
 - [x] 執行透明 Logo、導航、測試及 Preview 驗證
-- [ ] 保存並部署 IMG_0907 Logo 與網站修正版
-- [ ] 回報透明 Logo 及網站修正結果
+- [x] 保存並部署 IMG_0907 Logo 與網站修正版
+- [x] 回報透明 Logo 及網站修正結果
 
 ## IMG_0907 透明 Logo 修正
 
@@ -129,5 +129,21 @@
 - [x] 移除 Header 舊 Logo 與旁邊品牌文字，改用唯一約 45px 透明 Logo
 - [x] 驗證單行細 Pill 與 SubBanner 商品導向修正
 - [x] 執行透明 Logo、導航、測試及 Preview 驗證
-- [ ] 保存並部署 IMG_0907 Logo 與網站修正版
-- [ ] 回報透明 Logo 及網站修正結果
+- [x] 保存並部署 IMG_0907 Logo 與網站修正版
+- [x] 回報透明 Logo 及網站修正結果
+
+## Footer 透明 Logo 與分類產品頁導向
+
+- [x] 檢查 Footer Logo、舊品牌文字／圖示及首頁分類 href
+- [x] Footer 改用透明手繪 Logo 並放大至約 110px 高度
+- [x] 移除 Footer 舊「毛毛港 Mofu Haven」文字及正方形圖示
+- [x] 將首頁 10 個分類入口導向 `/products?category=xxx` 商品頁
+- [x] 驗證 Footer Logo 顯示、10 個分類導航及商品篩選
+- [ ] 執行測試、Preview 並正式部署
+- [ ] 回報 Footer Logo 與分類導向修正結果
+
+## Footer 分類入口逐一驗證
+
+- [x] 逐一驗證首頁 10 個分類入口均導向 `/products?category=xxx`
+- [x] 逐一確認 10 個分類頁有對應商品或正確空狀態
+- [x] 保存 10 個分類入口導航驗證證據

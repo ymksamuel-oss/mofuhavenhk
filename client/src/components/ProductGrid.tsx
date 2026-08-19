@@ -109,7 +109,9 @@ export default function ProductGrid() {
     if (initial.q && params.has("category")) {
       params.delete("category");
       const query = params.toString();
-      window.history.replaceState({}, "", `/${query ? `?${query}` : ""}#products`);
+      const currentPath = window.location.pathname === "/products" ? "/products" : "/";
+      const suffix = currentPath === "/products" ? "" : "#products";
+      window.history.replaceState({}, "", `${currentPath}${query ? `?${query}` : ""}${suffix}`);
     }
     syncFromUrl();
     window.addEventListener("popstate", syncFromUrl);
@@ -123,7 +125,9 @@ export default function ProductGrid() {
     if (category === "all") params.delete("category"); else params.set("category", category);
     if (q) params.set("q", q); else params.delete("q");
     const query = params.toString();
-    window.history.pushState({}, "", `/${query ? `?${query}` : ""}#products`);
+    const currentPath = window.location.pathname === "/products" ? "/products" : "/";
+    const suffix = currentPath === "/products" ? "" : "#products";
+    window.history.pushState({}, "", `${currentPath}${query ? `?${query}` : ""}${suffix}`);
     setFilters({ category, q });
     window.requestAnimationFrame(() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };

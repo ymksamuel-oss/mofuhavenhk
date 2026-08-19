@@ -15,22 +15,16 @@ export default function Footer() {
       <div className="container py-12 md:py-16">
         {/* Footer Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
-          {/* Brand Section - Enhanced Wordmark */}
+          {/* Brand Section - Transparent Hand-drawn Logo */}
           <div className="md:col-span-1">
-            <a href="/" className="inline-block group mb-4">
-              <div className="flex items-center gap-2 group-hover:scale-105 transition-transform">
-                <img
-                  src="/manus-storage/mofu-haven-logo_75fb6778.png"
-                  alt="Mofu Haven"
-                  className="w-8 h-8"
-                />
-                <div>
-                  <h3 className="font-bold text-foreground">毛毛港</h3>
-                  <p className="text-xs text-primary font-semibold">Mofu Haven</p>
-                </div>
-              </div>
+            <a href="/" aria-label="Mofu Haven 首頁" className="group inline-block mb-5">
+              <img
+                src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png"
+                alt="Mofu Haven"
+                className="h-[110px] max-h-[120px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              />
             </a>
-            <p className="text-sm text-foreground/70 leading-relaxed">
+            <p className="max-w-xs text-sm leading-relaxed text-foreground/70">
               專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。
             </p>
           </div>
