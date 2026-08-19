@@ -47,16 +47,21 @@ const trustedCategoryText = (product: CatalogProduct) =>
 export function normalizeProductCategories(product: CatalogProduct): ProductCategory[] {
   const text = trustedCategoryText(product);
   const categories = new Set<ProductCategory>();
+  // Legacy metadata may label unrelated products as wet-cans. Only a clear
+  // product-name signal is trusted for wet food, and this same signal takes
+  // precedence over a conflicting cleaning/hygiene metadata value.
+  const isWetCan = /(罐罐|罐頭|濕糧|濕食|鮮肉杯|wet|canned)/i.test(normalized(product.name));
 
   if (/(cats?|貓咪商品|貓貓|貓)/i.test(text)) categories.add("cats");
   if (/(dogs?|狗狗商品|狗狗|狗)/i.test(text)) categories.add("dogs");
   if (/(treat|snack|小食|零食|肉泥|燒鰹魚|糊仔|脆餅|餡餅|雞肉卷|脫水)/i.test(text)) categories.add("treats");
-  // Legacy records reuse `slug/type=wet-cans` for unrelated dry food and snacks.
-  // Only a clear product-name signal can classify a product as wet food.
-  if (/(罐罐|罐頭|濕糧|濕食|鮮肉杯|wet|canned)/i.test(normalized(product.name))) categories.add("wet-cans");
+  if (isWetCan) categories.add("wet-cans");
   if (/(toy|玩具)/i.test(text)) categories.add("toys");
   if (/(supplement|health|保健|營養|奶粉|益生菌)/i.test(text)) categories.add("supplements");
-  if (/(clean|hygiene|清潔|消臭|尿墊)/i.test(text)) categories.add("cleaning");
+  // Descriptions may mention deodorizing ingredients for food and treats. Only
+  // explicit cleaning-product wording in the product name can enter this tab.
+  const isCleaningProduct = /(clean|hygiene|清潔|消臭|尿墊|貓砂|除臭|洗毛|沐浴|梳毛|拾便|垃圾袋)/i.test(normalized(product.name));
+  if (!isWetCan && isCleaningProduct) categories.add("cleaning");
   if (/(sale|deal|優惠|折扣)/i.test(text)) categories.add("deals");
   if (/(best|熱賣|人氣)/i.test(text)) categories.add("bestsellers");
   if (/(outdoor|travel|外出)/i.test(text)) categories.add("outdoor");

@@ -263,3 +263,18 @@
 [2026-08-19T04:40:30.129Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-19T04:41:25.933Z] 4:41:25 AM [vite] (client) hmr update /src/index.css
 [2026-08-19T04:43:39.193Z] 4:43:39 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T04:45:59.604Z] [Auth] Missing session cookie
+[2026-08-19T04:46:04.617Z] [Auth] Missing session cookie
+[2026-08-19T06:51:29.129Z] 6:51:29 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T06:51:30.585Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T06:51:30.814Z] Server running on http://localhost:3000/
+[2026-08-19T06:52:49.450Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T06:54:11.753Z] [Auth] Missing session cookie
+[2026-08-19T06:54:12.024Z] [Auth] Missing session cookie
+[2026-08-19T06:55:03.129Z] 6:55:03 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T06:55:04.742Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T06:55:04.952Z] Server running on http://localhost:3000/
+[2026-08-19T06:55:37.656Z] [Auth] Missing session cookie
+[2026-08-19T06:55:38.025Z] [Auth] Missing session cookie
+[2026-08-19T06:55:42.784Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T06:56:27.871Z] 6:56:27 AM [vite] (client) hmr update /src/index.css
