@@ -1,14 +1,59 @@
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "wouter";
-import { ArrowLeft, BookOpen, Heart, PawPrint, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, Heart, PawPrint, Share2, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import { catBreedGuides, catCareGuides } from "@shared/petWorld";
 
 const BREED_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
+const FAVORITES_STORAGE_KEY = "mofu-haven-pet-world-favorites";
+
+type FavoriteEntry = { key: string; title: string };
 
 export default function PetWorld() {
+  const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
+  const [sharedKey, setSharedKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+      if (saved) setFavorites(JSON.parse(saved) as FavoriteEntry[]);
+    } catch {
+      setFavorites([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = (key: string, title: string) => {
+    const isSaved = favorites.some((entry) => entry.key === key);
+    setFavorites((current) => isSaved ? current.filter((entry) => entry.key !== key) : [...current, { key, title }]);
+    toast.success(isSaved ? "已從收藏移除" : "已加入收藏", { description: title });
+  };
+
+  const shareContent = async (key: string, title: string, text: string, hash: string) => {
+    const url = `${window.location.origin}/pet-world${hash}`;
+    try {
+      const canShare = typeof navigator.share === "function";
+      if (canShare) {
+        await navigator.share({ title, text, url });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(`${title}｜${url}`);
+      }
+      setSharedKey(key);
+      toast.success(canShare ? "分享視窗已開啟" : "連結已複製", { description: title });
+      window.setTimeout(() => setSharedKey((current) => current === key ? null : current), 1800);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      toast.error("暫時未能分享", { description: "你可以複製瀏覽器網址再分享。" });
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
@@ -50,8 +95,11 @@ export default function PetWorld() {
                     <p className="max-w-xl text-sm leading-6 text-muted-foreground">品種只能提供概括方向，實際性格、健康狀況及生活需要仍要以每隻貓的個體觀察為準。</p>
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {catBreedGuides.map((breed) => (
-                      <article key={breed.name} className="overflow-hidden rounded-3xl border border-[#D3A87C]/25 bg-white shadow-[0_8px_24px_rgba(140,107,83,0.07)] transition-transform duration-200 hover:-translate-y-1">
+                    {catBreedGuides.map((breed, index) => {
+                      const favoriteKey = `breed:${breed.name}`;
+                      const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
+                      return (
+                      <article id={`breed-${index + 1}`} key={breed.name} className="scroll-mt-24 overflow-hidden rounded-3xl border border-[#D3A87C]/25 bg-white shadow-[0_8px_24px_rgba(140,107,83,0.07)] transition-transform duration-200 hover:-translate-y-1">
                         <div className="aspect-[4/3] overflow-hidden bg-[#F3E5D5]">
                           <img
                             src={breed.image}
@@ -65,16 +113,25 @@ export default function PetWorld() {
                         <div className="p-5">
                           <div className="flex items-start justify-between gap-3">
                             <h3 className="text-lg font-bold text-[#6F5645]">{breed.name}</h3>
-                            <Heart className="mt-0.5 h-5 w-5 shrink-0 text-[#D3A87C]" />
+                            <Heart className={`mt-0.5 h-5 w-5 shrink-0 text-[#D3A87C] ${isFavorite ? "fill-[#D3A87C]" : ""}`} />
                           </div>
                           <p className="mt-3 text-sm font-semibold leading-6 text-[#8C6B53]">{breed.temperament}</p>
                           <div className="mt-4 space-y-3 text-sm leading-7 text-muted-foreground">
                             <p><strong className="font-semibold text-foreground">照顧重點：</strong>{breed.care}</p>
                             <p><strong className="font-semibold text-foreground">相處提示：</strong>{breed.note}</p>
                           </div>
+                          <div className="mt-5 flex flex-wrap gap-2">
+                            <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, breed.name)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]">
+                              <Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-[#D3A87C]" : ""}`} />{isFavorite ? "已收藏" : "加入收藏"}
+                            </Button>
+                            <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${breed.name}｜Mofu Haven`, `${breed.name} 的品種與照顧提示`, `#breed-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]">
+                              {sharedKey === favoriteKey ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}{sharedKey === favoriteKey ? "已複製" : "一鍵分享"}
+                            </Button>
+                          </div>
                         </div>
                       </article>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
 
@@ -86,14 +143,23 @@ export default function PetWorld() {
                       <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">以穩定、低壓和可持續的方式陪伴毛孩，逐步建立你們之間舒服的生活節奏。</p>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
-                      {catCareGuides.map((guide, index) => (
-                        <article key={guide.title} className="rounded-3xl border border-border/70 bg-[#FFFDF9] p-5 md:p-6">
+                      {catCareGuides.map((guide, index) => {
+                        const favoriteKey = `guide:${guide.title}`;
+                        const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
+                        return (
+                        <article id={`guide-${index + 1}`} key={guide.title} className="scroll-mt-24 rounded-3xl border border-border/70 bg-[#FFFDF9] p-5 md:p-6">
                           <div className="flex items-start gap-4">
                             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F3E5D5] text-sm font-bold text-[#8C6B53]">{String(index + 1).padStart(2, "0")}</span>
-                            <div><h3 className="text-lg font-semibold text-foreground">{guide.title}</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{guide.body}</p></div>
+                            <div><h3 className="text-lg font-semibold text-foreground">{guide.title}</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{guide.body}</p>
+                              <div className="mt-4 flex flex-wrap gap-2">
+                                <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, guide.title)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]"><Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-[#D3A87C]" : ""}`} />{isFavorite ? "已收藏" : "加入收藏"}</Button>
+                                <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${guide.title}｜Mofu Haven`, guide.body, `#guide-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]"><Share2 className="h-3.5 w-3.5" />一鍵分享</Button>
+                              </div>
+                            </div>
                           </div>
                         </article>
-                      ))}
+                        );
+                      })}
                     </div>
                     <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-6 text-muted-foreground">本頁為一般照顧資訊，不能取代獸醫的個別診斷或治療建議。如貓咪出現持續或明顯異常，請盡快向合資格獸醫查詢。</p>
                     <div className="mt-9 flex flex-wrap justify-center gap-3">

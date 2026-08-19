@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Mail, MessageCircle } from "lucide-react";
+import { Home, Mail, MessageCircle } from "lucide-react";
 import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shared/footerContent";
 
 /**
@@ -12,10 +12,10 @@ import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shar
  */
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-secondary/10 to-primary/5 border-t border-border mt-16 md:mt-24">
-      <div className="container py-12 md:py-16">
+    <footer className="bg-gradient-to-b from-secondary/10 to-primary/5 border-t border-border mt-8 md:mt-16">
+      <div className="container py-8 md:py-12">
         {/* Footer Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-10 mb-8">
           {/* Brand Section - Transparent Hand-drawn Logo */}
           <div className="md:col-span-1">
             <a href="/" aria-label="Mofu Haven 首頁" className="group inline-block mb-5">
@@ -28,6 +28,9 @@ export default function Footer() {
             <p className="max-w-xs text-sm leading-relaxed text-foreground/70">
               專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。
             </p>
+            <a href="/" aria-label="返回首頁" className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#D3A87C]/55 bg-white/65 px-3 py-1.5 text-xs font-semibold text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white">
+              <Home className="h-3.5 w-3.5" />首頁
+            </a>
           </div>
 
           {/* Quick Links */}
@@ -99,7 +102,7 @@ export default function Footer() {
         </div>
 
         {/* Separator */}
-        <Separator className="my-8" />
+        <Separator className="my-5" />
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">

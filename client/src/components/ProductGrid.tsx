@@ -383,7 +383,7 @@ export default function ProductGrid() {
   };
 
   return (
-    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-2 sm:py-4 md:py-24">
+    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-1 sm:py-3 md:py-16">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       <div className="container relative z-10">
         <div className="mb-2 hidden flex-col gap-5 md:mb-12 md:flex md:flex-row md:items-end md:justify-between">
@@ -397,7 +397,7 @@ export default function ProductGrid() {
 
         {isProductsPage && (
           <>
-            <div className="mb-2 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類篩選">
+            <div className="mb-1 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類篩選">
               {compactCategories.map((category) => {
                 const CategoryIcon = categoryIcons[category] ?? LayoutGrid;
                 const isActive = activeCatalogKey === category;
@@ -409,7 +409,7 @@ export default function ProductGrid() {
               })}
             </div>
             {activeSubCatalogs.length > 0 && (
-              <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類篩選">
+              <div className="mb-2 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類篩選">
                 {activeSubCatalogs.map((subCatalog) => {
                   const SubCategoryIcon = categoryIcons[subCatalog.key] ?? LayoutGrid;
                   const isActive = activeCategory === subCatalog.key;
@@ -424,21 +424,21 @@ export default function ProductGrid() {
           </>
         )}
 
-        <form onSubmit={submitSearch} className="mb-2 flex">
+        <form onSubmit={submitSearch} className="mb-1.5 flex">
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-10 w-full rounded-full border border-border bg-background pl-10 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
           </div>
         </form>
 
-        {productsQuery.isLoading && <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{Array.from({ length: 8 }).map((_, index) => <ProductSkeleton key={index} />)}</div>}
+        {productsQuery.isLoading && <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">{Array.from({ length: 8 }).map((_, index) => <ProductSkeleton key={index} />)}</div>}
 
         {productsQuery.isError && <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-8 text-center"><h3 className="text-lg font-semibold text-foreground">暫時未能載入商品</h3><p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">商品服務未能連線。請重新整理此頁面，或確認 Stripe 整合已啟用。</p><Button className="mt-5" variant="outline" onClick={() => productsQuery.refetch()}><RefreshCw className="h-4 w-4" />重新載入</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && visibleProducts.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
+        {!productsQuery.isLoading && !productsQuery.isError && visibleProducts.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-6 text-center md:p-10"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
         {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && visibleProducts.length > 0 && (
-          <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid items-stretch grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
             {visibleProducts.map((product) => (
               <Card
                 key={product.id}

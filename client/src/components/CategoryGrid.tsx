@@ -37,7 +37,7 @@ const subCatalogIcons: Record<SubCatalogKey, typeof Cat> = {
 
 export default function CategoryGrid() {
   return (
-    <section aria-label="商品分類" className="relative overflow-hidden bg-[#FFFDF9] py-3 sm:py-4 md:py-12">
+    <section aria-label="商品分類" className="relative overflow-hidden bg-[#FFFDF9] py-2 sm:py-3 md:py-8">
       <div className="pointer-events-none absolute left-0 top-1/3 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-secondary/5 blur-3xl" />
 
@@ -49,7 +49,7 @@ export default function CategoryGrid() {
           </p>
         </div>
 
-        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類">
+        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="主分類">
           {catalogHierarchy.map((category) => {
             const Icon = categoryIcons[category.key];
             return (
@@ -67,7 +67,7 @@ export default function CategoryGrid() {
           })}
         </div>
 
-        <div className="mt-1 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類">
+        <div className="mt-1 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="子分類">
           {catalogHierarchy.flatMap((category) => category.subCatalogs).map((subCatalog) => {
             const Icon = subCatalogIcons[subCatalog.key];
             return (
@@ -81,7 +81,7 @@ export default function CategoryGrid() {
           })}
         </div>
 
-        <div className="mt-3 hidden text-center md:mt-8 md:block">
+        <div className="mt-2 hidden text-center md:mt-5 md:block">
           <Button asChild size="lg" className="rounded-full bg-[#C9A47C] px-7 font-semibold text-white shadow-[0_8px_20px_rgba(140,107,83,0.18)] transition-all duration-300 hover:bg-[#8C6B53] hover:shadow-[0_12px_26px_rgba(140,107,83,0.24)]">
             <a href="/products">查看商品目錄 →</a>
           </Button>

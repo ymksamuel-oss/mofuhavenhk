@@ -11,7 +11,7 @@ import { ArrowDown } from "lucide-react";
  */
 export default function HeroBanner() {
   return (
-    <section className="relative h-[300px] w-full overflow-hidden sm:h-[340px] md:h-[500px] lg:h-[600px]">
+    <section className="relative h-[280px] w-full overflow-hidden sm:h-[320px] md:h-[460px] lg:h-[560px]">
       {/* Main Banner Image */}
       <img
         src="/manus-storage/mofu-haven-website-b.png(6)_c71484d9.png"
@@ -24,7 +24,7 @@ export default function HeroBanner() {
 
       {/* Content Overlay */}
       <div className="container pointer-events-auto absolute inset-0 flex items-center">
-        <div className="max-w-[19rem] space-y-2 text-white sm:max-w-md sm:space-y-4 md:max-w-lg md:space-y-6">
+        <div className="max-w-[19rem] space-y-1.5 text-white sm:max-w-md sm:space-y-3 md:max-w-lg md:space-y-5">
           {/* Badge */}
           <div className="pointer-events-none inline-block rounded-full border border-white/30 bg-white/20 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
             <span className="text-xs font-medium sm:text-sm">日本直送・嚴選寵物好物</span>
@@ -46,11 +46,11 @@ export default function HeroBanner() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:gap-3 sm:pt-4">
+          <div className="flex flex-col items-start gap-2 pt-1.5 sm:flex-row sm:gap-3 sm:pt-3">
             <Button
               asChild
               size="lg"
-              className="bg-[#D3A87C] text-white hover:bg-[#C2976B] font-semibold shadow-md"
+              className="w-fit self-start bg-[#D3A87C] px-5 py-2.5 text-white hover:bg-[#C2976B] font-semibold shadow-md"
             >
               <a href="/#product-list">立即選購 →</a>
             </Button>
@@ -58,7 +58,7 @@ export default function HeroBanner() {
               asChild
               size="lg"
               variant="outline"
-              className="border-[#F3E5D5] bg-transparent text-white hover:bg-[#D3A87C]/30 hover:text-white"
+              className="w-fit self-start border-[#F3E5D5] bg-transparent px-4 py-2.5 text-white hover:bg-[#D3A87C]/30 hover:text-white"
             >
               <a href="/about"><ArrowDown className="mr-2 h-4 w-4" />探索品牌故事</a>
             </Button>
