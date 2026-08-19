@@ -17,6 +17,13 @@ export default function PetWorld() {
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
   const [sharedKey, setSharedKey] = useState<string | null>(null);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const [activeImageIndices, setActiveImageIndices] = useState<Record<string, number>>({});
+
+  const handleImageScroll = (breedName: string, event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.currentTarget;
+    const index = Math.round(target.scrollLeft / target.clientWidth);
+    setActiveImageIndices((current) => ({ ...current, [breedName]: index }));
+  };
 
   useEffect(() => {
     try {
@@ -99,21 +106,50 @@ export default function PetWorld() {
                     {catBreedGuides.map((breed, index) => {
                       const favoriteKey = `breed:${breed.name}`;
                       const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
-                      const showPhoto = Boolean(breed.image) && !failedImages[breed.name];
+                      const images = breed.images && breed.images.length > 0 ? breed.images : (breed.image ? [breed.image] : []);
+                      const hasValidImages = images.length > 0 && !failedImages[breed.name];
+                      const activeImgIndex = activeImageIndices[breed.name] ?? 0;
                       return (
                       <article id={`breed-${index + 1}`} key={breed.name} className="scroll-mt-24 overflow-hidden rounded-3xl border border-[#D3A87C]/25 bg-white shadow-[0_8px_24px_rgba(140,107,83,0.07)] transition-transform duration-200 hover:-translate-y-1">
-                        <div className="aspect-[4/3] relative overflow-hidden bg-[#FDF8F2] flex items-center justify-center border-b border-[#D3A87C]/15">
-                          {showPhoto ? (
-                            <img
-                              src={breed.image}
-                              alt={`${breed.name} 品種圖片`}
-                              loading="lazy"
-                              decoding="async"
-                              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-                              onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
-                            />
+                        <div className="relative bg-[#FDF8F2] border-b border-[#D3A87C]/15">
+                          {hasValidImages ? (
+                            <div className="relative">
+                              <div
+                                className="horizontal-scroll flex aspect-[4/3] w-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                                onScroll={(e) => handleImageScroll(breed.name, e)}
+                                aria-label={`${breed.name} 多圖相片集`}
+                              >
+                                {images.map((imgSrc, imgIdx) => (
+                                  <div key={imgIdx} className="relative h-full w-full shrink-0 snap-center">
+                                    <img
+                                      src={imgSrc}
+                                      alt={`${breed.name} 相片 ${imgIdx + 1}`}
+                                      loading="lazy"
+                                      decoding="async"
+                                      className="h-full w-full object-cover"
+                                      onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              {images.length > 1 && (
+                                <div className="absolute bottom-2.5 right-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
+                                  {activeImgIndex + 1} / {images.length}
+                                </div>
+                              )}
+                              {images.length > 1 && (
+                                <div className="absolute bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1 backdrop-blur-sm">
+                                  {images.map((_, dotIdx) => (
+                                    <span
+                                      key={dotIdx}
+                                      className={`h-1.5 rounded-full transition-all duration-300 ${activeImgIndex === dotIdx ? "w-4 bg-white" : "w-1.5 bg-white/60"}`}
+                                    />
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           ) : (
-                            <div className="flex flex-col items-center justify-center p-6 text-center">
+                            <div className="aspect-[4/3] flex flex-col items-center justify-center p-6 text-center">
                               <div className="mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-[#D3A87C]/15 text-[#8C6B53]">
                                 <PawPrint className="h-7 w-7" />
                               </div>
