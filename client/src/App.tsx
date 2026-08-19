@@ -48,7 +48,7 @@ function App() {
       >
         <CartProvider>
           <TooltipProvider>
-            <Toaster />
+            <Toaster position="top-center" />
             <Router />
           </TooltipProvider>
         </CartProvider>

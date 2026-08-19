@@ -529,3 +529,18 @@
 [2026-08-19T17:14:04.354Z] 5:14:04 PM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
 [2026-08-19T17:15:09.681Z] [Auth] Missing session cookie
 [2026-08-19T17:16:05.205Z] 5:16:05 PM [vite] (client) hmr update /src/index.css
+[2026-08-19T17:18:04.028Z] [Auth] Missing session cookie
+[2026-08-19T17:18:07.992Z] [Auth] Missing session cookie
+[2026-08-19T17:20:11.000Z] 5:20:11 PM [vite] (client) hmr update /src/contexts/CartContext.tsx, /src/index.css
+[2026-08-19T17:20:11.438Z] 5:20:11 PM [vite] (client) hmr invalidate /src/contexts/CartContext.tsx Could not Fast Refresh ("useCart" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2026-08-19T17:20:11.439Z] 5:20:11 PM [vite] (client) hmr update /src/App.tsx, /src/components/Header.tsx, /src/components/ProductGrid.tsx, /src/components/CartDrawer.tsx
+[2026-08-19T17:20:19.635Z] 5:20:19 PM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T17:20:28.985Z] 5:20:28 PM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T17:20:43.771Z] 5:20:43 PM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T17:20:52.519Z] 5:20:52 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-08-19T17:21:03.247Z] 5:21:03 PM [vite] (client) hmr update /src/index.css
+[2026-08-19T17:21:41.729Z] [Auth] Missing session cookie
+[2026-08-19T17:21:44.761Z] [Auth] Missing session cookie
+[2026-08-19T17:21:50.988Z] [Auth] Missing session cookie
+[2026-08-19T17:21:53.945Z] [Auth] Missing session cookie
+[2026-08-19T17:23:06.140Z] 5:23:06 PM [vite] (client) hmr update /src/index.css

@@ -62,7 +62,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = useCallback((product: CartProduct) => {
     setItems((current) => mergeCartItem(current, product));
-    setIsOpen(true);
   }, []);
 
   const updateQuantity = useCallback((productId: string, quantity: number) => {

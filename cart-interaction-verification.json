@@ -1,0 +1,20 @@
+[
+  {
+    "viewport": "desktop",
+    "drawerClosed": true,
+    "toastVisible": true,
+    "badgeUpdated": true,
+    "badgeAnimated": true,
+    "toastAutoDismissed": true,
+    "drawerOpensOnHeaderClick": true
+  },
+  {
+    "viewport": "mobile",
+    "drawerClosed": true,
+    "toastVisible": true,
+    "badgeUpdated": true,
+    "badgeAnimated": true,
+    "toastAutoDismissed": true,
+    "drawerOpensOnHeaderClick": true
+  }
+]

@@ -301,7 +301,7 @@ export default function ProductGrid() {
     updateUrl({ category: resolveSearchCategory(filters.category, query), q: query });
   };
 
-  const { addItem, openCart } = useCart();
+  const { addItem } = useCart();
 
   const handleAddToCart = (product: StoreProduct) => {
     if (!product.priceId) {
@@ -309,8 +309,10 @@ export default function ProductGrid() {
       return;
     }
     addItem(product);
-    openCart();
-    toast.success("商品已加入購物車");
+    toast.success("已加入購物車", {
+      duration: 2000,
+      description: "可繼續瀏覽商品，按右上角購物車即可查看。",
+    });
   };
 
   const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, product: StoreProduct) => {

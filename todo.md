@@ -240,5 +240,16 @@
 - [x] 將分類按鈕移至 Hero Banner 正下方
 - [x] 將「立即選購」 CTA 導向 `#product-list`
 - [x] 以手機 viewport 驗證首屏、分類位置及 CTA 滾動
+- [x] 執行測試、保存 checkpoint 並正式部署
+- [x] 回報手機 UX 更新結果
+
+## 加入購物車互動與視覺修正
+
+- [x] 檢查 CartContext、CartDrawer、Header Cart Button 及現有 Toast 實作
+- [x] 加入購物車後不自動開啟 Drawer，保留目前頁面
+- [x] 加入 Header Cart Badge 即時更新及縮放／抖動微動畫
+- [x] 加入兩秒後自動消失的「已加入購物車」Toast
+- [x] 確保只有點擊 Header Cart Button 才開啟 Drawer
+- [x] 以桌面／手機 viewport 實測加入及 Drawer 操作
 - [ ] 執行測試、保存 checkpoint 並正式部署
-- [ ] 回報手機 UX 更新結果
+- [ ] 回報購物車互動修正結果

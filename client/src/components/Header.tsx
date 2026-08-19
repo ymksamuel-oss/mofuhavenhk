@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navItems = [
   { label: "首頁", href: "/" },
@@ -12,7 +12,19 @@ const navItems = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartBumping, setIsCartBumping] = useState(false);
   const { itemCount, openCart } = useCart();
+  const previousItemCount = useRef(itemCount);
+
+  useEffect(() => {
+    if (itemCount > previousItemCount.current) {
+      setIsCartBumping(true);
+      const timeoutId = window.setTimeout(() => setIsCartBumping(false), 450);
+      previousItemCount.current = itemCount;
+      return () => window.clearTimeout(timeoutId);
+    }
+    previousItemCount.current = itemCount;
+  }, [itemCount]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-sm backdrop-blur-md">
@@ -27,7 +39,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2 md:gap-4">
           <a href="/products?category=all" aria-label="搜尋及瀏覽商品" className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white"><Search className="h-5 w-5" /></a>
-          <Button variant="ghost" size="icon" onClick={openCart} className="relative rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white" aria-label={`購物車，目前 ${itemCount} 件商品`}><ShoppingCart className="h-5 w-5" /><span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D3A87C] text-[10px] font-semibold text-white">{itemCount > 99 ? "99+" : itemCount}</span></Button>
+          <Button variant="ghost" size="icon" onClick={openCart} className="relative rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white" aria-label={`購物車，目前 ${itemCount} 件商品`}><ShoppingCart className="h-5 w-5" /><span className={`absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D3A87C] text-[10px] font-semibold text-white ${isCartBumping ? "cart-badge-bump" : ""}`}>{itemCount > 99 ? "99+" : itemCount}</span></Button>
           <button className="rounded-full bg-[#FFFDF9] p-2 text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label="開啟選單" aria-expanded={isMenuOpen}>{isMenuOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}</button>
         </div>
       </div>
