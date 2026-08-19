@@ -326,3 +326,7 @@
 [2026-08-19T07:53:10.608Z] 7:53:10 AM [vite] (client) hmr update /src/index.css
 [2026-08-19T07:56:04.168Z] 7:56:04 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
 [2026-08-19T08:01:06.849Z] 8:01:06 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T08:02:02.539Z] [Auth] Missing session cookie
+[2026-08-19T08:02:04.606Z] [Auth] Missing session cookie
+[2026-08-19T08:06:49.586Z] 8:06:49 AM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T08:09:21.455Z] 8:09:21 AM [vite] (client) hmr update /src/index.css

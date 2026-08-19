@@ -45,15 +45,15 @@ export default function CategoryGrid() {
             const Icon = category.icon;
             return (
               <a key={category.slug} href={`/?category=${category.slug}#products`} className="group">
-                <Card className="flex h-full cursor-pointer flex-col items-center justify-center border-2 border-transparent bg-white/80 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-dashed hover:border-primary/20 hover:bg-white hover:shadow-lg md:p-8">
-                  <div className="relative mb-4 rounded-full bg-gradient-to-br from-primary/15 to-primary/5 p-4 transition-all duration-300 group-hover:from-primary/25 group-hover:to-primary/10">
-                    <div className="pointer-events-none absolute inset-0 rounded-full bg-primary/10 blur-lg opacity-0 transition-opacity group-hover:opacity-100" />
-                    <Icon className="relative z-10 h-6 w-6 text-primary md:h-8 md:w-8" />
+                <Card className="flex h-full min-h-36 cursor-pointer flex-col items-center justify-center rounded-[9999px] border border-[#E6D3BF] bg-[#FFFDF9]/95 p-5 text-center shadow-[0_8px_24px_rgba(140,107,83,0.08)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#C9A47C] hover:bg-[#F8ECDF] hover:shadow-[0_12px_30px_rgba(140,107,83,0.16)] md:min-h-40 md:p-7">
+                  <div className="relative mb-3 rounded-full border border-[#D3A87C]/35 bg-[#F3E5D5] p-3.5 transition-all duration-300 group-hover:bg-[#EAD2B9] md:p-4">
+                    <div className="pointer-events-none absolute inset-0 rounded-full bg-[#D3A87C]/25 blur-lg opacity-0 transition-opacity group-hover:opacity-100" />
+                    <Icon className="relative z-10 h-6 w-6 text-[#8C6B53] md:h-8 md:w-8" />
                   </div>
-                  <h3 className="mb-1 text-sm font-semibold text-foreground transition-colors group-hover:text-primary md:text-base">
+                  <h3 className="mb-1 text-sm font-semibold text-[#6F5645] transition-colors group-hover:text-[#8C6B53] md:text-base">
                     {category.label}
                   </h3>
-                  <p className="text-xs text-muted-foreground transition-colors group-hover:text-foreground/60">{category.desc}</p>
+                  <p className="text-xs text-[#9A806A] transition-colors group-hover:text-[#7A5D49]">{category.desc}</p>
                 </Card>
               </a>
             );
@@ -61,7 +61,7 @@ export default function CategoryGrid() {
         </div>
 
         <div className="mt-12 text-center md:mt-16">
-          <Button asChild size="lg" className="bg-primary font-semibold text-white shadow-lg transition-all duration-300 hover:bg-primary/90 hover:shadow-xl">
+          <Button asChild size="lg" className="rounded-full bg-[#C9A47C] px-7 font-semibold text-white shadow-[0_8px_20px_rgba(140,107,83,0.18)] transition-all duration-300 hover:bg-[#8C6B53] hover:shadow-[0_12px_26px_rgba(140,107,83,0.24)]">
             <a href="/?category=all#products">為毛孩繼續選購 →</a>
           </Button>
         </div>
