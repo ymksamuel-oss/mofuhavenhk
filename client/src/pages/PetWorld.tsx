@@ -114,39 +114,38 @@ export default function PetWorld() {
                         <div className="relative bg-white border-b border-[#D3A87C]/15">
                           {hasValidImages ? (
                             <div className="relative">
-                              <div
-                                className="horizontal-scroll flex aspect-[4/3] w-full snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                                onScroll={(e) => handleImageScroll(breed.name, e)}
-                                aria-label={`${breed.name} 多圖相片集`}
-                              >
-                                {images.map((imgSrc, imgIdx) => (
-                                  <div key={imgIdx} className="relative h-full w-full shrink-0 snap-center">
-                                    <img
-                                      src={imgSrc}
-                                      alt={`${breed.name} 相片 ${imgIdx + 1}`}
-                                      loading="lazy"
-                                      decoding="async"
-                                      className="h-full w-full object-cover"
-                                      onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
-                                    />
+                              <div>
+                                <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+                                  <img
+                                    src={images[activeImgIndex] ?? images[0]}
+                                    alt={`${breed.name} 主圖`}
+                                    loading="lazy"
+                                    decoding="async"
+                                    className="h-full w-full object-cover transition-all duration-300"
+                                    onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
+                                  />
+                                  {images.length > 1 && (
+                                    <div className="absolute bottom-2.5 right-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
+                                      {activeImgIndex + 1} / {images.length}
+                                    </div>
+                                  )}
+                                </div>
+                                {images.length > 1 && (
+                                  <div className="horizontal-scroll flex w-full gap-2 overflow-x-auto border-t border-[#D3A87C]/15 bg-white p-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={`${breed.name} 縮圖列表`}>
+                                    {images.map((imgSrc, imgIdx) => (
+                                      <button
+                                        key={imgIdx}
+                                        type="button"
+                                        onClick={() => setActiveImageIndices((current) => ({ ...current, [breed.name]: imgIdx }))}
+                                        className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border transition-all ${activeImgIndex === imgIdx ? "border-[#D3A87C] ring-2 ring-[#D3A87C]/30 scale-105" : "border-border/70 opacity-75 hover:opacity-100"}`}
+                                        aria-label={`切換至 ${breed.name} 第 ${imgIdx + 1} 張相片`}
+                                      >
+                                        <img src={imgSrc} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                                      </button>
+                                    ))}
                                   </div>
-                                ))}
+                                )}
                               </div>
-                              {images.length > 1 && (
-                                <div className="absolute bottom-2.5 right-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
-                                  {activeImgIndex + 1} / {images.length}
-                                </div>
-                              )}
-                              {images.length > 1 && (
-                                <div className="absolute bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1 backdrop-blur-sm">
-                                  {images.map((_, dotIdx) => (
-                                    <span
-                                      key={dotIdx}
-                                      className={`h-1.5 rounded-full transition-all duration-300 ${activeImgIndex === dotIdx ? "w-4 bg-white" : "w-1.5 bg-white/60"}`}
-                                    />
-                                  ))}
-                                </div>
-                              )}
                             </div>
                           ) : (
                             <div className="aspect-[4/3] flex flex-col items-center justify-center p-6 text-center">
