@@ -345,7 +345,7 @@ export default function ProductGrid() {
           </div>
         </form>
 
-        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {compactCategories.map((category) => {
             const CategoryIcon = categoryIcons[category];
             const isActive = filters.category === category;
@@ -355,7 +355,26 @@ export default function ProductGrid() {
                 type="button"
                 size="sm"
                 variant={isActive ? "default" : "outline"}
-                className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
+                className={`h-9 shrink-0 rounded-full px-3 text-xs ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
+                onClick={() => updateUrl({ category })}
+              >
+                <CategoryIcon className="h-3.5 w-3.5" />
+                {categoryLabels[category]}
+              </Button>
+            );
+          })}
+        </div>
+        <div className="mb-3 hidden items-center gap-2 overflow-x-auto pb-1 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
+            const CategoryIcon = categoryIcons[category];
+            const isActive = filters.category === category;
+            return (
+              <Button
+                key={category}
+                type="button"
+                size="sm"
+                variant={isActive ? "default" : "outline"}
+                className={`h-9 shrink-0 rounded-full px-3 text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
                 onClick={() => updateUrl({ category })}
               >
                 <CategoryIcon className="h-3.5 w-3.5" />
