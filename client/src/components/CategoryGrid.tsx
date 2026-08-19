@@ -11,9 +11,11 @@ import {
   TrendingUp,
   Backpack,
   Rabbit,
+  LayoutGrid,
 } from "lucide-react";
 
 const categories = [
+  { icon: LayoutGrid, label: "全部商品", desc: "瀏覽完整商品目錄", slug: "all" },
   { icon: Cat, label: "貓咪商品", desc: "為貓咪精心挑選", slug: "cats" },
   { icon: Dog, label: "狗狗商品", desc: "狗狗的最愛", slug: "dogs" },
   { icon: Bone, label: "寵物零食", desc: "健康小食", slug: "treats" },
@@ -28,14 +30,14 @@ const categories = [
 
 export default function CategoryGrid() {
   return (
-    <section className="relative overflow-hidden py-16 md:py-24">
+    <section aria-label="商品分類" className="relative overflow-hidden bg-[#FFFDF9] py-3 sm:py-4 md:py-12">
       <div className="pointer-events-none absolute left-0 top-1/3 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-96 w-96 rounded-full bg-secondary/5 blur-3xl" />
 
       <div className="container relative z-10">
-        <div className="mb-12 text-center md:mb-16">
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl">寵物分類導覽</h2>
-          <p className="mx-auto max-w-2xl text-base text-foreground/70 md:text-lg">
+        <div className="mb-2 hidden text-center md:mb-5 md:block">
+          <h2 className="text-2xl font-bold text-foreground md:text-3xl">寵物分類導覽</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-foreground/70 md:text-base">
             為毛孩慢慢挑選心水商品，每一件都是我們精心把關的好物。
           </p>
         </div>
@@ -59,7 +61,7 @@ export default function CategoryGrid() {
           })}
         </div>
 
-        <div className="mt-10 text-center md:mt-14">
+        <div className="mt-3 hidden text-center md:mt-8 md:block">
           <Button asChild size="lg" className="rounded-full bg-[#C9A47C] px-7 font-semibold text-white shadow-[0_8px_20px_rgba(140,107,83,0.18)] transition-all duration-300 hover:bg-[#8C6B53] hover:shadow-[0_12px_26px_rgba(140,107,83,0.24)]">
             <a href="/products?category=all">為毛孩繼續選購 →</a>
           </Button>

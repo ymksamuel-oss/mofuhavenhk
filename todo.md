@@ -205,8 +205,8 @@
 - [x] 在 Checkout Session 啟用 HKD 與 Stripe Dynamic Payment Methods，並記錄 WeChat Pay 需由 Dashboard 啟用及清晰錯誤處理
 - [x] 補充購物車、Checkout、WeChat Pay 參數及錯誤路徑測試
 - [x] 驗證桌面／手機購物車流程、支付設定及 Stripe Dashboard 啟用提示
-- [ ] 保存 checkpoint 並正式部署
-- [ ] 回報購物車與 WeChat Pay 更新結果
+- [x] 保存 checkpoint 並正式部署
+- [x] 回報購物車與 WeChat Pay 更新結果
 
 ## AlipayHK 手機付款體驗
 
@@ -215,19 +215,30 @@
 - [x] 以 Stripe Dynamic Payment Methods 取代手動 WeChat Pay `client: web` listing，並記錄手動 listing 要求
 - [x] 確保 AlipayHK 使用 Stripe Hosted Checkout 支援的手機 redirect／return URL 流程
 - [x] 驗證 HKD Checkout Session、支付方式參數及錯誤處理
-- [ ] 執行測試、保存 checkpoint 並正式部署
-- [ ] 回報 AlipayHK 手機付款體驗及 Dashboard 啟用要求
+- [x] 執行測試、保存 checkpoint 並正式部署
+- [x] 回報 AlipayHK 手機付款體驗及 Dashboard 啟用要求
 - [ ] 在 Stripe Dashboard 啟用 WeChat Pay 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在可用付款方式中並記錄驗證結果
 - [x] 以手機 viewport／真實瀏覽器互動實測購物車流程：加入購物車不跳轉、抽屜可開關、LocalStorage 保留、前往結帳才呼叫 Checkout
 
 ## 最新版本重新部署與手機支付測試
 
 - [x] 確認最新程式版本、測試結果及未完成外部支付設定
-- [ ] 執行最新 Vitest／production build 並保存部署版本
-- [ ] 重新部署並確認 Preview／Staging 可用
+- [x] 執行最新 Vitest／production build 並保存部署版本
+- [x] 重新部署並確認 Preview／Staging 可用
 - [x] 手機實測加入購物車不自動跳轉、購物車結帳才建立 Checkout
 - [x] 驗證 Stripe Checkout 已設定收集香港送貨地址及電話
 - [x] 驗證 Visa／Mastercard 以 card、AlipayHK 可用及手機 redirect；WeChat Pay 尚待 Dashboard 啟用
-- [ ] 交付手機測試連結及已知 Dashboard 依賴
+- [x] 交付手機測試連結及已知 Dashboard 依賴
 - [ ] 以真實手機完成一次 AlipayHK Checkout 測試，確認會從 Stripe Checkout 跳轉至 AlipayHK App 並成功返回 `/checkout/return`
 - [ ] 在 Stripe Dashboard 啟用 WeChat Pay 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在付款方式中並記錄結果
+
+## 手機首頁 UX 首屏優化
+
+- [x] 檢查 Hero、品牌故事、分類區及商品列表現有結構與錨點
+- [x] 縮短手機 Hero 高度並減少上下 padding
+- [x] 移除或隱藏中段「與毛孩的日常治癒」品牌故事區塊
+- [x] 將分類按鈕移至 Hero Banner 正下方
+- [x] 將「立即選購」 CTA 導向 `#product-list`
+- [x] 以手機 viewport 驗證首屏、分類位置及 CTA 滾動
+- [ ] 執行測試、保存 checkpoint 並正式部署
+- [ ] 回報手機 UX 更新結果

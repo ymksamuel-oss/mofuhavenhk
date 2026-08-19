@@ -1,0 +1,11 @@
+{
+  "viewport": "390x844",
+  "heroHeight": 300,
+  "heroHeightWithinMobileTarget": true,
+  "storyCount": 0,
+  "storyHidden": true,
+  "categoryImmediatelyAfterHero": true,
+  "productAfterCategory": true,
+  "ctaHash": "#product-list",
+  "ctaScrolledToProductList": true
+}

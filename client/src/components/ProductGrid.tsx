@@ -324,7 +324,7 @@ export default function ProductGrid() {
   const hasFilter = filters.category !== "all" || Boolean(filters.q);
 
   return (
-    <section id="products" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-16 md:py-24">
+    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-8 sm:py-12 md:py-24">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       <div className="container relative z-10">
         <div className="mb-8 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">

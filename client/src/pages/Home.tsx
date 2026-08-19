@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import HeroBanner from "@/components/HeroBanner";
-import SubBanner from "@/components/SubBanner";
 import CategoryGrid from "@/components/CategoryGrid";
 import ProductGrid from "@/components/ProductGrid";
 import Footer from "@/components/Footer";
@@ -15,9 +14,8 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroBanner />
-        <SubBanner />
-        <ProductGrid />
         <CategoryGrid />
+        <ProductGrid />
       </main>
       <Footer />
     </div>

@@ -11,7 +11,7 @@ import { ArrowDown } from "lucide-react";
  */
 export default function HeroBanner() {
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+    <section className="relative h-[300px] w-full overflow-hidden sm:h-[340px] md:h-[500px] lg:h-[600px]">
       {/* Main Banner Image */}
       <img
         src="/manus-storage/mofu-haven-website-b.png(6)_c71484d9.png"
@@ -23,36 +23,36 @@ export default function HeroBanner() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent pointer-events-none" />
 
       {/* Content Overlay */}
-      <div className="absolute inset-0 flex flex-col justify-center items-start container pointer-events-auto">
-        <div className="max-w-md md:max-w-lg space-y-4 md:space-y-6 text-white">
+      <div className="container pointer-events-auto absolute inset-0 flex items-center">
+        <div className="max-w-[19rem] space-y-2 text-white sm:max-w-md sm:space-y-4 md:max-w-lg md:space-y-6">
           {/* Badge */}
-          <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/30 pointer-events-none">
-            <span className="text-sm font-medium">日本直送・嚴選寵物好物</span>
+          <div className="pointer-events-none inline-block rounded-full border border-white/30 bg-white/20 px-3 py-1.5 backdrop-blur-sm sm:px-4 sm:py-2">
+            <span className="text-xs font-medium sm:text-sm">日本直送・嚴選寵物好物</span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
             Mofu Haven
           </h1>
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-white/90">
+          <p className="text-base text-white/90 sm:text-lg md:text-xl">
             日本寵物用品專門店
           </p>
 
           {/* Description */}
-          <p className="text-base md:text-lg text-white/80 max-w-sm">
+          <p className="max-w-sm text-sm text-white/80 sm:text-base md:text-lg">
             直送日本優質寵物用品，讓您嘅貓貓狗狗幸福滿分。
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+          <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:gap-3 sm:pt-4">
             <Button
               asChild
               size="lg"
               className="bg-[#D3A87C] text-white hover:bg-[#C2976B] font-semibold shadow-md"
             >
-              <a href="/?category=all#products">立即選購 →</a>
+              <a href="/#product-list">立即選購 →</a>
             </Button>
             <Button
               asChild
@@ -60,7 +60,7 @@ export default function HeroBanner() {
               variant="outline"
               className="border-[#F3E5D5] bg-transparent text-white hover:bg-[#D3A87C]/30 hover:text-white"
             >
-              <a href="/#about"><ArrowDown className="w-4 h-4 mr-2" />探索品牌故事</a>
+              <a href="/about"><ArrowDown className="mr-2 h-4 w-4" />探索品牌故事</a>
             </Button>
           </div>
         </div>

@@ -520,3 +520,12 @@
 [2026-08-19T16:53:00.435Z] Server running on http://localhost:3000/
 [2026-08-19T16:53:11.971Z] [Auth] Missing session cookie
 [2026-08-19T16:53:12.553Z] [Auth] Missing session cookie
+[2026-08-19T16:55:43.793Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T16:57:20.684Z] [Auth] Missing session cookie
+[2026-08-19T16:57:23.689Z] [Auth] Missing session cookie
+[2026-08-19T17:13:05.106Z] 5:13:05 PM [vite] (client) hmr update /src/pages/Home.tsx, /src/index.css
+[2026-08-19T17:13:20.112Z] 5:13:20 PM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-19T17:13:34.570Z] 5:13:34 PM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T17:14:04.354Z] 5:14:04 PM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T17:15:09.681Z] [Auth] Missing session cookie
+[2026-08-19T17:16:05.205Z] 5:16:05 PM [vite] (client) hmr update /src/index.css
