@@ -66,7 +66,7 @@ export default function PetWorld() {
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="relative overflow-hidden bg-[#F3E5D5] py-14 md:py-24">
+        <section className="relative overflow-hidden bg-[#F5EFE6] py-14 md:py-24">
           <div className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-white/35 blur-3xl" />
           <div className="pointer-events-none absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-[#D3A87C]/25 blur-3xl" />
           <div className="container relative z-10 max-w-5xl">
@@ -84,10 +84,10 @@ export default function PetWorld() {
           </div>
         </section>
 
-        <section className="bg-[#FFFDF9] py-8 md:py-12" aria-label="寵物專區">
+        <section className="bg-[#F5EFE6] py-8 md:py-12" aria-label="寵物專區">
           <div className="container max-w-6xl">
             <Tabs defaultValue="cats" className="w-full">
-              <TabsList className="grid h-auto w-full max-w-2xl grid-cols-3 rounded-full bg-[#F3E5D5] p-1">
+              <TabsList className="grid h-auto w-full max-w-2xl grid-cols-3 rounded-full bg-[#F5EFE6] p-1">
                 <TabsTrigger value="cats" className="rounded-full px-3 py-2 text-xs text-[#8C6B53] md:text-sm">貓咪專區</TabsTrigger>
                 <TabsTrigger value="dogs" className="rounded-full px-3 py-2 text-xs text-[#8C6B53] md:text-sm">狗狗專區（即將推出）</TabsTrigger>
                 <TabsTrigger value="small-pets" className="rounded-full px-3 py-2 text-xs text-[#8C6B53] md:text-sm">小寵物專區（即將推出）</TabsTrigger>
@@ -111,7 +111,7 @@ export default function PetWorld() {
                       const activeImgIndex = activeImageIndices[breed.name] ?? 0;
                       return (
                       <article id={`breed-${index + 1}`} key={breed.name} className="scroll-mt-24 overflow-hidden rounded-3xl border border-[#D3A87C]/25 bg-white shadow-[0_8px_24px_rgba(140,107,83,0.07)] transition-transform duration-200 hover:-translate-y-1">
-                        <div className="relative bg-[#FDF8F2] border-b border-[#D3A87C]/15">
+                        <div className="relative bg-white border-b border-[#D3A87C]/15">
                           {hasValidImages ? (
                             <div className="relative">
                               <div
@@ -176,10 +176,10 @@ export default function PetWorld() {
                             <p><strong className="font-semibold text-foreground">相處提示：</strong>{breed.note}</p>
                           </div>
                           <div className="mt-5 flex flex-wrap gap-2">
-                            <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, breed.name)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]">
+                            <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, breed.name)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F5EFE6]">
                               <Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-[#D3A87C]" : ""}`} />{isFavorite ? "已收藏" : "加入收藏"}
                             </Button>
-                            <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${breed.name}｜Mofu Haven`, `${breed.name} 的品種與照顧提示`, `#breed-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]">
+                            <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${breed.name}｜Mofu Haven`, `${breed.name} 的品種與照顧提示`, `#breed-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F5EFE6]">
                               {sharedKey === favoriteKey ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}{sharedKey === favoriteKey ? "已複製" : "一鍵分享"}
                             </Button>
                           </div>
@@ -190,7 +190,7 @@ export default function PetWorld() {
                   </div>
                 </section>
 
-                <section id="care-guide" className="scroll-mt-20 mt-14 bg-secondary/20 py-14 md:mt-20 md:py-20">
+                <section id="care-guide" className="scroll-mt-20 mt-14 bg-[#F5EFE6] py-14 md:mt-20 md:py-20">
                   <div className="container max-w-5xl">
                     <div className="mb-8 text-center md:mb-10">
                       <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#8C6B53]"><BookOpen className="h-4 w-4" />日常照顧筆記</p>
@@ -202,13 +202,13 @@ export default function PetWorld() {
                         const favoriteKey = `guide:${guide.title}`;
                         const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
                         return (
-                        <article id={`guide-${index + 1}`} key={guide.title} className="scroll-mt-24 rounded-3xl border border-border/70 bg-[#FFFDF9] p-5 md:p-6">
+                        <article id={`guide-${index + 1}`} key={guide.title} className="scroll-mt-24 rounded-3xl border border-border/70 bg-white p-5 md:p-6">
                           <div className="flex items-start gap-4">
-                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F3E5D5] text-sm font-bold text-[#8C6B53]">{String(index + 1).padStart(2, "0")}</span>
+                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5EFE6] text-sm font-bold text-[#8C6B53]">{String(index + 1).padStart(2, "0")}</span>
                             <div><h3 className="text-lg font-semibold text-foreground">{guide.title}</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{guide.body}</p>
                               <div className="mt-4 flex flex-wrap gap-2">
-                                <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, guide.title)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]"><Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-[#D3A87C]" : ""}`} />{isFavorite ? "已收藏" : "加入收藏"}</Button>
-                                <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${guide.title}｜Mofu Haven`, guide.body, `#guide-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F3E5D5]"><Share2 className="h-3.5 w-3.5" />一鍵分享</Button>
+                                <Button type="button" size="sm" variant="outline" onClick={() => toggleFavorite(favoriteKey, guide.title)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F5EFE6]"><Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-[#D3A87C]" : ""}`} />{isFavorite ? "已收藏" : "加入收藏"}</Button>
+                                <Button type="button" size="sm" variant="outline" onClick={() => void shareContent(favoriteKey, `${guide.title}｜Mofu Haven`, guide.body, `#guide-${index + 1}`)} className="h-8 rounded-full border-[#D3A87C]/55 px-3 text-xs text-[#8C6B53] hover:bg-[#F5EFE6]"><Share2 className="h-3.5 w-3.5" />一鍵分享</Button>
                               </div>
                             </div>
                           </div>
@@ -219,14 +219,14 @@ export default function PetWorld() {
                     <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-6 text-muted-foreground">本頁為一般照顧資訊，不能取代獸醫的個別診斷或治療建議。如貓咪出現持續或明顯異常，請盡快向合資格獸醫查詢。</p>
                     <div className="mt-9 flex flex-wrap justify-center gap-3">
                       <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><Link href="/products?category=cat">瀏覽貓咪商品</Link></Button>
-                      <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F3E5D5]"><Link href="/"><ArrowLeft className="h-4 w-4" />返回首頁</Link></Button>
+                      <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F5EFE6]"><Link href="/"><ArrowLeft className="h-4 w-4" />返回首頁</Link></Button>
                     </div>
                   </div>
                 </section>
               </TabsContent>
 
               <TabsContent value="dogs" className="mt-8">
-                <div className="rounded-3xl border border-dashed border-[#D3A87C]/50 bg-[#FDF8F2] px-6 py-16 text-center">
+                <div className="rounded-3xl border border-dashed border-[#D3A87C]/50 bg-white px-6 py-16 text-center">
                   <PawPrint className="mx-auto h-10 w-10 text-[#D3A87C]" />
                   <h2 className="mt-4 text-2xl font-bold text-[#6F5645]">狗狗專區即將推出</h2>
                   <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-muted-foreground">我們正在整理狗狗品種、日常運動、飲食及居家照顧內容，敬請期待下一個專題更新。</p>
@@ -234,7 +234,7 @@ export default function PetWorld() {
               </TabsContent>
 
               <TabsContent value="small-pets" className="mt-8">
-                <div className="rounded-3xl border border-dashed border-[#D3A87C]/50 bg-[#FDF8F2] px-6 py-16 text-center">
+                <div className="rounded-3xl border border-dashed border-[#D3A87C]/50 bg-white px-6 py-16 text-center">
                   <PawPrint className="mx-auto h-10 w-10 text-[#D3A87C]" />
                   <h2 className="mt-4 text-2xl font-bold text-[#6F5645]">小寵物專區即將推出</h2>
                   <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-muted-foreground">倉鼠、兔子及其他小寵物的品種與生活指南正在準備中，稍後會逐步加入更多內容。</p>

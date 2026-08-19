@@ -28,7 +28,7 @@ export default function Header() {
   }, [itemCount]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-sm backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border bg-[#F5EFE6] shadow-sm backdrop-blur-md">
       <div className="container flex h-[70px] items-center justify-between md:h-32">
         <a href="/" aria-label="Mofu Haven 首頁" className="group flex h-full min-w-0 items-center">
           <img src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png" alt="Mofu Haven" className="h-[58px] max-h-[58px] w-auto max-w-[168px] object-contain transition-transform duration-300 group-hover:scale-[1.02] md:h-[130px] md:max-h-[135px] md:max-w-none" />
@@ -47,7 +47,7 @@ export default function Header() {
 
       <CartDrawer />
 
-      {isMenuOpen && <nav className="border-t border-border bg-white/90 backdrop-blur-sm md:hidden" aria-label="手機主選單"><div className="container flex flex-col gap-3 py-4">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="text-sm font-medium text-foreground transition-all hover:pl-2 hover:text-[#8C6B53]">{item.label}</a>)}</div></nav>}
+      {isMenuOpen && <nav className="border-t border-[#D3A87C]/20 bg-[#F5EFE6] backdrop-blur-sm md:hidden" aria-label="手機主選單"><div className="container flex flex-col gap-3 py-4">{navItems.map((item) => <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="text-sm font-medium text-foreground transition-all hover:pl-2 hover:text-[#8C6B53]">{item.label}</a>)}</div></nav>}
     </header>
   );
 }

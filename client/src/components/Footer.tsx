@@ -12,7 +12,7 @@ import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shar
  */
 export default function Footer() {
   return (
-    <footer className="bg-[#F3E5D5] border-t border-[#D3A87C]/25 mt-8 md:mt-16">
+    <footer className="bg-[#F5EFE6] border-t border-[#D3A87C]/25 mt-8 md:mt-16">
       <div className="container py-8 md:py-12">
         {/* Footer Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-10 mb-8">

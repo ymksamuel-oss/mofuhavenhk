@@ -68,9 +68,9 @@ export default function InfoPage({ page }: { page: InfoPageKey }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1 bg-secondary/15 py-16 md:py-24">
+      <main className="flex-1 bg-[#F5EFE6] py-16 md:py-24">
         <div className="container max-w-4xl">
-          <div className="rounded-[2rem] border border-primary/15 bg-[#FFFDF9] p-6 shadow-sm md:p-12">
+          <div className="rounded-[2rem] border border-primary/15 bg-white p-6 shadow-sm md:p-12">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               <CheckCircle2 className="h-4 w-4" />
               {content.eyebrow}
@@ -91,7 +91,7 @@ export default function InfoPage({ page }: { page: InfoPageKey }) {
               <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]">
                 <Link href="/products">瀏覽全部商品</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F3E5D5]">
+              <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F5EFE6]">
                 <Link href="/"><ArrowLeft className="h-4 w-4" />返回首頁</Link>
               </Button>
             </div>

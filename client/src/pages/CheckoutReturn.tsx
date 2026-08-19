@@ -9,7 +9,7 @@ export default function CheckoutReturn() {
   const isSuccess = status === "success";
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] text-foreground">
+    <div className="min-h-screen bg-[#F5EFE6] text-foreground">
       <Header />
       <main className="container flex min-h-[55vh] items-center justify-center py-16">
         <section className="w-full max-w-xl rounded-3xl border border-[#D3A87C]/25 bg-white/85 p-8 text-center shadow-sm md:p-12">
@@ -20,7 +20,7 @@ export default function CheckoutReturn() {
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><a href="/products"><ShoppingBag className="h-4 w-4" />繼續購物</a></Button>
-            <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/50 text-[#8C6B53] hover:bg-[#F3E5D5]"><a href="/">返回首頁</a></Button>
+            <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/50 text-[#8C6B53] hover:bg-[#F5EFE6]"><a href="/">返回首頁</a></Button>
           </div>
         </section>
       </main>

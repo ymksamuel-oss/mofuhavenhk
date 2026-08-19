@@ -63,15 +63,15 @@
   --radius: 0.75rem;
   
   /* Background: unified warm milky beige */
-  --background: #F3E5D5;
+  --background: #F5EFE6;
   --foreground: #6F5645;
   
   /* Card: clean soft white surface */
-  --card: #FFFCF7;
+  --card: #FFFFFF;
   --card-foreground: #6F5645;
   
   /* Popover: clean soft white surface */
-  --popover: #FFFCF7;
+  --popover: #FFFFFF;
   --popover-foreground: #6F5645;
   
   /* Secondary: warm milk-tea accent */
@@ -150,8 +150,20 @@
   
   body {
     @apply bg-background text-foreground;
-    background-color: #F3E5D5;
+    background-color: #F5EFE6;
     background-image: none;
+  }
+
+  /* Hide only identifiable Manus branding overlays if the host injects them. */
+  #manus-badge,
+  #manus-watermark,
+  .manus-badge,
+  .manus-watermark,
+  [data-manus-badge],
+  [data-manus-watermark],
+  [aria-label="Made with Manus"],
+  [aria-label="Made by Manus"] {
+    display: none !important;
   }
   
   h1, h2, h3, h4, h5, h6 {

@@ -24,13 +24,13 @@ describe("homepage milk-tea UI and horizontal category scrolling", () => {
     const productGrid = readProjectFile("client/src/components/ProductGrid.tsx");
     const footer = readProjectFile("client/src/components/Footer.tsx");
 
-    expect(css).toContain("--background: #F3E5D5;");
-    expect(css).toContain("background-color: #F3E5D5;");
+    expect(css).toContain("--background: #F5EFE6;");
+    expect(css).toContain("background-color: #F5EFE6;");
     expect(css).toContain("background-image: none;");
-    expect(home).toContain("bg-[#F3E5D5]");
-    expect(categoryGrid).toContain("bg-[#F3E5D5]");
-    expect(productGrid).toContain("bg-[#F3E5D5]");
-    expect(footer).toContain("bg-[#F3E5D5]");
+    expect(home).toContain("bg-[#F5EFE6]");
+    expect(categoryGrid).toContain("bg-[#F5EFE6]");
+    expect(productGrid).toContain("bg-[#F5EFE6]");
+    expect(footer).toContain("bg-[#F5EFE6]");
   });
 
   it("keeps search, category pills, and product cards on clean light surfaces", () => {
@@ -41,6 +41,31 @@ describe("homepage milk-tea UI and horizontal category scrolling", () => {
     expect(categoryGrid).toContain("bg-white/90");
     expect(productGrid).toContain("bg-white/95");
     expect(productGrid).toContain("bg-white/90");
-    expect(productGrid).toContain("bg-white/75");
+    expect(productGrid).toContain("bg-white");
+  });
+});
+
+
+describe("visual cleanup", () => {
+  it("uses the single warm beige site background and white product surfaces", () => {
+    const css = readProjectFile("client/src/index.css");
+    const productGrid = readProjectFile("client/src/components/ProductGrid.tsx");
+    const header = readProjectFile("client/src/components/Header.tsx");
+
+    expect(css).toContain("--background: #F5EFE6;");
+    expect(css).toContain("background-color: #F5EFE6;");
+    expect(css).toContain("--card: #FFFFFF;");
+    expect(productGrid).toContain("bg-white shadow-[0_3px_12px_rgba(140,107,83,0.08)]");
+    expect(productGrid).not.toContain("bg-[#f5f0eb]");
+    expect(header).toContain("bg-[#F5EFE6]");
+  });
+
+  it("hides only identifiable Manus branding overlays", () => {
+    const css = readProjectFile("client/src/index.css");
+
+    expect(css).toContain("#manus-badge");
+    expect(css).toContain("#manus-watermark");
+    expect(css).toContain("[data-manus-badge]");
+    expect(css).toContain("display: none !important;");
   });
 });
