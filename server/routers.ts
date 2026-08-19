@@ -21,7 +21,7 @@ function getStripeClient(): Stripe {
 }
 
 const productQueryInput = z.object({
-  category: z.enum(["all", "cats", "dogs", "treats", "wet-cans", "toys", "supplements", "small-pets", "cleaning", "deals", "bestsellers", "outdoor"]).optional(),
+  category: z.string().trim().max(40).optional(),
   q: z.string().trim().max(120).optional(),
 }).optional();
 

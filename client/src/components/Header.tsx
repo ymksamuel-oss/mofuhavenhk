@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const navItems = [
   { label: "首頁", href: "/" },
   { label: "產品", href: "/products?category=all" },
+  { label: "探索寵物世界", href: "/pet-world" },
   { label: "關於我們", href: "/about" },
 ];
 
@@ -28,9 +29,9 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-white/95 shadow-sm backdrop-blur-md">
-      <div className="container flex h-14 items-center justify-between md:h-32">
-        <a href="/" aria-label="Mofu Haven 首頁" className="group flex min-w-0 items-center">
-          <img src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png" alt="Mofu Haven" className="h-10 max-h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] md:h-[110px] md:max-h-[120px]" />
+      <div className="container flex h-[58px] items-center justify-between md:h-32">
+        <a href="/" aria-label="Mofu Haven 首頁" className="group flex h-full min-w-0 items-center">
+          <img src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png" alt="Mofu Haven" className="h-[46px] max-h-[46px] w-auto max-w-[132px] object-contain transition-transform duration-300 group-hover:scale-[1.02] md:h-[110px] md:max-h-[120px] md:max-w-none" />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="主選單">
@@ -38,9 +39,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <a href="/products?category=all" aria-label="搜尋及瀏覽商品" className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:h-10 md:w-10"><Search className="h-4 w-4 md:h-5 md:w-5" /></a>
-          <Button variant="ghost" size="icon" onClick={openCart} className="relative h-8 w-8 rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:h-10 md:w-10" aria-label={`購物車，目前 ${itemCount} 件商品`}><ShoppingCart className="h-4 w-4 md:h-5 md:w-5" /><span className={`absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#D3A87C] text-[9px] font-semibold text-white md:h-4 md:w-4 md:text-[10px] ${isCartBumping ? "cart-badge-bump" : ""}`}>{itemCount > 99 ? "99+" : itemCount}</span></Button>
-          <button className="rounded-full bg-[#FFFDF9] p-2 text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label="開啟選單" aria-expanded={isMenuOpen}>{isMenuOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}</button>
+          <a href="/products?category=all" aria-label="搜尋及瀏覽商品" className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:h-10 md:w-10"><Search className="h-4 w-4 md:h-5 md:w-5" /></a>
+          <Button variant="ghost" size="icon" onClick={openCart} className="relative h-9 w-9 rounded-full bg-[#FFFDF9] text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:h-10 md:w-10" aria-label={`購物車，目前 ${itemCount} 件商品`}><ShoppingCart className="h-4 w-4 md:h-5 md:w-5" /><span className={`absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#D3A87C] text-[9px] font-semibold text-white md:h-4 md:w-4 md:text-[10px] ${isCartBumping ? "cart-badge-bump" : ""}`}>{itemCount > 99 ? "99+" : itemCount}</span></Button>
+          <button className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#FFFDF9] p-0 text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label="開啟選單" aria-expanded={isMenuOpen}>{isMenuOpen ? <X className="h-5 w-5 text-foreground" /> : <Menu className="h-5 w-5 text-foreground" />}</button>
         </div>
       </div>
 

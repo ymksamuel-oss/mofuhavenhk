@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Products from "@/pages/Products";
 import InfoPage from "@/pages/InfoPage";
 import CheckoutReturn from "@/pages/CheckoutReturn";
+import PetWorld from "@/pages/PetWorld";
 
 function AboutPage() { return <InfoPage page="about" />; }
 function FaqPage() { return <InfoPage page="faq" />; }
@@ -23,6 +24,8 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/products"} component={Products} />
       <Route path={"/about"} component={AboutPage} />
+      <Route path={"/pet-world"} component={PetWorld} />
+      <Route path={"/explore-pets"} component={PetWorld} />
       <Route path={"/faq"} component={FaqPage} />
       <Route path={"/shipping-policy"} component={ShippingPolicyPage} />
       <Route path={"/returns-policy"} component={ReturnsPolicyPage} />

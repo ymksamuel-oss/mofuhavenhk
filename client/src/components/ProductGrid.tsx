@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
-import { normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
+import { filterCatalogProducts, normalizeRequestedCategory, resolveSearchCategory, type ProductCategory } from "@shared/productCatalog";
+import { storefrontCategories, type StorefrontCategory } from "@shared/categoryNavigation";
 import {
   ArrowUpRight,
   Backpack,
@@ -64,7 +65,7 @@ const categoryIcons: Record<ProductCategory, typeof Cat> = {
   outdoor: Backpack,
 };
 
-const compactCategories: ProductCategory[] = ["all", "cats", "dogs", "treats"];
+const compactCategories: StorefrontCategory[] = ["cats", "dogs", "small-pets", "treats"];
 
 const categoryLabels: Record<ProductCategory, string> = {
   all: "全部商品",
@@ -258,9 +259,18 @@ function ProductDetailModal({
 export default function ProductGrid() {
   const [filters, setFilters] = useState(getUrlFilters);
   const [searchInput, setSearchInput] = useState(filters.q);
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.q);
   const [selectedProduct, setSelectedProduct] = useState<StoreProduct | null>(null);
-  const input = useMemo(() => ({ category: filters.category, q: filters.q }), [filters.category, filters.q]);
+  const input = useMemo(() => ({
+    // Search uses the full catalog; the actual text filter runs locally after debounce.
+    category: searchInput.trim() ? "all" : filters.category,
+  }), [filters.category, searchInput]);
   const productsQuery = trpc.store.products.useQuery(input, { staleTime: 60_000, retry: 2 });
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(searchInput), 200);
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
 
   useEffect(() => {
     const syncFromUrl = () => {
@@ -300,11 +310,17 @@ export default function ProductGrid() {
   const submitSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.trim();
+    setDebouncedSearch(query);
     updateUrl({ category: resolveSearchCategory(filters.category, query), q: query });
   };
 
   const { addItem } = useCart();
   const isProductsPage = window.location.pathname === "/products";
+  const activeCategory = debouncedSearch.trim() ? "all" : filters.category;
+  const visibleProducts = useMemo(
+    () => filterCatalogProducts(productsQuery.data?.products ?? [], activeCategory, debouncedSearch),
+    [productsQuery.data?.products, activeCategory, debouncedSearch],
+  );
 
   const handleAddToCart = (product: StoreProduct) => {
     if (!product.priceId) {
@@ -336,7 +352,7 @@ export default function ProductGrid() {
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">為毛孩慢慢挑選真正可購買的好物</h2>
             <p className="mt-3 max-w-2xl text-foreground/70">商品、圖片、價格和分類直接來自已核實的 Stripe Live 商品資料。</p>
           </div>
-          {productsQuery.data && <span className="shrink-0 text-sm font-medium text-muted-foreground">目前顯示 {productsQuery.data.total} 件／共 {productsQuery.data.totalAvailable} 件</span>}
+          {productsQuery.data && <span className="shrink-0 text-sm font-medium text-muted-foreground">目前顯示 {visibleProducts.length} 件／共 {productsQuery.data.totalAvailable} 件</span>}
         </div>
 
         {isProductsPage && (
@@ -344,7 +360,7 @@ export default function ProductGrid() {
             <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {compactCategories.map((category) => {
                 const CategoryIcon = categoryIcons[category];
-                const isActive = filters.category === category;
+                const isActive = activeCategory === category;
                 return (
                   <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
                     <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
@@ -353,9 +369,9 @@ export default function ProductGrid() {
               })}
             </div>
             <div className="mb-3 hidden items-center gap-2 overflow-x-auto pb-1 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
+              {storefrontCategories.map(({ slug: category }) => {
                 const CategoryIcon = categoryIcons[category];
-                const isActive = filters.category === category;
+                const isActive = activeCategory === category;
                 return (
                   <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`} onClick={() => updateUrl({ category })}>
                     <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category]}
@@ -377,11 +393,11 @@ export default function ProductGrid() {
 
         {productsQuery.isError && <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-8 text-center"><h3 className="text-lg font-semibold text-foreground">暫時未能載入商品</h3><p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">商品服務未能連線。請重新整理此頁面，或確認 Stripe 整合已啟用。</p><Button className="mt-5" variant="outline" onClick={() => productsQuery.refetch()}><RefreshCw className="h-4 w-4" />重新載入</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data?.products.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
+        {!productsQuery.isLoading && !productsQuery.isError && visibleProducts.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-background/70 p-10 text-center"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && productsQuery.data.products.length > 0 && (
+        {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && visibleProducts.length > 0 && (
           <div className="grid items-stretch grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {productsQuery.data.products.map((product) => (
+            {visibleProducts.map((product) => (
               <Card
                 key={product.id}
                 role="button"

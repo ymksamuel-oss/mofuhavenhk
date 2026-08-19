@@ -11,22 +11,26 @@ import {
   TrendingUp,
   Backpack,
   Rabbit,
-  LayoutGrid,
 } from "lucide-react";
+import { storefrontCategories } from "@shared/categoryNavigation";
 
-const categories = [
-  { icon: LayoutGrid, label: "全部商品", desc: "瀏覽完整商品目錄", slug: "all" },
-  { icon: Cat, label: "貓咪商品", desc: "為貓咪精心挑選", slug: "cats" },
-  { icon: Dog, label: "狗狗商品", desc: "狗狗的最愛", slug: "dogs" },
-  { icon: Bone, label: "寵物零食", desc: "健康小食", slug: "treats" },
-  { icon: Droplet, label: "貓咪罐罐", desc: "濕糧與罐頭", slug: "wet-cans" },
-  { icon: Gamepad2, label: "寵物玩具", desc: "快樂時光", slug: "toys" },
-  { icon: Heart, label: "營養保健", desc: "健康守護", slug: "supplements" },
-  { icon: Tag, label: "限時優惠", desc: "驚喜好康", slug: "deals" },
-  { icon: TrendingUp, label: "熱賣商品", desc: "人氣推薦", slug: "bestsellers" },
-  { icon: Backpack, label: "外出用品", desc: "便利同行", slug: "outdoor" },
-  { icon: Rabbit, label: "小寵物商品", desc: "小動物的貼心照護", slug: "small-pets" },
-];
+const categoryIcons = {
+  cats: Cat,
+  dogs: Dog,
+  "small-pets": Rabbit,
+  treats: Bone,
+  "wet-cans": Droplet,
+  toys: Gamepad2,
+  supplements: Heart,
+  deals: Tag,
+  bestsellers: TrendingUp,
+  outdoor: Backpack,
+} as const;
+
+const categories = storefrontCategories.map((category) => ({
+  ...category,
+  icon: categoryIcons[category.slug],
+}));
 
 export default function CategoryGrid() {
   return (

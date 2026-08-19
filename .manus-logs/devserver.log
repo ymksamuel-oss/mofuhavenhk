@@ -572,3 +572,123 @@
 [2026-08-19T18:17:45.400Z] 6:17:45 PM [tsx] change in ./server/routers.ts Restarting...
 [2026-08-19T18:17:46.968Z] c[OAuth] Initialized with baseURL: https://api.manus.im
 [2026-08-19T18:17:47.183Z] Server running on http://localhost:3000/
+[2026-08-19T18:20:33.728Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T18:28:44.410Z] 6:28:44 PM [vite] (client) hmr update /src/components/ProductGrid.tsx
+[2026-08-19T18:28:44.490Z] 6:28:44 PM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T18:28:46.008Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:28:46.227Z] Server running on http://localhost:3000/
+[2026-08-19T18:28:58.613Z] 6:28:58 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T18:29:00.351Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:29:00.563Z] Server running on http://localhost:3000/
+[2026-08-19T18:31:13.058Z] 6:31:13 PM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T18:31:14.794Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:31:15.024Z] Server running on http://localhost:3000/
+[2026-08-19T18:33:13.535Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T18:33:39.006Z] 6:33:39 PM [vite] (client) hmr update /src/components/ProductGrid.tsx
+[2026-08-19T18:33:39.072Z] 6:33:39 PM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T18:33:40.626Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:33:40.844Z] Server running on http://localhost:3000/
+[2026-08-19T18:34:11.334Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T18:35:20.877Z] 6:35:20 PM [vite] (client) hmr update /src/components/ProductGrid.tsx
+[2026-08-19T18:35:20.955Z] 6:35:20 PM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T18:35:22.471Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:35:22.689Z] Server running on http://localhost:3000/
+[2026-08-19T18:35:58.056Z] 6:35:58 PM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T18:35:59.683Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T18:35:59.908Z] Server running on http://localhost:3000/
+[2026-08-19T18:36:32.104Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T18:42:15.163Z] [Auth] Missing session cookie
+[2026-08-19T18:42:39.170Z] [Auth] Missing session cookie
+[2026-08-19T18:43:06.949Z] [Auth] Missing session cookie
+[2026-08-19T18:43:50.704Z] [Auth] Missing session cookie
+[2026-08-19T18:44:10.759Z] [Auth] Missing session cookie
+[2026-08-19T18:44:43.368Z] [Auth] Missing session cookie
+[2026-08-19T18:45:01.931Z] [Auth] Missing session cookie
+[2026-08-19T18:45:25.665Z] [Auth] Missing session cookie
+[2026-08-19T18:45:43.502Z] [Auth] Missing session cookie
+[2026-08-19T18:46:14.995Z] [Auth] Missing session cookie
+[2026-08-19T18:46:28.850Z] [Auth] Missing session cookie
+[2026-08-19T18:51:19.187Z] 6:51:19 PM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T18:51:19.254Z] 6:51:19 PM [vite] Internal server error: /home/ubuntu/mofu-haven-website/client/src/components/CategoryGrid.tsx: Identifier 'Rabbit' has already been declared. (14:2)
+[2026-08-19T18:51:19.254Z] 12 |   Backpack,
+[2026-08-19T18:51:19.254Z] 13 |   Rabbit,
+[2026-08-19T18:51:19.255Z] > 14 |   Rabbit,
+[2026-08-19T18:51:19.255Z] |   ^
+[2026-08-19T18:51:19.255Z] 15 | } from "lucide-react";
+[2026-08-19T18:51:19.255Z] 16 | import { storefrontCategories } from "@shared/categoryNavigation";
+[2026-08-19T18:51:19.255Z] 17 |
+[2026-08-19T18:51:19.255Z] Plugin: vite:react-babel
+[2026-08-19T18:51:19.255Z] File: /home/ubuntu/mofu-haven-website/client/src/components/CategoryGrid.tsx:14:2
+[2026-08-19T18:51:19.255Z] 12 |    Backpack,
+[2026-08-19T18:51:19.255Z] 13 |    Rabbit,
+[2026-08-19T18:51:19.255Z] 14 |    Rabbit,
+[2026-08-19T18:51:19.255Z] |    ^
+[2026-08-19T18:51:19.255Z] 15 |  } from "lucide-react";
+[2026-08-19T18:51:19.255Z] 16 |  import { storefrontCategories } from "@shared/categoryNavigation";
+[2026-08-19T18:51:19.255Z] at toParseError (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-08-19T18:51:19.255Z] at raise (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+[2026-08-19T18:51:19.255Z] at declareName (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/plugins/typescript/scope.ts:72:21)
+[2026-08-19T18:51:19.255Z] at declareNameFromIdentifier (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/lval.ts:818:16)
+[2026-08-19T18:51:19.255Z] at checkIdentifier (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/lval.ts:813:12)
+[2026-08-19T18:51:19.255Z] at checkLVal (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/lval.ts:713:12)
+[2026-08-19T18:51:19.255Z] at finishImportSpecifier (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:3223:10)
+[2026-08-19T18:51:19.255Z] at parseImportSpecifier (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:3480:17)
+[2026-08-19T18:51:19.255Z] at parseImportSpecifier (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/plugins/typescript/index.ts:4359:20)
+[2026-08-19T18:51:19.255Z] at parseNamedImportSpecifiers (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:3441:36)
+[2026-08-19T18:51:19.255Z] at parseImportSpecifiersAndAfter (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:3173:37)
+[2026-08-19T18:51:19.255Z] at parseImport (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:3142:17)
+[2026-08-19T18:51:19.255Z] at parseImport (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/plugins/typescript/index.ts:3011:28)
+[2026-08-19T18:51:19.255Z] at parseStatementContent (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:642:25)
+[2026-08-19T18:51:19.255Z] at parseStatementContent (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/plugins/typescript/index.ts:3185:20)
+[2026-08-19T18:51:19.255Z] at parseStatementLike (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:477:17)
+[2026-08-19T18:51:19.255Z] at parseModuleItem (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:414:17)
+[2026-08-19T18:51:19.255Z] at parseBlockOrModuleBlockBody (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+[2026-08-19T18:51:19.255Z] at parseBlockBody (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+[2026-08-19T18:51:19.255Z] at parseProgram (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-08-19T18:51:19.255Z] at parseTopLevel (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-08-19T18:51:19.255Z] at parse (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/parser/index.ts:93:10)
+[2026-08-19T18:51:19.255Z] at parse (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/plugins/typescript/index.ts:4309:20)
+[2026-08-19T18:51:19.255Z] at parse (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+parser@7.28.4/node_modules/@babel/parser/src/index.ts:92:38)
+[2026-08-19T18:51:19.255Z] at parser (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+core@7.28.4/node_modules/@babel/core/src/parser/index.ts:28:19)
+[2026-08-19T18:51:19.255Z] at parser.next (<anonymous>)
+[2026-08-19T18:51:19.255Z] at normalizeFile (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+core@7.28.4/node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+[2026-08-19T18:51:19.255Z] at normalizeFile.next (<anonymous>)
+[2026-08-19T18:51:19.255Z] at run (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+core@7.28.4/node_modules/@babel/core/src/transformation/index.ts:40:36)
+[2026-08-19T18:51:19.255Z] at run.next (<anonymous>)
+[2026-08-19T18:51:19.255Z] at transform (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+core@7.28.4/node_modules/@babel/core/src/transform.ts:29:20)
+[2026-08-19T18:51:19.255Z] at transform.next (<anonymous>)
+[2026-08-19T18:51:19.255Z] at step (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)
+[2026-08-19T18:51:19.255Z] at /home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+[2026-08-19T18:51:19.255Z] at async.call.result.err.err (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
+[2026-08-19T18:51:19.255Z] at /home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:189:28
+[2026-08-19T18:51:19.255Z] at <anonymous> (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/@babel+core@7.28.4/node_modules/@babel/core/src/gensync-utils/async.ts:90:7)
+[2026-08-19T18:51:19.255Z] at /home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:113:33
+[2026-08-19T18:51:19.255Z] at step (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:287:14)
+[2026-08-19T18:51:19.255Z] at /home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+[2026-08-19T18:51:19.255Z] at async.call.result.err.err (/home/ubuntu/mofu-haven-website/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
+[2026-08-19T18:51:19.393Z] 6:51:19 PM [vite] (client) Pre-transform error: /home/ubuntu/mofu-haven-website/client/src/components/CategoryGrid.tsx: Identifier 'Rabbit' has already been declared. (14:2)
+[2026-08-19T18:51:19.393Z] 12 |   Backpack,
+[2026-08-19T18:51:19.393Z] 13 |   Rabbit,
+[2026-08-19T18:51:19.393Z] > 14 |   Rabbit,
+[2026-08-19T18:51:19.393Z] |   ^
+[2026-08-19T18:51:19.393Z] 15 | } from "lucide-react";
+[2026-08-19T18:51:19.393Z] 16 | import { storefrontCategories } from "@shared/categoryNavigation";
+[2026-08-19T18:51:19.393Z] 17 |
+[2026-08-19T18:51:19.393Z] Plugin: vite:react-babel
+[2026-08-19T18:51:19.393Z] File: /home/ubuntu/mofu-haven-website/client/src/components/CategoryGrid.tsx:14:2
+[2026-08-19T18:51:19.393Z] 12 |    Backpack,
+[2026-08-19T18:51:19.393Z] 13 |    Rabbit,
+[2026-08-19T18:51:19.393Z] 14 |    Rabbit,
+[2026-08-19T18:51:19.393Z] |    ^
+[2026-08-19T18:51:19.393Z] 15 |  } from "lucide-react";
+[2026-08-19T18:51:19.393Z] 16 |  import { storefrontCategories } from "@shared/categoryNavigation";
+[2026-08-19T18:51:34.235Z] 6:51:34 PM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T18:51:46.960Z] 6:51:46 PM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-19T18:51:47.352Z] [Auth] Missing session cookie
+[2026-08-19T18:52:28.309Z] 6:52:28 PM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T18:52:35.801Z] 6:52:35 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-08-19T18:52:56.251Z] 6:52:56 PM [vite] (client) hmr update /src/pages/Home.tsx, /src/index.css
+[2026-08-19T18:54:03.784Z] 6:54:03 PM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-19T18:54:51.733Z] [Auth] Missing session cookie
+[2026-08-19T18:58:34.262Z] [Auth] Missing session cookie
+[2026-08-19T18:58:52.031Z] 6:58:52 PM [vite] (client) hmr update /src/index.css
