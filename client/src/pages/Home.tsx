@@ -17,18 +17,32 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroBanner />
-        <CategoryGrid />
-        <ProductGrid />
-        <section aria-labelledby="pet-world-teaser" className="border-t border-[#D3A87C]/20 bg-[#F3E5D5] py-10 md:py-14">
-          <div className="container flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-2xl">
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#8C6B53]"><PawPrint className="h-4 w-4" />探索寵物世界</p>
-              <h2 id="pet-world-teaser" className="mt-2 text-2xl font-bold text-[#6F5645] md:text-3xl">認識貓咪品種與日常飼養小筆記</h2>
-              <p className="mt-2 text-sm leading-7 text-[#6F5645]/75">由 12 種常見貓咪品種到飲食、梳理、居家安全及遊戲提示，慢慢建立適合你與毛孩的生活節奏。</p>
+        <section aria-labelledby="pet-world-banner" className="relative overflow-hidden bg-gradient-to-r from-[#FDF8F2] via-[#F6EDE2] to-[#F1E4D6] py-8 md:py-12 border-y border-[#D3A87C]/25 shadow-sm">
+          <div className="container relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="max-w-3xl space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#D3A87C]/15 px-3.5 py-1 text-xs font-semibold text-[#8C6B53] md:text-sm">
+                <PawPrint className="h-4 w-4 text-[#D3A87C]" />
+                Mofu Haven 專題指南
+              </div>
+              <h2 id="pet-world-banner" className="text-2xl font-bold tracking-tight text-[#6F5645] md:text-4xl font-serif">
+                探索寵物世界
+              </h2>
+              <p className="text-sm leading-relaxed text-[#6F5645]/80 md:text-base">
+                精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
+              </p>
             </div>
-            <Button asChild className="w-fit rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"><Link href="/pet-world"><BookOpen className="h-4 w-4" />瀏覽探索指南</Link></Button>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button asChild size="lg" className="rounded-full bg-[#D3A87C] text-white shadow-md hover:bg-[#C2976B] px-6 py-3 font-medium transition-all duration-300 hover:scale-105">
+                <Link href="/pet-world">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  立即探索 →
+                </Link>
+              </Button>
+            </div>
           </div>
         </section>
+        <CategoryGrid />
+        <ProductGrid />
       </main>
       <Footer />
     </div>

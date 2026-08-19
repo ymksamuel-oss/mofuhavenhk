@@ -760,3 +760,7 @@
 [2026-08-19T19:26:57.816Z] 7:26:57 PM [vite] (client) hmr update /src/pages/CheckoutReturn.tsx, /src/index.css
 [2026-08-19T19:28:30.772Z] [Auth] Missing session cookie
 [2026-08-19T19:29:06.495Z] 7:29:06 PM [vite] (client) hmr update /src/index.css
+[2026-08-19T19:29:36.559Z] [Auth] Missing session cookie
+[2026-08-19T20:26:03.957Z] 8:26:03 PM [vite] (client) hmr update /src/pages/Home.tsx, /src/index.css
+[2026-08-19T20:26:05.066Z] [Auth] Missing session cookie
+[2026-08-19T20:27:06.806Z] 8:27:06 PM [vite] (client) hmr update /src/index.css
