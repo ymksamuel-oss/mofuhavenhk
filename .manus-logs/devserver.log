@@ -418,3 +418,34 @@
 [2026-08-19T10:02:09.947Z] [Auth] Missing session cookie
 [2026-08-19T10:02:35.432Z] [Auth] Missing session cookie
 [2026-08-19T10:03:59.194Z] 10:03:59 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T10:05:32.976Z] [Auth] Missing session cookie
+[2026-08-19T10:05:35.074Z] [Auth] Missing session cookie
+[2026-08-19T10:12:41.656Z] [Auth] Missing session cookie
+[2026-08-19T10:50:27.753Z] ELIFECYCLE  Command failed.
+[2026-08-19T10:50:27.808Z] Dev server exited with code -1
+[2026-08-19T10:50:28.861Z] Starting dev server with command: pnpm run dev
+[2026-08-19T10:50:29.586Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T10:50:29.587Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T10:50:31.290Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T10:50:31.499Z] Server running on http://localhost:3000/
+[2026-08-19T10:54:06.755Z] ELIFECYCLE  Command failed.
+[2026-08-19T10:54:06.804Z] Dev server exited with code -1
+[2026-08-19T10:54:07.862Z] Starting dev server with command: pnpm run dev
+[2026-08-19T10:54:08.558Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T10:54:08.558Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T10:54:10.172Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T10:54:10.380Z] Server running on http://localhost:3000/
+[2026-08-19T10:54:50.153Z] 10:54:50 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T10:54:51.855Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T10:54:52.088Z] Server running on http://localhost:3000/
+[2026-08-19T10:55:24.061Z] ELIFECYCLE  Command failed.
+[2026-08-19T10:55:24.116Z] Dev server exited with code -1
+[2026-08-19T10:55:25.169Z] Starting dev server with command: pnpm run dev
+[2026-08-19T10:55:25.902Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T10:55:25.902Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T10:55:27.555Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T10:55:27.773Z] Server running on http://localhost:3000/
+[2026-08-19T10:56:25.184Z] [Auth] Missing session cookie
+[2026-08-19T10:57:14.919Z] [Auth] Missing session cookie
+[2026-08-19T10:57:15.282Z] [Auth] Missing session cookie
+[2026-08-19T10:58:37.499Z] [Auth] Missing session cookie

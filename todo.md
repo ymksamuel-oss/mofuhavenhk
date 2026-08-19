@@ -167,8 +167,23 @@
 - [x] 為貓狗商品補上可用圖片，缺圖統一使用品牌占位圖
 - [x] 為商品圖片加入 onError fallback，避免破圖
 - [x] 驗證商品詳情互動、Footer／Header 路由、圖片 fallback 及桌面／手機版
-- [ ] 執行測試、保存 checkpoint 並正式部署
-- [ ] 回報四項更新結果
+- [x] 執行測試、保存 checkpoint 並正式部署
+- [x] 回報四項更新結果
 - [x] 以瀏覽器實際點擊商品卡片，驗證詳情 Modal 開啟並顯示完整標題、價格及介紹
 - [x] 在商品詳情 Modal 內點擊大圖，驗證 Lightbox 可開啟及關閉
 - [x] 以缺圖／失效圖片實測品牌 placeholder 與 onError fallback
+
+## Preview／Staging 測試交付
+
+- [x] 確認最新 checkpoint 與 Preview／Staging 服務狀態
+- [x] 驗證 Preview 商品頁、商品詳情 Modal／Lightbox、Footer 路由及 Header 導覽
+- [x] 交付 Preview／Staging 測試連結並通知用戶
+
+## Stripe Live 金流切換
+
+- [x] 檢查目前 Payment Settings、Stripe 帳戶模式及 Checkout 金鑰狀態
+- [x] 向用戶說明正式收款、退款及不可逆設定影響並取得明確確認
+- [x] 以安全方式套用 Live Stripe Secret／Publishable Keys，避免在聊天暴露密鑰
+- [x] 驗證 Checkout 使用 Live 模式及付款錯誤處理
+- [x] 回報金流切換結果及正式收款前注意事項
+- [x] 實測無效 priceId 的 Live Checkout 錯誤路徑，確認請求被拒絕且沒有付款網址或扣款
