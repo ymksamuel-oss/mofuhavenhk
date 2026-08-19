@@ -64,6 +64,8 @@ const categoryIcons: Record<ProductCategory, typeof Cat> = {
   outdoor: Backpack,
 };
 
+const compactCategories: ProductCategory[] = ["all", "cats", "dogs", "treats"];
+
 const categoryLabels: Record<ProductCategory, string> = {
   all: "全部商品",
   cats: "貓咪商品",
@@ -323,13 +325,11 @@ export default function ProductGrid() {
     }
   };
 
-  const hasFilter = filters.category !== "all" || Boolean(filters.q);
-
   return (
-    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-8 sm:py-12 md:py-24">
+    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-secondary/20 py-2 sm:py-4 md:py-24">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       <div className="container relative z-10">
-        <div className="mb-8 flex flex-col gap-5 md:mb-12 md:flex-row md:items-end md:justify-between">
+        <div className="mb-2 hidden flex-col gap-5 md:mb-12 md:flex md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary"><ShoppingBag className="h-4 w-4" />Stripe 商品目錄</p>
             <h2 className="text-3xl font-bold text-foreground md:text-4xl">為毛孩慢慢挑選真正可購買的好物</h2>
@@ -338,16 +338,15 @@ export default function ProductGrid() {
           {productsQuery.data && <span className="shrink-0 text-sm font-medium text-muted-foreground">目前顯示 {productsQuery.data.total} 件／共 {productsQuery.data.totalAvailable} 件</span>}
         </div>
 
-        <form onSubmit={submitSearch} className="mb-6 flex flex-col gap-3 sm:flex-row">
+        <form onSubmit={submitSearch} className="mb-2 flex">
           <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-12 w-full rounded-xl border border-border bg-background pl-11 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-10 w-full rounded-full border border-border bg-background pl-10 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
           </div>
-          <Button type="submit" className="h-12 px-6">搜尋商品</Button>
         </form>
 
-        <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
+        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {compactCategories.map((category) => {
             const CategoryIcon = categoryIcons[category];
             const isActive = filters.category === category;
             return (
@@ -364,10 +363,7 @@ export default function ProductGrid() {
               </Button>
             );
           })}
-          {hasFilter && <Button type="button" size="sm" variant="ghost" className="shrink-0" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}><X className="h-4 w-4" />清除篩選</Button>}
         </div>
-
-        {hasFilter && <p className="mb-5 text-sm text-muted-foreground">目前篩選：<span className="font-semibold text-foreground">{categoryLabels[filters.category]}</span>{filters.q && <>，搜尋「<span className="font-semibold text-foreground">{filters.q}</span>」</>}</p>}
 
         {productsQuery.isLoading && <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{Array.from({ length: 8 }).map((_, index) => <ProductSkeleton key={index} />)}</div>}
 

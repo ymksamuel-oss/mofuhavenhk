@@ -1,0 +1,17 @@
+{
+  "viewport": "390x844",
+  "headerHeight": 57,
+  "headerWithin60px": true,
+  "removedProductHeaderCopy": true,
+  "largeSearchButtonRemoved": true,
+  "searchInputVisible": true,
+  "categoryLabels": [
+    "全部商品",
+    "貓咪商品",
+    "狗狗商品",
+    "寵物零食"
+  ],
+  "categoryCount": 4,
+  "searchInteraction": true,
+  "categoryInteraction": true
+}

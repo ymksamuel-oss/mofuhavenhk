@@ -251,5 +251,16 @@
 - [x] 加入兩秒後自動消失的「已加入購物車」Toast
 - [x] 確保只有點擊 Header Cart Button 才開啟 Drawer
 - [x] 以桌面／手機 viewport 實測加入及 Drawer 操作
+- [x] 執行測試、保存 checkpoint 並正式部署
+- [x] 回報購物車互動修正結果
+
+## 手機 Header 與商品區頂部瘦身
+
+- [x] 檢查 Header 與 ProductGrid 頂部結構及響應式 class
+- [x] 手機 Header 高度控制在 60px 以內並縮小 Logo
+- [x] 手機商品區移除 Stripe 標籤、標題、副標題、商品數量及搜尋大按鈕
+- [x] 只保留搜尋框與全部／貓咪／狗狗／零食分類標籤
+- [x] 讓商品搜尋／分類區緊接 Header 或 Banner 下方
+- [x] 以 390×844 手機 viewport 驗證首屏與搜尋／分類互動
 - [ ] 執行測試、保存 checkpoint 並正式部署
-- [ ] 回報購物車互動修正結果
+- [ ] 回報手機版頂部空間優化結果
