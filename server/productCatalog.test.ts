@@ -20,7 +20,14 @@ describe("product category mapping", () => {
     expect(allCatResults.length).toBeGreaterThan(0);
   });
 
-  it("keeps cat cans out of the small-pets category", () => {
+  it("keeps the cat category populated with cat products", () => {
+    const catProducts = filterCatalogProducts(stripeProductsSnapshot, "cats");
+
+    expect(catProducts.length).toBeGreaterThan(0);
+    expect(catProducts.some((product) => /貓|CIAO|cat/i.test(product.name))).toBe(true);
+  });
+
+  it("keeps the cat cans out of the small-pets category", () => {
     const catCan = stripeProductsSnapshot.find((product) => product.name.includes("CIAO 貓罐罐"));
 
     expect(catCan).toBeDefined();

@@ -139,11 +139,21 @@
 - [x] 移除 Footer 舊「毛毛港 Mofu Haven」文字及正方形圖示
 - [x] 將首頁 10 個分類入口導向 `/products?category=xxx` 商品頁
 - [x] 驗證 Footer Logo 顯示、10 個分類導航及商品篩選
-- [ ] 執行測試、Preview 並正式部署
-- [ ] 回報 Footer Logo 與分類導向修正結果
+- [x] 執行測試、Preview 並正式部署
+- [x] 回報 Footer Logo 與分類導向修正結果
 
 ## Footer 分類入口逐一驗證
 
 - [x] 逐一驗證首頁 10 個分類入口均導向 `/products?category=xxx`
 - [x] 逐一確認 10 個分類頁有對應商品或正確空狀態
 - [x] 保存 10 個分類入口導航驗證證據
+
+## 貓咪分類、Logo 比例與導覽文字修正
+
+- [x] 檢查貓咪商品分類目前結果、Header／Footer Logo 尺寸及頂部導覽文字
+- [x] 修正貓咪商品分類，確保至少顯示可售貓咪產品
+- [x] 調整 Header Logo 與 Footer Logo 的視覺尺寸一致
+- [x] 將頂部「關於」改為「關於我們」
+- [x] 驗證貓咪分類、Logo 比例及桌面／手機導覽
+- [x] 執行測試並正式部署
+- [x] 回報三項修正結果
