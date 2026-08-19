@@ -5,7 +5,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { listStoreProducts } from "./stripeProducts";
-import { filterCatalogProducts, type ProductCategory } from "../shared/productCatalog";
+import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/productCatalog";
 
 function getStripeClient(): Stripe {
   const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -17,7 +17,7 @@ function getStripeClient(): Stripe {
 }
 
 const productQueryInput = z.object({
-  category: z.enum(["all", "cats", "dogs", "treats", "wet-cans", "toys", "supplements", "cleaning", "deals", "bestsellers", "outdoor"]).optional(),
+  category: z.enum(["all", "cats", "dogs", "treats", "wet-cans", "toys", "supplements", "small-pets", "cleaning", "deals", "bestsellers", "outdoor"]).optional(),
   q: z.string().trim().max(120).optional(),
 }).optional();
 
@@ -34,7 +34,7 @@ export const appRouter = router({
   store: router({
     products: publicProcedure.input(productQueryInput).query(async ({ input }) => {
       const result = await listStoreProducts(getStripeClient());
-      const category = (input?.category ?? "all") as ProductCategory;
+      const category = normalizeRequestedCategory(input?.category);
       const query = input?.q ?? "";
       const products = filterCatalogProducts(result.products, category, query);
 

@@ -10,6 +10,7 @@ import {
   Tag,
   TrendingUp,
   Backpack,
+  Rabbit,
 } from "lucide-react";
 
 const categories = [
@@ -22,6 +23,7 @@ const categories = [
   { icon: Tag, label: "限時優惠", desc: "驚喜好康", slug: "deals" },
   { icon: TrendingUp, label: "熱賣商品", desc: "人氣推薦", slug: "bestsellers" },
   { icon: Backpack, label: "外出用品", desc: "便利同行", slug: "outdoor" },
+  { icon: Rabbit, label: "小寵物商品", desc: "小動物的貼心照護", slug: "small-pets" },
 ];
 
 export default function CategoryGrid() {

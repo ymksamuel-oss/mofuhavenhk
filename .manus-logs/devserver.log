@@ -278,3 +278,28 @@
 [2026-08-19T06:55:38.025Z] [Auth] Missing session cookie
 [2026-08-19T06:55:42.784Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-19T06:56:27.871Z] 6:56:27 AM [vite] (client) hmr update /src/index.css
+[2026-08-19T06:59:54.939Z] 6:59:54 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T06:59:56.714Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T06:59:56.942Z] Server running on http://localhost:3000/
+[2026-08-19T07:00:11.456Z] 7:00:11 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T07:00:13.161Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:00:13.382Z] Server running on http://localhost:3000/
+[2026-08-19T07:01:06.813Z] 7:01:06 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T07:01:08.394Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:01:08.608Z] Server running on http://localhost:3000/
+[2026-08-19T07:01:22.342Z] [Auth] Missing session cookie
+[2026-08-19T07:01:22.763Z] [Auth] Missing session cookie
+[2026-08-19T07:01:23.049Z] [Auth] Missing session cookie
+[2026-08-19T07:01:56.803Z] [Auth] Missing session cookie
+[2026-08-19T07:02:03.405Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T07:03:12.309Z] 7:03:12 AM [tsx] change in ./shared/productCatalog.ts Restarting...
+[2026-08-19T07:03:14.157Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:03:14.374Z] Server running on http://localhost:3000/
+[2026-08-19T07:03:34.011Z] 7:03:34 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T07:03:35.614Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T07:03:35.829Z] Server running on http://localhost:3000/
+[2026-08-19T07:04:15.050Z] [Auth] Missing session cookie
+[2026-08-19T07:04:15.433Z] [Auth] Missing session cookie
+[2026-08-19T07:04:15.695Z] [Auth] Missing session cookie
+[2026-08-19T07:04:23.518Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T07:05:33.634Z] 7:05:33 AM [vite] (client) hmr update /src/index.css

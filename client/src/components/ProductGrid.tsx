@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
-import type { ProductCategory } from "@shared/productCatalog";
+import { normalizeRequestedCategory, type ProductCategory } from "@shared/productCatalog";
 import { ExternalLink, RefreshCw, Search, ShoppingBag, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -15,19 +15,16 @@ const categoryLabels: Record<ProductCategory, string> = {
   "wet-cans": "貓咪罐罐",
   toys: "寵物玩具",
   supplements: "營養保健",
-  cleaning: "居家清潔",
+  "small-pets": "小寵物商品",
   deals: "限時優惠",
   bestsellers: "熱賣商品",
   outdoor: "外出用品",
 };
 
-const validCategories = new Set<ProductCategory>(Object.keys(categoryLabels) as ProductCategory[]);
-
 function getUrlFilters(): { category: ProductCategory; q: string } {
   const params = new URLSearchParams(window.location.search);
-  const requestedCategory = params.get("category") as ProductCategory | null;
   return {
-    category: requestedCategory && validCategories.has(requestedCategory) ? requestedCategory : "all",
+    category: normalizeRequestedCategory(params.get("category")),
     q: params.get("q") ?? "",
   };
 }
