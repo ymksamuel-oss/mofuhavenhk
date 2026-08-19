@@ -4,9 +4,11 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { CartProvider } from "./contexts/CartContext";
 import Home from "./pages/Home";
 import Products from "@/pages/Products";
 import InfoPage from "@/pages/InfoPage";
+import CheckoutReturn from "@/pages/CheckoutReturn";
 
 function AboutPage() { return <InfoPage page="about" />; }
 function FaqPage() { return <InfoPage page="faq" />; }
@@ -25,6 +27,7 @@ function Router() {
       <Route path={"/shipping-policy"} component={ShippingPolicyPage} />
       <Route path={"/returns-policy"} component={ReturnsPolicyPage} />
       <Route path={"/privacy-policy"} component={PrivacyPolicyPage} />
+      <Route path={"/checkout/return"} component={CheckoutReturn} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -43,10 +46,12 @@ function App() {
       <ThemeProvider
         defaultTheme="light"
       >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </CartProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

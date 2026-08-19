@@ -1,0 +1,9 @@
+{
+  "viewport": "390x844",
+  "productCards": 91,
+  "cartDrawerOpened": true,
+  "cartPersisted": true,
+  "checkoutCallsBeforeCartAction": 0,
+  "checkoutCallsAfterCartAction": 1,
+  "checkoutReturnPage": true
+}

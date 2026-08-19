@@ -449,3 +449,74 @@
 [2026-08-19T10:57:14.919Z] [Auth] Missing session cookie
 [2026-08-19T10:57:15.282Z] [Auth] Missing session cookie
 [2026-08-19T10:58:37.499Z] [Auth] Missing session cookie
+[2026-08-19T11:00:47.490Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T16:39:16.331Z] 4:39:16 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:39:17.988Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:39:18.210Z] Server running on http://localhost:3000/
+[2026-08-19T16:41:17.964Z] ELIFECYCLE  Command failed.
+[2026-08-19T16:41:17.998Z] Dev server exited with code -1
+[2026-08-19T16:41:19.071Z] Starting dev server with command: pnpm run dev
+[2026-08-19T16:41:19.833Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T16:41:19.833Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T16:41:21.455Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:41:21.667Z] Server running on http://localhost:3000/
+[2026-08-19T16:41:29.958Z] [Auth] Missing session cookie
+[2026-08-19T16:41:30.558Z] [Auth] Missing session cookie
+[2026-08-19T16:41:41.502Z] [Auth] Missing session cookie
+[2026-08-19T16:42:04.609Z] [Auth] Missing session cookie
+[2026-08-19T16:42:05.019Z] [Auth] Missing session cookie
+[2026-08-19T16:43:25.035Z] 4:43:25 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:43:26.937Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:43:27.146Z] Server running on http://localhost:3000/
+[2026-08-19T16:44:04.801Z] 4:44:04 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:44:06.392Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:44:06.610Z] Server running on http://localhost:3000/
+[2026-08-19T16:44:28.141Z] ELIFECYCLE  Command failed.
+[2026-08-19T16:44:28.202Z] Dev server exited with code -1
+[2026-08-19T16:44:29.248Z] Starting dev server with command: pnpm run dev
+[2026-08-19T16:44:30.003Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T16:44:30.003Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T16:44:31.618Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:44:31.829Z] Server running on http://localhost:3000/
+[2026-08-19T16:44:42.421Z] [Auth] Missing session cookie
+[2026-08-19T16:44:42.880Z] [Auth] Missing session cookie
+[2026-08-19T16:44:58.764Z] 4:44:58 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:45:00.511Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:45:00.724Z] Server running on http://localhost:3000/
+[2026-08-19T16:45:09.956Z] 4:45:09 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:45:11.595Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:45:11.804Z] Server running on http://localhost:3000/
+[2026-08-19T16:45:32.712Z] ELIFECYCLE  Command failed.
+[2026-08-19T16:45:32.760Z] Dev server exited with code -1
+[2026-08-19T16:45:33.818Z] Starting dev server with command: pnpm run dev
+[2026-08-19T16:45:34.521Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T16:45:34.521Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T16:45:36.244Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:45:36.460Z] Server running on http://localhost:3000/
+[2026-08-19T16:45:44.653Z] [Auth] Missing session cookie
+[2026-08-19T16:45:45.088Z] [Auth] Missing session cookie
+[2026-08-19T16:46:22.974Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-19T16:47:29.773Z] [Auth] Missing session cookie
+[2026-08-19T16:47:34.621Z] [Auth] Missing session cookie
+[2026-08-19T16:47:38.515Z] [Auth] Missing session cookie
+[2026-08-19T16:48:14.255Z] [Auth] Missing session cookie
+[2026-08-19T16:50:13.733Z] [Auth] Missing session cookie
+[2026-08-19T16:50:17.039Z] [Auth] Missing session cookie
+[2026-08-19T16:50:20.740Z] [Auth] Missing session cookie
+[2026-08-19T16:52:04.471Z] [Auth] Missing session cookie
+[2026-08-19T16:52:04.763Z] [Auth] Missing session cookie
+[2026-08-19T16:52:17.999Z] [Auth] Missing session cookie
+[2026-08-19T16:52:21.334Z] [Auth] Missing session cookie
+[2026-08-19T16:52:25.101Z] [Auth] Missing session cookie
+[2026-08-19T16:52:35.202Z] 4:52:35 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-19T16:52:36.857Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:52:37.065Z] Server running on http://localhost:3000/
+[2026-08-19T16:52:56.514Z] ELIFECYCLE  Command failed.
+[2026-08-19T16:52:56.590Z] Dev server exited with code -1
+[2026-08-19T16:52:57.621Z] Starting dev server with command: pnpm run dev
+[2026-08-19T16:52:58.379Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-19T16:52:58.379Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-19T16:53:00.211Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-19T16:53:00.435Z] Server running on http://localhost:3000/
+[2026-08-19T16:53:11.971Z] [Auth] Missing session cookie
+[2026-08-19T16:53:12.553Z] [Auth] Missing session cookie

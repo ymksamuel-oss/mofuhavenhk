@@ -4,6 +4,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { listStoreProducts } from "./stripeProducts";
 import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/productCatalog";
 
@@ -47,16 +48,26 @@ export const appRouter = router({
       };
     }),
     checkout: publicProcedure
-      .input(z.object({ priceId: z.string().min(1) }))
+      .input(z.object({
+        items: z.array(z.object({ priceId: z.string().min(1), quantity: z.number().int().min(1).max(99) })).min(1).max(99),
+      }))
       .mutation(async ({ input, ctx }) => {
         const stripe = getStripeClient();
+        const prices = await Promise.all(input.items.map((item) => stripe.prices.retrieve(item.priceId)));
+        const invalidPrice = prices.find((price) => !price.active || price.currency.toLowerCase() !== "hkd");
+        if (invalidPrice) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "購物車內有未啟用或非 HKD 商品，請重新整理後再試。" });
+        }
+
         const origin = ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}`;
         const session = await stripe.checkout.sessions.create({
           mode: "payment",
-          line_items: [{ price: input.priceId, quantity: 1 }],
+          line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
+          shipping_address_collection: { allowed_countries: ["HK"] },
+          phone_number_collection: { enabled: true },
           allow_promotion_codes: true,
-          success_url: `${origin}/?checkout=success`,
-          cancel_url: `${origin}/?checkout=cancelled`,
+          success_url: `${origin}/checkout/return?status=success&session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${origin}/checkout/return?status=cancelled`,
         });
 
         if (!session.url) {

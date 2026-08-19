@@ -187,3 +187,47 @@
 - [x] 驗證 Checkout 使用 Live 模式及付款錯誤處理
 - [x] 回報金流切換結果及正式收款前注意事項
 - [x] 實測無效 priceId 的 Live Checkout 錯誤路徑，確認請求被拒絕且沒有付款網址或扣款
+
+## 最新版本部署確認
+
+- [x] 核對目前最新版本沒有待完成的程式修改
+- [x] 確認已驗證版本的部署與 Preview 可用性
+- [x] 交付最新部署版本及測試連結
+- [x] 明確記錄本輪部署只涵蓋已驗證的 Stripe Live／前端功能；自訂域名及 75 件缺圖仍屬外部待辦
+- [x] 向用戶交付最新部署版本 ID、Preview URL 及已完成的驗證範圍
+
+## 購物車與 WeChat Pay 更新
+
+- [x] 檢查現有商品加入購物車、購物車狀態、Checkout 路由及支付參數
+- [x] 將「加入購物車」改為只更新 Cart State／LocalStorage，不自動跳轉
+- [x] 新增購物車抽屜／彈窗，支援繼續購物、數量、移除及前往結帳
+- [x] 讓只有購物車「前往結帳」建立 Stripe Checkout Session
+- [x] 在 Checkout Session 啟用 HKD 與 Stripe Dynamic Payment Methods，並記錄 WeChat Pay 需由 Dashboard 啟用及清晰錯誤處理
+- [x] 補充購物車、Checkout、WeChat Pay 參數及錯誤路徑測試
+- [x] 驗證桌面／手機購物車流程、支付設定及 Stripe Dashboard 啟用提示
+- [ ] 保存 checkpoint 並正式部署
+- [ ] 回報購物車與 WeChat Pay 更新結果
+
+## AlipayHK 手機付款體驗
+
+- [x] 核對現有 Checkout／Element 實作、AlipayHK／WeChat Pay 參數及 return URL
+- [x] 查核 Stripe 官方 AlipayHK 手機導向與回傳要求
+- [x] 以 Stripe Dynamic Payment Methods 取代手動 WeChat Pay `client: web` listing，並記錄手動 listing 要求
+- [x] 確保 AlipayHK 使用 Stripe Hosted Checkout 支援的手機 redirect／return URL 流程
+- [x] 驗證 HKD Checkout Session、支付方式參數及錯誤處理
+- [ ] 執行測試、保存 checkpoint 並正式部署
+- [ ] 回報 AlipayHK 手機付款體驗及 Dashboard 啟用要求
+- [ ] 在 Stripe Dashboard 啟用 WeChat Pay 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在可用付款方式中並記錄驗證結果
+- [x] 以手機 viewport／真實瀏覽器互動實測購物車流程：加入購物車不跳轉、抽屜可開關、LocalStorage 保留、前往結帳才呼叫 Checkout
+
+## 最新版本重新部署與手機支付測試
+
+- [x] 確認最新程式版本、測試結果及未完成外部支付設定
+- [ ] 執行最新 Vitest／production build 並保存部署版本
+- [ ] 重新部署並確認 Preview／Staging 可用
+- [x] 手機實測加入購物車不自動跳轉、購物車結帳才建立 Checkout
+- [x] 驗證 Stripe Checkout 已設定收集香港送貨地址及電話
+- [x] 驗證 Visa／Mastercard 以 card、AlipayHK 可用及手機 redirect；WeChat Pay 尚待 Dashboard 啟用
+- [ ] 交付手機測試連結及已知 Dashboard 依賴
+- [ ] 以真實手機完成一次 AlipayHK Checkout 測試，確認會從 Stripe Checkout 跳轉至 AlipayHK App 並成功返回 `/checkout/return`
+- [ ] 在 Stripe Dashboard 啟用 WeChat Pay 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在付款方式中並記錄結果

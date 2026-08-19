@@ -18,7 +18,6 @@ import {
   Cat,
   Dog,
   Droplet,
-  ExternalLink,
   Gamepad2,
   Heart,
   ImageOff,
@@ -33,6 +32,7 @@ import {
   X,
 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
 const PRODUCT_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
@@ -138,14 +138,12 @@ function ProductDetailModal({
   product,
   open,
   onOpenChange,
-  onBuy,
-  isCheckoutPending,
+  onAddToCart,
 }: {
   product: StoreProduct | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onBuy: (priceId: string | null) => void;
-  isCheckoutPending: boolean;
+  onAddToCart: (product: StoreProduct) => void;
 }) {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -223,11 +221,11 @@ function ProductDetailModal({
                 <Button
                   type="button"
                   className="w-full rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"
-                  disabled={!product.priceId || isCheckoutPending}
-                  onClick={() => onBuy(product.priceId)}
+                  disabled={!product.priceId}
+                  onClick={() => onAddToCart(product)}
                 >
-                  {isCheckoutPending ? "處理中…" : "加入購物車"}
-                  <ExternalLink className="h-4 w-4" />
+                  加入購物車
+                  <ShoppingBag className="h-4 w-4" />
                 </Button>
               </DialogFooter>
             </div>
@@ -261,7 +259,6 @@ export default function ProductGrid() {
   const [selectedProduct, setSelectedProduct] = useState<StoreProduct | null>(null);
   const input = useMemo(() => ({ category: filters.category, q: filters.q }), [filters.category, filters.q]);
   const productsQuery = trpc.store.products.useQuery(input, { staleTime: 60_000, retry: 2 });
-  const checkout = trpc.store.checkout.useMutation();
 
   useEffect(() => {
     const syncFromUrl = () => {
@@ -304,19 +301,16 @@ export default function ProductGrid() {
     updateUrl({ category: resolveSearchCategory(filters.category, query), q: query });
   };
 
-  const handleBuy = async (priceId: string | null) => {
-    if (!priceId) {
+  const { addItem, openCart } = useCart();
+
+  const handleAddToCart = (product: StoreProduct) => {
+    if (!product.priceId) {
       toast.error("這件商品暫時沒有可用價格，請稍後再試。");
       return;
     }
-    try {
-      const result = await checkout.mutateAsync({ priceId });
-      window.open(result.url, "_blank", "noopener,noreferrer");
-      toast.success("正在開啟安全結帳頁面");
-    } catch (error) {
-      console.error("[Store] Checkout failed", error);
-      toast.error("商品已顯示；付款連接仍需在專案 Payment 設定套用 Live Stripe 帳戶。");
-    }
+    addItem(product);
+    openCart();
+    toast.success("商品已加入購物車");
   };
 
   const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, product: StoreProduct) => {
@@ -403,10 +397,10 @@ export default function ProductGrid() {
                   <Button
                     size="sm"
                     className="h-9 w-auto max-w-full rounded-full px-4 text-xs md:text-sm"
-                    disabled={!product.priceId || checkout.isPending}
-                    onClick={(event) => { event.stopPropagation(); void handleBuy(product.priceId); }}
+                    disabled={!product.priceId}
+                    onClick={(event) => { event.stopPropagation(); handleAddToCart(product as StoreProduct); }}
                   >
-                    {checkout.isPending ? "處理中…" : "加入購物車"}<ExternalLink className="h-3.5 w-3.5" />
+                    加入購物車<ShoppingBag className="h-3.5 w-3.5" />
                   </Button>
                 </CardFooter>
               </Card>
@@ -419,8 +413,7 @@ export default function ProductGrid() {
         product={selectedProduct}
         open={Boolean(selectedProduct)}
         onOpenChange={(open) => { if (!open) setSelectedProduct(null); }}
-        onBuy={(priceId) => void handleBuy(priceId)}
-        isCheckoutPending={checkout.isPending}
+        onAddToCart={handleAddToCart}
       />
     </section>
   );

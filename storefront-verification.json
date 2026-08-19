@@ -56,5 +56,9 @@
     "/shipping-policy": 200,
     "/returns-policy": 200,
     "/privacy-policy": 200
-  }
+  },
+  "cartDrawerOpened": true,
+  "cartPersisted": true,
+  "checkoutCallsBeforeCartAction": 0,
+  "checkoutCallsAfterCartAction": 1
 }

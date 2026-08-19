@@ -16,6 +16,10 @@ const verification = {
   headerNav: [],
   footerLinks: [],
   infoRoutes: {},
+  cartDrawerOpened: false,
+  cartPersisted: false,
+  checkoutCallsBeforeCartAction: 0,
+  checkoutCallsAfterCartAction: 0,
 };
 
 try {
@@ -28,6 +32,11 @@ try {
 
   verification.headerNav = await page.locator('header nav[aria-label="主選單"] a').allTextContents();
   verification.footerLinks = await page.locator("footer a").evaluateAll((links) => links.map((link) => ({ text: link.textContent?.trim() ?? "", href: link.getAttribute("href") ?? "" })));
+
+  let checkoutCalls = 0;
+  page.on("request", (request) => {
+    if (request.url().includes("/api/trpc/store.checkout")) checkoutCalls += 1;
+  });
 
   const firstCard = page.locator('[role="button"][aria-label^="查看"]').first();
   const cardTitle = (await firstCard.locator("h3").textContent())?.trim() ?? "";
@@ -47,6 +56,24 @@ try {
   await page.keyboard.press("Escape");
   await lightboxImage.waitFor({ state: "hidden", timeout: 5000 });
   verification.lightboxClosed = true;
+  await page.keyboard.press("Escape");
+
+  const addToCartButton = firstCard.getByRole("button", { name: "加入購物車" });
+  verification.checkoutCallsBeforeCartAction = checkoutCalls;
+  await addToCartButton.click();
+  const cartDialog = page.getByRole("dialog", { name: /你的購物車/ });
+  await cartDialog.waitFor({ state: "visible", timeout: 5000 });
+  verification.cartDrawerOpened = true;
+  if (checkoutCalls !== verification.checkoutCallsBeforeCartAction) throw new Error("Adding to cart unexpectedly called Checkout");
+  await page.reload({ waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /購物車，目前 1 件商品/ }).click();
+  await page.getByRole("dialog", { name: /你的購物車/ }).waitFor({ state: "visible", timeout: 5000 });
+  verification.cartPersisted = await page.getByRole("dialog", { name: /你的購物車/ }).getByText(cardTitle, { exact: false }).count() > 0;
+  const checkoutButton = page.getByRole("dialog", { name: /你的購物車/ }).getByRole("button", { name: "前往結帳" });
+  await checkoutButton.click();
+  await page.waitForTimeout(1000);
+  verification.checkoutCallsAfterCartAction = checkoutCalls;
+  if (checkoutCalls <= verification.checkoutCallsBeforeCartAction) throw new Error("Cart checkout did not call Checkout API");
   await page.keyboard.press("Escape");
 
   const productImage = page.locator('[role="button"][aria-label^="查看"] img').first();
@@ -78,6 +105,7 @@ try {
   }
   if (!verification.lightboxOpened || !verification.lightboxClosed) throw new Error("Lightbox validation failed");
   if (!verification.placeholderFallback) throw new Error("Placeholder fallback validation failed");
+  if (!verification.cartDrawerOpened || !verification.cartPersisted) throw new Error("Cart drawer or LocalStorage validation failed");
   if (Object.values(verification.infoRoutes).some((status) => status !== 200)) throw new Error("Information route validation failed");
 
   await fs.writeFile("/home/ubuntu/mofu-haven-website/storefront-verification.json", JSON.stringify(verification, null, 2) + "\n");
