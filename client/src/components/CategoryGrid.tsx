@@ -40,17 +40,17 @@ export default function CategoryGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-3">
+        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
-              <a key={category.slug} href={`/?category=${category.slug}#products`} className="group">
-                <Card className="flex h-10 min-h-10 cursor-pointer flex-row items-center justify-center gap-2 rounded-full border border-[#D3A87C]/55 bg-[#FFFDF9]/95 px-3 text-center shadow-[0_5px_16px_rgba(140,107,83,0.08)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C9A47C] hover:bg-[#F3E5D5] hover:shadow-[0_8px_20px_rgba(140,107,83,0.15)] md:px-4">
+              <a key={category.slug} href={`/?category=${category.slug}#products`} className="group shrink-0 snap-start">
+                <Card className="flex h-9 min-h-9 w-max cursor-pointer flex-row items-center justify-center gap-1.5 rounded-full border border-[#D3A87C]/55 bg-[#FFFDF9]/95 px-2.5 text-center shadow-[0_5px_16px_rgba(140,107,83,0.08)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#C9A47C] hover:bg-[#F3E5D5] hover:shadow-[0_8px_20px_rgba(140,107,83,0.15)]">
                   <div className="relative flex shrink-0 items-center justify-center rounded-full border border-[#D3A87C]/35 bg-[#F3E5D5] p-1 transition-all duration-200 group-hover:bg-[#EAD2B9]">
                     <div className="pointer-events-none absolute inset-0 rounded-full bg-[#D3A87C]/25 blur-md opacity-0 transition-opacity group-hover:opacity-100" />
                     <Icon className="relative z-10 h-4 w-4 text-[#8C6B53]" />
                   </div>
-                  <h3 className="mb-0 whitespace-nowrap text-xs font-semibold text-[#6F5645] transition-colors group-hover:text-[#8C6B53] md:text-sm">
+                  <h3 className="mb-0 whitespace-nowrap text-[11px] font-semibold text-[#6F5645] transition-colors group-hover:text-[#8C6B53]">
                     {category.label}
                   </h3>
                 </Card>
@@ -59,7 +59,7 @@ export default function CategoryGrid() {
           })}
         </div>
 
-        <div className="mt-12 text-center md:mt-16">
+        <div className="mt-10 text-center md:mt-14">
           <Button asChild size="lg" className="rounded-full bg-[#C9A47C] px-7 font-semibold text-white shadow-[0_8px_20px_rgba(140,107,83,0.18)] transition-all duration-300 hover:bg-[#8C6B53] hover:shadow-[0_12px_26px_rgba(140,107,83,0.24)]">
             <a href="/?category=all#products">為毛孩繼續選購 →</a>
           </Button>

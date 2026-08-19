@@ -172,7 +172,7 @@ export default function ProductGrid() {
           <Button type="submit" className="h-12 px-6">搜尋商品</Button>
         </form>
 
-        <div className="mb-8 flex flex-wrap items-center gap-2">
+        <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {(Object.keys(categoryLabels) as ProductCategory[]).map((category) => {
             const CategoryIcon = categoryIcons[category];
             const isActive = filters.category === category;
@@ -182,7 +182,7 @@ export default function ProductGrid() {
                 type="button"
                 size="sm"
                 variant={isActive ? "default" : "outline"}
-                className={`h-9 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
+                className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-[#FFFDF9] text-[#8C6B53] hover:bg-[#F3E5D5] hover:text-[#6F5645]"}`}
                 onClick={() => updateUrl({ category })}
               >
                 <CategoryIcon className="h-3.5 w-3.5" />
@@ -190,7 +190,7 @@ export default function ProductGrid() {
               </Button>
             );
           })}
-          {hasFilter && <Button type="button" size="sm" variant="ghost" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}><X className="h-4 w-4" />清除篩選</Button>}
+          {hasFilter && <Button type="button" size="sm" variant="ghost" className="shrink-0" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}><X className="h-4 w-4" />清除篩選</Button>}
         </div>
 
         {hasFilter && <p className="mb-5 text-sm text-muted-foreground">目前篩選：<span className="font-semibold text-foreground">{categoryLabels[filters.category]}</span>{filters.q && <>，搜尋「<span className="font-semibold text-foreground">{filters.q}</span>」</>}</p>}
