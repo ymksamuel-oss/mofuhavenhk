@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Home, Mail, MessageCircle } from "lucide-react";
+import { Home, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shared/footerContent";
 
 /**
@@ -111,19 +111,15 @@ export default function Footer() {
             © 2026 Mofu Haven. All Rights Reserved.
           </p>
 
-          {/* Payment Methods */}
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <span className="text-xs text-muted-foreground font-medium">接受付款方式：</span>
-            <div className="flex items-center gap-3">
-              {["WeChat Pay", "AlipayHK", "Visa", "Mastercard"].map((method, idx) => (
-                <span
-                  key={method}
-                  className="text-xs font-medium text-foreground/70 px-2 py-1 bg-[#FFFDF9] jp-card-shadow rounded-full"
-                >
-                  {method}
-                </span>
-              ))}
-            </div>
+          {/* Stripe renders official payment-method logos only after it has evaluated device and account eligibility. */}
+          <div className="max-w-md text-center md:text-right">
+            <p className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-muted-foreground">
+              <ShieldCheck className="h-3.5 w-3.5 text-[#B88A58]" aria-hidden="true" />
+              安全付款由 <span className="font-semibold text-[#635548]">Stripe</span> 官方結帳頁處理
+            </p>
+            <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
+              可用的信用卡、Apple Pay 與本地支付方式會按裝置及帳戶資格顯示官方圖標。
+            </p>
           </div>
         </div>
       </div>
