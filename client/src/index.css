@@ -317,3 +317,13 @@ div[style*="z-index: 99999"][style*="bottom"] {
     animation: none;
   }
 }
+
+/* 徹底修復手機／平板端 Modal 及 iframe 區域滾動鎖死問題 */
+div[role="dialog"],
+div[data-radix-portal],
+.dialog-content,
+iframe {
+  -webkit-overflow-scrolling: touch !important;
+  overflow-y: auto !important;
+  touch-action: pan-y !important;
+}

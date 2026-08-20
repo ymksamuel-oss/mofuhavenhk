@@ -39,16 +39,27 @@ export default function CartDrawer() {
       setDeliveryDialogOpen(false);
       closeCart();
       setCheckoutUrl(result.url);
-      
+
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
+
       try {
-        if (window.top && window.top !== window) {
-          window.top.location.href = result.url;
+        if (isMobileDevice) {
+          // 行動裝置直接全頁跳轉至 Stripe 官方 Hosted Checkout，徹底解決 iframe 滾動鎖死及 Apple Pay 原生授權問題
+          if (window.top && window.top !== window) {
+            window.top.location.href = result.url;
+          } else {
+            window.location.href = result.url;
+          }
         } else {
-          window.location.assign(result.url);
+          if (window.top && window.top !== window) {
+            window.top.location.href = result.url;
+          } else {
+            window.location.assign(result.url);
+          }
         }
       } catch (redirectErr) {
         console.warn("[Cart] Top window redirect blocked, fallback to direct assignment", redirectErr);
-        window.location.assign(result.url);
+        window.location.href = result.url;
       }
     } catch (error) {
       console.error("[Cart] Checkout failed", error);
