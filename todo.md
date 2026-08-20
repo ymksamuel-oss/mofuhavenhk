@@ -430,6 +430,12 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## 手機 Modal 滾動與浮動水印移除任務
+
+- [x] 解除「填寫香港收貨資料」彈窗與購物車抽屜的滾動死鎖，設定 `max-h-[85vh]`、`overflow-y-auto !important`、`-webkit-overflow-scrolling: touch` 與底部充足留白，確保手機端可順暢滑動且確認按鈕絕不被截斷
+- [x] 在全域 CSS 中加入強力規則，強制隱藏所有 Manus 浮動標籤與水印，確保全站各頁面角落乾淨無遮擋
+- [x] 39 項 Vitest 測試與 production build 全數通過
+
 ## 日本風奶茶色視覺全面升級任務
 
 - [x] 設定全頁底色為 #F7F3EE、卡片表面為 #FFFDF9 配合 box-shadow: 0 4px 16px rgba(184, 138, 88, 0.08)

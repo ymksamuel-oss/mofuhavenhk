@@ -1275,3 +1275,6 @@
 [2026-08-20T00:48:13.227Z] {"timestamp":1787186891342,"level":"DEBUG","args":["[vite] connected."],"stack":null}
 [2026-08-20T00:48:23.236Z] {"timestamp":1787186902515,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
 [2026-08-20T00:48:23.236Z] {"timestamp":1787186902515,"level":"DEBUG","args":["[vite]","hot updated: /src/components/CheckoutDetailsDialog.tsx"],"stack":null}
+[2026-08-20T00:49:50.271Z] {"timestamp":1787186988267,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-08-20T00:49:50.271Z] {"timestamp":1787186988282,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-08-20T00:49:50.271Z] {"timestamp":1787186988400,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
