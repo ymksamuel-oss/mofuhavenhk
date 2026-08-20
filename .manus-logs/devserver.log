@@ -1132,3 +1132,23 @@
 [2026-08-20T04:07:59.638Z] 4:07:59 AM [vite] (client) hmr update /src/components/Footer.tsx, /src/index.css
 [2026-08-20T04:08:00.750Z] 4:08:00 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T04:17:57.948Z] 4:17:57 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T05:25:12.161Z] c
+[2026-08-20T05:25:12.161Z] node:internal/modules/run_main:122
+[2026-08-20T05:25:12.161Z] triggerUncaughtException(
+[2026-08-20T05:25:12.161Z] ^
+[2026-08-20T05:25:12.162Z] Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/ubuntu/mofu-haven-website/shared/recoveredProductImageMap' imported from /home/ubuntu/mofu-haven-website/server/stripeProducts.ts
+[2026-08-20T05:25:12.162Z] at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+[2026-08-20T05:25:12.162Z] at moduleResolve (node:internal/modules/esm/resolve:932:10)
+[2026-08-20T05:25:12.162Z] at defaultResolve (node:internal/modules/esm/resolve:1056:11)
+[2026-08-20T05:25:12.162Z] at nextResolve (node:internal/modules/esm/hooks:748:28)
+[2026-08-20T05:25:12.162Z] at resolveBase (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787203511849:2:3744)
+[2026-08-20T05:25:12.162Z] at async resolveDirectory (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787203511849:2:4237)
+[2026-08-20T05:25:12.162Z] at async resolve (file:///home/ubuntu/mofu-haven-website/node_modules/.pnpm/tsx@4.20.6/node_modules/tsx/dist/esm/index.mjs?1787203511849:2:5355)
+[2026-08-20T05:25:12.162Z] at async nextResolve (node:internal/modules/esm/hooks:748:22)
+[2026-08-20T05:25:12.162Z] at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
+[2026-08-20T05:25:12.162Z] at async handleMessage (node:internal/modules/esm/worker:199:18) {
+[2026-08-20T05:25:12.162Z] code: 'ERR_MODULE_NOT_FOUND',
+[2026-08-20T05:25:12.162Z] url: 'file:///home/ubuntu/mofu-haven-website/shared/recoveredProductImageMap'
+[2026-08-20T05:25:12.162Z] }
+[2026-08-20T05:25:12.162Z] Node.js v22.13.0
+[2026-08-20T05:25:12.250Z] 5:25:12 AM [tsx] change in ./server/routers.ts Rerunning...
