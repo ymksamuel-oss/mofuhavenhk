@@ -62,3 +62,5 @@ coverage/
 
 # Project config
 .project-config.json
+.vercel
+.env*

@@ -502,6 +502,11 @@
 ## Vercel 公開部署與手機 Checkout 測試任務
 
 - [x] 檢查目前是否已連接 Vercel 帳戶、既有 Vercel 專案或可用部署憑證：已登入 `ymksamuel-2362` 的 `mofuhavenhk` Vercel 專案，並已確認其既有 Production／Preview Stripe 環境變數
-- [ ] 為最新 Express／tRPC／Stripe 全端架構建立 Vercel Serverless 相容入口與 SPA routing 設定
-- [ ] 推送獨立 Preview branch 至現有 `ymksamuel-oss/mofuhavenhk` 儲存庫，避免覆寫 main 生產版本並觸發 Vercel Preview
-- [ ] 驗證公開 `vercel.app` 預覽網址、首頁與 Stripe Checkout Session 建立路徑
+- [x] 為最新 Express／tRPC／Stripe 全端架構建立 Vercel Serverless 相容入口與 SPA routing 設定
+- [x] 以 Vercel CLI 直接建立獨立 Preview 部署，避免覆寫 GitHub `main`、Production 網址或自訂域名
+- [x] 驗證公開 `vercel.app` 預覽網址：首頁及 Stripe 商品 API 回應 HTTP 200，Checkout Session 成功回傳官方付款 URL
+
+## Vercel Preview Stripe 金鑰安全同步任務
+
+- [x] 不顯示金鑰內容，將目前專案已驗證的 `STRIPE_LIVE_SECRET_KEY` 安全同步至 Vercel Preview 的 `STRIPE_LIVE_SECRET_KEY`
+- [x] 重新部署 Vercel Preview 並驗證 Stripe 商品目錄載入與 Checkout Session URL 回傳

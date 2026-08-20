@@ -1118,3 +1118,9 @@
 [2026-08-20T01:56:24.581Z] [Auth] Missing session cookie
 [2026-08-20T01:59:09.376Z] [Auth] Missing session cookie
 [2026-08-20T02:03:17.990Z] 2:03:17 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T02:24:16.303Z] 2:24:16 AM [vite] changed tsconfig file detected: /home/ubuntu/mofu-haven-website/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2026-08-20T02:57:29.896Z] [Auth] Missing session cookie
+[2026-08-20T02:57:39.623Z] [Auth] Missing session cookie
+[2026-08-20T02:58:30.390Z] [Auth] Missing session cookie
+[2026-08-20T02:59:21.212Z] 2:59:21 AM [vite] changed tsconfig file detected: /home/ubuntu/mofu-haven-website/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2026-08-20T03:17:31.237Z] 3:17:31 AM [vite] (client) hmr update /src/index.css
