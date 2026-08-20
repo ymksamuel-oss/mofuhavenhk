@@ -25,7 +25,7 @@ export default function SubBanner() {
             {/* Image with felt border effect */}
             <div className="relative border-4 border-dashed border-primary/20 rounded-2xl p-2 bg-white/50 backdrop-blur-sm">
               <img
-                src="/manus-storage/IMG_0383(2)_d26569d4.png"
+                src="/assets/sub-banner"
                 alt="與毛孩的日常治癒"
                 className="relative w-full h-auto rounded-xl shadow-lg object-cover"
               />

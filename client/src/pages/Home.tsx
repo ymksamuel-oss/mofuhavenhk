@@ -9,7 +9,7 @@ import { BookOpen, PawPrint } from "lucide-react";
 import { catBreedGuides } from "@shared/petWorld";
 
 const featuredCatBreeds = catBreedGuides.slice(0, 3);
-const HOME_BREED_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
+const HOME_BREED_PLACEHOLDER = "/assets/product-placeholder";
 
 /**
  * Mofu Haven storefront home page.

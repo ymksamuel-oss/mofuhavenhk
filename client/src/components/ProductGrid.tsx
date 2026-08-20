@@ -38,7 +38,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
-const PRODUCT_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
+const PRODUCT_PLACEHOLDER = "/assets/product-placeholder";
 
 type StoreProduct = {
   id: string;

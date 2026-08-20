@@ -14,7 +14,7 @@ export default function HeroBanner() {
     <section className="relative h-[280px] w-full overflow-hidden sm:h-[320px] md:h-[460px] lg:h-[560px]">
       {/* Main Banner Image */}
       <img
-        src="/manus-storage/mofu-haven-website-b.png(6)_c71484d9.png"
+        src="/assets/main-banner"
         alt="Mofu Haven - 寵物與產品"
         className="w-full h-full object-cover"
       />

@@ -5,6 +5,10 @@
   "outputDirectory": "dist/public",
   "rewrites": [
     {
+      "source": "/assets/:asset",
+      "destination": "/api/asset?asset=:asset"
+    },
+    {
       "source": "/api/trpc/:procedure*",
       "destination": "/api?procedure=:procedure*"
     },

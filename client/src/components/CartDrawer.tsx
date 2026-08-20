@@ -8,7 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import CheckoutDetailsDialog from "@/components/CheckoutDetailsDialog";
 import type { CheckoutDeliveryDetails } from "@shared/cart";
 
-const PRODUCT_PLACEHOLDER = "/manus-storage/mofu-haven-product-placeholder_002825b0.svg";
+const PRODUCT_PLACEHOLDER = "/assets/product-placeholder";
 
 function formatPrice(amount: number | null, currency: string | null) {
   if (amount === null || !currency) return "價格待確認";

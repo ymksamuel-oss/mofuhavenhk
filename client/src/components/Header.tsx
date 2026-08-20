@@ -31,7 +31,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-[#F7F3EE] shadow-sm backdrop-blur-md">
       <div className="container flex h-[70px] items-center justify-between md:h-32">
         <a href="/" aria-label="Mofu Haven 首頁" className="group flex h-full min-w-0 items-center">
-          <img src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png" alt="Mofu Haven" className="h-[58px] max-h-[58px] w-auto max-w-[168px] object-contain transition-transform duration-300 group-hover:scale-[1.02] md:h-[130px] md:max-h-[135px] md:max-w-none" />
+          <img src="/assets/logo" alt="Mofu Haven" className="h-[58px] max-h-[58px] w-auto max-w-[168px] object-contain transition-transform duration-300 group-hover:scale-[1.02] md:h-[130px] md:max-h-[135px] md:max-w-none" />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="主選單">

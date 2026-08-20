@@ -533,3 +533,10 @@
 - [x] 將 `www.mofuhavenhk.com` 固定為 Vercel 正式 Production 的唯一可用網域，停止依賴受保護的根網域 A 紀錄
 - [x] 將本地正式版本提交安全推送至 `ymksamuel-oss/mofuhavenhk` 的遠端 `prod-backup-v1.0` 參照；為保留遠端 `main` 已有的 296 個不同提交，不強制覆寫 `main`
 - [x] 建立並推送 Git tag `prod-backup-v1.0`（遠端 tag object：`3b11c6bd0e3c059fefc16c36879720696578290d`；指向本地正式版本提交 `16ab0a7f`），作為目前可還原備份
+
+## 線上圖片路徑與靜態資產修復任務
+
+- [ ] 稽核 Logo、主／副 Banner 與商品圖片的所有來源 URL，辨識 Vercel Production 的失效路徑
+- [ ] 將可用品牌與 Banner 資產遷移至 WebDev 正式靜態儲存，避免引用暫存或已失效外部 URL
+- [ ] 更新前端圖片引用及商品圖片容錯處理，確保部署後不顯示破圖問號
+- [ ] 驗證本地、Vercel Production 的首頁與商品圖片載入，執行 Vitest／production build 並發佈修正版

@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <a href="/" aria-label="Mofu Haven 首頁" className="group inline-block mb-5">
               <img
-                src="/manus-storage/mofu-haven-logo-transparent_20d068b4.png"
+                src="/assets/logo"
                 alt="Mofu Haven"
                 className="h-[110px] max-h-[120px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
               />
