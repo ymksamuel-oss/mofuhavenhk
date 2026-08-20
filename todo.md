@@ -547,3 +547,10 @@
 - [x] 修正 Vercel rewrite 為可處理多段 `/assets/product/<StripeProductId>` 路徑，避免落入 SPA fallback
 - [x] 重新部署至 Vercel Production，驗證商品 API 回傳 75 個受控圖片路徑、0 個舊根網域 URL、0 個空圖片欄位
 - [x] 在 `www.mofuhavenhk.com/products` 視覺確認 Petio、Petzroute 等真實商品包裝圖片正常顯示
+
+## Stripe Live 商品圖片資料同步
+
+- [x] 以目前已驗證的 75 件受控商品圖片路徑建立 Stripe Live 更新清單
+- [x] 批次更新 75 件 Stripe Live 商品的圖片欄位，不變更名稱、價格、分類或付款設定
+- [x] 讀回核對更新後的 Stripe 商品資料，確認 75／75 圖片 URL 與前台持久資產一致
+- [x] 保存同步紀錄；商品資料已穩定，付款設定將作為下一優先事項
