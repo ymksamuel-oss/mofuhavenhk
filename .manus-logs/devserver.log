@@ -1094,3 +1094,16 @@
 [2026-08-20T01:33:49.566Z] 1:33:49 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T01:34:19.712Z] [Auth] Missing session cookie
 [2026-08-20T01:34:35.909Z] 1:34:35 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T01:35:19.124Z] ELIFECYCLE  Command failed.
+[2026-08-20T01:35:19.186Z] Dev server exited with code -1
+[2026-08-20T01:35:20.250Z] Starting dev server with command: pnpm run dev
+[2026-08-20T01:35:20.987Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-20T01:35:20.987Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-20T01:35:22.688Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T01:35:22.911Z] Server running on http://localhost:3000/
+[2026-08-20T01:35:23.437Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-20T01:35:25.541Z] [Auth] Missing session cookie
+[2026-08-20T01:35:34.193Z] [Auth] Missing session cookie
+[2026-08-20T01:36:39.034Z] [Auth] Missing session cookie
+[2026-08-20T01:38:48.873Z] 1:38:48 AM [vite] (client) hmr update /src/index.css, /src/components/CartDrawer.tsx
+[2026-08-20T01:39:19.835Z] 1:39:19 AM [vite] (client) hmr update /src/index.css
