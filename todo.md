@@ -436,6 +436,12 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## 手機端 Modal 與 iframe 滾動鎖死修復任務
+
+- [x] 於 `CartDrawer` 加入行動裝置檢測（`isMobileDevice`），在手機／平板 viewport 下點擊結帳時直接以 `window.top.location.href` 全頁重定向至 Stripe Hosted Checkout，徹底解決 iOS Safari / Android 嵌入 iframe 滾動鎖死及 Apple Pay 原生授權問題
+- [x] 在全域 CSS（`index.css`）中為所有 Dialog、Portal 與 iframe 容器補強 `-webkit-overflow-scrolling: touch`、`overflow-y: auto !important` 與 `touch-action: pan-y`
+- [x] 39 項 Vitest 測試與 production build 全數通過，並成功重新部署
+
 ## Stripe Session 建立與支付方式修復任務
 
 - [x] 修正 `server/routers.ts` 中的 `checkoutPaymentMethods`，預設為 `['card', 'alipay']`（若設定 `STRIPE_ENABLE_WECHAT_PAY=true` 則加入 `wechat_pay`），完美解決因帳戶未啟用 WeChat Pay 造成的 Checkout Session 建立失敗報錯
