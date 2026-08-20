@@ -107,12 +107,16 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "俄羅斯藍貓",
-    image: "/manus-storage/scottish-fold_120a23ab.jpg",
-    images: [],
+    image: "/manus-storage/british-shorthair_828cba70.jpg",
+    images: [
+      "/manus-storage/british-shorthair_828cba70.jpg",
+    ],
     temperament: "文靜、細膩、對熟悉環境有安全感",
     care: "保持固定作息及安靜的休息角落，互動可由時間慢慢開始。",
     note: "穩定的家庭節奏及溫柔接觸通常比頻繁改變更適合牠。",
-    isRealPhoto: false,
+    isRealPhoto: true,
+    photoCredit: "George E. Koronaios / Wikimedia Commons · CC BY-SA 4.0",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:A_British_Shorthair_cat.jpg",
   },
   {
     name: "波斯貓",
@@ -157,10 +161,14 @@ export const catBreedGuides: CatBreedGuide[] = [
   {
     name: "阿比西尼亞貓",
     image: "/manus-storage/american-shorthair_9cb75e41.jpg",
-    images: [],
+    images: [
+      "/manus-storage/american-shorthair_9cb75e41.jpg",
+    ],
     temperament: "聰明、活潑、對周遭充滿好奇",
     care: "給予充足的互動與遊戲空間，享受與家人一起探索的樂趣。",
     note: "體態優雅且動作敏捷，是極具靈氣的貼心夥伴。",
-    isRealPhoto: false,
+    isRealPhoto: true,
+    photoCredit: "Dustin Warrington / Wikimedia Commons · CC BY-SA 2.0",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:American_Shorthair.jpg",
   },
 ];
