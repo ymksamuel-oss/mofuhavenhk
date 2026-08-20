@@ -1112,3 +1112,4 @@
 [2026-08-20T01:44:10.291Z] [Auth] Missing session cookie
 [2026-08-20T01:45:20.132Z] 1:45:20 AM [vite] (client) hmr update /src/index.css, /src/components/CartDrawer.tsx
 [2026-08-20T01:45:58.988Z] 1:45:58 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T01:46:48.517Z] 1:46:48 AM [vite] (client) hmr update /src/index.css

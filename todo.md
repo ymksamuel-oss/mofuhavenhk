@@ -436,6 +436,11 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## 結帳流程預覽 iframe 阻擋修復任務
+
+- [x] 修復 `CartDrawer.handleCheckout` 跳轉邏輯，嚴格強制使用 `window.top.location.href = result.url`（若非 iframe 則使用 `window.location.href`），徹底解決 Stripe 官方禁止在 iframe 內載入 Checkout 的安全阻擋
+- [x] 39 項 Vitest 測試與 production build 全數通過，版本已自動部署至線上
+
 ## 結帳流程 Full-Page Redirect 與全面移除 Modal/iframe 任務
 
 - [x] 徹底刪除前端任何彈出 Stripe 的 Modal、Dialog、Popup 或 iframe 嵌入路徑
