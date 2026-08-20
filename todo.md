@@ -498,3 +498,10 @@
 - [x] 檢查 `www.mofuhavenhk.com` 的 DNS 記錄、HTTPS 握手、憑證鏈與目前實際部署服務：CNAME 已指向 Manus 網域，但因未在目前 Manus 專案註冊 `www` 自訂網域而 TLS 握手失敗；根網域則仍 301 轉址至 `www`
 - [x] 核對目前正式部署可用的公開網域：`https://mofuhaven-5gysmfvo.manus.space` 可正常提供 HTTPS，可用於手機 Safari 的真實 Checkout 測試；目前專案並沒有對應的 `*.netlify.app` 發布網址
 - [x] 提供修復 SSL／綁定正式自訂網域所需的精確平台與 DNS 操作：在 Manus 專案的 Settings → Domains 加入 `www.mofuhavenhk.com`，保持 CNAME 指向 `mofuhaven-5gysmfvo.manus.space`，待平台簽發 SSL 後再將根網域轉址至 www
+
+## Vercel 公開部署與手機 Checkout 測試任務
+
+- [x] 檢查目前是否已連接 Vercel 帳戶、既有 Vercel 專案或可用部署憑證：已登入 `ymksamuel-2362` 的 `mofuhavenhk` Vercel 專案，並已確認其既有 Production／Preview Stripe 環境變數
+- [ ] 為最新 Express／tRPC／Stripe 全端架構建立 Vercel Serverless 相容入口與 SPA routing 設定
+- [ ] 推送獨立 Preview branch 至現有 `ymksamuel-oss/mofuhavenhk` 儲存庫，避免覆寫 main 生產版本並觸發 Vercel Preview
+- [ ] 驗證公開 `vercel.app` 預覽網址、首頁與 Stripe Checkout Session 建立路徑
