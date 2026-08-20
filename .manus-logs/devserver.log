@@ -1113,3 +1113,8 @@
 [2026-08-20T01:45:20.132Z] 1:45:20 AM [vite] (client) hmr update /src/index.css, /src/components/CartDrawer.tsx
 [2026-08-20T01:45:58.988Z] 1:45:58 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T01:46:48.517Z] 1:46:48 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T01:47:31.734Z] [Auth] Missing session cookie
+[2026-08-20T01:47:40.300Z] [Auth] Missing session cookie
+[2026-08-20T01:56:24.581Z] [Auth] Missing session cookie
+[2026-08-20T01:59:09.376Z] [Auth] Missing session cookie
+[2026-08-20T02:03:17.990Z] 2:03:17 AM [vite] (client) hmr update /src/index.css

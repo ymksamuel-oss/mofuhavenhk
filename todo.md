@@ -486,3 +486,15 @@
 - [x] 將所有商品及寵物世界圖片改為 12px 柔和圓角貼合卡片
 - [x] 執行 Vitest 測試與手機／桌面 Preview 互動驗證
 - [x] 保存 checkpoint 並交付更新版本
+
+## Stripe Express Checkout 頂部 Apple Pay 停用任務
+
+- [ ] 查核 Stripe Hosted Checkout 的頂部 Apple Pay Express Checkout 是否可由 Checkout Session 參數控制，並辨識需由 Stripe Dashboard 帳戶層級設定的項目
+- [ ] 移除或調整所有可由程式控制的快捷付款設定，確保標準付款方式列表保留卡片與 Alipay
+- [ ] 驗證修正、執行 Vitest／production build 並部署最新版本
+
+## www 自訂網域 SSL 錯誤與手機測試網址任務
+
+- [x] 檢查 `www.mofuhavenhk.com` 的 DNS 記錄、HTTPS 握手、憑證鏈與目前實際部署服務：CNAME 已指向 Manus 網域，但因未在目前 Manus 專案註冊 `www` 自訂網域而 TLS 握手失敗；根網域則仍 301 轉址至 `www`
+- [x] 核對目前正式部署可用的公開網域：`https://mofuhaven-5gysmfvo.manus.space` 可正常提供 HTTPS，可用於手機 Safari 的真實 Checkout 測試；目前專案並沒有對應的 `*.netlify.app` 發布網址
+- [x] 提供修復 SSL／綁定正式自訂網域所需的精確平台與 DNS 操作：在 Manus 專案的 Settings → Domains 加入 `www.mofuhavenhk.com`，保持 CNAME 指向 `mofuhaven-5gysmfvo.manus.space`，待平台簽發 SSL 後再將根網域轉址至 www
