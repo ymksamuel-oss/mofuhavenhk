@@ -58,5 +58,8 @@ describe("pet world real photos and multi-image carousel", () => {
     expect(petWorldCode).toContain("activeImgIndex + 1} / {images.length}");
     expect(petWorldCode).toContain("aria-label={`查看 ${breed.name} 圖片來源與授權`}");
     expect(petWorldCode).not.toContain("暫未找到可核對的真實品種相片");
+    expect(petWorldCode).toContain("const handlePrimaryImageError");
+    expect(petWorldCode).toContain('retryUrl.searchParams.set("pet-image-retry"');
+    expect(petWorldCode).toContain("handlePrimaryImageError(breed.name, event)");
   });
 });

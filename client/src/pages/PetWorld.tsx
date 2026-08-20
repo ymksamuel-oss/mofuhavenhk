@@ -17,12 +17,26 @@ export default function PetWorld() {
   const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
   const [sharedKey, setSharedKey] = useState<string | null>(null);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
+  const [imageRetryCounts, setImageRetryCounts] = useState<Record<string, number>>({});
   const [activeImageIndices, setActiveImageIndices] = useState<Record<string, number>>({});
 
   const handleImageScroll = (breedName: string, event: React.UIEvent<HTMLDivElement>) => {
     const target = event.currentTarget;
     const index = Math.round(target.scrollLeft / target.clientWidth);
     setActiveImageIndices((current) => ({ ...current, [breedName]: index }));
+  };
+
+  const handlePrimaryImageError = (breedName: string, event: React.SyntheticEvent<HTMLImageElement>) => {
+    const retryCount = imageRetryCounts[breedName] ?? 0;
+    if (retryCount < 1) {
+      setImageRetryCounts((current) => ({ ...current, [breedName]: retryCount + 1 }));
+      const image = event.currentTarget;
+      const retryUrl = new URL(image.currentSrc || image.src, window.location.origin);
+      retryUrl.searchParams.set("pet-image-retry", String(retryCount + 1));
+      image.src = retryUrl.toString();
+      return;
+    }
+    setFailedImages((current) => ({ ...current, [breedName]: true }));
   };
 
   useEffect(() => {
@@ -122,7 +136,7 @@ export default function PetWorld() {
                                     loading="lazy"
                                     decoding="async"
                                     className="h-full w-full object-cover transition-all duration-300"
-                                    onError={() => setFailedImages((current) => ({ ...current, [breed.name]: true }))}
+                                    onError={(event) => handlePrimaryImageError(breed.name, event)}
                                   />
                                   {images.length > 1 && (
                                     <div className="absolute bottom-2.5 right-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">

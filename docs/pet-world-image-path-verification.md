@@ -17,3 +17,7 @@ Pet World 原本將品種相片引用為相對的 `/manus-storage/...` 路徑。
 | 正式 `https://www.mofuhavenhk.com/pet-world` | 頁面 DOM 不含「真實圖片準備中」文字 |
 | 相片請求 | 由 `/assets/pet/...` 受控路由重新導向至真實 JPEG；因此 DOM 最終 `img.src` 為重新導向後 URL，而非原路徑 |
 | 回歸測試與打包 | 46 項 Vitest 測試及 production build 通過 |
+
+## 最新快取無關驗證
+
+以 `?asset-audit=20260820` 重新載入正式頁面後，英國短毛貓、美國短毛貓及布偶貓卡片已在實際頁面畫面中載入相片；頁面 DOM 列出 12 個品種的 `/assets/pet/` 圖片來源，沒有「真實圖片準備中」文字。這確認先前的空白圖片框為初次截圖／資源載入時序，不是目前 Vercel 圖片路由回傳佔位符。
