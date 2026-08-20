@@ -396,7 +396,7 @@ export default function ProductGrid() {
 
         {isProductsPage && (
           <>
-            <div className="horizontal-scroll mb-1 flex w-full min-w-0 flex-nowrap gap-2 pb-1" aria-label="主分類篩選" role="region" tabIndex={0}>
+            <div className="horizontal-scroll mb-1 flex w-full min-w-0 flex-nowrap gap-2 pb-1 pr-6" aria-label="主分類篩選" role="region" tabIndex={0}>
               {compactCategories.map((category) => {
                 const CategoryIcon = categoryIcons[category] ?? LayoutGrid;
                 const isActive = activeCatalogKey === category;
@@ -408,7 +408,7 @@ export default function ProductGrid() {
               })}
             </div>
             {activeSubCatalogs.length > 0 && (
-              <div className="horizontal-scroll mb-2 flex w-full min-w-0 flex-nowrap gap-2 pb-1" aria-label="子分類篩選" role="region" tabIndex={0}>
+              <div className="horizontal-scroll mb-2 flex w-full min-w-0 flex-nowrap gap-2 pb-1 pr-6" aria-label="子分類篩選" role="region" tabIndex={0}>
                 {activeSubCatalogs.map((subCatalog) => {
                   const SubCategoryIcon = categoryIcons[subCatalog.key] ?? LayoutGrid;
                   const isActive = activeCategory === subCatalog.key;

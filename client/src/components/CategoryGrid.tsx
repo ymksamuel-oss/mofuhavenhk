@@ -49,7 +49,7 @@ export default function CategoryGrid() {
           </p>
         </div>
 
-        <div className="horizontal-scroll flex w-full min-w-0 snap-x snap-mandatory flex-nowrap gap-2 pb-2" aria-label="主分類" role="region" tabIndex={0}>
+        <div className="horizontal-scroll flex w-full min-w-0 snap-x snap-mandatory flex-nowrap gap-2 pb-2 pr-6" aria-label="主分類" role="region" tabIndex={0}>
           {catalogHierarchy.map((category) => {
             const Icon = categoryIcons[category.key];
             return (
@@ -67,7 +67,7 @@ export default function CategoryGrid() {
           })}
         </div>
 
-        <div className="horizontal-scroll mt-1 flex w-full min-w-0 snap-x snap-mandatory flex-nowrap gap-2 pb-2" aria-label="子分類" role="region" tabIndex={0}>
+        <div className="horizontal-scroll mt-1 flex w-full min-w-0 snap-x snap-mandatory flex-nowrap gap-2 pb-2 pr-6" aria-label="子分類" role="region" tabIndex={0}>
           {catalogHierarchy.flatMap((category) => category.subCatalogs).map((subCatalog) => {
             const Icon = subCatalogIcons[subCatalog.key];
             return (

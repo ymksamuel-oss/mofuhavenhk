@@ -996,3 +996,7 @@
 [2026-08-19T23:56:28.169Z] 11:56:28 PM [vite] (client) hmr update /src/pages/PetWorld.tsx, /src/pages/Home.tsx
 [2026-08-19T23:56:43.218Z] 11:56:43 PM [vite] (client) hmr update /src/pages/PetWorld.tsx, /src/index.css
 [2026-08-19T23:57:56.927Z] 11:57:56 PM [vite] (client) hmr update /src/index.css
+[2026-08-19T23:59:15.259Z] [Auth] Missing session cookie
+[2026-08-19T23:59:38.600Z] 11:59:38 PM [vite] (client) hmr update /src/components/CategoryGrid.tsx, /src/index.css
+[2026-08-19T23:59:42.884Z] 11:59:42 PM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-20T00:00:37.514Z] 12:00:37 AM [vite] (client) hmr update /src/index.css
