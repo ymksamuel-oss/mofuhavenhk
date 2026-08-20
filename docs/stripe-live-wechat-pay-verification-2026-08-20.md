@@ -26,9 +26,15 @@
 
 這表示網站程式、Vercel 環境開關與 Web client 參數都已送出，但 **與目前 Live secret key 對應的 Stripe 帳戶** 尚未向 Checkout API 提供 WeChat Pay。網站的安全回退機制因此正確維持客戶可使用 `card + alipay`，而不會令結帳失敗。
 
+## 同一 Live 帳戶確認後的第二次驗證
+
+商戶其後確認 Dashboard 顯示的是同一 Live 帳戶，且 WeChat Pay 狀態為 Active。為排除剛啟用時的同步延遲，系統再次建立一筆只作驗證用途的請求；結果仍完全相同：Stripe Checkout Sessions API 拒絕 `wechat_pay`。同時，帳戶 API 摘要顯示帳戶位於香港、可收款、可出款且資料已提交，但可見的相關能力只有 `card_payments: active`，未提供 WeChat Pay 能力。
+
+因此，目前可確定問題不在網站程式、Vercel 環境變數、付款方式參數或 HKD 價格，而是在 Stripe 帳戶端的實際資格／審核同步。請不要移除現有 `card + alipay` 回退保護；在 Stripe API 接受 `wechat_pay` 前，這是唯一不會中斷客戶結帳的安全設定。
+
 ## 下一步：商戶需在 Dashboard 再確認的項目
 
-請在 **Live mode** 的 **Settings → Product settings → Payments → Payment methods** 再次搜尋 WeChat Pay，確認狀態顯示 **Active**，而非 Pending、Requested 或只在 Test mode 啟用。亦請確認查看的是與 Mofu Haven 網站 Live 金鑰相同的 Stripe 帳戶，而非另一個帳戶或 Connected Account。如 Stripe 要求額外商戶資料、協議接受或資格審查，完成後請等待狀態切換為 Active，再回覆「Live WeChat Pay 已 Active」。
+目前已確認顯示的是同一 Live 帳戶且狀態為 Active，但 API 尚未提供實際資格。請在 **Live mode** 的 **Settings → Product settings → Payments → Payment methods** 開啟 WeChat Pay 的詳細狀態，查看是否仍有條款、額外驗證、資格審核或受限業務提示；若沒有明確提示，請將 Stripe API 所示「payment method type is invalid」連同 Workbench request log 交給 Stripe 支援，請其確認此香港帳戶的 WeChat Pay Checkout eligibility 已經完成同步。
 
 收到確認後，網站端只需再建立一筆無扣款 Session，即可完成驗證；無需重新部署，也不會需要開啟或登入商戶的 Dashboard。
 

@@ -217,7 +217,7 @@
 - [x] 驗證 HKD Checkout Session、支付方式參數及錯誤處理
 - [x] 執行測試、保存 checkpoint 並正式部署
 - [x] 回報 AlipayHK 手機付款體驗及 Dashboard 啟用要求
-- [ ] 在與網站 Live 金鑰相同的 Stripe 帳戶確認 WeChat Pay 為 Active 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在可用付款方式中並記錄驗證結果（2026-08-20 重新測試：Stripe API 仍拒絕 `wechat_pay`）
+- [ ] 等候 Stripe 將同一 Live 帳戶的 WeChat Pay Checkout eligibility 實際同步至 API 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在可用付款方式中並記錄驗證結果（2026-08-20 兩次重新測試仍遭 Stripe API 拒絕；帳戶僅見 `card_payments: active`）
 - [x] 以手機 viewport／真實瀏覽器互動實測購物車流程：加入購物車不跳轉、抽屜可開關、LocalStorage 保留、前往結帳才呼叫 Checkout
 
 ## 最新版本重新部署與手機支付測試
@@ -230,7 +230,7 @@
 - [x] 驗證 Visa／Mastercard 以 card、AlipayHK 可用及手機 redirect；WeChat Pay 尚待 Dashboard 啟用
 - [x] 交付手機測試連結及已知 Dashboard 依賴
 - [ ] 以真實手機完成一次 AlipayHK Checkout 測試，確認會從 Stripe Checkout 跳轉至 AlipayHK App 並成功返回 `/checkout/return`
-- [ ] 在與網站 Live 金鑰相同的 Stripe 帳戶確認 WeChat Pay 為 Active 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在付款方式中並記錄結果（2026-08-20 重新測試：Stripe API 仍拒絕 `wechat_pay`）
+- [ ] 等候 Stripe 將同一 Live 帳戶的 WeChat Pay Checkout eligibility 實際同步至 API 後，重新建立 Live Checkout Session，確認 `wechat_pay` 實際出現在付款方式中並記錄結果（2026-08-20 兩次重新測試仍遭 Stripe API 拒絕；帳戶僅見 `card_payments: active`）
 
 ## 手機首頁 UX 首屏優化
 
