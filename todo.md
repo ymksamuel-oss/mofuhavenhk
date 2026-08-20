@@ -416,6 +416,12 @@
 - [x] 透過 Stripe 官方託管 Checkout Session 原生渲染 Apple Pay 與 Google Pay，並完全遵循各家品牌之 Brand Guidelines 與標準 Logo 規範
 - [x] 39 項 Vitest 測試與 production build 全數透過
 
+## Stripe Link 終極禁用與後端加固任務
+
+- [x] 在建立 Checkout Session 的 `payment_method_options` 中明確設定 `card: { setup_future_usage: undefined }` 以進一步限制儲存付款資訊
+- [x] 確認並說明：由於 Stripe 官方託管頁面（Hosted Checkout）的 Link 與 Express Checkout 屬於 Stripe 帳戶全域（Account-level）功能，若在輸入 Email 時仍有快顯，需請使用者前往 Stripe Dashboard -> Settings -> Payment methods 內將「Link」開關關閉
+- [x] 39 項 Vitest 測試與 production build 全數通過
+
 ## Stripe 結帳 iframe 跳轉、Link 停用與 Apple Pay 處理任務
 
 - [x] 確認系統採用 Stripe 官方託管 Checkout Session，頂部 Express Checkout 區塊與「或」分隔線係由 Stripe 根據顧客裝置自動渲染
