@@ -159,9 +159,9 @@ export default function PetWorld() {
                                     ))}
                                   </div>
                                 )}
-                                {breed.isRealPhoto && breed.photoCredit && breed.sourceUrl && (
+                                {breed.isRealPhoto && breed.photoCredit && (
                                   <p className="border-t border-[#B88A58]/10 bg-[#FFFDF9] px-3 py-2 text-[10px] leading-4 text-muted-foreground">
-                                    圖片來源：<a className="underline underline-offset-2 hover:text-[#736859]" href={breed.sourceUrl} target="_blank" rel="noreferrer" aria-label={`查看 ${breed.name} 圖片來源與授權`}>{breed.photoCredit}</a>
+                                    圖片授權：{breed.photoCredit}
                                   </p>
                                 )}
                               </div>

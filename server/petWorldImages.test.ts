@@ -30,7 +30,6 @@ describe("pet world real photos and multi-image carousel", () => {
   it("keeps the corrected breeds bound to their own verified image and Commons source", () => {
     const corrected = {
       "俄羅斯藍貓": ["/assets/pet/russian-blue-verified.jpg", "File:Cat_Russian_Blue_02.jpg"],
-      "布偶貓": ["/assets/pet/ragdoll-verified.jpg", "File:Adult_Ragdoll_Cat_ACAS-RG-11.jpg"],
       "波斯貓": ["/assets/pet/persian-verified.jpg", "File:Fluffy_White_Persian_Cat.jpg"],
       "孟加拉貓": ["/assets/pet/bengal-verified.jpg", "File:A_Bengal_Cat_(cropped).jpg"],
       "挪威森林貓": ["/assets/pet/norwegian-forest-verified.jpg", "File:Norwegian_forest_cat.jpg"],
@@ -46,6 +45,17 @@ describe("pet world real photos and multi-image carousel", () => {
     }
   });
 
+  it("provides six controlled, non-repeating photos for British Shorthair, American Shorthair and Ragdoll cats", () => {
+    for (const name of ["英國短毛貓", "美國短毛貓", "布偶貓"]) {
+      const breed = catBreedGuides.find((guide) => guide.name === name);
+      expect(breed?.images).toHaveLength(6);
+      expect(new Set(breed?.images).size).toBe(6);
+      expect(breed?.image).toBe(breed?.images[0]);
+      expect(breed?.sourceUrl).toBeUndefined();
+      expect(breed?.photoCredit).toContain("Wikimedia Commons");
+    }
+  });
+
   it("does not reuse any primary breed photo for a different cat breed", () => {
     const primaryImages = catBreedGuides.map((breed) => breed.image);
     expect(new Set(primaryImages).size).toBe(catBreedGuides.length);
@@ -56,7 +66,8 @@ describe("pet world real photos and multi-image carousel", () => {
     expect(petWorldCode).toContain("relative aspect-[4/3] w-full overflow-hidden bg-[#FFFDF9]");
     expect(petWorldCode).toContain("horizontal-scroll flex w-full gap-2 overflow-x-auto border-t border-[#B88A58]/15 bg-[#FFFDF9] jp-card-shadow p-2.5");
     expect(petWorldCode).toContain("activeImgIndex + 1} / {images.length}");
-    expect(petWorldCode).toContain("aria-label={`查看 ${breed.name} 圖片來源與授權`}");
+    expect(petWorldCode).toContain("圖片授權：{breed.photoCredit}");
+    expect(petWorldCode).not.toContain("href={breed.sourceUrl}");
     expect(petWorldCode).not.toContain("暫未找到可核對的真實品種相片");
     expect(petWorldCode).toContain("const handlePrimaryImageError");
     expect(petWorldCode).toContain('retryUrl.searchParams.set("pet-image-retry"');

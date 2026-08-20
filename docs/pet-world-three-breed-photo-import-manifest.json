@@ -1,0 +1,185 @@
+{
+  "importedAt": "2026-08-20T09:58:54.788Z",
+  "photos": [
+    {
+      "breed": "british",
+      "assetName": "british-01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:A_British_Shorthair_cat.jpg",
+      "width": 3747,
+      "height": 5257,
+      "artist": "George E. Koronaios",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 1082718
+    },
+    {
+      "breed": "british",
+      "assetName": "british-02.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:A_two_years_old_British_Shorthair_cat.jpg",
+      "width": 5549,
+      "height": 4000,
+      "artist": "George E. Koronaios",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 275591
+    },
+    {
+      "breed": "british",
+      "assetName": "british-03.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:BRI_Hoshi_Black_Diamond_(5648566590).jpg",
+      "width": 2800,
+      "height": 3400,
+      "artist": "Nickolas Titkov from Moscow, Russian Federation",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 1016307
+    },
+    {
+      "breed": "british",
+      "assetName": "british-04.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:BRI_kittens_(5648020191).jpg",
+      "width": 3410,
+      "height": 2732,
+      "artist": "Nickolas Titkov from Moscow, Russian Federation",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 738094
+    },
+    {
+      "breed": "british",
+      "assetName": "british-05.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:BRI_kittens_(5648023711).jpg",
+      "width": 3718,
+      "height": 2912,
+      "artist": "Nickolas Titkov from Moscow, Russian Federation",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 759437
+    },
+    {
+      "breed": "british",
+      "assetName": "british-06.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Mediterranean_Winner_Show_2016_63.JPG",
+      "width": 4000,
+      "height": 3000,
+      "artist": "Nicholas Gemini",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 505379
+    },
+    {
+      "breed": "american",
+      "assetName": "american-01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:American_Shorthair.jpg",
+      "width": 1536,
+      "height": 2048,
+      "artist": "Dustin Warrington",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 505057
+    },
+    {
+      "breed": "american",
+      "assetName": "american-02.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:American_shorthair_housecat.jpg",
+      "width": 3024,
+      "height": 4032,
+      "artist": "Pluckhorizon47",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 591757
+    },
+    {
+      "breed": "american",
+      "assetName": "american-03.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:In_Awe_(8305613603).jpg",
+      "width": 2094,
+      "height": 1674,
+      "artist": "Darron Birgenheier from Reno, NV, USA",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 498856
+    },
+    {
+      "breed": "american",
+      "assetName": "american-04.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:%E7%BE%8E%E5%9C%8B%E7%9F%AD%E6%AF%9B%E8%B2%93.jpeg",
+      "width": 3456,
+      "height": 5184,
+      "artist": "Luke12345678901",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 587530
+    },
+    {
+      "breed": "american",
+      "assetName": "american-05.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Baby_American_shorthair_in_loaf_pose.jpg",
+      "width": 1072,
+      "height": 1280,
+      "artist": "Crispybeatle",
+      "license": "CC0",
+      "byteLength": 126225
+    },
+    {
+      "breed": "american",
+      "assetName": "american-06.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:ASH_Russeller%E2%80%99s_Cleopatra_of_Solid_Fold_(4496229769).jpg",
+      "width": 4268,
+      "height": 2900,
+      "artist": "Nickolas Titkov from Moscow, Russian Federation",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 790888
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-01.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ragdoll_from_Gatil_Ragbelas.jpg",
+      "width": 921,
+      "height": 872,
+      "artist": "Simone Johnsson",
+      "license": "CC BY-SA 2.0",
+      "byteLength": 49985
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-02.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Flame_point_Ragdoll.jpg",
+      "width": 1602,
+      "height": 2397,
+      "artist": "Cássia Afini",
+      "license": "CC BY 2.0",
+      "byteLength": 1650439
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-03.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ragdoll_Cat_2023.jpg",
+      "width": 1965,
+      "height": 2342,
+      "artist": "Kadı",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 809835
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-04.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Ragdoll_bicolor_blue_gatil_mozziland_portugal.jpg",
+      "width": 6000,
+      "height": 4000,
+      "artist": "MOZZILAND",
+      "license": "CC BY-SA 4.0",
+      "byteLength": 304246
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-05.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Kocour_Ragdoll_le%C5%BE%C3%ADc%C3%AD_na_posteli.jpg",
+      "width": 4096,
+      "height": 3072,
+      "artist": "Kryštof Jelínek",
+      "license": "CC0",
+      "byteLength": 580589
+    },
+    {
+      "breed": "ragdoll",
+      "assetName": "ragdoll-06.jpg",
+      "filePage": "https://commons.wikimedia.org/wiki/File:Cat_brotherhood.jpg",
+      "width": 5630,
+      "height": 4894,
+      "artist": "Arjunmz",
+      "license": "CC BY 4.0",
+      "byteLength": 620190
+    }
+  ]
+}
