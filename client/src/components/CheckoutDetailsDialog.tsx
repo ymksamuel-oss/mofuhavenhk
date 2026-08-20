@@ -72,13 +72,13 @@ export default function CheckoutDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto border-[#B88A58]/25 bg-[#FFFDF9] jp-card-shadow sm:max-w-lg">
+      <DialogContent className="max-h-[85vh] overflow-y-auto !overflow-y-auto [-webkit-overflow-scrolling:touch] border-[#B88A58]/25 bg-[#FFFDF9] jp-card-shadow sm:max-w-lg pb-10">
         <DialogHeader className="pr-8 text-left">
           <DialogTitle className="text-[#736859]">填寫香港收貨資料</DialogTitle>
           <DialogDescription>提交後才會進入 Stripe 付款頁；Stripe 不會重複要求輸入送貨地址。</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-4 pb-6" noValidate>
           <div className="space-y-1.5">
             <label htmlFor="recipient-name" className="text-sm font-medium text-foreground">收件人姓名</label>
             <input id="recipient-name" value={form.recipientName} onChange={(event) => update("recipientName", event.target.value)} autoComplete="name" className="h-11 w-full rounded-xl border border-border bg-white px-3 text-sm outline-none transition focus:border-[#B88A58] focus:ring-2 focus:ring-[#B88A58]/20" placeholder="例如：陳小姐" />

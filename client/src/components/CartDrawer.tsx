@@ -59,7 +59,7 @@ export default function CartDrawer() {
   return (
     <>
       <Sheet open={isOpen} onOpenChange={(open) => { if (!open) closeCart(); }}>
-      <SheetContent side="right" className="w-full border-[#B88A58]/25 bg-[#FFFDF9] sm:max-w-md">
+      <SheetContent side="right" className="w-full max-h-[100vh] overflow-y-auto !overflow-y-auto [-webkit-overflow-scrolling:touch] border-[#B88A58]/25 bg-[#FFFDF9] sm:max-w-md pb-12">
         <SheetHeader className="border-b border-border/70 pr-10">
           <SheetTitle className="flex items-center gap-2 text-[#736859]"><ShoppingBag className="h-5 w-5" />你的購物車</SheetTitle>
           <SheetDescription>先加入喜歡的商品，準備好後再前往 Stripe 安全結帳。</SheetDescription>

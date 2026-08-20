@@ -1046,3 +1046,8 @@
 [2026-08-20T00:45:36.982Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-20T00:45:59.377Z] 12:45:59 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T00:46:50.583Z] 12:46:50 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T00:48:09.044Z] [Auth] Missing session cookie
+[2026-08-20T00:48:22.261Z] 12:48:22 AM [vite] (client) hmr update /src/index.css, /src/components/CheckoutDetailsDialog.tsx
+[2026-08-20T00:48:35.707Z] 12:48:35 AM [vite] (client) hmr update /src/components/CartDrawer.tsx, /src/index.css
+[2026-08-20T00:48:45.794Z] 12:48:45 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T00:49:16.432Z] 12:49:16 AM [vite] (client) hmr update /src/index.css

@@ -45,6 +45,18 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* 徹底隱藏任何 Manus 浮動標籤與水印，確保右下角絕對乾淨不遮擋內容 */
+[class*="manus-badge"],
+[id*="manus-badge"],
+.made-with-manus,
+div[style*="position: fixed"][style*="bottom"],
+div[style*="z-index: 99999"][style*="bottom"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 :root {
   /* Mofu Haven: Japanese Healing Aesthetic */
   /* Primary: Mofu Haven milk-tea brown */
