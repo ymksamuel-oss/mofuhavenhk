@@ -1124,3 +1124,11 @@
 [2026-08-20T02:58:30.390Z] [Auth] Missing session cookie
 [2026-08-20T02:59:21.212Z] 2:59:21 AM [vite] changed tsconfig file detected: /home/ubuntu/mofu-haven-website/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
 [2026-08-20T03:17:31.237Z] 3:17:31 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T04:07:43.723Z] 4:07:43 AM [vite] (client) hmr update /src/components/ProductGrid.tsx, /src/index.css
+[2026-08-20T04:07:46.343Z] 4:07:46 AM [vite] (client) hmr update /src/pages/Home.tsx, /src/index.css
+[2026-08-20T04:07:58.988Z] 4:07:58 AM [vite] (client) hmr update /src/index.css, /src/components/CartDrawer.tsx
+[2026-08-20T04:07:58.990Z] 4:07:58 AM [vite] (client) hmr update /src/components/Header.tsx, /src/index.css
+[2026-08-20T04:07:59.597Z] 4:07:59 AM [vite] (client) hmr update /src/components/HeroBanner.tsx, /src/index.css
+[2026-08-20T04:07:59.638Z] 4:07:59 AM [vite] (client) hmr update /src/components/Footer.tsx, /src/index.css
+[2026-08-20T04:08:00.750Z] 4:08:00 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T04:17:57.948Z] 4:17:57 AM [vite] (client) hmr update /src/index.css
