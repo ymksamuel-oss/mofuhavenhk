@@ -1072,3 +1072,8 @@
 [2026-08-20T01:14:01.397Z] Server running on http://localhost:3000/
 [2026-08-20T01:15:09.878Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-20T01:15:30.426Z] 1:15:30 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T01:16:22.851Z] [Auth] Missing session cookie
+[2026-08-20T01:16:26.222Z] [Auth] Missing session cookie
+[2026-08-20T01:18:40.816Z] 1:18:40 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-20T01:18:42.539Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T01:18:42.764Z] Server running on http://localhost:3000/
