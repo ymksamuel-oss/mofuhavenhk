@@ -24,6 +24,8 @@ export default function CartDrawer() {
   const checkout = trpc.store.checkout.useMutation();
   const [deliveryDialogOpen, setDeliveryDialogOpen] = useState(false);
 
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+
   const handleCheckout = async (delivery: CheckoutDeliveryDetails) => {
     const checkoutItems = items
       .filter((item) => item.priceId)
@@ -36,7 +38,18 @@ export default function CartDrawer() {
       const result = await checkout.mutateAsync({ items: checkoutItems, delivery });
       setDeliveryDialogOpen(false);
       closeCart();
-      window.location.assign(result.url);
+      setCheckoutUrl(result.url);
+      
+      try {
+        if (window.top && window.top !== window) {
+          window.top.location.href = result.url;
+        } else {
+          window.location.assign(result.url);
+        }
+      } catch (redirectErr) {
+        console.warn("[Cart] Top window redirect blocked, fallback to direct assignment", redirectErr);
+        window.location.assign(result.url);
+      }
     } catch (error) {
       console.error("[Cart] Checkout failed", error);
       toast.error("暫時未能建立結帳頁面，請稍後再試或聯絡我們。");
@@ -92,6 +105,14 @@ export default function CartDrawer() {
           <Button type="button" disabled={!items.length || checkout.isPending} onClick={() => setDeliveryDialogOpen(true)} className="w-full rounded-full bg-[#B88A58] text-white hover:bg-[#C2976B]">
             {checkout.isPending ? "建立結帳中…" : "填寫收貨資料並結帳"}<ArrowRight className="h-4 w-4" />
           </Button>
+          {checkoutUrl && (
+            <div className="rounded-xl border border-[#B88A58]/30 bg-[#F7F3EE] p-3 text-center">
+              <p className="text-xs text-[#736859]">若頁面未自動跳轉至結帳頁，請點擊下方按鈕：</p>
+              <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center justify-center rounded-full bg-[#B88A58] px-4 py-2 text-xs font-semibold text-white shadow hover:bg-[#A67C52]">
+                在外部瀏覽器開啟結帳頁面 ↗
+              </a>
+            </div>
+          )}
           <p className="text-center text-xs text-muted-foreground">先填寫香港收貨資料，再進入 Stripe 安全付款頁。</p>
         </SheetFooter>
         </SheetContent>
