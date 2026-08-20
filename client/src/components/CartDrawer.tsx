@@ -39,8 +39,12 @@ export default function CartDrawer() {
       setDeliveryDialogOpen(false);
       closeCart();
 
-      // 最高指令：直接執行 window.location.href 全頁重定向至 Stripe 官方 Hosted Checkout
-      window.location.href = result.url;
+      // 確保在 iframe 預覽與正式環境下均強制讓頂層視窗跳轉至 Stripe 官方 Hosted Checkout
+      if (window.top && window.top !== window) {
+        window.top.location.href = result.url;
+      } else {
+        window.location.href = result.url;
+      }
     } catch (error) {
       console.error("[Cart] Checkout failed", error);
       toast.error("暫時未能建立結帳頁面，請稍後再試或聯絡我們。");
