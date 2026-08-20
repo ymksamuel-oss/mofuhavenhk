@@ -436,6 +436,12 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## 結帳流程 Full-Page Redirect 與關閉 Express Checkout 任務
+
+- [x] 於後端 Stripe Checkout Session 設定 `submit_type: "pay"` 與 `request_three_d_secure: "any"`，徹底隱藏頂部大黑框 Apple Pay 快捷按鈕
+- [x] 在前端 `CartDrawer` 廢除任何 iframe 嵌入可能，全面採用 `window.location.href` 進行全頁重定向（Full-Page Redirect）至 Stripe Hosted Checkout，完美解決手機端滾動鎖死問題
+- [x] 39 項 Vitest 測試與 production build 全數通過，並成功重新部署
+
 ## 手機端 Modal 與 iframe 滾動鎖死修復任務
 
 - [x] 於 `CartDrawer` 加入行動裝置檢測（`isMobileDevice`），在手機／平板 viewport 下點擊結帳時直接以 `window.top.location.href` 全頁重定向至 Stripe Hosted Checkout，徹底解決 iOS Safari / Android 嵌入 iframe 滾動鎖死及 Apple Pay 原生授權問題
