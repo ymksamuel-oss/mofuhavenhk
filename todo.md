@@ -439,6 +439,7 @@
 ## 手機 Modal 滾動與浮動水印移除任務
 
 - [x] 解除「填寫香港收貨資料」彈窗與購物車抽屜的滾動死鎖，設定 `max-h-[85vh]`、`overflow-y-auto !important`、`-webkit-overflow-scrolling: touch` 與底部充足留白，確保手機端可順暢滑動且確認按鈕絕不被截斷
+- [x] 在對話框與抽屜中加入 `[touch-action:pan-y]` 與 `pb-14` / `pb-20` 底部留白，徹底修復手機端無法上下滑動及按鈕被截斷的問題
 - [x] 在全域 CSS 中加入強力規則，強制隱藏所有 Manus 浮動標籤與水印，確保全站各頁面角落乾淨無遮擋
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
