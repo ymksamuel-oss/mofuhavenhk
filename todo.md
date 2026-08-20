@@ -536,7 +536,7 @@
 
 ## 線上圖片路徑與靜態資產修復任務
 
-- [ ] 稽核 Logo、主／副 Banner 與商品圖片的所有來源 URL，辨識 Vercel Production 的失效路徑
-- [ ] 將可用品牌與 Banner 資產遷移至 WebDev 正式靜態儲存，避免引用暫存或已失效外部 URL
-- [ ] 更新前端圖片引用及商品圖片容錯處理，確保部署後不顯示破圖問號
-- [ ] 驗證本地、Vercel Production 的首頁與商品圖片載入，執行 Vitest／production build 並發佈修正版
+- [x] 稽核 Logo、主／副 Banner 與商品圖片的所有來源 URL，確認 Vercel catch-all SPA rewrite 令舊 `/manus-storage/...` 相對路徑回傳 HTML，造成破圖
+- [x] 將可用品牌與 Banner 資產遷移至 WebDev 正式靜態儲存，並以受控 `/assets/:asset` 路由提供穩定存取
+- [x] 更新前端圖片引用及商品圖片容錯處理，確保部署後不可用的商品圖會切換至新的正式占位圖而不顯示破圖問號
+- [x] 驗證 41 項 Vitest 測試、production build、Vercel Production 部署與核心資產的最終 PNG／SVG 回應；修復程式已推送至 GitHub `fix/vercel-image-assets` 分支
