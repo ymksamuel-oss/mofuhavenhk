@@ -5,12 +5,18 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-
+import FaqPage from "./pages/Faq";
+import PrivacyPolicyPage from "./pages/PrivacyPolicy";
+import ContactPage from "./pages/Contact";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/faq"} component={FaqPage} />
+      <Route path={"/privacy"} component={PrivacyPolicyPage} />
+      <Route path={"/contact"} component={ContactPage} />
+      <Route path={"/terms"} component={PrivacyPolicyPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

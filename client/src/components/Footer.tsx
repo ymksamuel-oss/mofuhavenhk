@@ -1,5 +1,12 @@
 import { Separator } from "@/components/ui/separator";
 import { Mail, MessageCircle } from "lucide-react";
+import {
+  AlipayHkLogo,
+  ApplePayLogo,
+  MastercardLogo,
+  VisaLogo,
+  WeChatPayLogo,
+} from "@/components/icons/PaymentIcons";
 
 /**
  * Footer Component
@@ -31,7 +38,7 @@ export default function Footer() {
               </div>
             </a>
             <p className="text-sm text-foreground/70 leading-relaxed">
-              專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。
+              專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。提供 3-5 日發貨與 7 日退換貨保障。
             </p>
           </div>
 
@@ -40,14 +47,14 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">快捷連結</h4>
             <ul className="space-y-2">
               {[
-                { label: "全部商品", href: "#" },
-                { label: "關於我們", href: "#" },
-                { label: "常見問題", href: "#" }
+                { label: "全部商品", href: "/menu" },
+                { label: "關於我們", href: "/contact" },
+                { label: "常見問題 (FAQ)", href: "/faq" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a
                     href={link.href}
-                    className="text-sm text-foreground/70 hover:text-primary transition-colors duration-200 relative group/link"
+                    className="text-sm text-foreground/70 hover:text-primary transition-colors duration-200 relative group/link inline-block py-0.5"
                   >
                     {link.label}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover/link:w-full transition-all duration-300" />
@@ -62,14 +69,15 @@ export default function Footer() {
             <h4 className="font-semibold text-foreground mb-4">顧客服務</h4>
             <ul className="space-y-2">
               {[
-                { label: "運送與發貨政策", href: "#" },
-                { label: "退換貨政策", href: "#" },
-                { label: "私隱政策與服務條款", href: "#" }
+                { label: "運送與發貨政策", href: "/faq" },
+                { label: "退換貨政策", href: "/faq" },
+                { label: "私隱政策與服務條款", href: "/privacy" },
+                { label: "聯絡我們", href: "/contact" }
               ].map((link, idx) => (
                 <li key={idx}>
                   <a
                     href={link.href}
-                    className="text-sm text-foreground/70 hover:text-primary transition-colors duration-200 relative group/link"
+                    className="text-sm text-foreground/70 hover:text-primary transition-colors duration-200 relative group/link inline-block py-0.5"
                   >
                     {link.label}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover/link:w-full transition-all duration-300" />
@@ -89,14 +97,14 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors duration-200 group/contact"
               >
-                <MessageCircle className="w-4 h-4 group-hover/contact:scale-110 transition-transform" />
-                WhatsApp 查詢
+                <MessageCircle className="w-4 h-4 text-[#25D366] group-hover/contact:scale-110 transition-transform" />
+                WhatsApp 專人查詢
               </a>
               <a
                 href="mailto:hello@mofuhavenhk.com"
                 className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary transition-colors duration-200 group/contact"
               >
-                <Mail className="w-4 h-4 group-hover/contact:scale-110 transition-transform" />
+                <Mail className="w-4 h-4 text-primary group-hover/contact:scale-110 transition-transform" />
                 hello@mofuhavenhk.com
               </a>
               <p className="text-xs text-muted-foreground pt-2 border-t border-border/50">
@@ -114,39 +122,39 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">
-            © 2026 Mofu Haven. All Rights Reserved.
+            © 2026 Mofu Haven. All Rights Reserved. 3-5日發貨・7日退換貨保障.
           </p>
 
           {/* Payment Methods */}
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <span className="text-xs text-muted-foreground font-medium">接受付款方式：</span>
             <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
-              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+              <span className="flex h-7 min-w-[4rem] items-center justify-center">
                 <img
                   src="/payment/wechat-pay-logo.png"
                   alt="WeChat Pay"
-                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                  className="h-5 w-auto max-w-[4rem] object-contain"
                 />
               </span>
-              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+              <span className="flex h-7 min-w-[4rem] items-center justify-center">
                 <img
                   src="/payment/alipayhk-logo.svg"
                   alt="AlipayHK"
-                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                  className="h-5 w-auto max-w-[4rem] object-contain"
                 />
               </span>
-              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+              <span className="flex h-7 min-w-[4rem] items-center justify-center">
                 <img
                   src="/payment/visa-brandmark-blue.png"
                   alt="Visa"
-                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                  className="h-5 w-auto max-w-[4rem] object-contain"
                 />
               </span>
-              <span className="flex h-7 min-w-[4.5rem] items-center justify-center">
+              <span className="flex h-7 min-w-[4rem] items-center justify-center">
                 <img
                   src="/payment/mastercard-symbol.png"
                   alt="Mastercard"
-                  className="h-5 w-auto max-w-[4.5rem] object-contain"
+                  className="h-5 w-auto max-w-[4rem] object-contain"
                 />
               </span>
             </div>
