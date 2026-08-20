@@ -1034,3 +1034,6 @@
 [2026-08-20T00:39:30.890Z] 12:39:30 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T00:39:38.843Z] [Auth] Missing session cookie
 [2026-08-20T00:40:17.142Z] 12:40:17 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T00:42:45.445Z] 12:42:45 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-20T00:42:47.134Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T00:42:47.356Z] Server running on http://localhost:3000/
