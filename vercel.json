@@ -5,7 +5,11 @@
   "outputDirectory": "dist/public",
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/api/trpc/:procedure*",
+      "destination": "/api?procedure=:procedure*"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
