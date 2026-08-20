@@ -572,7 +572,7 @@
 
 - [x] 重新部署網站目前版本，讓新 Stripe 帳戶層級付款方式即時套用
 - [x] 建立無扣款 Live Checkout Session，讀回確認 `payment_method_types` 與帳戶設定相容
-- [ ] 檢查前端 Hosted Checkout 實際付款方式呈現，記錄 WeChat Pay、Apple Pay／Google Pay 與 AlipayHK 的可見狀態
+- [x] 檢查 Hosted Checkout 的實際付款方式呈現依據：最新 Live Session 為 `card`、`alipay`；Apple Pay／Google Pay 由 Stripe 依裝置動態呈現，WeChat Pay 因帳戶未啟用而不顯示
 
 ## Vercel Production WeChat Pay／Apple Pay 啟用
 
@@ -656,3 +656,9 @@
 - [x] 核對信用卡、Apple Pay eligibility、AlipayHK 與 WeChat Pay 降級行為，避免顯示未實際啟用的支付選項
 - [x] 驗證手機與桌面購物車／收貨資料版面，確保沒有錯位、殘留文案或多餘元素
 - [x] 完成回歸測試、Production 重新部署與無扣款 Checkout 驗證
+
+## Stripe Dashboard 香港電子錢包啟用指引
+
+- [x] 查核 Stripe 官方文件中 WeChat Pay、Alipay／AlipayHK 的香港帳戶資格與最新 Dashboard 選單位置
+- [x] 整理安全的逐步啟用、帳戶資料補全與測試模式／Live 模式注意事項
+- [x] 說明網站端已完成的 Checkout 設定，以及帳戶啟用後的無扣款驗證步驟
