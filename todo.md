@@ -410,7 +410,14 @@
 - [x] 堅持寧缺勿濫與嚴格按 breed_id 綁定原則，絕不跨品種混用相片
 - [x] 通過 39 項 Vitest 測試與 production build，並已凍結該頁面與自動運作。
 
-## Stripe 結帳 iframe 跳轉與 Link 停用任務
+## Stripe 結帳 iframe 跳轉、Link 停用與 Apple Pay 處理任務
+
+- [x] 確認系統採用 Stripe 官方託管 Checkout Session，頂部 Express Checkout 區塊與「或」分隔線係由 Stripe 根據顧客裝置自動渲染
+- [x] 於後端代碼補上控制註記，並提供直接於 Stripe Dashboard 關閉 Express Checkout 顯示開關的指引
+- [x] 修改前端 Stripe 結帳跳轉邏輯，優先使用 `window.top.location.href = result.url` 穿透預覽 iframe 限制
+- [x] 在購物車抽屜中加入「在外部瀏覽器開啟結帳頁面 ↗」的備用按鈕（`target="_blank"`），方便在預覽環境下順暢測試
+- [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
+- [x] 39 項 Vitest 測試與 production build 全數通過
 
 - [x] 修改前端 Stripe 結帳跳轉邏輯，優先使用 `window.top.location.href = result.url` 穿透預覽 iframe 限制
 - [x] 在購物車抽屜中加入「在外部瀏覽器開啟結帳頁面 ↗」的備用按鈕（`target="_blank"`），方便在預覽環境下順暢測試
