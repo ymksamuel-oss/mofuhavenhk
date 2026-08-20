@@ -651,8 +651,8 @@
 
 ## Checkout 官方標誌、香港支付文案與版面複核
 
-- [ ] 盤點購物車、香港收貨資料與 Stripe Hosted Checkout 的付款圖示、文案、跳轉邏輯與官方品牌來源
-- [ ] 修正網站自訂付款提示與按鈕，僅使用官方品牌標誌或由 Stripe Hosted Checkout 原生呈現的品牌 Logo
-- [ ] 核對信用卡、Apple Pay eligibility、AlipayHK 與 WeChat Pay 降級行為，避免顯示未實際啟用的支付選項
-- [ ] 驗證手機與桌面購物車／收貨資料版面，確保沒有錯位、殘留文案或多餘元素
-- [ ] 完成回歸測試、Production 重新部署與無扣款 Checkout 驗證
+- [x] 盤點購物車、香港收貨資料與 Stripe Hosted Checkout 的付款圖示、文案、跳轉邏輯與官方品牌來源
+- [x] 修正網站自訂付款提示與按鈕，僅使用官方品牌標誌或由 Stripe Hosted Checkout 原生呈現的品牌 Logo
+- [x] 核對信用卡、Apple Pay eligibility、AlipayHK 與 WeChat Pay 降級行為，避免顯示未實際啟用的支付選項
+- [x] 驗證手機與桌面購物車／收貨資料版面，確保沒有錯位、殘留文案或多餘元素
+- [x] 完成回歸測試、Production 重新部署與無扣款 Checkout 驗證

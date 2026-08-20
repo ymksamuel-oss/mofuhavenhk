@@ -1193,3 +1193,13 @@
 [2026-08-20T08:31:45.509Z] 8:31:45 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T08:38:13.179Z] 8:38:13 AM [vite] (client) hmr update /src/pages/PetWorld.tsx, /src/index.css
 [2026-08-20T08:41:16.826Z] 8:41:16 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T08:47:19.692Z] 8:47:19 AM [vite] (client) hmr update /src/components/Footer.tsx, /src/index.css
+[2026-08-20T08:48:54.703Z] ELIFECYCLE  Command failed.
+[2026-08-20T08:48:54.764Z] Dev server exited with code -1
+[2026-08-20T08:48:55.850Z] Starting dev server with command: pnpm run dev
+[2026-08-20T08:48:56.669Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-20T08:48:56.670Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-20T08:48:58.513Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T08:48:58.739Z] Server running on http://localhost:3000/
+[2026-08-20T08:49:20.994Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-20T08:56:30.781Z] 8:56:30 AM [vite] (client) hmr update /src/index.css
