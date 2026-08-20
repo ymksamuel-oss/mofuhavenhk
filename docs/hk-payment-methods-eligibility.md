@@ -23,6 +23,18 @@ Stripe 的付款方式支援矩陣列出 Alipay、Apple Pay、WeChat Pay，以�
 
 AlipayHK、WeChat Pay 的身份驗證、可見性及付款人地區資格由支付錢包與 Stripe Hosted Checkout 依實際付款人資料判定，網站不能亦不應以自訂程式繞過或「過濾」第三方錢包的實名驗證要求。
 
+## 最後 Production 稽核
+
+最後一次以 `https://www.mofuhavenhk.com` 建立的無扣款 Live Checkout Session 為 `open`／`unpaid`，且只回傳 `payment_method_types: ["card", "alipay"]`。因此目前狀態如下：
+
+| 方式 | Hosted Checkout 狀態 | 說明 |
+| --- | --- | --- |
+| Visa／Mastercard | 可用 | 由 `card` 提供，並保留 3D Secure。 |
+| Apple Pay | 相容裝置動態提供 | Stripe Hosted Checkout 在符合裝置、網域驗證和帳戶設定時由 `card` 顯示。 |
+| Alipay／AlipayHK | 可用 | Live Session 已回傳 `alipay`；實際 AlipayHK App 交接仍需真實香港裝置驗證。 |
+| WeChat Pay | 尚未啟用 | Stripe Live 帳戶拒絕 `wechat_pay`，網站會安全降級為 `card`／`alipay` 而不阻斷結帳。 |
+| 香港 FPS | 非 Stripe Hosted Checkout 類型 | Stripe 官方支援矩陣沒有香港 FPS 的 `payment_method_type`；不可誤用馬來西亞 FPX。 |
+
 ## References
 
 [1] [Stripe — Supported payment methods](https://docs.stripe.com/payments/payment-methods/overview)

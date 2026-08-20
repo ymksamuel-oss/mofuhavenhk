@@ -635,8 +635,8 @@
 
 ## Pet World 最終圖文與授權標註校正
 
-- [ ] 逐一核對 12 個品種的名稱、圖片檔案、Wikimedia 來源與授權，移除所有錯配圖文
-- [ ] 將圖片來源與授權連結移至圖片正下方的小字註記，避免在卡片文字主體中顯示原始 URL
-- [ ] 加入嚴格品種－圖片－來源資料回歸測試，禁止以其他品種圖片填補缺圖
-- [ ] 重新核對 Stripe Live 對 AlipayHK、WeChat Pay、FPS、Apple Pay／card 的實際 Hosted Checkout 可用性
-- [ ] 完成測試、Production 最後部署及正式網站驗證
+- [x] 逐一核對 12 個品種的名稱、圖片檔案、Wikimedia 來源與授權，移除所有錯配圖文
+- [x] 將圖片來源與授權連結移至圖片正下方的小字註記，避免在卡片文字主體中顯示原始 URL
+- [x] 加入嚴格品種－圖片－來源資料回歸測試，禁止以其他品種圖片填補缺圖
+- [x] 重新核對 Stripe Live 對 AlipayHK、WeChat Pay、FPS、Apple Pay／card 的實際 Hosted Checkout 可用性
+- [x] 完成測試、Production 最後部署及正式網站驗證
