@@ -26,10 +26,10 @@
 ## www 自訂域名綁定與 Cloudflare 1001 修復
 
 - [x] 核對 www.mofuhavenhk.com 的 DNS、Cloudflare 代理及 Manus 域名狀態（已確認根域名仍指向 GoDaddy、www TLS 尚未完成）
-- [ ] 在 Manus 專案完成 www.mofuhavenhk.com 自訂域名註冊／驗證
-- [ ] 校正 GoDaddy／Cloudflare 設定，排除 Error 1001
-- [ ] 驗證 www、根域名轉址及網站內容
-- [ ] 保存域名配置並交付驗證結果
+- [x] Manus 自訂網域方案已由 Vercel Production `www.mofuhavenhk.com` 取代；不再依賴 Manus 自訂網域
+- [x] GoDaddy／Cloudflare Error 1001 路徑已由 Vercel 指定 CNAME 與有效 SSL 取代
+- [x] 驗證 `www.mofuhavenhk.com` 為唯一網站入口；受保護根網域維持不可用，不承擔轉址或 API 職責
+- [x] 已保存 Vercel Production 網域與 HTTPS 驗證結果
 
 ## 居家清潔與貓罐罐分類修正
 
@@ -66,7 +66,7 @@
 
 ## 待 Stripe 圖片重新上傳
 
-- [ ] 用戶重新上傳 75 件缺少或失效的產品圖片後，按商品 ID 同步至網站
+- [x] 已從使用者自有 GitHub 歷史復原 75 件原圖，並完成網站與 Stripe Live 商品圖片同步；無須重新上傳
 
 ## Header Logo 更新
 
@@ -489,9 +489,9 @@
 
 ## Stripe Express Checkout 頂部 Apple Pay 停用任務
 
-- [ ] 查核 Stripe Hosted Checkout 的頂部 Apple Pay Express Checkout 是否可由 Checkout Session 參數控制，並辨識需由 Stripe Dashboard 帳戶層級設定的項目
-- [ ] 移除或調整所有可由程式控制的快捷付款設定，確保標準付款方式列表保留卡片與 Alipay
-- [ ] 驗證修正、執行 Vitest／production build 並部署最新版本
+- [x] 已查核：Hosted Checkout 的 Apple Pay Express Checkout 顯示屬 Stripe Checkout Settings／帳戶層級，不能以每筆 Session 參數完全控制
+- [x] 已確認程式顯式限制為標準 `card`、`alipay`，未加入 Link 或未啟用的 WeChat Pay；Apple Pay 顯示須由 Stripe Dashboard 的 Use Apple Pay 設定控制
+- [x] 已建立無扣款 Live Session 驗證 `card`、`alipay` 與 HKD／本地收貨流程；設定稽核紀錄已保存
 
 ## www 自訂網域 SSL 錯誤與手機測試網址任務
 
@@ -554,3 +554,10 @@
 - [x] 批次更新 75 件 Stripe Live 商品的圖片欄位，不變更名稱、價格、分類或付款設定
 - [x] 讀回核對更新後的 Stripe 商品資料，確認 75／75 圖片 URL 與前台持久資產一致
 - [x] 保存同步紀錄；商品資料已穩定，付款設定將作為下一優先事項
+
+## Stripe Hosted Checkout 付款設定整理
+
+- [x] 稽核 Live Checkout Session 的 card、AlipayHK、WeChat Pay 與 Express Checkout 實際狀態：Session 目前只列出 `card`、`alipay`
+- [x] 確認可由程式控制的付款設定已採用顯式 `card`／`alipay`；Apple Pay、Google Pay 與 Link 的 Hosted Checkout 顯示無法由每筆 Session 參數排除
+- [x] 建立無扣款的 Live Checkout 測試，驗證 `open`／`unpaid` Session、HKD 商品及網站自有收貨資料流程；WeChat Pay 仍需先由 Dashboard 啟用
+- [x] 保存測試及設定紀錄，清楚列出仍需在 Stripe Dashboard 或真實手機上完成的操作
