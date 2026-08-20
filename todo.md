@@ -587,3 +587,32 @@
 - [x] 確保 Stripe Checkout 以 `card` 支援 Apple Pay／信用卡，並以 WeChat Pay Web client 參數支援 WeChat Pay
 - [ ] 重新部署 Vercel Production 並確認 www.mofuhavenhk.com 指向完成版本
 - [ ] 建立無扣款 Live Checkout Session，驗證香港行動客戶可使用的付款方式
+
+## Vercel Blocked 部署 Git 身份恢復
+
+- [x] 核對 GitHub CLI／Git HTTPS 授權與目前提交者身份是否可合法推送（GitHub 授權 token 目前失效）
+- [x] 以合法 Git 提交者建立新的 Production commit，包含已驗證的 Apple Pay／WeChat Pay 設定
+- [ ] 推送至已連線的 Production 主分支，觸發 Vercel 重新建置
+- [ ] 確認 Vercel Production 部署完成後，再建立無扣款 Checkout Session 驗證付款方式
+
+## GitHub 重新授權後部署執行
+
+- [ ] 驗證更新後 GitHub 授權可推送合法 Production 提交
+- [ ] 推送 `a2d0a4d2` 觸發 Vercel 的全新 Git Production 部署
+- [ ] 驗證部署完成後的 Checkout payment method 設定
+
+## GitHub 推送重新嘗試
+
+- [ ] 重新驗證 GitHub 授權是否已同步至目前工作階段
+- [ ] 推送既有合法提交並確認 Vercel 收到新的 Git Production 事件
+
+## 分叉主分支的安全 Production 來源
+
+- [ ] 將合法的 Apple Pay／WeChat Pay 提交推送至新的安全 Production 分支，不覆寫 GitHub 既有 main
+- [ ] 使用該合法提交重新觸發 Vercel Production 建置
+
+## Stripe WeChat Pay 帳戶資格降級保護
+
+- [ ] 當 Stripe Live 拒絕尚未啟用的 WeChat Pay 時，自動以 card／Alipay 重新建立 Checkout，保障信用卡及 Apple Pay 流程
+- [ ] 加入回歸測試，驗證 WeChat Pay 失敗不會阻斷香港客戶的 Checkout
+- [ ] 重新部署並以無扣款 Live Session 確認 Checkout 可用，並保留 WeChat Pay 帳戶啟用依賴紀錄

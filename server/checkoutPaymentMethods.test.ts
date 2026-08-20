@@ -24,4 +24,13 @@ describe("Stripe Checkout payment method configuration", () => {
       expect(checkoutSource).toContain("payment_method_options");
     }
   });
+
+  it("keeps Checkout available when Stripe reports that WeChat Pay is not activated", () => {
+    for (const file of ["api/index.js", "server/routers.ts"]) {
+      const checkoutSource = source(file);
+      expect(checkoutSource).toContain("isWeChatPayUnavailable");
+      expect(checkoutSource).toContain('payment_method_types: ["card", "alipay"]');
+      expect(checkoutSource).toContain("retrying");
+    }
+  });
 });

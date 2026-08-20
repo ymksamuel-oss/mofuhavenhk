@@ -122,6 +122,11 @@ async function productsHandler(req, res, input) {
   sendResult(req, res, { products, total: products.length, totalAvailable: productsResult.data.length, source: "stripe", filter: { category, q } });
 }
 
+function isWeChatPayUnavailable(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  return /wechat_pay|wechat pay/i.test(message) && /invalid|activated|enabled/i.test(message);
+}
+
 async function checkoutHandler(req, res, input) {
   if (!Array.isArray(input.items) || input.items.length === 0) throw new Error("購物車沒有有效商品。");
   const delivery = input.delivery || {};
@@ -139,7 +144,7 @@ async function checkoutHandler(req, res, input) {
     card: { request_three_d_secure: "any" },
     ...(wechatPayEnabled ? { wechat_pay: { client: "web" } } : {}),
   };
-  const session = await stripe.checkout.sessions.create({
+  const sessionParams = {
     mode: "payment",
     submit_type: "pay",
     line_items: input.items.map((item) => ({ price: item.priceId, quantity: Math.min(99, Math.max(1, Number(item.quantity) || 1)) })),
@@ -154,7 +159,19 @@ async function checkoutHandler(req, res, input) {
     allow_promotion_codes: true,
     success_url: `${origin}/checkout/return?status=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/checkout/return?status=cancelled`,
-  });
+  };
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create(sessionParams);
+  } catch (error) {
+    if (!wechatPayEnabled || !isWeChatPayUnavailable(error)) throw error;
+    console.warn("[Vercel API] WeChat Pay is not enabled for this Stripe account; retrying Checkout with card and Alipay.");
+    session = await stripe.checkout.sessions.create({
+      ...sessionParams,
+      payment_method_types: ["card", "alipay"],
+      payment_method_options: { card: { request_three_d_secure: "any" } },
+    });
+  }
   if (!session.url) throw new Error("Stripe did not return a checkout URL.");
   sendResult(req, res, { url: session.url });
 }

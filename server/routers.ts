@@ -20,6 +20,11 @@ const checkoutPaymentMethodOptions: Stripe.Checkout.SessionCreateParams.PaymentM
   ...(wechatPayEnabled ? { wechat_pay: { client: "web" } } : {}),
 };
 
+function isWeChatPayUnavailable(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  return /wechat_pay|wechat pay/i.test(message) && /invalid|activated|enabled/i.test(message);
+}
+
 function getStripeClient(): Stripe {
   const secretKey = process.env.STRIPE_LIVE_SECRET_KEY ?? process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
@@ -82,7 +87,7 @@ export const appRouter = router({
         }
 
         const origin = ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}`;
-        const session = await stripe.checkout.sessions.create({
+        const sessionParams: Stripe.Checkout.SessionCreateParams = {
           mode: "payment",
           submit_type: "pay",
           line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
@@ -97,7 +102,19 @@ export const appRouter = router({
           allow_promotion_codes: true,
           success_url: `${origin}/checkout/return?status=success&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${origin}/checkout/return?status=cancelled`,
-        });
+        };
+        let session: Stripe.Checkout.Session;
+        try {
+          session = await stripe.checkout.sessions.create(sessionParams);
+        } catch (error) {
+          if (!wechatPayEnabled || !isWeChatPayUnavailable(error)) throw error;
+          console.warn("[Stripe Checkout] WeChat Pay is not enabled for this account; retrying with card and Alipay.");
+          session = await stripe.checkout.sessions.create({
+            ...sessionParams,
+            payment_method_types: ["card", "alipay"],
+            payment_method_options: { card: { request_three_d_secure: "any" } },
+          });
+        }
 
         if (!session.url) {
           throw new Error("Stripe did not return a checkout URL.");
