@@ -436,6 +436,11 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## Stripe Session 建立與支付方式修復任務
+
+- [x] 修正 `server/routers.ts` 中的 `checkoutPaymentMethods`，預設為 `['card', 'alipay']`（若設定 `STRIPE_ENABLE_WECHAT_PAY=true` 則加入 `wechat_pay`），完美解決因帳戶未啟用 WeChat Pay 造成的 Checkout Session 建立失敗報錯
+- [x] 通過 39 項 Vitest 測試與 production build，並成功部署至線上預覽
+
 ## Checkout 頁面支付方式與官方 Logo 調整任務
 
 - [x] 後端 `store.checkout` 的 `payment_method_types` 已更新並啟用 `['card', 'alipay', 'wechat_pay']`，完整支援銀行卡、AlipayHK／支付寶及微信支付
