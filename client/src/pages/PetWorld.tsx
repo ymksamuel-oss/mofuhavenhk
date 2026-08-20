@@ -197,7 +197,7 @@ export default function PetWorld() {
                       <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">以穩定、低壓和可持續的方式陪伴毛孩，逐步建立你們之間舒服的生活節奏。</p>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
-                      {catCareGuides.map((guide, index) => {
+                      {catCareGuides.map((guide: { title: string; body: string }, index: number) => {
                         const favoriteKey = `guide:${guide.title}`;
                         const isFavorite = favorites.some((entry) => entry.key === favoriteKey);
                         return (

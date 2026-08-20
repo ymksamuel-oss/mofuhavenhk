@@ -1010,3 +1010,7 @@
 [2026-08-20T00:01:38.866Z] Server running on http://localhost:3000/
 [2026-08-20T00:11:08.729Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-20T00:11:42.210Z] 12:11:42 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T00:13:43.570Z] 12:13:43 AM [vite] (client) hmr update /src/pages/Home.tsx, /src/pages/PetWorld.tsx
+[2026-08-20T00:13:55.606Z] 12:13:55 AM [vite] (client) hmr update /src/pages/Home.tsx, /src/pages/PetWorld.tsx
+[2026-08-20T00:14:05.440Z] 12:14:05 AM [vite] (client) hmr update /src/pages/PetWorld.tsx, /src/index.css
+[2026-08-20T00:15:27.604Z] 12:15:27 AM [vite] (client) hmr update /src/index.css
