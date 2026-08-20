@@ -150,7 +150,30 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+const STOREFRONT_ASSET_ORIGIN = "https://mofuhaven-5gysmfvo.manus.space";
+const STOREFRONT_ASSET_PATHS: Record<string, string> = {
+  logo: "/manus-storage/mofu-haven-logo_2a21eeab.png",
+  "main-banner": "/manus-storage/mofu-haven-main-banner_e167962e.png",
+  "sub-banner": "/manus-storage/mofu-haven-sub-banner_58ad8067.png",
+  "product-placeholder": "/manus-storage/mofu-haven-product-placeholder_5fd6b349.svg",
+};
+
+function vitePluginStorefrontAssets(): Plugin {
+  return {
+    name: "mofu-haven-storefront-assets",
+    configureServer(server) {
+      server.middlewares.use("/assets", (req, res, next) => {
+        const asset = req.url?.replace(/^\//, "").split("?")[0] ?? "";
+        const assetPath = STOREFRONT_ASSET_PATHS[asset];
+        if (!assetPath) return next();
+        res.writeHead(307, { Location: `${STOREFRONT_ASSET_ORIGIN}${assetPath}` });
+        res.end();
+      });
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginStorefrontAssets(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
   plugins,

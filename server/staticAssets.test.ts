@@ -16,6 +16,12 @@ describe("storefront static asset routing", () => {
     ]));
   });
 
+  it("keeps the same controlled asset route available in the WebDev preview server", () => {
+    const viteConfig = source("vite.config.ts");
+    expect(viteConfig).toContain('server.middlewares.use("/assets"');
+    expect(viteConfig).toContain("mofu-haven-main-banner_e167962e.png");
+  });
+
   it("uses the Vercel-compatible asset route instead of unresolved Manus-relative image paths", () => {
     const imageComponents = [
       "client/src/components/Header.tsx",

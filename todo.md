@@ -539,4 +539,4 @@
 - [x] 稽核 Logo、主／副 Banner 與商品圖片的所有來源 URL，確認 Vercel catch-all SPA rewrite 令舊 `/manus-storage/...` 相對路徑回傳 HTML，造成破圖
 - [x] 將可用品牌與 Banner 資產遷移至 WebDev 正式靜態儲存，並以受控 `/assets/:asset` 路由提供穩定存取
 - [x] 更新前端圖片引用及商品圖片容錯處理，確保部署後不可用的商品圖會切換至新的正式占位圖而不顯示破圖問號
-- [x] 驗證 41 項 Vitest 測試、production build、Vercel Production 部署與核心資產的最終 PNG／SVG 回應；修復程式已推送至 GitHub `fix/vercel-image-assets` 分支
+- [x] 驗證 42 項 Vitest 測試、production build、Vercel Production 部署與核心資產的最終 PNG／SVG 回應；另以 WebDev Preview 截圖確認透明 Logo 與指定主 Banner 完整顯示，修復程式已推送至 GitHub `fix/vercel-image-assets` 分支
