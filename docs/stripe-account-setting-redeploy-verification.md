@@ -27,6 +27,8 @@
 
 已於 Vercel **Production** 加入 `STRIPE_ENABLE_WECHAT_PAY=true`。首次以這個開關建立 Live Checkout Session 時，Stripe 明確回傳：`WeChat Pay requires payment_method_options[wechat_pay][client] to be set to web.`
 
+亦已於 Vercel **Production** 加入 `STRIPE_ENABLE_APPLE_PAY=true`。Stripe Hosted Checkout 不把 Apple Pay 作為獨立 `payment_method_type`；它透過 `card` 支付方式在合資格的 Safari／iOS 裝置、網域與帳戶設定下由 Stripe 原生提供。因此網站端保留 `card`，同時支援信用卡及符合資格的 Apple Pay wallet。
+
 因此，網站後端的兩個 Checkout 入口（`api/index.js` 與 `server/routers.ts`）已同步改為：僅於 WeChat Pay 開關啟用時加入 `wechat_pay`，並一併傳送 `payment_method_options.wechat_pay.client = 'web'`。本地完整測試與 production build 已通過（**44** 項 Vitest 測試）。
 
-目前仍待 Vercel 接受新版建置，才能建立新的無扣款 Live Checkout Session，確認 Stripe 回傳 `card`、`alipay` 與 `wechat_pay`。在此之前，`www.mofuhavenhk.com` 仍維持前一個正常 Production 版本，未將未完成部署指派為正式網域。
+目前仍待 Vercel 接受新版建置，才能建立新的無扣款 Live Checkout Session，確認 Stripe 回傳 `card`、`alipay` 與 `wechat_pay`。本輪 Vercel 連續提交的部署均停留在 `UNKNOWN`／Building 狀態，故已停止重複提交；`www.mofuhavenhk.com` 仍維持前一個正常 Production 版本，商品 API 回應 **200** 並載入 **91** 件商品，未將未完成部署指派為正式網域。

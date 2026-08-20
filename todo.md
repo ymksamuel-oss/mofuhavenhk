@@ -580,3 +580,10 @@
 - [ ] 重新部署已驗證的 Vercel Production 版本，避免覆蓋既有商品圖片修復
 - [ ] 建立無扣款 Live Checkout Session，確認 `wechat_pay` 已加入 Session 並檢查香港行動裝置付款方式呈現
 - [x] 為 WeChat Pay 加入 Stripe 要求的 `payment_method_options.wechat_pay.client = 'web'`，再重新驗證 Live Session
+
+## Apple Pay／WeChat Pay Vercel Production 啟用（本輪）
+
+- [x] 核對 Vercel Production 的 Apple Pay／WeChat Pay 網站端開關及目前部署狀態
+- [x] 確保 Stripe Checkout 以 `card` 支援 Apple Pay／信用卡，並以 WeChat Pay Web client 參數支援 WeChat Pay
+- [ ] 重新部署 Vercel Production 並確認 www.mofuhavenhk.com 指向完成版本
+- [ ] 建立無扣款 Live Checkout Session，驗證香港行動客戶可使用的付款方式
