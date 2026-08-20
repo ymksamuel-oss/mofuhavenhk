@@ -5,7 +5,7 @@ import {
   calcSubtotal,
   generateOrderNumber,
   getOrderItems,
-  SHIPPING,
+  getShippingCost,
 } from "@/lib/order";
 import {
   getStripe,
@@ -107,7 +107,8 @@ export async function POST(request: Request) {
     : "";
   const paymentLabel =
     PAYMENT_LABELS[preferredMethod] || "Stripe";
-  const total = calcSubtotal(items) + SHIPPING;
+  const subtotal = calcSubtotal(items);
+  const total = subtotal + getShippingCost(subtotal, items.length > 0);
   const amount = toStripeAmountHkd(total);
 
   if (!Number.isFinite(amount) || amount < 50) {

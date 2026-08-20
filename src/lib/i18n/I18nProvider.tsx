@@ -65,7 +65,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 export function useI18n() {
   const ctx = useContext(I18nContext);
   if (!ctx) {
-    throw new Error("useI18n must be used within I18nProvider");
+    return {
+      locale: "zh" as const,
+      setLocale: () => {},
+      t: (key: TranslationKey) => translations.zh[key] || key,
+    };
   }
   return ctx;
 }

@@ -39,7 +39,10 @@ export function CatalogProvider({
 export function useCatalog(): CatalogContextValue {
   const context = useContext(CatalogContext);
   if (!context) {
-    throw new Error("useCatalog must be used within CatalogProvider");
+    return {
+      products: [],
+      getProductById: () => null,
+    };
   }
   return context;
 }

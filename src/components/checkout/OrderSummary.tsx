@@ -1,13 +1,14 @@
 "use client";
 
 import { ProductImage } from "@/components/product/ProductImage";
+import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
   calcSubtotal,
   MAX_QTY,
   MIN_QTY,
-  SHIPPING,
+  getShippingCost,
   type OrderItem,
 } from "@/lib/order";
 
@@ -65,7 +66,8 @@ export function OrderSummary({
   const { locale, t } = useI18n();
 
   const subtotal = calcSubtotal(items);
-  const total = subtotal + SHIPPING;
+  const shipping = getShippingCost(subtotal, items.length > 0);
+  const total = subtotal + shipping;
   const editable = Boolean(onQtyChange) && !qtyDisabled;
   const canRemove = Boolean(onRemoveItem) && !qtyDisabled;
 
@@ -174,6 +176,8 @@ export function OrderSummary({
         ))}
       </ul>
 
+      <FreeShippingProgress subtotal={subtotal} />
+
       <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">
           <dt className="tracking-[0.01em] text-[color:var(--muted)]">
@@ -191,7 +195,7 @@ export function OrderSummary({
             </span>
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-            {formatMoney(items.length > 0 ? SHIPPING : 0, locale)}
+            {formatMoney(shipping, locale)}
           </dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3.5 text-base font-semibold tracking-[-0.01em]">

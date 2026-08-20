@@ -2,10 +2,13 @@
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { ProductImage } from "@/components/product/ProductImage";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
+import { calcSubtotal } from "@/lib/order";
+import { useCart } from "@/lib/shop/cart";
 import type { Product } from "@/lib/products";
 
 type ProductDetailProps = {
@@ -14,7 +17,9 @@ type ProductDetailProps = {
 
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
+  const { toOrderItems } = useCart();
   const category = getCategoryBySlug(product.categorySlug);
+  const cartSubtotal = calcSubtotal(toOrderItems());
   const discountPercent = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null;
@@ -80,6 +85,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
               {t("productDiscountBadge")}
             </p>
           ) : null}
+
+          <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 
           {product.description ? (
             <div className="mt-6">

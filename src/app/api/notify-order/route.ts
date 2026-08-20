@@ -9,7 +9,7 @@ import {
 import {
   buildOrderItemsFromLines,
   calcSubtotal,
-  SHIPPING,
+  getShippingCost,
 } from "@/lib/order";
 
 export const runtime = "nodejs";
@@ -90,7 +90,8 @@ export async function POST(request: Request) {
     const catalog = await getCatalogSnapshot();
     const items = buildOrderItemsFromLines(lines, catalog.products);
     if (items.length > 0) {
-      resolvedTotal = calcSubtotal(items) + SHIPPING;
+      const subtotal = calcSubtotal(items);
+      resolvedTotal = subtotal + getShippingCost(subtotal, items.length > 0);
     }
   } else if (typeof total === "number" && Number.isFinite(total) && total > 0) {
     resolvedTotal = total;

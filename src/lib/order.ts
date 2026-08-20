@@ -10,9 +10,15 @@ export type OrderItem = {
 };
 
 export const SHIPPING = 25;
+export const FREE_SHIPPING_THRESHOLD = 450;
 
 export function calcSubtotal(items: OrderItem[]): number {
   return items.reduce((sum, item) => sum + item.qty * item.unit, 0);
+}
+
+export function getShippingCost(subtotal: number, hasItems = subtotal > 0): number {
+  if (!hasItems) return 0;
+  return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING;
 }
 
 /**

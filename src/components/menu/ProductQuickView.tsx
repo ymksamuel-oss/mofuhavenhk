@@ -2,8 +2,11 @@
 
 import { useEffect } from "react";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
+import { calcSubtotal } from "@/lib/order";
+import { useCart } from "@/lib/shop/cart";
 import type { Product } from "@/lib/products";
 
 type ProductQuickViewProps = {
@@ -42,6 +45,8 @@ export function ProductQuickView({
   const discountPercent = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null;
+  const { toOrderItems } = useCart();
+  const cartSubtotal = calcSubtotal(toOrderItems());
 
   return (
     <div
@@ -101,6 +106,8 @@ export function ProductQuickView({
             {t("productDiscountBadge")}
           </p>
         ) : null}
+
+        <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 
         {product.description ? (
           <div className="mt-5">

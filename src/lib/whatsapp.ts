@@ -1,5 +1,5 @@
 import { getDistrictLabel } from "@/lib/hkDistricts";
-import { calcSubtotal, SHIPPING, type OrderItem } from "@/lib/order";
+import { calcSubtotal, getShippingCost, type OrderItem } from "@/lib/order";
 import {
   formatMoney,
   type Locale,
@@ -100,7 +100,7 @@ export function buildOrderMessage({
   orderedAt = new Date(),
 }: BuildOrderMessageArgs): string {
   const subtotal = calcSubtotal(items);
-  const shipping = items.length > 0 ? SHIPPING : 0;
+  const shipping = getShippingCost(subtotal, items.length > 0);
   const liveTotal = subtotal + shipping;
   const total =
     typeof totalHkd === "number" && Number.isFinite(totalHkd)

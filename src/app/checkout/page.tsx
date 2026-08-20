@@ -28,7 +28,7 @@ import {
   getOrderItems,
   MAX_QTY,
   MIN_QTY,
-  SHIPPING,
+  getShippingCost,
   type OrderItem,
 } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
@@ -62,8 +62,9 @@ function CheckoutContent() {
     getOrderItems(category, products),
   );
   const [hydratedFromCart, setHydratedFromCart] = useState(false);
-  const amountHkd =
-    items.length > 0 ? calcSubtotal(items) + SHIPPING : 0;
+  const subtotalHkd = calcSubtotal(items);
+  const shippingHkd = getShippingCost(subtotalHkd, items.length > 0);
+  const amountHkd = items.length > 0 ? subtotalHkd + shippingHkd : 0;
 
   // Default to Apple Pay for mobile one-tap checkout.
   const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
@@ -199,7 +200,7 @@ function CheckoutContent() {
         createdAt: new Date().toISOString(),
         items,
         subtotal: calcSubtotal(items),
-        shipping: items.length > 0 ? SHIPPING : 0,
+        shipping: shippingHkd,
         total: liveTotalHkd,
         paymentLabel:
           data.paymentLabel ||
@@ -234,6 +235,7 @@ function CheckoutContent() {
     cart,
     items,
     liveTotalHkd,
+    shippingHkd,
     orderNumber,
     selectedMethod,
     shippingContact,

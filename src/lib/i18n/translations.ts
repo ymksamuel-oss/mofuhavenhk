@@ -38,6 +38,10 @@ export const translations = {
     subtotal: "小計",
     shipping: "運費",
     shippingNote: "香港本地配送",
+    freeShippingThreshold: "滿 HK$450 免運費",
+    freeShippingRemaining: "還差 {amount} 即可享 HK$450 免運費",
+    freeShippingReached: "已達 HK$450，享免運費",
+    freeShippingProgressLabel: "免運費進度",
     total: "總計",
     currency: "HK$",
     paymentTitle: "付款方式",
@@ -253,9 +257,9 @@ export const translations = {
     shippingPolicyTimingTitle: "關於出貨與預購時效",
     shippingPolicyTimingBody:
       "為確保主子們拿到最新鮮保質期的食品，毛毛港採取「每週定期集單」模式。\n一般日本直送／預購商品，將於截單後約 7–14 個工作天內空運抵港並安排順豐發貨。\n若遇日本當地公眾假期、海關抽查或節日航班繁忙期，或會出現輕微延誤，若有特殊情況我們將會主動通知。",
-    shippingPolicyHkTitle: "香港本地派送與運費",
+    shippingPolicyHkTitle:       "香港本地派送與運費",
     shippingPolicyHkBody:
-      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。\n全店購物滿指定金額即享本地免運費優惠（詳情請參閱主頁公告）。",
+      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。\n全店購物滿 HK$450 即享本地免運費優惠。",
     shippingPolicyNoticeTitle: "收件注意事項",
     shippingPolicyNoticeBody:
       "請閣下於結帳時仔細核對收件人姓名、電話及正確的順豐點碼／地址。\n若因提供不正確地址或資料導致包裹須要重新派送，產生的額外順豐運費將需由買家承擔，敬請見諒。\n如遇個別商品因日本供應商突發斷貨，我們將於 24 小時內聯絡閣下並安排全額退款。",
@@ -266,7 +270,7 @@ export const translations = {
       "為確保主子們拿到最新鮮保質期的食品，毛毛港採取「每週定期集單」模式。一般日本直送／預購商品，將於截單後約 7–14 個工作天內空運抵港並安排順豐發貨。",
     shippingPolicySfTitle: "香港本地派送與運費",
     shippingPolicySfBody:
-      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。全店購物滿指定金額即享本地免運費優惠（詳情請參閱主頁公告）。",
+      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。全店購物滿 HK$450 即享本地免運費優惠。",
     shippingPolicyRefundTitle: "收件注意事項",
     shippingPolicyRefundBody:
       "請仔細核對收件資料。因錯誤地址需重新派送的額外運費由買家承擔；供應商突發斷貨將於 24 小時內聯絡並全額退款。",
@@ -400,6 +404,10 @@ export const translations = {
     subtotal: "Subtotal",
     shipping: "Shipping",
     shippingNote: "Local Hong Kong delivery",
+    freeShippingThreshold: "Free shipping on orders over HK$450",
+    freeShippingRemaining: "Spend {amount} more to unlock free shipping",
+    freeShippingReached: "HK$450 reached — free shipping unlocked",
+    freeShippingProgressLabel: "Free shipping progress",
     total: "Total",
     currency: "HK$",
     paymentTitle: "Payment method",
