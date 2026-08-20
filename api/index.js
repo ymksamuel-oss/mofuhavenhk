@@ -133,13 +133,18 @@ async function checkoutHandler(req, res, input) {
   if (prices.some((price) => !price.active || String(price.currency).toLowerCase() !== "hkd")) throw new Error("購物車內有未啟用或非 HKD 商品，請重新整理後再試。");
   const origin = req.headers.origin || `https://${req.headers.host}`;
   const methods = ["card", "alipay"];
-  if (process.env.STRIPE_ENABLE_WECHAT_PAY === "true") methods.push("wechat_pay");
+  const wechatPayEnabled = process.env.STRIPE_ENABLE_WECHAT_PAY === "true";
+  if (wechatPayEnabled) methods.push("wechat_pay");
+  const paymentMethodOptions = {
+    card: { request_three_d_secure: "any" },
+    ...(wechatPayEnabled ? { wechat_pay: { client: "web" } } : {}),
+  };
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     submit_type: "pay",
     line_items: input.items.map((item) => ({ price: item.priceId, quantity: Math.min(99, Math.max(1, Number(item.quantity) || 1)) })),
     payment_method_types: methods,
-    payment_method_options: { card: { request_three_d_secure: "any" } },
+    payment_method_options: paymentMethodOptions,
     metadata: {
       recipient_name: delivery.recipientName,
       contact_phone: delivery.contactPhone,

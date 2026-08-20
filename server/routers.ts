@@ -10,9 +10,15 @@ import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/pro
 
 // 完整支援 Visa, Mastercard, JCB, AMEX (透過 card 類型自動支援), Alipay/AlipayHK (alipay)，並可透過環境變數開啟 WeChat Pay
 const checkoutPaymentMethods: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ["card", "alipay"];
-if (process.env.STRIPE_ENABLE_WECHAT_PAY === "true") {
+const wechatPayEnabled = process.env.STRIPE_ENABLE_WECHAT_PAY === "true";
+if (wechatPayEnabled) {
   checkoutPaymentMethods.push("wechat_pay");
 }
+
+const checkoutPaymentMethodOptions: Stripe.Checkout.SessionCreateParams.PaymentMethodOptions = {
+  card: { request_three_d_secure: "any" },
+  ...(wechatPayEnabled ? { wechat_pay: { client: "web" } } : {}),
+};
 
 function getStripeClient(): Stripe {
   const secretKey = process.env.STRIPE_LIVE_SECRET_KEY ?? process.env.STRIPE_SECRET_KEY;
@@ -81,11 +87,7 @@ export const appRouter = router({
           submit_type: "pay",
           line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
           payment_method_types: checkoutPaymentMethods,
-          payment_method_options: {
-            card: {
-              request_three_d_secure: "any",
-            },
-          },
+          payment_method_options: checkoutPaymentMethodOptions,
           metadata: {
             recipient_name: input.delivery.recipientName,
             contact_phone: input.delivery.contactPhone,

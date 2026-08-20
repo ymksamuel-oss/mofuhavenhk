@@ -567,3 +567,16 @@
 - [x] 停止後續自動開啟 Stripe Dashboard／登入頁，並關閉已崩潰的 Dashboard 瀏覽器頁面，避免干擾使用者裝置
 - [x] 維持網站端已驗證的 `card`、`alipay` 與自有收貨資料流程；Production 商品 API 已確認正常回應 91 件 active 商品，無需 Dashboard 互動
 - [x] 將 WeChat Pay、Hosted Checkout Apple Pay 設定與真實 AlipayHK 手機測試保留為使用者日後主動要求時才進行的選項
+
+## Stripe 帳戶設定後重新部署與 Checkout 驗證
+
+- [ ] 重新部署網站目前版本，讓新 Stripe 帳戶層級付款方式即時套用
+- [ ] 建立無扣款 Live Checkout Session，讀回確認 `payment_method_types` 與帳戶設定相容
+- [ ] 檢查前端 Hosted Checkout 實際付款方式呈現，記錄 WeChat Pay、Apple Pay／Google Pay 與 AlipayHK 的可見狀態
+
+## Vercel Production WeChat Pay／Apple Pay 啟用
+
+- [ ] 核對並啟用 Vercel Production 的 WeChat Pay 與 Apple Pay 對應網站環境設定
+- [ ] 重新部署已驗證的 Vercel Production 版本，避免覆蓋既有商品圖片修復
+- [ ] 建立無扣款 Live Checkout Session，確認 `wechat_pay` 已加入 Session 並檢查香港行動裝置付款方式呈現
+- [ ] 為 WeChat Pay 加入 Stripe 要求的 `payment_method_options.wechat_pay.client = 'web'`，再重新驗證 Live Session
