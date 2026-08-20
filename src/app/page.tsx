@@ -3,6 +3,7 @@
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { HeroVideoModal } from "@/components/home/HeroVideoModal";
+import { FAQAccordion } from "@/components/FAQAccordion";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -16,7 +17,7 @@ export default function HomePage() {
         <span>🎉 日本直送寵物嚴選・限時優惠：全店購物滿 HK$450 即享香港本地免運費！</span>
       </div>
 
-      {/*
+      {/**
         Full-width hero banner with ultra-wide aspect ratio (33:14)
         Mobile: 3/4 aspect ratio for portrait viewing
         Desktop: full-bleed ultra-wide banner with rounded bottom corners
@@ -37,7 +38,7 @@ export default function HomePage() {
           <img
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
             alt={t("brand")}
-            className="w-full h-auto object-contain"
+            className="h-auto w-full object-contain"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
@@ -132,6 +133,7 @@ export default function HomePage() {
         </section>
 
         <CategoryGrid />
+        <FAQAccordion />
       </div>
     </>
   );
