@@ -1174,3 +1174,6 @@
 [2026-08-20T07:15:25.341Z] 7:15:25 AM [tsx] change in ./server/routers.ts Restarting...
 [2026-08-20T07:15:26.933Z] c[OAuth] Initialized with baseURL: https://api.manus.im
 [2026-08-20T07:15:27.150Z] Server running on http://localhost:3000/
+[2026-08-20T07:22:20.102Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-20T07:54:10.648Z] 7:54:10 AM [vite] (client) hmr update /src/pages/Home.tsx, /src/pages/PetWorld.tsx
+[2026-08-20T07:58:13.324Z] 7:58:13 AM [vite] (client) hmr update /src/index.css
