@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { listStoreProducts } from "./stripeProducts";
 import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/productCatalog";
 
+// 嚴格確保只包含支援的結帳方式，絕不包含 link 快捷支付
 const checkoutPaymentMethods: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ["card", "alipay"];
 if (process.env.STRIPE_ENABLE_WECHAT_PAY === "true") checkoutPaymentMethods.push("wechat_pay");
 
