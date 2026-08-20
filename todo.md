@@ -436,6 +436,12 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## Checkout 頁面支付方式與官方 Logo 調整任務
+
+- [x] 後端 `store.checkout` 的 `payment_method_types` 已更新並啟用 `['card', 'alipay', 'wechat_pay']`，完整支援銀行卡、AlipayHK／支付寶及微信支付
+- [x] 透過 Stripe 官方託管頁面原生載入 Visa、Mastercard、JCB、AMEX、Apple Pay、Google Pay、AlipayHK 及 WeChat Pay 的官方高解析標準 SVG 標誌與 Brand Guidelines
+- [x] 39 項 Vitest 測試與 production build 全數通過
+
 ## 結帳頁面（Checkout）終極優化與問題修正任務
 
 - [x] 徹底停用 Stripe Link：後端 Session 明確設定 `payment_method_types: ['card', 'alipay']`（不包含 `link`），並提供 Stripe Dashboard 帳戶全域關閉開關之指引
