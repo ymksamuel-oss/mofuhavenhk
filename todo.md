@@ -561,3 +561,9 @@
 - [x] 確認可由程式控制的付款設定已採用顯式 `card`／`alipay`；Apple Pay、Google Pay 與 Link 的 Hosted Checkout 顯示無法由每筆 Session 參數排除
 - [x] 建立無扣款的 Live Checkout 測試，驗證 `open`／`unpaid` Session、HKD 商品及網站自有收貨資料流程；WeChat Pay 仍需先由 Dashboard 啟用
 - [x] 保存測試及設定紀錄，清楚列出仍需在 Stripe Dashboard 或真實手機上完成的操作
+
+## 停止自動 Stripe Dashboard 彈窗
+
+- [x] 停止後續自動開啟 Stripe Dashboard／登入頁，並關閉已崩潰的 Dashboard 瀏覽器頁面，避免干擾使用者裝置
+- [x] 維持網站端已驗證的 `card`、`alipay` 與自有收貨資料流程；Production 商品 API 已確認正常回應 91 件 active 商品，無需 Dashboard 互動
+- [x] 將 WeChat Pay、Hosted Checkout Apple Pay 設定與真實 AlipayHK 手機測試保留為使用者日後主動要求時才進行的選項
