@@ -1152,3 +1152,13 @@
 [2026-08-20T05:25:12.162Z] }
 [2026-08-20T05:25:12.162Z] Node.js v22.13.0
 [2026-08-20T05:25:12.250Z] 5:25:12 AM [tsx] change in ./server/routers.ts Rerunning...
+[2026-08-20T05:25:14.017Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T05:25:14.317Z] Server running on http://localhost:3000/
+[2026-08-20T05:25:40.478Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-20T05:30:57.695Z] ELIFECYCLE  Command failed.
+[2026-08-20T05:30:57.740Z] Dev server exited with code -1
+[2026-08-20T05:30:58.815Z] Starting dev server with command: pnpm run dev
+[2026-08-20T05:30:59.672Z] > mofu-haven-website@1.0.0 dev /home/ubuntu/mofu-haven-website
+[2026-08-20T05:30:59.672Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-08-20T05:31:01.418Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T05:31:01.639Z] Server running on http://localhost:3000/

@@ -540,3 +540,10 @@
 - [x] 將可用品牌與 Banner 資產遷移至 WebDev 正式靜態儲存，並以受控 `/assets/:asset` 路由提供穩定存取
 - [x] 更新前端圖片引用及商品圖片容錯處理，確保部署後不可用的商品圖會切換至新的正式占位圖而不顯示破圖問號
 - [x] 驗證 41 項 Vitest 測試、production build、Vercel Production 部署與核心資產的最終 PNG／SVG 回應；修復程式已推送至 GitHub `fix/vercel-image-assets` 分支
+
+## 全量商品圖片 Production 收斂修復
+
+- [x] 從使用者自有 GitHub 歷史復原並遷移所有 75 項舊根網域商品圖片至持久靜態儲存
+- [x] 修正 Vercel rewrite 為可處理多段 `/assets/product/<StripeProductId>` 路徑，避免落入 SPA fallback
+- [x] 重新部署至 Vercel Production，驗證商品 API 回傳 75 個受控圖片路徑、0 個舊根網域 URL、0 個空圖片欄位
+- [x] 在 `www.mofuhavenhk.com/products` 視覺確認 Petio、Petzroute 等真實商品包裝圖片正常顯示
