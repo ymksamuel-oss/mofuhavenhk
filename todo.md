@@ -624,3 +624,11 @@
 - [x] 修正 Pet World 圖片 URL／路由與容錯邏輯，維持嚴格品種對應
 - [x] 加入圖片路徑回歸測試，確認正式可存取的真實圖片不會顯示「真實圖片準備中」
 - [x] 重新打包、部署並在正式網站驗證寵物世界圖片顯示
+
+## 香港本地 Checkout 支付方式與圖片複核
+
+- [ ] 核對 Stripe Live 帳戶對 AlipayHK、WeChat Pay、FPS 的實際啟用資格、貨幣與 Hosted Checkout 支援條件
+- [ ] 保留 `card` 支援 Visa／Mastercard 及相容裝置的 Apple Pay，並維持 AlipayHK／WeChat Pay 的安全錯誤降級
+- [ ] 僅在 Stripe 帳戶與 Checkout 支援時加入 FPS，否則記錄帳戶層級啟用依賴且不阻斷結帳
+- [ ] 重新檢查正式 Pet World 品種圖片端點及前端佔位文字狀態
+- [ ] 完成回歸測試、Production 重新部署與無扣款 Live Checkout 驗證
