@@ -93,13 +93,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const catalog = await getCatalogSnapshot();
+  let products = [];
+  try {
+    const catalog = await getCatalogSnapshot();
+    products = catalog.products || [];
+  } catch {
+    products = [];
+  }
 
   return (
     <html lang="zh-HK" className="bg-[color:var(--background)]">
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
-          <CatalogProvider products={catalog.products}>
+          <CatalogProvider products={products}>
             <CartProvider>
               <Header />
               <ShopFlowNav>
