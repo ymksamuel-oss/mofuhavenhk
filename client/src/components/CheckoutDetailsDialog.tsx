@@ -72,7 +72,7 @@ export default function CheckoutDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto !overflow-y-auto [-webkit-overflow-scrolling:touch] border-[#B88A58]/25 bg-[#FFFDF9] jp-card-shadow sm:max-w-lg pb-10">
+      <DialogContent className="max-h-[85vh] overflow-y-auto !overflow-y-auto [-webkit-overflow-scrolling:touch] [touch-action:pan-y] border-[#B88A58]/25 bg-[#FFFDF9] jp-card-shadow sm:max-w-lg pb-14">
         <DialogHeader className="pr-8 text-left">
           <DialogTitle className="text-[#736859]">填寫香港收貨資料</DialogTitle>
           <DialogDescription>提交後才會進入 Stripe 付款頁；Stripe 不會重複要求輸入送貨地址。</DialogDescription>
