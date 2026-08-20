@@ -50,7 +50,7 @@ export default function HeroBanner() {
             <Button
               asChild
               size="lg"
-              className="w-fit self-start bg-[#D3A87C] px-5 py-2.5 text-white hover:bg-[#C2976B] font-semibold shadow-md"
+              className="w-fit self-start bg-[#B88A58] px-5 py-2.5 text-white hover:bg-[#A67C52] font-semibold shadow-md"
             >
               <a href="/#product-list">立即選購 →</a>
             </Button>
@@ -58,7 +58,7 @@ export default function HeroBanner() {
               asChild
               size="lg"
               variant="outline"
-              className="w-fit self-start border-[#F3E5D5] bg-transparent px-4 py-2.5 text-white hover:bg-[#D3A87C]/30 hover:text-white"
+              className="w-fit self-start border-[#F7F3EE] bg-transparent px-4 py-2.5 text-white hover:bg-[#B88A58]/30 hover:text-white"
             >
               <a href="/about"><ArrowDown className="mr-2 h-4 w-4" />探索品牌故事</a>
             </Button>

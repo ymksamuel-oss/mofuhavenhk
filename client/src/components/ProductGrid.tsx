@@ -134,7 +134,7 @@ function formatPrice(amount: number | null, currency: string | null) {
 
 function ProductSkeleton() {
   return (
-    <Card className="overflow-hidden border-border/70 bg-white">
+    <Card className="overflow-hidden border-border/70 bg-[#FFFDF9] jp-card-shadow">
       <Skeleton className="aspect-square w-full rounded-none" />
       <CardHeader className="space-y-2"><Skeleton className="h-5 w-4/5" /><Skeleton className="h-4 w-2/5" /></CardHeader>
       <CardContent><Skeleton className="h-4 w-full" /></CardContent>
@@ -151,7 +151,7 @@ function ProductImage({ src, alt, className = "" }: { src: string | null; alt: s
   }, [src]);
 
   return (
-    <div className={`relative flex aspect-square items-center justify-center overflow-hidden border-b border-border/60 bg-white ${className}`}>
+    <div className={`relative flex aspect-square items-center justify-center overflow-hidden rounded-t-[12px] bg-[#FFFDF9] ${className}`}>
       <img
         src={imageSrc}
         alt={alt}
@@ -161,7 +161,7 @@ function ProductImage({ src, alt, className = "" }: { src: string | null; alt: s
         onError={() => setImageSrc((current) => current === PRODUCT_PLACEHOLDER ? current : PRODUCT_PLACEHOLDER)}
       />
       {imageSrc === PRODUCT_PLACEHOLDER && (
-        <span className="pointer-events-none absolute bottom-3 inline-flex items-center gap-1 rounded-full bg-white/85 px-3 py-1 text-xs text-[#8C6B53] shadow-sm">
+        <span className="pointer-events-none absolute bottom-3 inline-flex items-center gap-1 rounded-full bg-[#FFFDF9] jp-card-shadow/85 px-3 py-1 text-xs text-[#736859] shadow-sm">
           <ImageOff className="h-3.5 w-3.5" />圖片暫時不可用
         </span>
       )}
@@ -197,9 +197,9 @@ function ProductDetailModal({
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-h-[92vh] max-w-4xl overflow-y-auto border-[#D3A87C]/25 bg-white p-5 sm:p-7">
+        <DialogContent className="max-h-[92vh] max-w-4xl overflow-y-auto border-[#B88A58]/25 bg-[#FFFDF9] jp-card-shadow p-5 sm:p-7">
           <DialogHeader className="pr-8 text-left">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8C6B53]">Mofu Haven 商品詳情</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#736859]">Mofu Haven 商品詳情</p>
             <DialogTitle className="text-xl leading-8 text-foreground md:text-2xl">{product.name}</DialogTitle>
             <DialogDescription className="text-sm leading-6 text-muted-foreground">
               {product.description || "這件商品的詳細介紹正在整理中，請以結帳頁顯示的資料為準。"}
@@ -210,12 +210,12 @@ function ProductDetailModal({
             <div>
               <button
                 type="button"
-                className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-border/70 bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C]"
+                className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-border/70 bg-[#FFFDF9] jp-card-shadow text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88A58]"
                 onClick={() => setLightboxOpen(true)}
                 aria-label={`放大查看 ${product.name} 商品圖片`}
               >
                 <ProductImage src={currentImage} alt={product.name} className="border-0 bg-transparent" />
-                <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold text-[#8C6B53] shadow-sm transition-transform group-hover:scale-[1.03]">
+                <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-[#FFFDF9] jp-card-shadow/90 px-3 py-2 text-xs font-semibold text-[#736859] shadow-sm transition-transform group-hover:scale-[1.03]">
                   <Maximize2 className="h-4 w-4" />放大查看
                 </span>
               </button>
@@ -227,7 +227,7 @@ function ProductDetailModal({
                       key={image}
                       type="button"
                       onClick={() => setActiveImage(image)}
-                      className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border bg-white ${currentImage === image ? "border-[#D3A87C] ring-2 ring-[#D3A87C]/25" : "border-border/70"}`}
+                      className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border bg-[#FFFDF9] jp-card-shadow ${currentImage === image ? "border-[#B88A58] ring-2 ring-[#B88A58]/25" : "border-border/70"}`}
                       aria-label={`查看第 ${index + 1} 張商品圖片`}
                     >
                       <img src={image} alt="" className="h-full w-full object-contain p-1" onError={(event) => { event.currentTarget.src = PRODUCT_PLACEHOLDER; }} />
@@ -237,8 +237,8 @@ function ProductDetailModal({
               )}
             </div>
 
-            <div className="flex min-h-full flex-col rounded-2xl border border-primary/15 bg-white p-5">
-              <p className="text-2xl font-bold text-[#8C6B53]">{formatPrice(product.unitAmount, product.currency)}</p>
+            <div className="flex min-h-full flex-col rounded-2xl border border-primary/15 bg-[#FFFDF9] jp-card-shadow p-5">
+              <p className="text-2xl font-bold text-[#736859]">{formatPrice(product.unitAmount, product.currency)}</p>
               <div className="mt-5 space-y-4">
                 <div>
                   <h3 className="text-sm font-semibold text-foreground">詳細介紹</h3>
@@ -255,7 +255,7 @@ function ProductDetailModal({
               <DialogFooter className="mt-auto pt-7 sm:justify-start">
                 <Button
                   type="button"
-                  className="w-full rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]"
+                  className="w-full rounded-full bg-[#B88A58] text-white hover:bg-[#A67C52]"
                   disabled={!product.priceId}
                   onClick={() => onAddToCart(product)}
                 >
@@ -383,7 +383,7 @@ export default function ProductGrid() {
   };
 
   return (
-    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-[#F5EFE6] py-1 sm:py-3 md:py-16">
+    <section id="product-list" className="relative scroll-mt-20 overflow-hidden bg-[#F7F3EE] py-1 sm:py-3 md:py-16">
       <div className="container relative z-10">
         <div className="mb-2 hidden flex-col gap-5 md:mb-12 md:flex md:flex-row md:items-end md:justify-between">
           <div>
@@ -401,7 +401,7 @@ export default function ProductGrid() {
                 const CategoryIcon = categoryIcons[category] ?? LayoutGrid;
                 const isActive = activeCatalogKey === category;
                 return (
-                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#D3A87C] text-white hover:bg-[#C2976B]" : "border-[#D3A87C]/55 bg-white/95 text-[#8C6B53] hover:bg-[#F5EFE6] hover:text-[#6F5645]"}`} onClick={() => selectCategory(category)}>
+                  <Button key={category} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-9 shrink-0 rounded-full px-3 text-xs md:text-sm ${isActive ? "bg-[#B88A58] text-white hover:bg-[#A67C52]" : "border-[#B88A58]/55 bg-[#FFFDF9] jp-card-shadow/95 text-[#736859] hover:bg-[#F7F3EE] hover:text-[#3E3A37]"}`} onClick={() => selectCategory(category)}>
                     <CategoryIcon className="h-3.5 w-3.5" />{categoryLabels[category] ?? category}
                   </Button>
                 );
@@ -413,7 +413,7 @@ export default function ProductGrid() {
                   const SubCategoryIcon = categoryIcons[subCatalog.key] ?? LayoutGrid;
                   const isActive = activeCategory === subCatalog.key;
                   return (
-                    <Button key={subCatalog.key} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-8 shrink-0 rounded-full px-2.5 text-[11px] md:text-xs ${isActive ? "bg-[#C2976B] text-white hover:bg-[#B28760]" : "border-[#D3A87C]/40 bg-white/90 text-[#8C6B53] hover:bg-[#F5EFE6] hover:text-[#6F5645]"}`} onClick={() => selectCategory(subCatalog.key)}>
+                    <Button key={subCatalog.key} type="button" size="sm" variant={isActive ? "default" : "outline"} className={`h-8 shrink-0 rounded-full px-2.5 text-[11px] md:text-xs ${isActive ? "bg-[#A67C52] text-white hover:bg-[#B28760]" : "border-[#B88A58]/40 bg-[#FFFDF9] jp-card-shadow/90 text-[#736859] hover:bg-[#F7F3EE] hover:text-[#3E3A37]"}`} onClick={() => selectCategory(subCatalog.key)}>
                       <SubCategoryIcon className="h-3.5 w-3.5" />{subCatalog.label}
                     </Button>
                   );
@@ -426,7 +426,7 @@ export default function ProductGrid() {
         <form onSubmit={submitSearch} className="mb-1.5 flex">
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-10 w-full rounded-full border border-[#D3A87C]/35 bg-white/90 pl-10 pr-4 text-sm outline-none transition placeholder:text-[#8C6B53]/65 focus:border-[#C2976B] focus:ring-2 focus:ring-[#D3A87C]/20" />
+            <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="搜尋貓咪商品、零食、罐罐⋯" aria-label="搜尋商品" className="h-10 w-full rounded-full border border-[#B88A58]/35 bg-[#FFFDF9] jp-card-shadow/90 pl-10 pr-4 text-sm outline-none transition placeholder:text-[#736859]/65 focus:border-[#A67C52] focus:ring-2 focus:ring-[#B88A58]/20" />
           </div>
         </form>
 
@@ -434,7 +434,7 @@ export default function ProductGrid() {
 
         {productsQuery.isError && <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-8 text-center"><h3 className="text-lg font-semibold text-foreground">暫時未能載入商品</h3><p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">商品服務未能連線。請重新整理此頁面，或確認 Stripe 整合已啟用。</p><Button className="mt-5" variant="outline" onClick={() => productsQuery.refetch()}><RefreshCw className="h-4 w-4" />重新載入</Button></div>}
 
-        {!productsQuery.isLoading && !productsQuery.isError && visibleProducts.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-white p-6 text-center md:p-10"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
+        {!productsQuery.isLoading && !productsQuery.isError && visibleProducts.length === 0 && <div className="rounded-2xl border border-dashed border-primary/30 bg-[#FFFDF9] jp-card-shadow p-6 text-center md:p-10"><h3 className="text-lg font-semibold">呢個分類暫時未有商品</h3><p className="mt-2 text-sm text-muted-foreground">請嘗試其他分類或清除搜尋字詞。</p><Button className="mt-5" variant="outline" onClick={() => { setSearchInput(""); updateUrl({ category: "all", q: "" }); }}>查看全部商品</Button></div>}
 
         {!productsQuery.isLoading && !productsQuery.isError && productsQuery.data && visibleProducts.length > 0 && (
           <div className="grid items-stretch grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
@@ -446,11 +446,11 @@ export default function ProductGrid() {
                 aria-label={`查看 ${product.name} 商品詳情`}
                 onClick={() => setSelectedProduct(product as StoreProduct)}
                 onKeyDown={(event) => handleCardKeyDown(event, product as StoreProduct)}
-                className="group flex h-full min-h-0 cursor-pointer flex-col overflow-hidden border-border/70 bg-white shadow-[0_3px_12px_rgba(140,107,83,0.08)] transition-all duration-200 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D3A87C] md:min-h-[21rem]"
+                className="group flex h-full min-h-0 cursor-pointer flex-col overflow-hidden rounded-[12px] border-[#E6DFD5] bg-[#FFFDF9] jp-card-shadow transition-all duration-200 hover:-translate-y-1 hover:border-[#B88A58]/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B88A58] md:min-h-[21rem]"
               >
                 <ProductImage src={product.image} alt={product.name} />
                 <CardHeader className="gap-1.5 p-2.5 text-left md:p-4">
-                  <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-[#8C6B53] md:text-xs">{product.metadata.brand || product.metadata.brand_name || product.metadata.vendor || "Mofu Haven 精選"}</p>
+                  <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-[#736859] md:text-xs">{product.metadata.brand || product.metadata.brand_name || product.metadata.vendor || "Mofu Haven 精選"}</p>
                   <h3 className="line-clamp-2 text-xs font-semibold leading-4 text-foreground md:text-base md:leading-5">{product.name}</h3>
                   <p className="text-sm font-bold text-primary md:text-base">{formatPrice(product.unitAmount, product.currency)}</p>
                 </CardHeader>

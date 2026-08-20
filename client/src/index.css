@@ -48,7 +48,7 @@
 :root {
   /* Mofu Haven: Japanese Healing Aesthetic */
   /* Primary: Mofu Haven milk-tea brown */
-  --primary: #C2976B;
+  --primary: #B88A58;
   --primary-foreground: oklch(0.98 0.001 0);
   --sidebar-primary: #B28760;
   --sidebar-primary-foreground: oklch(0.98 0.001 0);
@@ -63,27 +63,27 @@
   --radius: 0.75rem;
   
   /* Background: unified warm milky beige */
-  --background: #F5EFE6;
-  --foreground: #6F5645;
+  --background: #F7F3EE;
+  --foreground: #3E3A37;
   
   /* Card: clean soft white surface */
-  --card: #FFFFFF;
-  --card-foreground: #6F5645;
+  --card: #FFFDF9;
+  --card-foreground: #3E3A37;
   
   /* Popover: clean soft white surface */
-  --popover: #FFFFFF;
-  --popover-foreground: #6F5645;
+  --popover: #FFFDF9;
+  --popover-foreground: #3E3A37;
   
   /* Secondary: warm milk-tea accent */
-  --secondary: #D3A87C;
+  --secondary: #A67C52;
   --secondary-foreground: #FFFFFF;
   
   /* Muted: soft beige */
-  --muted: #EAD2B9;
-  --muted-foreground: #8C6B53;
+  --muted: #EAE2D8;
+  --muted-foreground: #736859;
   
   /* Accent: warm milk-tea */
-  --accent: #D3A87C;
+  --accent: #B88A58;
   --accent-foreground: #FFFFFF;
   
   /* Destructive: Warm Red */
@@ -91,9 +91,9 @@
   --destructive-foreground: oklch(0.98 0.001 0);
   
   /* Border: soft milk-tea beige */
-  --border: #E1C8A9;
-  --input: #F7EEE5;
-  --ring: #D3A87C;
+  --border: #E6DFD5;
+  --input: #F3ECE1;
+  --ring: #B88A58;
   
   /* Sidebar */
   --sidebar: oklch(0.99 0.001 0);
@@ -150,8 +150,17 @@
   
   body {
     @apply bg-background text-foreground;
-    background-color: #F5EFE6;
+    background-color: #F7F3EE;
     background-image: none;
+  }
+
+  .jp-card-shadow {
+    box-shadow: 0 4px 16px rgba(184, 138, 88, 0.08);
+  }
+
+  .jp-image-radius {
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   /* Hide only identifiable Manus branding overlays if the host injects them. */

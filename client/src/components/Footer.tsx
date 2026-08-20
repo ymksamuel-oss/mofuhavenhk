@@ -12,7 +12,7 @@ import { footerContactEmail, footerContactMailto, footerQuickLinks } from "@shar
  */
 export default function Footer() {
   return (
-    <footer className="bg-[#F5EFE6] border-t border-[#D3A87C]/25 mt-8 md:mt-16">
+    <footer className="bg-[#F7F3EE] border-t border-[#B88A58]/25 mt-8 md:mt-16">
       <div className="container py-8 md:py-12">
         {/* Footer Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-10 mb-8">
@@ -28,7 +28,7 @@ export default function Footer() {
             <p className="max-w-xs text-sm leading-relaxed text-foreground/70">
               專營日本優質寵物糧食及用品，為愛寵提供最安心的選擇。
             </p>
-            <a href="/" aria-label="返回首頁" className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#D3A87C]/55 bg-white/65 px-3 py-1.5 text-xs font-semibold text-[#8C6B53] transition-colors hover:bg-[#D3A87C] hover:text-white">
+            <a href="/" aria-label="返回首頁" className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#B88A58]/55 bg-[#FFFDF9] jp-card-shadow px-3 py-1.5 text-xs font-semibold text-[#736859] transition-colors hover:bg-[#B88A58] hover:text-white">
               <Home className="h-3.5 w-3.5" />首頁
             </a>
           </div>
@@ -118,7 +118,7 @@ export default function Footer() {
               {["WeChat Pay", "AlipayHK", "Visa", "Mastercard"].map((method, idx) => (
                 <span
                   key={method}
-                  className="text-xs font-medium text-foreground/70 px-2 py-1 bg-white/50 rounded-full"
+                  className="text-xs font-medium text-foreground/70 px-2 py-1 bg-[#FFFDF9] jp-card-shadow rounded-full"
                 >
                   {method}
                 </span>

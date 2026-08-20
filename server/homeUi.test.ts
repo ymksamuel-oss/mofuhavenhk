@@ -24,24 +24,21 @@ describe("homepage milk-tea UI and horizontal category scrolling", () => {
     const productGrid = readProjectFile("client/src/components/ProductGrid.tsx");
     const footer = readProjectFile("client/src/components/Footer.tsx");
 
-    expect(css).toContain("--background: #F5EFE6;");
-    expect(css).toContain("background-color: #F5EFE6;");
+    expect(css).toContain("--background: #F7F3EE;");
+    expect(css).toContain("background-color: #F7F3EE;");
     expect(css).toContain("background-image: none;");
-    expect(home).toContain("bg-[#F5EFE6]");
-    expect(categoryGrid).toContain("bg-[#F5EFE6]");
-    expect(productGrid).toContain("bg-[#F5EFE6]");
-    expect(footer).toContain("bg-[#F5EFE6]");
+    expect(home).toContain("bg-[#F7F3EE]");
+    expect(categoryGrid).toContain("bg-[#F7F3EE]");
+    expect(productGrid).toContain("bg-[#F7F3EE]");
+    expect(footer).toContain("bg-[#F7F3EE]");
   });
 
   it("keeps search, category pills, and product cards on clean light surfaces", () => {
     const categoryGrid = readProjectFile("client/src/components/CategoryGrid.tsx");
     const productGrid = readProjectFile("client/src/components/ProductGrid.tsx");
 
-    expect(categoryGrid).toContain("bg-white/95");
-    expect(categoryGrid).toContain("bg-white/90");
-    expect(productGrid).toContain("bg-white/95");
-    expect(productGrid).toContain("bg-white/90");
-    expect(productGrid).toContain("bg-white");
+    expect(categoryGrid).toContain("bg-[#FFFDF9]");
+    expect(productGrid).toContain("bg-[#FFFDF9]");
   });
 });
 
@@ -52,12 +49,12 @@ describe("visual cleanup", () => {
     const productGrid = readProjectFile("client/src/components/ProductGrid.tsx");
     const header = readProjectFile("client/src/components/Header.tsx");
 
-    expect(css).toContain("--background: #F5EFE6;");
-    expect(css).toContain("background-color: #F5EFE6;");
-    expect(css).toContain("--card: #FFFFFF;");
-    expect(productGrid).toContain("bg-white shadow-[0_3px_12px_rgba(140,107,83,0.08)]");
-    expect(productGrid).not.toContain("bg-[#f5f0eb]");
-    expect(header).toContain("bg-[#F5EFE6]");
+    expect(css).toContain("--background: #F7F3EE;");
+    expect(css).toContain("background-color: #F7F3EE;");
+    expect(css).toContain("--card: #FFFDF9;");
+    expect(productGrid).toContain("bg-[#FFFDF9]");
+    expect(productGrid).toContain("jp-card-shadow");
+    expect(header).toContain("bg-[#F7F3EE]");
   });
 
   it("hides only identifiable Manus branding overlays", () => {

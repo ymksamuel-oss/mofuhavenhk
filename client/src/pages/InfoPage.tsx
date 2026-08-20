@@ -68,9 +68,9 @@ export default function InfoPage({ page }: { page: InfoPageKey }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
-      <main className="flex-1 bg-[#F5EFE6] py-16 md:py-24">
+      <main className="flex-1 bg-[#F7F3EE] py-16 md:py-24">
         <div className="container max-w-4xl">
-          <div className="rounded-[2rem] border border-primary/15 bg-white p-6 shadow-sm md:p-12">
+          <div className="rounded-[2rem] border border-primary/15 bg-[#FFFDF9] jp-card-shadow p-6 md:p-12">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               <CheckCircle2 className="h-4 w-4" />
               {content.eyebrow}
@@ -80,7 +80,7 @@ export default function InfoPage({ page }: { page: InfoPageKey }) {
 
             <div className="mt-10 grid gap-5 md:grid-cols-2">
               {content.sections.map((section) => (
-                <section key={section.heading} className="rounded-2xl border border-border/70 bg-white/70 p-5 md:p-6">
+                <section key={section.heading} className="rounded-2xl border border-border/70 bg-[#FFFDF9] jp-card-shadow p-5 md:p-6">
                   <h2 className="text-lg font-semibold text-foreground">{section.heading}</h2>
                   <p className="mt-3 text-sm leading-7 text-foreground/70">{section.body}</p>
                 </section>
@@ -88,10 +88,10 @@ export default function InfoPage({ page }: { page: InfoPageKey }) {
             </div>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild className="rounded-full bg-[#D3A87C] text-white hover:bg-[#C2976B]">
+              <Button asChild className="rounded-full bg-[#B88A58] text-white hover:bg-[#A67C52]">
                 <Link href="/products">瀏覽全部商品</Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-full border-[#D3A87C]/60 text-[#8C6B53] hover:bg-[#F5EFE6]">
+              <Button asChild variant="outline" className="rounded-full border-[#B88A58]/60 text-[#736859] hover:bg-[#F7F3EE]">
                 <Link href="/"><ArrowLeft className="h-4 w-4" />返回首頁</Link>
               </Button>
             </div>
