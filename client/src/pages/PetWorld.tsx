@@ -145,6 +145,11 @@ export default function PetWorld() {
                                     ))}
                                   </div>
                                 )}
+                                {breed.isRealPhoto && breed.photoCredit && breed.sourceUrl && (
+                                  <p className="border-t border-[#B88A58]/10 bg-[#FFFDF9] px-3 py-2 text-[10px] leading-4 text-muted-foreground">
+                                    圖片來源：<a className="underline underline-offset-2 hover:text-[#736859]" href={breed.sourceUrl} target="_blank" rel="noreferrer" aria-label={`查看 ${breed.name} 圖片來源與授權`}>{breed.photoCredit}</a>
+                                  </p>
+                                )}
                               </div>
                             </div>
                           ) : (
@@ -158,13 +163,6 @@ export default function PetWorld() {
                           )}
                         </div>
                         <div className="p-5">
-                          {breed.isRealPhoto && breed.photoCredit && breed.sourceUrl ? (
-                            <p className="mb-3 text-[10px] leading-4 text-muted-foreground">
-                              相片來源：<a className="underline underline-offset-2 hover:text-[#736859]" href={breed.sourceUrl} target="_blank" rel="noreferrer">{breed.photoCredit}</a>
-                            </p>
-                          ) : (
-                            <p className="mb-3 text-[10px] leading-4 text-muted-foreground">暫未找到可核對的真實品種相片，嚴禁以 AI 圖片代替。</p>
-                          )}
                           <div className="flex items-start justify-between gap-3">
                             <h3 className="text-lg font-bold text-[#3E3A37]">{breed.name}</h3>
                             <Heart className={`mt-0.5 h-5 w-5 shrink-0 text-[#B88A58] ${isFavorite ? "fill-[#B88A58]" : ""}`} />

@@ -27,10 +27,29 @@ describe("pet world real photos and multi-image carousel", () => {
     }
   });
 
+  it("keeps the corrected breeds bound to their own verified image and Commons source", () => {
+    const corrected = {
+      "俄羅斯藍貓": ["/assets/pet/russian-blue-verified.jpg", "File:Cat_Russian_Blue_02.jpg"],
+      "孟加拉貓": ["/assets/pet/bengal-verified.jpg", "File:A_Bengal_Cat_(cropped).jpg"],
+      "挪威森林貓": ["/assets/pet/norwegian-forest-verified.jpg", "File:Norwegian_forest_cat.jpg"],
+      "斯芬克斯貓": ["/assets/pet/sphynx-verified.jpg", "File:Sphynx_-_cat._img_031.jpg"],
+      "阿比西尼亞貓": ["/assets/pet/abyssinian-verified.jpg", "File:Abyssinian_cat_-_Patricia.jpg"],
+    } as const;
+
+    for (const [name, [image, source]] of Object.entries(corrected)) {
+      const breed = catBreedGuides.find((guide) => guide.name === name);
+      expect(breed).toMatchObject({ image, images: [image], isRealPhoto: true });
+      expect(breed?.sourceUrl).toContain(source);
+      expect(breed?.photoCredit).toContain("Wikimedia Commons");
+    }
+  });
+
   it("includes multi-image carousel container and pagination dots in PetWorld.tsx", () => {
     const petWorldCode = readProjectFile("client/src/pages/PetWorld.tsx");
     expect(petWorldCode).toContain("relative aspect-[4/3] w-full overflow-hidden bg-[#FFFDF9]");
     expect(petWorldCode).toContain("horizontal-scroll flex w-full gap-2 overflow-x-auto border-t border-[#B88A58]/15 bg-[#FFFDF9] jp-card-shadow p-2.5");
     expect(petWorldCode).toContain("activeImgIndex + 1} / {images.length}");
+    expect(petWorldCode).toContain("aria-label={`查看 ${breed.name} 圖片來源與授權`}");
+    expect(petWorldCode).not.toContain("暫未找到可核對的真實品種相片");
   });
 });
