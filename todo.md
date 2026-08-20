@@ -12,7 +12,7 @@
 - [x] 使用 Stripe MCP Live 帳戶的 91 件 Active 商品建立安全展示資料源
 - [x] 保留伺服器端 Stripe API 路由，待專案可安全注入 Live Secret Key 後恢復即時同步
 - [x] 在未暴露密鑰的前提下驗證產品圖片、價格、分類及按鈕狀態
-- [ ] 將 mofuhavenhk.com 從舊 Vercel Next.js 部署切換並綁定到本次 Manus 全端版本
+- [x] 將 mofuhavenhk.com 從舊 Vercel Next.js 部署切換並綁定到本次最新 Vite／Stripe Serverless 版本，並完成正式網域 API 驗證
 
 ## 貓咪商品分類與搜尋修復
 
@@ -510,3 +510,26 @@
 
 - [x] 不顯示金鑰內容，將目前專案已驗證的 `STRIPE_LIVE_SECRET_KEY` 安全同步至 Vercel Preview 的 `STRIPE_LIVE_SECRET_KEY`
 - [x] 重新部署 Vercel Preview 並驗證 Stripe 商品目錄載入與 Checkout Session URL 回傳
+
+## Vercel www 自訂網域與 SSL 修復任務
+
+- [x] 在既有 Vercel `mofuhavenhk` 專案確認 `www.mofuhavenhk.com` 已註冊為 Production 網域，取得平台指定 CNAME 記錄
+- [x] 已由使用者於 GoDaddy 將 `www` CNAME 更新至 Vercel 指定值，並確認 Vercel DNS／SSL 驗證生效
+- [x] 驗證 `https://www.mofuhavenhk.com` 可公開載入最新網站、無 ERR_SSL_PROTOCOL_ERROR
+
+## Vercel Production 正式網站切換任務
+
+- [x] 將已驗證的最新 Vite／Stripe Serverless 版本部署至 Vercel Production，不改動自訂域名或 DNS
+- [x] 驗證 `https://www.mofuhavenhk.com` 載入最新 Mofu Haven 網站、Stripe 商品 API 與 Checkout Session
+
+## 根網域與 www 生產驗證任務
+
+- [x] 驗證 `https://mofuhavenhk.com` 根網域目前受 GoDaddy 保護的 A 紀錄影響，首頁回應 HTTP 405，未能作為正式站點或一致轉址來源
+- [x] 驗證根網域下的商品 API 回應 HTTP 404；確認所有店面與 API 流量必須使用 `https://www.mofuhavenhk.com`
+- [x] 記錄最終策略：`www.mofuhavenhk.com` 為唯一 Vercel 正式 Production 網域（首頁及商品 API 均回應 HTTP 200）；根網域不再用作服務入口
+
+## www 主 Production 網域與 Git 備份任務
+
+- [x] 將 `www.mofuhavenhk.com` 固定為 Vercel 正式 Production 的唯一可用網域，停止依賴受保護的根網域 A 紀錄
+- [x] 將本地正式版本提交安全推送至 `ymksamuel-oss/mofuhavenhk` 的遠端 `prod-backup-v1.0` 參照；為保留遠端 `main` 已有的 296 個不同提交，不強制覆寫 `main`
+- [x] 建立並推送 Git tag `prod-backup-v1.0`（遠端 tag object：`3b11c6bd0e3c059fefc16c36879720696578290d`；指向本地正式版本提交 `16ab0a7f`），作為目前可還原備份
