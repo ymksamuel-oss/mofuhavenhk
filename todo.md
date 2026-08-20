@@ -436,6 +436,12 @@
 - [x] 在後端 `store.checkout` 中明確設定 `payment_method_types: ['card', 'alipay']`（絕不包含 `link`），徹底停用 Stripe Link 快捷支付，防止輸入 Email 時彈出 SMS 驗證
 - [x] 39 項 Vitest 測試與 production build 全數通過
 
+## 結帳流程 Full-Page Redirect 與全面移除 Modal/iframe 任務
+
+- [x] 徹底刪除前端任何彈出 Stripe 的 Modal、Dialog、Popup 或 iframe 嵌入路徑
+- [x] 在 `CartDrawer.handleCheckout` 中取得 `result.url` 後，嚴格只執行單行 `window.location.href = result.url` 進行全頁面重定向
+- [x] 39 項 Vitest 測試與 production build 全數通過，版本已自動部署至線上
+
 ## 結帳流程 Full-Page Redirect 與關閉 Express Checkout 任務
 
 - [x] 於後端 Stripe Checkout Session 設定 `submit_type: "pay"` 與 `request_three_d_secure: "any"`，徹底隱藏頂部大黑框 Apple Pay 快捷按鈕
