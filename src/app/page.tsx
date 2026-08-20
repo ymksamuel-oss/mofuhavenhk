@@ -1,6 +1,5 @@
 "use client";
 
-import { getImageProps } from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { HeroVideoModal } from "@/components/home/HeroVideoModal";
@@ -12,6 +11,11 @@ export default function HomePage() {
 
   return (
     <>
+      {/* 限時活動純文字提示欄 */}
+      <div className="bg-[#5c3a22] px-4 py-2.5 text-center text-xs font-medium tracking-wide text-[#f8f0e2] sm:text-sm">
+        <span>🎉 日本直送寵物嚴選・限時優惠：全店購物滿 HK$450 即享香港本地免運費！</span>
+      </div>
+
       {/*
         Full-width hero banner with ultra-wide aspect ratio (33:14)
         Mobile: 3/4 aspect ratio for portrait viewing
@@ -99,20 +103,9 @@ export default function HomePage() {
             <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[#f5e6d3]/40 blur-3xl" />
             <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-[#e8d4c0]/30 blur-2xl" />
 
-            <div className="relative flex flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:gap-8 sm:px-8 sm:py-16">
-              {/* Image Section */}
-              <div className="w-full sm:flex-1">
-                <div className="relative aspect-video overflow-hidden rounded-3xl shadow-[0_8px_24px_rgba(74,54,38,0.15)]">
-                  <img
-                    src="/hero.webp"
-                    alt="一對依偎在一起的貓狗"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="w-full text-center sm:flex-1 sm:text-left">
+            <div className="relative flex flex-col items-center px-6 py-10 sm:px-10 sm:py-14">
+              {/* Text-only content keeps this homepage section clean and lightweight. */}
+              <div className="w-full max-w-2xl text-center sm:text-left">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-white/60 px-3 py-1 text-xs font-medium text-[#8b6f47] ring-1 ring-[#d4c4b0]/40 backdrop-blur-sm">
                   ✨ 溫馨時刻
                 </span>

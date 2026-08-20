@@ -23,6 +23,29 @@ function categoryMenuLinkClassName(active: boolean) {
   }`;
 }
 
+function getProductBadge(product: {
+  id: string;
+  tags?: string[];
+  metadata?: Record<string, string>;
+  productType?: string;
+  sourceCategory?: string;
+}): "hot" | "new" | null {
+  const source = [
+    product.id,
+    ...(product.tags ?? []),
+    product.metadata?.badge,
+    product.metadata?.label,
+    product.productType,
+    product.sourceCategory,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (/熱賣|熱銷|bestseller|best seller|popular|hot/.test(source)) return "hot";
+  if (/新品|新款|new|launch|wt-japan/.test(source)) return "new";
+  return null;
+}
 
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
@@ -129,31 +152,7 @@ export function ProductCatalog({
             })}
           </div>
 
-          <div className="mt-4 border-t border-[color:var(--line)] pt-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.1em] text-[color:var(--accent)]">
-              {t("explorePetsWorld")}
-            </p>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-              <CategoryNavLink
-                href="/about-dog"
-                className={categoryMenuLinkClassName(false)}
-              >
-                {t("exploreAboutDog")}
-              </CategoryNavLink>
-              <CategoryNavLink
-                href="/about-cat"
-                className={categoryMenuLinkClassName(false)}
-              >
-                {t("exploreAboutCat")}
-              </CategoryNavLink>
-              <CategoryNavLink
-                href="/cat-breeds"
-                className={categoryMenuLinkClassName(false)}
-              >
-                {t("exploreCatBreeds")}
-              </CategoryNavLink>
-            </div>
-          </div>
+          {/* 探索寵物世界區塊已依要求隱藏／移除，保持畫面乾淨簡潔 */}
         </nav>
       </details>
 
@@ -165,6 +164,7 @@ export function ProductCatalog({
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
               : null;
+            const badge = getProductBadge(product);
             const href = productHref(product.id);
 
             return (
@@ -190,12 +190,20 @@ export function ProductCatalog({
                   </CategoryNavLink>
 
                   {product.inStock === false ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[color:var(--ink)] px-2.5 py-1 text-[10px] font-bold text-white">
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[color:var(--ink)] px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
                       {t("productSoldOut")}
                     </span>
                   ) : discountPercent ? (
-                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white">
+                    <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                       -{discountPercent}%
+                    </span>
+                  ) : badge ? (
+                    <span
+                      className={`pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm ${
+                        badge === "hot" ? "bg-[#8b6f47]" : "bg-[#3d6954]"
+                      }`}
+                    >
+                      {badge === "hot" ? "熱賣中" : "新品"}
                     </span>
                   ) : null}
                 </div>
