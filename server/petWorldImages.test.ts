@@ -30,6 +30,8 @@ describe("pet world real photos and multi-image carousel", () => {
   it("keeps the corrected breeds bound to their own verified image and Commons source", () => {
     const corrected = {
       "俄羅斯藍貓": ["/assets/pet/russian-blue-verified.jpg", "File:Cat_Russian_Blue_02.jpg"],
+      "布偶貓": ["/assets/pet/ragdoll-verified.jpg", "File:Adult_Ragdoll_Cat_ACAS-RG-11.jpg"],
+      "波斯貓": ["/assets/pet/persian-verified.jpg", "File:Fluffy_White_Persian_Cat.jpg"],
       "孟加拉貓": ["/assets/pet/bengal-verified.jpg", "File:A_Bengal_Cat_(cropped).jpg"],
       "挪威森林貓": ["/assets/pet/norwegian-forest-verified.jpg", "File:Norwegian_forest_cat.jpg"],
       "斯芬克斯貓": ["/assets/pet/sphynx-verified.jpg", "File:Sphynx_-_cat._img_031.jpg"],
@@ -42,6 +44,11 @@ describe("pet world real photos and multi-image carousel", () => {
       expect(breed?.sourceUrl).toContain(source);
       expect(breed?.photoCredit).toContain("Wikimedia Commons");
     }
+  });
+
+  it("does not reuse any primary breed photo for a different cat breed", () => {
+    const primaryImages = catBreedGuides.map((breed) => breed.image);
+    expect(new Set(primaryImages).size).toBe(catBreedGuides.length);
   });
 
   it("includes multi-image carousel container and pagination dots in PetWorld.tsx", () => {
