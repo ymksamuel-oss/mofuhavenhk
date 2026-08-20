@@ -78,12 +78,12 @@ export const appRouter = router({
         const origin = ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}`;
         const session = await stripe.checkout.sessions.create({
           mode: "payment",
+          submit_type: "pay",
           line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
           payment_method_types: checkoutPaymentMethods,
           payment_method_options: {
             card: {
-              // 嘗試關閉 Stripe 內建的 Link 儲存與快速結帳引導
-              setup_future_usage: undefined,
+              request_three_d_secure: "any",
             },
           },
           metadata: {

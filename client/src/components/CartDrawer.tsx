@@ -40,22 +40,12 @@ export default function CartDrawer() {
       closeCart();
       setCheckoutUrl(result.url);
 
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
-
       try {
-        if (isMobileDevice) {
-          // 行動裝置直接全頁跳轉至 Stripe 官方 Hosted Checkout，徹底解決 iframe 滾動鎖死及 Apple Pay 原生授權問題
-          if (window.top && window.top !== window) {
-            window.top.location.href = result.url;
-          } else {
-            window.location.href = result.url;
-          }
+        // 全面採用全頁重定向 (Full-Page Redirect) 至 Stripe Hosted Checkout，徹底杜絕 iframe/Modal 嵌入所造成的滾動鎖死
+        if (window.top && window.top !== window) {
+          window.top.location.href = result.url;
         } else {
-          if (window.top && window.top !== window) {
-            window.top.location.href = result.url;
-          } else {
-            window.location.assign(result.url);
-          }
+          window.location.href = result.url;
         }
       } catch (redirectErr) {
         console.warn("[Cart] Top window redirect blocked, fallback to direct assignment", redirectErr);

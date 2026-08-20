@@ -1085,3 +1085,10 @@
 [2026-08-20T01:25:56.433Z] 1:25:56 AM [vite] (client) hmr update /src/index.css, /src/components/CartDrawer.tsx
 [2026-08-20T01:26:23.359Z] 1:26:23 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T01:27:05.587Z] 1:27:05 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T01:28:31.358Z] [Auth] Missing session cookie
+[2026-08-20T01:33:09.740Z] 1:33:09 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-20T01:33:11.353Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T01:33:11.570Z] Server running on http://localhost:3000/
+[2026-08-20T01:33:38.194Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2026-08-20T01:33:39.533Z] [Auth] Missing session cookie
+[2026-08-20T01:33:49.566Z] 1:33:49 AM [vite] (client) hmr update /src/index.css
