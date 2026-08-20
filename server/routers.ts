@@ -8,7 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { listStoreProducts } from "./stripeProducts";
 import { filterCatalogProducts, normalizeRequestedCategory } from "../shared/productCatalog";
 
-// 嚴格確保只包含支援的結帳方式，絕不包含 link 快捷支付
+// 完整支援 Visa, Mastercard, JCB, AMEX (透過 card 類型自動支援), Alipay/AlipayHK (alipay)，並可透過環境變數開啟 WeChat Pay
 const checkoutPaymentMethods: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ["card", "alipay"];
 if (process.env.STRIPE_ENABLE_WECHAT_PAY === "true") checkoutPaymentMethods.push("wechat_pay");
 
