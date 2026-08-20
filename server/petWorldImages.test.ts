@@ -7,13 +7,22 @@ const projectRoot = resolve(import.meta.dirname, "..");
 const readProjectFile = (relativePath: string) => readFileSync(resolve(projectRoot, relativePath), "utf8");
 
 describe("pet world real photos and multi-image carousel", () => {
-  it("ensures all cat breeds have valid images and multi-image arrays without fallback placeholders", () => {
+  it("uses Vercel-compatible controlled image paths for all verified cat photos", () => {
     expect(catBreedGuides).toHaveLength(12);
     for (const breed of catBreedGuides) {
       if (breed.images.length > 0) {
         for (const imgUrl of breed.images) {
-          expect(imgUrl.startsWith("/manus-storage/")).toBe(true);
+          expect(imgUrl.startsWith("/assets/pet/")).toBe(true);
         }
+      }
+    }
+  });
+
+  it("maps every verified Pet World image through the Vercel asset handler", () => {
+    const assetHandler = readProjectFile("api/asset.js");
+    for (const breed of catBreedGuides) {
+      for (const imageUrl of breed.images) {
+        expect(assetHandler).toContain(imageUrl.replace("/assets/pet/", ""));
       }
     }
   });

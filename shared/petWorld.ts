@@ -27,10 +27,8 @@ export const catCareGuides: CatCareGuide[] = [
 export const catBreedGuides: CatBreedGuide[] = [
   {
     name: "英國短毛貓",
-    image: "/manus-storage/british-shorthair_828cba70.jpg",
-    images: [
-      "/manus-storage/british-shorthair_828cba70.jpg",
-    ],
+    image: "/assets/pet/british-shorthair_828cba70.jpg",
+    images: ["/assets/pet/british-shorthair_828cba70.jpg"],
     temperament: "穩重、親人而不過分黏人",
     care: "短毛仍需要定期梳理，並安排溫和的互動遊戲。",
     note: "圓潤體型適合以玩耍及均衡份量維持日常活動。",
@@ -40,11 +38,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "美國短毛貓",
-    image: "/manus-storage/american-shorthair_9cb75e41.jpg",
-    images: [
-      "/manus-storage/american-shorthair_9cb75e41.jpg",
-      "/manus-storage/amer-2_95dbbc70.jpg",
-    ],
+    image: "/assets/pet/american-shorthair_9cb75e41.jpg",
+    images: ["/assets/pet/american-shorthair_9cb75e41.jpg", "/assets/pet/amer-2_95dbbc70.jpg"],
     temperament: "活潑、適應力強、喜歡探索",
     care: "準備攀爬、追逐及益智玩具，讓牠每天都有消耗精力的機會。",
     note: "對新環境通常較有彈性，但仍應循序漸進介紹新事物。",
@@ -54,10 +49,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "布偶貓",
-    image: "/manus-storage/persian-2_2f4dd7c1.jpg",
-    images: [
-      "/manus-storage/persian-2_2f4dd7c1.jpg",
-    ],
+    image: "/assets/pet/persian-2_2f4dd7c1.jpg",
+    images: ["/assets/pet/persian-2_2f4dd7c1.jpg"],
     temperament: "溫柔、安靜、喜歡陪伴",
     care: "半長毛需要固定梳理，並留意打結及居家活動空間。",
     note: "抱起或互動時應托好身體，讓牠保持安全與放鬆。",
@@ -67,10 +60,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "暹羅貓",
-    image: "/manus-storage/siamese_844c7708.jpg",
-    images: [
-      "/manus-storage/siamese_844c7708.jpg",
-    ],
+    image: "/assets/pet/siamese_844c7708.jpg",
+    images: ["/assets/pet/siamese_844c7708.jpg"],
     temperament: "聰明、愛交流、互動需求高",
     care: "使用互動玩具及簡單訓練保持刺激，亦要預留陪伴時間。",
     note: "牠們常以聲音表達需要，穩定作息有助建立安全感。",
@@ -80,11 +71,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "緬因貓",
-    image: "/manus-storage/maine-coon_cd25cde9.jpg",
-    images: [
-      "/manus-storage/maine-coon_cd25cde9.jpg",
-      "/manus-storage/maine-2_e2254aeb.jpg",
-    ],
+    image: "/assets/pet/maine-coon_cd25cde9.jpg",
+    images: ["/assets/pet/maine-coon_cd25cde9.jpg", "/assets/pet/maine-2_e2254aeb.jpg"],
     temperament: "友善、從容、體型較大",
     care: "提供足夠承托力的休息處、寬敞動線及適合大貓使用的用品。",
     note: "梳理時可分區慢慢進行，讓長毛及尾部保持整潔。",
@@ -94,10 +82,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "蘇格蘭摺耳貓",
-    image: "/manus-storage/scottish-fold_120a23ab.jpg",
-    images: [
-      "/manus-storage/scottish-fold_120a23ab.jpg",
-    ],
+    image: "/assets/pet/scottish-fold_120a23ab.jpg",
+    images: ["/assets/pet/scottish-fold_120a23ab.jpg"],
     temperament: "溫和、好奇、喜歡安靜陪伴",
     care: "選擇舒適而不需過度跳躍的環境，並定期觀察日常活動狀態。",
     note: "如發現活動、步態或食慾明顯改變，應向獸醫尋求專業意見。",
@@ -107,10 +93,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "俄羅斯藍貓",
-    image: "/manus-storage/british-shorthair_828cba70.jpg",
-    images: [
-      "/manus-storage/british-shorthair_828cba70.jpg",
-    ],
+    image: "/assets/pet/british-shorthair_828cba70.jpg",
+    images: ["/assets/pet/british-shorthair_828cba70.jpg"],
     temperament: "文靜、細膩、對熟悉環境有安全感",
     care: "保持固定作息及安靜的休息角落，互動可由時間慢慢開始。",
     note: "穩定的家庭節奏及溫柔接觸通常比頻繁改變更適合牠。",
@@ -120,10 +104,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "波斯貓",
-    image: "/manus-storage/persian-2_2f4dd7c1.jpg",
-    images: [
-      "/manus-storage/persian-2_2f4dd7c1.jpg",
-    ],
+    image: "/assets/pet/persian-2_2f4dd7c1.jpg",
+    images: ["/assets/pet/persian-2_2f4dd7c1.jpg"],
     temperament: "文雅、恬靜、喜歡舒適環境",
     care: "每天梳理長毛及清潔眼周，維持溫和安靜的居家生活。",
     note: "適合喜歡陪伴安靜貓咪的主人，給予穩定而溫柔的照顧。",
@@ -133,7 +115,7 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "孟加拉貓",
-    image: "/manus-storage/maine-2_e2254aeb.jpg",
+    image: "/assets/pet/maine-2_e2254aeb.jpg",
     images: [],
     temperament: "精力充沛、好奇心旺盛、身手敏捷",
     care: "提供豐富的攀爬架與互動玩具，滿足大量運動及探索需求。",
@@ -142,7 +124,7 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "挪威森林貓",
-    image: "/manus-storage/maine-coon_cd25cde9.jpg",
+    image: "/assets/pet/maine-coon_cd25cde9.jpg",
     images: [],
     temperament: "獨立、勇敢、溫和友善",
     care: "提供高處跳台與適度梳理，適應力強且熱愛自然環境。",
@@ -151,7 +133,7 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "斯芬克斯貓",
-    image: "/manus-storage/siamese_844c7708.jpg",
+    image: "/assets/pet/siamese_844c7708.jpg",
     images: [],
     temperament: "熱情、親人、極度黏人",
     care: "定期溫和擦拭皮膚分泌物，注意室溫保暖與防曬。",
@@ -160,10 +142,8 @@ export const catBreedGuides: CatBreedGuide[] = [
   },
   {
     name: "阿比西尼亞貓",
-    image: "/manus-storage/american-shorthair_9cb75e41.jpg",
-    images: [
-      "/manus-storage/american-shorthair_9cb75e41.jpg",
-    ],
+    image: "/assets/pet/american-shorthair_9cb75e41.jpg",
+    images: ["/assets/pet/american-shorthair_9cb75e41.jpg"],
     temperament: "聰明、活潑、對周遭充滿好奇",
     care: "給予充足的互動與遊戲空間，享受與家人一起探索的樂趣。",
     note: "體態優雅且動作敏捷，是極具靈氣的貼心夥伴。",

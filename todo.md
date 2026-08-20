@@ -617,3 +617,10 @@
 - [x] 當 Stripe Live 拒絕尚未啟用的 WeChat Pay 時，自動以 card／Alipay 重新建立 Checkout，保障信用卡及 Apple Pay 流程
 - [x] 加入回歸測試，驗證 WeChat Pay 失敗不會阻斷香港客戶的 Checkout
 - [x] 重新部署並以無扣款 Live Session 確認 Checkout 可用，並保留 WeChat Pay 帳戶啟用依賴紀錄
+
+## 寵物世界真實圖片 Production 修復
+
+- [ ] 盤點 public／靜態資產與 Pet World 圖片資料來源，找出英國短毛貓等卡片回落至佔位符的原因
+- [ ] 修正 Pet World 圖片 URL／路由與容錯邏輯，維持嚴格品種對應
+- [ ] 加入圖片路徑回歸測試，確認正式可存取的真實圖片不會顯示「真實圖片準備中」
+- [ ] 重新打包、部署並在正式網站驗證寵物世界圖片顯示
