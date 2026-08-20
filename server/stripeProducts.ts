@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { stripeProductsSnapshot } from "../shared/data/stripeProductsSnapshot";
 import { canonicalCatalogFields } from "../shared/productCatalog";
+import { recoveredProductImageMap } from "../shared/recoveredProductImageMap";
 
 export type StoreProduct = {
   id: string;
@@ -60,7 +61,8 @@ export function toStoreProduct(
   activePrices: Stripe.Price[],
 ): StoreProduct {
   const price = selectProductPrice(product, activePrices);
-  const images = sanitizeProductImages(product.images.filter(Boolean));
+  const recoveredImage = recoveredProductImageMap[product.id];
+  const images = recoveredImage ? [recoveredImage] : sanitizeProductImages(product.images.filter(Boolean));
   const rawMetadata = sanitizeMetadata(product.metadata ?? {});
   const catalogFields = canonicalCatalogFields({ name: product.name, description: product.description, metadata: rawMetadata });
 
@@ -81,13 +83,15 @@ export function toStoreProduct(
 
 function snapshotToStoreProduct(product: (typeof stripeProductsSnapshot)[number]): StoreProduct {
   const catalogFields = canonicalCatalogFields({ name: product.name, description: product.description, metadata: product.metadata });
+  const recoveredImage = recoveredProductImageMap[product.id];
+  const images = recoveredImage ? [recoveredImage] : sanitizeProductImages(product.images);
 
   return {
     id: product.id,
     name: product.name,
     description: product.description,
-    image: sanitizeProductImages(product.images)[0] ?? null,
-    images: sanitizeProductImages(product.images),
+    image: images[0] ?? null,
+    images,
     priceId: product.priceId,
     unitAmount: product.unitAmount,
     currency: product.currency,

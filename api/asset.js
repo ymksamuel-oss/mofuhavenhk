@@ -1,3 +1,5 @@
+import recoveredProductImageStorageMap from "./recoveredProductImageMap.js";
+
 const ASSET_ORIGIN = "https://mofuhaven-5gysmfvo.manus.space";
 
 const ASSET_PATHS = Object.freeze({
@@ -9,7 +11,10 @@ const ASSET_PATHS = Object.freeze({
 
 export default function handler(req, res) {
   const requested = Array.isArray(req.query.asset) ? req.query.asset[0] : req.query.asset;
-  const path = ASSET_PATHS[requested];
+  const productId = typeof requested === "string" && requested.startsWith("product/")
+    ? requested.slice("product/".length)
+    : null;
+  const path = productId ? recoveredProductImageStorageMap[productId] : ASSET_PATHS[requested];
 
   if (!path) {
     return res.status(404).json({ error: "Unknown storefront asset." });

@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import recoveredProductImageStorageMap from "./recoveredProductImageMap.js";
 const getStripe = () => {
   const secret = process.env.STRIPE_LIVE_SECRET_KEY || process.env.STRIPE_SECRET_KEY;
   if (!secret) throw new Error("Stripe is not configured for this deployment.");
@@ -42,7 +43,10 @@ function selectPrice(product, prices) {
 
 function toStoreProduct(product, prices) {
   const price = selectPrice(product, prices);
-  const images = (product.images || []).filter((url) => /^https?:\/\//.test(url));
+  const recoveredImage = recoveredProductImageStorageMap[product.id];
+  const images = recoveredImage
+    ? [`/assets/product/${product.id}`]
+    : (product.images || []).filter((url) => /^https?:\/\//.test(url));
   const metadata = Object.fromEntries(Object.entries(product.metadata || {}).filter(([, value]) => typeof value === "string"));
   const fields = catalogFields({ ...product, metadata });
   return {
