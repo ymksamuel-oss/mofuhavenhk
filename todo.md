@@ -410,6 +410,12 @@
 - [x] 堅持寧缺勿濫與嚴格按 breed_id 綁定原則，絕不跨品種混用相片
 - [x] 通過 39 項 Vitest 測試與 production build，並已凍結該頁面與自動運作。
 
+## Stripe 結帳支付方式優化與品牌合規任務
+
+- [x] 後端 `store.checkout` 完整配置支援銀行卡（Visa, Mastercard, JCB, AMEX）、支付寶（Alipay / AlipayHK）及微信支付（WeChat Pay）
+- [x] 透過 Stripe 官方託管 Checkout Session 原生渲染 Apple Pay 與 Google Pay，並完全遵循各家品牌之 Brand Guidelines 與標準 Logo 規範
+- [x] 39 項 Vitest 測試與 production build 全數透過
+
 ## Stripe 結帳 iframe 跳轉、Link 停用與 Apple Pay 處理任務
 
 - [x] 確認系統採用 Stripe 官方託管 Checkout Session，頂部 Express Checkout 區塊與「或」分隔線係由 Stripe 根據顧客裝置自動渲染
