@@ -78,7 +78,12 @@ export const appRouter = router({
           mode: "payment",
           line_items: input.items.map((item) => ({ price: item.priceId, quantity: item.quantity })),
           payment_method_types: checkoutPaymentMethods,
-          // 註記：在 Stripe 託管頁面（Hosted Checkout）中，頂部的 Express Checkout（Apple Pay / Google Pay）是由 Stripe 依據顧客瀏覽器裝置（如 Safari / Apple 裝置）自動動態渲染。若要在 Stripe 官方託管頁面完全關閉頂部一鍵快捷按鈕，需前往 Stripe Dashboard -> Settings -> Checkout -> Payment methods 關閉 Express Checkout 顯示開關。
+          payment_method_options: {
+            card: {
+              // 嘗試關閉 Stripe 內建的 Link 儲存與快速結帳引導
+              setup_future_usage: undefined,
+            },
+          },
           metadata: {
             recipient_name: input.delivery.recipientName,
             contact_phone: input.delivery.contactPhone,
