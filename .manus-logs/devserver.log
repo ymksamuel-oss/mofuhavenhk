@@ -1165,3 +1165,7 @@
 [2026-08-20T05:31:51.575Z] [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
 [2026-08-20T05:44:44.555Z] 5:44:44 AM [vite] (client) hmr update /src/index.css
 [2026-08-20T05:49:56.345Z] 5:49:56 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T06:01:15.531Z] 6:01:15 AM [vite] (client) hmr update /src/index.css
+[2026-08-20T06:22:50.598Z] 6:22:50 AM [tsx] change in ./server/routers.ts Restarting...
+[2026-08-20T06:22:52.610Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-08-20T06:22:52.971Z] Server running on http://localhost:3000/

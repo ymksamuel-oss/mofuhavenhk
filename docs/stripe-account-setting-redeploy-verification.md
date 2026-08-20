@@ -22,3 +22,11 @@
 完整 Checkout 頁面可正常載入，標準卡片欄位及 Visa、Mastercard、American Express、UnionPay、JCB 官方標誌正常顯示。此測試情境的前端只顯示卡片，**沒有顯示 Alipay／AlipayHK 或 WeChat Pay**；亦未出現頂部 Apple Pay 快捷按鈕。
 
 網站目前的程式僅在 `STRIPE_ENABLE_WECHAT_PAY=true` 時才會將 `wechat_pay` 放入新 Session。這個 Vercel 生產環境變數目前尚未啟用，因此 Stripe 帳戶層級調整尚未傳遞至網站建立的 Session。Alipay 的最終顯示同時受付款人地區、幣別與 Stripe eligibility 動態決定。
+
+## 2026-08-20 WeChat Pay 網站端更新
+
+已於 Vercel **Production** 加入 `STRIPE_ENABLE_WECHAT_PAY=true`。首次以這個開關建立 Live Checkout Session 時，Stripe 明確回傳：`WeChat Pay requires payment_method_options[wechat_pay][client] to be set to web.`
+
+因此，網站後端的兩個 Checkout 入口（`api/index.js` 與 `server/routers.ts`）已同步改為：僅於 WeChat Pay 開關啟用時加入 `wechat_pay`，並一併傳送 `payment_method_options.wechat_pay.client = 'web'`。本地完整測試與 production build 已通過（**44** 項 Vitest 測試）。
+
+目前仍待 Vercel 接受新版建置，才能建立新的無扣款 Live Checkout Session，確認 Stripe 回傳 `card`、`alipay` 與 `wechat_pay`。在此之前，`www.mofuhavenhk.com` 仍維持前一個正常 Production 版本，未將未完成部署指派為正式網域。

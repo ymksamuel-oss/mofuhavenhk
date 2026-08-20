@@ -576,7 +576,7 @@
 
 ## Vercel Production WeChat Pay／Apple Pay 啟用
 
-- [ ] 核對並啟用 Vercel Production 的 WeChat Pay 與 Apple Pay 對應網站環境設定
+- [x] 核對並啟用 Vercel Production 的 WeChat Pay 與 Apple Pay 對應網站環境設定
 - [ ] 重新部署已驗證的 Vercel Production 版本，避免覆蓋既有商品圖片修復
 - [ ] 建立無扣款 Live Checkout Session，確認 `wechat_pay` 已加入 Session 並檢查香港行動裝置付款方式呈現
-- [ ] 為 WeChat Pay 加入 Stripe 要求的 `payment_method_options.wechat_pay.client = 'web'`，再重新驗證 Live Session
+- [x] 為 WeChat Pay 加入 Stripe 要求的 `payment_method_options.wechat_pay.client = 'web'`，再重新驗證 Live Session
