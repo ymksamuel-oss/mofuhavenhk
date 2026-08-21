@@ -26,7 +26,7 @@ export default function HomePage() {
         {/* Mobile: use object-contain and natural aspect ratio so the wide banner is 100% fully visible without cropping */}
         <div className="relative w-full bg-[#f5f1ed] sm:hidden">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/manus-storage/mofu-haven-banner-v2_927d32fb.jpg"
             alt={t("brand")}
             className="h-auto w-full object-contain"
             fetchPriority="high"
@@ -38,7 +38,7 @@ export default function HomePage() {
         {/* Desktop: ultra-wide full-bleed banner - no forced aspect ratio */}
         <div className="relative hidden w-full bg-gradient-to-b from-[#f5f1ed] to-[#ede8e3] sm:block">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
+            src="/manus-storage/mofu-haven-banner-v2_927d32fb.jpg"
             alt={t("brand")}
             className="h-auto w-full object-contain"
             fetchPriority="high"
