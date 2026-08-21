@@ -84,4 +84,4 @@ assertIds(
   "Dog subcategory metadata filter",
 );
 
-console.log("Product catalog validation passed: canonical metadata category wins safely.");
+console.log("Product catalog validation passed: no static fallback catalog is present.");

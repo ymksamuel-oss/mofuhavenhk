@@ -23,12 +23,12 @@ export default function HomePage() {
         Desktop: full-bleed ultra-wide banner with rounded bottom corners
       */}
       <section className="relative w-full overflow-hidden">
-        {/* Mobile: use object-contain and natural aspect ratio so the wide banner is 100% fully visible without cropping */}
-        <div className="relative w-full bg-[#f5f1ed] sm:hidden">
+        {/* Mobile: 3/4 aspect ratio */}
+        <div className="relative aspect-[3/4] w-full sm:hidden">
           <img
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
             alt={t("brand")}
-            className="h-auto w-full object-contain"
+            className="h-full w-full object-cover object-left"
             fetchPriority="high"
             loading="eager"
           />

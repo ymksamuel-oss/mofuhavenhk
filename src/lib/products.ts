@@ -180,9 +180,7 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
-  // Stripe／同步資料的 metadata.category 為商品的 canonical taxonomy。
-  // 舊有 categorySlug 只作未提供或未識別 metadata 時的相容備援。
-  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
+  return product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {

@@ -170,7 +170,7 @@ export function ProductCatalog({
             return (
               <li
                 key={product.id}
-                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-[color:var(--line)] bg-[color:var(--card)] shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(74,54,38,0.15)]"
+                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
               >
                 <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                   <CategoryNavLink
