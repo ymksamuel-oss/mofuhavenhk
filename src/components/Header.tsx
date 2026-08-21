@@ -1,3 +1,5 @@
+// Visual reference: mobile Japanese editorial header keeps the logo, search, cart, and menu visible;
+// language switching moves off the compact toolbar so the Hero remains visually quiet.
 "use client";
 
 import { useEffect, useId, useState } from "react";
@@ -249,7 +251,7 @@ export function Header() {
             </Link>
 
             <div
-              className="flex h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
+              className="hidden h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:flex"
               role="group"
               aria-label="Language"
             >
