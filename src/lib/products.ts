@@ -180,7 +180,7 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
-  return product.categorySlug;
+  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {

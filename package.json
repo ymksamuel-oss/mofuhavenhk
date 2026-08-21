@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "next build --webpack --debug-prerender",
     "start": "next start",
     "lint": "eslint .",
     "validate:products": "tsc -p tsconfig.validate.json && node scripts/run-product-validation.cjs",

@@ -3,6 +3,7 @@ import "server-only";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
 import {
   categorySlugFromMetadata,
   type Product,
@@ -12,11 +13,28 @@ import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 
 export type CatalogSnapshot = {
   products: Product[];
-  source: "stripe";
+  source: "stripe" | "fallback";
   matchedRecords: number;
 };
 
 const CATALOG_IMAGE_FALLBACK = "/mofu-haven-website-b.png";
+
+/**
+ * This historical WT Japan catalog is maintained in Git and bundled with the
+ * app. It keeps browsing available if Stripe is unreachable, a key is rotated,
+ * or Stripe has no active HKD products. Checkout remains server-authoritative
+ * and re-validates prices before creating a PaymentIntent.
+ */
+const FALLBACK_PRODUCTS: Product[] = VERIFIED_FALLBACK_PRODUCTS;
+
+function fallbackCatalogSnapshot(): CatalogSnapshot {
+  const products = uniqueProductsById(FALLBACK_PRODUCTS);
+  return {
+    products,
+    source: "fallback",
+    matchedRecords: products.length,
+  };
+}
 
 function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
@@ -155,6 +173,10 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
       .filter((product): product is Product => product !== null),
   ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
+  if (products.length === 0) {
+    throw new Error("Stripe catalog has no active HKD products");
+  }
+
   return { products, source: "stripe", matchedRecords: products.length };
 }
 
@@ -176,7 +198,10 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
   } catch (error) {
-    console.error("Storefront Stripe catalog fetch failed", stripeErrorDetails(error));
-    return { products: [], source: "stripe", matchedRecords: 0 };
+    console.error(
+      "Storefront Stripe catalog fetch failed; using verified fallback catalog",
+      stripeErrorDetails(error),
+    );
+    return fallbackCatalogSnapshot();
   }
 }
