@@ -84,4 +84,4 @@ assertIds(
   "Dog subcategory metadata filter",
 );
 
-console.log("Product catalog validation passed: category metadata is honoured safely.");
+console.log("Product catalog validation passed: canonical metadata category wins safely.");
