@@ -88,16 +88,21 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 
-          {product.description ? (
-            <div className="mt-6">
-              <h2 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
-                {t("productModalFeaturesTitle")}
-              </h2>
+          <div className="mt-6">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
+              {t("productModalFeaturesTitle")}
+            </h2>
+            {product.description ? (
               <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
                 {product.description[locale]}
               </p>
+            ) : null}
+            <div className="mt-3 rounded-2xl bg-[color:var(--surface)] p-4 ring-1 ring-[color:var(--line)]">
+              <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+                每包皆由 Mofu Haven 團隊為您細心嚴選，並採用精緻禮盒包裝，確保送抵時保持完美狀態，為您的毛孩帶來最高級的享受。
+              </p>
             </div>
-          ) : null}
+          </div>
 
           {product.specs && product.specs.length > 0 ? (
             <div className="mt-6">
