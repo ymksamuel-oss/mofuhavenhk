@@ -1,0 +1,243 @@
+MOFU HAVEN — HOMEPAGE HTML / TAILWIND STRUCTURE
+Stable visual reference: v1.0-clean / commit 94aab3d
+
+Purpose
+-------
+This is a static structural reference for the current homepage. Dynamic React,
+cart state, i18n, product fetching, and event handlers are intentionally removed.
+Replace placeholder links, images, and product text as needed.
+
+Palette / visual language
+-------------------------
+Canvas:       bg-[#fffaf1], bg-[#fffdf8]
+Ink:          text-[#4d382a], text-[color:var(--ink)]
+Muted copy:   text-[#766457], text-[color:var(--muted)]
+Gold CTA:     bg-[#cfa467], bg-[#bf9459], bg-[#a77e4c]
+Warm border:  border-[#e7dbc9], border-[#dfcfb6], border-[color:var(--line)]
+Hero overlay: rgba(53,39,27,0.70) → transparent
+
+<div class="min-h-screen bg-[#fffaf1] text-[color:var(--ink)]">
+
+  <!-- =============================================================
+       HEADER — sticky, cream, mobile icon toolbar / desktop nav
+       ============================================================= -->
+  <header class="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
+    <div class="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
+
+      <!-- Brand / logo -->
+      <a href="/" class="flex min-w-0 shrink items-center rounded-md focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]">
+        <span class="font-[family-name:var(--font-display)] text-[0.95rem] font-semibold text-[color:var(--ink)] sm:text-[1.05rem]">
+          Mofu Haven
+        </span>
+      </a>
+
+      <!-- Desktop primary navigation -->
+      <nav class="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] lg:flex" aria-label="Primary">
+        <a href="/" class="relative truncate py-0.5 font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[1px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[color:var(--accent)]">首頁</a>
+        <a href="/menu" class="relative truncate py-0.5 transition-colors hover:text-[color:var(--ink)]">商品目錄</a>
+        <a href="/checkout" class="relative truncate py-0.5 transition-colors hover:text-[color:var(--ink)]">結帳</a>
+      </nav>
+
+      <!-- Search, cart, language, menu -->
+      <div class="ml-auto flex min-w-0 shrink items-center gap-1.5 sm:gap-2.5">
+        <button class="flex h-11 min-w-0 items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] px-3 text-sm text-[color:var(--muted)]">
+          <span class="text-lg">⌕</span><span class="hidden sm:inline">搜尋商品</span>
+        </button>
+
+        <a href="/checkout" class="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">
+          <span class="text-xl">⌑</span>
+          <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold text-white">1</span>
+        </a>
+
+        <!-- Hidden on compact mobile; visible from sm -->
+        <div class="hidden h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:flex">
+          <button class="h-10 rounded-full bg-[color:var(--ink)] px-2.5 text-xs font-medium text-[color:var(--surface)]">中</button>
+          <button class="h-10 rounded-full px-2.5 text-xs font-medium text-[color:var(--muted)]">EN</button>
+        </div>
+
+        <button class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] lg:hidden" aria-label="開啟選單">
+          <span class="text-xl">☰</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===========================================================
+         HERO BANNER — full-bleed image, dark left gradient
+         =========================================================== -->
+    <section class="relative isolate overflow-hidden bg-[#d7c9b7]">
+      <div class="relative h-[34rem] min-h-[34rem] w-full overflow-hidden sm:h-[min(44rem,calc(100vh-4rem))] sm:min-h-[38rem]">
+        <img src="/hero.webp" alt="Mofu Haven 寵物用品" class="absolute inset-0 h-full w-full object-cover object-[61%_52%] sm:object-[54%_50%]" />
+
+        <!-- Contrast overlays protect light headline text -->
+        <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(53,39,27,0.70)_0%,rgba(72,53,38,0.48)_41%,rgba(72,53,38,0.06)_76%,rgba(72,53,38,0.02)_100%)] sm:bg-[linear-gradient(90deg,rgba(53,39,27,0.76)_0%,rgba(72,53,38,0.43)_47%,rgba(72,53,38,0.04)_76%)]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,21,14,0.18)_0%,transparent_28%,rgba(31,21,14,0.08)_100%)]"></div>
+
+        <div class="relative mx-auto flex h-full max-w-6xl items-center px-7 pb-8 pt-10 sm:px-10 lg:px-14">
+          <div class="max-w-[20rem] text-white sm:max-w-xl">
+            <span class="inline-flex rounded-full border border-white/55 bg-white/10 px-4 py-2 text-sm font-medium tracking-wide backdrop-blur-sm sm:text-base">
+              日本直送・嚴選寵物好物
+            </span>
+            <p class="mt-7 font-[family-name:var(--font-display)] text-[2.65rem] font-semibold leading-none tracking-[-0.035em] text-white drop-shadow-[0_2px_16px_rgba(30,20,12,0.38)] sm:mt-8 sm:text-7xl">Mofu Haven</p>
+            <h1 class="mt-4 text-[1.65rem] font-medium leading-tight tracking-tight text-white sm:text-4xl">日本寵物用品專門店</h1>
+            <p class="mt-4 max-w-md text-base leading-relaxed text-white/95 sm:text-xl">直送日本優質寵物用品，讓您嘅貓貓狗狗幸福滿分。</p>
+
+            <div class="mt-7 flex flex-col items-start gap-6 sm:mt-8 sm:flex-row sm:items-center">
+              <a href="/menu" class="inline-flex min-h-14 items-center gap-3 rounded-2xl bg-[#cfa467] px-7 py-3 text-lg font-semibold text-white shadow-[0_14px_26px_-13px_rgba(31,21,14,0.72)] transition hover:-translate-y-0.5 hover:bg-[#b98b4f]">
+                立即選購 <span>→</span>
+              </a>
+              <a href="#brand-story" class="group inline-flex items-center gap-4 text-lg font-medium text-white/95 transition hover:text-white">
+                <span class="text-3xl font-light leading-none transition-transform duration-200 group-hover:translate-y-1">↓</span>
+                探索品牌故事
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         EDITORIAL / BRAND STORY FEATURE
+         =========================================================== -->
+    <section id="brand-story" class="bg-[#fffaf1] px-6 py-12 sm:px-10 sm:py-20">
+      <div class="mx-auto max-w-6xl">
+        <article class="rounded-[2rem] border border-[#eadfce] bg-[linear-gradient(145deg,#fffaf4_0%,#f8efdf_100%)] px-6 py-9 shadow-[0_18px_44px_-36px_rgba(86,57,30,0.42)] sm:px-12 sm:py-12">
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#e9dac4] bg-white/75 px-4 py-2 text-sm font-semibold text-[#9a7140]">⌘ Mofu Haven 專題指南</span>
+
+          <div class="mt-7 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div class="max-w-3xl">
+              <h2 class="font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[#4d382a] sm:text-5xl">探索寵物世界</h2>
+              <p class="mt-5 text-lg leading-9 text-[#766457] sm:text-xl">精選人氣貓咪品種與日系飼養小筆記，陪伴您與毛孩共度每一個溫馨時刻。</p>
+
+              <!-- Overlapping editorial portraits -->
+              <div class="mt-7 flex items-center">
+                <img src="/images/cat-breeds/russian-blue-portrait.jpg" alt="貓咪品種" class="h-14 w-14 rounded-full border-4 border-[#fffaf1] object-cover shadow-sm sm:h-16 sm:w-16" />
+                <img src="/images/cat-breeds/scottish-fold-tabby.jpg" alt="貓咪品種" class="-ml-3 h-14 w-14 rounded-full border-4 border-[#fffaf1] object-cover shadow-sm sm:h-16 sm:w-16" />
+                <img src="/images/cat-breeds/ragdoll-mitted.jpg" alt="貓咪品種" class="-ml-3 h-14 w-14 rounded-full border-4 border-[#fffaf1] object-cover shadow-sm sm:h-16 sm:w-16" />
+              </div>
+            </div>
+
+            <a href="/cat-breeds" class="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#bf9459] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[#a97f47]">
+              <span>▢</span> 立即探索 <span>→</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         CATEGORY ICONS — compact, responsive pill/card grid
+         =========================================================== -->
+    <section class="border-y border-[#e7dbc9] bg-[#fffdf8] px-5 py-8 sm:px-10 sm:py-12">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+          <a href="/categories/cats" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">♧</span><span>貓咪商品</span></a>
+          <a href="/categories/dogs" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">♤</span><span>狗狗商品</span></a>
+          <a href="/categories/small-pets" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">◌</span><span>小寵物商品</span></a>
+          <a href="/categories/cats/wet-cans" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">◒</span><span>貓罐頭／濕糧</span></a>
+          <a href="/categories/cats/dry-food" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">▦</span><span>乾糧／主食糧</span></a>
+          <a href="/categories/cleaning" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">✣</span><span>貓砂／清潔用品</span></a>
+          <a href="/categories/toys" class="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"><span class="text-xl text-[#a77e4c]">✦</span><span>寵物玩具</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         PRODUCT SEARCH PANEL — static field shell
+         =========================================================== -->
+    <section class="bg-[#fffaf1] px-6 py-11 sm:px-10 sm:py-16">
+      <div class="mx-auto max-w-6xl rounded-[1.8rem] border border-[#eee1d0] bg-white/65 px-5 py-7 sm:px-8">
+        <h2 class="font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] sm:text-3xl">尋找心水罐罐</h2>
+        <p class="mt-2 text-sm text-[color:var(--muted)] sm:text-base">輸入品牌、口味、賣點標籤或適合品種，即時找到建議。</p>
+        <div class="mt-5 flex min-h-14 max-w-3xl items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-5 text-[color:var(--muted)] shadow-sm">
+          <span class="text-xl">⌕</span><span>搜尋罐罐、品牌、標籤或品種…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================================
+         PRODUCT GRID / CARD — reusable catalog reference
+         This comes from the current product catalog, simplified to one card.
+         =========================================================== -->
+    <section class="bg-[#fffdf8] px-4 py-10 sm:px-6 sm:py-14">
+      <div class="mx-auto max-w-5xl">
+        <header class="mb-8 max-w-2xl">
+          <h2 class="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">人氣寵物好物</h2>
+          <p class="mt-2 text-[color:var(--muted)]">簡化商品資料示例。</p>
+        </header>
+
+        <ul class="grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+          <li class="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden rounded-[1.3rem] border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(74,54,38,0.5)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]">
+            <div class="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
+              <a href="/product/sample-product" class="absolute inset-0 block">
+                <img src="/images/products/sample-product.jpg" alt="示例商品" class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
+                <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">查看詳情</span>
+              </a>
+              <span class="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#3d6954] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm">新品</span>
+            </div>
+
+            <div class="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
+              <a href="/product/sample-product" class="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]">日本天然寵物小食</a>
+              <p class="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">商品簡介文字可在此保留兩行。</p>
+              <div class="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
+                <p class="text-lg font-semibold tabular-nums text-[color:var(--accent)]">HK$68</p>
+                <p class="text-xs tabular-nums text-[color:var(--muted)] line-through">HK$78</p>
+              </div>
+              <button class="inline-flex min-h-10 items-center justify-center rounded-xl bg-[color:var(--ink)] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[color:var(--accent)]">加入購物車</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============================================================
+       FOOTER — milk-tea gradient / desktop columns / mobile details
+       ============================================================= -->
+  <footer class="mt-2 border-t border-[color:var(--line)] bg-[linear-gradient(180deg,#f3e6d2_0%,#ebe0cc_55%,#e7d8c0_100%)] text-[color:var(--ink)]">
+    <div class="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
+      <div class="grid gap-1 md:grid-cols-4 md:gap-8 lg:gap-10">
+
+        <div class="space-y-3 border-b border-[color:var(--line)] pb-6 md:border-0 md:pb-0">
+          <a href="/" class="inline-flex font-[family-name:var(--font-display)] text-[0.95rem] font-semibold text-[color:var(--ink)] sm:text-[1.05rem]">Mofu Haven</a>
+          <p class="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">嚴選日本寵物用品，為每個毛孩帶來溫柔日常。</p>
+        </div>
+
+        <div>
+          <p class="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold text-[color:var(--ink)]">快速連結</p>
+          <ul class="space-y-2.5"><li><a href="/menu" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">全部商品</a></li><li><a href="/about" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">關於我們</a></li><li><a href="/faq" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">常見問題</a></li></ul>
+        </div>
+
+        <div>
+          <p class="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold text-[color:var(--ink)]">購物政策</p>
+          <ul class="space-y-2.5"><li><a href="/shipping-policy" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">送貨政策</a></li><li><a href="/returns" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">退換貨</a></li><li><a href="/terms" class="text-sm text-[color:var(--muted)] hover:text-[color:var(--accent)]">條款</a></li></ul>
+        </div>
+
+        <div>
+          <p class="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold text-[color:var(--ink)]">聯絡我們</p>
+          <ul class="space-y-3 text-sm text-[color:var(--muted)]"><li><a href="#" class="hover:text-[color:var(--accent)]">WhatsApp 聯絡</a></li><li><span class="block text-[11px] font-medium uppercase tracking-[0.06em] text-[color:var(--ink)]/70">Email</span><a href="mailto:hello@mofuhavenhk.com" class="hover:text-[color:var(--accent)]">hello@mofuhavenhk.com</a></li><li><span class="block text-[11px] font-medium uppercase tracking-[0.06em] text-[color:var(--ink)]/70">服務時間</span>星期一至五 10:00–18:00</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-[color:var(--line)]/80 bg-[color:var(--hero-deep)]/8">
+      <div class="mx-auto flex w-full max-w-5xl flex-col items-center gap-3 px-4 pt-4 sm:flex-row sm:justify-between sm:gap-4 sm:px-6 sm:py-3.5">
+        <p class="text-center text-xs tracking-[0.01em] text-[color:var(--muted)] sm:text-left">© Mofu Haven. All rights reserved.</p>
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 py-2 text-xs font-semibold text-[color:var(--muted)]">Apple Pay · WeChat Pay · AlipayHK · VISA · Mastercard</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+Implementation notes
+--------------------
+1. Keep the Hero overlays: they guarantee white text contrast against the image.
+2. Mobile uses compact Header controls and a 3-column category grid; desktop expands to 7 columns.
+3. The actual application uses CSS variables such as --ink, --muted, --line,
+   --accent, --surface, and --background. Preserve them when porting this layout.
+4. Dynamic components intentionally omitted: i18n provider, product catalog fetch,
+   cart state, search behavior, menu drawer portal, product badge calculation,
+   and checkout/Stripe logic.

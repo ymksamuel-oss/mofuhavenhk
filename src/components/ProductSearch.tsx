@@ -159,8 +159,8 @@ function SearchField({
         onSubmit={onSubmit}
         className={
           comfortable
-            ? "group flex items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 shadow-[0_18px_36px_-28px_rgba(74,54,38,0.55)] ring-1 ring-[color:var(--accent)]/10 transition focus-within:border-[color:var(--accent)] focus-within:ring-[color:var(--accent)]/25"
-            : "group flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
+            ? "group flex items-center gap-3 rounded-2xl border-[#D8CEC3] bg-white px-4 py-3 shadow-[0_18px_36px_-28px_rgba(74,54,38,0.55)] ring-1 ring-[color:var(--accent)]/10 transition focus-within:border-[color:var(--accent)] focus-within:ring-[color:var(--accent)]/25"
+            : "group flex items-center gap-2 rounded-full border-[#D8CEC3] bg-white px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
         }
       >
         <SearchGlyph
@@ -220,7 +220,7 @@ function SearchField({
           role="listbox"
           aria-label={t("productSearchResults")}
           data-testid="product-search-results"
-          className={`rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
+          className={`rounded-2xl border-[#D8CEC3] bg-white shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
         >
           {hits.length === 0 ? (
             <p className="px-4 py-4 text-sm leading-relaxed text-[color:var(--muted)]">

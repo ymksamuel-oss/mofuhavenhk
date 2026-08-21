@@ -71,7 +71,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </h1>
 
           <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="text-3xl font-bold tabular-nums text-[color:var(--accent)]">
+            <span className="text-3xl font-bold tabular-nums text-[#8C5432]">
               {formatMoney(product.price, locale)}
             </span>
             {product.originalPrice ? (

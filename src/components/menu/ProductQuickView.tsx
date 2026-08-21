@@ -92,7 +92,7 @@ export function ProductQuickView({
         </h2>
 
         <div className="mt-2 flex items-baseline justify-center gap-2">
-          <span className="text-2xl font-bold tabular-nums text-[color:var(--accent)]">
+          <span className="text-2xl font-bold tabular-nums text-[#8C5432]">
             {formatMoney(product.price, locale)}
           </span>
           {product.originalPrice ? (

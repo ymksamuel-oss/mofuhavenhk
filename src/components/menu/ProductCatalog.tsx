@@ -221,7 +221,7 @@ export function ProductCatalog({
                     </p>
                   ) : null}
                   <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
-                    <p className="text-lg font-semibold tabular-nums text-[color:var(--accent)]">
+                    <p className="text-lg font-bold tabular-nums text-[#8C5432]">
                       {formatMoney(product.price, locale)}
                     </p>
                     {product.originalPrice ? (

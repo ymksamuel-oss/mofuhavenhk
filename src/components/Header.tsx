@@ -241,7 +241,7 @@ export function Header() {
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (
                 <span
-                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[color:var(--accent)] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
+                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D8874A] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
                   aria-live="polite"
                   aria-atomic="true"
                 >

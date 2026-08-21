@@ -129,7 +129,7 @@ export default function HomePage() {
                 href={href}
                 className="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"
               >
-                <Icon className="h-5 w-5 text-[#a77e4c] transition-transform group-hover:scale-110" />
+                <Icon className="h-5 w-5 text-[#5A4E44] transition-transform group-hover:scale-110" />
                 <span>{label}</span>
               </CategoryNavLink>
             ))}
