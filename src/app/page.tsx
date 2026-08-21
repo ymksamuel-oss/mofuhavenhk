@@ -29,6 +29,8 @@ export default function HomePage() {
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
             alt={t("brand")}
             className="h-full w-full object-cover object-left"
+            fetchPriority="high"
+            loading="eager"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
@@ -39,6 +41,8 @@ export default function HomePage() {
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JXFulcQyfkYtQxHy.PNG"
             alt={t("brand")}
             className="h-auto w-full object-contain"
+            fetchPriority="high"
+            loading="eager"
           />
           <div aria-hidden className="hero-plane absolute inset-0" />
         </div>
