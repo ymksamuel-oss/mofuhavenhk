@@ -7,6 +7,7 @@ import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -103,6 +104,9 @@ export default async function RootLayout({
 
   return (
     <html lang="zh-HK" className="bg-[color:var(--background)]">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
           <CatalogProvider products={products}>
