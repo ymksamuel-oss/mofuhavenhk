@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "tsx scripts/syncStripeImagesOnBuild.ts",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run",
     "validate:products": "tsc -p tsconfig.validate.json && node scripts/run-product-validation.cjs",
-    "sync:stripe": "tsx scripts/syncStripe.ts"
+    "sync:stripe": "tsx scripts/syncStripe.ts",
+    "sync:stripe:images": "SYNC_STRIPE_IMAGES_ON_BUILD=1 tsx scripts/syncStripeImagesOnBuild.ts"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.8.0",
