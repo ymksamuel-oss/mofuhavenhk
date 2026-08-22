@@ -67,8 +67,8 @@ function CheckoutContent() {
   const shippingHkd = getShippingCost(subtotalHkd, items.length > 0);
   const amountHkd = items.length > 0 ? subtotalHkd + shippingHkd : 0;
 
-  // Default to Apple Pay for mobile one-tap checkout.
-  const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
+  // Default to card checkout after wallet quick pay is removed.
+  const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [phase, setPhase] = useState<PayPhase>("idle");
   const [payError, setPayError] = useState("");
@@ -531,12 +531,10 @@ function CheckoutContent() {
           {showStripeForm &&
           clientSecret &&
           publishableKey &&
-          (selectedMethod === "card" || selectedMethod === "applepay") ? (
+          selectedMethod === "card" ? (
             <StripePaymentForm
               clientSecret={clientSecret}
               publishableKey={publishableKey}
-              preferredMethod={selectedMethod}
-              amountHkd={amountHkd}
               onPaid={handlePaid}
               onError={handlePayError}
             />

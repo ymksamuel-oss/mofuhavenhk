@@ -318,7 +318,23 @@ export function Header() {
         </div>
       </header>
       {mobileMenu}
-      <MobileCartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <MobileCartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        onEmptyStateChange={(isEmpty) => {
+          if (typeof window !== "undefined") {
+            const nav = document.getElementById("shop-flow-nav-root");
+            const footer = document.getElementById("site-footer-root");
+            if (isEmpty && cartOpen) {
+              if (nav) nav.style.display = "none";
+              if (footer) footer.style.display = "none";
+            } else {
+              if (nav) nav.style.display = "";
+              if (footer) footer.style.display = "";
+            }
+          }
+        }}
+      />
     </>
   );
 }

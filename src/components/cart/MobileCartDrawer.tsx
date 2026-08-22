@@ -27,20 +27,33 @@ function CloseIcon() {
 type MobileCartDrawerProps = {
   open: boolean;
   onClose: () => void;
+  onEmptyStateChange?: (isEmpty: boolean) => void;
 };
 
-export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
+export function MobileCartDrawer({
+  open,
+  onClose,
+  onEmptyStateChange,
+}: MobileCartDrawerProps) {
   const { locale, t } = useI18n();
   const { products } = useCatalog();
   const { itemCount, toOrderItems, setQty, removeItem, addItem } = useCart();
   const [portalReady, setPortalReady] = useState(false);
+  const items = toOrderItems();
+  const subtotal = calcSubtotal(items);
 
   useEffect(() => {
     setPortalReady(true);
   }, []);
 
   useEffect(() => {
-    if (!open) return;
+    if (open && onEmptyStateChange) {
+      onEmptyStateChange(items.length === 0);
+    }
+    if (!open) {
+      if (onEmptyStateChange) onEmptyStateChange(false);
+      return;
+    }
     const previousOverflow = document.body.style.overflow;
     const previousTouchAction = document.body.style.touchAction;
     document.body.style.overflow = "hidden";
@@ -56,8 +69,6 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
     };
   }, [onClose, open]);
 
-  const items = toOrderItems();
-  const subtotal = calcSubtotal(items);
   const suggestions = useMemo(
     () =>
       products
@@ -86,7 +97,13 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
         onClick={onClose}
       />
 
-      <aside className="absolute inset-y-0 right-0 flex w-full max-w-full flex-col overflow-hidden border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-20px_0_48px_-26px_rgba(43,38,35,0.38)] sm:w-[min(94vw,28rem)]">
+        <aside
+          className={
+            items.length === 0
+              ? "absolute inset-x-0 bottom-0 top-auto flex max-h-[85vh] w-full flex-col overflow-hidden rounded-t-[28px] border-t border-[color:var(--line)] bg-[color:var(--background)] shadow-[0_-20px_48px_-16px_rgba(43,38,35,0.38)] animate-in slide-in-from-bottom duration-300"
+              : "absolute inset-y-0 right-0 flex w-full max-w-full flex-col overflow-hidden border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-20px_0_48px_-26px_rgba(43,38,35,0.38)] sm:w-[min(94vw,28rem)]"
+          }
+        >
         <header className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] bg-[color:var(--background)] px-4 pb-4 pt-[max(1.1rem,env(safe-area-inset-top,0px))] sm:px-5">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
@@ -114,17 +131,19 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch] sm:px-5 sm:py-5">
           {items.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-[color:var(--line)] bg-[color:var(--background)] px-5 py-8 text-center">
+            <div className="px-1 py-4 text-center">
               <p className="text-sm leading-relaxed text-[color:var(--muted)]">
                 {t("cartDrawerEmpty")}
               </p>
-              <Link
-                href="/menu"
-                onClick={onClose}
-                className="mt-5 inline-flex min-h-11 items-center justify-center rounded-2xl bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
-              >
-                {t("navContinueShopping")}
-              </Link>
+              <div className="mt-6">
+                <Link
+                  href="/menu"
+                  onClick={onClose}
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[color:var(--accent)] px-6 py-3.5 text-base font-semibold text-white shadow-lg transition hover:bg-[color:var(--hero-deep)]"
+                >
+                  {t("navContinueShopping")}
+                </Link>
+              </div>
             </div>
           ) : (
             <>

@@ -55,3 +55,26 @@
 - [x] 依使用者正式批准，以快轉方式將 `feature/sync-skywork-exact-ui` 合併至 `main`
 - [x] 推送 `main` 至 GitHub 並以遠端 ref 證明合併 commit 已上傳
 - [x] 確認 Vercel Production deployment 對應 main commit、Build 為 Ready 並回報正式網址
+
+
+- [x] 以已授權 GitHub／Vercel 或本地專案資料確認正確部署來源
+- [x] 將購物車空狀態訊息改為由底部升起的 Drawer／Bottom Sheet
+- [x] 加入半透明遮罩並鎖定背景點擊及頁面跳轉
+- [x] Drawer 顯示時隱藏全域導航欄及 Footer 捷徑連結
+- [x] 移除「返回首頁」按鈕，保留「瀏覽全部商品」按鈕
+- [x] 僅修改指定功能，不改動其他圖片、商品或無關內容
+- [x] 完成測試及桌面／手機視覺驗證
+- [x] 提供正確專案的修改版本或可驗證預覽
+
+- [x] Stripe Checkout：移除畫面頂部的 Apple Pay 快速支付按鈕，並只作指定介面排版調整
+- [x] Stripe Checkout：移除結帳面板中的 Link Logo，且不修改其他產品、價格、圖片或無關內容
+- [x] 驗證 Stripe Checkout 相關程式碼、建置與測試（npm test 7/7；NODE_ENV=production npm run build 通過；本地 checkout 視覺檢查通過）
+- [ ] 將上一輪 Drawer 修改及本輪 Stripe Checkout 修改提交到遠端分支並建立 Pull Request
+
+## 本次修改範圍約束
+
+只允許移除 Apple Pay 快速支付按鈕與 Link Logo；不得修改其他產品、價格、圖片或無關內容。
+
+## 上一輪交付記錄
+
+上一輪空購物車 Bottom Sheet／Drawer 修改已完成本地驗證，現需連同本輪修改提交至遠端 Pull Request。
