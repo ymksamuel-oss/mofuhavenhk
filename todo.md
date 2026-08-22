@@ -15,3 +15,9 @@
 - [x] 依設計稿精修 Mobile 購物車 Drawer（免運進度、商品列、加購卡、數量控制、固定結帳 CTA）
 - [x] 依設計稿精修商品詳情規格選擇器、FAQ Accordion、價格層級與手機安全區域
 - [ ] 執行 `npm run build` 0 Error 後提交並推送同一 feature 分支，提供 Commit SHA 與 Vercel Preview；不合併 `main`
+
+- [x] 生成 Skywork 風格的 UI 視覺參考圖，並保存為本次重構的設計參考資產
+- [x] 建立乾淨分支 `feature/sync-skywork-exact-ui`，不覆蓋 `feature/calm-warm-editorial` 或 `main`
+- [x] 修復首頁 Stripe／後端商品列表載入與顯示，保留空狀態與錯誤狀態，不以 Storytelling 內容取代商品列表
+- [x] 依 Skywork 稿落實首頁 Hero、深焦糖／暖米白主題、大圓角、商品詳情與購物車 Drawer
+- [ ] 執行 `npm run build` 0 Error 後提交並推送分支，提供 Commit SHA 與可驗證的 Vercel Preview；不合併 `main`

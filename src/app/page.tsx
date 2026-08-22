@@ -4,6 +4,7 @@
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
+import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { ProductSearch } from "@/components/ProductSearch";
 import {
   BoneIcon,
@@ -148,6 +149,8 @@ export default function HomePage() {
           <ProductSearch variant="home" className="mt-5 max-w-3xl" />
         </div>
       </section>
+
+      <HomepageProductGrid />
 
       <FAQAccordion />
     </>

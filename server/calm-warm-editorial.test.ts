@@ -24,6 +24,17 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain("rgba(53,39,27,0.70)");
     expect(page).toContain("font-semibold leading-tight");
     expect(page).toContain("rounded-2xl bg-[color:var(--accent)]");
+    expect(page).toContain("<HomepageProductGrid />");
+  });
+
+  it("renders homepage products from the live catalog context", () => {
+    const productGrid = source("src/components/home/HomepageProductGrid.tsx");
+
+    expect(productGrid).toContain("useCatalog");
+    expect(productGrid).toContain("getProductsByCategory(null, catalogProducts)");
+    expect(productGrid).toContain("<ProductImage");
+    expect(productGrid).toContain("<AddToCartButton");
+    expect(productGrid).toContain("產品目錄正在更新中");
   });
 
   it("keeps the PDP mobile action bar, specs and FAQ mounted", () => {
