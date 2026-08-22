@@ -65,22 +65,22 @@ describe("calm warm editorial UI contract", () => {
 });
 
 
-  it("restores Apple Pay and keeps checkout payment rows logo-only", () => {
+  it("uses dynamic Stripe wallet buttons and keeps payment rows logo-only", () => {
     const stripeForm = source("src/components/checkout/StripePaymentForm.tsx");
     const paymentMethods = source("src/components/checkout/PaymentMethods.tsx");
     const checkout = source("src/app/checkout/page.tsx");
     const translations = source("src/lib/i18n/translations.ts");
 
-    expect(stripeForm).toContain("PaymentRequestButtonElement");
-    expect(stripeForm).toContain("paymentRequest(");
-    expect(stripeForm).toContain('disableWallets: ["googlePay", "link", "browserCard"]');
-    expect(stripeForm).toContain("disableLink: true");
-    expect(paymentMethods).toContain('id: "applepay"');
-    expect(paymentMethods).toContain("ApplePayLogo");
+    expect(stripeForm).toContain("ExpressCheckoutElement");
+    expect(stripeForm).toContain("PaymentElement");
+    expect(stripeForm).toContain('googlePay: "auto"');
+    expect(stripeForm).toContain('link: "never"');
+    expect(stripeForm).toContain('redirect: "if_required"');
+    expect(paymentMethods).not.toContain('id: "applepay"');
     expect(paymentMethods).toContain('className="sr-only"');
     expect(paymentMethods).not.toContain(">\n                  {t(labelKey)}\n                </span>");
-    expect(checkout).toContain('selectedMethod === "applepay"');
-    expect(checkout).toContain("preferredMethod={selectedMethod}");
+    expect(checkout).toContain('selectedMethod === "card"');
+    expect(checkout).toContain("returnUrl={stripeReturnUrl}");
     expect(translations).toContain('paymentHint: "請選擇付款方式。"');
     expect(translations).toContain('paymentHint: "Choose a payment method."');
   });

@@ -1,31 +1,21 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import {
-  AlipayHkLogo,
-  ApplePayLogo,
-  CardLogo,
-  WeChatPayLogo,
-} from "@/components/icons/PaymentIcons";
+import { AlipayHkLogo, CardLogo, WeChatPayLogo } from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay" | "wechatpay" | "alipayhk";
+export type MethodId = "card" | "wechatpay" | "alipayhk";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay" | "payWeChatPay" | "payAlipayHk";
-  Icon:
-    | typeof CardLogo
-    | typeof ApplePayLogo
-    | typeof WeChatPayLogo
-    | typeof AlipayHkLogo;
+  labelKey: "payCard" | "payWeChatPay" | "payAlipayHk";
+  Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
 };
 
-/** Mobile-first: Apple Pay first, then WeChat / AlipayHK, then card. */
+/** Wallet buttons are displayed dynamically by Stripe Express Checkout. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
-  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
+  { id: "card", labelKey: "payCard", Icon: CardLogo },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
-  { id: "card", labelKey: "payCard", Icon: CardLogo },
 ];
 
 type PaymentMethodsProps = {

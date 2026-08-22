@@ -67,8 +67,8 @@ function CheckoutContent() {
   const shippingHkd = getShippingCost(subtotalHkd, items.length > 0);
   const amountHkd = items.length > 0 ? subtotalHkd + shippingHkd : 0;
 
-  // Default to Apple Pay for mobile one-tap checkout.
-  const [selectedMethod, setSelectedMethod] = useState<MethodId>("applepay");
+  // Stripe Express Checkout dynamically surfaces Apple Pay and Google Pay.
+  const [selectedMethod, setSelectedMethod] = useState<MethodId>("card");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [phase, setPhase] = useState<PayPhase>("idle");
   const [payError, setPayError] = useState("");
@@ -100,16 +100,22 @@ function CheckoutContent() {
     [shippingContact],
   );
 
-  const alipayReturnUrl = useMemo(() => {
+  const stripeReturnUrl = useMemo(() => {
     if (typeof window === "undefined") return "/checkout";
     const url = new URL(window.location.href);
-    url.searchParams.set("method", "alipayhk");
     // Drop prior Stripe redirect params so retries stay clean.
     url.searchParams.delete("payment_intent");
     url.searchParams.delete("payment_intent_client_secret");
     url.searchParams.delete("redirect_status");
     return url.toString();
   }, []);
+
+  const alipayReturnUrl = useMemo(() => {
+    if (typeof window === "undefined") return "/checkout?method=alipayhk";
+    const url = new URL(stripeReturnUrl, window.location.origin);
+    url.searchParams.set("method", "alipayhk");
+    return url.toString();
+  }, [stripeReturnUrl]);
 
   // Prefer the shared shopping basket once localStorage cart is ready.
   useEffect(() => {
@@ -254,7 +260,9 @@ function CheckoutContent() {
     if (!intentId || !returnedSecret) return;
 
     alipayReturnHandled.current = true;
-    setSelectedMethod("alipayhk");
+    if (searchParams.get("method") === "alipayhk") {
+      setSelectedMethod("alipayhk");
+    }
     setClientSecret(returnedSecret);
     setAlipayReturning(true);
     setPayError("");
@@ -531,12 +539,11 @@ function CheckoutContent() {
           {showStripeForm &&
           clientSecret &&
           publishableKey &&
-          (selectedMethod === "card" || selectedMethod === "applepay") ? (
+          selectedMethod === "card" ? (
             <StripePaymentForm
               clientSecret={clientSecret}
               publishableKey={publishableKey}
-              preferredMethod={selectedMethod}
-              amountHkd={amountHkd}
+              returnUrl={stripeReturnUrl}
               onPaid={handlePaid}
               onError={handlePayError}
             />
