@@ -52,6 +52,6 @@
 - [x] 修正 Preview runtime 已驗證的 `STRIPE_SECRET_KEY` expired 問題，保留既有產品網格與 catalog 資料流程
 - [x] 以 `STRIPE_LIVE_SECRET_KEY` 作為次序較後的安全 fallback，重新驗證 Preview 顯示真實 Stripe 商品
 
-- [ ] 依使用者正式批准，以快轉方式將 `feature/sync-skywork-exact-ui` 合併至 `main`
-- [ ] 推送 `main` 至 GitHub 並以遠端 ref 證明合併 commit 已上傳
-- [ ] 確認 Vercel Production deployment 對應 main commit、Build 為 Ready 並回報正式網址
+- [x] 依使用者正式批准，以快轉方式將 `feature/sync-skywork-exact-ui` 合併至 `main`
+- [x] 推送 `main` 至 GitHub 並以遠端 ref 證明合併 commit 已上傳
+- [x] 確認 Vercel Production deployment 對應 main commit、Build 為 Ready 並回報正式網址
