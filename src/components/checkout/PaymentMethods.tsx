@@ -3,22 +3,20 @@
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   AlipayHkLogo,
-  ApplePayLogo,
   CardLogo,
   WeChatPayLogo,
 } from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "applepay" | "wechatpay" | "alipayhk";
+export type MethodId = "card" | "wechatpay" | "alipayhk";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payApplePay" | "payWeChatPay" | "payAlipayHk";
+  labelKey: "payCard" | "payWeChatPay" | "payAlipayHk";
   Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
 };
 
-/** Mobile-first: Apple Pay first, then WeChat / AlipayHK, then card. */
+/** Mobile-first: WeChat / AlipayHK first, then card. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
-  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },

@@ -63,3 +63,23 @@ describe("calm warm editorial UI contract", () => {
     expect(drawer).toContain("env(safe-area-inset-bottom");
   });
 });
+
+
+  it("removes the checkout wallet button and Link branding", () => {
+    const stripeForm = source("src/components/checkout/StripePaymentForm.tsx");
+    const paymentMethods = source("src/components/checkout/PaymentMethods.tsx");
+    const checkout = source("src/app/checkout/page.tsx");
+    const translations = source("src/lib/i18n/translations.ts");
+
+    expect(stripeForm).not.toContain("PaymentRequestButtonElement");
+    expect(stripeForm).not.toContain("paymentRequest(");
+    expect(stripeForm).toContain("disableLink: true");
+    expect(paymentMethods).not.toContain('id: "applepay"');
+    expect(checkout).not.toContain('selectedMethod === "applepay"');
+    expect(translations).toContain(
+      'paymentHint: "WeChat Pay、AlipayHK，或信用卡（Stripe）。"',
+    );
+    expect(translations).toContain(
+      'paymentHint: "WeChat Pay, AlipayHK, or card (Stripe)."',
+    );
+  });

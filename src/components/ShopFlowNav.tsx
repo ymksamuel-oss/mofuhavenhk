@@ -57,7 +57,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
     pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
 
   return (
-    <>
+    <div id="shop-flow-nav-root">
       {!isHome ? (
         <div
           className={`relative z-20 border-b border-[color:var(--line)] ${
@@ -72,7 +72,6 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
               className="relative z-20 inline-flex min-h-11 touch-manipulation items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)] active:scale-[0.99]"
               onClick={(event) => {
                 if (!canUseInAppBack()) {
-                  // Default Link → /menu (always works)
                   return;
                 }
                 event.preventDefault();
@@ -101,6 +100,6 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
       ) : (
         <div className="site-bottom-pad" aria-hidden="true" />
       )}
-    </>
+    </div>
   );
 }

@@ -122,7 +122,7 @@ export function Footer() {
   );
 
   return (
-    <footer
+    <footer id="site-footer-root"
       className="mt-2 border-t border-[#4d4843] bg-[#3C3834] text-[#F5EBE6]"
       aria-labelledby="site-footer-heading"
     >

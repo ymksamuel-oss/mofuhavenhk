@@ -5,13 +5,11 @@ import {
   CardExpiryElement,
   CardNumberElement,
   Elements,
-  PaymentRequestButtonElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
 import {
   loadStripe,
-  type PaymentRequest,
   type Stripe,
   type StripeCardNumberElementOptions,
   type StripeElementsOptions,
@@ -24,13 +22,9 @@ import {
   type ReactNode,
 } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-type StripeWalletMethod = "card" | "applepay";
-
 type StripePaymentFormProps = {
   clientSecret: string;
   publishableKey: string;
-  preferredMethod: StripeWalletMethod;
-  amountHkd: number;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
 };
@@ -83,14 +77,10 @@ function FieldShell({
 }
 
 function CheckoutPayForm({
-  preferredMethod,
-  amountHkd,
   clientSecret,
   onPaid,
   onError,
 }: {
-  preferredMethod: StripeWalletMethod;
-  amountHkd: number;
   clientSecret: string;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
@@ -106,114 +96,6 @@ function CheckoutPayForm({
     expiry: false,
     cvc: false,
   });
-  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
-    null,
-  );
-  const [walletAvailable, setWalletAvailable] = useState(false);
-
-  useEffect(() => {
-    if (!stripe || amountHkd <= 0) return;
-
-    const pr = stripe.paymentRequest({
-      country: "HK",
-      currency: "hkd",
-      total: {
-        label: "Mofu Haven",
-        amount: Math.round(amountHkd * 100),
-      },
-      requestPayerName: true,
-      requestPayerPhone: true,
-      // Checkout intentionally offers Apple Pay only — not Google Pay.
-      disableWallets: ["googlePay", "link", "browserCard"],
-    });
-
-    let cancelled = false;
-    pr.canMakePayment().then((result) => {
-      if (cancelled) return;
-      if (result) {
-        // Only surface the wallet button when Apple Pay is available.
-        const canWallet = Boolean(result.applePay);
-        setPaymentRequest(canWallet ? pr : null);
-        setWalletAvailable(canWallet);
-      } else {
-        setPaymentRequest(null);
-        setWalletAvailable(false);
-      }
-    });
-
-    pr.on("paymentmethod", async (event) => {
-      setSubmitting(true);
-      onError("");
-      const payerName =
-        event.payerName?.trim() ||
-        event.paymentMethod.billing_details?.name?.trim() ||
-        "";
-
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: event.paymentMethod.id,
-          ...(payerName
-            ? {
-                shipping: undefined,
-              }
-            : {}),
-        },
-        { handleActions: false },
-      );
-
-      if (error) {
-        event.complete("fail");
-        onError(error.message || t("stripePayFailed"));
-        setSubmitting(false);
-        return;
-      }
-
-      event.complete("success");
-
-      // Persist payer name onto the PaymentIntent metadata for WhatsApp notify.
-      if (payerName && paymentIntent?.id) {
-        try {
-          await fetch("/api/stripe/update-customer-name", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              paymentIntentId: paymentIntent.id,
-              customerName: payerName,
-            }),
-          });
-        } catch {
-          // complete-order can still read billing_details.name
-        }
-      }
-
-      if (paymentIntent?.status === "requires_action") {
-        const confirmed = await stripe.confirmCardPayment(clientSecret);
-        if (confirmed.error) {
-          onError(confirmed.error.message || t("stripePayFailed"));
-          setSubmitting(false);
-          return;
-        }
-        if (confirmed.paymentIntent?.status === "succeeded") {
-          await onPaid(confirmed.paymentIntent.id);
-          setSubmitting(false);
-          return;
-        }
-      }
-
-      if (paymentIntent?.status === "succeeded") {
-        await onPaid(paymentIntent.id);
-      } else {
-        onError(t("stripePayFailed"));
-      }
-      setSubmitting(false);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [stripe, amountHkd, clientSecret, onError, onPaid, t]);
-
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!stripe || !elements || submitting) return;
@@ -286,44 +168,8 @@ function CheckoutPayForm({
     setSubmitting(false);
   };
 
-  // Surface Apple Pay at the top of the pay form when available.
-  const showWallet = Boolean(paymentRequest && walletAvailable);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
-      {showWallet && paymentRequest ? (
-        <div
-          className={`space-y-2 rounded-2xl border-2 px-4 py-4 shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)] ${
-            preferredMethod === "applepay"
-              ? "border-[#111111] bg-[#111111] text-white"
-              : "border-[#111111]/80 bg-[#1a1a1a] text-white"
-          }`}
-          data-wallet-pay="prominent"
-        >
-          <div className="space-y-1">
-            <p className="text-sm font-semibold tracking-wide text-white">
-              {t("stripeWalletPay")}
-            </p>
-            <p className="text-xs text-white/75">{t("stripeWalletPayHint")}</p>
-          </div>
-          <PaymentRequestButtonElement
-            options={{
-              paymentRequest,
-              style: {
-                paymentRequestButton: {
-                  type: "buy",
-                  theme: "light",
-                  height: "52px",
-                },
-              },
-            }}
-          />
-          <p className="text-center text-xs font-medium text-white/70">
-            {t("stripeOrCard")}
-          </p>
-        </div>
-      ) : null}
-
       <div className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/35 p-4">
         <p className="text-sm font-semibold text-[color:var(--ink)]">
           {t("stripeCardFieldsTitle")}
@@ -398,8 +244,6 @@ function CheckoutPayForm({
 export function StripePaymentForm({
   clientSecret,
   publishableKey,
-  preferredMethod,
-  amountHkd,
   onPaid,
   onError,
 }: StripePaymentFormProps) {
@@ -433,8 +277,6 @@ export function StripePaymentForm({
   return (
     <Elements key={clientSecret} stripe={stripePromise} options={options}>
       <CheckoutPayForm
-        preferredMethod={preferredMethod}
-        amountHkd={amountHkd}
         clientSecret={clientSecret}
         onPaid={onPaid}
         onError={onError}
