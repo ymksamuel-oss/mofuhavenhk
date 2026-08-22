@@ -5,6 +5,7 @@ import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { ProductImage } from "@/components/product/ProductImage";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
+import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { calcSubtotal } from "@/lib/order";
@@ -18,6 +19,10 @@ type ProductDetailProps = {
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems } = useCart();
+  const specOptions = product.specs?.length
+    ? product.specs
+    : [{ zh: t("productSpecDefault"), en: t("productSpecDefault") }];
+  const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
   const category = getCategoryBySlug(product.categorySlug);
   const cartSubtotal = calcSubtotal(toOrderItems());
   const discountPercent = product.originalPrice
@@ -70,8 +75,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {product.name[locale]}
           </h1>
 
-          <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="text-3xl font-bold tabular-nums text-[#8C5432]">
+          <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-2xl bg-[color:var(--accent-soft)] px-4 py-3.5">
+            <span className="text-4xl font-extrabold leading-none tabular-nums text-[color:var(--accent)] sm:text-[2.65rem]">
               {formatMoney(product.price, locale)}
             </span>
             {product.originalPrice ? (
@@ -99,27 +104,54 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
-          {product.specs && product.specs.length > 0 ? (
-            <div className="mt-6">
+          <div className="mt-6">
+            <div className="flex items-end justify-between gap-3">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
-                {t("productModalSpecsTitle")}
+                {t("productSpecSelectorTitle")}
               </h2>
-              <ul className="mt-1.5 space-y-1.5">
-                {product.specs.map((spec) => (
-                  <li
-                    key={spec.zh}
-                    className="flex items-start gap-2 text-sm leading-relaxed text-[color:var(--ink)]"
+              <span className="text-[11px] text-[color:var(--muted)]">
+                {t("productModalSpecsTitle")}
+              </span>
+            </div>
+            <div
+              className="mt-3 grid gap-2 sm:grid-cols-2"
+              role="radiogroup"
+              aria-label={t("productSpecSelectorTitle")}
+            >
+              {specOptions.map((spec, index) => {
+                const selected = selectedSpecIndex === index;
+                return (
+                  <button
+                    key={`${spec.zh}-${index}`}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    onClick={() => setSelectedSpecIndex(index)}
+                    className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
+                      selected
+                        ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                        : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
+                    }`}
                   >
+                    <span className="min-w-0 leading-snug">{spec[locale]}</span>
                     <span
                       aria-hidden
-                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
-                    />
-                    {spec[locale]}
-                  </li>
-                ))}
-              </ul>
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ${
+                        selected
+                          ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                          : "border-[color:var(--line)] bg-white text-transparent"
+                      }`}
+                    >
+                      ✓
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          ) : null}
+            <p className="mt-2 text-xs leading-relaxed text-[color:var(--muted)]">
+              {t("productSpecSelectorHint")}
+            </p>
+          </div>
 
           {product.inStock === false ? (
             <div

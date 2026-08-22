@@ -152,8 +152,8 @@ export function BrandLogo({
               d="M24 39.2c-9.6 0-17.2-6.5-17.2-15.2 0-8.5 7.2-15.5 17.2-15.5s17.2 7 17.2 15.5c0 8.7-7.6 15.2-17.2 15.2Z"
               fill="var(--accent)"
             />
-            <circle cx="18.3" cy="22.5" r="2" fill="#fffaf1" />
-            <circle cx="29.7" cy="22.5" r="2" fill="#fffaf1" />
+            <circle cx="18.3" cy="22.5" r="2" fill="#FBF9F6" />
+            <circle cx="29.7" cy="22.5" r="2" fill="#FBF9F6" />
             <circle cx="18.3" cy="22.5" r="0.9" fill="var(--hero-deep)" />
             <circle cx="29.7" cy="22.5" r="0.9" fill="var(--hero-deep)" />
             <path

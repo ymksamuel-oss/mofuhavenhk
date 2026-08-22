@@ -39,7 +39,7 @@ function LinkList({ links }: { links: FooterLink[] }) {
         <li key={link.href}>
           <Link
             href={link.href}
-            className="text-sm leading-relaxed tracking-[0.01em] text-[#B8AF9F] transition hover:text-[color:var(--accent)]"
+            className="text-sm leading-relaxed tracking-[0.01em] text-[#756962] transition hover:text-[color:var(--accent)]"
           >
             {t(link.labelKey)}
           </Link>
@@ -60,7 +60,7 @@ function FooterNavColumn({
     <div>
       {/* Desktop: always-visible column */}
       <div className="hidden md:block">
-        <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F3EFEA]">
+        <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F5EBE6]">
           {title}
         </p>
         <LinkList links={links} />
@@ -68,11 +68,11 @@ function FooterNavColumn({
 
       {/* Mobile: accordion */}
       <details className="group border-b border-[#524c46] md:hidden">
-        <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F3EFEA] [&::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F5EBE6] [&::-webkit-details-marker]:hidden">
           <span>{title}</span>
           <span
             aria-hidden
-            className="text-[#B8AF9F] transition duration-200 group-open:rotate-180"
+            className="text-[#756962] transition duration-200 group-open:rotate-180"
           >
             ▾
           </span>
@@ -123,7 +123,7 @@ export function Footer() {
 
   return (
     <footer
-      className="mt-2 border-t border-[#4d4843] bg-[#3C3834] text-[#F3EFEA]"
+      className="mt-2 border-t border-[#4d4843] bg-[#3C3834] text-[#F5EBE6]"
       aria-labelledby="site-footer-heading"
     >
       <h2 id="site-footer-heading" className="sr-only">
@@ -144,7 +144,7 @@ export function Footer() {
                 className="text-[0.95rem] sm:text-[1.05rem]"
               />
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[#B8AF9F]">
+            <p className="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[#756962]">
               {t("footerTagline")}
             </p>
           </div>
@@ -155,18 +155,18 @@ export function Footer() {
           {/* Contact */}
           <div>
             <div className="hidden md:block">
-              <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F3EFEA]">
+              <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F5EBE6]">
                 {t("footerContact")}
               </p>
               <ContactBlock waUrl={waUrl} email={SHOP_EMAIL} />
             </div>
 
             <details className="group border-b border-[#524c46] md:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F3EFEA] [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#F5EBE6] [&::-webkit-details-marker]:hidden">
                 <span>{t("footerContact")}</span>
                 <span
                   aria-hidden
-                  className="text-[#B8AF9F] transition duration-200 group-open:rotate-180"
+                  className="text-[#756962] transition duration-200 group-open:rotate-180"
                 >
                   ▾
                 </span>
@@ -181,7 +181,7 @@ export function Footer() {
 
       <div className="border-t border-[#524c46]/80 bg-[color:var(--hero-deep)]/8">
         <div className="footer-payment-safe-area mx-auto flex w-full max-w-5xl flex-col items-center gap-3 px-4 pt-4 sm:flex-row sm:justify-between sm:gap-4 sm:px-6 sm:py-3.5">
-          <p className="text-center text-xs tracking-[0.01em] text-[#B8AF9F] sm:text-left">
+          <p className="text-center text-xs tracking-[0.01em] text-[#756962] sm:text-left">
             {t("footerCopyright")}
           </p>
           <div
@@ -213,19 +213,19 @@ function ContactBlock({
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm tracking-[0.01em] text-[#B8AF9F] transition hover:text-[color:var(--accent)]"
+            className="inline-flex items-center gap-2 text-sm tracking-[0.01em] text-[#756962] transition hover:text-[color:var(--accent)]"
           >
             <WhatsAppLogo />
             <span>{t("footerWhatsapp")}</span>
           </a>
         ) : (
-          <span className="text-sm text-[#B8AF9F]">
+          <span className="text-sm text-[#756962]">
             {t("footerWhatsapp")}
           </span>
         )}
       </li>
-      <li className="text-sm leading-relaxed tracking-[0.01em] text-[#B8AF9F]">
-        <span className="mb-0.5 block text-[11px] font-medium uppercase tracking-[0.06em] text-[#F3EFEA]/70">
+      <li className="text-sm leading-relaxed tracking-[0.01em] text-[#756962]">
+        <span className="mb-0.5 block text-[11px] font-medium uppercase tracking-[0.06em] text-[#F5EBE6]/70">
           {t("footerEmail")}
         </span>
         <a
@@ -235,8 +235,8 @@ function ContactBlock({
           {email}
         </a>
       </li>
-      <li className="text-sm leading-relaxed tracking-[0.01em] text-[#B8AF9F]">
-        <span className="mb-0.5 block text-[11px] font-medium uppercase tracking-[0.06em] text-[#F3EFEA]/70">
+      <li className="text-sm leading-relaxed tracking-[0.01em] text-[#756962]">
+        <span className="mb-0.5 block text-[11px] font-medium uppercase tracking-[0.06em] text-[#F5EBE6]/70">
           {t("footerHoursLabel")}
         </span>
         {t("footerHours")}

@@ -8,6 +8,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import type { Product } from "@/lib/products";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -83,8 +84,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f0e2" },
-    { media: "(prefers-color-scheme: dark)", color: "#f8f0e2" },
+    { media: "(prefers-color-scheme: light)", color: "#FBF9F6" },
+    { media: "(prefers-color-scheme: dark)", color: "#FBF9F6" },
   ],
   colorScheme: "light",
 };
@@ -94,7 +95,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let products = [];
+  let products: Product[] = [];
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products || [];

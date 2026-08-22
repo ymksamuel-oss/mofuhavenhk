@@ -35,15 +35,15 @@ export function FAQAccordion() {
 
   return (
     <section className="my-12 w-full px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl rounded-3xl bg-white p-6 sm:p-10 shadow-sm border border-[color:var(--line)]">
+      <div className="mx-auto max-w-3xl rounded-3xl border border-[color:var(--line)] bg-white p-6 shadow-[0_20px_44px_-34px_rgba(43,38,35,0.3)] sm:p-10">
         <div className="text-center mb-8">
-          <span className="inline-block rounded-full bg-[color:var(--accent)]/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-[color:var(--accent)] uppercase mb-2">
+          <span className="inline-block rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)] mb-2">
             HELP & FAQ
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-[color:var(--ink)] tracking-tight">
             常見問題
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-[color:var(--ink-muted)]">
+          <p className="mt-2 text-sm sm:text-base text-[color:var(--muted)]">
             為您解答關於運費、發貨、付款與退換貨的各項疑問
           </p>
         </div>
@@ -54,12 +54,12 @@ export function FAQAccordion() {
             return (
               <div
                 key={index}
-                className="overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[#FAF8F5] transition-colors duration-200"
+                className="overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--background)] transition-colors duration-200"
               >
                 <button
                   type="button"
                   onClick={() => toggleItem(index)}
-                  className="flex w-full items-center justify-between px-5 py-4 text-left font-medium text-[color:var(--ink)] hover:bg-[#F3EFEA] transition-colors cursor-pointer"
+                  className="flex w-full items-center justify-between px-5 py-4 text-left font-medium text-[color:var(--ink)] hover:bg-[color:var(--accent-soft)] transition-colors cursor-pointer"
                   aria-expanded={isOpen}
                 >
                   <span className="text-base sm:text-lg flex items-center gap-3">
@@ -95,7 +95,7 @@ export function FAQAccordion() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="text-sm sm:text-base text-[color:var(--ink-muted)] leading-relaxed pt-1 border-t border-[color:var(--line)]/60">
+                    <p className="text-sm sm:text-base text-[color:var(--muted)] leading-relaxed pt-1 border-t border-[color:var(--line)]/60">
                       {item.answer}
                     </p>
                   </div>
@@ -105,8 +105,8 @@ export function FAQAccordion() {
           })}
         </div>
 
-        <div className="mt-8 text-center bg-[#F3EFEA]/60 rounded-2xl p-4 sm:p-5">
-          <p className="text-xs sm:text-sm text-[color:var(--ink-muted)]">
+        <div className="mt-8 text-center bg-[color:var(--accent-soft)]/70 rounded-2xl p-4 sm:p-5">
+          <p className="text-xs sm:text-sm text-[color:var(--muted)]">
             還有其他疑問？歡迎隨時透過右下角 WhatsApp 按鈕聯絡我們（@MofuHavenHK），專人會為您解答！
           </p>
         </div>

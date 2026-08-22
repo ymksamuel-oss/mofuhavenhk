@@ -62,7 +62,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
         <div
           className={`relative z-20 border-b border-[color:var(--line)] ${
             isPictureBookPage
-              ? "bg-[#FAF6F0]"
+              ? "bg-[#FBF9F6]"
               : "bg-[color:var(--background)]/95"
           }`}
         >

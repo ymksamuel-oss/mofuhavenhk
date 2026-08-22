@@ -65,26 +65,26 @@ export function AboutCatBook() {
 
   return (
     <div
-      className={`${zenMaru.className} min-h-[70vh] bg-[#FAF6F0] text-[#4A3B32]`}
+      className={`${zenMaru.className} min-h-[70vh] bg-[#FBF9F6] text-[#2B2623]`}
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link
             href="/menu"
-            className="text-sm font-medium text-[#4A3B32]/70 transition hover:text-[#4A3B32]"
+            className="text-sm font-medium text-[#2B2623]/70 transition hover:text-[#2B2623]"
           >
             ← {t("aboutCatBackToCatalog")}
           </Link>
         </p>
 
         <header className="mb-12 max-w-2xl animate-[fadeUp_0.55s_ease_both] sm:mb-16">
-          <p className="text-sm font-medium tracking-[0.08em] text-[#4A3B32]/65">
+          <p className="text-sm font-medium tracking-[0.08em] text-[#2B2623]/65">
             {t("aboutCatEyebrow")}
           </p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
             {t("aboutCatTitle")}
           </h1>
-          <p className="mt-3 text-base leading-relaxed text-[#4A3B32]/80 sm:text-lg">
+          <p className="mt-3 text-base leading-relaxed text-[#2B2623]/80 sm:text-lg">
             {t("aboutCatSubtitle")}
           </p>
         </header>
@@ -103,7 +103,7 @@ export function AboutCatBook() {
                   animationDelay: `${0.08 * (index + 1)}s`,
                 }}
               >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.45)]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.45)]">
                   {chapter.image.startsWith("http") ? (
                     // External Unsplash URLs — native img avoids next.config remotePatterns.
                     // eslint-disable-next-line @next/next/no-img-element
@@ -123,13 +123,13 @@ export function AboutCatBook() {
                   )}
                 </div>
                 <div className="space-y-3">
-                  <p className="text-xs font-semibold tracking-[0.14em] text-[#4A3B32]/55">
+                  <p className="text-xs font-semibold tracking-[0.14em] text-[#2B2623]/55">
                     {String(index + 1).padStart(2, "0")}
                   </p>
                   <h2 className="text-2xl font-bold tracking-tight sm:text-[1.7rem]">
                     {t(chapter.titleKey)}
                   </h2>
-                  <p className="text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+                  <p className="text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
                     {t(chapter.bodyKey)}
                   </p>
                 </div>
@@ -144,7 +144,7 @@ export function AboutCatBook() {
         >
           <Link
             href={categoryHref("cats")}
-            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#4A3B32]/15 bg-[#4A3B32] px-6 py-3 text-sm font-semibold text-[#FAF6F0] shadow-[0_14px_28px_-16px_rgba(74,59,50,0.55)] transition hover:-translate-y-0.5 hover:bg-[#3a2e27] hover:shadow-[0_18px_32px_-14px_rgba(74,59,50,0.6)] active:translate-y-0"
+            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#2B2623]/15 bg-[#2B2623] px-6 py-3 text-sm font-semibold text-[#FBF9F6] shadow-[0_14px_28px_-16px_rgba(74,59,50,0.55)] transition hover:-translate-y-0.5 hover:bg-[#3a2e27] hover:shadow-[0_18px_32px_-14px_rgba(74,59,50,0.6)] active:translate-y-0"
           >
             {t("aboutCatShopCta")}
           </Link>

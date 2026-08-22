@@ -24,8 +24,8 @@ const FILTERS: {
 function filterChipClass(active: boolean) {
   return `shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
     active
-      ? "border-[#4A3B32] bg-[#4A3B32] text-[#FAF6F0] shadow-[0_10px_20px_-12px_rgba(74,59,50,0.55)]"
-      : "border-[#4A3B32]/18 bg-[#FFFCFA] text-[#4A3B32]/75 hover:border-[#4A3B32]/45 hover:text-[#4A3B32]"
+      ? "border-[#2B2623] bg-[#2B2623] text-[#FBF9F6] shadow-[0_10px_20px_-12px_rgba(74,59,50,0.55)]"
+      : "border-[#2B2623]/18 bg-[#FFFFFF] text-[#2B2623]/75 hover:border-[#2B2623]/45 hover:text-[#2B2623]"
   }`;
 }
 
@@ -46,25 +46,25 @@ export function CatBreedsGuide() {
   const isEn = locale === "en";
 
   return (
-    <div className="min-h-[70vh] bg-[#FAF6F0] font-sans text-[#4A3B32]">
+    <div className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link
             href="/menu"
-            className="text-sm font-medium text-[#4A3B32]/70 transition hover:text-[#4A3B32]"
+            className="text-sm font-medium text-[#2B2623]/70 transition hover:text-[#2B2623]"
           >
             ← {t("catBreedsBackToCatalog")}
           </Link>
         </p>
 
         <header className="mb-8 max-w-3xl sm:mb-10">
-          <p className="text-sm font-medium tracking-[0.08em] text-[#4A3B32]/65">
+          <p className="text-sm font-medium tracking-[0.08em] text-[#2B2623]/65">
             {t("catBreedsEyebrow")}
           </p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
             {t("catBreedsTitle")}
           </h1>
-          <p className="mt-3 text-base leading-relaxed text-[#4A3B32]/80 sm:text-lg">
+          <p className="mt-3 text-base leading-relaxed text-[#2B2623]/80 sm:text-lg">
             {t("catBreedsSubtitle")}
           </p>
         </header>
@@ -88,16 +88,16 @@ export function CatBreedsGuide() {
         </div>
 
         {breeds.length === 0 ? (
-          <p className="text-sm text-[#4A3B32]/70">{t("catBreedsEmpty")}</p>
+          <p className="text-sm text-[#2B2623]/70">{t("catBreedsEmpty")}</p>
         ) : (
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {breeds.map((breed) => (
               <li key={breed.id}>
                 <Link
                   href={`/cat-breeds/${breed.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)] transition duration-200 hover:-translate-y-1 hover:border-[#4A3B32]/25 hover:shadow-[0_24px_40px_-20px_rgba(74,59,50,0.5)]"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)] transition duration-200 hover:-translate-y-1 hover:border-[#2B2623]/25 hover:shadow-[0_24px_40px_-20px_rgba(74,59,50,0.5)]"
                 >
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF6F0]">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FBF9F6]">
                     {/* External Unsplash — native img avoids next.config remotePatterns. */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -109,13 +109,13 @@ export function CatBreedsGuide() {
                     />
                   </div>
                   <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
-                    <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
+                    <p className="text-xs font-semibold tracking-[0.12em] text-[#2B2623]/55">
                       {isEn ? breed.coatLabelEn : breed.coatLabel}
                     </p>
                     <h2 className="text-xl font-bold tracking-tight">
                       {isEn ? breed.nameEn : breed.name}
                     </h2>
-                    <p className="text-sm leading-relaxed text-[#4A3B32]/85">
+                    <p className="text-sm leading-relaxed text-[#2B2623]/85">
                       {isEn ? breed.shortDescriptionEn : breed.shortDescription}
                     </p>
                   </div>

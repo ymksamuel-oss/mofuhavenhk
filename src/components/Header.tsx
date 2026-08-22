@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
+import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
@@ -73,6 +74,7 @@ export function Header() {
   const pathname = usePathname();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
 
@@ -86,6 +88,7 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setCartOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -234,14 +237,14 @@ export function Header() {
 
             <Link
               href="/checkout"
-              className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+              className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:flex"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
               data-testid="header-cart"
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (
                 <span
-                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#D8874A] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
+                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6D4C3D] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
                   aria-live="polite"
                   aria-atomic="true"
                 >
@@ -249,6 +252,26 @@ export function Header() {
                 </span>
               ) : null}
             </Link>
+
+            <button
+              type="button"
+              className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
+              aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
+              aria-haspopup="dialog"
+              aria-expanded={cartOpen}
+              onClick={() => setCartOpen(true)}
+            >
+              <CartIcon className="h-5 w-5" />
+              {itemCount > 0 ? (
+                <span
+                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6D4C3D] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              ) : null}
+            </button>
 
             <div
               className="hidden h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:flex"
@@ -295,6 +318,7 @@ export function Header() {
         </div>
       </header>
       {mobileMenu}
+      <MobileCartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }

@@ -69,21 +69,21 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
 
   return (
     <div
-      className={`${zenMaru.className} min-h-[70vh] bg-[#FAF6F0] text-[#4A3B32]`}
+      className={`${zenMaru.className} min-h-[70vh] bg-[#FBF9F6] text-[#2B2623]`}
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link
             href="/cat-breeds"
-            className="text-sm font-medium text-[#4A3B32]/70 transition hover:text-[#4A3B32]"
+            className="text-sm font-medium text-[#2B2623]/70 transition hover:text-[#2B2623]"
           >
             ← {t("catBreedDetailBack")}
           </Link>
         </p>
 
         <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
-          <div className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
-            <div className="relative aspect-[4/3] w-full bg-[#FAF6F0]">
+          <div className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
+            <div className="relative aspect-[4/3] w-full bg-[#FBF9F6]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={heroImage?.src || breed.imageUrl}
@@ -95,16 +95,16 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
           </div>
 
           <header>
-            <p className="inline-flex rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/65">
+            <p className="inline-flex rounded-full border border-[#2B2623]/15 bg-[#FFFFFF] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[#2B2623]/65">
               {view.coatLabel}
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
               {view.title}
             </h1>
             {view.subtitle ? (
-              <p className="mt-1 text-sm text-[#4A3B32]/60">{view.subtitle}</p>
+              <p className="mt-1 text-sm text-[#2B2623]/60">{view.subtitle}</p>
             ) : null}
-            <p className="mt-3 text-base leading-relaxed text-[#4A3B32]/85 sm:text-lg">
+            <p className="mt-3 text-base leading-relaxed text-[#2B2623]/85 sm:text-lg">
               {view.fullDescription}
             </p>
           </header>
@@ -114,9 +114,9 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
           {facts.map((fact) => (
             <li
               key={fact.label}
-              className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-4 shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
+              className="rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-4 py-4 shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
             >
-              <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
+              <p className="text-xs font-semibold tracking-[0.12em] text-[#2B2623]/55">
                 {fact.label}
               </p>
               <p className="mt-2 text-sm font-medium leading-snug sm:text-[0.95rem]">
@@ -140,14 +140,14 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                 {t("catBreedDetailPhysical")}
               </h2>
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                <li className="rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-4 py-3 text-sm">
                   <span className="font-semibold">
                     {t("catBreedDetailEyes")}
                     {labelSep}
                   </span>
                   {view.physical.eye_color}
                 </li>
-                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                <li className="rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-4 py-3 text-sm">
                   <span className="font-semibold">
                     {t("catBreedDetailSize")}
                     {labelSep}
@@ -155,7 +155,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                   {view.physical.size_category}
                 </li>
                 {view.physical.maturation_years ? (
-                  <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm">
+                  <li className="rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-4 py-3 text-sm">
                     <span className="font-semibold">
                       {t("catBreedDetailMaturity")}
                       {labelSep}
@@ -163,7 +163,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                     {view.physical.maturation_years}
                   </li>
                 ) : null}
-                <li className="rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-4 py-3 text-sm sm:col-span-2">
+                <li className="rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-4 py-3 text-sm sm:col-span-2">
                   <span className="font-semibold">
                     {t("catBreedDetailCoat")}
                     {labelSep}
@@ -186,11 +186,11 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                   {view.patterns.map((pattern) => (
                     <li
                       key={pattern.pattern_id}
-                      className="rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1.5 text-xs font-medium"
+                      className="rounded-full border border-[#2B2623]/15 bg-[#FFFFFF] px-3 py-1.5 text-xs font-medium"
                       title={pattern.description}
                     >
                       {pattern.name}
-                      <span className="ml-1 text-[#4A3B32]/55">
+                      <span className="ml-1 text-[#2B2623]/55">
                         · {pattern.description}
                       </span>
                     </li>
@@ -201,9 +201,9 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                   {view.patterns.map((pattern) => (
                     <li
                       key={pattern.pattern_id}
-                      className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
+                      className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
                     >
-                      <div className="relative aspect-[4/3] bg-[#FAF6F0]">
+                      <div className="relative aspect-[4/3] bg-[#FBF9F6]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={pattern.image_url || CAT_BREED_IMAGE_FALLBACK}
@@ -214,7 +214,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                       </div>
                       <div className="space-y-1.5 px-4 py-3">
                         <p className="text-sm font-semibold">{pattern.name}</p>
-                        <p className="text-xs leading-relaxed text-[#4A3B32]/75">
+                        <p className="text-xs leading-relaxed text-[#2B2623]/75">
                           {pattern.description}
                         </p>
                       </div>
@@ -232,11 +232,11 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                 {view.colors.map((color) => (
                   <li
                     key={color.color_id}
-                    className="rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1.5 text-xs font-medium"
+                    className="rounded-full border border-[#2B2623]/15 bg-[#FFFFFF] px-3 py-1.5 text-xs font-medium"
                     title={color.description}
                   >
                     {color.name}
-                    <span className="ml-1 text-[#4A3B32]/55">
+                    <span className="ml-1 text-[#2B2623]/55">
                       · {color.description}
                     </span>
                   </li>
@@ -248,7 +248,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {t("catBreedDetailHealth")}
               </h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
                 <li>{view.careAndHealth.environment}</li>
                 <li>
                   {t("catBreedDetailGeneticRisks")}
@@ -269,7 +269,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
               <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
                 {section.title}
               </h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#4A3B32]/85 sm:text-base">
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
                 {section.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -278,11 +278,11 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
           ))}
         </div>
 
-        <aside className="mt-12 rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] px-5 py-5 shadow-[0_16px_32px_-24px_rgba(74,59,50,0.4)] sm:mt-14 sm:px-6 sm:py-6">
-          <p className="text-xs font-semibold tracking-[0.12em] text-[#4A3B32]/55">
+        <aside className="mt-12 rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] px-5 py-5 shadow-[0_16px_32px_-24px_rgba(74,59,50,0.4)] sm:mt-14 sm:px-6 sm:py-6">
+          <p className="text-xs font-semibold tracking-[0.12em] text-[#2B2623]/55">
             {t("catBreedDetailNoteEyebrow")}
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-[#4A3B32]/85 sm:text-[0.95rem]">
+          <p className="mt-2 text-sm leading-relaxed text-[#2B2623]/85 sm:text-[0.95rem]">
             {t("catBreedDetailNote")}
           </p>
         </aside>

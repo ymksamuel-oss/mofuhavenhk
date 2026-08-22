@@ -94,7 +94,7 @@ export function BreedGallery({ title, slides }: BreedGalleryProps) {
     <section className="mt-10 sm:mt-12" data-breed-gallery="card-swipe">
       <div className="mb-4 flex items-end justify-between gap-3 px-0">
         <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
-        <p className="shrink-0 rounded-full border border-[#4A3B32]/15 bg-[#FFFCFA] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#4A3B32]/65">
+        <p className="shrink-0 rounded-full border border-[#2B2623]/15 bg-[#FFFFFF] px-3 py-1 text-xs font-semibold tracking-[0.08em] text-[#2B2623]/65">
           {activeIndex + 1} / {slides.length}
         </p>
       </div>
@@ -112,9 +112,9 @@ export function BreedGallery({ title, slides }: BreedGalleryProps) {
               className="w-[85vw] max-w-[360px] shrink-0 snap-center"
               aria-current={index === activeIndex ? "true" : undefined}
             >
-              <article className="overflow-hidden rounded-2xl border border-[#4A3B32]/12 bg-[#FFFCFA] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
+              <article className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
                 {/* Image only — intentionally no absolute top progress segments */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#FAF6F0]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#FBF9F6]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={slide.src || CAT_BREED_IMAGE_FALLBACK}
@@ -124,7 +124,7 @@ export function BreedGallery({ title, slides }: BreedGalleryProps) {
                     onError={handleSlideImageError}
                   />
                 </div>
-                <p className="px-4 py-3 text-xs leading-relaxed text-[#4A3B32]/75 sm:text-[0.8rem]">
+                <p className="px-4 py-3 text-xs leading-relaxed text-[#2B2623]/75 sm:text-[0.8rem]">
                   {slide.description}
                 </p>
               </article>
@@ -148,8 +148,8 @@ export function BreedGallery({ title, slides }: BreedGalleryProps) {
             onClick={() => scrollToIndex(index)}
             className={`h-2 rounded-full transition-all ${
               index === activeIndex
-                ? "w-5 bg-[#4A3B32]"
-                : "w-2 bg-[#4A3B32]/25 hover:bg-[#4A3B32]/45"
+                ? "w-5 bg-[#2B2623]"
+                : "w-2 bg-[#2B2623]/25 hover:bg-[#2B2623]/45"
             }`}
           />
         ))}

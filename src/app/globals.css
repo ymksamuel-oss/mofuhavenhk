@@ -13,7 +13,7 @@
   --hero-deep: #54392d;
   --foreground: var(--ink);
   --category-bg: #f5ebe6;
-  --category-bg-light: #fff8f4;
+  --category-bg-light: #ffffff;
   --category-bg-hover: #e8d5cc;
   --category-ink: #2b2623;
   --font-body: var(--font-sans);
@@ -47,7 +47,7 @@ body {
   background-color: var(--background);
   background-image:
     radial-gradient(1200px 500px at 10% -10%, #f5ebe6 0%, transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, #fff8f4 0%, transparent 50%),
+    radial-gradient(900px 420px at 90% 0%, #ffffff 0%, transparent 50%),
     linear-gradient(180deg, #fbf9f6 0%, #ffffff 45%, #fbf9f6 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
