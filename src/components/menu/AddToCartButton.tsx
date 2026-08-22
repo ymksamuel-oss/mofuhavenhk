@@ -99,7 +99,7 @@ export function AddToCartButton({
           }}
           disabled={!purchasable}
           aria-live="polite"
-          className={`inline-flex shrink-0 items-center justify-center rounded-full px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${
+          className={`inline-flex shrink-0 items-center justify-center rounded-xl px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${
             added
               ? "bg-emerald-600"
               : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"
@@ -136,10 +136,10 @@ export function AddToCartButton({
         }}
         disabled={!purchasable}
         aria-live="polite"
-        className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-[0_8px_16px_-9px_rgba(169,124,80,0.75)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${
+        className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${
           added
             ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]"
-            : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_10px_20px_-9px_rgba(92,58,34,0.65)]"
+            : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
         } ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}
       >
         {!purchasable

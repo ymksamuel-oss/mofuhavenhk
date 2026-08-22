@@ -50,7 +50,7 @@ export function ProductQuickView({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(74,54,38,0.45)] p-4 backdrop-blur-sm animate-[fadeUp_0.2s_ease_both]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(43,38,35,0.48)] p-4 backdrop-blur-sm animate-[fadeUp_0.2s_ease_both]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="product-quick-view-title"
@@ -64,12 +64,12 @@ export function ProductQuickView({
           type="button"
           onClick={onClose}
           aria-label={t("productModalClose")}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-sm text-[color:var(--accent)] transition hover:bg-[color:var(--accent)] hover:text-white"
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-xl bg-[color:var(--accent-soft)] text-sm text-[color:var(--accent)] transition hover:bg-[color:var(--accent)] hover:text-white"
         >
           ✕
         </button>
 
-        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[color:var(--background)]">
+        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
           <ProductImage
             src={product.image}
             alt={product.name[locale]}

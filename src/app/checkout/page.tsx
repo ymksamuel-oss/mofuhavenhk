@@ -513,7 +513,7 @@ function CheckoutContent() {
             <button
               type="button"
               onClick={() => void startStripePayment()}
-              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99]"
+              className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] active:scale-[0.99]"
             >
               {t("stripeStartPay")}
             </button>
@@ -556,7 +556,7 @@ function CheckoutContent() {
               {receiptHref ? (
                 <Link
                   href={receiptHref}
-                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
                 >
                   {t("receiptViewCta")}
                 </Link>
@@ -571,7 +571,7 @@ function CheckoutContent() {
               {receiptHref ? (
                 <Link
                   href={receiptHref}
-                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
                 >
                   {t("receiptViewCta")}
                 </Link>

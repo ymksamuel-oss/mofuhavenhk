@@ -27,8 +27,8 @@ export function ContinueShoppingButton({
 
   const styles =
     variant === "primary"
-      ? "border border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_10px_24px_-14px_rgba(169,124,80,0.75)] hover:bg-[color:var(--hero-deep)] hover:border-[color:var(--hero-deep)]"
-      : "border border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--ink)] shadow-[0_10px_24px_-16px_rgba(169,124,80,0.7)] hover:border-[color:var(--hero-deep)] hover:bg-[color:var(--accent)] hover:text-white";
+      ? "border border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] hover:bg-[color:var(--hero-deep)] hover:border-[color:var(--hero-deep)]"
+      : "border border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--ink)] shadow-[0_10px_24px_-14px_rgba(122,75,49,0.3)] hover:border-[color:var(--hero-deep)] hover:bg-[color:var(--accent)] hover:text-white";
 
   return (
     <Link

@@ -63,7 +63,7 @@ export function ShippingPolicyPage() {
         </Link>
       </p>
 
-      <article className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-[linear-gradient(180deg,#fffaf1_0%,#fdf8ef_48%,#f8f0e2_100%)] shadow-[0_24px_48px_-32px_rgba(74,54,38,0.45)]">
+      <article className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-white shadow-[0_24px_48px_-32px_rgba(43,38,35,0.28)]">
         <header className="border-b border-[color:var(--line)] px-6 py-7 sm:px-8 sm:py-8">
           <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
             {t("shippingPolicyEyebrow")}

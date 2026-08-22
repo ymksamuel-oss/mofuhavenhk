@@ -30,7 +30,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-[#d7c9b7]">
+      <section className="relative isolate overflow-hidden bg-[color:var(--background)]">
         <div className="relative h-[34rem] min-h-[34rem] w-full overflow-hidden sm:h-[min(44rem,calc(100vh-4rem))] sm:min-h-[38rem]">
           <img
             src="/hero.webp"
@@ -62,7 +62,7 @@ export default function HomePage() {
               <div className="mt-7 flex flex-col items-start gap-6 sm:mt-8 sm:flex-row sm:items-center">
                 <CategoryNavLink
                   href="/menu"
-                  className="inline-flex min-h-14 items-center gap-3 rounded-2xl bg-[#cfa467] px-7 py-3 text-lg font-semibold text-white shadow-[0_14px_26px_-13px_rgba(31,21,14,0.72)] transition hover:-translate-y-0.5 hover:bg-[#b98b4f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#6a4f38]"
+                  className="inline-flex min-h-14 items-center gap-3 rounded-2xl bg-[color:var(--accent)] px-7 py-3 text-lg font-semibold text-white shadow-[0_14px_26px_-13px_rgba(31,21,14,0.72)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--hero-deep)]"
                 >
                   立即選購 <span aria-hidden>→</span>
                 </CategoryNavLink>
@@ -79,18 +79,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="brand-story" className="bg-[#fffaf1] px-6 py-12 sm:px-10 sm:py-20">
+      <section id="brand-story" className="bg-[color:var(--background)] px-6 py-12 sm:px-10 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-[2rem] border border-[#eadfce] bg-[linear-gradient(145deg,#fffaf4_0%,#f8efdf_100%)] px-6 py-9 shadow-[0_18px_44px_-36px_rgba(86,57,30,0.42)] sm:px-12 sm:py-12">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#e9dac4] bg-white/75 px-4 py-2 text-sm font-semibold text-[#9a7140]">
+          <div className="rounded-[2rem] border border-[color:var(--line)] bg-white px-6 py-9 shadow-[0_18px_44px_-36px_rgba(86,57,30,0.42)] sm:px-12 sm:py-12">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
               <span aria-hidden>⌘</span> Mofu Haven 專題指南
             </span>
             <div className="mt-7 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <div className="max-w-3xl">
-                <h2 className="font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[#4d382a] sm:text-5xl">
+                <h2 className="font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-5xl">
                   探索寵物世界
                 </h2>
-                <p className="mt-5 text-lg leading-9 text-[#766457] sm:text-xl">
+                <p className="mt-5 text-lg leading-9 text-[color:var(--muted)] sm:text-xl">
                   精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
                 </p>
                 <div className="mt-7 flex items-center gap-[-0.25rem]">
@@ -103,7 +103,7 @@ export default function HomePage() {
                       key={src}
                       src={src}
                       alt="Mofu Haven 寵物專題"
-                      className={`h-14 w-14 rounded-full border-4 border-[#fffaf1] object-cover shadow-sm sm:h-16 sm:w-16 ${index ? "-ml-3" : ""}`}
+                      className={`h-14 w-14 rounded-full border-4 border-[color:var(--background)] object-cover shadow-sm sm:h-16 sm:w-16 ${index ? "-ml-3" : ""}`}
                       loading="lazy"
                     />
                   ))}
@@ -111,7 +111,7 @@ export default function HomePage() {
               </div>
               <CategoryNavLink
                 href="/cat-breeds"
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#bf9459] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[#a97f47]"
+                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
               >
                 <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
               </CategoryNavLink>
@@ -120,16 +120,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[#e7dbc9] bg-[#fffdf8] px-5 py-8 sm:px-10 sm:py-12">
+      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-5 py-8 sm:px-10 sm:py-12">
         <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
             {quickCategories.map(({ href, label, Icon }) => (
               <CategoryNavLink
                 key={href}
                 href={href}
-                className="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[#dfcfb6] bg-white/85 px-2 py-3 text-center text-xs font-semibold text-[#655347] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[#caa16b] hover:bg-[#fffaf1] sm:min-h-[5.25rem] sm:text-sm"
+                className="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[color:var(--line)] bg-white px-2 py-3 text-center text-xs font-semibold text-[color:var(--ink)] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)] sm:min-h-[5.25rem] sm:text-sm"
               >
-                <Icon className="h-5 w-5 text-[#5A4E44] transition-transform group-hover:scale-110" />
+                <Icon className="h-5 w-5 text-[color:var(--ink)] transition-transform group-hover:scale-110" />
                 <span>{label}</span>
               </CategoryNavLink>
             ))}
@@ -137,8 +137,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#fffaf1] px-6 py-11 sm:px-10 sm:py-16">
-        <div className="mx-auto max-w-6xl rounded-[1.8rem] border border-[#eee1d0] bg-white/65 px-5 py-7 sm:px-8">
+      <section className="bg-[color:var(--background)] px-6 py-11 sm:px-10 sm:py-16">
+        <div className="mx-auto max-w-6xl rounded-[1.8rem] border border-[color:var(--line)] bg-white px-5 py-7 sm:px-8">
           <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] sm:text-3xl">
             {t("productSearchHomeTitle")}
           </h2>

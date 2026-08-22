@@ -52,11 +52,11 @@ const FIELD_STYLE: StripeCardNumberElementOptions = {
   style: {
     base: {
       fontSize: "16px",
-      color: "#4a3626",
+      color: "#2B2623",
       fontFamily:
         "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
       letterSpacing: "0.04em",
-      "::placeholder": { color: "#a89078" },
+      "::placeholder": { color: "#756962" },
     },
     invalid: { color: "#df1b41" },
   },
@@ -75,7 +75,7 @@ function FieldShell({
   return (
     <label className="block space-y-1.5">
       <span className="text-sm font-medium text-[color:var(--ink)]">{label}</span>
-      <div className="rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3 shadow-[inset_0_1px_2px_rgba(74,54,38,0.04)] transition focus-within:border-[color:var(--accent)]">
+      <div className="rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3 shadow-[inset_0_1px_2px_rgba(43,38,35,0.04)] transition focus-within:border-[color:var(--accent)]">
         {children}
       </div>
     </label>
@@ -387,7 +387,7 @@ function CheckoutPayForm({
       <button
         type="submit"
         disabled={!stripe || !elements || submitting}
-        className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-10px_rgba(169,124,80,0.7)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-10px_rgba(92,58,34,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+        className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
       >
         {submitting ? t("stripePaying") : t("placeOrder")}
       </button>
@@ -413,9 +413,9 @@ export function StripePaymentForm({
       appearance: {
         theme: "stripe",
         variables: {
-          colorPrimary: "#a97c50",
+          colorPrimary: "#7A4B31",
           colorBackground: "#ffffff",
-          colorText: "#4a3626",
+          colorText: "#2B2623",
           colorDanger: "#df1b41",
           fontFamily: "system-ui, sans-serif",
           borderRadius: "12px",

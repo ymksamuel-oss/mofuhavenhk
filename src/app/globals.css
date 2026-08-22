@@ -1,20 +1,21 @@
 @import "tailwindcss" source("..");
 
 :root {
-  /* Warm milk-tea cream — solid base for overscroll / browser chrome */
-  --background: #f8f0e2;
-  --surface: #fffaf1;
-  --ink: #4a3626;
-  --muted: #8a7360;
-  --line: #ecdec5;
-  --accent: #a97c50;
-  --accent-soft: #f3e6d2;
-  --hero-deep: #5c3a22;
+  /* Warm editorial palette — Japanese deep caramel / coffee */
+  --background: #fbf9f6;
+  --surface: #ffffff;
+  --ink: #2b2623;
+  --muted: #756962;
+  --line: #efe8e1;
+  --accent: #7a4b31;
+  --accent-hover: #54392d;
+  --accent-soft: #f5ebe6;
+  --hero-deep: #54392d;
   --foreground: var(--ink);
-  --category-bg: #d9a066;
-  --category-bg-light: #f2cd9c;
-  --category-bg-hover: #c48a52;
-  --category-ink: #fffaf1;
+  --category-bg: #f5ebe6;
+  --category-bg-light: #fff8f4;
+  --category-bg-hover: #e8d5cc;
+  --category-ink: #2b2623;
   --font-body: var(--font-sans);
 }
 
@@ -45,9 +46,9 @@ body {
   /* Solid cream first so overscroll / gaps never show white */
   background-color: var(--background);
   background-image:
-    radial-gradient(1200px 500px at 10% -10%, #f3e2c4 0%, transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, #f8ead1 0%, transparent 50%),
-    linear-gradient(180deg, #f8f0e2 0%, #fdf8ef 45%, #f8f0e2 100%);
+    radial-gradient(1200px 500px at 10% -10%, #f5ebe6 0%, transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, #fff8f4 0%, transparent 50%),
+    linear-gradient(180deg, #fbf9f6 0%, #ffffff 45%, #fbf9f6 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--ink);
@@ -93,10 +94,10 @@ h3 {
 .milk-tea-card {
   border-radius: 1.35rem;
   border: 1px solid color-mix(in srgb, var(--line) 92%, white);
-  background: color-mix(in srgb, var(--surface) 96%, white);
+  background: var(--surface);
   box-shadow:
-    0 18px 34px -24px rgba(74, 54, 38, 0.42),
-    0 2px 6px -2px rgba(74, 54, 38, 0.06);
+    0 18px 34px -24px rgba(43, 38, 35, 0.28),
+    0 2px 6px -2px rgba(43, 38, 35, 0.06);
 }
 
 /* Checkout-only typography polish for clearer hierarchy. */
@@ -215,7 +216,7 @@ h3 {
   height: 100%;
   overflow: visible;
   display: block;
-  filter: drop-shadow(0 0.08em 0.16em rgba(74, 54, 38, 0.18));
+  filter: drop-shadow(0 0.08em 0.16em rgba(43, 38, 35, 0.18));
 }
 
 .brand-logo__copy {

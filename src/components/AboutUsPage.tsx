@@ -40,7 +40,7 @@ export function AboutUsPage() {
         </Link>
       </p>
 
-      <article className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-[linear-gradient(180deg,#fffaf1_0%,#fdf8ef_45%,#f8f0e2_100%)] shadow-[0_24px_48px_-32px_rgba(74,54,38,0.45)]">
+      <article className="overflow-hidden rounded-[1.75rem] border border-[color:var(--line)] bg-white shadow-[0_24px_48px_-32px_rgba(43,38,35,0.28)]">
         <header className="border-b border-[color:var(--line)] px-6 py-8 sm:px-8 sm:py-10">
           <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
             {t("aboutPageEyebrow")}
@@ -104,13 +104,13 @@ export function AboutUsPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/menu"
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(169,124,80,0.9)] transition hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.99]"
+              className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:brightness-105 active:scale-[0.99]"
             >
               {t("aboutShopCta")}
             </Link>
             <Link
               href="/shipping-policy"
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-5 py-2.5 text-sm font-medium text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[color:var(--line)] bg-white px-5 py-2.5 text-sm font-medium text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
             >
               {t("footerShipping")}
             </Link>

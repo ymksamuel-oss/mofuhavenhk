@@ -107,7 +107,7 @@ export function ProductCatalog({
       ) : null}
 
       {/* @section: product-categories */}
-      <details className="group mb-5 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(74,54,38,0.5)] sm:mb-6">
+      <details className="group mb-5 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(43,38,35,0.2)] sm:mb-6">
         <summary className="flex min-h-11 cursor-pointer list-none touch-manipulation items-center justify-between gap-3 px-4 py-3 font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent)] [&::-webkit-details-marker]:hidden sm:px-5">
           <span className="min-w-0">
             <span className="block">{t("categoryNavLabel")}</span>
@@ -170,7 +170,7 @@ export function ProductCatalog({
             return (
               <li
                 key={product.id}
-                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(74,54,38,0.6)]"
+                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
               >
                 <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                   <CategoryNavLink

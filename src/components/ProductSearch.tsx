@@ -159,8 +159,8 @@ function SearchField({
         onSubmit={onSubmit}
         className={
           comfortable
-            ? "group flex items-center gap-3 rounded-2xl border-[#D8CEC3] bg-white px-4 py-3 shadow-[0_18px_36px_-28px_rgba(74,54,38,0.55)] ring-1 ring-[color:var(--accent)]/10 transition focus-within:border-[color:var(--accent)] focus-within:ring-[color:var(--accent)]/25"
-            : "group flex items-center gap-2 rounded-full border-[#D8CEC3] bg-white px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
+            ? "group flex items-center gap-3 rounded-2xl border border-[#EFE8E1] bg-white px-4 py-3 shadow-[0_18px_36px_-28px_rgba(43,38,35,0.22)] ring-1 ring-[color:var(--accent)]/10 transition focus-within:border-[color:var(--accent)] focus-within:ring-[color:var(--accent)]/25"
+            : "group flex items-center gap-2 rounded-full border border-[#EFE8E1] bg-white px-3 py-1.5 shadow-sm transition focus-within:border-[color:var(--accent)] focus-within:ring-2 focus-within:ring-[color:var(--accent)]/20"
         }
       >
         <SearchGlyph
@@ -220,7 +220,7 @@ function SearchField({
           role="listbox"
           aria-label={t("productSearchResults")}
           data-testid="product-search-results"
-          className={`rounded-2xl border-[#D8CEC3] bg-white shadow-[0_24px_48px_-28px_rgba(74,54,38,0.65)] ${panelClassName}`}
+          className={`rounded-2xl border border-[#EFE8E1] bg-white shadow-[0_24px_48px_-28px_rgba(43,38,35,0.24)] ${panelClassName}`}
         >
           {hits.length === 0 ? (
             <p className="px-4 py-4 text-sm leading-relaxed text-[color:var(--muted)]">
@@ -437,10 +437,10 @@ export function ProductSearch({
               onClick={closeModal}
             />
             <div
-              className="relative z-[111] my-2 flex w-full max-w-lg flex-col rounded-3xl border border-[color:var(--line)] p-4 shadow-[0_28px_56px_-24px_rgba(74,54,38,0.7)] sm:my-0 sm:p-5"
+              className="relative z-[111] my-2 flex w-full max-w-lg flex-col rounded-3xl border border-[color:var(--line)] p-4 shadow-[0_28px_56px_-24px_rgba(43,38,35,0.34)] sm:my-0 sm:p-5"
               style={{
                 background:
-                  "linear-gradient(180deg, #fffaf1 0%, #fdf8ef 55%, #f8f0e2 100%)",
+                  "linear-gradient(180deg, #ffffff 0%, #fbf9f6 55%, #f5ebe6 100%)",
               }}
             >
               <div className="mb-3 flex shrink-0 items-center justify-between gap-3">

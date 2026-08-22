@@ -49,7 +49,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
-        <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-[color:var(--surface)] ring-1 ring-[color:var(--line)]">
+        <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-white ring-1 ring-[color:var(--line)]">
           <ProductImage
             src={product.image}
             alt={product.name[locale]}
@@ -65,7 +65,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         <div className="milk-tea-card p-5 sm:p-7">
-          <p className="text-sm text-[#777777]">商品編號：{product.id}</p>
+          <p className="text-sm text-[color:var(--muted)]">商品編號：{product.id}</p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
             {product.name[locale]}
           </h1>
@@ -147,7 +147,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             ) : (
               <CategoryNavLink
                 href="/checkout"
-                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
+                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
               >
                 {t("menuAddToCheckout")}
               </CategoryNavLink>

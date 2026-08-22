@@ -155,10 +155,10 @@ export function Header() {
             />
             <nav
               id={drawerId}
-              className="absolute right-0 top-0 z-[101] flex h-[100dvh] max-h-[100dvh] w-[min(82vw,20rem)] max-w-full flex-col overflow-hidden overscroll-contain border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(74,54,38,0.55)]"
+              className="absolute right-0 top-0 z-[101] flex h-[100dvh] max-h-[100dvh] w-[min(82vw,20rem)] max-w-full flex-col overflow-hidden overscroll-contain border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(43,38,35,0.28)]"
               style={{
                 background:
-                  "linear-gradient(180deg, #fffaf1 0%, #f8f0e2 55%, #f3e6d2 100%)",
+                  "linear-gradient(180deg, #ffffff 0%, #fbf9f6 55%, #f5ebe6 100%)",
               }}
             >
               <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
