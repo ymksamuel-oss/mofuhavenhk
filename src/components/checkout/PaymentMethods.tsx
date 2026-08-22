@@ -3,20 +3,26 @@
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   AlipayHkLogo,
+  ApplePayLogo,
   CardLogo,
   WeChatPayLogo,
 } from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "wechatpay" | "alipayhk";
+export type MethodId = "card" | "applepay" | "wechatpay" | "alipayhk";
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payWeChatPay" | "payAlipayHk";
-  Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
+  labelKey: "payCard" | "payApplePay" | "payWeChatPay" | "payAlipayHk";
+  Icon:
+    | typeof CardLogo
+    | typeof ApplePayLogo
+    | typeof WeChatPayLogo
+    | typeof AlipayHkLogo;
 };
 
-/** Mobile-first: WeChat / AlipayHK first, then card. */
+/** Mobile-first: Apple Pay first, then WeChat / AlipayHK, then card. */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
+  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },
@@ -56,7 +62,9 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
               <button
                 type="button"
                 onClick={() => onSelect(id)}
-                className={`grid min-h-[4.5rem] w-full grid-cols-[6.5rem_minmax(0,1fr)_1.125rem] items-center gap-x-3 px-1 py-3 text-left transition duration-200 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.75rem] sm:gap-x-4 sm:px-2 ${
+                aria-label={t(labelKey)}
+                title={t(labelKey)}
+                className={`grid min-h-[4.5rem] w-full grid-cols-[minmax(0,1fr)_1.125rem] items-center gap-x-3 px-1 py-3 text-left transition duration-200 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.75rem] sm:gap-x-4 sm:px-2 ${
                   active
                     ? "text-[color:var(--ink)]"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
@@ -64,7 +72,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 aria-pressed={active}
               >
                 <span
-                  className="flex h-9 w-[6.5rem] min-w-0 items-center justify-start overflow-visible"
+                  className="flex h-9 w-full min-w-0 items-center justify-start overflow-visible"
                   aria-hidden="true"
                 >
                   <Icon
@@ -76,9 +84,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   />
                 </span>
 
-                <span className="min-w-0 text-left text-[0.925rem] font-medium leading-snug tracking-[0.005em] text-[color:var(--ink)] sm:text-base">
-                  {t(labelKey)}
-                </span>
+                <span className="sr-only">{t(labelKey)}</span>
 
                 <span
                   className={`h-[1.125rem] w-[1.125rem] rounded-full border-[1.5px] transition ${
