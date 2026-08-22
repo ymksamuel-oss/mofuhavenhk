@@ -69,7 +69,7 @@
 - [x] Stripe Checkout：移除畫面頂部的 Apple Pay 快速支付按鈕，並只作指定介面排版調整
 - [x] Stripe Checkout：移除結帳面板中的 Link Logo，且不修改其他產品、價格、圖片或無關內容
 - [x] 驗證 Stripe Checkout 相關程式碼、建置與測試（npm test 7/7；NODE_ENV=production npm run build 通過；本地 checkout 視覺檢查通過）
-- [ ] 將上一輪 Drawer 修改及本輪 Stripe Checkout 修改提交到遠端分支並建立 Pull Request
+- [x] 將上一輪 Drawer 修改及本輪 Stripe Checkout 修改提交到遠端分支並建立 Pull Request（PR #118：https://github.com/ymksamuel-oss/mofuhavenhk/pull/118；commit `7fc2aa60e77084e5e59592e464fc9651e273c238`；未合併 main）
 
 ## 本次修改範圍約束
 
