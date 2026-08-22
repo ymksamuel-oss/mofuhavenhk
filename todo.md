@@ -78,3 +78,20 @@
 ## 上一輪交付記錄
 
 上一輪空購物車 Bottom Sheet／Drawer 修改已完成本地驗證，現需連同本輪修改提交至遠端 Pull Request。
+
+
+## Preview 部署核查（使用者回報：Apple Pay／Link Logo 仍存在）
+
+- [ ] 核對 PR #118 的 GitHub 分支、最新 commit 及遠端可見性
+- [ ] 核查 Vercel 專案是否連接 `ymksamuel-oss/mofuhavenhk` 及是否有 PR 分支 deployment
+- [ ] 以 deployment 的實際 URL 驗證 Apple Pay／Link Logo 是否仍存在，並對照 commit SHA
+- [ ] 如未觸發 deployment，找出權限或 Git integration 阻塞；如有對應 deployment，提供可驗證的 Preview URL
+
+- [x] 應使用者要求：立即將 PR #118 最新修改部署為可公開檢視的獨立 Vercel Preview，確保免登入即可見實物預覽
+
+- [x] 恢復 Apple Pay 到結帳頁面付款方式清單
+- [x] 移除 WeChat Pay、AlipayHK、信用卡／Stripe 及 Apple Pay 標籤後重複出現的文字說明，保持僅由 Logo／圖示呈現
+- [x] 執行 Vitest 測試與生產環境建置檢查（npm test 7/7；NODE_ENV=production npm run build；npx tsc --noEmit）
+- [x] 部署並交付包含上述調整的全新 Vercel Preview 實物預覽網址（`dpl_4ZhxV5c2B2UDjo4nR8Ht6U7QMqTJ`）
+
+- [ ] 將最終 Apple Pay／Logo-only Checkout 版本提交、推送到 GitHub 並合併至 main 觸發正式部署
