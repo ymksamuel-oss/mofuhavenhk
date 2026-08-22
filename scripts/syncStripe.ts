@@ -47,7 +47,12 @@ function sheetRecordToProduct(record: ProductSheetRecord): StripeCatalogProduct 
     name: record.name.zh,
     description: record.description?.zh ?? "",
     price: `HK$${record.price.toFixed(2)}`,
-    image: normalizeImageUrl(record.image),
+    // Google Sheet may carry a deployment-local path in `image` and the
+    // canonical product image in `sourceImageUrl`. Stripe must receive the
+    // canonical remote URL: deployment-local `/assets/product/<id>` paths do
+    // not exist in the Next.js storefront and make every card fall back to the
+    // same promotional image when the browser receives a 404.
+    image: normalizeImageUrl(record.sourceImageUrl ?? record.image),
   };
 }
 

@@ -44,6 +44,23 @@ describe("calm warm editorial UI contract", () => {
     expect(stripe).toContain("process.env.STRIPE_SECRET_KEY?.trim()");
   });
 
+  it("syncs each Stripe product with its canonical remote source image when the sheet provides one", () => {
+    const syncStripe = source("scripts/syncStripe.ts");
+
+    expect(syncStripe).toContain("record.sourceImageUrl ?? record.image");
+    expect(syncStripe).toContain("deployment-local `/assets/product/<id>` paths");
+  });
+
+  it("keeps image-only Stripe synchronization explicitly gated and isolated from catalog fields", () => {
+    const imageSync = source("scripts/syncStripeImagesOnBuild.ts");
+
+    expect(imageSync).toContain('process.env.SYNC_STRIPE_IMAGES_ON_BUILD === "1"');
+    expect(imageSync).toContain("record.sourceImageUrl");
+    expect(imageSync).toContain("stripe.products.update(product.id, { images: [sourceImageUrl] })");
+    expect(imageSync).not.toContain("stripe.prices.create");
+    expect(imageSync).not.toContain("stripe.products.create");
+  });
+
   it("keeps the PDP mobile action bar, specs and FAQ mounted", () => {
     const productDetail = source("src/components/product/ProductDetail.tsx");
 

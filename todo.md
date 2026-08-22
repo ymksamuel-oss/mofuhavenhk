@@ -55,3 +55,8 @@
 - [x] 依使用者正式批准，以快轉方式將 `feature/sync-skywork-exact-ui` 合併至 `main`
 - [x] 推送 `main` 至 GitHub 並以遠端 ref 證明合併 commit 已上傳
 - [x] 確認 Vercel Production deployment 對應 main commit、Build 為 Ready 並回報正式網址
+
+- [ ] 建立獨立修正分支，追查首頁 Stripe 商品卡共用 Hero／宣傳 Banner 的圖片 fallback 根因
+- [ ] 修正產品圖片 mapping，只在個別商品確實無圖片時才使用 fallback，避免不同商品共用 Banner
+- [ ] 為不同 Stripe 商品的 image URL 加入契約測試，並於 Preview 實測不同卡片顯示不同圖片
+- [ ] 執行 `npm run build` 0 Error 後推送修正分支，提供真實 Vercel Preview；未驗收前不合併 main
