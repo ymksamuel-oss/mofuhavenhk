@@ -20,4 +20,4 @@
 - [x] 建立乾淨分支 `feature/sync-skywork-exact-ui`，不覆蓋 `feature/calm-warm-editorial` 或 `main`
 - [x] 修復首頁 Stripe／後端商品列表載入與顯示，保留空狀態與錯誤狀態，不以 Storytelling 內容取代商品列表
 - [x] 依 Skywork 稿落實首頁 Hero、深焦糖／暖米白主題、大圓角、商品詳情與購物車 Drawer
-- [ ] 執行 `npm run build` 0 Error 後提交並推送分支，提供 Commit SHA 與可驗證的 Vercel Preview；不合併 `main`
+- [x] 執行 `npm run build` 0 Error 後提交並推送分支，提供 Commit SHA 與可驗證的 Vercel Preview；不合併 `main`（Build／Commit／Push 已完成；Vercel deployment API 回傳 403，Preview 僅能提供標準 alias 規則，未宣稱已 Ready）
