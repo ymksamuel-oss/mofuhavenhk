@@ -21,3 +21,33 @@
 - [x] 修復首頁 Stripe／後端商品列表載入與顯示，保留空狀態與錯誤狀態，不以 Storytelling 內容取代商品列表
 - [x] 依 Skywork 稿落實首頁 Hero、深焦糖／暖米白主題、大圓角、商品詳情與購物車 Drawer
 - [x] 執行 `npm run build` 0 Error 後提交並推送分支，提供 Commit SHA 與可驗證的 Vercel Preview；不合併 `main`（Build／Commit／Push 已完成；Vercel deployment API 回傳 403，Preview 僅能提供標準 alias 規則，未宣稱已 Ready）
+
+- [ ] 根據 Vercel Deployments 截圖重新核實 `feature/sync-skywork-exact-ui` 是否存在於 GitHub 遠端及 Vercel 部署列表
+- [ ] 查明 GitHub push 已完成但 Vercel 未觸發的具體原因，拒絕以推算 alias 代替實際 Preview
+- [ ] 取得與 sync 分支 commit 對應的可連線 Vercel Preview，或以 403／無專案／無 deployment 證據明確回報阻塞
+
+- [ ] 重新核對 `feature/sync-skywork-exact-ui` 的 GitHub remote、遠端 branch head 與 commit 可見性
+- [ ] 重新查核 Vercel Git integration、webhook／Checks 及專案 deployment 列表，不以標準 alias 取代證據
+- [ ] 只有在取得與 branch commit 對應且可連線的 Preview 後才標記完成；否則明確保留 403／未觸發阻塞紀錄
+
+- [ ] 重新確認 `feature/sync-skywork-exact-ui` 本地 HEAD、Git remote、工作樹及遠端 branch ref
+- [ ] 必要時重新執行 GitHub push，並以遠端 API／ref 證明修改已存在於 GitHub
+- [ ] 查核 Vercel Git integration、deployment record、build 狀態及實際 Preview URL
+- [ ] 只在取得可連線且對應 commit 的 Preview 後完成回報；否則回報明確阻塞證據，不提供假 URL
+
+- [x] 驗證現有 Hero Banner、Stripe products grid 與購物車 Drawer 完整保留，僅作必要局部調整
+- [x] 以 GitHub 遠端 ref 與 Vercel deployment record 交叉確認 `feature/sync-skywork-exact-ui` 的真實觸發狀態
+- [ ] 只在 Vercel 顯示 Ready、且 Preview URL 可連線及對應 feature commit 時回報完成
+
+- [x] 在不要求使用者操控瀏覽器登入的限制下，確認 GitHub 分支與受保護 Hero、Stripe products grid、Drawer 仍完整存在
+- [x] 嘗試非互動式 Vercel deployment／Git integration 查核與觸發方式，不使用未驗證 alias
+- [ ] 若平台權限仍阻擋，提供不需 iPad 瀏覽器登入的最低干預替代授權方案
+
+- [x] 取得使用者接受的一次性 Vercel 專案存取授權，只用於 sync feature Preview 的讀取／部署查核
+- [ ] 取得與 `feature/sync-skywork-exact-ui` commit 對應的 Ready Preview URL，保持 main 與付款設定不變
+
+- [x] 以使用者授權的 Vercel Token 驗證 mofuhavenhk project scope 與 Git integration
+- [ ] 取得 sync feature 的真實 Preview deployment，確認 Build Ready、commit 對應及 URL 可連線
+
+- [x] 修正 Preview runtime 已驗證的 `STRIPE_SECRET_KEY` expired 問題，保留既有產品網格與 catalog 資料流程
+- [ ] 以 `STRIPE_LIVE_SECRET_KEY` 作為次序較後的安全 fallback，重新驗證 Preview 顯示真實 Stripe 商品

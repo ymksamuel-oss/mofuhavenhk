@@ -37,6 +37,13 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain("產品目錄正在更新中");
   });
 
+  it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
+    const stripe = source("src/lib/stripe.ts");
+
+    expect(stripe).toContain("process.env.STRIPE_LIVE_SECRET_KEY?.trim()");
+    expect(stripe).toContain("process.env.STRIPE_SECRET_KEY?.trim()");
+  });
+
   it("keeps the PDP mobile action bar, specs and FAQ mounted", () => {
     const productDetail = source("src/components/product/ProductDetail.tsx");
 
