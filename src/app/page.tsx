@@ -53,10 +53,10 @@ export default function HomePage() {
               <p className="mt-7 font-[family-name:var(--font-display)] text-[2.65rem] font-semibold leading-none tracking-[-0.035em] text-white drop-shadow-[0_2px_16px_rgba(30,20,12,0.38)] sm:mt-8 sm:text-7xl">
                 Mofu Haven
               </p>
-              <h1 className="mt-4 text-[1.65rem] font-medium leading-tight tracking-tight text-white sm:text-4xl">
+              <h1 className="mt-4 text-[1.65rem] font-semibold leading-tight tracking-tight text-white drop-shadow-[0_2px_10px_rgba(30,20,12,0.26)] sm:text-4xl">
                 日本寵物用品專門店
               </h1>
-              <p className="mt-4 max-w-md text-base leading-relaxed text-white/95 sm:text-xl">
+              <p className="mt-4 max-w-md text-base font-medium leading-relaxed text-white sm:text-xl">
                 直送日本優質寵物用品，讓您嘅貓貓狗狗幸福滿分。
               </p>
               <div className="mt-7 flex flex-col items-start gap-6 sm:mt-8 sm:flex-row sm:items-center">

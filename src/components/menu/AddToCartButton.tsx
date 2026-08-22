@@ -11,6 +11,8 @@ type AddToCartButtonProps = {
   className?: string;
   /** `list` = compact qty stepper for horizontal freeze-dried cards. */
   size?: "card" | "modal" | "list";
+  /** Hide the quantity control when rendered inside a fixed mobile action bar. */
+  showQuantity?: boolean;
 };
 
 /**
@@ -22,6 +24,7 @@ export function AddToCartButton({
   productId,
   className = "",
   size = "card",
+  showQuantity = true,
 }: AddToCartButtonProps) {
   const { t } = useI18n();
   const { getProductById } = useCatalog();
@@ -121,9 +124,11 @@ export function AddToCartButton({
         size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"
       } ${className}`}
     >
-      <div className="flex items-center justify-center gap-2" onClick={stop}>
-        {stepper}
-      </div>
+      {showQuantity ? (
+        <div className="flex items-center justify-center gap-2" onClick={stop}>
+          {stepper}
+        </div>
+      ) : null}
 
       <button
         type="button"

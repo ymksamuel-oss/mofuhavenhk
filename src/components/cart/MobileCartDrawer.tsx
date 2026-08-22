@@ -86,8 +86,8 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
         onClick={onClose}
       />
 
-      <aside className="absolute inset-y-0 right-0 flex w-[min(94vw,28rem)] max-w-full flex-col overflow-hidden border-l border-[color:var(--line)] bg-white shadow-[-20px_0_48px_-26px_rgba(43,38,35,0.38)]">
-        <header className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] bg-[color:var(--background)] px-5 pb-4 pt-[max(1rem,env(safe-area-inset-top,0px))]">
+      <aside className="absolute inset-y-0 right-0 flex w-full max-w-full flex-col overflow-hidden border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-20px_0_48px_-26px_rgba(43,38,35,0.38)] sm:w-[min(94vw,28rem)]">
+        <header className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] bg-[color:var(--background)] px-4 pb-4 pt-[max(1.1rem,env(safe-area-inset-top,0px))] sm:px-5">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
               Mofu Haven
@@ -112,7 +112,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
           </button>
         </header>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 [-webkit-overflow-scrolling:touch]">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch] sm:px-5 sm:py-5">
           {items.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-[color:var(--line)] bg-[color:var(--background)] px-5 py-8 text-center">
               <p className="text-sm leading-relaxed text-[color:var(--muted)]">
@@ -129,9 +129,12 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
           ) : (
             <>
               <FreeShippingProgress subtotal={subtotal} className="mb-5" />
-              <ul className="divide-y divide-[color:var(--line)] rounded-2xl border border-[color:var(--line)] bg-white px-4">
+              <ul className="space-y-3">
                 {items.map((item) => (
-                  <li key={item.id} className="flex gap-3 py-4">
+                  <li
+                    key={item.id}
+                    className="flex gap-3 rounded-2xl border border-[color:var(--line)] bg-white px-4 py-4 shadow-[0_10px_24px_-24px_rgba(43,38,35,0.5)]"
+                  >
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                       <ProductImage
                         src={item.image}
@@ -148,7 +151,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
                         <button
                           type="button"
                           onClick={() => removeItem(item.id)}
-                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-lg leading-none text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
+                          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-lg leading-none text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
                           aria-label={`${t("removeItem")}：${item.name[locale]}`}
                         >
                           ×
@@ -165,7 +168,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
                               setQty(item.id, Math.max(MIN_QTY, item.qty - 1))
                             }
                             disabled={item.qty <= MIN_QTY}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
+                            className="flex h-8 w-8 items-center justify-center rounded-xl text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
                             aria-label={t("qtyDecrease")}
                           >
                             −
@@ -179,7 +182,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
                               setQty(item.id, Math.min(MAX_QTY, item.qty + 1))
                             }
                             disabled={item.qty >= MAX_QTY}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
+                            className="flex h-8 w-8 items-center justify-center rounded-xl text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
                             aria-label={t("qtyIncrease")}
                           >
                             +
@@ -216,7 +219,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
                     {suggestions.map((product) => (
                       <li
                         key={product.id}
-                        className="flex items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--background)] p-3"
+                        className="flex items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-white p-3 shadow-[0_10px_24px_-24px_rgba(43,38,35,0.5)]"
                       >
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--line)]">
                           <ProductImage
@@ -251,7 +254,7 @@ export function MobileCartDrawer({ open, onClose }: MobileCartDrawerProps) {
         </div>
 
         {items.length > 0 ? (
-          <footer className="shrink-0 border-t border-[color:var(--line)] bg-white px-5 pb-[max(1rem,env(safe-area-inset-bottom,0px))] pt-4">
+          <footer className="shrink-0 border-t border-[color:var(--line)] bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] pt-4 sm:px-5">
             <div className="mb-3 flex items-center justify-between gap-4">
               <span className="text-sm text-[color:var(--muted)]">{t("subtotal")}</span>
               <span className="text-xl font-bold tabular-nums text-[color:var(--accent)]">

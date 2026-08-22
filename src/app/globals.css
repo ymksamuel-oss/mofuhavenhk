@@ -7,7 +7,8 @@
   --ink: #2b2623;
   --muted: #756962;
   --line: #efe8e1;
-  --accent: #7a4b31;
+  --accent: #6d4c3d;
+  --accent-strong: #7a4b31;
   --accent-hover: #54392d;
   --accent-soft: #f5ebe6;
   --hero-deep: #54392d;
@@ -43,12 +44,13 @@ body {
   overflow-x: hidden;
   /* Keep content clear of iOS Safari / Chrome bottom toolbars */
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
   /* Solid cream first so overscroll / gaps never show white */
   background-color: var(--background);
   background-image:
     radial-gradient(1200px 500px at 10% -10%, #f5ebe6 0%, transparent 55%),
     radial-gradient(900px 420px at 90% 0%, #ffffff 0%, transparent 50%),
-    linear-gradient(180deg, #fbf9f6 0%, #ffffff 45%, #fbf9f6 100%);
+    linear-gradient(180deg, #fbf9f6 0%, #f8f3ed 45%, #fbf9f6 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--ink);

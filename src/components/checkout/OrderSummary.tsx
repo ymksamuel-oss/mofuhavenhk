@@ -80,7 +80,7 @@ export function OrderSummary({
         {t("orderSummary")}
       </h2>
 
-      <ul className="divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
+      <ul className="space-y-3">
         {items.length === 0 ? (
           <li className="py-6 text-center text-sm leading-relaxed text-[color:var(--muted)]">
             {locale === "zh" ? "購物車未有商品" : "Your cart is empty"}
@@ -90,7 +90,7 @@ export function OrderSummary({
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex items-start justify-between gap-3 py-3.5 text-sm"
+            className="flex items-start justify-between gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--background)] px-4 py-4 text-sm"
           >
             <div className="flex min-w-0 items-start gap-3">
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">

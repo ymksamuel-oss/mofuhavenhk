@@ -89,7 +89,7 @@ function Field({
         onBlur={onBlur}
         onChange={(event) => onChange(event.target.value)}
         aria-invalid={error ? true : undefined}
-        className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-base text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
+        className={`w-full rounded-xl border bg-white px-3.5 py-3 text-base text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
           error ? "border-red-400" : "border-[color:var(--line)]"
         }`}
       />
@@ -213,7 +213,7 @@ export function ShippingContactForm({
         </p>
       </div>
 
-      <div className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/25 p-4">
+      <div className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-white p-4">
         <Field
           id="shipping-name"
           label={t("customerNameLabel")}
@@ -249,7 +249,7 @@ export function ShippingContactForm({
                   phoneCountryCode: event.target.value as PhoneCountryCode,
                 })
               }
-              className="w-[7.25rem] max-w-[42%] shrink-0 rounded-xl border border-[color:var(--line)] bg-white px-2 py-2.5 text-sm font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:w-[9.5rem] sm:max-w-none sm:px-2.5"
+              className="w-[7.25rem] max-w-[42%] shrink-0 rounded-xl border border-[color:var(--line)] bg-white px-2 py-3 text-sm font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:w-[9.5rem] sm:max-w-none sm:px-2.5"
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -278,7 +278,7 @@ export function ShippingContactForm({
                 const max = value.phoneCountryCode === "+86" ? 11 : 8;
                 patch({ phone: next.slice(0, max) });
               }}
-              className={`min-w-0 flex-1 rounded-xl border bg-white px-3.5 py-2.5 text-base tabular-nums text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
+              className={`min-w-0 flex-1 rounded-xl border bg-white px-3.5 py-3 text-base tabular-nums text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
                 phoneError ? "border-red-400" : "border-[color:var(--line)]"
               }`}
             />
@@ -308,7 +308,7 @@ export function ShippingContactForm({
             disabled={disabled}
             required
             onChange={(event) => patch({ district: event.target.value })}
-            className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-base text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
+            className={`w-full rounded-xl border bg-white px-3.5 py-3 text-base text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:text-sm ${
               showErrors && !value.district
                 ? "border-red-400"
                 : "border-[color:var(--line)]"
@@ -353,7 +353,7 @@ export function ShippingContactForm({
           disabled={disabled}
         />
 
-        <div className="space-y-1.5 rounded-xl border border-dashed border-[color:var(--line)] bg-white/70 px-3 py-3">
+        <div className="space-y-1.5 rounded-xl border border-dashed border-[color:var(--line)] bg-[color:var(--background)] px-3 py-3">
           <Field
             id="shipping-sf-code"
             label={t("sfStationLabel")}

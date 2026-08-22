@@ -9,3 +9,9 @@
 - [x] 落實 Mobile 購物車 Drawer，包含免運進度條與加購商品區塊／價格
 - [x] 完善商品頁規格選擇器與 FAQ Accordion，驗證手機版互動及可讀性
 - [x] 執行 `npm run build` 0 Error 後提交並推送分支，查核 Vercel Preview；不合併 `main`
+
+- [x] 參考 Skywork 最新手機設計稿，在既有 `feature/calm-warm-editorial` 分支上重構頁面層級與手機版比例，不重建或覆蓋既有分支歷史
+- [x] 依設計稿重整 Hero、暖米白背景、深焦糖 CTA、白色卡片及統一大圓角
+- [x] 依設計稿精修 Mobile 購物車 Drawer（免運進度、商品列、加購卡、數量控制、固定結帳 CTA）
+- [x] 依設計稿精修商品詳情規格選擇器、FAQ Accordion、價格層級與手機安全區域
+- [ ] 執行 `npm run build` 0 Error 後提交並推送同一 feature 分支，提供 Commit SHA 與 Vercel Preview；不合併 `main`

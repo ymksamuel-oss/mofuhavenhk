@@ -3,6 +3,7 @@
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
+import { FAQAccordion } from "@/components/FAQAccordion";
 import { ProductImage } from "@/components/product/ProductImage";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useState } from "react";
@@ -30,7 +31,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     : null;
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(8rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted)]">
         <CategoryNavLink
           href="/menu"
@@ -167,7 +168,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
-          <div className="space-y-3">
+          <div className="hidden space-y-3 sm:block">
             <AddToCartButton productId={product.id} size="modal" />
             {product.inStock === false ? (
               <span
@@ -185,6 +186,36 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </CategoryNavLink>
             )}
           </div>
+        </div>
+      </div>
+
+      <FAQAccordion />
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
+        <div className="mx-auto flex w-full max-w-5xl items-end gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] pt-3">
+          <div className="min-w-0 shrink-0">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
+              {t("total")}
+            </p>
+            <p className="mt-0.5 text-xl font-extrabold leading-none tabular-nums text-[color:var(--accent)]">
+              {formatMoney(product.price, locale)}
+            </p>
+          </div>
+          {product.inStock === false ? (
+            <span
+              aria-disabled="true"
+              className="flex min-h-12 min-w-0 flex-1 items-center justify-center rounded-2xl bg-[color:var(--muted)] px-4 py-3 text-sm font-semibold text-white opacity-70"
+            >
+              {t("productSoldOut")}
+            </span>
+          ) : (
+            <AddToCartButton
+              productId={product.id}
+              size="modal"
+              showQuantity={false}
+              className="!mt-0 min-w-0 flex-1"
+            />
+          )}
         </div>
       </div>
     </div>
