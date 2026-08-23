@@ -57,6 +57,20 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain("產品目錄正在更新中");
   });
 
+  it("uses responsive image delivery and a focused homepage product selection", () => {
+    const page = source("src/app/page.tsx");
+    const productImage = source("src/components/product/ProductImage.tsx");
+    const productGrid = source("src/components/home/HomepageProductGrid.tsx");
+    const nextConfig = source("next.config.ts");
+
+    expect(page).toContain('import Image from "next/image"');
+    expect(page).toContain('sizes="(min-width: 1024px) 53vw, 100vw"');
+    expect(productImage).toContain('import Image from "next/image"');
+    expect(productGrid).toContain('.slice(0, 12)');
+    expect(nextConfig).toContain('hostname: "files.stripe.com"');
+    expect(nextConfig).toContain('formats: ["image/avif", "image/webp"]');
+  });
+
   it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
     const stripe = source("src/lib/stripe.ts");
 

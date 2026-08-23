@@ -10,12 +10,13 @@ import { getProductsByCategory, productHref } from "@/lib/products";
 
 /**
  * Homepage storefront section backed by the live catalog supplied by the
- * server-side Stripe adapter. It intentionally does not invent fallback items.
+ * server-side Stripe adapter. The homepage presents a focused 12-product selection;
+ * the full active catalog remains available from the Shop page.
  */
 export function HomepageProductGrid() {
   const { locale } = useI18n();
   const { products: catalogProducts } = useCatalog();
-  const products = getProductsByCategory(null, catalogProducts);
+  const products = getProductsByCategory(null, catalogProducts).slice(0, 12);
 
   return (
     <section

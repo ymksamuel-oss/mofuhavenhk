@@ -2,6 +2,7 @@
 // soft gold actions, mobile-first stacked storytelling, and no video CTA in the hero.
 "use client";
 
+import Image from "next/image";
 import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
@@ -35,12 +36,13 @@ export default function HomePage() {
       <section className="bg-[color:var(--background)] px-4 pb-5 pt-4 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
           <div className="relative min-h-[20rem] overflow-hidden sm:min-h-[25rem] lg:min-h-0">
-            <img
+            <Image
               src="/images/hero-sleeping-shiba-taupe.jpg"
               alt="熟睡中的白色柴犬幼犬"
-              className="absolute inset-0 h-full w-full object-cover object-left"
-              fetchPriority="high"
-              loading="eager"
+              fill
+              priority
+              sizes="(min-width: 1024px) 53vw, 100vw"
+              className="object-cover object-left"
             />
             <div aria-hidden className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(75,54,33,0.14))] lg:hidden" />
           </div>
@@ -78,11 +80,12 @@ export default function HomePage() {
           </div>
 
           <div className="mt-[15px] block h-[220px] w-full overflow-hidden rounded-xl bg-[#ead7bf] shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] min-[769px]:h-[320px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:h-[400px]">
-            <img
+            <Image
               src="/images/explore-japanese-pet-lifestyle.jpg"
               alt="日系家居中的柴犬幼犬與貓咪"
-              className="h-full w-full object-cover object-center"
-              loading="lazy"
+              fill
+              sizes="(min-width: 1024px) 50vw, (min-width: 769px) 50vw, 100vw"
+              className="object-cover object-center"
             />
           </div>
 
@@ -93,13 +96,15 @@ export default function HomePage() {
                 "/images/cat-breeds/scottish-fold-tabby.jpg",
                 "/images/cat-breeds/ragdoll-mitted.jpg",
               ].map((src, index) => (
-                <img
+                <Image
                   key={src}
                   src={src}
                   alt=""
                   aria-hidden="true"
+                  width={56}
+                  height={56}
+                  sizes="56px"
                   className={`h-12 w-12 rounded-full border-3 border-[#fbf7f3] object-cover shadow-sm sm:h-14 sm:w-14 ${index ? "-ml-2.5" : ""}`}
-                  loading="lazy"
                 />
               ))}
             </div>

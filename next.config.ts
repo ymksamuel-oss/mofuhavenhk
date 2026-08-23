@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +19,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "mofuhavenhk.com",
+      },
+      {
+        protocol: "https",
+        hostname: "files.stripe.com",
       },
     ],
   },

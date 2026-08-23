@@ -13,10 +13,6 @@ type ProductImageProps = {
   priority?: boolean;
 };
 
-function isRemoteImage(src: string): boolean {
-  return /^https?:\/\//i.test(src);
-}
-
 /** Renders remote and local catalog images with a stable local fallback. */
 export function ProductImage({
   src,
@@ -53,27 +49,12 @@ export function ProductImage({
     );
   }
 
-  if (isRemoteImage(src)) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={alt}
-        className={`absolute inset-0 h-full w-full ${className ?? ""}`}
-        loading={priority ? "eager" : "lazy"}
-        fetchPriority={priority ? "high" : "auto"}
-        decoding="async"
-        onError={useFallback}
-      />
-    );
-  }
-
   return (
     <Image
       src={src}
       alt={alt}
       fill
-      sizes={sizes}
+      sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
       className={className}
       priority={priority}
       onError={useFallback}
