@@ -28,8 +28,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('為愛寵提供最安心的選擇');
     expect(page).toContain('立即選購');
     expect(page).toContain('h-[14rem]');
-    expect(page).toContain('src="/images/hero-mobile-pet-products.jpg"');
-    expect(page).toContain('lg:hidden');
+    expect(page).toContain('mobileProductBannerDataUri');
     expect(page).toContain('object-cover object-center lg:hidden');
     expect(page).toContain('object-[center_58%] lg:block');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');

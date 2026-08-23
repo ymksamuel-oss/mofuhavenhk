@@ -7,6 +7,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
+import { mobileProductBannerDataUri } from "@/lib/assets/mobile-product-banner";
 import { ProductSearch } from "@/components/ProductSearch";
 import {
   BoneIcon,
@@ -36,13 +37,11 @@ export default function HomePage() {
       <section className="bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
           <div className="relative h-[14rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
-            <Image
-              src="/images/hero-mobile-pet-products.jpg"
+            <img
+              src={mobileProductBannerDataUri}
               alt="Mofu Haven 日系寵物精品、骨形玩具及照顧用品"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center lg:hidden"
+              className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
+              decoding="async"
             />
             <Image
               src="/images/hero-sleeping-shiba-taupe.jpg"
