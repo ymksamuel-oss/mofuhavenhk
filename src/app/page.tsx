@@ -64,8 +64,8 @@ export default function HomePage() {
       </section>
 
       <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
-        <div className="mx-auto grid max-w-6xl gap-9 lg:grid-cols-2 lg:items-center lg:gap-10">
-          <div className="max-w-xl lg:py-6">
+        <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
+          <div className="max-w-xl lg:col-start-1 lg:row-start-1 lg:py-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
               <span aria-hidden>⌘</span> Mofu Haven 專題指南
             </span>
@@ -75,21 +75,40 @@ export default function HomePage() {
             <p className="mt-5 text-lg leading-9 text-[color:var(--muted)] sm:text-xl">
               精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
             </p>
-            <CategoryNavLink
-              href="/cat-breeds"
-              className="mt-8 inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
-            >
-              <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
-            </CategoryNavLink>
           </div>
 
-          <div className="h-[250px] overflow-hidden rounded-xl bg-[#ead7bf] shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] sm:h-[320px] lg:h-[400px]">
+          <div className="mt-[15px] block h-[220px] w-full overflow-hidden rounded-xl bg-[#ead7bf] shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] min-[769px]:h-[320px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:h-[400px]">
             <img
               src="/images/explore-japanese-pet-lifestyle.jpg"
               alt="日系家居中的柴犬幼犬與貓咪"
               className="h-full w-full object-cover object-center"
               loading="lazy"
             />
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-5 lg:col-start-1 lg:row-start-2 lg:mt-7">
+            <div className="flex items-center">
+              {[
+                "/images/cat-breeds/russian-blue-portrait.jpg",
+                "/images/cat-breeds/scottish-fold-tabby.jpg",
+                "/images/cat-breeds/ragdoll-mitted.jpg",
+              ].map((src, index) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt=""
+                  aria-hidden="true"
+                  className={`h-12 w-12 rounded-full border-3 border-[#fbf7f3] object-cover shadow-sm sm:h-14 sm:w-14 ${index ? "-ml-2.5" : ""}`}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <CategoryNavLink
+              href="/cat-breeds"
+              className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
+            >
+              <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
+            </CategoryNavLink>
           </div>
         </div>
       </section>

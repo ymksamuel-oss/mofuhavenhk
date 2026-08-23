@@ -35,11 +35,14 @@ describe("calm warm editorial UI contract", () => {
     const page = source("src/app/page.tsx");
 
     expect(page).toContain('id="brand-story" className="bg-[#fbf7f3]');
-    expect(page).toContain('lg:grid-cols-2 lg:items-center lg:gap-10');
+    expect(page).toContain('lg:grid-cols-2 lg:items-center lg:gap-x-10');
     expect(page).toContain('/images/explore-japanese-pet-lifestyle.jpg');
-    expect(page).toContain('h-[250px]');
+    expect(page).toContain('mt-[15px] block h-[220px] w-full');
+    expect(page).toContain('min-[769px]:h-[320px]');
     expect(page).toContain('lg:h-[400px]');
     expect(page).toContain('rounded-xl');
+    expect(page).toContain('mt-7 flex flex-wrap items-center gap-5');
+    expect(page).toContain('立即探索');
   });
 
   it("renders homepage products from the live catalog context", () => {
