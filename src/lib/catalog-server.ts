@@ -82,6 +82,65 @@ function subcategoryFromProduct(
   return undefined;
 }
 
+function firstMetadataValue(
+  metadata: Record<string, string>,
+  keys: string[],
+): string | undefined {
+  for (const key of keys) {
+    const value = metadata[key]?.trim();
+    if (value) return value;
+  }
+  return undefined;
+}
+
+function bilingualMetadataValue(
+  metadata: Record<string, string>,
+  zhKeys: string[],
+  enKeys: string[],
+  fallback: string,
+): { zh: string; en: string } | undefined {
+  const zh = firstMetadataValue(metadata, zhKeys) ?? fallback;
+  const en = firstMetadataValue(metadata, enKeys) ?? fallback;
+  if (!zh && !en) return undefined;
+  return { zh: zh || en, en: en || zh };
+}
+
+function parseBilingualSpecs(
+  metadata: Record<string, string>,
+): { zh: string; en: string }[] | undefined {
+  const zhValue = firstMetadataValue(metadata, [
+    "specs_zh",
+    "spec_zh",
+    "specifications_zh",
+    "specs.zh",
+    "specifications.zh",
+    "規格",
+    "中文規格",
+  ]);
+  const enValue = firstMetadataValue(metadata, [
+    "specs_en",
+    "spec_en",
+    "specifications_en",
+    "specs.en",
+    "specifications.en",
+    "英文規格",
+  ]);
+  const sharedValue = firstMetadataValue(metadata, ["specs", "specifications"]);
+  const parseList = (value: string | undefined) =>
+    value
+      ?.split(/\r?\n|[|｜;]/)
+      .map((item) => item.trim())
+      .filter(Boolean) ?? [];
+  const zhItems = parseList(zhValue ?? sharedValue);
+  const enItems = parseList(enValue ?? sharedValue);
+  const count = Math.max(zhItems.length, enItems.length);
+  if (!count) return undefined;
+  return Array.from({ length: count }, (_, index) => ({
+    zh: zhItems[index] ?? enItems[index] ?? "",
+    en: enItems[index] ?? zhItems[index] ?? "",
+  }));
+}
+
 function metadataTags(metadata: Record<string, string>): string[] {
   return Array.from(new Set(
     Object.entries(metadata)
@@ -174,7 +233,13 @@ function stripeProductToCatalogProduct(
     ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
     image,
-    name: { zh: product.name ?? "", en: product.name ?? "" },
+    name:
+      bilingualMetadataValue(
+        metadata,
+        ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
+        ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
+        product.name ?? "",
+      ) ?? { zh: product.name ?? "", en: product.name ?? "" },
     price: priceRecord.amount,
     inStock: true,
     tags: Array.from(new Set([
@@ -184,9 +249,22 @@ function stripeProductToCatalogProduct(
     ])),
     ...(metadata.brand ? { brand: metadata.brand } : {}),
     ...(metadata.vendor ? { vendor: metadata.vendor } : {}),
-    ...(product.description
-      ? { description: { zh: product.description, en: product.description } }
+    ...(bilingualMetadataValue(
+      metadata,
+      ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
+      ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+      product.description ?? "",
+    )
+      ? {
+          description: bilingualMetadataValue(
+            metadata,
+            ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
+            ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+            product.description ?? "",
+          ),
+        }
       : {}),
+    ...(parseBilingualSpecs(metadata) ? { specs: parseBilingualSpecs(metadata) } : {}),
   };
 
   return catalogProduct;

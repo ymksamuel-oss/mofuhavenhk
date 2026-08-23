@@ -100,7 +100,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {t("productModalFeaturesTitle")}
               </h2>
               <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                {product.description[locale]}
+                {product.description[locale] || product.description.zh || product.description.en}
               </p>
             </div>
           ) : null}
@@ -134,7 +134,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                         : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
                     }`}
                   >
-                    <span className="min-w-0 leading-snug">{spec[locale]}</span>
+                    <span className="min-w-0 leading-snug">{spec[locale] || spec.zh || spec.en}</span>
                     <span
                       aria-hidden
                       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ${

@@ -285,7 +285,7 @@ export function Header() {
             </button>
 
             <div
-              className="hidden h-11 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:flex"
+              className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11"
               role="group"
               aria-label="Language"
             >

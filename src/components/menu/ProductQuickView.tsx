@@ -115,7 +115,7 @@ export function ProductQuickView({
               {t("productModalFeaturesTitle")}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-              {product.description[locale]}
+              {product.description[locale] || product.description.zh || product.description.en}
             </p>
           </div>
         ) : null}
@@ -135,7 +135,7 @@ export function ProductQuickView({
                     aria-hidden
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                   />
-                  {spec[locale]}
+                  {spec[locale] || spec.zh || spec.en}
                 </li>
               ))}
             </ul>

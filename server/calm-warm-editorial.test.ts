@@ -119,6 +119,22 @@ describe("calm warm editorial UI contract", () => {
     expect(categoryLink).toContain('href.startsWith("/categories")');
     expect(categoryLink).toContain('lang=en');
     expect(header).toContain('query.set("lang", "en")');
+    expect(header).toContain('className="flex h-10 shrink-0 items-center');
+  });
+
+  it("keeps live Stripe product content bilingual", () => {
+    const catalog = source("src/lib/catalog-server.ts");
+    const detail = source("src/components/product/ProductDetail.tsx");
+    const quickView = source("src/components/menu/ProductQuickView.tsx");
+
+    expect(catalog).toContain("bilingualMetadataValue");
+    expect(catalog).toContain("parseBilingualSpecs");
+    expect(catalog).toContain('"description_en"');
+    expect(catalog).toContain('"specs_en"');
+    expect(detail).toContain("product.description[locale] || product.description.zh");
+    expect(detail).toContain("spec[locale] || spec.zh");
+    expect(quickView).toContain("product.description[locale] || product.description.zh");
+    expect(quickView).toContain("spec[locale] || spec.zh");
   });
 
   it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
