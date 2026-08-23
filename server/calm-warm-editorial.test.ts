@@ -39,6 +39,8 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
     expect(page).toContain('grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3');
+    expect(page).toContain('labelKey: "allProducts"');
+    expect(page).toContain('Icon: BagIcon');
     expect(page).toContain('min-h-14 flex-col items-center justify-center');
     expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
     expect(page).toContain('hover:border-[#d7b893] hover:bg-[#f8efe8]');
@@ -71,6 +73,8 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain('lg:grid-cols-4');
     expect(productGrid).toContain('(min-width: 1024px) 25vw');
     expect(productGrid).toContain("產品目錄正在更新中");
+    expect(productGrid).not.toContain("查看全部商品");
+    expect(productGrid).not.toContain("查看全部");
   });
 
   it("uses responsive image delivery and a focused homepage product selection", () => {
@@ -102,6 +106,8 @@ describe("calm warm editorial UI contract", () => {
     expect(productCatalog).toContain('t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")');
     expect(translations).toContain('catSubWetCans: "Cans / Wet food"');
     expect(translations).toContain('dogSubSnacks: "Dog treats"');
+    expect(translations).toContain('allProducts: "全部產品"');
+    expect(translations).toContain('allProducts: "All Products"');
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
   });
 

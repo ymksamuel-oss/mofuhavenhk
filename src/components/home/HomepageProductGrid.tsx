@@ -39,12 +39,6 @@ export function HomepageProductGrid() {
               由 Mofu Haven 精選的貓咪、狗狗及日系寵物用品，直接由現時產品目錄載入。
             </p>
           </div>
-          <CategoryNavLink
-            href="/menu"
-            className="hidden shrink-0 rounded-xl border border-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)] transition hover:bg-[color:var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:inline-flex"
-          >
-            查看全部
-          </CategoryNavLink>
         </div>
 
         {products.length === 0 ? (
@@ -106,12 +100,6 @@ export function HomepageProductGrid() {
           </ul>
         )}
 
-        <CategoryNavLink
-          href="/menu"
-          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-[color:var(--accent)] bg-white px-5 py-2.5 text-sm font-semibold text-[color:var(--accent)] transition hover:bg-[color:var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:hidden"
-        >
-          查看全部商品
-        </CategoryNavLink>
       </div>
     </section>
   );
