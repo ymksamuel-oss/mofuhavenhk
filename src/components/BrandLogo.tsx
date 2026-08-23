@@ -19,7 +19,7 @@ export function BrandLogo({
       aria-label={title}
     >
       <Image
-        src="/images/mofu-haven-cat-dog-logo.jpg"
+        src="/images/mofu-haven-cat-dog-logo-transparent.png"
         alt=""
         width={960}
         height={1106}

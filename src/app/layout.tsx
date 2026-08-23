@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     siteName: "Mofu Haven HK 毛毛港",
     images: [
       {
-        url: "/images/mofu-haven-cat-dog-logo.jpg",
+        url: "/images/mofu-haven-cat-dog-logo-transparent.png",
         width: 960,
         height: 1106,
         alt: "Mofu Haven HK 毛毛港 - 日本天然寵物用品",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: "Mofu Haven HK | 日本天然寵物用品・3-5日發貨・滿$450免運費",
     description:
       "專營日本優質寵物糧食與用品，現貨 3-5 日順豐發貨，滿 HK$450 免運費！",
-    images: ["/images/mofu-haven-cat-dog-logo.jpg"],
+    images: ["/images/mofu-haven-cat-dog-logo-transparent.png"],
   },
   robots: {
     index: true,
