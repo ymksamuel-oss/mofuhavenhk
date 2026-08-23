@@ -38,6 +38,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
+    expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
 
   it("keeps the explore section as responsive left content and right lifestyle image", () => {

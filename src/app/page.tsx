@@ -86,6 +86,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomepageProductGrid />
+
       <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
           <div className="max-w-xl lg:col-start-1 lg:row-start-1 lg:py-6">
@@ -167,8 +169,6 @@ export default function HomePage() {
           <ProductSearch variant="home" className="mt-5 max-w-3xl" />
         </div>
       </section>
-
-      <HomepageProductGrid />
 
       <FAQAccordion />
     </>
