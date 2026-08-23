@@ -1,21 +1,53 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { AlipayHkLogo, CardLogo, WeChatPayLogo } from "@/components/icons/PaymentIcons";
+import {
+  AlipayHkLogo,
+  ApplePayLogo,
+  CardLogo,
+  GooglePayLogo,
+  PayMeLogo,
+  WeChatPayLogo,
+} from "@/components/icons/PaymentIcons";
 
-export type MethodId = "card" | "wechatpay" | "alipayhk";
+export type MethodId =
+  | "card"
+  | "applepay"
+  | "googlepay"
+  | "payme"
+  | "wechatpay"
+  | "alipayhk"
 
 export type PaymentMethodDef = {
   id: MethodId;
-  labelKey: "payCard" | "payWeChatPay" | "payAlipayHk";
-  Icon: typeof CardLogo | typeof WeChatPayLogo | typeof AlipayHkLogo;
+  labelKey:
+    | "payCard"
+    | "payApplePay"
+    | "payGooglePay"
+    | "payPayMe"
+    | "payWeChatPay"
+    | "payAlipayHk"
+  Icon:
+    | typeof CardLogo
+    | typeof ApplePayLogo
+    | typeof GooglePayLogo
+    | typeof PayMeLogo
+    | typeof WeChatPayLogo
+    | typeof AlipayHkLogo
 };
 
-/** Wallet buttons are displayed dynamically by Stripe Express Checkout. */
+/**
+ * Hosted Checkout options are listed explicitly so shoppers know what to look
+ * for on Stripe's next page. Stripe still decides actual availability from
+ * Dashboard settings, device, browser, country and currency eligibility.
+ */
 export const PAYMENT_METHODS: PaymentMethodDef[] = [
-  { id: "card", labelKey: "payCard", Icon: CardLogo },
+  { id: "googlepay", labelKey: "payGooglePay", Icon: GooglePayLogo },
+  { id: "payme", labelKey: "payPayMe", Icon: PayMeLogo },
+  { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
   { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
+  { id: "card", labelKey: "payCard", Icon: CardLogo },
 ];
 
 type PaymentMethodsProps = {
@@ -89,6 +121,9 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
           );
         })}
       </ul>
+      <p className="text-xs leading-relaxed text-[color:var(--muted)]">
+        {t("stripeMethodsNote")}
+      </p>
     </section>
   );
 }

@@ -84,6 +84,34 @@ export function AlipayHkLogo({ className = "" }: LogoProps) {
   );
 }
 
+/** Google Pay mark used for the hosted Checkout hand-off option. */
+export function GooglePayLogo({ className = "" }: LogoProps) {
+  return (
+    <span
+      className={`inline-flex h-9 items-center gap-1.5 text-[1.05rem] font-semibold tracking-[-0.03em] text-[#3c4043] ${className}`}
+      role="img"
+      aria-label="Google Pay"
+    >
+      <span className="font-bold text-[#4285f4]">G</span>
+      <span>Pay</span>
+    </span>
+  );
+}
+
+/** PayMe mark used for the hosted Checkout hand-off option. */
+export function PayMeLogo({ className = "" }: LogoProps) {
+  return (
+    <span
+      className={`inline-flex h-9 items-center gap-1.5 text-[1.05rem] font-extrabold tracking-[-0.04em] text-[#111827] ${className}`}
+      role="img"
+      aria-label="PayMe"
+    >
+      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[#00a88f] text-sm text-white">P</span>
+      <span>PayMe</span>
+    </span>
+  );
+}
+
 export function WhatsAppLogo({ className = "" }: LogoProps) {
   return (
     <svg

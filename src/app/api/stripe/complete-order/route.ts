@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Stripe from "stripe";
 import {
   buildNotifyMessage,
   sendWhatsAppNotification,
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 
 type Body = {
   paymentIntentId?: unknown;
+  checkoutSessionId?: unknown;
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -24,8 +26,8 @@ function isNonEmptyString(value: unknown): value is string {
 /**
  * POST /api/stripe/complete-order
  *
- * After Stripe confirms payment on the client, verify the PaymentIntent
- * server-side and send the shop WhatsApp new-order notification.
+ * After Stripe confirms payment, verify either the PaymentIntent or a hosted
+ * Checkout Session server-side and send the shop WhatsApp new-order notification.
  */
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {
@@ -45,19 +47,52 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isNonEmptyString(body.paymentIntentId)) {
+  const paymentIntentId = isNonEmptyString(body.paymentIntentId)
+    ? body.paymentIntentId.trim()
+    : "";
+  const checkoutSessionId = isNonEmptyString(body.checkoutSessionId)
+    ? body.checkoutSessionId.trim()
+    : "";
+
+  if (!paymentIntentId && !checkoutSessionId) {
     return NextResponse.json(
-      { ok: false, error: "payment_intent_required" },
+      { ok: false, error: "payment_reference_required" },
       { status: 400 },
     );
   }
 
   try {
     const stripe = getStripe();
-    const intent = await stripe.paymentIntents.retrieve(
-      body.paymentIntentId.trim(),
-      { expand: ["payment_method"] },
-    );
+    let intent: Stripe.PaymentIntent;
+    let sessionMetadata: Record<string, string> = {};
+
+    if (checkoutSessionId) {
+      const session = await stripe.checkout.sessions.retrieve(checkoutSessionId, {
+        expand: ["payment_intent.payment_method"],
+      });
+      if (
+        session.mode !== "payment" ||
+        session.status !== "complete" ||
+        session.payment_status !== "paid"
+      ) {
+        return NextResponse.json(
+          { ok: false, error: "checkout_not_paid" },
+          { status: 402 },
+        );
+      }
+      if (!session.payment_intent || typeof session.payment_intent === "string") {
+        return NextResponse.json(
+          { ok: false, error: "checkout_missing_payment_intent" },
+          { status: 502 },
+        );
+      }
+      intent = session.payment_intent;
+      sessionMetadata = session.metadata ?? {};
+    } else {
+      intent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+        expand: ["payment_method"],
+      });
+    }
 
     if (intent.status !== "succeeded") {
       return NextResponse.json(
@@ -66,7 +101,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const orderNumber = intent.metadata?.orderNumber?.trim();
+    const metadata = { ...sessionMetadata, ...intent.metadata };
+    const orderNumber = metadata.orderNumber?.trim();
     if (!orderNumber) {
       return NextResponse.json(
         { ok: false, error: "missing_order_metadata" },
@@ -78,9 +114,10 @@ export async function POST(request: Request) {
       intent.payment_method && typeof intent.payment_method !== "string"
         ? intent.payment_method
         : null;
-    // Wallet redirects (Alipay / WeChat) may not collect a cardholder name.
+    // Wallet redirects (for example WeChat Pay or an account-supported
+    // AlipayHK method) may not collect a cardholder name.
     const customerName =
-      intent.metadata?.customerName?.trim() ||
+      metadata.customerName?.trim() ||
       paymentMethod?.billing_details?.name?.trim() ||
       "顧客";
 
@@ -88,7 +125,7 @@ export async function POST(request: Request) {
     const total = fromStripeAmountHkd(intent.amount);
 
     // Idempotent: skip WhatsApp if already notified for this PaymentIntent.
-    if (intent.metadata?.whatsapp_notified === "true") {
+    if (metadata.whatsapp_notified === "true") {
       return NextResponse.json({
         ok: true,
         alreadyNotified: true,
@@ -111,7 +148,7 @@ export async function POST(request: Request) {
     if (notify.ok) {
       await stripe.paymentIntents.update(intent.id, {
         metadata: {
-          ...intent.metadata,
+          ...metadata,
           customerName,
           whatsapp_notified: "true",
           paymentLabel,

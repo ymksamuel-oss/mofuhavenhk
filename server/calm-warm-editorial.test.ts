@@ -65,22 +65,53 @@ describe("calm warm editorial UI contract", () => {
 });
 
 
-  it("uses dynamic Stripe wallet buttons and keeps payment rows logo-only", () => {
+  it("routes Google Pay and PayMe through hosted Checkout Session", () => {
     const stripeForm = source("src/components/checkout/StripePaymentForm.tsx");
     const paymentMethods = source("src/components/checkout/PaymentMethods.tsx");
     const checkout = source("src/app/checkout/page.tsx");
+    const sessionRoute = source("src/app/api/stripe/create-checkout-session/route.ts");
+    const completeRoute = source("src/app/api/stripe/complete-order/route.ts");
+    const paymentIntentRoute = source("src/app/api/stripe/create-payment-intent/route.ts");
+    const asianWallet = source("src/components/checkout/AsianWalletPayForm.tsx");
     const translations = source("src/lib/i18n/translations.ts");
 
-    expect(stripeForm).toContain("ExpressCheckoutElement");
-    expect(stripeForm).toContain("PaymentElement");
-    expect(stripeForm).toContain('googlePay: "auto"');
-    expect(stripeForm).toContain('link: "never"');
-    expect(stripeForm).toContain('redirect: "if_required"');
-    expect(paymentMethods).not.toContain('id: "applepay"');
+    expect(stripeForm).toContain("PaymentRequestButtonElement");
+    expect(stripeForm).toContain("paymentRequest(");
+    expect(stripeForm).not.toContain('disableWallets: ["googlePay", "link", "browserCard"]');
+    expect(stripeForm).toContain('disableWallets: ["link", "browserCard"]');
+    expect(stripeForm).toContain("disableLink: true");
+    expect(paymentMethods).toContain('id: "googlepay"');
+    expect(paymentMethods).toContain('id: "payme"');
+    expect(paymentMethods).toContain("GooglePayLogo");
+    expect(paymentMethods).toContain("PayMeLogo");
+    expect(paymentMethods).toContain('id: "applepay"');
+    expect(paymentMethods).toContain('id: "alipayhk"');
     expect(paymentMethods).toContain('className="sr-only"');
     expect(paymentMethods).not.toContain(">\n                  {t(labelKey)}\n                </span>");
-    expect(checkout).toContain('selectedMethod === "card"');
-    expect(checkout).toContain("returnUrl={stripeReturnUrl}");
+    expect(checkout).toContain('selectedMethod === "googlepay" ||');
+    expect(checkout).toContain('selectedMethod === "alipayhk"');
+    expect(checkout).not.toContain("confirmAlipayPayment");
+    expect(checkout).toContain("/api/stripe/create-checkout-session");
+    expect(checkout).toContain("window.location.assign(data.checkoutUrl)");
+    expect(sessionRoute).toContain('mode: "payment"');
+    expect(sessionRoute).toContain("payment_method_configuration");
+    expect(sessionRoute).toContain("success_url");
+    expect(sessionRoute).toContain("payment_intent_data");
+    expect(sessionRoute).toContain("wallet_options");
+    expect(sessionRoute).toContain('link: { display: "never" }');
+    expect(sessionRoute).toContain('excluded_payment_method_types: ["alipay"]');
+    expect(sessionRoute).toContain("Do not set payment_method_types");
+    expect(completeRoute).toContain("checkoutSessionId");
+    expect(completeRoute).toContain("account-supported");
+    expect(paymentIntentRoute).toContain("getStripePaymentMethodConfiguration");
+    expect(paymentIntentRoute).toContain('excluded_payment_method_types: ["alipay"]');
+    expect(asianWallet).toContain('export type AsianWalletMethod = "wechatpay"');
+    expect(asianWallet).not.toContain("confirmAlipayPayment");
+    expect(completeRoute).toContain('session.payment_status !== "paid"');
+    expect(translations).toContain('payGooglePay: "Google Pay（Stripe Checkout）"');
+    expect(translations).toContain('payPayMe: "PayMe（Stripe Checkout）"');
+    expect(translations).toContain('payAlipayHk: "AlipayHK（香港支付寶）"');
+    expect(translations).toContain("內地版 Alipay 已封鎖");
     expect(translations).toContain('paymentHint: "請選擇付款方式。"');
     expect(translations).toContain('paymentHint: "Choose a payment method."');
   });

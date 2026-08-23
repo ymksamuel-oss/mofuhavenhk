@@ -1,10 +1,12 @@
 # Mofu Haven HK
 
-Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物用品網店，採用 Next.js 16、React 19、TypeScript strict mode 及 Tailwind CSS 4。介面沿用日系奶茶色設計 tokens；付款及通知流程保留 Stripe、Apple Pay、WeChat Pay、AlipayHK 與 WhatsApp 現有整合。
+Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物用品網店，採用 Next.js 16、React 19、TypeScript strict mode 及 Tailwind CSS 4。介面沿用日系奶茶色設計 tokens；付款及通知流程保留 Stripe、Apple Pay、Google Pay、PayMe、WeChat Pay、帳戶支援的 AlipayHK 入口與 WhatsApp；內地版 Alipay 會被明確排除。
 
 ## 產品目錄
 
-Google Sheet 是唯一產品主源。瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe PaymentIntent、收據及訂單通知全部使用同一份伺服器載入的 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
+Google Sheet 是唯一產品主源。瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe hosted Checkout Session／PaymentIntent、收據及訂單通知全部使用同一份伺服器載入的 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
+
+Google Pay、PayMe 及 AlipayHK 入口會由結帳頁交由 Stripe hosted Checkout 處理。建立 Checkout Session 時不會硬編 `payment_method_types`，而是使用 Stripe Dashboard 的 dynamic payment methods；因此 Google Pay 會按已註冊 domain、瀏覽器／裝置、客戶地區及 HKD 資格自動出現。PayMe 及 AlipayHK 只有在 Stripe 帳戶實際提供、且指定 Payment Method Configuration 可用時才會出現，程式不會傳送未受 Stripe API 支援的 `payme` 或 `alipayhk` enum。
 
 網站不保留 hardcoded、mock 或 sample 產品資料。Sheet 下載、解析失敗或沒有有效商品時，catalog 會回傳空陣列並顯示 Empty State；不會展示舊產品。
 
@@ -18,6 +20,16 @@ Google Sheet 是唯一產品主源。瀏覽目錄、分類頁、動態產品詳�
 - 適用品種 slug 與中英文品種名稱
 
 搜尋建議使用統一 `Product` 欄位，顯示本地圖片、中英文名稱、價格、品牌／系列及適用時的「售罄／Sold out」標籤，並保留桌面鍵盤導覽、ARIA 與手機搜尋 modal。
+
+### 付款設定
+
+- 在 Stripe Dashboard 啟用 Google Pay，以及註冊所有會展示支付按鈕的正式及預覽 domain（例如 `mofuhavenhk.com` 及實際使用的 `*.vercel.app` domain）。
+- Hosted Checkout API route 是 `src/app/api/stripe/create-checkout-session/route.ts`；成功後回傳 `/checkout/success?session_id={CHECKOUT_SESSION_ID}`，並由 `src/app/api/stripe/complete-order/route.ts` server-side 驗證付款狀態。
+- Hosted Checkout Session 現在使用官方支援的 `wallet_options.link.display = "never"`，移除 Link 快速結帳按鈕；Apple Pay／Google Pay 仍留在 Dashboard dynamic payment methods 的資格判斷內。
+- Stripe hosted Checkout API 沒有已確認的 per-session `express_checkout` 開關，不能保證在保留標準清單 Apple Pay／Google Pay 的同時，從程式碼隱藏整個頂部容器。若 Stripe Dashboard 顯示獨立的 Checkout／Express Checkout toggle，應在該處關閉；不能用商店 CSS 修改 `checkout.stripe.com`。
+- 如帳戶使用自訂的 Stripe Payment Method Configuration，將 configuration ID 設定為 `STRIPE_PAYMENT_METHOD_CONFIGURATION_ID`；程式會把同一個 ID 傳入 Checkout Session 及 PaymentIntent，讓 Dashboard 設定同步生效。不要在程式碼中直接加入未獲 Stripe API 文件確認的 `payme` 或 `alipayhk` payment method type。
+- Checkout Session 及 PaymentIntent 都會以 `excluded_payment_method_types: ["alipay"]` 排除 Stripe 的內地版 Alipay。Stripe 官方目前表示 AlipayHK 不支援作為同一個 `alipay` method；只有當您的帳戶／組態顯示真正獨立支援的 AlipayHK method 時，才應保留該入口。
+- `STRIPE_LIVE_SECRET_KEY` 是目前 production 優先使用的 server-only secret；`STRIPE_PUBLISHABLE_KEY` 只供前台載入 Stripe.js。兩者都不可提交到 Git。
 
 `inStock === false` 會在所有購買路徑生效：
 

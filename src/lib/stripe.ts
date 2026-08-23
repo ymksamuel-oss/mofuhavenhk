@@ -39,6 +39,11 @@ export function isStripeConfigured(): boolean {
   return Boolean(getStripeSecretKey() && getStripePublishableKey());
 }
 
+/** Optional Stripe Dashboard payment-method configuration for hosted Checkout. */
+export function getStripePaymentMethodConfiguration(): string {
+  return process.env.STRIPE_PAYMENT_METHOD_CONFIGURATION_ID?.trim() || "";
+}
+
 let stripeSingleton: Stripe | null = null;
 
 export function getStripe(): Stripe {
@@ -62,11 +67,15 @@ export function paymentLabelFromIntent(
   const wallet = paymentMethod?.card?.wallet?.type;
   if (wallet === "apple_pay") return "Apple Pay";
   if (wallet === "google_pay") return "Google Pay";
-  if (paymentMethod?.type === "wechat_pay") {
+  const paymentType = paymentMethod?.type;
+  // PayMe is account-dependent; keep this defensive for any Stripe-supported
+  // or custom PaymentMethod payload that returns the type by name.
+  if (paymentType === "payme") return "PayMe";
+  if (paymentType === "wechat_pay") {
     return "WeChat Pay（微信支付）";
   }
   if (paymentMethod?.type === "alipay") {
-    return "AlipayHK（香港支付寶）";
+    return "Alipay（內地版）";
   }
   if (paymentMethod?.type === "card") {
     return "信用卡／全球支付 (Stripe)";

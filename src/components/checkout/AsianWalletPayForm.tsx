@@ -2,17 +2,16 @@
 
 import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AlipayHkLogo, WeChatPayLogo } from "@/components/icons/PaymentIcons";
+import { WeChatPayLogo } from "@/components/icons/PaymentIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
-export type AsianWalletMethod = "wechatpay" | "alipayhk";
+export type AsianWalletMethod = "wechatpay";
 
 type AsianWalletPayFormProps = {
   method: AsianWalletMethod;
   clientSecret: string;
   publishableKey: string;
   customerName?: string;
-  returnUrl: string;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
 };
@@ -50,7 +49,7 @@ async function persistCustomerName(
 }
 
 /**
- * Stripe WeChat Pay (QR) + Alipay / AlipayHK (redirect) confirm UI.
+ * Stripe WeChat Pay (QR) confirm UI.
  * Requires the methods to be enabled on the Stripe Dashboard for HKD.
  */
 export function AsianWalletPayForm({
@@ -58,7 +57,6 @@ export function AsianWalletPayForm({
   clientSecret,
   publishableKey,
   customerName = "",
-  returnUrl,
   onPaid,
   onError,
 }: AsianWalletPayFormProps) {
@@ -155,23 +153,6 @@ export function AsianWalletPayForm({
       await persistCustomerName(paymentIntentId, customerName);
     }
 
-    if (method === "alipayhk") {
-      const { error } = await stripe.confirmAlipayPayment(clientSecret, {
-        return_url: returnUrl,
-        payment_method: {
-          billing_details: customerName.trim()
-            ? { name: customerName.trim() }
-            : undefined,
-        },
-      });
-      if (error) {
-        onError(error.message || t("stripePayFailed"));
-        setSubmitting(false);
-      }
-      // Successful path redirects away from this page.
-      return;
-    }
-
     // WeChat Pay — confirm then show QR; poll until paid.
     const { error, paymentIntent } = await stripe.confirmWechatPayPayment(
       clientSecret,
@@ -213,23 +194,21 @@ export function AsianWalletPayForm({
     setSubmitting(false);
   };
 
-  const isWechat = method === "wechatpay";
-  const brandColor = isWechat ? "#09BB07" : "#00A0E9";
-  const Logo = isWechat ? WeChatPayLogo : AlipayHkLogo;
+  const brandColor = "#09BB07";
 
   return (
     <div className="space-y-4" data-asian-wallet={method}>
       <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/35 p-4">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center">
-            <Logo />
+            <WeChatPayLogo />
           </span>
           <div className="min-w-0">
             <p className="text-sm font-semibold text-[color:var(--ink)]">
-              {isWechat ? t("payWeChatPay") : t("payAlipayHk")}
+              {t("payWeChatPay")}
             </p>
             <p className="mt-0.5 text-xs leading-relaxed text-[color:var(--muted)]">
-              {isWechat ? t("wechatPayHint") : t("alipayHkHint")}
+              {t("wechatPayHint")}
             </p>
           </div>
         </div>
@@ -261,9 +240,7 @@ export function AsianWalletPayForm({
         >
           {submitting
             ? t("stripePaying")
-            : isWechat
-              ? t("wechatPayCta")
-              : t("alipayHkCta")}
+            : t("wechatPayCta")}
         </button>
       ) : null}
     </div>

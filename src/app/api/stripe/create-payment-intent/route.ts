@@ -9,6 +9,7 @@ import {
 } from "@/lib/order";
 import {
   getStripe,
+  getStripePaymentMethodConfiguration,
   isStripeConfigured,
   toStripeAmountHkd,
 } from "@/lib/stripe";
@@ -29,6 +30,8 @@ type Body = {
 
 const PAYMENT_LABELS: Record<string, string> = {
   applepay: "Apple Pay",
+  googlepay: "Google Pay",
+  payme: "PayMe",
   card: "信用卡／全球支付 (Stripe)",
   wechatpay: "WeChat Pay（微信支付）",
   alipayhk: "AlipayHK（香港支付寶）",
@@ -120,11 +123,21 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
+    const paymentMethodConfiguration = getStripePaymentMethodConfiguration();
     const intent = await stripe.paymentIntents.create({
       amount,
       currency: "hkd",
-      // Dashboard-enabled methods (card, wallets, WeChat Pay, Alipay) for HKD.
+      // Dashboard-enabled methods (card, wallets and WeChat Pay) for HKD.
+      // Google Pay is also allowed by Payment Request when the device qualifies.
+      // Google Pay, PayMe and AlipayHK use the hosted Checkout route. No
+      // unsupported payment-method enum is hard-coded here.
       automatic_payment_methods: { enabled: true },
+      ...(paymentMethodConfiguration
+        ? { payment_method_configuration: paymentMethodConfiguration }
+        : {}),
+      // Exclude Stripe's domestic Alipay type. A separate AlipayHK method, if
+      // enabled by Stripe for this account/configuration, remains Dashboard-driven.
+      excluded_payment_method_types: ["alipay"],
       ...(preferredMethod === "wechatpay"
         ? {
             payment_method_options: {
