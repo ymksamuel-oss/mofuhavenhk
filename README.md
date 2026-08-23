@@ -2,7 +2,7 @@
 
 Mofu Haven（毛毛港）是以繁體中文／英文呈現的香港日本寵物用品網店，採用 Next.js 16、React 19、TypeScript strict mode 及 Tailwind CSS 4。介面沿用日系奶茶色設計 tokens；付款及通知流程只保留信用卡、Apple Pay、Google Pay、PayMe、AlipayHK 及 WhatsApp；內地版 Alipay 會被明確排除。
 
-## 產品目錄
+## 產品目錄 
 
 Google Sheet 是唯一產品主源。瀏覽目錄、分類頁、動態產品詳情、快速檢視、全站搜尋、購物車、結帳、Stripe hosted Checkout Session／PaymentIntent、收據及訂單通知全部使用同一份伺服器載入的 catalog。Stripe 與通知 API 會按該 catalog 在伺服器重新建立價錢及庫存，不信任瀏覽器傳入的價格。
 
