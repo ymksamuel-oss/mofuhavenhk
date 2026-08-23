@@ -33,31 +33,31 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="bg-[color:var(--background)] px-4 pb-5 pt-4 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
-          <div className="relative min-h-[20rem] overflow-hidden sm:min-h-[25rem] lg:min-h-0">
+      <section className="bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
+          <div className="relative h-[7.5rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
             <Image
               src="/images/hero-sleeping-shiba-taupe.jpg"
               alt="熟睡中的白色柴犬幼犬"
               fill
               priority
               sizes="(min-width: 1024px) 53vw, 100vw"
-              className="object-cover object-left"
+              className="object-cover object-[center_58%] sm:object-left"
             />
             <div aria-hidden className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(75,54,33,0.14))] lg:hidden" />
           </div>
 
-          <div className="flex min-h-[18.5rem] flex-col items-center justify-center bg-[#ead7bf] px-7 py-10 text-center sm:px-12 sm:py-12 lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
-            <BrandLogo title="Mofu Haven" className="h-24 sm:h-28 lg:h-32" />
-            <h1 className="mt-6 max-w-md font-[family-name:var(--font-display)] text-3xl font-semibold leading-snug tracking-[-0.025em] text-[#4b3621] sm:text-4xl lg:text-[2.75rem]">
+          <div className="flex min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:min-h-[15rem] sm:px-10 sm:py-9 lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
+            <BrandLogo title="Mofu Haven" className="h-10 sm:h-20 lg:h-32" />
+            <h1 className="mt-2 max-w-md font-[family-name:var(--font-display)] text-xl font-semibold leading-snug tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-3xl lg:mt-6 lg:text-[2.75rem]">
               為愛寵提供最安心的選擇
             </h1>
-            <p className="mt-3 max-w-sm text-base leading-relaxed text-[#725c45] sm:text-lg">
+            <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
               嚴選日本優質寵物用品，為每一份日常帶來溫柔照料。
             </p>
             <CategoryNavLink
               href="/menu"
-              className="mt-7 inline-flex min-h-12 items-center justify-center rounded-xl bg-[#4b3621] px-7 py-3 text-base font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:-translate-y-0.5 hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ead7bf]"
+              className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl bg-[#4b3621] px-5 py-2 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:-translate-y-0.5 hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ead7bf] sm:mt-5 sm:min-h-12 sm:px-7 sm:py-3 sm:text-base"
             >
               立即選購 <span aria-hidden className="ml-2">→</span>
             </CategoryNavLink>

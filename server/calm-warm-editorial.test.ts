@@ -27,7 +27,10 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('<BrandLogo title="Mofu Haven"');
     expect(page).toContain('為愛寵提供最安心的選擇');
     expect(page).toContain('立即選購');
-    expect(page).toContain('rounded-[2rem]');
+    expect(page).toContain('h-[7.5rem]');
+    expect(page).toContain('object-[center_58%]');
+    expect(page).toContain('h-10 sm:h-20 lg:h-32');
+    expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
   });
 
