@@ -90,6 +90,23 @@ export default function HomePage() {
 
       <HomepageProductGrid />
 
+      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-4 py-6 sm:px-8 sm:py-9">
+        <div className="mx-auto max-w-4xl">
+          <div className="grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3">
+            {quickCategories.map(({ href, labelKey, Icon }) => (
+              <CategoryNavLink
+                key={href}
+                href={href}
+                className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1.5 py-2 text-center text-[11px] font-semibold leading-tight text-[color:var(--ink)] transition hover:border-[#d7b893] hover:bg-[#f8efe8] hover:text-[color:var(--accent)] sm:min-h-16 sm:px-2 sm:text-sm"
+              >
+                <Icon className="h-4 w-4 shrink-0 text-[color:var(--accent)] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                <span>{t(labelKey)}</span>
+              </CategoryNavLink>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
           <div className="max-w-xl lg:col-start-1 lg:row-start-1 lg:py-6">
@@ -143,22 +160,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-4 py-6 sm:px-8 sm:py-9">
-        <div className="mx-auto max-w-4xl">
-          <div className="grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3">
-            {quickCategories.map(({ href, labelKey, Icon }) => (
-              <CategoryNavLink
-                key={href}
-                href={href}
-                className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1.5 py-2 text-center text-[11px] font-semibold leading-tight text-[color:var(--ink)] transition hover:border-[#d7b893] hover:bg-[#f8efe8] hover:text-[color:var(--accent)] sm:min-h-16 sm:px-2 sm:text-sm"
-              >
-                <Icon className="h-4 w-4 shrink-0 text-[color:var(--accent)] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
-                <span>{t(labelKey)}</span>
-              </CategoryNavLink>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="bg-[color:var(--background)] px-6 py-11 sm:px-10 sm:py-16">
         <div className="mx-auto max-w-6xl rounded-[1.8rem] border border-[color:var(--line)] bg-white px-5 py-7 sm:px-8">
