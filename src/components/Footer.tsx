@@ -16,7 +16,7 @@ import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 
 const SHOP_EMAIL =
-  process.env.NEXT_PUBLIC_SHOP_EMAIL?.trim() || "hello@mofuhavenhk.com";
+  process.env.NEXT_PUBLIC_SHOP_EMAIL?.trim() || "MofuHavenHK@gmail.com";
 
 type FooterLink = { href: string; labelKey: TranslationKey };
 

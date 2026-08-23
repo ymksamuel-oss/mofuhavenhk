@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 
@@ -9,14 +10,34 @@ import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
  * Design: High contrast, smooth hover/tap animation, mobile-friendly touch target.
  */
 export function FloatingWhatsApp() {
+  const [footerVisible, setFooterVisible] = useState(false);
   const chatUrl = getShopWhatsAppChatUrl(
     "Hello Mofu Haven! 🐾 我想查詢有關日本寵物用品及發貨詳情。"
   );
 
+  useEffect(() => {
+    const footer = document.getElementById("site-footer-root");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.08 },
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   if (!chatUrl) return null;
 
   return (
-    <aside aria-label="WhatsApp 快速客服" className="fixed bottom-6 right-6 z-50">
+    <aside
+      aria-label="WhatsApp 快速客服"
+      className={`fixed bottom-6 right-6 z-50 transition-all duration-200 ${
+        footerVisible
+          ? "pointer-events-none translate-y-4 opacity-0"
+          : "translate-y-0 opacity-100"
+      }`}
+    >
       <a
         href={chatUrl}
         target="_blank"

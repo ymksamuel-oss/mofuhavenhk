@@ -67,6 +67,16 @@ describe("calm warm editorial UI contract", () => {
     expect(drawer).toContain("env(safe-area-inset-bottom");
   });
 
+  it("keeps footer contact details accurate and hides the floating WhatsApp control near payment marks", () => {
+    const footer = source("src/components/Footer.tsx");
+    const floatingWhatsapp = source("src/components/FloatingWhatsApp.tsx");
+
+    expect(footer).toContain("MofuHavenHK@gmail.com");
+    expect(floatingWhatsapp).toContain('getElementById("site-footer-root")');
+    expect(floatingWhatsapp).toContain("IntersectionObserver");
+    expect(floatingWhatsapp).toContain("pointer-events-none translate-y-4 opacity-0");
+  });
+
   it("keeps exactly the five requested payment options and official marks", () => {
     const paymentMethods = source("src/components/checkout/PaymentMethods.tsx");
     const paymentIcons = source("src/components/icons/PaymentIcons.tsx");
