@@ -275,7 +275,6 @@ export async function POST(request: Request) {
       cancel_url: `${origin}/checkout?checkout=cancelled&order=${encodeURIComponent(orderNumber)}`,
       client_reference_id: orderNumber,
       customer_creation: "always",
-      payment_method_configuration: process.env.STRIPE_PAYMENT_METHOD_CONFIGURATION_ID,
       phone_number_collection: { enabled: true },
       billing_address_collection: "auto",
       metadata,
