@@ -2,6 +2,8 @@ import { getProductsByCategory, type Product } from "@/lib/products";
 
 export type OrderItem = {
   id: string;
+  /** Active Stripe Price ID; present for live Stripe catalog products. */
+  stripePriceId?: string;
   name: { zh: string; en: string };
   /** Real product photograph from the active catalog (local path or URL). */
   image: string;
@@ -40,6 +42,7 @@ export function getOrderItems(
       : products.filter((product) => product.inStock !== false);
   return source.slice(0, 3).map((product) => ({
     id: product.id,
+    ...(product.priceId ? { stripePriceId: product.priceId } : {}),
     name: product.name,
     image: product.image,
     qty: 1,

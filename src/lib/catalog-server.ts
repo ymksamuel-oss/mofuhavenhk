@@ -5,7 +5,9 @@ import Stripe from "stripe";
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import {
   categorySlugFromMetadata,
+  subcategoryFromMetadata,
   type Product,
+  type ProductSubcategory,
   uniqueProductsById,
 } from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
@@ -25,11 +27,51 @@ function productMetadata(product: Stripe.Product): Record<string, string> {
 function categoryFromProduct(product: Stripe.Product): string {
   const metadata = productMetadata(product);
   const metadataCategory =
-    metadata.category ?? metadata.category_code ?? metadata["主分類代碼"];
+    metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
   return (
     categorySlugFromMetadata(metadataCategory) ??
-    (/狗|dog/i.test(product.name ?? "") ? "dogs" : "cats")
+    (/(小動物|兔|倉鼠|天竺鼠|牧草|小寵物|small.?pet)/i.test(product.name ?? "")
+      ? "small-pets"
+      : /狗|犬|dog/i.test(product.name ?? "")
+        ? "dogs"
+        : "cats")
   );
+}
+
+function subcategoryFromProduct(
+  product: Stripe.Product,
+  categorySlug: string,
+): ProductSubcategory | undefined {
+  const metadata = productMetadata(product);
+  const raw =
+    metadata.subcategory ?? metadata.sub_category ?? metadata.child_category ?? metadata["SubCategory"];
+  const fromMetadata = subcategoryFromMetadata(raw);
+  if (fromMetadata) return fromMetadata;
+
+  const text = `${product.name ?? ""} ${product.description ?? ""}`.toLowerCase();
+  if (text.includes("投藥") || text.includes("餵藥") || text.includes("pill")) {
+    return "投藥餵藥專用小食";
+  }
+  if (categorySlug === "cats") {
+    if (text.includes("冷凍脫水") || text.includes("freeze-dried")) return "冷凍脫水系列";
+    if (text.includes("罐頭") || text.includes("罐罐") || text.includes("濕糧") || text.includes("濕食")) return "貓罐罐";
+    if (text.includes("乾糧") || text.includes("飼料")) return "貓乾糧";
+    if (text.includes("小食") || text.includes("零食") || text.includes("脆餅") || text.includes("肉泥") || text.includes("凍乾")) return "貓貓小食";
+  }
+  if (categorySlug === "dogs") {
+    if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷")) return "狗狗小食";
+    return "狗狗食品";
+  }
+  return undefined;
+}
+
+function metadataTags(metadata: Record<string, string>): string[] {
+  return Array.from(new Set(
+    Object.entries(metadata)
+      .filter(([key]) => /^(tag|tags)$/i.test(key))
+      .flatMap(([, value]) => value.split(/[,，、|]/).map((tag) => tag.trim()))
+      .filter(Boolean),
+  ));
 }
 
 function iconForCategory(categorySlug: string): CategoryIconName {
@@ -56,8 +98,10 @@ async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> 
   return products;
 }
 
-async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, number>> {
-  const pricesByProductId = new Map<string, number>();
+type StripePriceRecord = { id: string; amount: number };
+
+async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, StripePriceRecord>> {
+  const pricesByProductId = new Map<string, StripePriceRecord>();
   let startingAfter: string | undefined;
 
   do {
@@ -71,7 +115,10 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, numbe
       if (price.unit_amount === null) continue;
       const productId = typeof price.product === "string" ? price.product : price.product.id;
       if (!pricesByProductId.has(productId)) {
-        pricesByProductId.set(productId, fromStripeAmountHkd(price.unit_amount));
+        pricesByProductId.set(productId, {
+          id: price.id,
+          amount: fromStripeAmountHkd(price.unit_amount),
+        });
       }
     }
     startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
@@ -83,35 +130,15 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, numbe
   return pricesByProductId;
 }
 
-function normalizedProductTitle(product: Stripe.Product): string {
-  return product.name.trim().toLocaleLowerCase() || product.id;
-}
-
-function latestActivePricedProducts(
-  products: readonly Stripe.Product[],
-  pricesByProductId: ReadonlyMap<string, number>,
-): Stripe.Product[] {
-  const latestByTitle = new Map<string, Stripe.Product>();
-  for (const product of products) {
-    if (!pricesByProductId.has(product.id)) continue;
-    const title = normalizedProductTitle(product);
-    const current = latestByTitle.get(title);
-    if (!current || product.created > current.created) {
-      latestByTitle.set(title, product);
-    }
-  }
-  return Array.from(latestByTitle.values());
-}
-
 function stripeProductToCatalogProduct(
   product: Stripe.Product,
-  pricesByProductId: ReadonlyMap<string, number>,
+  pricesByProductId: ReadonlyMap<string, StripePriceRecord>,
 ): Product | null {
   const metadata = productMetadata(product);
-  const price = pricesByProductId.get(product.id);
+  const priceRecord = pricesByProductId.get(product.id);
   const image = product.images?.[0] || CATALOG_IMAGE_FALLBACK;
   const id = product.id;
-  if (price === undefined) {
+  if (priceRecord === undefined) {
     console.warn("Stripe catalog product skipped: missing HKD price", {
       id,
       stripeProductId: product.id,
@@ -120,15 +147,25 @@ function stripeProductToCatalogProduct(
   }
 
   const categorySlug = categoryFromProduct(product);
+  const subcategory = subcategoryFromProduct(product, categorySlug);
   const catalogProduct: Product = {
     id,
+    priceId: priceRecord.id,
     metadata,
     categorySlug,
+    ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
     image,
     name: { zh: product.name ?? "", en: product.name ?? "" },
-    price,
+    price: priceRecord.amount,
     inStock: true,
+    tags: Array.from(new Set([
+      ...metadataTags(metadata),
+      categorySlug,
+      ...(subcategory ? [subcategory] : []),
+    ])),
+    ...(metadata.brand ? { brand: metadata.brand } : {}),
+    ...(metadata.vendor ? { vendor: metadata.vendor } : {}),
     ...(product.description
       ? { description: { zh: product.description, en: product.description } }
       : {}),
@@ -150,7 +187,8 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
   );
 
   const products = uniqueProductsById(
-    latestActivePricedProducts(stripeProducts, pricesByProductId)
+    stripeProducts
+      .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
       .filter((product): product is Product => product !== null),
   ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));

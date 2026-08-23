@@ -13,7 +13,16 @@ import {
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, productHref } from "@/lib/products";
+import {
+  getCatProductsBySubcategory,
+  getDogProductsBySubcategory,
+  getProductsByCategory,
+  type CatSubcategory,
+  type DogSubcategory,
+  productHref,
+  resolveCategorySubSlug,
+  resolveCatSnackSeriesSlug,
+} from "@/lib/products";
 
 function categoryMenuLinkClassName(active: boolean) {
   return `group/link flex min-h-11 items-center justify-between border-b px-1 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
@@ -64,15 +73,37 @@ type ProductCatalogProps = {
  */
 export function ProductCatalog({
   categorySlug,
+  subcategory,
+  snackSeries,
   showProductSearch = false,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const category = getCategoryBySlug(categorySlug);
-  const products = useMemo(
-    () => getProductsByCategory(categorySlug, catalogProducts),
-    [categorySlug, catalogProducts],
-  );
+  const products = useMemo(() => {
+    const selectedSubcategory =
+      typeof subcategory === "string"
+        ? resolveCategorySubSlug(categorySlug ?? "", subcategory)
+        : null;
+    const selectedSnackSeries =
+      typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
+
+    if (categorySlug === "cats" && selectedSubcategory) {
+      return getCatProductsBySubcategory(
+        selectedSubcategory as CatSubcategory,
+        selectedSnackSeries,
+
+        catalogProducts,
+      );
+    }
+    if (categorySlug === "dogs" && selectedSubcategory) {
+      return getDogProductsBySubcategory(
+        selectedSubcategory as DogSubcategory,
+        catalogProducts,
+      );
+    }
+    return getProductsByCategory(categorySlug, catalogProducts);
+  }, [categorySlug, catalogProducts, snackSeries, subcategory]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");

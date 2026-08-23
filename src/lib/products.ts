@@ -88,6 +88,8 @@ export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
 
 export type Product = {
   id: string;
+  /** Active HKD Stripe Price used by Checkout for this product. */
+  priceId?: string;
   /** Stripe metadata delivered with the catalog. `category` is the canonical taxonomy key. */
   metadata?: Record<string, string>;
   categorySlug: string;

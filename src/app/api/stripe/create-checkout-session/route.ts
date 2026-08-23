@@ -220,22 +220,26 @@ export async function POST(request: Request) {
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: items.map((item) => ({
-        price_data: {
-          currency: "hkd",
-          unit_amount: toStripeAmountHkd(item.unit),
-          product_data: {
-            name: item.name.zh || item.name.en || item.id,
-            ...(item.name.en && item.name.en !== item.name.zh
-              ? { description: item.name.en.slice(0, 500) }
-              : {}),
-            ...(absoluteImageUrl(item.image, origin)
-              ? { images: [absoluteImageUrl(item.image, origin)!] }
-              : {}),
-          },
-        },
-        quantity: item.qty,
-      })),
+      line_items: items.map((item) =>
+        item.stripePriceId
+          ? { price: item.stripePriceId, quantity: item.qty }
+          : {
+              price_data: {
+                currency: "hkd",
+                unit_amount: toStripeAmountHkd(item.unit),
+                product_data: {
+                  name: item.name.zh || item.name.en || item.id,
+                  ...(item.name.en && item.name.en !== item.name.zh
+                    ? { description: item.name.en.slice(0, 500) }
+                    : {}),
+                  ...(absoluteImageUrl(item.image, origin)
+                    ? { images: [absoluteImageUrl(item.image, origin)!] }
+                    : {}),
+                },
+              },
+              quantity: item.qty,
+            },
+      ),
       ...(shipping > 0
         ? {
             shipping_options: [
