@@ -18,7 +18,24 @@ export type CatalogSnapshot = {
   matchedRecords: number;
 };
 
-const CATALOG_IMAGE_FALLBACK = "/mofu-haven-website-b.png";
+/** Internal marker handled by ProductImage as a CSS-only missing-image state. */
+const CATALOG_IMAGE_FALLBACK = "catalog-placeholder";
+const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
+
+/**
+ * The previous storefront's product asset route now responds with an HTML 404
+ * document. Treat those URLs as missing images instead of rendering the page
+ * artwork inside product cards. Other HTTPS Stripe/CDN image URLs are kept.
+ */
+function isUsableCatalogImage(value: string | undefined): value is string {
+  if (!value || LEGACY_PRODUCT_IMAGE_PATH.test(value)) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return value.startsWith("/") && !value.startsWith("//");
+  }
+}
 
 function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
@@ -136,7 +153,8 @@ function stripeProductToCatalogProduct(
 ): Product | null {
   const metadata = productMetadata(product);
   const priceRecord = pricesByProductId.get(product.id);
-  const image = product.images?.[0] || CATALOG_IMAGE_FALLBACK;
+  const image =
+    product.images?.find(isUsableCatalogImage) ?? CATALOG_IMAGE_FALLBACK;
   const id = product.id;
   if (priceRecord === undefined) {
     console.warn("Stripe catalog product skipped: missing HKD price", {
