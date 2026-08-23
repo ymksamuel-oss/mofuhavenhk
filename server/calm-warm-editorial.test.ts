@@ -28,9 +28,12 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('為愛寵提供最安心的選擇');
     expect(page).toContain('立即選購');
     expect(page).toContain('h-[14rem]');
+    expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
+    expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
+    expect(page).toContain('{isDesktopHero ? (');
     expect(page).toContain('mobileProductBannerDataUri');
-    expect(page).toContain('object-cover object-center lg:hidden');
-    expect(page).toContain('object-[center_58%] lg:block');
+    expect(page).toContain('object-cover object-center');
+    expect(page).toContain('object-[center_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
@@ -69,7 +72,7 @@ describe("calm warm editorial UI contract", () => {
     const nextConfig = source("next.config.ts");
 
     expect(page).toContain('import Image from "next/image"');
-    expect(page).toContain('sizes="(min-width: 1024px) 53vw, 100vw"');
+    expect(page).toContain('sizes="53vw"');
     expect(productImage).toContain('import Image from "next/image"');
     expect(productGrid).toContain('.slice(0, 12)');
     expect(nextConfig).toContain('hostname: "files.stripe.com"');

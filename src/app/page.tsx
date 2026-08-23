@@ -3,6 +3,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
@@ -31,26 +32,38 @@ const quickCategories = [
 
 export default function HomePage() {
   const { t } = useI18n();
+  const [isDesktopHero, setIsDesktopHero] = useState(false);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const updateHeroVariant = () => setIsDesktopHero(desktopQuery.matches);
+    updateHeroVariant();
+    desktopQuery.addEventListener("change", updateHeroVariant);
+    return () => desktopQuery.removeEventListener("change", updateHeroVariant);
+  }, []);
 
   return (
     <>
       <section className="bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
           <div className="relative h-[14rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
-            <img
-              src={mobileProductBannerDataUri}
-              alt="Mofu Haven 日系寵物精品、骨形玩具及照顧用品"
-              className="absolute inset-0 h-full w-full object-cover object-center lg:hidden"
-              decoding="async"
-            />
-            <Image
-              src="/images/hero-sleeping-shiba-taupe.jpg"
-              alt="熟睡中的白色柴犬幼犬"
-              fill
-              priority
-              sizes="(min-width: 1024px) 53vw, 100vw"
-              className="hidden object-cover object-[center_58%] lg:block"
-            />
+            {isDesktopHero ? (
+              <Image
+                src="/images/hero-sleeping-shiba-taupe.jpg"
+                alt="熟睡中的白色柴犬幼犬"
+                fill
+                priority
+                sizes="53vw"
+                className="object-cover object-[center_58%]"
+              />
+            ) : (
+              <img
+                src={mobileProductBannerDataUri}
+                alt="Mofu Haven 日系寵物精品、骨形玩具及照顧用品"
+                className="absolute inset-0 h-full w-full object-cover object-center"
+                decoding="async"
+              />
+            )}
           </div>
 
           <div className="hidden min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:px-10 sm:py-9 lg:flex lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
