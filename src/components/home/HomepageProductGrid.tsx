@@ -62,7 +62,7 @@ export function HomepageProductGrid() {
             </CategoryNavLink>
           </div>
         ) : (
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5">
+          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
             {products.map((product) => {
               const href = productHref(product.id);
               return (
@@ -78,7 +78,7 @@ export function HomepageProductGrid() {
                     <ProductImage
                       src={product.image}
                       alt={product.name[locale]}
-                      sizes="(min-width: 640px) 33vw, 50vw"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />
                   </CategoryNavLink>

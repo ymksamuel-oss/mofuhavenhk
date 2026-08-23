@@ -38,6 +38,8 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain("getProductsByCategory(null, catalogProducts)");
     expect(productGrid).toContain("<ProductImage");
     expect(productGrid).toContain("<AddToCartButton");
+    expect(productGrid).toContain('lg:grid-cols-4');
+    expect(productGrid).toContain('(min-width: 1024px) 25vw');
     expect(productGrid).toContain("產品目錄正在更新中");
   });
 
