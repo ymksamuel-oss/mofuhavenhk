@@ -141,14 +141,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-5 py-6 sm:px-10 sm:py-9">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-3 lg:grid-cols-7">
+      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-4 py-6 sm:px-8 sm:py-9">
+        <div className="mx-auto max-w-4xl">
+          <div className="grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3">
             {quickCategories.map(({ href, labelKey, Icon }) => (
               <CategoryNavLink
                 key={href}
                 href={href}
-                className="group flex min-h-10 items-center justify-center gap-2 px-2 py-2 text-center text-xs font-semibold text-[color:var(--ink)] transition hover:text-[color:var(--accent)] sm:min-h-11 sm:text-sm"
+                className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1.5 py-2 text-center text-[11px] font-semibold leading-tight text-[color:var(--ink)] transition hover:border-[#d7b893] hover:bg-[#f8efe8] hover:text-[color:var(--accent)] sm:min-h-16 sm:px-2 sm:text-sm"
               >
                 <Icon className="h-4 w-4 shrink-0 text-[color:var(--accent)] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
                 <span>{t(labelKey)}</span>
