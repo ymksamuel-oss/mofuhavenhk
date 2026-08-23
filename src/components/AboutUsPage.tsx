@@ -48,7 +48,7 @@ export function AboutUsPage() {
           <div className="mb-4">
             <BrandLogo
               title={t("brand")}
-              className="text-[1.15rem] sm:text-[1.3rem]"
+              className="h-24 sm:h-28"
             />
           </div>
           <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
