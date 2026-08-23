@@ -35,19 +35,26 @@ export default function HomePage() {
     <>
       <section className="bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
-          <div className="relative h-[7.5rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
+          <div className="relative h-[14rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
+            <Image
+              src="/images/hero-mobile-pet-products.jpg"
+              alt="Mofu Haven 日系寵物精品、骨形玩具及照顧用品"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center lg:hidden"
+            />
             <Image
               src="/images/hero-sleeping-shiba-taupe.jpg"
               alt="熟睡中的白色柴犬幼犬"
               fill
               priority
               sizes="(min-width: 1024px) 53vw, 100vw"
-              className="object-cover object-[center_58%] sm:object-left"
+              className="hidden object-cover object-[center_58%] lg:block"
             />
-            <div aria-hidden className="absolute inset-x-0 bottom-0 h-20 bg-[linear-gradient(180deg,transparent,rgba(75,54,33,0.14))] lg:hidden" />
           </div>
 
-          <div className="flex min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:min-h-[15rem] sm:px-10 sm:py-9 lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
+          <div className="hidden min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:px-10 sm:py-9 lg:flex lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
             <BrandLogo title="Mofu Haven" className="h-10 sm:h-20 lg:h-32" />
             <h1 className="mt-2 max-w-md font-[family-name:var(--font-display)] text-xl font-semibold leading-snug tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-3xl lg:mt-6 lg:text-[2.75rem]">
               為愛寵提供最安心的選擇
