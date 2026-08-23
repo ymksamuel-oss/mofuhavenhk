@@ -26,6 +26,8 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 
 function readStoredLocale(): Locale {
   if (typeof window === "undefined") return "zh";
+  const queryLocale = new URLSearchParams(window.location.search).get("lang");
+  if (queryLocale === "en" || queryLocale === "zh") return queryLocale;
   const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
   return stored === "en" || stored === "zh" ? stored : "zh";
 }

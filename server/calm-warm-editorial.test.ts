@@ -89,6 +89,27 @@ describe("calm warm editorial UI contract", () => {
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
   });
 
+  it("keeps category and subcategory SEO metadata bilingual and shareable", () => {
+    const seo = source("src/lib/seo/category-seo.ts");
+    const categoryPage = source("src/app/categories/[slug]/page.tsx");
+    const subcategoryPage = source("src/app/categories/[slug]/[sub]/page.tsx");
+    const categoryLink = source("src/components/CategoryNavLink.tsx");
+    const header = source("src/components/Header.tsx");
+
+    expect(seo).toContain("const CATEGORY_SEO");
+    expect(seo).toContain("const SUBCATEGORY_SEO");
+    expect(seo).toContain("const SNACK_SERIES_SEO");
+    expect(seo).toContain('"zh-HK": chineseCanonical');
+    expect(seo).toContain('"en-HK": englishCanonical');
+    expect(seo).toContain("openGraph");
+    expect(seo).toContain("twitter");
+    expect(categoryPage).toContain("generateMetadata");
+    expect(subcategoryPage).toContain("generateMetadata");
+    expect(categoryLink).toContain('href.startsWith("/categories")');
+    expect(categoryLink).toContain('lang=en');
+    expect(header).toContain('query.set("lang", "en")');
+  });
+
   it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
     const stripe = source("src/lib/stripe.ts");
 

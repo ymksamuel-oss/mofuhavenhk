@@ -1,6 +1,7 @@
 "use client";
 
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type CategoryNavLinkProps = {
   href: string;
@@ -22,6 +23,12 @@ export function CategoryNavLink({
   onClick,
   ...rest
 }: CategoryNavLinkProps) {
+  const { locale } = useI18n();
+  const localizedHref =
+    locale === "en" && href.startsWith("/categories")
+      ? `${href}${href.includes("?") ? "&" : "?"}lang=en`
+      : href;
+
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
     if (
@@ -39,11 +46,11 @@ export function CategoryNavLink({
     event.preventDefault();
     onNavigate?.();
     document.body.style.overflow = "";
-    window.location.assign(href);
+    window.location.assign(localizedHref);
   };
 
   return (
-    <a href={href} className={className} onClick={handleClick} {...rest}>
+    <a href={localizedHref} className={className} onClick={handleClick} {...rest}>
       {children}
     </a>
   );

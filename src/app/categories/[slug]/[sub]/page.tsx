@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { isCategorySlug } from "@/lib/categories";
+import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 import {
   CAT_SUBCATEGORY_BY_SLUG,
   DOG_SUBCATEGORY_BY_SLUG,
@@ -10,7 +12,7 @@ import {
 
 type CategorySubPageProps = {
   params: Promise<{ slug: string; sub: string }>;
-  searchParams: Promise<{ series?: string | string[] }>;
+  searchParams: Promise<{ series?: string | string[]; lang?: string | string[] }>;
 };
 
 export function generateStaticParams() {
@@ -23,6 +25,33 @@ export function generateStaticParams() {
     sub,
   }));
   return [...catSubs, ...dogSubs];
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: CategorySubPageProps): Promise<Metadata> {
+  const { slug, sub } = await params;
+  const query = await searchParams;
+  if (!isCategorySlug(slug) || (slug !== "cats" && slug !== "dogs")) {
+    return { robots: { index: false, follow: false } };
+  }
+
+  const subcategory = resolveCategorySubSlug(slug, sub);
+  if (!subcategory) return { robots: { index: false, follow: false } };
+
+  const seriesParam = Array.isArray(query.series) ? query.series[0] : query.series;
+  const snackSeries =
+    slug === "cats" && subcategory === "貓貓小食"
+      ? resolveCatSnackSeriesSlug(seriesParam)
+      : null;
+  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
+
+  return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
+    categorySlug: slug,
+    subcategory,
+    snackSeries,
+  });
 }
 
 /**

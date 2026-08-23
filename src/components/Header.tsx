@@ -5,7 +5,7 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
@@ -72,6 +72,7 @@ function MenuIcon({ open }: { open: boolean }) {
 export function Header() {
   const { locale, setLocale, t } = useI18n();
   const pathname = usePathname();
+  const router = useRouter();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -80,6 +81,16 @@ export function Header() {
 
   const switchLocale = (next: Locale) => {
     setLocale(next);
+
+    // Category pages use a shareable language query so SSR metadata, canonical,
+    // Open Graph tags, and visible labels always describe the same language.
+    if (pathname.startsWith("/categories")) {
+      const query = new URLSearchParams(window.location.search);
+      if (next === "en") query.set("lang", "en");
+      else query.delete("lang");
+      const suffix = query.toString();
+      router.replace(`${pathname}${suffix ? `?${suffix}` : ""}`);
+    }
   };
 
   useEffect(() => {
