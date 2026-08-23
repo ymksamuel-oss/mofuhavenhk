@@ -63,43 +63,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="brand-story" className="bg-[color:var(--background)] px-6 py-12 sm:px-10 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="rounded-[2rem] border border-[color:var(--line)] bg-white px-6 py-9 shadow-[0_18px_44px_-36px_rgba(86,57,30,0.42)] sm:px-12 sm:py-12">
+      <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
+        <div className="mx-auto grid max-w-6xl gap-9 lg:grid-cols-2 lg:items-center lg:gap-10">
+          <div className="max-w-xl lg:py-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
               <span aria-hidden>⌘</span> Mofu Haven 專題指南
             </span>
-            <div className="mt-7 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div className="max-w-3xl">
-                <h2 className="font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-5xl">
-                  探索寵物世界
-                </h2>
-                <p className="mt-5 text-lg leading-9 text-[color:var(--muted)] sm:text-xl">
-                  精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
-                </p>
-                <div className="mt-7 flex items-center gap-[-0.25rem]">
-                  {[
-                    "/images/cat-breeds/russian-blue-portrait.jpg",
-                    "/images/cat-breeds/scottish-fold-tabby.jpg",
-                    "/images/cat-breeds/ragdoll-mitted.jpg",
-                  ].map((src, index) => (
-                    <img
-                      key={src}
-                      src={src}
-                      alt="Mofu Haven 寵物專題"
-                      className={`h-14 w-14 rounded-full border-4 border-[color:var(--background)] object-cover shadow-sm sm:h-16 sm:w-16 ${index ? "-ml-3" : ""}`}
-                      loading="lazy"
-                    />
-                  ))}
-                </div>
-              </div>
-              <CategoryNavLink
-                href="/cat-breeds"
-                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
-              >
-                <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
-              </CategoryNavLink>
-            </div>
+            <h2 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-5xl">
+              探索寵物世界
+            </h2>
+            <p className="mt-5 text-lg leading-9 text-[color:var(--muted)] sm:text-xl">
+              精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
+            </p>
+            <CategoryNavLink
+              href="/cat-breeds"
+              className="mt-8 inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
+            >
+              <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
+            </CategoryNavLink>
+          </div>
+
+          <div className="h-[250px] overflow-hidden rounded-xl bg-[#ead7bf] shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] sm:h-[320px] lg:h-[400px]">
+            <img
+              src="/images/explore-japanese-pet-lifestyle.jpg"
+              alt="日系家居中的柴犬幼犬與貓咪"
+              className="h-full w-full object-cover object-center"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>

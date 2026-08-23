@@ -31,6 +31,17 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain("<HomepageProductGrid />");
   });
 
+  it("keeps the explore section as responsive left content and right lifestyle image", () => {
+    const page = source("src/app/page.tsx");
+
+    expect(page).toContain('id="brand-story" className="bg-[#fbf7f3]');
+    expect(page).toContain('lg:grid-cols-2 lg:items-center lg:gap-10');
+    expect(page).toContain('/images/explore-japanese-pet-lifestyle.jpg');
+    expect(page).toContain('h-[250px]');
+    expect(page).toContain('lg:h-[400px]');
+    expect(page).toContain('rounded-xl');
+  });
+
   it("renders homepage products from the live catalog context", () => {
     const productGrid = source("src/components/home/HomepageProductGrid.tsx");
 
