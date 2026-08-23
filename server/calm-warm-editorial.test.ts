@@ -120,6 +120,10 @@ describe("calm warm editorial UI contract", () => {
     const categoryPage = source("src/app/categories/[slug]/page.tsx");
     const subcategoryPage = source("src/app/categories/[slug]/[sub]/page.tsx");
     const categoryLink = source("src/components/CategoryNavLink.tsx");
+    expect(categoryLink).toContain('href.startsWith("/menu") || href.startsWith("/categories")');
+    expect(categoryLink).toContain('`${href}#products`');
+    expect(categoryLink).toContain('const [pathAndQuery, hash] = targetHref.split("#", 2)');
+
     const header = source("src/components/Header.tsx");
 
     expect(seo).toContain("const CATEGORY_SEO");

@@ -24,10 +24,16 @@ export function CategoryNavLink({
   ...rest
 }: CategoryNavLinkProps) {
   const { locale } = useI18n();
-  const localizedHref =
-    locale === "en" && href.startsWith("/categories")
-      ? `${href}${href.includes("?") ? "&" : "?"}lang=en`
+  const targetHref =
+    !href.includes("#") && (href.startsWith("/menu") || href.startsWith("/categories"))
+      ? `${href}#products`
       : href;
+  const [pathAndQuery, hash] = targetHref.split("#", 2);
+  const localizedPath =
+    locale === "en" && pathAndQuery.startsWith("/categories")
+      ? `${pathAndQuery}${pathAndQuery.includes("?") ? "&" : "?"}lang=en`
+      : pathAndQuery;
+  const localizedHref = hash ? `${localizedPath}#${hash}` : localizedPath;
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
