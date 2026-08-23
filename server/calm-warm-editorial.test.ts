@@ -38,6 +38,10 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
+    expect(page).toContain('grid grid-cols-2 gap-x-4 gap-y-2');
+    expect(page).toContain('h-4 w-4 shrink-0 text-[color:var(--accent)]');
+    expect(page).not.toContain('rounded-[1.35rem] border border-[color:var(--line)] bg-white');
+    expect(page).not.toContain('shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)]');
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
 

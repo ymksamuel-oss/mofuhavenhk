@@ -141,16 +141,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-5 py-8 sm:px-10 sm:py-12">
+      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-5 py-6 sm:px-10 sm:py-9">
         <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-3 lg:grid-cols-7">
             {quickCategories.map(({ href, labelKey, Icon }) => (
               <CategoryNavLink
                 key={href}
                 href={href}
-                className="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[color:var(--line)] bg-white px-2 py-3 text-center text-xs font-semibold text-[color:var(--ink)] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)] sm:min-h-[5.25rem] sm:text-sm"
+                className="group flex min-h-10 items-center justify-center gap-2 px-2 py-2 text-center text-xs font-semibold text-[color:var(--ink)] transition hover:text-[color:var(--accent)] sm:min-h-11 sm:text-sm"
               >
-                <Icon className="h-5 w-5 text-[color:var(--ink)] transition-transform group-hover:scale-110" />
+                <Icon className="h-4 w-4 shrink-0 text-[color:var(--accent)] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
                 <span>{t(labelKey)}</span>
               </CategoryNavLink>
             ))}
