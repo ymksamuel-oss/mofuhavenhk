@@ -18,12 +18,16 @@ describe("calm warm editorial UI contract", () => {
     expect(css).toContain("--ink: #2b2623");
   });
 
-  it("keeps the homepage hero readable and rounded", () => {
+  it("keeps the responsive shiba hero warm, branded and readable", () => {
     const page = source("src/app/page.tsx");
 
-    expect(page).toContain("rgba(53,39,27,0.70)");
-    expect(page).toContain("font-semibold leading-tight");
-    expect(page).toContain("rounded-2xl bg-[color:var(--accent)]");
+    expect(page).toContain('/images/hero-sleeping-shiba-taupe.jpg');
+    expect(page).toContain('lg:grid-cols-[1.06fr_0.94fr]');
+    expect(page).toContain('bg-[#ead7bf]');
+    expect(page).toContain('<BrandLogo title="Mofu Haven"');
+    expect(page).toContain('為愛寵提供最安心的選擇');
+    expect(page).toContain('立即選購');
+    expect(page).toContain('rounded-[2rem]');
     expect(page).toContain("<HomepageProductGrid />");
   });
 
