@@ -330,7 +330,7 @@ export function ProductCatalog({
                         badge === "hot" ? "bg-[#8b6f47]" : "bg-[#3d6954]"
                       }`}
                     >
-                      {badge === "hot" ? "熱賣中" : "新品"}
+                      {badge === "hot" ? t("badgeHot") : t("badgeNew")}
                     </span>
                   ) : null}
                 </div>

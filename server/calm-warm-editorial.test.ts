@@ -25,8 +25,8 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('lg:grid-cols-[1.06fr_0.94fr]');
     expect(page).toContain('bg-[#ead7bf]');
     expect(page).toContain('<BrandLogo title="Mofu Haven"');
-    expect(page).toContain('為愛寵提供最安心的選擇');
-    expect(page).toContain('立即選購');
+    expect(page).toContain('t("homeHeadline")');
+    expect(page).toContain('t("homeCta")');
     expect(page).toContain('h-[14rem]');
     expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
     expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
@@ -61,7 +61,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('lg:h-[400px]');
     expect(page).toContain('rounded-xl');
     expect(page).toContain('mt-7 flex flex-wrap items-center gap-5');
-    expect(page).toContain('立即探索');
+    expect(page).toContain('t("exploreCta")');
   });
 
   it("renders homepage products from the live catalog context", () => {
@@ -73,7 +73,7 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain("<AddToCartButton");
     expect(productGrid).toContain('lg:grid-cols-4');
     expect(productGrid).toContain('(min-width: 1024px) 25vw');
-    expect(productGrid).toContain("產品目錄正在更新中");
+    expect(productGrid).toContain('t("catalogUpdating")');
     expect(productGrid).not.toContain("查看全部商品");
     expect(productGrid).not.toContain("查看全部");
   });
@@ -141,7 +141,10 @@ describe("calm warm editorial UI contract", () => {
 
     expect(catalog).toContain("bilingualMetadataValue");
     expect(catalog).toContain("parseBilingualSpecs");
-    expect(catalog).toContain('"description_en"');
+    expect(catalog).toContain("description_zh");
+    expect(catalog).toContain("GENERATED_PRODUCT_TRANSLATIONS");
+    expect(catalog).toContain("const localizedName = metadataName ??");
+    expect(catalog).toContain("const localizedDescription = metadataDescription ??");
     expect(catalog).toContain('"specs_en"');
     expect(detail).toContain("product.description[locale] || product.description.zh");
     expect(detail).toContain("spec[locale] || spec.zh");

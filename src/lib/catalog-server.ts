@@ -11,6 +11,7 @@ import {
   uniqueProductsById,
 } from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
+import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -225,6 +226,25 @@ function stripeProductToCatalogProduct(
 
   const categorySlug = categoryFromProduct(product);
   const subcategory = subcategoryFromProduct(product, categorySlug);
+  const generatedTranslation = GENERATED_PRODUCT_TRANSLATIONS[id];
+  const metadataName = bilingualMetadataValue(
+    metadata,
+    ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
+    ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
+    "",
+  );
+  const localizedName = metadataName ?? (generatedTranslation
+    ? { zh: generatedTranslation.name_zh, en: generatedTranslation.name_en }
+    : { zh: product.name ?? "", en: product.name ?? "" });
+  const metadataDescription = bilingualMetadataValue(
+    metadata,
+    ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
+    ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+    "",
+  );
+  const localizedDescription = metadataDescription ?? (generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
+    ? { zh: generatedTranslation.description_zh, en: generatedTranslation.description_en }
+    : undefined);
   const catalogProduct: Product = {
     id,
     priceId: priceRecord.id,
@@ -233,13 +253,7 @@ function stripeProductToCatalogProduct(
     ...(subcategory ? { subcategory } : {}),
     icon: iconForCategory(categorySlug),
     image,
-    name:
-      bilingualMetadataValue(
-        metadata,
-        ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
-        ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
-        product.name ?? "",
-      ) ?? { zh: product.name ?? "", en: product.name ?? "" },
+    name: localizedName,
     price: priceRecord.amount,
     inStock: true,
     tags: Array.from(new Set([
@@ -249,21 +263,7 @@ function stripeProductToCatalogProduct(
     ])),
     ...(metadata.brand ? { brand: metadata.brand } : {}),
     ...(metadata.vendor ? { vendor: metadata.vendor } : {}),
-    ...(bilingualMetadataValue(
-      metadata,
-      ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
-      ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
-      product.description ?? "",
-    )
-      ? {
-          description: bilingualMetadataValue(
-            metadata,
-            ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
-            ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
-            product.description ?? "",
-          ),
-        }
-      : {}),
+    ...(localizedDescription ? { description: localizedDescription } : {}),
     ...(parseBilingualSpecs(metadata) ? { specs: parseBilingualSpecs(metadata) } : {}),
   };
 

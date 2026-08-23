@@ -52,7 +52,7 @@ export default function HomePage() {
             {isDesktopHero ? (
               <Image
                 src="/images/hero-sleeping-shiba-taupe.jpg"
-                alt="熟睡中的白色柴犬幼犬"
+                alt={t("homeHeroImageAlt")}
                 fill
                 priority
                 sizes="53vw"
@@ -61,7 +61,7 @@ export default function HomePage() {
             ) : (
               <Image
                 src={mobileHeroImage}
-                alt="日系家居中的柴犬幼犬、木製骨形玩具與寵物用品"
+                alt={t("homeMobileHeroImageAlt")}
                 fill
                 priority
                 sizes="100vw"
@@ -73,16 +73,16 @@ export default function HomePage() {
           <div className="hidden min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:px-10 sm:py-9 lg:flex lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
             <BrandLogo title="Mofu Haven" className="h-10 sm:h-20 lg:h-32" />
             <h1 className="mt-2 max-w-md font-[family-name:var(--font-display)] text-xl font-semibold leading-snug tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-3xl lg:mt-6 lg:text-[2.75rem]">
-              為愛寵提供最安心的選擇
+              {t("homeHeadline")}
             </h1>
             <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
-              嚴選日本優質寵物用品，為每一份日常帶來溫柔照料。
+              {t("homeSub")}
             </p>
             <CategoryNavLink
               href="/menu"
               className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl bg-[#4b3621] px-5 py-2 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:-translate-y-0.5 hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ead7bf] sm:mt-5 sm:min-h-12 sm:px-7 sm:py-3 sm:text-base"
             >
-              立即選購 <span aria-hidden className="ml-2">→</span>
+              {t("homeCta")} <span aria-hidden className="ml-2">→</span>
             </CategoryNavLink>
           </div>
         </div>
@@ -111,20 +111,20 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
           <div className="max-w-xl lg:col-start-1 lg:row-start-1 lg:py-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
-              <span aria-hidden>⌘</span> Mofu Haven 專題指南
+              <span aria-hidden>⌘</span> {t("brandGuide")}
             </span>
             <h2 className="mt-6 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-5xl">
-              探索寵物世界
+              {t("brandGuideTitle")}
             </h2>
             <p className="mt-5 text-lg leading-9 text-[color:var(--muted)] sm:text-xl">
-              精選 10 多種人氣貓咪品種深入介紹，結合日系治癒風格與科學飼養小筆記，陪伴您與毛孩共度溫馨愉悅的每一天。
+              {t("brandGuideBody")}
             </p>
           </div>
 
           <div className="relative mt-[15px] block h-[220px] w-full overflow-hidden rounded-xl bg-[#ead7bf] shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] min-[769px]:h-[320px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:h-[400px]">
             <Image
               src="/images/explore-japanese-pet-lifestyle.jpg"
-              alt="日系家居中的柴犬幼犬與貓咪"
+              alt={t("homeMobileHeroImageAlt")}
               fill
               sizes="(min-width: 1024px) 50vw, (min-width: 769px) 50vw, 100vw"
               className="object-cover object-center"
@@ -154,7 +154,7 @@ export default function HomePage() {
               href="/cat-breeds"
               className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
             >
-              <span aria-hidden>▢</span> 立即探索 <span aria-hidden>→</span>
+              <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
             </CategoryNavLink>
           </div>
         </div>

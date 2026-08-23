@@ -14,7 +14,7 @@ import { getProductsByCategory, productHref } from "@/lib/products";
  * the full active catalog remains available from the Shop page.
  */
 export function HomepageProductGrid() {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const products = getProductsByCategory(null, catalogProducts).slice(0, 12);
 
@@ -33,10 +33,10 @@ export function HomepageProductGrid() {
               id="homepage-products-title"
               className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl"
             >
-              今期人氣寵物好物
+              {t("homepagePicksTitle")}
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">
-              由 Mofu Haven 精選的貓咪、狗狗及日系寵物用品，直接由現時產品目錄載入。
+              {t("homepagePicksSub")}
             </p>
           </div>
         </div>
@@ -44,16 +44,16 @@ export function HomepageProductGrid() {
         {products.length === 0 ? (
           <div className="rounded-2xl border border-[color:var(--line)] bg-white px-5 py-8 text-center shadow-[0_14px_30px_-26px_rgba(43,38,35,0.28)]">
             <p className="text-sm font-semibold text-[color:var(--ink)]">
-              產品目錄正在更新中
+              {t("catalogUpdating")}
             </p>
             <p className="mt-2 text-sm text-[color:var(--muted)]">
-              請稍後再試，或先到商品目錄查看最新上架商品。
+              {t("catalogUpdatingHint")}
             </p>
             <CategoryNavLink
               href="/menu"
               className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
             >
-              前往商品目錄
+              {t("goToCatalog")}
             </CategoryNavLink>
           </div>
         ) : (
@@ -67,7 +67,7 @@ export function HomepageProductGrid() {
                 >
                   <CategoryNavLink
                     href={href}
-                    aria-label={`查看商品：${product.name[locale]}`}
+                    aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
                     className="relative block aspect-square overflow-hidden bg-[color:var(--accent-soft)]"
                   >
                     <ProductImage
