@@ -40,6 +40,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain("<HomepageProductGrid />");
     expect(page).toContain('grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3');
     expect(page).toContain('labelKey: "allProducts"');
+    expect(page).toContain('href: "/menu#products"');
     expect(page).toContain('Icon: BagIcon');
     expect(page).toContain('min-h-14 flex-col items-center justify-center');
     expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
@@ -102,7 +103,9 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain("labelKey: \"catSubDryFood\"");
     expect(products).toContain("PRODUCT_SUBCATEGORY_LABEL_KEY");
     expect(products).toContain("CAT_SNACK_SERIES_LABEL_KEY");
-    expect(productCatalog).toContain("getProductSubcategoryLabelKey(option)");
+    expect(productCatalog).toContain('getProductSubcategoryLabelKey(option)');
+    expect(productCatalog).toContain('id="products"');
+    expect(productCatalog).toContain('scroll-mt-24');
     expect(productCatalog).toContain("CAT_SNACK_SERIES_LABEL_KEY[series]");
     expect(productCatalog).toContain('t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")');
     expect(translations).toContain('catSubWetCans: "Cans / Wet food"');

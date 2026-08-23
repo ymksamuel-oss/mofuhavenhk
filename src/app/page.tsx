@@ -22,7 +22,7 @@ import {
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const quickCategories = [
-  { href: "/menu", labelKey: "allProducts", Icon: BagIcon },
+  { href: "/menu#products", labelKey: "allProducts", Icon: BagIcon },
   { href: "/categories/cats", labelKey: "categoryCats", Icon: CatIcon },
   { href: "/categories/dogs", labelKey: "categoryDogs", Icon: DogIcon },
   { href: "/categories/small-pets", labelKey: "categorySmallPets", Icon: BoneIcon },

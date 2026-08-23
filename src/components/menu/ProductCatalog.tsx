@@ -286,7 +286,7 @@ export function ProductCatalog({
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (
-        <ul className="grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+        <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
           {products.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
