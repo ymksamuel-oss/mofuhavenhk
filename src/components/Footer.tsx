@@ -5,9 +5,10 @@ import { BrandLogo } from "@/components/BrandLogo";
 import {
   AlipayHkLogo,
   ApplePayLogo,
+  GooglePayLogo,
   MastercardLogo,
+  PayMeLogo,
   VisaLogo,
-  WeChatPayLogo,
   WhatsAppLogo,
 } from "@/components/icons/PaymentIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -96,7 +97,10 @@ function PaymentMarks() {
         <ApplePayLogo className="h-5 w-auto" />
       </li>
       <li className={markClassName}>
-        <WeChatPayLogo className="!h-[1.125rem] max-w-full !w-auto sm:!h-5" />
+        <GooglePayLogo className="!h-7 max-w-full !w-auto sm:!h-8" />
+      </li>
+      <li className={markClassName}>
+        <PayMeLogo className="!h-6 max-w-full !w-auto sm:!h-7" />
       </li>
       <li className={markClassName}>
         <AlipayHkLogo className="!h-[1.125rem] max-w-full !w-auto sm:!h-5" />
@@ -113,7 +117,7 @@ function PaymentMarks() {
 
 /**
  * Site-wide footer — milk-tea palette, 4 columns on desktop,
- * accordion sections on mobile. No Google Pay marks.
+ * accordion sections on mobile. Payment marks match the checkout allowlist.
  */
 export function Footer() {
   const { t } = useI18n();

@@ -7,7 +7,6 @@ import {
   CardLogo,
   GooglePayLogo,
   PayMeLogo,
-  WeChatPayLogo,
 } from "@/components/icons/PaymentIcons";
 
 export type MethodId =
@@ -15,7 +14,6 @@ export type MethodId =
   | "applepay"
   | "googlepay"
   | "payme"
-  | "wechatpay"
   | "alipayhk"
 
 export type PaymentMethodDef = {
@@ -25,14 +23,12 @@ export type PaymentMethodDef = {
     | "payApplePay"
     | "payGooglePay"
     | "payPayMe"
-    | "payWeChatPay"
     | "payAlipayHk"
   Icon:
     | typeof CardLogo
     | typeof ApplePayLogo
     | typeof GooglePayLogo
     | typeof PayMeLogo
-    | typeof WeChatPayLogo
     | typeof AlipayHkLogo
 };
 
@@ -45,7 +41,6 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "googlepay", labelKey: "payGooglePay", Icon: GooglePayLogo },
   { id: "payme", labelKey: "payPayMe", Icon: PayMeLogo },
   { id: "applepay", labelKey: "payApplePay", Icon: ApplePayLogo },
-  { id: "wechatpay", labelKey: "payWeChatPay", Icon: WeChatPayLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
   { id: "card", labelKey: "payCard", Icon: CardLogo },
 ];
@@ -99,7 +94,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 >
                   <Icon
                     className={
-                      id === "wechatpay" || id === "alipayhk"
+                      id === "alipayhk"
                         ? "!h-5 max-w-full !w-auto"
                         : ""
                     }

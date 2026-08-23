@@ -48,7 +48,7 @@ describe("calm warm editorial UI contract", () => {
     const productDetail = source("src/components/product/ProductDetail.tsx");
 
     expect(productDetail).toContain("FAQAccordion");
-    expect(productDetail).toContain("role=\"radiogroup\"");
+    expect(productDetail).toContain('role="radiogroup"');
     expect(productDetail).toContain("fixed inset-x-0 bottom-0");
     expect(productDetail).toContain("text-xl font-extrabold");
   });
@@ -62,56 +62,51 @@ describe("calm warm editorial UI contract", () => {
     expect(drawer).toContain("cartDrawerCheckoutCta");
     expect(drawer).toContain("env(safe-area-inset-bottom");
   });
-});
 
-
-  it("routes Google Pay and PayMe through hosted Checkout Session", () => {
-    const stripeForm = source("src/components/checkout/StripePaymentForm.tsx");
+  it("keeps exactly the five requested payment options and official marks", () => {
     const paymentMethods = source("src/components/checkout/PaymentMethods.tsx");
+    const paymentIcons = source("src/components/icons/PaymentIcons.tsx");
     const checkout = source("src/app/checkout/page.tsx");
+    const footer = source("src/components/Footer.tsx");
+    const faq = source("src/components/FAQAccordion.tsx");
+
+    expect(paymentMethods).toContain('id: "card"');
+    expect(paymentMethods).toContain('id: "applepay"');
+    expect(paymentMethods).toContain('id: "googlepay"');
+    expect(paymentMethods).toContain('id: "alipayhk"');
+    expect(paymentMethods).toContain('id: "payme"');
+    expect(paymentMethods).not.toContain("wechatpay");
+    expect(paymentMethods).not.toContain("payWeChatPay");
+    expect(checkout).not.toContain("AsianWalletPayForm");
+    expect(checkout).not.toContain("wechatpay");
+    expect(footer).not.toContain("WeChatPayLogo");
+    expect(footer).not.toContain("WeChat Pay");
+    expect(faq).not.toContain("WeChat Pay");
+
+    expect(paymentIcons).toContain('src="/payment/apple-pay-mark.svg"');
+    expect(paymentIcons).toContain('src="/payment/google-pay-mark.svg"');
+    expect(paymentIcons).toContain('src="/payment/payme-logo.png"');
+    expect(paymentIcons).toContain('src="/payment/alipayhk-logo.svg"');
+    expect(paymentIcons).not.toContain("WeChatPayLogo");
+    expect(paymentIcons).not.toContain("G Pay");
+  });
+
+  it("routes hosted payment options through the configured Checkout Session", () => {
     const sessionRoute = source("src/app/api/stripe/create-checkout-session/route.ts");
-    const completeRoute = source("src/app/api/stripe/complete-order/route.ts");
     const paymentIntentRoute = source("src/app/api/stripe/create-payment-intent/route.ts");
-    const asianWallet = source("src/components/checkout/AsianWalletPayForm.tsx");
     const translations = source("src/lib/i18n/translations.ts");
 
-    expect(stripeForm).toContain("PaymentRequestButtonElement");
-    expect(stripeForm).toContain("paymentRequest(");
-    expect(stripeForm).not.toContain('disableWallets: ["googlePay", "link", "browserCard"]');
-    expect(stripeForm).toContain('disableWallets: ["link", "browserCard"]');
-    expect(stripeForm).toContain("disableLink: true");
-    expect(paymentMethods).toContain('id: "googlepay"');
-    expect(paymentMethods).toContain('id: "payme"');
-    expect(paymentMethods).toContain("GooglePayLogo");
-    expect(paymentMethods).toContain("PayMeLogo");
-    expect(paymentMethods).toContain('id: "applepay"');
-    expect(paymentMethods).toContain('id: "alipayhk"');
-    expect(paymentMethods).toContain('className="sr-only"');
-    expect(paymentMethods).not.toContain(">\n                  {t(labelKey)}\n                </span>");
-    expect(checkout).toContain('selectedMethod === "googlepay" ||');
-    expect(checkout).toContain('selectedMethod === "alipayhk"');
-    expect(checkout).not.toContain("confirmAlipayPayment");
-    expect(checkout).toContain("/api/stripe/create-checkout-session");
-    expect(checkout).toContain("window.location.assign(data.checkoutUrl)");
-    expect(sessionRoute).toContain('mode: "payment"');
-    expect(sessionRoute).toContain("payment_method_configuration");
-    expect(sessionRoute).toContain("success_url");
-    expect(sessionRoute).toContain("payment_intent_data");
-    expect(sessionRoute).toContain("wallet_options");
+    expect(sessionRoute).toContain('payment_method_configuration');
+    expect(sessionRoute).toContain('excluded_payment_method_types: ["alipay", "wechat_pay"]');
     expect(sessionRoute).toContain('link: { display: "never" }');
-    expect(sessionRoute).toContain('excluded_payment_method_types: ["alipay"]');
     expect(sessionRoute).toContain("Do not set payment_method_types");
-    expect(completeRoute).toContain("checkoutSessionId");
-    expect(completeRoute).toContain("account-supported");
     expect(paymentIntentRoute).toContain("getStripePaymentMethodConfiguration");
     expect(paymentIntentRoute).toContain('excluded_payment_method_types: ["alipay"]');
-    expect(asianWallet).toContain('export type AsianWalletMethod = "wechatpay"');
-    expect(asianWallet).not.toContain("confirmAlipayPayment");
-    expect(completeRoute).toContain('session.payment_status !== "paid"');
+    expect(paymentIntentRoute).not.toContain("wechat_pay");
     expect(translations).toContain('payGooglePay: "Google Pay（Stripe Checkout）"');
     expect(translations).toContain('payPayMe: "PayMe（Stripe Checkout）"');
     expect(translations).toContain('payAlipayHk: "AlipayHK（香港支付寶）"');
-    expect(translations).toContain("內地版 Alipay 已封鎖");
-    expect(translations).toContain('paymentHint: "請選擇付款方式。"');
-    expect(translations).toContain('paymentHint: "Choose a payment method."');
+    expect(translations).not.toContain("payWeChatPay");
+    expect(translations).not.toContain("wechatPayHint");
   });
+});

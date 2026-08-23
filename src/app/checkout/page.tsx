@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { AsianWalletPayForm } from "@/components/checkout/AsianWalletPayForm";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import {
   PAYMENT_METHODS,
@@ -44,10 +43,6 @@ type PayPhase =
   | "paid_notify_failed"
   | "stripe_missing"
   | "error";
-
-function isAsianWalletMethod(method: MethodId): method is "wechatpay" {
-  return method === "wechatpay";
-}
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
@@ -521,20 +516,6 @@ function CheckoutContent() {
               publishableKey={publishableKey}
               preferredMethod={selectedMethod}
               amountHkd={amountHkd}
-              onPaid={handlePaid}
-              onError={handlePayError}
-            />
-          ) : null}
-
-          {showStripeForm &&
-          clientSecret &&
-          publishableKey &&
-          isAsianWalletMethod(selectedMethod) ? (
-            <AsianWalletPayForm
-              method={selectedMethod}
-              clientSecret={clientSecret}
-              publishableKey={publishableKey}
-              customerName={shippingContact.name}
               onPaid={handlePaid}
               onError={handlePayError}
             />

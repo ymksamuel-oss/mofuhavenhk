@@ -2,7 +2,7 @@ import Image from "next/image";
 
 type LogoProps = { className?: string };
 
-/** Official Visa Blue Brand Mark for digital use on light backgrounds. */
+/** Visa acceptance mark used in the card option. */
 export function VisaLogo({ className = "" }: LogoProps) {
   return (
     <Image
@@ -15,7 +15,7 @@ export function VisaLogo({ className = "" }: LogoProps) {
   );
 }
 
-/** Official full-colour Mastercard Symbol for merchant acceptance. */
+/** Mastercard acceptance mark used in the card option. */
 export function MastercardLogo({ className = "" }: LogoProps) {
   return (
     <Image
@@ -28,7 +28,7 @@ export function MastercardLogo({ className = "" }: LogoProps) {
   );
 }
 
-/** Official Visa + Mastercard acceptance marks, locally hosted. */
+/** Visa and Mastercard acceptance marks for the card option. */
 export function CardLogo({ className = "" }: LogoProps) {
   return (
     <span
@@ -41,32 +41,41 @@ export function CardLogo({ className = "" }: LogoProps) {
   );
 }
 
-/** Apple Pay — Apple glyph + Pay wordmark as pure vector paths (no <text>). */
+/** Official Apple Pay mark supplied by Apple. */
 export function ApplePayLogo({ className = "" }: LogoProps) {
   return (
-    <svg
-      viewBox="0 0 512 210.2"
-      className={`h-6 w-auto shrink-0 ${className}`}
-      aria-label="Apple Pay"
-      role="img"
-    >
-      <path
-        fill="#1A1A1A"
-        d="M93.6 27.1C87.6 34.2 78 39.8 68.4 39c-1.2-9.6 3.5-19.8 9-26.1 6-7.3 16.5-12.5 25-12.9C103.4 10 99.5 19.8 93.6 27.1m8.7 13.8c-13.9-.8-25.8 7.9-32.4 7.9-6.7 0-16.8-7.5-27.8-7.3-14.3.2-27.6 8.3-34.9 21.2-15 25.8-3.9 64 10.6 85 7.1 10.4 15.6 21.8 26.8 21.4 10.6-.4 14.8-6.9 27.6-6.9 12.9 0 16.6 6.9 27.8 6.7 11.6-.2 18.9-10.4 26-20.8 8.1-11.8 11.4-23.3 11.6-23.9-.2-.2-22.4-8.7-22.6-34.3-.2-21.4 17.5-31.6 18.3-32.2-5.1-7.6-20.7-9.2-26.1-9.6M182.6 11.9v155.9h24.2v-53.3h33.5c30.6 0 52.1-21 52.1-51.4 0-30.4-21.1-51.2-51.3-51.2h-58.5zm24.2 20.4h27.9c21 0 33 11.2 33 30.9 0 19.7-12 31-33.1 31h-27.8V32.3zM336.6 169c15.2 0 29.3-7.7 35.7-19.9h.5v18.7h22.4V90.2c0-22.5-18-37-45.7-37-25.7 0-44.7 14.7-45.4 34.9h21.8c1.8-9.6 10.7-15.9 22.9-15.9 14.8 0 23.1 6.9 23.1 19.6v8.6l-30.2 1.8c-28.1 1.7-43.3 13.2-43.3 33.2 0 19.4 15.7 32.8 38.2 32.8zm6.5-18.5c-12.9 0-21.1-6.2-21.1-15.7 0-9.8 7.9-15.5 23-16.4l26.9-1.7v8.8c0 14.4-12.4 24.8-28.8 24.8zM425.1 210.2c23.6 0 34.7-9 44.4-36.3L512 54.7h-24.6l-28.5 92.1h-.5l-28.5-92.1h-25.3l41 113.5-2.2 6.9c-3.7 11.7-9.7 16.2-20.4 16.2-1.9 0-5.6-.2-7.1-.4v18.7c2.5.3 8.5.5 10.3.5z"
-      />
-    </svg>
+    <Image
+      src="/payment/apple-pay-mark.svg"
+      width={166}
+      height={106}
+      alt="Apple Pay"
+      className={`h-8 w-auto shrink-0 object-contain ${className}`}
+    />
   );
 }
 
-/** Official WeChat Pay horizontal mark, extracted from the RGB brand PSD. */
-export function WeChatPayLogo({ className = "" }: LogoProps) {
+/** Official Google Pay acceptance mark supplied by Google. */
+export function GooglePayLogo({ className = "" }: LogoProps) {
   return (
     <Image
-      src="/payment/wechat-pay-logo.png"
-      width={340}
-      height={63}
-      alt="WeChat Pay"
-      className={`h-6 w-auto shrink-0 object-contain ${className}`}
+      src="/payment/google-pay-mark.svg"
+      width={1094}
+      height={742}
+      alt="Google Pay"
+      className={`h-8 w-auto shrink-0 object-contain ${className}`}
+    />
+  );
+}
+
+/** Official PayMe by HSBC logo served from the PayMe website. */
+export function PayMeLogo({ className = "" }: LogoProps) {
+  return (
+    <Image
+      src="/payment/payme-logo.png"
+      width={198}
+      height={45}
+      alt="PayMe by HSBC"
+      className={`h-7 w-auto shrink-0 object-contain ${className}`}
     />
   );
 }
@@ -81,34 +90,6 @@ export function AlipayHkLogo({ className = "" }: LogoProps) {
       alt="AlipayHK"
       className={`h-[1.375rem] w-auto shrink-0 object-contain ${className}`}
     />
-  );
-}
-
-/** Google Pay mark used for the hosted Checkout hand-off option. */
-export function GooglePayLogo({ className = "" }: LogoProps) {
-  return (
-    <span
-      className={`inline-flex h-9 items-center gap-1.5 text-[1.05rem] font-semibold tracking-[-0.03em] text-[#3c4043] ${className}`}
-      role="img"
-      aria-label="Google Pay"
-    >
-      <span className="font-bold text-[#4285f4]">G</span>
-      <span>Pay</span>
-    </span>
-  );
-}
-
-/** PayMe mark used for the hosted Checkout hand-off option. */
-export function PayMeLogo({ className = "" }: LogoProps) {
-  return (
-    <span
-      className={`inline-flex h-9 items-center gap-1.5 text-[1.05rem] font-extrabold tracking-[-0.04em] text-[#111827] ${className}`}
-      role="img"
-      aria-label="PayMe"
-    >
-      <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-[#00a88f] text-sm text-white">P</span>
-      <span>PayMe</span>
-    </span>
   );
 }
 

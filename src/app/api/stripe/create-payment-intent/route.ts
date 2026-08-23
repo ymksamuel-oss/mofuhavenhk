@@ -33,7 +33,6 @@ const PAYMENT_LABELS: Record<string, string> = {
   googlepay: "Google Pay",
   payme: "PayMe",
   card: "信用卡／全球支付 (Stripe)",
-  wechatpay: "WeChat Pay（微信支付）",
   alipayhk: "AlipayHK（香港支付寶）",
 };
 
@@ -108,6 +107,13 @@ export async function POST(request: Request) {
   const preferredMethod = isNonEmptyString(body.paymentMethod)
     ? body.paymentMethod.trim().toLowerCase()
     : "";
+  const allowedPaymentMethods = new Set(["card", "applepay"]);
+  if (preferredMethod && !allowedPaymentMethods.has(preferredMethod)) {
+    return NextResponse.json(
+      { ok: false, error: "unsupported_payment_method" },
+      { status: 400 },
+    );
+  }
   const paymentLabel =
     PAYMENT_LABELS[preferredMethod] || "Stripe";
   const subtotal = calcSubtotal(items);
@@ -127,10 +133,9 @@ export async function POST(request: Request) {
     const intent = await stripe.paymentIntents.create({
       amount,
       currency: "hkd",
-      // Dashboard-enabled methods (card, wallets and WeChat Pay) for HKD.
-      // Google Pay is also allowed by Payment Request when the device qualifies.
-      // Google Pay, PayMe and AlipayHK use the hosted Checkout route. No
-      // unsupported payment-method enum is hard-coded here.
+      // Card and Apple Pay use this Elements/PaymentIntent path. Google Pay,
+      // PayMe and AlipayHK use the hosted Checkout route. No unsupported
+      // payment-method enum is hard-coded here.
       automatic_payment_methods: { enabled: true },
       ...(paymentMethodConfiguration
         ? { payment_method_configuration: paymentMethodConfiguration }
@@ -138,13 +143,6 @@ export async function POST(request: Request) {
       // Exclude Stripe's domestic Alipay type. A separate AlipayHK method, if
       // enabled by Stripe for this account/configuration, remains Dashboard-driven.
       excluded_payment_method_types: ["alipay"],
-      ...(preferredMethod === "wechatpay"
-        ? {
-            payment_method_options: {
-              wechat_pay: { client: "web" },
-            },
-          }
-        : {}),
       description: `Mofu Haven order ${orderNumber}`,
       metadata: {
         orderNumber,

@@ -114,7 +114,7 @@ export async function POST(request: Request) {
       intent.payment_method && typeof intent.payment_method !== "string"
         ? intent.payment_method
         : null;
-    // Wallet redirects (for example WeChat Pay or an account-supported
+    // Wallet redirects (for example Google Pay or an account-supported
     // AlipayHK method) may not collect a cardholder name.
     const customerName =
       metadata.customerName?.trim() ||

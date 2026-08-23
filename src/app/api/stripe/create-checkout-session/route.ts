@@ -92,8 +92,6 @@ function checkoutPaymentLabel(method: string): string {
       return "PayMe";
     case "applepay":
       return "Apple Pay";
-    case "wechatpay":
-      return "WeChat Pay（微信支付）";
     case "alipayhk":
       return "AlipayHK（香港支付寶）";
     default:
@@ -241,9 +239,10 @@ export async function POST(request: Request) {
       ...(paymentMethodConfiguration
         ? { payment_method_configuration: paymentMethodConfiguration }
         : {}),
-      // Block Stripe's domestic Alipay payment method. A separately supported
-      // AlipayHK method remains controlled by the selected Dashboard config.
-      excluded_payment_method_types: ["alipay"],
+      // Block Stripe's domestic Alipay and WeChat Pay. The local checkout
+      // allowlist remains card, Apple Pay, Google Pay, AlipayHK and PayMe;
+      // all supported methods still come from the selected Dashboard config.
+      excluded_payment_method_types: ["alipay", "wechat_pay"],
       // Hide Link from the hosted Checkout Express area. Apple Pay and Google
       // Pay remain Dashboard-enabled dynamic methods in the standard list.
       wallet_options: {

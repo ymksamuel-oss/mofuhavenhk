@@ -57,7 +57,6 @@ export const translations = {
     payApplePay: "Apple Pay",
     payGooglePay: "Google Pay（Stripe Checkout）",
     payPayMe: "PayMe（Stripe Checkout）",
-    payWeChatPay: "WeChat Pay（微信支付）",
     payAlipayHk: "AlipayHK（香港支付寶）",
     placeOrder: "確認付款",
     secureNote:
@@ -65,13 +64,8 @@ export const translations = {
     stripeMethodsNote:
       "付款會在 Stripe Checkout 安全完成。Google Pay、PayMe 及 AlipayHK 是否顯示，取決於 Stripe Payment Method Configuration、瀏覽器、裝置、地區及 HKD 資格；內地版 Alipay 不會提供。",
     walletMethodsNote:
-      "WeChat Pay 與 AlipayHK 只會在 Stripe Dashboard 的付款組態、HKD 及帳戶資格符合時顯示；內地版 Alipay 已封鎖。",
+      "Google Pay、PayMe 及 AlipayHK 只會在 Stripe Dashboard 的付款組態、HKD 及帳戶資格符合時顯示；內地版 Alipay 已封鎖。",
     unitPriceSuffix: "包",
-    wechatPayHint: "確認後會顯示官方 QR Code，請用微信 App 掃碼完成付款。",
-    wechatPayCta: "顯示 WeChat Pay QR Code",
-    wechatPayQrAlt: "WeChat Pay 付款 QR Code",
-    wechatPayScanHint: "請用微信掃一掃上方 QR Code 完成付款。",
-    wechatPayWaiting: "等待微信確認付款中…請保持此頁面開啟。",
     alipayHkHint: "下一步會進入 Stripe Checkout；只有帳戶組態支援香港支付寶時才會顯示。",
     alipayHkCta: "前往 AlipayHK 付款",
     alipayReturnProcessing: "正在確認 AlipayHK 付款結果…",
@@ -441,7 +435,6 @@ export const translations = {
     payApplePay: "Apple Pay",
     payGooglePay: "Google Pay (Stripe Checkout)",
     payPayMe: "PayMe (Stripe Checkout)",
-    payWeChatPay: "WeChat Pay",
     payAlipayHk: "AlipayHK",
     placeOrder: "Pay now",
     secureNote:
@@ -449,13 +442,8 @@ export const translations = {
     stripeMethodsNote:
       "Payment is completed securely on Stripe Checkout. Google Pay, PayMe and AlipayHK visibility depends on the Stripe Payment Method Configuration and eligibility for the browser, device, country and HKD currency; Mainland Alipay is not offered.",
     walletMethodsNote:
-      "WeChat Pay and AlipayHK appear only when enabled in the Stripe Dashboard configuration and eligible for HKD. Mainland Alipay is blocked.",
+      "Google Pay, PayMe and AlipayHK appear only when enabled in the Stripe Dashboard configuration and eligible for HKD. Mainland Alipay is blocked.",
     unitPriceSuffix: "pack",
-    wechatPayHint: "We’ll show an official QR code — scan it with the WeChat app to pay.",
-    wechatPayCta: "Show WeChat Pay QR code",
-    wechatPayQrAlt: "WeChat Pay QR code",
-    wechatPayScanHint: "Scan the QR code above with WeChat to complete payment.",
-    wechatPayWaiting: "Waiting for WeChat confirmation… keep this page open.",
     alipayHkHint: "You’ll continue to Stripe Checkout; AlipayHK appears only when your account configuration supports it.",
     alipayHkCta: "Continue to AlipayHK",
     alipayReturnProcessing: "Confirming your AlipayHK payment…",

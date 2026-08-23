@@ -21,7 +21,7 @@ const FAQ_ITEMS: FAQItem[] = [
   {
     question: "支援乜嘢付款方式？",
     answer:
-      "我們支援多種安全便捷的網上付款方式，包括 Visa、Mastercard、Apple Pay，以及香港常用的 AlipayHK（支付寶香港）及 WeChat Pay HK（微信支付香港），所有信用卡交易均經過加密處理，確保安全。",
+      "我們支援多種安全便捷的網上付款方式，包括 Visa、Mastercard、Apple Pay、Google Pay、AlipayHK（支付寶香港）及 PayMe，所有信用卡交易均經過加密處理，確保安全。",
   },
   {
     question: "收到貨後可以退換貨嗎？",

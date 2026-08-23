@@ -71,9 +71,6 @@ export function paymentLabelFromIntent(
   // PayMe is account-dependent; keep this defensive for any Stripe-supported
   // or custom PaymentMethod payload that returns the type by name.
   if (paymentType === "payme") return "PayMe";
-  if (paymentType === "wechat_pay") {
-    return "WeChat Pay（微信支付）";
-  }
   if (paymentMethod?.type === "alipay") {
     return "Alipay（內地版）";
   }
