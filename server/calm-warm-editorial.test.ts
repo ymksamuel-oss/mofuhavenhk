@@ -44,7 +44,8 @@ describe("calm warm editorial UI contract", () => {
 
     expect(page).toContain('id="brand-story" className="bg-[#fbf7f3]');
     expect(page).toContain('lg:grid-cols-2 lg:items-center lg:gap-x-10');
-    expect(page).toContain('/images/explore-japanese-pet-lifestyle.jpg');
+    expect(page).toContain('relative mt-[15px] block h-[220px]');
+    expect(page).toContain('src="/images/explore-japanese-pet-lifestyle.jpg"');
     expect(page).toContain('mt-[15px] block h-[220px] w-full');
     expect(page).toContain('min-[769px]:h-[320px]');
     expect(page).toContain('lg:h-[400px]');
