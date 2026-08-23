@@ -71,6 +71,24 @@ describe("calm warm editorial UI contract", () => {
     expect(nextConfig).toContain('formats: ["image/avif", "image/webp"]');
   });
 
+  it("keeps category and subcategory navigation bilingual", () => {
+    const page = source("src/app/page.tsx");
+    const productCatalog = source("src/components/menu/ProductCatalog.tsx");
+    const products = source("src/lib/products.ts");
+    const translations = source("src/lib/i18n/translations.ts");
+
+    expect(page).toContain("labelKey: \"catSubWetCans\"");
+    expect(page).toContain("labelKey: \"catSubDryFood\"");
+    expect(products).toContain("PRODUCT_SUBCATEGORY_LABEL_KEY");
+    expect(products).toContain("CAT_SNACK_SERIES_LABEL_KEY");
+    expect(productCatalog).toContain("getProductSubcategoryLabelKey(option)");
+    expect(productCatalog).toContain("CAT_SNACK_SERIES_LABEL_KEY[series]");
+    expect(productCatalog).toContain('t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")');
+    expect(translations).toContain('catSubWetCans: "Cans / Wet food"');
+    expect(translations).toContain('dogSubSnacks: "Dog treats"');
+    expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
+  });
+
   it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
     const stripe = source("src/lib/stripe.ts");
 

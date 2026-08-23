@@ -8,14 +8,24 @@ import { ProductImage } from "@/components/product/ProductImage";
 import {
   CATEGORIES,
   categoryHref,
+  categorySubHref,
+  catSnacksSeriesHref,
   getCategoryBySlug,
 } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
+  CAT_SNACK_SERIES,
+  CAT_SNACK_SERIES_LABEL_KEY,
+  CAT_SNACK_SERIES_SLUG,
+  CAT_SUBCATEGORIES,
+  CAT_SUBCATEGORY_SLUG,
+  DOG_SUBCATEGORIES,
+  DOG_SUBCATEGORY_SLUG,
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
+  getProductSubcategoryLabelKey,
   getProductsByCategory,
   type CatSubcategory,
   type DogSubcategory,
@@ -80,19 +90,24 @@ export function ProductCatalog({
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const category = getCategoryBySlug(categorySlug);
-  const products = useMemo(() => {
-    const selectedSubcategory =
-      typeof subcategory === "string"
-        ? resolveCategorySubSlug(categorySlug ?? "", subcategory)
-        : null;
-    const selectedSnackSeries =
-      typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
+  const selectedSubcategory =
+    typeof subcategory === "string"
+      ? resolveCategorySubSlug(categorySlug ?? "", subcategory)
+      : null;
+  const selectedSnackSeries =
+    typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
+  const subcategoryOptions =
+    categorySlug === "cats"
+      ? CAT_SUBCATEGORIES
+      : categorySlug === "dogs"
+        ? DOG_SUBCATEGORIES
+        : [];
 
+  const products = useMemo(() => {
     if (categorySlug === "cats" && selectedSubcategory) {
       return getCatProductsBySubcategory(
         selectedSubcategory as CatSubcategory,
         selectedSnackSeries,
-
         catalogProducts,
       );
     }
@@ -103,7 +118,7 @@ export function ProductCatalog({
       );
     }
     return getProductsByCategory(categorySlug, catalogProducts);
-  }, [categorySlug, catalogProducts, snackSeries, subcategory]);
+  }, [categorySlug, catalogProducts, selectedSnackSeries, selectedSubcategory]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
@@ -186,6 +201,87 @@ export function ProductCatalog({
           {/* 探索寵物世界區塊已依要求隱藏／移除，保持畫面乾淨簡潔 */}
         </nav>
       </details>
+
+      {categorySlug === "cats" || categorySlug === "dogs" ? (
+        <section
+          aria-label={t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")}
+          className="mb-6 border-y border-[color:var(--line)] py-4"
+        >
+          <p className="mb-3 text-sm font-semibold text-[color:var(--ink)]">
+            {t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <CategoryNavLink
+              href={categoryHref(categorySlug)}
+              className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+                !selectedSubcategory
+                  ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                  : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+              }`}
+            >
+              {t(categorySlug === "cats" ? "catSubAll" : "dogSubAll")}
+            </CategoryNavLink>
+            {subcategoryOptions.map((option) => {
+              const isActive = selectedSubcategory === option;
+              const subSlug =
+                categorySlug === "cats"
+                  ? CAT_SUBCATEGORY_SLUG[option as CatSubcategory]
+                  : DOG_SUBCATEGORY_SLUG[option as DogSubcategory];
+              return (
+                <CategoryNavLink
+                  key={option}
+                  href={categorySubHref(categorySlug, subSlug)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+                    isActive
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                      : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  }`}
+                >
+                  {t(getProductSubcategoryLabelKey(option))}
+                </CategoryNavLink>
+              );
+            })}
+          </div>
+
+          {categorySlug === "cats" && selectedSubcategory === "貓貓小食" ? (
+            <div className="mt-4 border-t border-[color:var(--line)] pt-4">
+              <p className="mb-3 text-sm font-semibold text-[color:var(--ink)]">
+                {t("catSnackSeriesNavLabel")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <CategoryNavLink
+                  href={catSnacksSeriesHref(null)}
+                  className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+                    !selectedSnackSeries
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
+                      : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                  }`}
+                >
+                  {t("catSnackSeriesAll")}
+                </CategoryNavLink>
+                {CAT_SNACK_SERIES.map((series) => {
+                  const isActive = selectedSnackSeries === series;
+                  return (
+                    <CategoryNavLink
+                      key={series}
+                      href={catSnacksSeriesHref(CAT_SNACK_SERIES_SLUG[series])}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+                        isActive
+                          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
+                          : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                      }`}
+                    >
+                      {t(CAT_SNACK_SERIES_LABEL_KEY[series])}
+                    </CategoryNavLink>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>

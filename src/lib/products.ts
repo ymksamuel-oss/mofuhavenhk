@@ -1,4 +1,5 @@
 import type { CategoryIconName } from "@/lib/categories";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 /** Cat-products sub-filter keys (shown under 「貓咪商品」). */
 export const CAT_SUBCATEGORIES = [
@@ -10,6 +11,36 @@ export const CAT_SUBCATEGORIES = [
 ] as const;
 
 export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
+
+export type ProductSubcategoryLabelKey = Extract<
+  TranslationKey,
+  | "catSubWetCans"
+  | "catSubDryFood"
+  | "catSubFreezeDried"
+  | "catSubSnacks"
+  | "pillTreatsSubcategory"
+  | "dogSubFood"
+  | "dogSubSnacks"
+>;
+
+export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
+  ProductSubcategory,
+  ProductSubcategoryLabelKey
+> = {
+  貓罐罐: "catSubWetCans",
+  貓乾糧: "catSubDryFood",
+  冷凍脫水系列: "catSubFreezeDried",
+  貓貓小食: "catSubSnacks",
+  投藥餵藥專用小食: "pillTreatsSubcategory",
+  狗狗食品: "dogSubFood",
+  狗狗小食: "dogSubSnacks",
+};
+
+export function getProductSubcategoryLabelKey(
+  subcategory: ProductSubcategory,
+): ProductSubcategoryLabelKey {
+  return PRODUCT_SUBCATEGORY_LABEL_KEY[subcategory];
+}
 
 /** Dog-products sub-filter keys (shown under 「狗狗商品」). */
 export const DOG_SUBCATEGORIES = [
@@ -33,6 +64,24 @@ export const CAT_SNACK_SERIES = [
   "去毛球配方",
   "bb貓零食",
 ] as const satisfies readonly CatSnackSeries[];
+
+export type CatSnackSeriesLabelKey = Extract<
+  TranslationKey,
+  | "catSnackSeriesNatural"
+  | "catSnackSeriesSenior"
+  | "catSnackSeriesHairball"
+  | "catSnackSeriesKitten"
+>;
+
+export const CAT_SNACK_SERIES_LABEL_KEY: Record<
+  CatSnackSeries,
+  CatSnackSeriesLabelKey
+> = {
+  無添加天然系列: "catSnackSeriesNatural",
+  老貓零食: "catSnackSeriesSenior",
+  去毛球配方: "catSnackSeriesHairball",
+  bb貓零食: "catSnackSeriesKitten",
+};
 
 export const CAT_SNACK_SERIES_LABEL: Record<
   CatSnackSeries,
@@ -232,8 +281,22 @@ export function resolveCategorySubSlug(
   subSlug: string | null | undefined,
 ): ProductSubcategory | null {
   if (!subSlug) return null;
-  if (categorySlug === "cats") return CAT_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
-  if (categorySlug === "dogs") return DOG_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+  if (categorySlug === "cats") {
+    return (
+      CAT_SUBCATEGORY_BY_SLUG[subSlug] ??
+      (CAT_SUBCATEGORIES.includes(subSlug as CatSubcategory)
+        ? (subSlug as CatSubcategory)
+        : null)
+    );
+  }
+  if (categorySlug === "dogs") {
+    return (
+      DOG_SUBCATEGORY_BY_SLUG[subSlug] ??
+      (DOG_SUBCATEGORIES.includes(subSlug as DogSubcategory)
+        ? (subSlug as DogSubcategory)
+        : null)
+    );
+  }
   return null;
 }
 

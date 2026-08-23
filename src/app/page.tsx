@@ -19,13 +19,13 @@ import {
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const quickCategories = [
-  { href: "/categories/cats", label: "貓咪商品", Icon: CatIcon },
-  { href: "/categories/dogs", label: "狗狗商品", Icon: DogIcon },
-  { href: "/categories/small-pets", label: "小寵物商品", Icon: BoneIcon },
-  { href: "/categories/cats/wet-cans", label: "貓罐頭／濕糧", Icon: HealthIcon },
-  { href: "/categories/cats/dry-food", label: "乾糧／主食糧", Icon: BoneIcon },
-  { href: "/categories/cleaning", label: "貓砂／清潔用品", Icon: CleaningIcon },
-  { href: "/categories/toys", label: "寵物玩具", Icon: ToyIcon },
+  { href: "/categories/cats", labelKey: "categoryCats", Icon: CatIcon },
+  { href: "/categories/dogs", labelKey: "categoryDogs", Icon: DogIcon },
+  { href: "/categories/small-pets", labelKey: "categorySmallPets", Icon: BoneIcon },
+  { href: "/categories/cats/wet-cans", labelKey: "catSubWetCans", Icon: HealthIcon },
+  { href: "/categories/cats/dry-food", labelKey: "catSubDryFood", Icon: BoneIcon },
+  { href: "/categories/cleaning", labelKey: "categoryCleaning", Icon: CleaningIcon },
+  { href: "/categories/toys", labelKey: "categoryToys", Icon: ToyIcon },
 ] as const;
 
 export default function HomePage() {
@@ -121,14 +121,14 @@ export default function HomePage() {
       <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-5 py-8 sm:px-10 sm:py-12">
         <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
-            {quickCategories.map(({ href, label, Icon }) => (
+            {quickCategories.map(({ href, labelKey, Icon }) => (
               <CategoryNavLink
                 key={href}
                 href={href}
                 className="group flex min-h-[4.6rem] flex-col items-center justify-center gap-1 rounded-[1.35rem] border border-[color:var(--line)] bg-white px-2 py-3 text-center text-xs font-semibold text-[color:var(--ink)] shadow-[0_8px_18px_-15px_rgba(78,52,29,0.45)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)] sm:min-h-[5.25rem] sm:text-sm"
               >
                 <Icon className="h-5 w-5 text-[color:var(--ink)] transition-transform group-hover:scale-110" />
-                <span>{label}</span>
+                <span>{t(labelKey)}</span>
               </CategoryNavLink>
             ))}
           </div>
