@@ -83,9 +83,10 @@ describe("calm warm editorial UI contract", () => {
     expect(footer).not.toContain("WeChat Pay");
     expect(faq).not.toContain("WeChat Pay");
 
-    expect(paymentIcons).toContain('src="/payment/apple-pay-mark.svg"');
-    expect(paymentIcons).toContain('src="/payment/google-pay-mark.svg"');
-    expect(paymentIcons).toContain('src="/payment/payme-logo.png"');
+    expect(paymentIcons).toContain('src="/payment/apple-pay-wordmark-transparent.svg"');
+    expect(paymentIcons).toContain('src="/payment/google-pay-wordmark-transparent.svg"');
+    expect(paymentIcons).toContain('src="/payment/payme-wordmark-transparent.png"');
+    expect(paymentIcons).not.toContain("PayMe by HSBC");
     expect(paymentIcons).toContain('src="/payment/alipayhk-logo.svg"');
     expect(paymentIcons).not.toContain("WeChatPayLogo");
     expect(paymentIcons).not.toContain("G Pay");

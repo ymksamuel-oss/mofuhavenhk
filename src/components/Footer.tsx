@@ -89,27 +89,27 @@ function FooterNavColumn({
 /** Five locally hosted payment marks without decorative frames. */
 function PaymentMarks() {
   const markClassName =
-    "flex min-w-0 items-center justify-center px-1 py-1 sm:px-1.5";
+    "flex h-8 w-[6.25rem] shrink-0 items-center justify-center px-1 py-1 sm:w-[6.75rem]";
 
   return (
-    <ul className="flex w-full max-w-full flex-wrap items-center justify-center gap-x-4 gap-y-3 py-2 sm:w-auto sm:justify-end sm:gap-x-5">
+    <ul className="flex w-full max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-2 py-2 sm:w-auto sm:justify-end sm:gap-x-3">
       <li className={markClassName}>
-        <ApplePayLogo className="h-5 w-auto" />
+        <ApplePayLogo className="!h-6 !w-auto" />
       </li>
       <li className={markClassName}>
-        <GooglePayLogo className="!h-7 max-w-full !w-auto sm:!h-8" />
+        <GooglePayLogo className="!h-6 !w-auto" />
       </li>
       <li className={markClassName}>
-        <PayMeLogo className="!h-6 max-w-full !w-auto sm:!h-7" />
+        <PayMeLogo className="!h-6 !w-auto" />
       </li>
       <li className={markClassName}>
-        <AlipayHkLogo className="!h-[1.125rem] max-w-full !w-auto sm:!h-5" />
+        <AlipayHkLogo className="!h-5 !w-auto" />
       </li>
       <li className={markClassName}>
-        <VisaLogo className="!h-5 w-auto" />
+        <VisaLogo className="!h-5 !w-auto" />
       </li>
       <li className={markClassName}>
-        <MastercardLogo className="!h-5 w-auto" />
+        <MastercardLogo className="!h-5 !w-auto" />
       </li>
     </ul>
   );

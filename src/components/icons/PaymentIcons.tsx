@@ -45,9 +45,9 @@ export function CardLogo({ className = "" }: LogoProps) {
 export function ApplePayLogo({ className = "" }: LogoProps) {
   return (
     <Image
-      src="/payment/apple-pay-mark.svg"
-      width={166}
-      height={106}
+      src="/payment/apple-pay-wordmark-transparent.svg"
+      width={128}
+      height={55}
       alt="Apple Pay"
       className={`h-8 w-auto shrink-0 object-contain ${className}`}
     />
@@ -58,24 +58,24 @@ export function ApplePayLogo({ className = "" }: LogoProps) {
 export function GooglePayLogo({ className = "" }: LogoProps) {
   return (
     <Image
-      src="/payment/google-pay-mark.svg"
-      width={1094}
-      height={742}
+      src="/payment/google-pay-wordmark-transparent.svg"
+      width={540}
+      height={205}
       alt="Google Pay"
       className={`h-8 w-auto shrink-0 object-contain ${className}`}
     />
   );
 }
 
-/** Official PayMe by HSBC logo served from the PayMe website. */
+/** Independent PayMe wordmark with a transparent background. */
 export function PayMeLogo({ className = "" }: LogoProps) {
   return (
     <Image
-      src="/payment/payme-logo.png"
-      width={198}
-      height={45}
-      alt="PayMe by HSBC"
-      className={`h-7 w-auto shrink-0 object-contain ${className}`}
+      src="/payment/payme-wordmark-transparent.png"
+      width={584}
+      height={258}
+      alt="PayMe"
+      className={`h-8 w-auto shrink-0 object-contain ${className}`}
     />
   );
 }
