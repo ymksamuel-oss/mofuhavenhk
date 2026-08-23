@@ -39,9 +39,20 @@ export function isStripeConfigured(): boolean {
   return Boolean(getStripeSecretKey() && getStripePublishableKey());
 }
 
-/** Optional Stripe Dashboard payment-method configuration for hosted Checkout. */
-export function getStripePaymentMethodConfiguration(): string {
-  return process.env.STRIPE_PAYMENT_METHOD_CONFIGURATION_ID?.trim() || "";
+/**
+ * Required Stripe Dashboard Payment Method Configuration for checkout.
+ *
+ * Keeping this server-side prevents a Checkout Session from silently falling
+ * back to account-default payment methods when the configured `pmc_...` ID is
+ * absent or malformed.
+ */
+export function getStripePaymentMethodConfiguration(): string | null {
+  const configurationId =
+    process.env.STRIPE_PAYMENT_METHOD_CONFIGURATION_ID?.trim() || "";
+
+  return /^pmc_[A-Za-z0-9]+$/.test(configurationId)
+    ? configurationId
+    : null;
 }
 
 let stripeSingleton: Stripe | null = null;

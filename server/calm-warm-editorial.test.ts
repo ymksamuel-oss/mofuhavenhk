@@ -96,8 +96,11 @@ describe("calm warm editorial UI contract", () => {
     const paymentIntentRoute = source("src/app/api/stripe/create-payment-intent/route.ts");
     const translations = source("src/lib/i18n/translations.ts");
 
-    expect(sessionRoute).toContain('payment_method_configuration');
+    expect(sessionRoute).toContain('error: "payment_method_configuration_not_configured"');
+    expect(sessionRoute).toContain('payment_method_configuration: paymentMethodConfiguration');
+    expect(sessionRoute).not.toContain('...(paymentMethodConfiguration');
     expect(sessionRoute).toContain('excluded_payment_method_types: ["alipay", "wechat_pay"]');
+    expect(source("src/lib/stripe.ts")).toContain('/^pmc_[A-Za-z0-9]+$/');
     expect(sessionRoute).toContain('link: { display: "never" }');
     expect(sessionRoute).toContain("Do not set payment_method_types");
     expect(paymentIntentRoute).toContain("getStripePaymentMethodConfiguration");
