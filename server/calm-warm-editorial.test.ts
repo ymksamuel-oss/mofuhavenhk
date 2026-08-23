@@ -34,7 +34,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg"');
     expect(page).toContain('src={mobileHeroImage}');
     expect(page).toContain('object-cover object-center');
-    expect(page).toContain('object-[center_58%]');
+    expect(page).toContain('origin-left scale-[1.22] object-cover object-[0%_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");

@@ -54,7 +54,7 @@ export default function HomePage() {
                 fill
                 priority
                 sizes="53vw"
-                className="object-cover object-[center_58%]"
+                className="origin-left scale-[1.22] object-cover object-[0%_58%]"
               />
             ) : (
               <Image
