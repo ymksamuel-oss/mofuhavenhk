@@ -8,7 +8,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
-import { mobileProductBannerDataUri } from "@/lib/assets/mobile-product-banner";
+import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg";
 import { ProductSearch } from "@/components/ProductSearch";
 import {
   BoneIcon,
@@ -57,11 +57,13 @@ export default function HomePage() {
                 className="object-cover object-[center_58%]"
               />
             ) : (
-              <img
-                src={mobileProductBannerDataUri}
-                alt="Mofu Haven 日系寵物精品、骨形玩具及照顧用品"
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                decoding="async"
+              <Image
+                src={mobileHeroImage}
+                alt="日系家居中的柴犬幼犬、木製骨形玩具與寵物用品"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-[center_55%]"
               />
             )}
           </div>

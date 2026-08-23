@@ -31,7 +31,8 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
     expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
     expect(page).toContain('{isDesktopHero ? (');
-    expect(page).toContain('mobileProductBannerDataUri');
+    expect(page).toContain('import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg"');
+    expect(page).toContain('src={mobileHeroImage}');
     expect(page).toContain('object-cover object-center');
     expect(page).toContain('object-[center_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
