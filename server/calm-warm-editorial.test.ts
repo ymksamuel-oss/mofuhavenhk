@@ -110,6 +110,16 @@ describe("calm warm editorial UI contract", () => {
     expect(productCatalog).toContain('t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")');
     expect(translations).toContain('catSubWetCans: "Cans / Wet food"');
     expect(translations).toContain('dogSubSnacks: "Dog treats"');
+
+    const productsSource = source("src/lib/products.ts");
+    const catalogServer = source("src/lib/catalog-server.ts");
+    const catalogOverrides = source("src/lib/catalog-overrides.ts");
+    expect(productsSource).toContain("isSmallPetProductText");
+    expect(productsSource).toContain("small");
+    expect(productsSource).toContain("hamster");
+    expect(catalogServer).toContain("isSmallPetProductText(");
+    expect(catalogServer).toContain('return "small-pets"');
+    expect(catalogOverrides).toContain("isSmallPetProductText(zhTitle, enTitle, zhDescription, enDescription)");
     expect(translations).toContain('allProducts: "全部產品"');
     expect(translations).toContain('allProducts: "All Products"');
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');

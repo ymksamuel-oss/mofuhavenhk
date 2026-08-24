@@ -164,6 +164,16 @@ export type Product = {
   sourceCategory?: string;
 };
 
+/**
+ * Product wording that identifies the small-pet shelf. Keep this broad enough
+ * for future Stripe / sheet products while avoiding generic pet wording.
+ */
+const SMALL_PET_KEYWORDS = /小動物|小动物|小寵物|小宠物|兔子?|兔用|倉鼠|仓鼠|天竺鼠|豚鼠|荷蘭豬|荷兰猪|刺蝟|刺猬|龍貓|龙猫|蜜袋鼯|飛鼠|飞鼠|雪貂|rabbit|bunny|hamster|guinea\s*pig|gerbil|chinchilla|hedgehog|ferret|small\s*[- ]?pet|small\s*animal|rodent/i;
+
+export function isSmallPetProductText(...values: Array<string | undefined>): boolean {
+  return SMALL_PET_KEYWORDS.test(values.filter(Boolean).join(" "));
+}
+
 const CATEGORY_SLUG_BY_METADATA: Record<string, string> = {
   cats: "cats",
   cat: "cats",

@@ -5,6 +5,7 @@ import Stripe from "stripe";
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import {
   categorySlugFromMetadata,
+  isSmallPetProductText,
   subcategoryFromMetadata,
   type Product,
   type ProductSubcategory,
@@ -46,13 +47,21 @@ function categoryFromProduct(product: Stripe.Product): string {
   const metadata = productMetadata(product);
   const metadataCategory =
     metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
+  const metadataText = Object.values(metadata).join(" ");
+  if (
+    isSmallPetProductText(
+      product.name,
+      product.description ?? undefined,
+      metadataText,
+      metadata["product_type"],
+      metadata["tags"],
+    )
+  ) {
+    return "small-pets";
+  }
   return (
     categorySlugFromMetadata(metadataCategory) ??
-    (/(小動物|兔|倉鼠|天竺鼠|牧草|小寵物|small.?pet)/i.test(product.name ?? "")
-      ? "small-pets"
-      : /狗|犬|dog/i.test(product.name ?? "")
-        ? "dogs"
-        : "cats")
+    (/狗|犬|dog/i.test(product.name ?? "") ? "dogs" : "cats")
   );
 }
 

@@ -1,7 +1,5 @@
-import {
-  CATEGORIES,
-  type CategoryIconName,
-} from "@/lib/categories";
+import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { isSmallPetProductText } from "@/lib/products";
 import type { Product } from "@/lib/products";
 
 export type ProductSheetRecord = {
@@ -383,9 +381,13 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
         ? (row[enDescriptionColumn] ?? "").trim()
         : "";
 
+    const normalizedCategorySlug = isSmallPetProductText(zhTitle, enTitle, zhDescription, enDescription)
+      ? "small-pets"
+      : categorySlug;
+
     records.set(id, {
       id,
-      categorySlug,
+      categorySlug: normalizedCategorySlug,
       image: image.image,
       name: {
         zh: zhTitle || enTitle,
