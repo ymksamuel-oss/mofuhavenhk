@@ -9,6 +9,21 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref } from "@/lib/products";
 
 /**
+ * Stable Product IDs keep the home shelf intentional even when Stripe returns
+ * products in a different order. This selection balances cats, dogs and treats.
+ */
+const HOME_FEATURED_PRODUCT_IDS = [
+  "prod_V4htHmH3FlZbUv", // Sheba hairball treats
+  "prod_V5eKYSnRNwaczq", // Petio dog chicken rolls
+  "prod_V4jv2phsRuMpTq", // MonPetit salmon treat
+  "prod_V5eKRNO3yNFKAe", // Petzroute dog chicken cartilage treat
+  "prod_V4jv3rKvrSLixq", // CIAO senior cat bonito treat
+  "prod_V5eKvVH9j8xjri", // Petio dog chicken breast treat
+  "prod_V4jv6tnlPJm090", // CIAO probiotic dry food
+  "prod_V5eKT1ckCpsx5I", // Petzroute dog vegetable treat
+] as const;
+
+/**
  * Homepage storefront section backed by the live catalog supplied by the
  * server-side Stripe adapter. The homepage presents a focused 12-product selection;
  * the full active catalog remains available from the Shop page.
@@ -18,6 +33,13 @@ export function HomepageProductGrid() {
   const { products: catalogProducts } = useCatalog();
   const products = getProductsByCategory(null, catalogProducts)
     .filter(isStorefrontReadyProduct)
+    .sort((left, right) => {
+      const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
+      const rightRank = HOME_FEATURED_PRODUCT_IDS.indexOf(right.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
+      const normalizedLeftRank = leftRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : leftRank;
+      const normalizedRightRank = rightRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : rightRank;
+      return normalizedLeftRank - normalizedRightRank || left.id.localeCompare(right.id, undefined, { numeric: true });
+    })
     .slice(0, 12);
 
   return (
