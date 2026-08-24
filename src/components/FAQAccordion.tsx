@@ -90,7 +90,7 @@ export function FAQAccordion() {
                   }`}
                 >
                   <div className="min-h-0 overflow-hidden">
-                    <p className="border-t border-[color:var(--line)]/70 px-4 pb-4 pt-3 text-sm leading-relaxed text-[color:var(--muted)] sm:px-5 sm:text-[0.95rem]">
+                    <p className="whitespace-pre-line border-t border-[color:var(--line)]/70 px-4 pb-4 pt-3 text-sm leading-relaxed text-[color:var(--muted)] sm:px-5 sm:text-[0.95rem]">
                       {t(item.answer)}
                     </p>
                   </div>

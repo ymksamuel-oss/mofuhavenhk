@@ -284,7 +284,8 @@ export const translations = {
     faqPaymentQuestion: "支援乜嘢付款方式？",
     faqPaymentAnswer: "我們支援多種安全便捷的網上付款方式，包括 Visa、Mastercard、Apple Pay、Google Pay、AlipayHK（支付寶香港）及 PayMe，所有信用卡交易均經過加密處理，確保安全。",
     faqReturnsQuestion: "收到貨後可以退換貨嗎？",
-    faqReturnsAnswer: "我們設有「7日退換貨保障」。如收到的商品有破損或與訂單不符，請於收貨後 7 天內透過 WhatsApp 或電郵聯絡我們，我們將盡快為您安排退換事宜（請保持商品原包裝完整）。",
+    faqReturnsAnswer:
+      "我們設有「7日退換貨保障」，致力為您和愛寵提供安心的購物體驗。如收到的商品出現以下情況，請於收貨後 7 天內透過 WhatsApp 或電郵聯絡我們，我們將盡快為您安排退換事宜：\n\n1. 適用退換之情況：\n• 運輸途中引致商品嚴重破損、變形或漏液。\n• 收到之商品與訂單內容不符（如：錯發款式、口味、數量不正確）。\n• 商品本身存在品質問題或已過期。\n\n2. 退換貨基本要求：\n• 必須於簽收後 7 天內提出申請（以速遞簽收記錄或自取點提取日期為準）。\n• 請保持商品為全新未開封狀態，連同完整的原包裝、標籤及送貨單（如適用）。\n• 基於衛生及食品安全理由，所有已開封、曾被使用、或因個人原因（如寵物不喜歡口味、主人買錯款式）而要求退換之商品，恕不接受退款或退換。\n\n3. 退換貨流程：\n第一步：拍攝清晰的損壞部位、商品全貌及問題單據相片／影片。\n第二步：透過網頁 Footer 的 WhatsApp（@MofuHavenHK）或電郵聯絡我們，並提供訂單號碼及相關相片。\n第三步：經客服確認後，我們會指導您後續的退回及補發／退款手續（相關之退換運費將由本店承擔）。",
     faqContactHint: "還有其他疑問？歡迎隨時透過 Footer 的 WhatsApp 聯絡我們（@MofuHavenHK），專人會為您解答！",
     faqPageBody:
       "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
@@ -719,7 +720,8 @@ export const translations = {
     faqPaymentQuestion: "Which payment methods do you support?",
     faqPaymentAnswer: "We support Visa, Mastercard, Apple Pay, Google Pay, AlipayHK, and PayMe. All card transactions are encrypted for secure payment.",
     faqReturnsQuestion: "Can I exchange or return an item after delivery?",
-    faqReturnsAnswer: "We offer a 7-day exchange and return guarantee. If an item arrives damaged or does not match your order, contact us by WhatsApp or email within 7 days and keep the original packaging intact.",
+    faqReturnsAnswer:
+      "We offer a 7-day exchange and return guarantee to provide a reassuring shopping experience for you and your pet. If any of the following applies, please contact us by WhatsApp or email within 7 days of receiving the order, and we will arrange the next steps as soon as possible:\n\n1. Eligible reasons for exchange or return:\n• The item is seriously damaged, deformed, or leaking during transport.\n• The item does not match the order, such as an incorrect style, flavour, or quantity.\n• The item has a quality issue or has expired.\n\n2. Basic requirements:\n• The request must be submitted within 7 days of signing for the parcel or collecting it from the designated collection point.\n• The item must be new and unopened, with its original packaging, labels, and delivery note where applicable.\n• For hygiene and food-safety reasons, opened or used items, and requests based on personal reasons such as a pet disliking the flavour or a customer choosing the wrong style, are not eligible for refund, exchange, or return.\n\n3. Process:\nStep 1: Take clear photos or videos of the damaged area, the full item, and the relevant order document.\nStep 2: Contact us through the Footer WhatsApp link (@MofuHavenHK) or by email, and provide your order number together with the relevant photos.\nStep 3: After customer-service confirmation, we will guide you through the return and replacement or refund arrangements. We will bear the relevant return or exchange shipping cost.",
     faqContactHint: "Still have questions? Contact us anytime through the WhatsApp link in the footer (@MofuHavenHK).",
     faqPageBody:
       "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",

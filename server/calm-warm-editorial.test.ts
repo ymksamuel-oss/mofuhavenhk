@@ -178,6 +178,28 @@ describe("calm warm editorial UI contract", () => {
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
   });
 
+  it("keeps the Q4 return policy complete and readable", () => {
+    const translations = source("src/lib/i18n/translations.ts");
+    const faq = source("src/components/FAQAccordion.tsx");
+    const faqPage = source("src/app/faq/page.tsx");
+
+    expect(translations).toContain("faqReturnsQuestion: \"收到貨後可以退換貨嗎？\"");
+    expect(translations).toContain("7日退換貨保障");
+    expect(translations).toContain("運輸途中引致商品嚴重破損、變形或漏液");
+    expect(translations).toContain("收到之商品與訂單內容不符");
+    expect(translations).toContain("商品本身存在品質問題或已過期");
+    expect(translations).toContain("必須於簽收後 7 天內提出申請");
+    expect(translations).toContain("所有已開封、曾被使用");
+    expect(translations).toContain("第一步：拍攝清晰的損壞部位");
+    expect(translations).toContain("第二步：透過網頁 Footer 的 WhatsApp");
+    expect(translations).toContain("第三步：經客服確認後");
+    expect(translations).toContain("7-day exchange and return guarantee");
+    expect(translations).toContain("Eligible reasons for exchange or return");
+    expect(faq).toContain("whitespace-pre-line");
+    expect(faqPage).toContain('import { FAQAccordion } from "@/components/FAQAccordion"');
+    expect(faqPage).toContain("<FAQAccordion />");
+  });
+
   it("keeps category and subcategory SEO metadata bilingual and shareable", () => {
     const seo = source("src/lib/seo/category-seo.ts");
     const categoryPage = source("src/app/categories/[slug]/page.tsx");
