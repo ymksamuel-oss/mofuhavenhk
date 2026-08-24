@@ -27,6 +27,7 @@ import {
   getDogProductsBySubcategory,
   getProductSubcategoryLabelKey,
   getProductsByCategory,
+  isStorefrontReadyProduct,
   type CatSubcategory,
   type DogSubcategory,
   productHref,
@@ -104,20 +105,20 @@ export function ProductCatalog({
         : [];
 
   const products = useMemo(() => {
-    if (categorySlug === "cats" && selectedSubcategory) {
-      return getCatProductsBySubcategory(
-        selectedSubcategory as CatSubcategory,
-        selectedSnackSeries,
-        catalogProducts,
-      );
-    }
-    if (categorySlug === "dogs" && selectedSubcategory) {
-      return getDogProductsBySubcategory(
-        selectedSubcategory as DogSubcategory,
-        catalogProducts,
-      );
-    }
-    return getProductsByCategory(categorySlug, catalogProducts);
+    const matchingProducts =
+      categorySlug === "cats" && selectedSubcategory
+        ? getCatProductsBySubcategory(
+            selectedSubcategory as CatSubcategory,
+            selectedSnackSeries,
+            catalogProducts,
+          )
+        : categorySlug === "dogs" && selectedSubcategory
+          ? getDogProductsBySubcategory(
+              selectedSubcategory as DogSubcategory,
+              catalogProducts,
+            )
+          : getProductsByCategory(categorySlug, catalogProducts);
+    return matchingProducts.filter(isStorefrontReadyProduct);
   }, [categorySlug, catalogProducts, selectedSnackSeries, selectedSubcategory]);
 
   const title = category ? t(category.labelKey) : t("menuTitle");

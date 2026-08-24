@@ -11,6 +11,7 @@ import {
   type CatSnackSeries,
   type Product,
   type ProductSubcategory,
+  isStorefrontReadyProduct,
   uniqueProductsById,
 } from "@/lib/products";
 import {
@@ -20,7 +21,6 @@ import {
   getStripeSecretKey,
 } from "@/lib/stripe";
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
-import { SMALL_PET_DEMO_PRODUCTS } from "@/lib/small-pet-demo-products";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -67,10 +67,17 @@ function categoryFromProduct(product: Stripe.Product): string {
   ) {
     return "small-pets";
   }
-  return (
-    categorySlugFromMetadata(metadataCategory) ??
-    (/狗|犬|dog/i.test(product.name ?? "") ? "dogs" : "cats")
-  );
+
+  // Product copy is a stronger signal than stale category metadata for records
+  // imported from earlier catalog versions. Only override metadata when the
+  // name/description clearly identifies exactly one pet type.
+  const productText = `${product.name ?? ""} ${product.description ?? ""}`;
+  const isDogProduct = /狗|犬|dog|canine/i.test(productText);
+  const isCatProduct = /貓|猫|cat|feline/i.test(productText);
+  if (isDogProduct && !isCatProduct) return "dogs";
+  if (isCatProduct && !isDogProduct) return "cats";
+
+  return categorySlugFromMetadata(metadataCategory) ?? (isDogProduct ? "dogs" : "cats");
 }
 
 function subcategoryFromProduct(
@@ -339,13 +346,13 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
   );
 
-  const products = uniqueProductsById([
-    ...stripeProducts
+  const products = uniqueProductsById(
+    stripeProducts
       .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
-      .filter((product): product is Product => product !== null),
-    ...SMALL_PET_DEMO_PRODUCTS,
-  ]).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+      .filter((product): product is Product => product !== null)
+      .filter(isStorefrontReadyProduct),
+  ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
   return { products, source: "stripe", matchedRecords: products.length };
 }

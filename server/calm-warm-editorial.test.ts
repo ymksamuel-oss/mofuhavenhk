@@ -162,7 +162,10 @@ describe("calm warm editorial UI contract", () => {
     expect(demoProducts).toContain("demo-small-pet-bedding");
     expect(demoProducts.match(/categorySlug: \"small-pets\"/g)?.length).toBe(4);
     expect(demoProducts).toContain('metadata: { demo: "true"');
-    expect(catalogServer).toContain("SMALL_PET_DEMO_PRODUCTS");
+    expect(catalogServer).not.toContain("SMALL_PET_DEMO_PRODUCTS");
+    expect(productsSource).toContain("QUARANTINED_PRODUCT_IDS");
+    expect(productsSource).toContain("isStorefrontReadyProduct");
+    expect(catalogServer).toContain(".filter(isStorefrontReadyProduct)");
     expect(translations).toContain('allProducts: "全部產品"');
     expect(translations).toContain('allProducts: "All Products"');
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');

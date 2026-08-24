@@ -235,6 +235,21 @@ export function subcategoryFromMetadata(category: string | undefined): ProductSu
   );
 }
 
+/** Products quarantined from storefront display until their Stripe record is corrected and verified. */
+export const QUARANTINED_PRODUCT_IDS = new Set<string>([
+  // Product name/description identify a cat scallop treat, but its current Stripe image is a dog-food photo.
+  "prod_V4htF8xn3apgbi",
+]);
+
+export function isStorefrontReadyProduct(product: Pick<Product, "id" | "image" | "inStock" | "metadata">): boolean {
+  return (
+    product.inStock !== false &&
+    product.image !== "catalog-placeholder" &&
+    !product.metadata?.demo &&
+    !QUARANTINED_PRODUCT_IDS.has(product.id)
+  );
+}
+
 export function uniqueProductsById(products: readonly Product[] = []): Product[] {
   const productsById = new Map<string, Product>();
   for (const product of products) {

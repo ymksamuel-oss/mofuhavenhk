@@ -6,7 +6,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, productHref } from "@/lib/products";
+import { getProductsByCategory, isStorefrontReadyProduct, productHref } from "@/lib/products";
 
 /**
  * Homepage storefront section backed by the live catalog supplied by the
@@ -16,7 +16,9 @@ import { getProductsByCategory, productHref } from "@/lib/products";
 export function HomepageProductGrid() {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
-  const products = getProductsByCategory(null, catalogProducts).slice(0, 12);
+  const products = getProductsByCategory(null, catalogProducts)
+    .filter(isStorefrontReadyProduct)
+    .slice(0, 12);
 
   return (
     <section
