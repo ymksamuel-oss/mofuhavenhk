@@ -178,6 +178,24 @@ describe("calm warm editorial UI contract", () => {
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
   });
 
+  it("keeps the Q2 local delivery policy complete and readable", () => {
+    const translations = source("src/lib/i18n/translations.ts");
+    const faq = source("src/components/FAQAccordion.tsx");
+
+    expect(translations).toContain("faqDeliveryQuestion: \"落單後幾耐收貨？\"");
+    expect(translations).toContain("現貨商品：我們一般會在訂單確認並完成付款後 1-2 個工作天內由香港倉庫安排寄出");
+    expect(translations).toContain("顧客通常會於下單後 5-7 個工作天內收到商品");
+    expect(translations).toContain("八號或以上熱帶氣旋警告信號（掛風球）或黑色暴雨警告");
+    expect(translations).toContain("本地物流及順豐派送服務將會暫停");
+    expect(translations).toContain("順豐追蹤單號（Waybill No.）");
+    expect(translations).toContain("In-stock products are generally dispatched from our Hong Kong warehouse within 1–2 working days");
+    expect(translations).toContain("customers will usually receive their order within 5–7 working days");
+    expect(translations).toContain("No. 8 or higher tropical cyclone warning signal");
+    expect(translations).toContain("Black Rainstorm Warning");
+    expect(translations).toContain("SF Express tracking number (Waybill No.)");
+    expect(faq).toContain("whitespace-pre-line");
+  });
+
   it("keeps the Q3 payment policy complete and readable", () => {
     const translations = source("src/lib/i18n/translations.ts");
     const faq = source("src/components/FAQAccordion.tsx");

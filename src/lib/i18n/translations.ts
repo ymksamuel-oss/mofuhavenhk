@@ -280,7 +280,8 @@ export const translations = {
     faqShippingQuestion: "運費點計？幾時有免運費？",
     faqShippingAnswer: "Mofu Haven 提供香港本地順豐速運配送。全店購物淨額滿 HK$450 即享免運費；若未滿 HK$450，標準運費為 HK$35。系統會在結帳時自動計算。",
     faqDeliveryQuestion: "落單後幾耐收貨？",
-    faqDeliveryAnswer: "現貨商品會在訂單確認並完成付款後 3-5 個工作天內由香港倉庫安排發貨。如遇公眾假期或大型促銷活動可能略有延誤，發貨後會透過電郵或短訊發送順豐追蹤單號。",
+    faqDeliveryAnswer:
+      "現貨商品：我們一般會在訂單確認並完成付款後 1-2 個工作天內由香港倉庫安排寄出。\n\n整體配送時間：連同速遞派送（如順豐速遞）計算，顧客通常會於下單後 5-7 個工作天內收到商品。\n\n惡劣天氣特別安排：如遇上香港發出八號或以上熱帶氣旋警告信號（掛風球）或黑色暴雨警告，本地物流及順豐派送服務將會暫停。受惡劣天氣影響之訂單，出貨及派送時間將會順延，敬請見諒。\n\n貨件發出後，我們將透過電郵或短訊發送順豐追蹤單號（Waybill No.），方便您隨時查閱物流進度。",
     faqPaymentQuestion: "支援乜嘢付款方式？",
     faqPaymentAnswer:
       "我們支援多種安全便捷的網上付款方式，切合不同顧客的需求：\n\n1. 信用卡及手機支付：\nVisa／Mastercard（所有信用卡交易均經由 Stripe 加密處理，確保安全）\nApple Pay（適用於 iPhone、iPad 及 Mac 等 Apple 裝置）\nGoogle Pay（適用於 Android 裝置或 Chrome 瀏覽器）\n\n2. 本地主流電子支付：\nAlipayHK（支付寶香港）\nPayMe\n\n💡 溫馨提示（關於支付圖示顯示）：\n如果您使用 iPhone 或 iPad（iOS 裝置）瀏覽網店，受 Apple 系統生態限制，部分非 Apple 官方的支付標誌（如 Google Pay）可能無法在結帳頁面直接顯示。這屬於正常現象，並不影響您的正常下單與付款。如在付款時遇到任何疑問，歡迎隨時透過 WhatsApp 聯絡我們協助！",
@@ -717,7 +718,8 @@ export const translations = {
     faqShippingQuestion: "How is shipping charged, and when is it free?",
     faqShippingAnswer: "Mofu Haven delivers locally in Hong Kong with SF Express. Orders of HK$450 or more receive free shipping; otherwise the standard fee is HK$35, calculated automatically at checkout.",
     faqDeliveryQuestion: "How long does delivery take after ordering?",
-    faqDeliveryAnswer: "In-stock products are dispatched from our Hong Kong warehouse within 3–5 working days after the order is confirmed and paid. Public holidays and major campaigns may cause slight delays; SF tracking details are sent after dispatch.",
+    faqDeliveryAnswer:
+      "In-stock products are generally dispatched from our Hong Kong warehouse within 1–2 working days after the order is confirmed and payment is completed.\n\nOverall delivery time: including courier delivery such as SF Express, customers will usually receive their order within 5–7 working days after placing the order.\n\nSevere weather arrangements: if the Hong Kong Observatory issues a No. 8 or higher tropical cyclone warning signal, or a Black Rainstorm Warning, local logistics and SF Express delivery services will be suspended. Orders affected by severe weather will be dispatched and delivered later than usual. Thank you for your understanding.\n\nAfter the parcel is dispatched, we will send the SF Express tracking number (Waybill No.) by email or SMS so that you can check the delivery progress at any time.",
     faqPaymentQuestion: "Which payment methods do you support?",
     faqPaymentAnswer:
       "We support a range of secure and convenient online payment methods to suit different customers:\n\n1. Card and mobile payments:\nVisa / Mastercard (all card transactions are encrypted by Stripe for secure payment)\nApple Pay (available on iPhone, iPad and Mac devices)\nGoogle Pay (available on Android devices or the Chrome browser)\n\n2. Major local e-payment methods:\nAlipayHK (Hong Kong)\nPayMe\n\n💡 Friendly note about payment-icon display:\nIf you browse the store on an iPhone or iPad (iOS device), Apple ecosystem restrictions may mean that some non-Apple payment logos, such as Google Pay, do not appear directly on the checkout page. This is normal and does not affect your ability to place an order or complete payment. If you have any questions during payment, please contact us via WhatsApp and we will be happy to help.",
