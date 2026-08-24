@@ -209,11 +209,14 @@ describe("calm warm editorial UI contract", () => {
     expect(quickView).toContain("spec[locale] || spec.zh");
   });
 
-  it("prefers the active Vercel Stripe live key for the storefront catalog", () => {
+  it("prefers the updated Vercel Stripe key while retaining live-key fallback", () => {
     const stripe = source("src/lib/stripe.ts");
 
+    expect(stripe).toContain('readServerEnv("STRIPE_SECRET_KEY") ||');
     expect(stripe).toContain('readServerEnv("STRIPE_LIVE_SECRET_KEY")');
-    expect(stripe).toContain('readServerEnv("STRIPE_SECRET_KEY")');
+    expect(
+      stripe.indexOf('readServerEnv("STRIPE_SECRET_KEY")'),
+    ).toBeLessThan(stripe.indexOf('readServerEnv("STRIPE_LIVE_SECRET_KEY")'));
   });
 
   it("keeps the PDP mobile action bar, specs and FAQ mounted", () => {

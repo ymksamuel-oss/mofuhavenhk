@@ -14,12 +14,12 @@ export function fromStripeAmountHkd(amountCents: number): number {
 const DEFAULT_STRIPE_PUBLISHABLE_KEY = "pk_live_51TxSYXRyM6dRKLtZ6joIPvsDMs2B4tT213AXP0GwQj4erOGz28GS9lc66i5tuM2rVRlM0RqTuHRbKFWmliTDm4G300WPBn3IyJ";
 
 export function getStripeSecretKey(): string {
-  // The Vercel project stores its active storefront credential as
-  // STRIPE_LIVE_SECRET_KEY for both Preview and Production. Keep the legacy
-  // STRIPE_SECRET_KEY fallback so existing environments remain supported.
+  // Prefer the explicitly updated runtime credential. The legacy
+  // STRIPE_LIVE_SECRET_KEY remains a fallback for deployments that have not
+  // yet migrated, but must not mask a newer live key after rotation.
   return (
-    readServerEnv("STRIPE_LIVE_SECRET_KEY") ||
-    readServerEnv("STRIPE_SECRET_KEY")
+    readServerEnv("STRIPE_SECRET_KEY") ||
+    readServerEnv("STRIPE_LIVE_SECRET_KEY")
   );
 }
 
