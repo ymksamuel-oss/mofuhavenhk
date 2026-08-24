@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { notifyPaidPaymentIntent } from "@/lib/stripeOrderNotification";
 import {
-  buildNotifyMessage,
-  sendWhatsAppNotification,
-} from "@/lib/notifyWhatsapp";
-import {
-  fromStripeAmountHkd,
   getStripe,
   isStripeConfigured,
-  paymentLabelFromIntent,
 } from "@/lib/stripe";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type Body = {
+ type Body = {
   paymentIntentId?: unknown;
   checkoutSessionId?: unknown;
 };
@@ -26,8 +21,9 @@ function isNonEmptyString(value: unknown): value is string {
 /**
  * POST /api/stripe/complete-order
  *
- * After Stripe confirms payment, verify either the PaymentIntent or a hosted
- * Checkout Session server-side and send the shop WhatsApp new-order notification.
+ * Legacy browser fallback for the success page and the PaymentIntent Elements
+ * flow. Stripe's server-to-server webhook is now the primary trigger; this
+ * route remains useful when a customer returns before the webhook is handled.
  */
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {
@@ -64,7 +60,7 @@ export async function POST(request: Request) {
   try {
     const stripe = getStripe();
     let intent: Stripe.PaymentIntent;
-    let sessionMetadata: Record<string, string> = {};
+    let sessionMetadata: Stripe.Metadata | undefined;
 
     if (checkoutSessionId) {
       const session = await stripe.checkout.sessions.retrieve(checkoutSessionId, {
@@ -80,14 +76,19 @@ export async function POST(request: Request) {
           { status: 402 },
         );
       }
-      if (!session.payment_intent || typeof session.payment_intent === "string") {
+      if (!session.payment_intent) {
         return NextResponse.json(
           { ok: false, error: "checkout_missing_payment_intent" },
           { status: 502 },
         );
       }
-      intent = session.payment_intent;
-      sessionMetadata = session.metadata ?? {};
+      sessionMetadata = session.metadata ?? undefined;
+      intent =
+        typeof session.payment_intent === "string"
+          ? await stripe.paymentIntents.retrieve(session.payment_intent, {
+              expand: ["payment_method"],
+            })
+          : session.payment_intent;
     } else {
       intent = await stripe.paymentIntents.retrieve(paymentIntentId, {
         expand: ["payment_method"],
@@ -101,77 +102,46 @@ export async function POST(request: Request) {
       );
     }
 
-    const metadata = { ...sessionMetadata, ...intent.metadata };
-    const orderNumber = metadata.orderNumber?.trim();
-    if (!orderNumber) {
-      return NextResponse.json(
-        { ok: false, error: "missing_order_metadata" },
-        { status: 400 },
-      );
-    }
-
-    const paymentMethod =
-      intent.payment_method && typeof intent.payment_method !== "string"
-        ? intent.payment_method
-        : null;
-    // Wallet redirects (for example Google Pay or an account-supported
-    // AlipayHK method) may not collect a cardholder name.
-    const customerName =
-      metadata.customerName?.trim() ||
-      paymentMethod?.billing_details?.name?.trim() ||
-      "顧客";
-
-    const paymentLabel = paymentLabelFromIntent(intent, paymentMethod);
-    const total = fromStripeAmountHkd(intent.amount);
-
-    // Idempotent: skip WhatsApp if already notified for this PaymentIntent.
-    if (metadata.whatsapp_notified === "true") {
-      return NextResponse.json({
-        ok: true,
-        alreadyNotified: true,
-        orderNumber,
-        paymentLabel,
-        total,
-      });
-    }
-
-    const message = buildNotifyMessage({
-      orderNumber,
-      customerName,
-      paymentLabel,
-      total,
-      currency: "HK$",
+    const result = await notifyPaidPaymentIntent({
+      stripe,
+      paymentIntent: intent,
+      sessionMetadata,
+      source: "success_page",
     });
 
-    const notify = await sendWhatsAppNotification(message);
-
-    if (notify.ok) {
-      await stripe.paymentIntents.update(intent.id, {
-        metadata: {
-          ...metadata,
-          customerName,
-          whatsapp_notified: "true",
-          paymentLabel,
-        },
+    if (!result.ok) {
+      // The PaymentIntent is already confirmed. Never make the browser treat a
+      // notification outage as a payment failure or invite a second charge.
+      return NextResponse.json({
+        ok: true,
+        orderNumber: result.orderNumber,
+        paymentLabel: result.paymentLabel,
+        total: result.total,
+        notified: false,
+        notifyError: result.error,
       });
     }
 
     return NextResponse.json({
       ok: true,
-      orderNumber,
-      paymentLabel,
-      total,
-      notified: notify.ok,
-      notifyError: notify.ok ? undefined : notify.error,
-      provider: notify.ok ? notify.provider : undefined,
+      orderNumber: result.orderNumber,
+      paymentLabel: result.paymentLabel,
+      total: result.total,
+      notified: result.status === "sent",
+      alreadyNotified: result.status === "already_notified",
+      provider: result.provider,
     });
-  } catch (err) {
-    console.error("[stripe] complete-order failed", err);
+  } catch (error) {
+    console.error("[stripe] complete-order failed", {
+      paymentIntentId: paymentIntentId || undefined,
+      checkoutSessionId: checkoutSessionId || undefined,
+      error: error instanceof Error ? error.message : String(error),
+    });
     return NextResponse.json(
       {
         ok: false,
         error: "complete_failed",
-        detail: err instanceof Error ? err.message : String(err),
+        detail: error instanceof Error ? error.message : String(error),
       },
       { status: 502 },
     );
