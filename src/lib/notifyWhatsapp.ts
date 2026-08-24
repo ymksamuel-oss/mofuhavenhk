@@ -161,6 +161,9 @@ export function getNotificationDiagnostics() {
       vercelEnv: process.env.VERCEL_ENV || "unknown",
       deploymentId: process.env.VERCEL_DEPLOYMENT_ID || "unknown",
       gitCommitSha: process.env.VERCEL_GIT_COMMIT_SHA || "unknown",
+      gitCommitRef: process.env.VERCEL_GIT_COMMIT_REF || "unknown",
+      gitRepoOwner: process.env.VERCEL_GIT_REPO_OWNER || "unknown",
+      gitRepoSlug: process.env.VERCEL_GIT_REPO_SLUG || "unknown",
     },
     variables: {
       whatsappPhone: {

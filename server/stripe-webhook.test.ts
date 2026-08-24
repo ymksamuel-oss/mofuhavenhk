@@ -47,6 +47,9 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(notifyRoute).toContain("getNotificationDiagnostics");
     expect(notifyService).toContain("Never return a secret value");
     expect(notifyService).toContain("gitCommitSha");
+    expect(notifyService).toContain("gitCommitRef");
+    expect(notifyService).toContain("gitRepoOwner");
+    expect(notifyService).toContain("gitRepoSlug");
     expect(notifyService).toContain("internationalFormat");
   });
 
