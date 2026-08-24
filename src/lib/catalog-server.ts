@@ -4,9 +4,11 @@ import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import {
+  CAT_SNACK_SERIES,
   categorySlugFromMetadata,
   isSmallPetProductText,
   subcategoryFromMetadata,
+  type CatSnackSeries,
   type Product,
   type ProductSubcategory,
   uniqueProductsById,
@@ -95,6 +97,41 @@ function subcategoryFromProduct(
     if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷")) return "狗狗小食";
     return "狗狗食品";
   }
+  return undefined;
+}
+
+function snackSeriesFromProduct(
+  product: Stripe.Product,
+  categorySlug: string,
+  subcategory: ProductSubcategory | undefined,
+): CatSnackSeries | undefined {
+  if (categorySlug !== "cats" || subcategory !== "貓貓小食") return undefined;
+  const metadata = productMetadata(product);
+  const explicit = [
+    metadata.snackSeries,
+    metadata.snack_series,
+    metadata.series,
+    metadata["小食系列"],
+  ].find(Boolean)?.trim();
+  const bySlug: Record<string, CatSnackSeries> = {
+    natural: "無添加天然系列",
+    senior: "老貓零食",
+    hairball: "去毛球配方",
+    kitten: "bb貓零食",
+  };
+  if (explicit) {
+    const matched =
+      bySlug[explicit.toLowerCase()] ??
+      CAT_SNACK_SERIES.find((series) => series === explicit);
+    if (matched) return matched;
+  }
+  const text = [product.name, product.description, ...Object.values(metadata)]
+    .filter(Boolean)
+    .join(" ");
+  if (/去毛球|毛玉|hairball/i.test(text)) return "去毛球配方";
+  if (/老貓|高齡|senior|11\s*\+|11歲|14歲/i.test(text)) return "老貓零食";
+  if (/bb\s*貓|幼貓|kitten|junior/i.test(text)) return "bb貓零食";
+  if (/無添加|天然|natural|no[- ]?additive/i.test(text)) return "無添加天然系列";
   return undefined;
 }
 
@@ -241,6 +278,7 @@ function stripeProductToCatalogProduct(
 
   const categorySlug = categoryFromProduct(product);
   const subcategory = subcategoryFromProduct(product, categorySlug);
+  const snackSeries = snackSeriesFromProduct(product, categorySlug, subcategory);
   const generatedTranslation = GENERATED_PRODUCT_TRANSLATIONS[id];
   const metadataName = bilingualMetadataValue(
     metadata,
@@ -266,6 +304,7 @@ function stripeProductToCatalogProduct(
     metadata,
     categorySlug,
     ...(subcategory ? { subcategory } : {}),
+    ...(snackSeries ? { snackSeries } : {}),
     icon: iconForCategory(categorySlug),
     image,
     name: localizedName,

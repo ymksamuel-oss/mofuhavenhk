@@ -150,6 +150,8 @@ describe("calm warm editorial UI contract", () => {
     expect(productsSource).toContain("hamster");
     expect(catalogServer).toContain("isSmallPetProductText(");
     expect(catalogServer).toContain('return "small-pets"');
+    expect(catalogServer).toContain("function snackSeriesFromProduct(");
+    expect(catalogServer).toContain("...(snackSeries ? { snackSeries } : {})");
     expect(catalogOverrides).toContain("isSmallPetProductText(zhTitle, enTitle, zhDescription, enDescription)");
 
     const demoProducts = source("src/lib/small-pet-demo-products.ts");
