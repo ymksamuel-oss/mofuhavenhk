@@ -259,7 +259,8 @@ describe("calm warm editorial UI contract", () => {
     const footer = source("src/components/Footer.tsx");
     const faq = source("src/components/FAQAccordion.tsx");
 
-    expect(paymentMethods).toContain('id: "card"');
+    expect(paymentMethods).toContain('id: "visa"');
+    expect(paymentMethods).toContain('id: "mastercard"');
     expect(paymentMethods).toContain('id: "applepay"');
     expect(paymentMethods).toContain('id: "googlepay"');
     expect(paymentMethods).toContain('id: "alipayhk"');
@@ -272,6 +273,8 @@ describe("calm warm editorial UI contract", () => {
     expect(paymentMethods).toContain("bg-[color:var(--accent)]/[0.06]");
     expect(paymentMethods).toContain('role="radiogroup"');
     expect(paymentMethods).toContain('role="radio"');
+    expect(checkout).toContain('selectedMethod === "visa" || selectedMethod === "mastercard"');
+    expect(checkout).toContain('? "card"');
     expect(checkout).not.toContain("AsianWalletPayForm");
     expect(checkout).not.toContain("wechatpay");
     expect(footer).not.toContain("WeChatPayLogo");

@@ -4,13 +4,15 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   AlipayHkLogo,
   ApplePayLogo,
-  CardLogo,
   GooglePayLogo,
+  MastercardLogo,
   PayMeLogo,
+  VisaLogo,
 } from "@/components/icons/PaymentIcons";
 
 export type MethodId =
-  | "card"
+  | "visa"
+  | "mastercard"
   | "applepay"
   | "googlepay"
   | "payme"
@@ -19,13 +21,15 @@ export type MethodId =
 export type PaymentMethodDef = {
   id: MethodId;
   labelKey:
-    | "payCard"
+    | "payVisa"
+    | "payMastercard"
     | "payApplePay"
     | "payGooglePay"
     | "payPayMe"
     | "payAlipayHk";
   Icon:
-    | typeof CardLogo
+    | typeof VisaLogo
+    | typeof MastercardLogo
     | typeof ApplePayLogo
     | typeof GooglePayLogo
     | typeof PayMeLogo
@@ -42,7 +46,8 @@ export const PAYMENT_METHODS: PaymentMethodDef[] = [
   { id: "googlepay", labelKey: "payGooglePay", Icon: GooglePayLogo },
   { id: "payme", labelKey: "payPayMe", Icon: PayMeLogo },
   { id: "alipayhk", labelKey: "payAlipayHk", Icon: AlipayHkLogo },
-  { id: "card", labelKey: "payCard", Icon: CardLogo },
+  { id: "visa", labelKey: "payVisa", Icon: VisaLogo },
+  { id: "mastercard", labelKey: "payMastercard", Icon: MastercardLogo },
 ];
 
 type PaymentMethodsProps = {
@@ -98,7 +103,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   className="flex h-6 w-full min-w-0 items-center justify-center overflow-visible sm:h-7"
                   aria-hidden="true"
                 >
-                  <Icon className="!h-5 !max-h-5 !w-auto shrink-0 object-contain sm:!h-6 sm:!max-h-6 [&.inline-flex]:!h-6 [&.inline-flex]:!w-full [&.inline-flex]:!min-w-0 [&.inline-flex]:!gap-1" />
+                  <Icon className="!h-5 !max-h-5 !w-auto shrink-0 object-contain sm:!h-6 sm:!max-h-6" />
                 </span>
 
                 <span className="sr-only">{t(labelKey)}</span>

@@ -310,10 +310,16 @@ function CheckoutContent() {
     setOrderNumber(number);
 
     try {
+      // Visa and Mastercard are displayed as separate selectable brands, but
+      // both use Stripe's existing generic card PaymentIntent channel.
+      const stripePaymentMethod =
+        selectedMethod === "visa" || selectedMethod === "mastercard"
+          ? "card"
+          : selectedMethod;
       const hostedCheckout =
-        selectedMethod === "googlepay" ||
-        selectedMethod === "payme" ||
-        selectedMethod === "alipayhk";
+        stripePaymentMethod === "googlepay" ||
+        stripePaymentMethod === "payme" ||
+        stripePaymentMethod === "alipayhk";
       const endpoint = hostedCheckout
         ? "/api/stripe/create-checkout-session"
         : "/api/stripe/create-payment-intent";
@@ -326,7 +332,7 @@ function CheckoutContent() {
                 category,
                 orderNumber: number,
                 locale,
-                paymentMethod: selectedMethod,
+                paymentMethod: stripePaymentMethod,
                 customerName: shippingContact.name.trim(),
                 shippingContact,
                 lines: items.map((item) => ({ id: item.id, qty: item.qty })),
@@ -335,7 +341,7 @@ function CheckoutContent() {
                 category,
                 orderNumber: number,
                 locale,
-                paymentMethod: selectedMethod,
+                paymentMethod: stripePaymentMethod,
                 customerName: shippingContact.name.trim(),
                 lines: items.map((item) => ({ id: item.id, qty: item.qty })),
               },
@@ -510,11 +516,15 @@ function CheckoutContent() {
           {showStripeForm &&
           clientSecret &&
           publishableKey &&
-          (selectedMethod === "card" || selectedMethod === "applepay") ? (
+          (selectedMethod === "visa" ||
+            selectedMethod === "mastercard" ||
+            selectedMethod === "applepay") ? (
             <StripePaymentForm
               clientSecret={clientSecret}
               publishableKey={publishableKey}
-              preferredMethod={selectedMethod}
+              preferredMethod={
+                selectedMethod === "applepay" ? "applepay" : "card"
+              }
               amountHkd={amountHkd}
               onPaid={handlePaid}
               onError={handlePayError}
