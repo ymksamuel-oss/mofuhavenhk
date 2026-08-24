@@ -4,7 +4,7 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { FAQAccordion } from "@/components/FAQAccordion";
-import { ProductImage } from "@/components/product/ProductImage";
+import { ProductGallery } from "@/components/product/ProductGallery";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -55,16 +55,15 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
-        <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-white ring-1 ring-[color:var(--line)]">
-          <ProductImage
-            src={product.image}
+        <div className="relative w-full">
+          <ProductGallery
+            images={product.images}
+            fallbackImage={product.image}
             alt={product.name[locale]}
             priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
           />
           {discountPercent ? (
-            <span className="absolute left-4 top-4 z-10 rounded-full bg-[#c0483a] px-3 py-1 text-xs font-bold text-white shadow-sm">
+            <span className="pointer-events-none absolute left-4 top-4 z-10 rounded-full bg-[#c0483a] px-3 py-1 text-xs font-bold text-white shadow-sm">
               -{discountPercent}%
             </span>
           ) : null}

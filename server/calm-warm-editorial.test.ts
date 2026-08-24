@@ -298,6 +298,25 @@ describe("calm warm editorial UI contract", () => {
     expect(paymentIcons).not.toContain("G Pay");
   });
 
+  it("keeps the product page ready for a five-image Stripe gallery", () => {
+    const productDetail = source("src/components/product/ProductDetail.tsx");
+    const gallery = source("src/components/product/ProductGallery.tsx");
+    const catalog = source("src/lib/catalog-server.ts");
+    const productType = source("src/lib/products.ts");
+
+    expect(productDetail).toContain("<ProductGallery");
+    expect(productDetail).toContain("images={product.images}");
+    expect(gallery).toContain("slice(0, 5)");
+    expect(gallery).toContain("snap-x snap-mandatory");
+    expect(gallery).toContain('role="tablist"');
+    expect(gallery).toContain("onTouchStart={onTouchStart}");
+    expect(gallery).toContain('aria-label={t("productGalleryPrevious")}');
+    expect(gallery).toContain('aria-label={t("productGalleryNext")}');
+    expect(catalog).toContain("new Set((product.images ?? []).filter(isUsableCatalogImage))");
+    expect(catalog).toContain("...(images.length > 0 ? { images } : {})");
+    expect(productType).toContain("images?: string[]");
+  });
+
   it("routes hosted payment options through the configured Checkout Session", () => {
     const sessionRoute = source("src/app/api/stripe/create-checkout-session/route.ts");
     const paymentIntentRoute = source("src/app/api/stripe/create-payment-intent/route.ts");

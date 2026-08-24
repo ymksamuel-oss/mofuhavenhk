@@ -143,7 +143,10 @@ export type Product = {
   metadata?: Record<string, string>;
   categorySlug: string;
   subcategory?: ProductSubcategory;
+  /** Primary cover image retained for listings, cart and checkout compatibility. */
   image: string;
+  /** Optional product gallery, populated from up to five usable Stripe product images. */
+  images?: string[];
   name: { zh: string; en: string };
   price: number;
   originalPrice?: number;

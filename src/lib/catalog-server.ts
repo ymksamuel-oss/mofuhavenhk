@@ -265,8 +265,10 @@ function stripeProductToCatalogProduct(
 ): Product | null {
   const metadata = productMetadata(product);
   const priceRecord = pricesByProductId.get(product.id);
-  const image =
-    product.images?.find(isUsableCatalogImage) ?? CATALOG_IMAGE_FALLBACK;
+  const images = Array.from(
+    new Set((product.images ?? []).filter(isUsableCatalogImage)),
+  ).slice(0, 5);
+  const image = images[0] ?? CATALOG_IMAGE_FALLBACK;
   const id = product.id;
   if (priceRecord === undefined) {
     console.warn("Stripe catalog product skipped: missing HKD price", {
@@ -307,6 +309,7 @@ function stripeProductToCatalogProduct(
     ...(snackSeries ? { snackSeries } : {}),
     icon: iconForCategory(categorySlug),
     image,
+    ...(images.length > 0 ? { images } : {}),
     name: localizedName,
     price: priceRecord.amount,
     inStock: true,
