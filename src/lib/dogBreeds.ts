@@ -180,3 +180,7 @@ export const DOG_BREEDS: DogBreed[] = [
 export function getDogBreedBySlug(slug: string): DogBreed | undefined {
   return DOG_BREEDS.find((breed) => breed.slug === slug);
 }
+
+export function isDogBreedSlug(slug: string): boolean {
+  return DOG_BREEDS.some((breed) => breed.slug === slug);
+}

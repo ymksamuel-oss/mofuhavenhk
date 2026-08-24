@@ -119,7 +119,7 @@ export function CatBreedsGuide() {
             <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {dogBreeds.map((breed) => (
                 <li key={breed.id}>
-                  <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
+                  <Link href={`/dog-breeds/${breed.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-white shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)] transition duration-200 hover:-translate-y-1 hover:border-[#2B2623]/25">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={breed.imageUrl} alt={isEn ? breed.nameEn : breed.name} className="aspect-[4/3] w-full object-cover" loading="lazy" />
                     <div className="flex flex-1 flex-col gap-2 px-5 pb-5 pt-4">
@@ -132,7 +132,7 @@ export function CatBreedsGuide() {
                         <div><dt className="inline font-semibold">{t("dogBreedsExercise")}：</dt> <dd className="inline">{isEn ? breed.exerciseEn : breed.exercise}</dd></div>
                       </dl>
                     </div>
-                  </article>
+                  </Link>
                 </li>
               ))}
             </ul>
