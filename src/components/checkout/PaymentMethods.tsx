@@ -71,7 +71,7 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
       </div>
 
       <ul
-        className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3"
+        className="grid grid-cols-3 gap-1.5 sm:gap-2"
         role="radiogroup"
         aria-label={t("paymentTitle")}
       >
@@ -88,25 +88,25 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 aria-checked={active}
                 aria-pressed={active}
                 title={t(labelKey)}
-                className={`relative flex min-h-[5.5rem] w-full flex-col items-center justify-center gap-2 rounded-xl border px-2.5 py-3 text-center transition duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[6rem] sm:gap-2.5 sm:px-3.5 sm:py-3.5 ${
+                className={`relative flex min-h-[3.75rem] w-full flex-col items-center justify-center gap-1 rounded-lg border px-1.5 py-2 text-center transition duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.25rem] sm:gap-1.5 sm:px-2 sm:py-2.5 ${
                   active
-                    ? "border-[color:var(--accent)] bg-[color:var(--accent)]/[0.07] text-[color:var(--ink)] shadow-[0_8px_22px_rgba(92,67,48,0.10)]"
-                    : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] shadow-[0_3px_12px_rgba(92,67,48,0.04)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--surface)] hover:text-[color:var(--ink)]"
+                    ? "border-[color:var(--accent)] bg-[color:var(--accent)]/[0.06] text-[color:var(--ink)]"
+                    : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--surface)] hover:text-[color:var(--ink)]"
                 }`}
               >
                 <span
-                  className="flex h-8 w-full min-w-0 items-center justify-center overflow-visible sm:h-9"
+                  className="flex h-6 w-full min-w-0 items-center justify-center overflow-visible sm:h-7"
                   aria-hidden="true"
                 >
-                  <Icon className="!h-6 !max-h-6 !w-auto shrink-0 object-contain sm:!h-7 sm:!max-h-7" />
+                  <Icon className="!h-5 !max-h-5 !w-auto shrink-0 object-contain sm:!h-6 sm:!max-h-6 [&.inline-flex]:!h-6 [&.inline-flex]:!w-full [&.inline-flex]:!min-w-0 [&.inline-flex]:!gap-1" />
                 </span>
 
                 <span className="sr-only">{t(labelKey)}</span>
 
                 <span
-                  className={`absolute right-2.5 top-2.5 h-4 w-4 rounded-full border-2 transition sm:right-3 sm:top-3 ${
+                  className={`absolute right-1.5 top-1.5 h-3 w-3 rounded-full border transition sm:right-2 sm:top-2 ${
                     active
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_3px_var(--surface)]"
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_2px_var(--surface)]"
                       : "border-[color:var(--line)] bg-transparent"
                   }`}
                   aria-hidden="true"

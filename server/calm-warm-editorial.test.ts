@@ -266,8 +266,10 @@ describe("calm warm editorial UI contract", () => {
     expect(paymentMethods).toContain('id: "payme"');
     expect(paymentMethods).not.toContain("wechatpay");
     expect(paymentMethods).not.toContain("payWeChatPay");
-    expect(paymentMethods).toContain("grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3");
-    expect(paymentMethods).toContain("min-h-[5.5rem]");
+    expect(paymentMethods).toContain("grid-cols-3 gap-1.5 sm:gap-2");
+    expect(paymentMethods).not.toContain("grid-cols-2");
+    expect(paymentMethods).toContain("min-h-[3.75rem]");
+    expect(paymentMethods).toContain("bg-[color:var(--accent)]/[0.06]");
     expect(paymentMethods).toContain('role="radiogroup"');
     expect(paymentMethods).toContain('role="radio"');
     expect(checkout).not.toContain("AsianWalletPayForm");
