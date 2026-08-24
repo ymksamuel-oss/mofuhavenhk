@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import {
+  getCatalogDiagnostics,
+  getCatalogSnapshot,
+} from "@/lib/catalog-server";
 import {
   buildNotifyMessage,
   getConfiguredProviders,
@@ -56,13 +59,21 @@ export async function GET(request: Request) {
   const providers = getConfiguredProviders();
   const url = new URL(request.url);
   const diagnostics = url.searchParams.get("diagnostics") === "1";
+  const catalog = diagnostics ? await getCatalogDiagnostics() : undefined;
 
   return NextResponse.json({
     ok: true,
     shopHandle: process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK",
     configured: providers.length > 0,
     providers,
-    ...(diagnostics ? { diagnostics: getNotificationDiagnostics() } : {}),
+    ...(diagnostics
+      ? {
+          diagnostics: {
+            ...getNotificationDiagnostics(),
+            catalog,
+          },
+        }
+      : {}),
   });
 }
 

@@ -11,7 +11,12 @@ import {
   type ProductSubcategory,
   uniqueProductsById,
 } from "@/lib/products";
-import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
+import {
+  fromStripeAmountHkd,
+  getStripe,
+  getStripePublishableKey,
+  getStripeSecretKey,
+} from "@/lib/stripe";
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
 import { SMALL_PET_DEMO_PRODUCTS } from "@/lib/small-pet-demo-products";
 
@@ -314,6 +319,54 @@ function stripeErrorDetails(error: unknown) {
     };
   }
   return { message: error instanceof Error ? error.message : "unknown error" };
+}
+
+/**
+ * Safe operational visibility for the live catalog. This deliberately never
+ * serializes Stripe credentials or raw product data into a public response.
+ */
+export async function getCatalogDiagnostics() {
+  const secretKey = getStripeSecretKey();
+  const publishableKey = getStripePublishableKey();
+  const credentials = {
+    secretKey: {
+      set: Boolean(secretKey),
+      mode: secretKey.startsWith("sk_live_")
+        ? "live"
+        : secretKey.startsWith("sk_test_")
+          ? "test"
+          : "unknown",
+    },
+    publishableKey: {
+      set: Boolean(publishableKey),
+      mode: publishableKey.startsWith("pk_live_")
+        ? "live"
+        : publishableKey.startsWith("pk_test_")
+          ? "test"
+          : "unknown",
+    },
+  };
+
+  try {
+    const snapshot = await fetchCatalogFromStripe();
+    return {
+      ok: true,
+      credentials,
+      matchedRecords: snapshot.matchedRecords,
+      source: snapshot.source,
+    };
+  } catch (error) {
+    const details = stripeErrorDetails(error);
+    return {
+      ok: false,
+      credentials,
+      error: {
+        type: "type" in details ? details.type : "unknown",
+        code: "code" in details ? details.code : null,
+        statusCode: "statusCode" in details ? details.statusCode : null,
+      },
+    };
+  }
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {

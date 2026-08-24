@@ -53,6 +53,18 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(notifyService).toContain("internationalFormat");
   });
 
+  it("exposes only safe Stripe catalog diagnostics for product-load incidents", () => {
+    const notifyRoute = source("src/app/api/notify-order/route.ts");
+    const catalogService = source("src/lib/catalog-server.ts");
+
+    expect(notifyRoute).toContain("getCatalogDiagnostics");
+    expect(catalogService).toContain("matchedRecords");
+    expect(catalogService).toContain('secretKey.startsWith("sk_live_")');
+    expect(catalogService).toContain('publishableKey.startsWith("pk_live_")');
+    expect(catalogService).not.toContain("secretKey: secretKey");
+    expect(catalogService).not.toContain("publishableKey: publishableKey");
+  });
+
   it("reads notification and webhook credentials through runtime environment keys", () => {
     const runtimeEnv = source("src/lib/serverEnv.ts");
     const notifyService = source("src/lib/notifyWhatsapp.ts");
