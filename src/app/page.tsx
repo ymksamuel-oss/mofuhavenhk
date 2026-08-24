@@ -8,7 +8,6 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
-import { ExplorePetControls } from "@/components/about/ExplorePetControls";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg";
 import { ProductSearch } from "@/components/ProductSearch";
@@ -92,12 +91,21 @@ export default function HomePage() {
               {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
             </button>
             {isExploreOpen && (
-              <ExplorePetControls
-                animal={exploreAnimal}
-                dogCoat={dogCoatFilter}
-                onAnimalChange={setExploreAnimal}
-                onDogCoatChange={setDogCoatFilter}
-              />
+              <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
+                <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
+                <div className="grid grid-cols-4 gap-2 sm:gap-3">
+                  {quickCategories.map(({ href, labelKey, Icon }) => (
+                    <CategoryNavLink
+                      key={href}
+                      href={href}
+                      className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
+                    >
+                      <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                      <span>{t(labelKey)}</span>
+                    </CategoryNavLink>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -111,34 +119,26 @@ export default function HomePage() {
             {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
           </button>
           {isExploreOpen && (
-            <ExplorePetControls
-              animal={exploreAnimal}
-              dogCoat={dogCoatFilter}
-              onAnimalChange={setExploreAnimal}
-              onDogCoatChange={setDogCoatFilter}
-            />
+            <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
+              <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
+                {quickCategories.map(({ href, labelKey, Icon }) => (
+                  <CategoryNavLink
+                    key={href}
+                    href={href}
+                    className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
+                  >
+                    <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                    <span>{t(labelKey)}</span>
+                  </CategoryNavLink>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </section>
 
       <HomepageProductGrid />
-
-      <section className="border-y border-[color:var(--line)] bg-[color:var(--background)] px-4 py-6 sm:px-8 sm:py-9">
-        <div className="mx-auto max-w-4xl">
-          <div className="grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3">
-            {quickCategories.map(({ href, labelKey, Icon }) => (
-              <CategoryNavLink
-                key={href}
-                href={href}
-                className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1.5 py-2 text-center text-[11px] font-semibold leading-tight text-[color:var(--ink)] transition hover:border-[#d7b893] hover:bg-[#f8efe8] hover:text-[color:var(--accent)] sm:min-h-16 sm:px-2 sm:text-sm"
-              >
-                <Icon className="h-4 w-4 shrink-0 text-[color:var(--accent)] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
-                <span>{t(labelKey)}</span>
-              </CategoryNavLink>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">

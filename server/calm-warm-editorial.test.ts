@@ -38,9 +38,10 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
-    expect(page).toContain('grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3');
+    expect(page).toContain('grid grid-cols-4 gap-2 sm:gap-3');
     expect(page).toContain('onClick={() => setIsExploreOpen((open) => !open)}');
-    expect(page).toContain('<ExplorePetControls');
+    expect(page).not.toContain('<ExplorePetControls');
+    expect(page).toContain('t("categoryGridTitle")');
     expect(page).toContain('aria-expanded={isExploreOpen}');
     expect(page).not.toContain('id="pet-breed-guide" className="mt-10"');
     expect(page).toContain('labelKey: "allProducts"');
@@ -48,10 +49,10 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('Icon: BagIcon');
     expect(page).toContain('min-h-14 flex-col items-center justify-center');
     expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
-    expect(page).toContain('hover:border-[#d7b893] hover:bg-[#f8efe8]');
-    expect(page).toContain('h-4 w-4 shrink-0 text-[color:var(--accent)]');
-    expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('grid grid-cols-4 auto-rows-fr'));
-    expect(page.indexOf('grid grid-cols-4 auto-rows-fr')).toBeLessThan(page.indexOf('id="brand-story"'));
+    expect(page).toContain('hover:border-[#d7b893] hover:bg-white');
+    expect(page).toContain('h-4 w-4 shrink-0 text-[#7a5949]');
+    expect(page.indexOf('grid grid-cols-4 gap-2 sm:gap-3')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
+    expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
 
   it("keeps the explore section as responsive left content and right lifestyle image", () => {
