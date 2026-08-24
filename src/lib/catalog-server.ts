@@ -13,6 +13,7 @@ import {
 } from "@/lib/products";
 import { fromStripeAmountHkd, getStripe } from "@/lib/stripe";
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
+import { SMALL_PET_DEMO_PRODUCTS } from "@/lib/small-pet-demo-products";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -291,12 +292,13 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
   );
 
-  const products = uniqueProductsById(
-    stripeProducts
+  const products = uniqueProductsById([
+    ...stripeProducts
       .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
       .filter((product): product is Product => product !== null),
-  ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+    ...SMALL_PET_DEMO_PRODUCTS,
+  ]).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
   return { products, source: "stripe", matchedRecords: products.length };
 }

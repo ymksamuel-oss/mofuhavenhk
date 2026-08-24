@@ -120,6 +120,15 @@ describe("calm warm editorial UI contract", () => {
     expect(catalogServer).toContain("isSmallPetProductText(");
     expect(catalogServer).toContain('return "small-pets"');
     expect(catalogOverrides).toContain("isSmallPetProductText(zhTitle, enTitle, zhDescription, enDescription)");
+
+    const demoProducts = source("src/lib/small-pet-demo-products.ts");
+    expect(demoProducts).toContain("demo-small-pet-rabbit-hay");
+    expect(demoProducts).toContain("demo-small-pet-hamster-food");
+    expect(demoProducts).toContain("demo-small-pet-guinea-pig-vitamin");
+    expect(demoProducts).toContain("demo-small-pet-bedding");
+    expect(demoProducts.match(/categorySlug: \"small-pets\"/g)?.length).toBe(4);
+    expect(demoProducts).toContain('metadata: { demo: "true"');
+    expect(catalogServer).toContain("SMALL_PET_DEMO_PRODUCTS");
     expect(translations).toContain('allProducts: "全部產品"');
     expect(translations).toContain('allProducts: "All Products"');
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
