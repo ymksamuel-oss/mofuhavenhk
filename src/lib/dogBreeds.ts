@@ -14,6 +14,14 @@ export type DogBreed = {
   careEn: string;
   exercise: string;
   exerciseEn: string;
+  fullDescription?: string;
+  fullDescriptionEn?: string;
+  appearance?: string[];
+  appearanceEn?: string[];
+  health?: string[];
+  healthEn?: string[];
+  adoptionNote?: string;
+  adoptionNoteEn?: string;
   imageUrl: string;
   sourceUrl: string;
 };
@@ -39,6 +47,14 @@ export const DOG_BREEDS: DogBreed[] = [
     careEn: "Brush the short double coat regularly and keep weight and dental care in mind.",
     exercise: "活動量高，需要每日運動及互動遊戲。",
     exerciseEn: "High activity needs call for daily exercise and interactive play.",
+    fullDescription: "拉布拉多尋回犬起源於加拿大紐芬蘭，後在英國培育發揚，是智商高、溫和友善的中大型工作獵犬，亦常見於導盲及搜救工作。",
+    fullDescriptionEn: "The Labrador Retriever originated in Newfoundland, Canada and was further developed in Britain. It is an intelligent, gentle and friendly medium-to-large working dog, widely known for guide and search-and-rescue work.",
+    appearance: ["短厚防潑水雙層毛，適合冰冷水域。", "粗壯的水獺尾，游泳時可作舵使用。", "常見黃色、奶油白、黑色及朱古力色。", "成年公犬約 30–36 公斤，母犬約 25–32 公斤。"],
+    appearanceEn: ["A short, dense water-resistant double coat suited to cold water.", "A strong otter tail that acts like a rudder while swimming.", "Common colours include yellow, cream, black and chocolate.", "Adult males are around 30–36 kg and females around 25–32 kg."],
+    health: ["容易貪吃及肥胖，應控制份量並維持理想體重。", "換季掉毛量大，需定期梳理雙層毛。", "留意髖關節發育不良、胃扭轉、耳道感染及視網膜萎縮等風險。", "每日需要至少約 1 小時運動、互動遊戲及訓練。"],
+    healthEn: ["A strong appetite can lead to obesity, so portions and healthy weight should be managed.", "Seasonal shedding can be heavy; regular brushing is important.", "Be aware of risks including hip dysplasia, gastric torsion, ear infections and progressive retinal atrophy.", "Plan for at least about one hour of daily exercise, interactive play and training."],
+    adoptionNote: "在香港，合資格犬舍幼犬價格常見約 HK$15,000–30,000；亦可考慮向動物收容所或品種救援團體領養。實際健康風險及價格會因個體而異，帶回家前應先作專業評估。",
+    adoptionNoteEn: "In Hong Kong, puppies from qualified breeders are often quoted at around HK$15,000–30,000; adoption through shelters or breed-rescue groups is another option. Health risks and prices vary by individual, so seek professional advice before bringing a dog home.",
     imageUrl: "/images/dog-breeds/labrador-retriever.jpg",
     sourceUrl: "https://commons.wikimedia.org/wiki/Category:Labrador_Retrievers",
   },

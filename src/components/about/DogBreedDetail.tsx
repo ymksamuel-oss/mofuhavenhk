@@ -10,6 +10,10 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
   const name = isEn ? breed.nameEn : breed.name;
   const coat = isEn ? breed.coatLabelEn : breed.coatLabel;
   const description = isEn ? breed.shortDescriptionEn : breed.shortDescription;
+  const fullDescription = isEn ? (breed.fullDescriptionEn ?? description) : (breed.fullDescription ?? description);
+  const appearance = isEn ? (breed.appearanceEn ?? []) : (breed.appearance ?? []);
+  const health = isEn ? (breed.healthEn ?? []) : (breed.health ?? []);
+  const adoptionNote = isEn ? (breed.adoptionNoteEn ?? "") : (breed.adoptionNote ?? "");
   const personality = isEn ? breed.personalityEn : breed.personality;
   const care = isEn ? breed.careEn : breed.care;
   const exercise = isEn ? breed.exerciseEn : breed.exercise;
@@ -38,7 +42,7 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
               {coat}
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{name}</h1>
-            <p className="mt-3 text-base leading-relaxed text-[#2B2623]/85 sm:text-lg">{description}</p>
+            <p className="mt-3 text-base leading-relaxed text-[#2B2623]/85 sm:text-lg">{fullDescription}</p>
           </header>
         </div>
         <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -52,8 +56,16 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
         <section className="mt-10 space-y-6 sm:mt-12 sm:space-y-8">
           <div>
             <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{t("dogBreedDetailOverview")}</h2>
-            <p className="mt-3 max-w-3xl text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">{description}</p>
+            <p className="mt-3 max-w-3xl text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">{fullDescription}</p>
           </div>
+          {appearance.length > 0 ? (
+            <div>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{t("dogBreedDetailAppearance")}</h2>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
+                {appearance.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </div>
+          ) : null}
           <div>
             <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{t("dogBreedDetailCareTitle")}</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
@@ -62,6 +74,20 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
               <li>{exercise}</li>
             </ul>
           </div>
+          {health.length > 0 ? (
+            <div>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{t("dogBreedDetailHealth")}</h2>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">
+                {health.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </div>
+          ) : null}
+          {adoptionNote ? (
+            <div>
+              <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{t("dogBreedDetailHongKong")}</h2>
+              <p className="mt-3 max-w-3xl text-[0.98rem] leading-relaxed text-[#2B2623]/85 sm:text-base">{adoptionNote}</p>
+            </div>
+          ) : null}
         </section>
         <aside className="mt-12 rounded-2xl border border-[#2B2623]/12 bg-white px-5 py-5 shadow-[0_16px_32px_-24px_rgba(74,59,50,0.4)] sm:px-6 sm:py-6">
           <p className="text-sm leading-relaxed text-[#2B2623]/80">{t("catBreedDetailNote")}</p>
