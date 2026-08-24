@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
-import { ExplorePetWorldGallery } from "@/components/about/ExplorePetWorldGallery";
+import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
+import { ExplorePetControls } from "@/components/about/ExplorePetControls";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg";
 import { ProductSearch } from "@/components/ProductSearch";
@@ -36,6 +37,9 @@ const quickCategories = [
 export default function HomePage() {
   const { t } = useI18n();
   const [isDesktopHero, setIsDesktopHero] = useState(false);
+  const [isExploreOpen, setIsExploreOpen] = useState(false);
+  const [exploreAnimal, setExploreAnimal] = useState<AnimalTab>("cats");
+  const [dogCoatFilter, setDogCoatFilter] = useState<DogCoatFilter>("all");
 
   useEffect(() => {
     const desktopQuery = window.matchMedia("(min-width: 1024px)");
@@ -79,13 +83,41 @@ export default function HomePage() {
             <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
               {t("homeSub")}
             </p>
-            <CategoryNavLink
-              href="/menu"
+            <button
+              type="button"
+              onClick={() => setIsExploreOpen((open) => !open)}
+              aria-expanded={isExploreOpen}
               className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl bg-[#4b3621] px-5 py-2 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:-translate-y-0.5 hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ead7bf] sm:mt-5 sm:min-h-12 sm:px-7 sm:py-3 sm:text-base"
             >
-              {t("homeCta")} <span aria-hidden className="ml-2">→</span>
-            </CategoryNavLink>
+              {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
+            </button>
+            {isExploreOpen && (
+              <ExplorePetControls
+                animal={exploreAnimal}
+                dogCoat={dogCoatFilter}
+                onAnimalChange={setExploreAnimal}
+                onDogCoatChange={setDogCoatFilter}
+              />
+            )}
           </div>
+        </div>
+        <div className="mx-auto mt-3 max-w-7xl lg:hidden">
+          <button
+            type="button"
+            onClick={() => setIsExploreOpen((open) => !open)}
+            aria-expanded={isExploreOpen}
+            className="flex min-h-12 w-full items-center justify-center rounded-xl bg-[#4b3621] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+          >
+            {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
+          </button>
+          {isExploreOpen && (
+            <ExplorePetControls
+              animal={exploreAnimal}
+              dogCoat={dogCoatFilter}
+              onAnimalChange={setExploreAnimal}
+              onDogCoatChange={setDogCoatFilter}
+            />
+          )}
         </div>
       </section>
 
@@ -158,7 +190,7 @@ export default function HomePage() {
               <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
             </CategoryNavLink>
           </div>
-          <ExplorePetWorldGallery />
+          <ExplorePetWorldGallery animal={exploreAnimal} dogCoat={dogCoatFilter} />
         </div>
       </section>
 

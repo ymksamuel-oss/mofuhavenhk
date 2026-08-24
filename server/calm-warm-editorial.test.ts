@@ -39,6 +39,10 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
     expect(page).toContain('grid grid-cols-4 auto-rows-fr gap-2 sm:gap-3');
+    expect(page).toContain('onClick={() => setIsExploreOpen((open) => !open)}');
+    expect(page).toContain('<ExplorePetControls');
+    expect(page).toContain('aria-expanded={isExploreOpen}');
+    expect(page).not.toContain('id="pet-breed-guide" className="mt-10"');
     expect(page).toContain('labelKey: "allProducts"');
     expect(page).toContain('href: "/menu#products"');
     expect(page).toContain('Icon: BagIcon');
@@ -59,7 +63,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('src="/images/explore-japanese-pet-lifestyle.jpg"');
     const exploreGallery = source("src/components/about/ExploreCatBreedGallery.tsx");
     const breedGallery = source("src/lib/catBreedGallery.ts");
-    expect(page).toContain("<ExplorePetWorldGallery />");
+    expect(page).toContain("<ExplorePetWorldGallery animal={exploreAnimal} dogCoat={dogCoatFilter} />");
     expect(exploreGallery).toContain("CAT_BREED_GALLERY_IMAGES");
     expect(exploreGallery).toContain("/cat-breeds/${breed.slug}");
     expect(breedGallery.match(/\/images\/cat-breeds\//g)?.length).toBe(81);
@@ -68,11 +72,13 @@ describe("calm warm editorial UI contract", () => {
     const dogGallery = source("src/components/about/ExploreDogBreedGallery.tsx");
     const petGuide = source("src/components/about/ExplorePetWorldGallery.tsx");
     expect(petGuide).toContain("<ExploreCatBreedGallery />");
+    expect(petGuide).not.toContain("<button");
     expect(petGuide).toContain("<ExploreDogBreedGallery coatFilter={dogCoat} />");
-    expect(petGuide).toContain("exploreCats");
-    expect(petGuide).toContain("exploreDogs");
-    expect(petGuide).toContain("longHairedDogs");
-    expect(petGuide).toContain("shortHairedDogs");
+    const petControls = source("src/components/about/ExplorePetControls.tsx");
+    expect(petControls).toContain("exploreCats");
+    expect(petControls).toContain("exploreDogs");
+    expect(petControls).toContain("longHairedDogs");
+    expect(petControls).toContain("shortHairedDogs");
     expect(dogGallery).toContain("DOG_BREEDS");
     expect(dogGallery).toContain("dogBreedsPersonality");
     expect(dogBreeds.match(/slug: \"[^\"]+\"/g)?.length).toBe(8);
