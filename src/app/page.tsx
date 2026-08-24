@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
-import { ExploreCatBreedGallery } from "@/components/about/ExploreCatBreedGallery";
-import { ExploreDogBreedGallery } from "@/components/about/ExploreDogBreedGallery";
+import { ExplorePetWorldGallery } from "@/components/about/ExplorePetWorldGallery";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg";
 import { ProductSearch } from "@/components/ProductSearch";
@@ -159,8 +158,7 @@ export default function HomePage() {
               <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
             </CategoryNavLink>
           </div>
-          <ExploreCatBreedGallery />
-          <ExploreDogBreedGallery />
+          <ExplorePetWorldGallery />
         </div>
       </section>
 

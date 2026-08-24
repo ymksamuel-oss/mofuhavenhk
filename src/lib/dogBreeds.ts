@@ -5,6 +5,7 @@ export type DogBreed = {
   nameEn: string;
   coatLabel: string;
   coatLabelEn: string;
+  coatType: "short" | "long";
   shortDescription: string;
   shortDescriptionEn: string;
   personality: string;
@@ -29,6 +30,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Labrador Retriever",
     coatLabel: "短毛雙層毛",
     coatLabelEn: "Short double coat",
+    coatType: "short",
     shortDescription: "性格友善、充滿活力，是受歡迎的家庭伴侶犬。",
     shortDescriptionEn: "A friendly, energetic family companion with an easygoing nature.",
     personality: "開朗、忠誠而喜愛社交，通常親近人和其他動物。",
@@ -47,6 +49,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Shiba Inu",
     coatLabel: "雙層毛",
     coatLabelEn: "Double coat",
+    coatType: "short",
     shortDescription: "警覺而獨立的日本犬種，擁有鮮明個性。",
     shortDescriptionEn: "An alert, independent Japanese breed with a distinctive personality.",
     personality: "對家庭忠誠親近，但通常保留獨立一面，早期社交有助建立信任。",
@@ -65,6 +68,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Siberian Husky",
     coatLabel: "雙層中長毛",
     coatLabelEn: "Medium double coat",
+    coatType: "long",
     shortDescription: "友善活潑而精力旺盛，需要充足活動和陪伴。",
     shortDescriptionEn: "A friendly, spirited breed that thrives with active engagement.",
     personality: "聰明、友善而獨立，適合能投入時間訓練及互動的家庭。",
@@ -83,6 +87,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "French Bulldog",
     coatLabel: "短毛",
     coatLabelEn: "Short coat",
+    coatType: "short",
     shortDescription: "體型嬌小、親人溫和，適合都市生活的伴侶犬。",
     shortDescriptionEn: "A small, affectionate companion often suited to city living.",
     personality: "通常溫和親人，喜歡陪伴家人，個體性格及適應力各有不同。",
@@ -101,6 +106,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Pembroke Welsh Corgi",
     coatLabel: "雙層中長毛",
     coatLabelEn: "Medium double coat",
+    coatType: "long",
     shortDescription: "機警、親人而充滿活力，喜歡與家人互動。",
     shortDescriptionEn: "An alert, affectionate and lively companion who enjoys family interaction.",
     personality: "聰明友善而忠誠，牧羊本能可能帶來驅趕或輕咬腳跟行為。",
@@ -119,6 +125,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Dachshund",
     coatLabel: "短毛／長毛／剛毛",
     coatLabelEn: "Smooth, long or wire coat",
+    coatType: "short",
     shortDescription: "長身短腿、聰明親人而帶有活潑勇敢的個性。",
     shortDescriptionEn: "A distinctive long-bodied breed that is clever, affectionate and playful.",
     personality: "親人、聰明而勇敢，適合多種家庭但需要溫和一致的訓練。",
@@ -137,6 +144,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Pomeranian",
     coatLabel: "豐厚雙層長毛",
     coatLabelEn: "Dense double coat",
+    coatType: "long",
     shortDescription: "體型嬌小、活潑警覺，擁有蓬鬆可愛的外表。",
     shortDescriptionEn: "A compact, lively companion with an alert nature and plush coat.",
     personality: "聰明好奇而警覺，早期社交及訓練有助管理吠叫傾向。",
@@ -155,6 +163,7 @@ export const DOG_BREEDS: DogBreed[] = [
     nameEn: "Border Collie",
     coatLabel: "雙層中長毛",
     coatLabelEn: "Medium double coat",
+    coatType: "long",
     shortDescription: "學習力極高、敏捷而充滿工作熱情的犬種。",
     shortDescriptionEn: "An exceptionally intelligent, agile working breed with high drive.",
     personality: "聰明、警覺且忠誠，適合能提供持續心智訓練的活躍家庭。",

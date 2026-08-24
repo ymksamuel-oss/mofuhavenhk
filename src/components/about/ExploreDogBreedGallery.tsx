@@ -4,10 +4,15 @@ import Image from "next/image";
 import { DOG_BREEDS } from "@/lib/dogBreeds";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
+type DogCoatFilter = "all" | "short" | "long";
+
 /** Dog-breed editorial cards for the homepage Explore Pets World section. */
-export function ExploreDogBreedGallery() {
+export function ExploreDogBreedGallery({ coatFilter = "all" }: { coatFilter?: DogCoatFilter }) {
   const { locale, t } = useI18n();
   const isEn = locale === "en";
+  const visibleBreeds = coatFilter === "all"
+    ? DOG_BREEDS
+    : DOG_BREEDS.filter((breed) => breed.coatType === coatFilter);
 
   return (
     <div className="mt-12 border-t border-[#2B2623]/10 pt-8 sm:mt-16 sm:pt-10" id="dog-breeds">
@@ -21,12 +26,12 @@ export function ExploreDogBreedGallery() {
           </h3>
         </div>
         <span className="shrink-0 text-xs text-[#2B2623]/55 sm:text-sm">
-          {DOG_BREEDS.length} {t("dogBreedsCount")}
+          {visibleBreeds.length} {t("dogBreedsCount")}
         </span>
       </div>
 
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-        {DOG_BREEDS.map((breed) => (
+        {visibleBreeds.map((breed) => (
           <li key={breed.id}>
             <article className="group h-full overflow-hidden rounded-2xl border border-[#2B2623]/10 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-[#2B2623]/25 hover:shadow-[0_18px_30px_-22px_rgba(74,59,50,0.55)]">
               <div className="relative aspect-[4/3] overflow-hidden bg-[#FBF9F6]">
