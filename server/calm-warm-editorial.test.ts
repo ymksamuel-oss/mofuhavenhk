@@ -57,6 +57,13 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('lg:grid-cols-2 lg:items-center lg:gap-x-10');
     expect(page).toContain('relative mt-[15px] block h-[220px]');
     expect(page).toContain('src="/images/explore-japanese-pet-lifestyle.jpg"');
+    const exploreGallery = source("src/components/about/ExploreCatBreedGallery.tsx");
+    const breedGallery = source("src/lib/catBreedGallery.ts");
+    expect(page).toContain("<ExploreCatBreedGallery />");
+    expect(exploreGallery).toContain("CAT_BREED_GALLERY_IMAGES");
+    expect(exploreGallery).toContain("/cat-breeds/${breed.slug}");
+    expect(breedGallery.match(/\/images\/cat-breeds\//g)?.length).toBe(81);
+    expect(exploreGallery).not.toContain("/images/products/");
     expect(page).toContain('mt-[15px] block h-[220px] w-full');
     expect(page).toContain('min-[769px]:h-[320px]');
     expect(page).toContain('lg:h-[400px]');
