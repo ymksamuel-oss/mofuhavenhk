@@ -64,6 +64,15 @@ describe("calm warm editorial UI contract", () => {
     expect(exploreGallery).toContain("/cat-breeds/${breed.slug}");
     expect(breedGallery.match(/\/images\/cat-breeds\//g)?.length).toBe(81);
     expect(exploreGallery).not.toContain("/images/products/");
+    const dogBreeds = source("src/lib/dogBreeds.ts");
+    const dogGallery = source("src/components/about/ExploreDogBreedGallery.tsx");
+    expect(page).toContain("<ExploreDogBreedGallery />");
+    expect(dogGallery).toContain("DOG_BREEDS");
+    expect(dogGallery).toContain("dogBreedsPersonality");
+    expect(dogBreeds.match(/slug: \"[^\"]+\"/g)?.length).toBe(8);
+    expect(dogBreeds.match(/imageUrl: \"\/images\/dog-breeds\//g)?.length).toBe(8);
+    expect(dogBreeds).not.toContain("/images/products/");
+    expect(dogBreeds).not.toContain("/images/cat-breeds/");
     expect(page).toContain('mt-[15px] block h-[220px] w-full');
     expect(page).toContain('min-[769px]:h-[320px]');
     expect(page).toContain('lg:h-[400px]');
