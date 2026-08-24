@@ -241,14 +241,19 @@ describe("calm warm editorial UI contract", () => {
     expect(drawer).toContain("env(safe-area-inset-bottom");
   });
 
-  it("keeps footer contact details accurate and moves WhatsApp into the footer", () => {
+  it("keeps three compact social logos above the footer copyright", () => {
     const footer = source("src/components/Footer.tsx");
     const layout = source("src/app/layout.tsx");
 
     expect(footer).toContain("MofuHavenHK@gmail.com");
-    expect(footer).toContain('aria-label="WhatsApp"');
+    expect(footer).toContain('aria-label="Social media"');
+    expect(footer).toContain('aria-label="Facebook"');
+    expect(footer).toContain('aria-label="Instagram"');
+    expect(footer).toContain("<FacebookLogo className=\"h-full w-full\" />");
+    expect(footer).toContain("<InstagramLogo className=\"h-full w-full\" />");
+    expect(footer).toContain("<WhatsAppLogo className=\"h-full w-full\" />");
     expect(footer).toContain("waUrl ?? \"https://wa.me/85298646585\"");
-    expect(footer).toContain("<WhatsAppLogo className=\"h-5 w-5\" />");
+    expect(footer).not.toContain("WhatsAppLogo className=\"h-5 w-5\"");
     expect(layout).not.toContain("FloatingWhatsApp");
   });
 

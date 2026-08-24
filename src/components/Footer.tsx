@@ -87,6 +87,37 @@ function FooterNavColumn({
 }
 
 /** Five locally hosted payment marks without decorative frames. */
+function FacebookLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="12" fill="#1877F2" />
+      <path
+        fill="#fff"
+        d="M13.5 20v-7h2.35l.35-2.73H13.5V8.53c0-.79.22-1.33 1.36-1.33h1.45V4.76c-.25-.03-1.1-.11-2.1-.11-2.07 0-3.49 1.26-3.49 3.58v2.04H8.38V13h2.34v7h2.78Z"
+      />
+    </svg>
+  );
+}
+
+function InstagramLogo({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <defs>
+        <linearGradient id="footer-instagram-gradient" x1="2" x2="22" y1="22" y2="2" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FEDA75" />
+          <stop offset="0.38" stopColor="#FA7E1E" />
+          <stop offset="0.67" stopColor="#D62976" />
+          <stop offset="1" stopColor="#4F5BD5" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="12" fill="url(#footer-instagram-gradient)" />
+      <rect x="6.3" y="6.3" width="11.4" height="11.4" rx="3.2" fill="none" stroke="#fff" strokeWidth="1.6" />
+      <circle cx="12" cy="12" r="2.7" fill="none" stroke="#fff" strokeWidth="1.6" />
+      <circle cx="15.85" cy="8.35" r="0.9" fill="#fff" />
+    </svg>
+  );
+}
+
 function PaymentMarks() {
   const markClassName =
     "flex h-8 w-[6.25rem] shrink-0 items-center justify-center px-1 py-1 sm:w-[6.75rem]";
@@ -181,33 +212,50 @@ export function Footer() {
             </details>
           </div>
         </div>
-        <nav
-          aria-label="WhatsApp"
-          className="mt-7 flex items-center gap-3 border-t border-[#c69e78] pt-5"
-        >
-          <a
-            href={waUrl ?? "https://wa.me/85298646585"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[#b98767] bg-[#f4ddc4]/70 px-3.5 py-2 text-sm font-medium text-[#4b352a] transition hover:bg-[#f8e8d5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e8c9a9]"
-            aria-label={t("footerWhatsapp")}
-          >
-            <WhatsAppLogo className="h-5 w-5" />
-            <span>{t("footerWhatsapp")}</span>
-          </a>
-        </nav>
       </div>
 
       <div className="border-t border-[#c69e78] bg-[#ddb88f]/45">
-        <div className="footer-payment-safe-area mx-auto flex w-full max-w-5xl flex-col items-center gap-3 px-4 pt-4 sm:flex-row sm:justify-between sm:gap-4 sm:px-6 sm:py-3.5">
-          <p className="text-center text-xs tracking-[0.01em] text-[#62493b] sm:text-left">
-            {t("footerCopyright")}
-          </p>
-          <div
-            className="w-full max-w-full sm:w-auto"
-            aria-label={t("footerPayments")}
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+          <nav
+            aria-label="Social media"
+            className="flex items-center justify-center gap-3 py-4"
           >
-            <PaymentMarks />
+            <span
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full opacity-95 sm:h-9 sm:w-9"
+              aria-label="Facebook"
+              title="Facebook — official link coming soon"
+            >
+              <FacebookLogo className="h-full w-full" />
+            </span>
+            <span
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full opacity-95 sm:h-9 sm:w-9"
+              aria-label="Instagram"
+              title="Instagram — official link coming soon"
+            >
+              <InstagramLogo className="h-full w-full" />
+            </span>
+            <a
+              href={waUrl ?? "https://wa.me/85298646585"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
+              aria-label={t("footerWhatsapp")}
+              title={t("footerWhatsapp")}
+            >
+              <WhatsAppLogo className="h-full w-full" />
+            </a>
+          </nav>
+
+          <div className="footer-payment-safe-area flex w-full flex-col items-center gap-3 border-t border-[#c69e78] pt-3 sm:flex-row sm:justify-between sm:gap-4 sm:py-3.5">
+            <p className="text-center text-xs tracking-[0.01em] text-[#62493b] sm:text-left">
+              {t("footerCopyright")}
+            </p>
+            <div
+              className="w-full max-w-full sm:w-auto"
+              aria-label={t("footerPayments")}
+            >
+              <PaymentMarks />
+            </div>
           </div>
         </div>
       </div>
