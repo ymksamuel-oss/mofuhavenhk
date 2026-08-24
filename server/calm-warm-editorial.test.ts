@@ -249,6 +249,9 @@ describe("calm warm editorial UI contract", () => {
     expect(footer).toContain('aria-label="Social media"');
     expect(footer).toContain('aria-label="Facebook"');
     expect(footer).toContain('aria-label="Instagram"');
+    expect(footer).toContain("https://www.facebook.com/profile.php?id=61593577262255");
+    expect(footer).toContain("https://www.instagram.com/mofuhaven?igsh=MWR2MnJwZ2N5b2p2Zg%3D%3D&utm_source=qr");
+    expect(footer).not.toContain("official link coming soon");
     expect(footer).toContain("<FacebookLogo className=\"h-full w-full\" />");
     expect(footer).toContain("<InstagramLogo className=\"h-full w-full\" />");
     expect(footer).toContain("<WhatsAppLogo className=\"h-full w-full\" />");

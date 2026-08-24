@@ -220,20 +220,26 @@ export function Footer() {
             aria-label="Social media"
             className="flex items-center justify-center gap-3 py-4"
           >
-            <span
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full opacity-95 sm:h-9 sm:w-9"
+            <a
+              href="https://www.facebook.com/profile.php?id=61593577262255"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
               aria-label="Facebook"
-              title="Facebook — official link coming soon"
+              title="Facebook"
             >
               <FacebookLogo className="h-full w-full" />
-            </span>
-            <span
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full opacity-95 sm:h-9 sm:w-9"
+            </a>
+            <a
+              href="https://www.instagram.com/mofuhaven?igsh=MWR2MnJwZ2N5b2p2Zg%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
               aria-label="Instagram"
-              title="Instagram — official link coming soon"
+              title="Instagram"
             >
               <InstagramLogo className="h-full w-full" />
-            </span>
+            </a>
             <a
               href={waUrl ?? "https://wa.me/85298646585"}
               target="_blank"
