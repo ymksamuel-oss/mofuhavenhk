@@ -416,6 +416,9 @@ export const translations = {
     catBreedDetailNoteEyebrow: "溫馨提醒",
     catBreedDetailNote:
       "每隻貓咪都是獨一無二的，請根據自家愛寵的實際情況提供細心照顧。",
+    dogBreedDetailNoteEyebrow: "溫馨提示",
+    dogBreedDetailNote:
+      "每隻愛犬都是獨一無二的，請根據牠的實際需要，以耐心和關愛提供合適照顧。",
     catBreedDetailPhysical: "【身體特徵】",
     catBreedDetailEyes: "眼睛",
     catBreedDetailSize: "體型",
@@ -841,6 +844,9 @@ export const translations = {
     catBreedDetailNoteEyebrow: "A gentle note",
     catBreedDetailNote:
       "Every cat is unique — tailor care to your companion’s real needs with patience and attention.",
+    dogBreedDetailNoteEyebrow: "A gentle note",
+    dogBreedDetailNote:
+      "Every dog is unique — tailor care to your companion’s real needs with patience, attention and affection.",
     catBreedDetailPhysical: "【Physical Traits】",
     catBreedDetailEyes: "Eyes",
     catBreedDetailSize: "Size",

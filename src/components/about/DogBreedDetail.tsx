@@ -89,8 +89,13 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
             </div>
           ) : null}
         </section>
-        <aside className="mt-12 rounded-2xl border border-[#2B2623]/12 bg-white px-5 py-5 shadow-[0_16px_32px_-24px_rgba(74,59,50,0.4)] sm:px-6 sm:py-6">
-          <p className="text-sm leading-relaxed text-[#2B2623]/80">{t("catBreedDetailNote")}</p>
+        <aside className="mt-12 max-w-3xl px-1 py-2 sm:mt-14 sm:px-0">
+          <p className="text-xs font-semibold tracking-[0.12em] text-[#2B2623]/55">
+            {t("dogBreedDetailNoteEyebrow")}
+          </p>
+          <p className="mt-2 text-base leading-[1.8] text-[#2B2623]/85 sm:text-[1.05rem]">
+            {t("dogBreedDetailNote")}
+          </p>
         </aside>
       </div>
     </div>
