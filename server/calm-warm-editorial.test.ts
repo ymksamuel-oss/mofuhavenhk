@@ -178,6 +178,23 @@ describe("calm warm editorial UI contract", () => {
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');
   });
 
+  it("keeps the Q3 payment policy complete and readable", () => {
+    const translations = source("src/lib/i18n/translations.ts");
+    const faq = source("src/components/FAQAccordion.tsx");
+
+    expect(translations).toContain("faqPaymentQuestion: \"支援乜嘢付款方式？\"");
+    expect(translations).toContain("信用卡及手機支付");
+    expect(translations).toContain("Visa／Mastercard");
+    expect(translations).toContain("Apple Pay（適用於 iPhone、iPad 及 Mac 等 Apple 裝置）");
+    expect(translations).toContain("Google Pay（適用於 Android 裝置或 Chrome 瀏覽器）");
+    expect(translations).toContain("AlipayHK（支付寶香港）");
+    expect(translations).toContain("PayMe");
+    expect(translations).toContain("如果您使用 iPhone 或 iPad（iOS 裝置）瀏覽網店");
+    expect(translations).toContain("部分非 Apple 官方的支付標誌（如 Google Pay）可能無法在結帳頁面直接顯示");
+    expect(translations).toContain("7-day exchange and return guarantee");
+    expect(faq).toContain("whitespace-pre-line");
+  });
+
   it("keeps the Q4 return policy complete and readable", () => {
     const translations = source("src/lib/i18n/translations.ts");
     const faq = source("src/components/FAQAccordion.tsx");
