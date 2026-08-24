@@ -43,7 +43,7 @@ describe("Stripe webhook merchant notification contract", () => {
     const env = source(".env.example");
 
     expect(env).toContain("Vercel → Project → Settings → Environment Variables");
-    expect(env).toContain("https://mofuhavenhk.com/api/stripe/webhook");
+    expect(env).toContain("https://www.mofuhavenhk.com/api/stripe/webhook");
     expect(env).toContain("STRIPE_WEBHOOK_SECRET=");
     expect(env).toContain("WHATSAPP_PHONE=852XXXXXXXX");
     expect(env).toContain("WHATSAPP_API_KEY=");
