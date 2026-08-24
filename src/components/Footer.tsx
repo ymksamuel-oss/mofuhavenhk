@@ -181,6 +181,21 @@ export function Footer() {
             </details>
           </div>
         </div>
+        <nav
+          aria-label="WhatsApp"
+          className="mt-7 flex items-center gap-3 border-t border-[#c69e78] pt-5"
+        >
+          <a
+            href={waUrl ?? "https://wa.me/85298646585"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-[#b98767] bg-[#f4ddc4]/70 px-3.5 py-2 text-sm font-medium text-[#4b352a] transition hover:bg-[#f8e8d5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e8c9a9]"
+            aria-label={t("footerWhatsapp")}
+          >
+            <WhatsAppLogo className="h-5 w-5" />
+            <span>{t("footerWhatsapp")}</span>
+          </a>
+        </nav>
       </div>
 
       <div className="border-t border-[#c69e78] bg-[#ddb88f]/45">

@@ -278,7 +278,7 @@ export const translations = {
     faqPaymentAnswer: "我們支援多種安全便捷的網上付款方式，包括 Visa、Mastercard、Apple Pay、Google Pay、AlipayHK（支付寶香港）及 PayMe，所有信用卡交易均經過加密處理，確保安全。",
     faqReturnsQuestion: "收到貨後可以退換貨嗎？",
     faqReturnsAnswer: "我們設有「7日退換貨保障」。如收到的商品有破損或與訂單不符，請於收貨後 7 天內透過 WhatsApp 或電郵聯絡我們，我們將盡快為您安排退換事宜（請保持商品原包裝完整）。",
-    faqContactHint: "還有其他疑問？歡迎隨時透過右下角 WhatsApp 按鈕聯絡我們（@MofuHavenHK），專人會為您解答！",
+    faqContactHint: "還有其他疑問？歡迎隨時透過 Footer 的 WhatsApp 聯絡我們（@MofuHavenHK），專人會為您解答！",
     faqPageBody:
       "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
     shippingPageTitle: "運送與發貨政策",
@@ -706,7 +706,7 @@ export const translations = {
     faqPaymentAnswer: "We support Visa, Mastercard, Apple Pay, Google Pay, AlipayHK, and PayMe. All card transactions are encrypted for secure payment.",
     faqReturnsQuestion: "Can I exchange or return an item after delivery?",
     faqReturnsAnswer: "We offer a 7-day exchange and return guarantee. If an item arrives damaged or does not match your order, contact us by WhatsApp or email within 7 days and keep the original packaging intact.",
-    faqContactHint: "Still have questions? Contact us anytime through the WhatsApp button at the bottom right (@MofuHavenHK).",
+    faqContactHint: "Still have questions? Contact us anytime through the WhatsApp link in the footer (@MofuHavenHK).",
     faqPageBody:
       "Answers about ordering, payment, delivery, and after-sales support are being prepared. For help now, message us on WhatsApp.",
     shippingPageTitle: "Shipping & Dispatch Policy",

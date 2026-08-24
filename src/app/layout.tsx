@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
-import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
@@ -119,7 +118,6 @@ export default async function RootLayout({
                 </main>
               </ShopFlowNav>
               <Footer />
-              <FloatingWhatsApp />
             </CartProvider>
           </CatalogProvider>
         </I18nProvider>
