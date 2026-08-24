@@ -88,17 +88,17 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 aria-checked={active}
                 aria-pressed={active}
                 title={t(labelKey)}
-                className={`grid min-h-[4.75rem] w-full grid-cols-[minmax(0,1fr)_1.25rem] items-center gap-x-4 rounded-2xl border px-4 py-3.5 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5rem] sm:px-5 ${
+                className={`grid min-h-[4rem] w-full grid-cols-[minmax(0,1fr)_1.25rem] items-center gap-x-3 rounded-2xl border px-3.5 py-2.5 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5rem] sm:gap-x-4 sm:px-5 sm:py-3.5 ${
                   active
                     ? "border-[color:var(--accent)] bg-[color:var(--accent)]/[0.07] text-[color:var(--ink)] shadow-[0_8px_22px_rgba(92,67,48,0.10)]"
                     : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] shadow-[0_3px_12px_rgba(92,67,48,0.04)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--surface)] hover:text-[color:var(--ink)]"
                 }`}
               >
                 <span
-                  className="flex h-8 w-full min-w-0 items-center justify-start overflow-visible sm:h-9"
+                  className="flex h-7 w-full min-w-0 items-center justify-start overflow-visible sm:h-9"
                   aria-hidden="true"
                 >
-                  <Icon className="!h-7 !max-h-7 !w-auto shrink-0 object-contain" />
+                  <Icon className="!h-6 !max-h-6 !w-auto shrink-0 object-contain sm:!h-7 sm:!max-h-7" />
                 </span>
 
                 <span className="sr-only">{t(labelKey)}</span>
