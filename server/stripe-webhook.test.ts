@@ -39,6 +39,17 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(completeOrder).toContain('source: "success_page"');
   });
 
+  it("exposes only safe runtime diagnostics when explicitly requested", () => {
+    const notifyRoute = source("src/app/api/notify-order/route.ts");
+    const notifyService = source("src/lib/notifyWhatsapp.ts");
+
+    expect(notifyRoute).toContain('searchParams.get("diagnostics") === "1"');
+    expect(notifyRoute).toContain("getNotificationDiagnostics");
+    expect(notifyService).toContain("Never return a secret value");
+    expect(notifyService).toContain("gitCommitSha");
+    expect(notifyService).toContain("internationalFormat");
+  });
+
   it("documents the exact Vercel webhook and notification environment setup", () => {
     const env = source(".env.example");
 

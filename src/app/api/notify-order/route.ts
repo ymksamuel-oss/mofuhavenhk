@@ -5,6 +5,7 @@ import {
   getConfiguredProviders,
   isNotifyConfigured,
   sendWhatsAppNotification,
+  getNotificationDiagnostics,
 } from "@/lib/notifyWhatsapp";
 import {
   buildOrderItemsFromLines,
@@ -51,13 +52,17 @@ function parseOrderLines(
  * Lightweight health check — reports whether a server-side WhatsApp
  * gateway is configured (never exposes secrets).
  */
-export async function GET() {
+export async function GET(request: Request) {
   const providers = getConfiguredProviders();
+  const url = new URL(request.url);
+  const diagnostics = url.searchParams.get("diagnostics") === "1";
+
   return NextResponse.json({
     ok: true,
     shopHandle: process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK",
     configured: providers.length > 0,
     providers,
+    ...(diagnostics ? { diagnostics: getNotificationDiagnostics() } : {}),
   });
 }
 

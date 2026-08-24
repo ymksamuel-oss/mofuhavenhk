@@ -137,6 +137,51 @@ export function isNotifyConfigured(): boolean {
   return getConfiguredProviders().length > 0;
 }
 
+function safeEnvShape(value: string | undefined, pattern?: RegExp) {
+  const normalized = value?.trim() || "";
+  return {
+    set: Boolean(normalized),
+    length: normalized.length,
+    formatOk: pattern ? pattern.test(normalized) : undefined,
+  };
+}
+
+/**
+ * Safe diagnostics for Vercel logs/health checks. Never return a secret value,
+ * a token fragment, or a phone number; only presence, length and format.
+ */
+export function getNotificationDiagnostics() {
+  const providerValue = process.env.WHATSAPP_PROVIDER?.trim().toLowerCase() || "";
+  const knownProviders = new Set(["callmebot", "meta", "twilio", "greenapi"]);
+  const phone = getShopWhatsAppPhoneDigits();
+  const apiKey = getCallMeBotApiKey();
+
+  return {
+    runtime: {
+      vercelEnv: process.env.VERCEL_ENV || "unknown",
+      deploymentId: process.env.VERCEL_DEPLOYMENT_ID || "unknown",
+      gitCommitSha: process.env.VERCEL_GIT_COMMIT_SHA || "unknown",
+    },
+    variables: {
+      whatsappPhone: {
+        set: Boolean(phone),
+        digits: phone.length,
+        internationalFormat: /^852\d{8}$/.test(phone),
+      },
+      whatsappApiKey: safeEnvShape(apiKey),
+      whatsappProvider: {
+        set: Boolean(providerValue),
+        recognized: knownProviders.has(providerValue),
+      },
+      stripeWebhookSecret: safeEnvShape(
+        process.env.STRIPE_WEBHOOK_SECRET,
+        /^whsec_[A-Za-z0-9]+$/,
+      ),
+    },
+    configuredProviders: getConfiguredProviders(),
+  };
+}
+
 async function fetchWithRetry(
   input: string,
   init?: RequestInit,
