@@ -14,7 +14,7 @@ export type MethodId =
   | "applepay"
   | "googlepay"
   | "payme"
-  | "alipayhk"
+  | "alipayhk";
 
 export type PaymentMethodDef = {
   id: MethodId;
@@ -23,13 +23,13 @@ export type PaymentMethodDef = {
     | "payApplePay"
     | "payGooglePay"
     | "payPayMe"
-    | "payAlipayHk"
+    | "payAlipayHk";
   Icon:
     | typeof CardLogo
     | typeof ApplePayLogo
     | typeof GooglePayLogo
     | typeof PayMeLogo
-    | typeof AlipayHkLogo
+    | typeof AlipayHkLogo;
 };
 
 /**
@@ -70,7 +70,11 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         </p>
       </div>
 
-      <ul className="grid grid-cols-1 gap-3">
+      <ul
+        className="grid grid-cols-1 gap-3"
+        role="radiogroup"
+        aria-label={t("paymentTitle")}
+      >
         {PAYMENT_METHODS.map(({ id, labelKey, Icon }) => {
           const active = selected === id;
 
@@ -78,35 +82,31 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
             <li key={id} className="min-w-0">
               <button
                 type="button"
+                role="radio"
                 onClick={() => onSelect(id)}
                 aria-label={t(labelKey)}
-                title={t(labelKey)}
-                className={`grid min-h-[4.5rem] w-full grid-cols-[minmax(0,1fr)_1.125rem] items-center gap-x-3 px-1 py-3 text-left transition duration-200 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[4.75rem] sm:gap-x-4 sm:px-2 ${
-                  active
-                    ? "text-[color:var(--ink)]"
-                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
-                }`}
+                aria-checked={active}
                 aria-pressed={active}
+                title={t(labelKey)}
+                className={`grid min-h-[4.75rem] w-full grid-cols-[minmax(0,1fr)_1.25rem] items-center gap-x-4 rounded-2xl border px-4 py-3.5 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 sm:min-h-[5rem] sm:px-5 ${
+                  active
+                    ? "border-[color:var(--accent)] bg-[color:var(--accent)]/[0.07] text-[color:var(--ink)] shadow-[0_8px_22px_rgba(92,67,48,0.10)]"
+                    : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)] shadow-[0_3px_12px_rgba(92,67,48,0.04)] hover:border-[color:var(--accent)]/50 hover:bg-[color:var(--surface)] hover:text-[color:var(--ink)]"
+                }`}
               >
                 <span
-                  className="flex h-9 w-full min-w-0 items-center justify-start overflow-visible"
+                  className="flex h-8 w-full min-w-0 items-center justify-start overflow-visible sm:h-9"
                   aria-hidden="true"
                 >
-                  <Icon
-                    className={
-                      id === "alipayhk"
-                        ? "!h-5 max-w-full !w-auto"
-                        : ""
-                    }
-                  />
+                  <Icon className="!h-7 !max-h-7 !w-auto shrink-0 object-contain" />
                 </span>
 
                 <span className="sr-only">{t(labelKey)}</span>
 
                 <span
-                  className={`h-[1.125rem] w-[1.125rem] rounded-full border-[1.5px] transition ${
+                  className={`h-5 w-5 rounded-full border-2 transition ${
                     active
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_2px_var(--surface)]"
+                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[inset_0_0_0_3px_var(--surface)]"
                       : "border-[color:var(--line)] bg-transparent"
                   }`}
                   aria-hidden="true"
