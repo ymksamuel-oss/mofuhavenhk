@@ -314,7 +314,12 @@ export function resolveCatSnackSeriesSlug(
   seriesSlug: string | null | undefined,
 ): CatSnackSeries | null {
   if (!seriesSlug) return null;
-  return CAT_SNACK_SERIES_BY_SLUG[seriesSlug] ?? null;
+  return (
+    CAT_SNACK_SERIES_BY_SLUG[seriesSlug] ??
+    (CAT_SNACK_SERIES.includes(seriesSlug as CatSnackSeries)
+      ? (seriesSlug as CatSnackSeries)
+      : null)
+  );
 }
 
 export function productHref(id: string): string {
