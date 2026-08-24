@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { notifyPaidPaymentIntent } from "@/lib/stripeOrderNotification";
 import { getStripe, getStripeSecretKey } from "@/lib/stripe";
+import { readServerEnv } from "@/lib/serverEnv";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ const HANDLED_EVENTS = new Set([
 ]);
 
 function webhookSecret(): string {
-  return process.env.STRIPE_WEBHOOK_SECRET?.trim() || "";
+  return readServerEnv("STRIPE_WEBHOOK_SECRET");
 }
 
 function jsonError(error: string, status: number) {

@@ -53,6 +53,19 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(notifyService).toContain("internationalFormat");
   });
 
+  it("reads notification and webhook credentials through runtime environment keys", () => {
+    const runtimeEnv = source("src/lib/serverEnv.ts");
+    const notifyService = source("src/lib/notifyWhatsapp.ts");
+    const stripeService = source("src/lib/stripe.ts");
+    const webhookRoute = source("src/app/api/stripe/webhook/route.ts");
+
+    expect(runtimeEnv).toContain("process.env[name]");
+    expect(notifyService).toContain('readServerEnv("WHATSAPP_PHONE")');
+    expect(notifyService).toContain('readServerEnv("WHATSAPP_API_KEY")');
+    expect(stripeService).toContain('readServerEnv("STRIPE_LIVE_SECRET_KEY")');
+    expect(webhookRoute).toContain('readServerEnv("STRIPE_WEBHOOK_SECRET")');
+  });
+
   it("documents the exact Vercel webhook and notification environment setup", () => {
     const env = source(".env.example");
 

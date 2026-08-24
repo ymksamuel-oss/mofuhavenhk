@@ -6,9 +6,10 @@
  * environment variables; the repository never carries plaintext secrets.
  */
 
-const SHOP_HANDLE = process.env.SHOP_WHATSAPP_HANDLE?.trim() || "MofuHavenHK";
-const SITE_LABEL =
-  process.env.SHOP_SITE_LABEL?.trim() || "mofuhavenhk.com";
+import { readServerEnv } from "@/lib/serverEnv";
+
+const SHOP_HANDLE = readServerEnv("SHOP_WHATSAPP_HANDLE") || "MofuHavenHK";
+const SITE_LABEL = readServerEnv("SHOP_SITE_LABEL") || "mofuhavenhk.com";
 
 export type NotifyOrderInput = {
   orderNumber: string;
@@ -78,23 +79,19 @@ export function buildNotifyMessage({
 /** Digits-only international shop phone (e.g. 85212345678). */
 export function getShopWhatsAppPhoneDigits(): string {
   const raw =
-    process.env.WHATSAPP_PHONE?.trim() ||
-    process.env.SHOP_WHATSAPP_PHONE?.trim() ||
-    process.env.CALLMEBOT_PHONE?.trim() ||
-    process.env.TWILIO_WHATSAPP_TO?.replace(/^whatsapp:/i, "").trim() ||
-    process.env.WHATSAPP_CLOUD_TO?.trim() ||
-    process.env.GREEN_API_CHAT_ID?.replace(/@c\.us$/i, "").trim() ||
+    readServerEnv("WHATSAPP_PHONE") ||
+    readServerEnv("SHOP_WHATSAPP_PHONE") ||
+    readServerEnv("CALLMEBOT_PHONE") ||
+    readServerEnv("TWILIO_WHATSAPP_TO").replace(/^whatsapp:/i, "") ||
+    readServerEnv("WHATSAPP_CLOUD_TO") ||
+    readServerEnv("GREEN_API_CHAT_ID").replace(/@c\.us$/i, "") ||
     "";
   return raw.replace(/\D/g, "");
 }
 
 /** CallMeBot API key (preferred: WHATSAPP_API_KEY). */
 export function getCallMeBotApiKey(): string {
-  return (
-    process.env.WHATSAPP_API_KEY?.trim() ||
-    process.env.CALLMEBOT_APIKEY?.trim() ||
-    ""
-  );
+  return readServerEnv("WHATSAPP_API_KEY") || readServerEnv("CALLMEBOT_APIKEY");
 }
 
 export function isCallMeBotConfigured(): boolean {
@@ -109,24 +106,24 @@ export function getConfiguredProviders(): NotifyProvider[] {
     providers.push("callmebot");
   }
   if (
-    process.env.WHATSAPP_CLOUD_TOKEN &&
-    process.env.WHATSAPP_CLOUD_PHONE_NUMBER_ID &&
-    (process.env.WHATSAPP_CLOUD_TO || getShopWhatsAppPhoneDigits())
+    readServerEnv("WHATSAPP_CLOUD_TOKEN") &&
+    readServerEnv("WHATSAPP_CLOUD_PHONE_NUMBER_ID") &&
+    (readServerEnv("WHATSAPP_CLOUD_TO") || getShopWhatsAppPhoneDigits())
   ) {
     providers.push("meta");
   }
   if (
-    process.env.TWILIO_ACCOUNT_SID &&
-    process.env.TWILIO_AUTH_TOKEN &&
-    process.env.TWILIO_WHATSAPP_FROM &&
-    (process.env.TWILIO_WHATSAPP_TO || getShopWhatsAppPhoneDigits())
+    readServerEnv("TWILIO_ACCOUNT_SID") &&
+    readServerEnv("TWILIO_AUTH_TOKEN") &&
+    readServerEnv("TWILIO_WHATSAPP_FROM") &&
+    (readServerEnv("TWILIO_WHATSAPP_TO") || getShopWhatsAppPhoneDigits())
   ) {
     providers.push("twilio");
   }
   if (
-    process.env.GREEN_API_INSTANCE_ID &&
-    process.env.GREEN_API_TOKEN &&
-    (process.env.GREEN_API_CHAT_ID || getShopWhatsAppPhoneDigits())
+    readServerEnv("GREEN_API_INSTANCE_ID") &&
+    readServerEnv("GREEN_API_TOKEN") &&
+    (readServerEnv("GREEN_API_CHAT_ID") || getShopWhatsAppPhoneDigits())
   ) {
     providers.push("greenapi");
   }
@@ -151,7 +148,7 @@ function safeEnvShape(value: string | undefined, pattern?: RegExp) {
  * a token fragment, or a phone number; only presence, length and format.
  */
 export function getNotificationDiagnostics() {
-  const providerValue = process.env.WHATSAPP_PROVIDER?.trim().toLowerCase() || "";
+  const providerValue = readServerEnv("WHATSAPP_PROVIDER").toLowerCase();
   const knownProviders = new Set(["callmebot", "meta", "twilio", "greenapi"]);
   const phone = getShopWhatsAppPhoneDigits();
   const apiKey = getCallMeBotApiKey();
@@ -177,7 +174,7 @@ export function getNotificationDiagnostics() {
         recognized: knownProviders.has(providerValue),
       },
       stripeWebhookSecret: safeEnvShape(
-        process.env.STRIPE_WEBHOOK_SECRET,
+        readServerEnv("STRIPE_WEBHOOK_SECRET"),
         /^whsec_[A-Za-z0-9]+$/,
       ),
     },
@@ -233,10 +230,10 @@ async function sendViaCallMeBot(message: string): Promise<NotifyResult> {
 }
 
 async function sendViaMetaCloud(message: string): Promise<NotifyResult> {
-  const token = process.env.WHATSAPP_CLOUD_TOKEN?.trim();
-  const phoneNumberId = process.env.WHATSAPP_CLOUD_PHONE_NUMBER_ID?.trim();
+  const token = readServerEnv("WHATSAPP_CLOUD_TOKEN");
+  const phoneNumberId = readServerEnv("WHATSAPP_CLOUD_PHONE_NUMBER_ID");
   const to =
-    process.env.WHATSAPP_CLOUD_TO?.replace(/\D/g, "") ||
+    readServerEnv("WHATSAPP_CLOUD_TO").replace(/\D/g, "") ||
     getShopWhatsAppPhoneDigits();
 
   if (!token || !phoneNumberId || !to) {
@@ -277,12 +274,12 @@ async function sendViaMetaCloud(message: string): Promise<NotifyResult> {
 }
 
 async function sendViaTwilio(message: string): Promise<NotifyResult> {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
-  const authToken = process.env.TWILIO_AUTH_TOKEN?.trim();
-  const from = process.env.TWILIO_WHATSAPP_FROM?.trim();
+  const accountSid = readServerEnv("TWILIO_ACCOUNT_SID");
+  const authToken = readServerEnv("TWILIO_AUTH_TOKEN");
+  const from = readServerEnv("TWILIO_WHATSAPP_FROM");
   const shopDigits = getShopWhatsAppPhoneDigits();
   const to =
-    process.env.TWILIO_WHATSAPP_TO?.trim() ||
+    readServerEnv("TWILIO_WHATSAPP_TO") ||
     (shopDigits ? `whatsapp:+${shopDigits}` : "");
 
   if (!accountSid || !authToken || !from || !to) {
@@ -320,11 +317,11 @@ async function sendViaTwilio(message: string): Promise<NotifyResult> {
 }
 
 async function sendViaGreenApi(message: string): Promise<NotifyResult> {
-  const instanceId = process.env.GREEN_API_INSTANCE_ID?.trim();
-  const token = process.env.GREEN_API_TOKEN?.trim();
+  const instanceId = readServerEnv("GREEN_API_INSTANCE_ID");
+  const token = readServerEnv("GREEN_API_TOKEN");
   const shopDigits = getShopWhatsAppPhoneDigits();
   const chatId =
-    process.env.GREEN_API_CHAT_ID?.trim() ||
+    readServerEnv("GREEN_API_CHAT_ID") ||
     (shopDigits ? `${shopDigits}@c.us` : "");
 
   if (!instanceId || !token || !chatId) {

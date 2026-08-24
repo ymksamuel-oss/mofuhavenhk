@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { readServerEnv } from "@/lib/serverEnv";
 
 /** HKD uses two decimal places → Stripe amount in cents. */
 export function toStripeAmountHkd(totalHkd: number): number {
@@ -17,9 +18,8 @@ export function getStripeSecretKey(): string {
   // STRIPE_LIVE_SECRET_KEY for both Preview and Production. Keep the legacy
   // STRIPE_SECRET_KEY fallback so existing environments remain supported.
   return (
-    process.env.STRIPE_LIVE_SECRET_KEY?.trim() ||
-    process.env.STRIPE_SECRET_KEY?.trim() ||
-    ""
+    readServerEnv("STRIPE_LIVE_SECRET_KEY") ||
+    readServerEnv("STRIPE_SECRET_KEY")
   );
 }
 
@@ -29,8 +29,8 @@ export function getStripeSecretKey(): string {
  */
 export function getStripePublishableKey(): string {
   return (
-    process.env.STRIPE_PUBLISHABLE_KEY?.trim() ||
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ||
+    readServerEnv("STRIPE_PUBLISHABLE_KEY") ||
+    readServerEnv("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY") ||
     DEFAULT_STRIPE_PUBLISHABLE_KEY
   );
 }
@@ -47,8 +47,9 @@ export function isStripeConfigured(): boolean {
  * absent or malformed.
  */
 export function getStripePaymentMethodConfiguration(): string | null {
-  const configurationId =
-    process.env.STRIPE_PAYMENT_METHOD_CONFIGURATION_ID?.trim() || "";
+  const configurationId = readServerEnv(
+    "STRIPE_PAYMENT_METHOD_CONFIGURATION_ID",
+  );
 
   return /^pmc_[A-Za-z0-9]+$/.test(configurationId)
     ? configurationId
