@@ -70,6 +70,22 @@ h3 {
   font-weight: 600;
 }
 
+/* A subtle milk-tea wash for the mobile homepage only. The desktop layout
+   already gets its warmth from the large tan hero panel, so keep the global
+   desktop canvas unchanged. */
+.mobile-home-soft-surface {
+  background-color: var(--background);
+}
+
+@media (max-width: 639px) {
+  .mobile-home-soft-surface {
+    background-color: #f8f1e9;
+    background-image:
+      radial-gradient(34rem 14rem at 100% 0%, rgba(234, 215, 191, 0.48) 0%, transparent 72%),
+      linear-gradient(180deg, #f8f1e9 0%, #fbf7f2 55%, #f8f3ed 100%);
+  }
+}
+
 /* Extra breathing room above the mobile browser chrome */
 .site-bottom-pad {
   padding-bottom: max(1.75rem, calc(env(safe-area-inset-bottom, 0px) + 1.25rem));
