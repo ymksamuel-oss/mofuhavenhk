@@ -26,7 +26,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('bg-[#ead7bf]');
     expect(page).toContain('<BrandLogo title="Mofu Haven"');
     expect(page).toContain('t("homeHeadline")');
-    expect(page).toContain('h-[12.5rem]');
+    expect(page).toContain('h-[15rem]');
     expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
     expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
     expect(page).toContain('{isDesktopHero ? (');
@@ -46,8 +46,8 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('href: "/menu#products"');
     expect(page).toContain('Icon: BagIcon');
     expect(page).toContain('min-h-14 items-center gap-2');
-    expect(page).toContain('rounded-xl border border-[#d7b893]/65 bg-[#fdf8f3]/90');
-    expect(page).toContain('hover:border-[#8a6c55] hover:bg-[#fffaf5]');
+    expect(page).toContain('border-y border-[#4b3621]/18');
+    expect(page).toContain('hover:border-[#8a6c55] hover:bg-[#f5ebe6]/70');
     expect(page).toContain('h-4 w-4 shrink-0 text-[#7a5949]');
     expect(page.indexOf('grid grid-cols-2')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
