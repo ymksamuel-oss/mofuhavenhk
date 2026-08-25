@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
+import { EditorialPageSlogan } from "@/components/EditorialPageSlogan";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
@@ -60,6 +61,12 @@ export function AboutUsPage() {
           <p className="mt-4 text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
             {t("aboutPageIntro")}
           </p>
+          <EditorialPageSlogan
+            className="mt-7"
+            eyebrow={t("aboutSloganEyebrow")}
+            title={t("aboutSloganTitle")}
+            body={t("aboutSloganBody")}
+          />
         </header>
 
         <section className="border-b border-[color:var(--line)] px-6 py-7 sm:px-8 sm:py-8">

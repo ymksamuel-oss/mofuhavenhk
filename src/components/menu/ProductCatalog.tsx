@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
+import { EditorialPageSlogan } from "@/components/EditorialPageSlogan";
 import { ProductSearch } from "@/components/ProductSearch";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
@@ -131,6 +132,12 @@ export function ProductCatalog({
           {title}
         </h1>
         <p className="mt-2 text-[color:var(--muted)]">{subtitle}</p>
+        <EditorialPageSlogan
+          className="mt-6"
+          eyebrow={t("menuSloganEyebrow")}
+          title={t("menuSloganTitle")}
+          body={t("menuSloganBody")}
+        />
       </header>
 
       {showProductSearch ? (
