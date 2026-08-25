@@ -80,6 +80,7 @@ export function buildOrderItemsFromLines(
     const product = byId.get(id)!;
     return {
       id: product.id,
+      ...(product.priceId ? { stripePriceId: product.priceId } : {}),
       name: product.name,
       image: product.image,
       qty,

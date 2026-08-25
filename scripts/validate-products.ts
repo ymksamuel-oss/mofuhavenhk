@@ -5,6 +5,7 @@ import {
   getProductsByCategory,
   type Product,
 } from "@/lib/products";
+import { buildOrderItemsFromLines } from "@/lib/order";
 
 const emptyCatalog = productRecordsToProducts(new Map());
 if (emptyCatalog.length !== 0) {
@@ -83,5 +84,24 @@ assertIds(
   ["dog-snack"],
   "Dog subcategory metadata filter",
 );
+
+const priceProtectedFixture: Product = {
+  id: "prod_retail_test",
+  priceId: "price_retail_test_hkd",
+  categorySlug: "snacks",
+  icon: "bone",
+  image: "catalog-placeholder",
+  metadata: { image_pending: "true" },
+  name: { zh: "雞胸肉 30g", en: "Chicken Breast 30g" },
+  price: 77.1,
+  inStock: true,
+};
+const rebuiltOrder = buildOrderItemsFromLines(
+  [{ id: "prod_retail_test", qty: 2 }],
+  [priceProtectedFixture],
+);
+if (rebuiltOrder.length !== 1 || rebuiltOrder[0].stripePriceId !== "price_retail_test_hkd") {
+  throw new Error("Checkout order rebuild must retain the verified Stripe Price ID");
+}
 
 console.log("Product catalog validation passed: no static fallback catalog is present.");
