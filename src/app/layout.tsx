@@ -15,11 +15,11 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   metadataBase: new URL("https://mofuhavenhk.com"),
   title: {
-    default: "Mofu Haven HK | 日本天然寵物用品・3-5日發貨・滿$450免運費",
+    default: "Mofu Haven HK | 日本天然寵物用品・1–2日寄出・5–7日收貨・滿$450免運費",
     template: "%s | Mofu Haven HK 毛毛港",
   },
   description:
-  "Mofu Haven（毛毛港）專營日本優質寵物糧食、凍乾肉食及精選生活用品。100% 正版日本直送，現貨 3-5 日順豐發貨，全店購物滿 HK$450 即享免運費，提供 7 日退換貨保障。",
+  "Mofu Haven（毛毛港）專營日本優質寵物糧食、凍乾肉食及精選生活用品。現貨商品一般於 1–2 個工作天寄出，整體 5–7 個工作天收到；全店購物滿 HK$450 即享免運費，並提供 7 日退換貨保障。",
   keywords: [
     "Mofu Haven",
     "毛毛港",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "寵物凍乾",
     "貓咪零食",
     "狗狗零食",
-    "3-5日發貨",
+    "1–2日寄出・5–7日收貨",
     "免運費",
   ],
   authors: [{ name: "Mofu Haven HK" }],
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_HK",
     url: "https://mofuhavenhk.com",
-    title: "Mofu Haven HK | 日本天然寵物用品・3-5日發貨・滿$450免運費",
+    title: "Mofu Haven HK | 日本天然寵物用品・1–2日寄出・5–7日收貨・滿$450免運費",
     description:
-      "專營日本優質寵物糧食、凍乾與用品。100% 正版日本直送，現貨 3-5 日順豐發貨，滿 HK$450 免運費！",
+      "專營日本優質寵物糧食及用品。現貨商品一般 1–2 個工作天寄出，整體 5–7 個工作天收到；滿 HK$450 免運費！",
     siteName: "Mofu Haven HK 毛毛港",
     images: [
       {
@@ -60,9 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mofu Haven HK | 日本天然寵物用品・3-5日發貨・滿$450免運費",
+    title: "Mofu Haven HK | 日本天然寵物用品・1–2日寄出・5–7日收貨・滿$450免運費",
     description:
-      "專營日本優質寵物糧食與用品，現貨 3-5 日順豐發貨，滿 HK$450 免運費！",
+      "專營日本優質寵物糧食與用品，現貨商品一般 1–2 個工作天寄出，整體 5–7 個工作天收到；滿 HK$450 免運費！",
     images: ["/images/mofu-haven-cat-dog-logo-transparent.png"],
   },
   robots: {

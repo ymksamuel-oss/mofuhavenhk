@@ -235,7 +235,7 @@ export function ShippingContactForm({
             {t("customerPhoneLabel")}
             <span className="text-[#8a3a2a]"> *</span>
           </span>
-          <div className="grid w-full min-w-0 max-w-full grid-cols-[minmax(0,0.95fr)_minmax(0,2.05fr)] gap-2 sm:flex">
+          <div className="grid w-full min-w-0 max-w-full grid-cols-[minmax(7.25rem,0.9fr)_minmax(0,2.1fr)] gap-1.5 sm:flex">
             <label htmlFor="shipping-phone-country" className="sr-only">
               {t("phoneCountryLabel")}
             </label>
@@ -249,7 +249,7 @@ export function ShippingContactForm({
                   phoneCountryCode: event.target.value as PhoneCountryCode,
                 })
               }
-              className="w-full min-w-0 max-w-none shrink rounded-xl border border-[color:var(--line)] bg-white px-2 py-3 text-[0.82rem] font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:w-[9.5rem] sm:px-2.5 sm:text-sm"
+              className="w-full min-w-0 max-w-none shrink rounded-xl border border-[color:var(--line)] bg-white px-1.5 py-3 text-[0.78rem] font-medium text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] disabled:opacity-60 sm:w-[9.5rem] sm:px-2.5 sm:text-sm"
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>
@@ -278,7 +278,7 @@ export function ShippingContactForm({
                 const max = value.phoneCountryCode === "+86" ? 11 : 8;
                 patch({ phone: next.slice(0, max) });
               }}
-              className={`w-full min-w-0 rounded-xl border bg-white px-2.5 py-3 text-base tabular-nums text-[color:var(--ink)] outline-none transition placeholder:text-[0.78rem] placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:flex-1 sm:px-3.5 sm:text-sm sm:placeholder:text-sm ${
+              className={`w-full min-w-0 rounded-xl border bg-white px-2.5 py-3 text-base tabular-nums text-[color:var(--ink)] outline-none transition placeholder:text-[0.7rem] placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] disabled:opacity-60 sm:flex-1 sm:px-3.5 sm:text-sm sm:placeholder:text-sm ${
                 phoneError ? "border-red-400" : "border-[color:var(--line)]"
               }`}
             />

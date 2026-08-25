@@ -585,7 +585,7 @@ function CheckoutContent() {
 
       {showMobilePayBar ? (
         <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
-          <div className="mx-auto flex w-full max-w-5xl items-end gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] pt-3">
+          <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-3">
             <div className="min-w-0 shrink-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
                 {t("total")}

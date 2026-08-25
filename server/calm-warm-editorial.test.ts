@@ -183,6 +183,8 @@ describe("calm warm editorial UI contract", () => {
 
     expect(translations).toContain("faqDeliveryQuestion: \"落單後幾耐收貨？\"");
     expect(translations).toContain("現貨商品：我們一般會在訂單確認並完成付款後 1-2 個工作天內由香港倉庫安排寄出");
+    expect(translations).toContain('shippingNote: "1–2 個工作天寄出・整體 5–7 個工作天收到"');
+    expect(translations).toContain('shippingNote: "Dispatched in 1–2 working days・received within 5–7 working days overall"');
     expect(translations).toContain("顧客通常會於下單後 5-7 個工作天內收到商品");
     expect(translations).toContain("八號或以上熱帶氣旋警告信號（掛風球）或黑色暴雨警告");
     expect(translations).toContain("本地物流及順豐派送服務將會暫停");
@@ -237,9 +239,9 @@ describe("calm warm editorial UI contract", () => {
   it("keeps the mobile phone field compact and readable", () => {
     const phoneForm = source("src/components/checkout/ShippingContactForm.tsx");
 
-    expect(phoneForm).toContain("grid-cols-[minmax(0,0.95fr)_minmax(0,2.05fr)]");
+    expect(phoneForm).toContain("grid-cols-[minmax(7.25rem,0.9fr)_minmax(0,2.1fr)]");
     expect(phoneForm).toContain("w-full min-w-0 max-w-none shrink rounded-xl");
-    expect(phoneForm).toContain("placeholder:text-[0.78rem]");
+    expect(phoneForm).toContain("placeholder:text-[0.7rem]");
     expect(phoneForm).toContain("sm:flex-1 sm:px-3.5");
     expect(phoneForm).toContain('id="shipping-phone-country"');
     expect(phoneForm).toContain('id="shipping-tel"');
@@ -357,12 +359,15 @@ describe("calm warm editorial UI contract", () => {
     expect(paymentMethods).toContain("min-h-[3.75rem]");
     expect(paymentMethods).toContain("bg-[color:var(--accent)]/[0.06]");
     expect(paymentMethods).toContain('id === "mastercard"');
-    expect(paymentMethods).toContain('!h-7 !max-h-7 sm:!h-8 sm:!max-h-8');
-    expect(footer).toContain('MastercardLogo className="!h-7 !w-auto sm:!h-8"');
+    expect(paymentMethods).toContain('!h-8 !max-h-8 sm:!h-9 sm:!max-h-9');
+    expect(footer).toContain('MastercardLogo className="!h-8 !w-auto sm:!h-9"');
     expect(paymentMethods).toContain('role="radiogroup"');
     expect(paymentMethods).toContain('role="radio"');
     expect(checkout).toContain('selectedMethod === "visa" || selectedMethod === "mastercard"');
     expect(checkout).toContain('? "card"');
+    expect(checkout).toContain("pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]");
+    expect(checkout).toContain("pt-3");
+    expect(checkout).toContain("items-center gap-3 px-4");
     expect(checkout).not.toContain("AsianWalletPayForm");
     expect(checkout).not.toContain("wechatpay");
     expect(footer).not.toContain("WeChatPayLogo");

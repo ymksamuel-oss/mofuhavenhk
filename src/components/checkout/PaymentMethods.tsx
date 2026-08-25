@@ -100,13 +100,13 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                 }`}
               >
                 <span
-                  className="flex h-6 w-full min-w-0 items-center justify-center overflow-visible sm:h-7"
+                  className="flex h-8 w-full min-w-0 items-center justify-center overflow-visible sm:h-9"
                   aria-hidden="true"
                 >
                   <Icon
                     className={`${
                       id === "mastercard"
-                        ? "!h-7 !max-h-7 sm:!h-8 sm:!max-h-8"
+                        ? "!h-8 !max-h-8 sm:!h-9 sm:!max-h-9"
                         : "!h-5 !max-h-5 sm:!h-6 sm:!max-h-6"
                     } !w-auto shrink-0 object-contain`}
                   />
