@@ -390,7 +390,8 @@ function stripeProductToCatalogProduct(
     ["availability_display_en", "stock_status_en"],
     "",
   );
-  const originalPrice = compareAtPriceFromMetadata(metadata, priceRecord.amount);
+  const defaultVariantOriginalPrice = variants?.find((variant) => variant.priceId === priceRecord.id)?.originalPrice;
+  const originalPrice = defaultVariantOriginalPrice ?? compareAtPriceFromMetadata(metadata, priceRecord.amount);
   const catalogProduct: Product = {
     id,
     priceId: priceRecord.id,
