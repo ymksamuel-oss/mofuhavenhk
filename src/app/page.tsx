@@ -87,9 +87,9 @@ export default function HomePage() {
                   <CategoryNavLink
                     key={href}
                     href={href}
-                    className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
+                    className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#d4b899] bg-[#f3e3d0] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] shadow-[0_8px_14px_-12px_rgba(75,54,33,0.7)] transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3] hover:shadow-[0_12px_18px_-13px_rgba(75,54,33,0.72)] active:translate-y-0 active:bg-[#e4c5a3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8a6248] focus-visible:ring-offset-2 sm:min-h-16 sm:px-2 sm:text-xs"
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                    <Icon className="h-4 w-4 shrink-0 text-[#6a4938] transition-transform duration-200 group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
                     <span>{t(labelKey)}</span>
                   </CategoryNavLink>
                 ))}
@@ -105,9 +105,9 @@ export default function HomePage() {
                 <CategoryNavLink
                   key={href}
                   href={href}
-                  className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
+                  className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#d4b899] bg-[#f3e3d0] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] shadow-[0_8px_14px_-12px_rgba(75,54,33,0.7)] transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3] hover:shadow-[0_12px_18px_-13px_rgba(75,54,33,0.72)] active:translate-y-0 active:bg-[#e4c5a3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8a6248] focus-visible:ring-offset-2 sm:min-h-16 sm:px-2 sm:text-xs"
                 >
-                  <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                  <Icon className="h-4 w-4 shrink-0 text-[#6a4938] transition-transform duration-200 group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
                   <span>{t(labelKey)}</span>
                 </CategoryNavLink>
               ))}

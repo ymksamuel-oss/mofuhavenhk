@@ -45,9 +45,11 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('href: "/menu#products"');
     expect(page).toContain('Icon: BagIcon');
     expect(page).toContain('min-h-14 flex-col items-center justify-center');
-    expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
-    expect(page).toContain('hover:border-[#d7b893] hover:bg-white');
-    expect(page).toContain('h-4 w-4 shrink-0 text-[#7a5949]');
+    expect(page).toContain('rounded-xl border border-[#d4b899] bg-[#f3e3d0]');
+    expect(page).toContain('hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3]');
+    expect(page).toContain('active:translate-y-0 active:bg-[#e4c5a3]');
+    expect(page).toContain('focus-visible:ring-2 focus-visible:ring-[#8a6248]');
+    expect(page).toContain('h-4 w-4 shrink-0 text-[#6a4938]');
     expect(page.match(/grid grid-cols-4 gap-2 sm:gap-3/g)?.length).toBe(2);
     expect(page.indexOf('grid grid-cols-4 gap-2 sm:gap-3')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
