@@ -16,7 +16,7 @@ describe("calm warm editorial UI contract", () => {
     expect(css).toContain("--accent: #6d4c3d");
     expect(css).toContain("--accent-hover: #54392d");
     expect(css).toContain("--accent-soft: #f3e8e0");
-    expect(css).toContain(".product-image-fusion");
+    expect(css).not.toContain(".product-image-fusion");
     expect(css).toContain("--ink: #2b2623");
   });
 

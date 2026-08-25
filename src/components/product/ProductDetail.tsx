@@ -31,7 +31,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
     : null;
 
   return (
-    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(8rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
+    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(9.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted)]">
         <CategoryNavLink
           href="/menu"
@@ -75,12 +75,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {product.name[locale]}
           </h1>
 
-          <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-2xl bg-[color:var(--accent-soft)] px-4 py-3.5">
-            <span className="text-4xl font-extrabold leading-none tabular-nums text-[color:var(--accent)] sm:text-[2.65rem]">
+          <div className="mt-5 flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">
+            <span className="whitespace-nowrap text-4xl font-extrabold leading-none tabular-nums text-[color:var(--accent)] sm:text-[2.65rem]">
               {formatMoney(product.price, locale)}
             </span>
             {product.originalPrice ? (
-              <span className="text-base tabular-nums text-[color:var(--muted)] line-through">
+              <span className="whitespace-nowrap text-base tabular-nums text-[color:var(--muted)] line-through">
                 {formatMoney(product.originalPrice, locale)}
               </span>
             ) : null}

@@ -141,18 +141,6 @@ h3 {
   background-color: var(--background) !important;
 }
 
-/* Catalog images often arrive with a flat white source background. Multiply
-   blending lets that white visually inherit the milk-tea surface while keeping
-   the real product pixels, labels and proportions untouched. */
-.product-image-fusion {
-  mix-blend-mode: multiply;
-}
-
-.product-image-surface {
-  isolation: isolate;
-  background-color: var(--product-image-surface);
-}
-
 /* Checkout-only typography polish for clearer hierarchy. */
 .checkout-shell h1,
 .checkout-shell h2 {
