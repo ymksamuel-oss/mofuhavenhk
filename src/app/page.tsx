@@ -35,8 +35,8 @@ const quickCategories = [
 export default function HomePage() {
   const { t } = useI18n();
   const [isDesktopHero, setIsDesktopHero] = useState(false);
-  const [exploreAnimal, setExploreAnimal] = useState<AnimalTab>("cats");
-  const [dogCoatFilter, setDogCoatFilter] = useState<DogCoatFilter>("all");
+  const exploreAnimal: AnimalTab = "cats";
+  const dogCoatFilter: DogCoatFilter = "all";
 
   useEffect(() => {
     const desktopQuery = window.matchMedia("(min-width: 1024px)");
@@ -48,13 +48,13 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="bg-[color:var(--background)] px-4 pb-6 pt-4 sm:px-8 sm:pb-10 sm:pt-7 lg:px-12 lg:pb-14">
+      <section className="bg-[#f8f0e8] px-4 pb-6 pt-4 sm:px-8 sm:pb-10 sm:pt-7 lg:bg-[color:var(--background)] lg:px-12 lg:pb-14">
         <div className="mx-auto max-w-7xl">
           <div className="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
             <div className="order-2 px-2 sm:px-5 lg:order-1 lg:px-0">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#8a6c55] sm:text-xs">Mofu Haven · Pet essentials</p>
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a6c55] sm:text-xs">{t("homeHeroEyebrow")}</p>
               <BrandLogo title="Mofu Haven" className="mt-4 h-12 sm:h-16 lg:h-20" />
-              <h1 className="mt-6 max-w-xl font-[family-name:var(--font-display)] text-[2.65rem] font-semibold leading-[0.98] tracking-[-0.045em] text-[#4b3621] sm:text-5xl lg:mt-8 lg:text-[4.5rem]">
+              <h1 className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-[2.35rem] font-semibold leading-[1.08] tracking-[-0.045em] text-[#4b3621] sm:text-5xl lg:mt-8 lg:text-[4.5rem]">
                 {t("homeHeadline")}
               </h1>
               <p className="mt-5 max-w-md text-base leading-8 text-[#725c45] sm:text-lg lg:text-xl lg:leading-9">
@@ -62,7 +62,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="order-1 relative h-[15rem] overflow-hidden rounded-[1.75rem] border border-[#d7b893]/55 bg-[#ead7bf] shadow-[0_24px_54px_-38px_rgba(75,54,33,0.58)] sm:h-[24rem] lg:order-2 lg:h-[31rem]">
+            <div className="order-1 relative block h-[12.5rem] overflow-hidden rounded-[1.35rem] border border-[#c9aa8c]/70 bg-[#ead7bf] shadow-[0_20px_42px_-30px_rgba(75,54,33,0.58)] sm:h-[20rem] lg:order-2 lg:h-[31rem]">
               {isDesktopHero ? (
                 <Image
                   src="/images/hero-sleeping-shiba-taupe.jpg"
@@ -83,7 +83,7 @@ export default function HomePage() {
                 />
               )}
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-white/35 bg-[#4b3621]/72 px-4 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[#fffaf4] backdrop-blur-sm sm:px-6 sm:py-4 sm:text-xs">
-                <span>Japanese pet essentials</span>
+                <span>{t("homeHeroStamp")}</span>
                 <span aria-hidden>01 / 01</span>
               </div>
             </div>
@@ -92,17 +92,17 @@ export default function HomePage() {
           <div className="mt-10 border-t border-[#4b3621]/20 pt-5 sm:mt-14 sm:pt-7">
             <div className="mb-4 flex items-end justify-between gap-4 sm:mb-5">
               <div>
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#8a6c55] sm:text-xs">Pet type / care need</p>
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#8a6c55] sm:text-xs">{t("homeCategoryEyebrow")}</p>
                 <h2 className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold tracking-[-0.02em] text-[#4b3621] sm:text-2xl">{t("categoryGridTitle")}</h2>
               </div>
-              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#8a6c55]">INDEX / 08</span>
+              <span className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[#8a6c55]">{t("homeCategoryIndex")}</span>
             </div>
             <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:gap-x-4 sm:gap-y-3 lg:grid-cols-4">
               {quickCategories.map(({ href, labelKey, Icon }, index) => (
                 <CategoryNavLink
                   key={href}
                   href={href}
-                  className="group flex min-h-14 items-center gap-2 border-y border-[#4b3621]/18 px-2 py-3 text-left text-xs font-semibold text-[#4b3621] transition hover:border-[#8a6c55] hover:bg-[#f5ebe6]/70 sm:min-h-16 sm:gap-3 sm:px-3 sm:text-sm"
+                  className="group flex min-h-14 items-center gap-2 rounded-xl border border-[#d7b893]/65 bg-[#fdf8f3]/90 px-2.5 py-3 text-left text-xs font-semibold text-[#4b3621] shadow-[0_8px_18px_-16px_rgba(75,54,33,0.55)] transition hover:border-[#8a6c55] hover:bg-[#fffaf5] sm:min-h-16 sm:gap-3 sm:px-3 sm:text-sm"
                 >
                   <span className="w-5 shrink-0 text-[0.62rem] font-medium text-[#9a806e]">{String(index + 1).padStart(2, "0")}</span>
                   <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
