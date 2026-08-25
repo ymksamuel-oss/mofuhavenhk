@@ -9,7 +9,6 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
-import mobileHeroImage from "@/assets/hero-mobile-clean-pet-lifestyle.jpg";
 import { ProductSearch } from "@/components/ProductSearch";
 import {
   BagIcon,
@@ -64,7 +63,7 @@ export default function HomePage() {
               />
             ) : (
               <Image
-                src={mobileHeroImage}
+                src="/images/hero-mobile-mofu-haven.jpg"
                 alt={t("homeMobileHeroImageAlt")}
                 fill
                 priority
