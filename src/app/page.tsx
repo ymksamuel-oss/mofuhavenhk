@@ -107,7 +107,6 @@ export default function HomePage() {
                   <span className="w-5 shrink-0 text-[0.62rem] font-medium text-[#9a806e]">{String(index + 1).padStart(2, "0")}</span>
                   <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
                   <span className="min-w-0 leading-tight">{t(labelKey)}</span>
-                  <span className="ml-auto text-[#9a806e] transition-transform group-hover:translate-x-1" aria-hidden>↗</span>
                 </CategoryNavLink>
               ))}
             </div>
