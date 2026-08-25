@@ -1,0 +1,92 @@
+{
+  "source_mapping": "new_snacks_image_mapping.json",
+  "source_order_document": "/home/ubuntu/upload/MofuHaven_Order_For_Boss.md",
+  "excluded_images": [
+    {
+      "image": "IMG_1521.PNG",
+      "reason": "Not listed in the authoritative 20-product order; never import unless explicitly approved."
+    }
+  ],
+  "images": {
+    "IMG_1513.PNG": {
+      "clean_image": "assets/new-snacks-clean/doggyman-chicken-30g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/ygeKrTbicywDabjh.png"
+    },
+    "IMG_1514.PNG": {
+      "clean_image": "assets/new-snacks-clean/doggyman-chicken-liver-30g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/tQReqiCEagrUnfqn.png"
+    },
+    "IMG_1515.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-digestive-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/KtgEuXYtUbnMicKe.png"
+    },
+    "IMG_1516.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-immunity-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/cJIhDoLqtuPShtBK.png"
+    },
+    "IMG_1517.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-indoor-hairball-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/iuSoVuCtlIsjvaeO.png"
+    },
+    "IMG_1518.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-dental-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/kFUWUoxxSoTKsaZq.png"
+    },
+    "IMG_1519.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-urinary-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/CDYFakizKJDexTNM.png"
+    },
+    "IMG_1520.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-kidney-90g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/xQotwtttLAzQlkuC.png"
+    },
+    "IMG_1522.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-indoor-tuna-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/CGtfYyRTOQgjGSsb.png"
+    },
+    "IMG_1523.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-immunity-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/xNQvZfQRDalMblgm.png"
+    },
+    "IMG_1524.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-digestive-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/irOXerWcHTZSMhWE.png"
+    },
+    "IMG_1525.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-girl-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/XJMVrTeJdtzalMnv.png"
+    },
+    "IMG_1526.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-boy-fish-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/XNPJyZetBCcoNZUJ.png"
+    },
+    "IMG_1527.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-dental-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/GlBeoGjbJTteasHO.png"
+    },
+    "IMG_1528.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-dental-meat-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/XzrEffUGdjplrYNm.png"
+    },
+    "IMG_1529.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-kidney-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/wyoIpjDCBvYtOzPt.png"
+    },
+    "IMG_1530.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-kidney-meat-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/LfpzJFYniwZtNgSW.png"
+    },
+    "IMG_1531.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-hairball-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/ScLMIEroAZdszeSK.png"
+    },
+    "IMG_1532.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-urinary-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/JBTdNBUOIxqnyuao.png"
+    },
+    "IMG_1533.PNG": {
+      "clean_image": "assets/new-snacks-clean/combo-lowfat-neutered-seafood-42g.png",
+      "cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/zkoYBXFbNvGfuXmq.png"
+    }
+  }
+}

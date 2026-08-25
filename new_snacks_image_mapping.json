@@ -1,0 +1,31 @@
+{
+  "source_document": "/home/ubuntu/upload/MofuHaven_Order_For_Boss.md",
+  "excluded_images": [
+    {
+      "file": "IMG_1521.PNG",
+      "reason": "室內貓三文魚混合味 42g 未列於本次二十款訂貨文件，暫不建立或更新 Stripe 商品。"
+    }
+  ],
+  "products": [
+    {"image":"IMG_1513.PNG","name_zh":"DoggyMan 爆漿夾心卷（雞肉）","name_en":"DoggyMan Creamy Chicken Roll Treats","spec":"30g","retail_hkd":45,"compare_at_hkd":55,"category":"dogs","type":"dog_snack"},
+    {"image":"IMG_1514.PNG","name_zh":"DoggyMan 爆漿夾心卷（雞肝）","name_en":"DoggyMan Creamy Chicken Liver Roll Treats","spec":"30g","retail_hkd":45,"compare_at_hkd":55,"category":"dogs","type":"dog_snack"},
+    {"image":"IMG_1515.PNG","name_zh":"COMBO Present 腸道環境維持 三種口味","name_en":"COMBO Present Digestive Support Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1516.PNG","name_zh":"COMBO Present 免疫力維持 三種口味","name_en":"COMBO Present Immune Support Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1517.PNG","name_zh":"COMBO Present 室內貓化毛 三種口味","name_en":"COMBO Present Indoor Cat Hairball Care Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1518.PNG","name_zh":"COMBO Present 潔齒防口臭 三種口味","name_en":"COMBO Present Dental and Breath Care Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1519.PNG","name_zh":"COMBO Present 維護泌尿配方 三種口味","name_en":"COMBO Present Urinary Health Support Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1520.PNG","name_zh":"COMBO Present 維護腎臟配方 三種口味","name_en":"COMBO Present Kidney Health Support Three-Flavour Variety Pack","spec":"90g (3g×30包)","retail_hkd":58,"compare_at_hkd":68,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1522.PNG","name_zh":"COMBO Present 室內貓 金槍魚 小包","name_en":"COMBO Present Indoor Cat Tuna Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1523.PNG","name_zh":"COMBO Present 免疫力維持 海鮮 小包","name_en":"COMBO Present Immune Support Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1524.PNG","name_zh":"COMBO Present 腸道環境維持 海鮮 小包","name_en":"COMBO Present Digestive Support Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1525.PNG","name_zh":"COMBO Present 女生喜歡口味 混合海鮮 小包","name_en":"COMBO Present Girl-Friendly Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1526.PNG","name_zh":"COMBO Present 男生喜歡的口味 魚味 小包","name_en":"COMBO Present Boy-Friendly Fish Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1527.PNG","name_zh":"COMBO Present 潔齒防口臭 混合海鮮 小包","name_en":"COMBO Present Dental and Breath Care Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1528.PNG","name_zh":"COMBO Present 潔齒防口臭 混合肉味 小包","name_en":"COMBO Present Dental and Breath Care Meat Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1529.PNG","name_zh":"COMBO Present 維護腎臟 混合海鮮 小包","name_en":"COMBO Present Kidney Health Support Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1530.PNG","name_zh":"COMBO Present 維護腎臟 混合肉味 小包","name_en":"COMBO Present Kidney Health Support Meat Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1531.PNG","name_zh":"COMBO Present 化毛配方 混合海鮮 小包","name_en":"COMBO Present Hairball Care Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1532.PNG","name_zh":"COMBO Present 維護泌尿 混合海鮮 小包","name_en":"COMBO Present Urinary Health Support Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"},
+    {"image":"IMG_1533.PNG","name_zh":"COMBO Present 低脂絕育貓 混合海鮮 小包","name_en":"COMBO Present Low-Fat Neutered Cat Seafood Mini Pack","spec":"42g (3g×14包)","retail_hkd":32,"compare_at_hkd":39,"category":"cats","type":"cat_snack"}
+  ]
+}
