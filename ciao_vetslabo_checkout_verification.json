@@ -1,0 +1,17 @@
+{
+  "session_id": "cs_live_a162ujAB8enl0qZ8mRZmmzig4HLTrFnhNTfSgG0pcTT2WxwcGN2Enalmt4",
+  "expected_product_id": "prod_V8fduDqyGKiazf",
+  "expected_price_id": "price_1U8OIeRyM6dRKLtZNHUpjECK",
+  "expected_line_amount_hkd": 16.0,
+  "expected_total_hkd": 41.0,
+  "checks": {
+    "unpaid_before_expire": true,
+    "product_id": true,
+    "price_id": true,
+    "line_amount": true,
+    "quantity": true,
+    "session_total": true,
+    "expired": true
+  },
+  "ok": true
+}
