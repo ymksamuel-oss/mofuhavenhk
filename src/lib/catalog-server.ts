@@ -321,6 +321,18 @@ function stripeProductToCatalogProduct(
   const localizedDescription = metadataDescription ?? (generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
     ? { zh: generatedTranslation.description_zh, en: generatedTranslation.description_en }
     : undefined);
+  const localizedTexture = bilingualMetadataValue(
+    metadata,
+    ["texture_zh", "texture.zh", "mouthfeel_zh", "口感", "口感特點"],
+    ["texture_en", "texture.en", "mouthfeel_en", "口感英文"],
+    "",
+  );
+  const localizedAvailability = bilingualMetadataValue(
+    metadata,
+    ["availability_display_zh", "stock_status_zh", "規格狀態"],
+    ["availability_display_en", "stock_status_en"],
+    "",
+  );
   const originalPrice = compareAtPriceFromMetadata(metadata, priceRecord.amount);
   const catalogProduct: Product = {
     id,
@@ -344,6 +356,8 @@ function stripeProductToCatalogProduct(
     ...(metadata.brand ? { brand: metadata.brand } : {}),
     ...(metadata.vendor ? { vendor: metadata.vendor } : {}),
     ...(localizedDescription ? { description: localizedDescription } : {}),
+    ...(localizedTexture ? { texture: localizedTexture } : {}),
+    ...(localizedAvailability ? { availability: localizedAvailability } : {}),
     ...(parseBilingualSpecs(metadata) ? { specs: parseBilingualSpecs(metadata) } : {}),
   };
 

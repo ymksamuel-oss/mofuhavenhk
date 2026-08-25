@@ -154,6 +154,10 @@ export type Product = {
   snackSeries?: CatSnackSeries;
   icon: CategoryIconName;
   description?: { zh: string; en: string };
+  /** Optional serving texture and bite notes sourced from verified product metadata. */
+  texture?: { zh: string; en: string };
+  /** Optional live import status / package status sourced from verified product metadata. */
+  availability?: { zh: string; en: string };
   specs?: { zh: string; en: string }[];
   tags?: string[];
   productType?: string;

@@ -104,6 +104,31 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
+          {product.texture || product.availability ? (
+            <dl className="mt-6 grid gap-4 border-y border-[color:var(--line)] py-4 sm:grid-cols-2">
+              {product.texture ? (
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
+                    {t("productTextureTitle")}
+                  </dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
+                    {product.texture[locale] || product.texture.zh || product.texture.en}
+                  </dd>
+                </div>
+              ) : null}
+              {product.availability ? (
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
+                    {t("productAvailabilityTitle")}
+                  </dt>
+                  <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
+                    {product.availability[locale] || product.availability.zh || product.availability.en}
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
+
           <div className="mt-6">
             <div className="flex items-end justify-between gap-3">
               <h2 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]">
