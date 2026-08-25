@@ -1,0 +1,108 @@
+{
+  "expected_product_count": 5,
+  "verified_product_count": 5,
+  "all_passed": true,
+  "errors": [],
+  "products": [
+    {
+      "sku": "COMBO-DOG-720-01",
+      "stripe_product_id": "prod_V8kNSV91CKgxb8",
+      "stripe_price_id": "price_1U8SsmRyM6dRKLtZ3iaLqEV5",
+      "checks": {
+        "product_active": true,
+        "exact_bilingual_name": true,
+        "category": true,
+        "subcategory": true,
+        "product_type": true,
+        "in_stock": true,
+        "clean_image": true,
+        "image_pending": true,
+        "default_price": true,
+        "price_active": true,
+        "price_hkd_24990": true,
+        "compare_at_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "sku": "COMBO-DOG-720-02",
+      "stripe_product_id": "prod_V8kNDHKt8kCFkT",
+      "stripe_price_id": "price_1U8SsoRyM6dRKLtZv82WvY8y",
+      "checks": {
+        "product_active": true,
+        "exact_bilingual_name": true,
+        "category": true,
+        "subcategory": true,
+        "product_type": true,
+        "in_stock": true,
+        "clean_image": true,
+        "image_pending": true,
+        "default_price": true,
+        "price_active": true,
+        "price_hkd_24990": true,
+        "compare_at_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "sku": "COMBO-DOG-720-03",
+      "stripe_product_id": "prod_V8kNDRrV7QQWc8",
+      "stripe_price_id": "price_1U8SspRyM6dRKLtZdI80zla7",
+      "checks": {
+        "product_active": true,
+        "exact_bilingual_name": true,
+        "category": true,
+        "subcategory": true,
+        "product_type": true,
+        "in_stock": true,
+        "clean_image": true,
+        "image_pending": true,
+        "default_price": true,
+        "price_active": true,
+        "price_hkd_24990": true,
+        "compare_at_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "sku": "COMBO-DOG-720-04",
+      "stripe_product_id": "prod_V8kNXGrzdUVGWS",
+      "stripe_price_id": "price_1U8SsqRyM6dRKLtZP2yQef0B",
+      "checks": {
+        "product_active": true,
+        "exact_bilingual_name": true,
+        "category": true,
+        "subcategory": true,
+        "product_type": true,
+        "in_stock": true,
+        "clean_image": true,
+        "image_pending": true,
+        "default_price": true,
+        "price_active": true,
+        "price_hkd_24990": true,
+        "compare_at_disabled": true
+      },
+      "passed": true
+    },
+    {
+      "sku": "COMBO-DOG-720-05",
+      "stripe_product_id": "prod_V8kNg5nRdCoND1",
+      "stripe_price_id": "price_1U8SsrRyM6dRKLtZoKEOSOWV",
+      "checks": {
+        "product_active": true,
+        "exact_bilingual_name": true,
+        "category": true,
+        "subcategory": true,
+        "product_type": true,
+        "in_stock": true,
+        "clean_image": true,
+        "image_pending": true,
+        "default_price": true,
+        "price_active": true,
+        "price_hkd_24990": true,
+        "compare_at_disabled": true
+      },
+      "passed": true
+    }
+  ]
+}

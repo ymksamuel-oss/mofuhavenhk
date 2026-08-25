@@ -1,0 +1,18 @@
+{
+  "session_id": "cs_live_a1FQ6lL49YT6xiijOdZg5UCZfRnV8hUXFs9PeD48iN2ffdGHgNjwPPtpi8",
+  "checks_before_expire": {
+    "unpaid": true,
+    "open": true,
+    "currency_hkd": true,
+    "exact_price_id": true,
+    "exact_product_id": true,
+    "item_amount_24990": true,
+    "server_total_matches": true
+  },
+  "item_amount_hkd": 249.9,
+  "shipping_amount_hkd": 25.0,
+  "total_amount_hkd": 274.9,
+  "payment_status_before_expire": "unpaid",
+  "status_after_expire": "expired",
+  "payment_status_after_expire": "unpaid"
+}
