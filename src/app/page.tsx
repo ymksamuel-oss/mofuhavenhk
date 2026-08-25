@@ -97,6 +97,21 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <section aria-labelledby="home-slogan-title" className="mx-auto mt-5 max-w-7xl border-y border-[#cbb09a]/50 px-2 py-7 text-center sm:mt-7 sm:px-8 sm:py-10 lg:mt-10 lg:px-14 lg:py-12 lg:text-left">
+          <div className="flex items-center justify-center gap-3 text-[10px] font-semibold tracking-[0.22em] text-[#7a5d4a] lg:justify-start">
+            <span>MOFU HAVEN</span>
+            <span aria-hidden className="h-px w-10 bg-[#b99476]/65" />
+            <span>PET JOURNAL</span>
+          </div>
+          <h2 id="home-slogan-title" className="mt-3 font-serif text-3xl italic tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
+            {t("homeSloganTitle")}
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#725c45] sm:mt-4 sm:text-base sm:leading-8 lg:mx-0 lg:text-lg">
+            {t("homeSloganBody")}
+          </p>
+        </section>
+
         <div className="mx-auto mt-3 max-w-7xl lg:hidden">
           <div className="w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
             <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
