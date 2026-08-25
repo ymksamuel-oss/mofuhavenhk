@@ -357,6 +357,9 @@ describe("calm warm editorial UI contract", () => {
     expect(paymentMethods).not.toContain("grid-cols-2");
     expect(paymentMethods).toContain("min-h-[3.75rem]");
     expect(paymentMethods).toContain("bg-[color:var(--accent)]/[0.06]");
+    expect(paymentMethods).toContain('id === "mastercard"');
+    expect(paymentMethods).toContain('!h-7 !max-h-7 sm:!h-8 sm:!max-h-8');
+    expect(footer).toContain('MastercardLogo className="!h-7 !w-auto sm:!h-8"');
     expect(paymentMethods).toContain('role="radiogroup"');
     expect(paymentMethods).toContain('role="radio"');
     expect(checkout).toContain('selectedMethod === "visa" || selectedMethod === "mastercard"');

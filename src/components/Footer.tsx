@@ -140,7 +140,7 @@ function PaymentMarks() {
         <VisaLogo className="!h-5 !w-auto" />
       </li>
       <li className={markClassName}>
-        <MastercardLogo className="!h-5 !w-auto" />
+        <MastercardLogo className="!h-7 !w-auto sm:!h-8" />
       </li>
     </ul>
   );

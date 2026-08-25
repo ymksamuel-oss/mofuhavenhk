@@ -103,7 +103,13 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
                   className="flex h-6 w-full min-w-0 items-center justify-center overflow-visible sm:h-7"
                   aria-hidden="true"
                 >
-                  <Icon className="!h-5 !max-h-5 !w-auto shrink-0 object-contain sm:!h-6 sm:!max-h-6" />
+                  <Icon
+                    className={`${
+                      id === "mastercard"
+                        ? "!h-7 !max-h-7 sm:!h-8 sm:!max-h-8"
+                        : "!h-5 !max-h-5 sm:!h-6 sm:!max-h-6"
+                    } !w-auto shrink-0 object-contain`}
+                  />
                 </span>
 
                 <span className="sr-only">{t(labelKey)}</span>
