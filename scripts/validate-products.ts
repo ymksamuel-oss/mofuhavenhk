@@ -6,6 +6,7 @@ import {
   type Product,
 } from "@/lib/products";
 import { buildOrderItemsFromLines } from "@/lib/order";
+import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 
 const emptyCatalog = productRecordsToProducts(new Map());
 if (emptyCatalog.length !== 0) {
@@ -84,6 +85,19 @@ assertIds(
   ["dog-snack"],
   "Dog subcategory metadata filter",
 );
+
+if (compareAtPriceFromMetadata({ compare_at_price_hkd: "120" }, 77.1) !== 120) {
+  throw new Error("A valid metadata compare-at price must be available to storefront display");
+}
+if (compareAtPriceFromMetadata({ compare_at_price_hkd: "77.10" }, 77.1) !== undefined) {
+  throw new Error("A compare-at price equal to the current price must remain hidden");
+}
+if (compareAtPriceFromMetadata({ compare_at_price_hkd: "0" }, 77.1) !== undefined) {
+  throw new Error("The unset compare-at sentinel must remain hidden");
+}
+if (compareAtPriceFromMetadata({ compare_at_price_hkd: "invalid" }, 77.1) !== undefined) {
+  throw new Error("Malformed compare-at metadata must remain hidden");
+}
 
 const priceProtectedFixture: Product = {
   id: "prod_retail_test",

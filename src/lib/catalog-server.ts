@@ -21,6 +21,7 @@ import {
   getStripeSecretKey,
 } from "@/lib/stripe";
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
+import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -320,6 +321,7 @@ function stripeProductToCatalogProduct(
   const localizedDescription = metadataDescription ?? (generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
     ? { zh: generatedTranslation.description_zh, en: generatedTranslation.description_en }
     : undefined);
+  const originalPrice = compareAtPriceFromMetadata(metadata, priceRecord.amount);
   const catalogProduct: Product = {
     id,
     priceId: priceRecord.id,
@@ -332,6 +334,7 @@ function stripeProductToCatalogProduct(
     ...(images.length > 0 ? { images } : {}),
     name: localizedName,
     price: priceRecord.amount,
+    ...(originalPrice ? { originalPrice } : {}),
     inStock: inStockFromMetadata(metadata),
     tags: Array.from(new Set([
       ...metadataTags(metadata),

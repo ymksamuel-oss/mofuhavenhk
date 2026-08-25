@@ -84,6 +84,9 @@ export function HomepageProductGrid() {
           <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
             {products.map((product) => {
               const href = productHref(product.id);
+              const discountPercent = product.originalPrice
+                ? Math.round((1 - product.price / product.originalPrice) * 100)
+                : null;
               return (
                 <li
                   key={product.id}
@@ -100,6 +103,11 @@ export function HomepageProductGrid() {
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />
+                    {discountPercent ? (
+                      <span className="pointer-events-none absolute left-2.5 top-2.5 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        -{discountPercent}%
+                      </span>
+                    ) : null}
                   </CategoryNavLink>
                   <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                     <CategoryNavLink
@@ -113,9 +121,16 @@ export function HomepageProductGrid() {
                         {product.description[locale]}
                       </p>
                     ) : null}
-                    <p className="mt-auto pt-1 text-lg font-extrabold tabular-nums text-[color:var(--accent)]">
-                      {formatMoney(product.price, locale)}
-                    </p>
+                    <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
+                      <p className="text-lg font-extrabold tabular-nums text-[color:var(--accent)]">
+                        {formatMoney(product.price, locale)}
+                      </p>
+                      {product.originalPrice ? (
+                        <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
+                          {formatMoney(product.originalPrice, locale)}
+                        </p>
+                      ) : null}
+                    </div>
                     <AddToCartButton productId={product.id} size="card" />
                   </div>
                 </li>
