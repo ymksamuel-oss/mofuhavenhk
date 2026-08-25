@@ -75,7 +75,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {product.name[locale]}
           </h1>
 
-          <div className="mt-5 flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">
+          <div className="mt-5 flex w-full min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">
             <span className="whitespace-nowrap text-4xl font-extrabold leading-none tabular-nums text-[color:var(--accent)] sm:text-[2.65rem]">
               {formatMoney(product.price, locale)}
             </span>
