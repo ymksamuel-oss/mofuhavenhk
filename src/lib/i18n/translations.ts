@@ -75,6 +75,9 @@ export const translations = {
     placeOrder: "確認付款",
     secureNote:
       "付款經 Stripe 加密處理，系統成功後會自動經 WhatsApp 通知店主。",
+    stripeMethodsPrimary: "付款由 Stripe 安全處理。",
+    stripeMethodsEligibility:
+      "Google Pay、PayMe 及 AlipayHK 是否顯示，取決於付款組態、瀏覽器、裝置、地區及 HKD 資格；內地版 Alipay 不會提供。",
     stripeMethodsNote:
       "付款會在 Stripe Checkout 安全完成。Google Pay、PayMe 及 AlipayHK 是否顯示，取決於 Stripe Payment Method Configuration、瀏覽器、裝置、地區及 HKD 資格；內地版 Alipay 不會提供。",
     walletMethodsNote:
@@ -119,7 +122,7 @@ export const translations = {
     stripeWalletPayHint: "Stripe 只會在目前瀏覽器及裝置符合資格時顯示可用錢包。",
     whatsappOrderTitle: "手動 WhatsApp 補發（後備）",
     whatsappOrderHint:
-      "系統會在確認付款後由伺服器自動 WhatsApp 通知店主。若自動通知失敗，可用此按鈕開啟與店主的對話並預填完整訂單。",
+      "系統會在確認付款後由伺服器自動 WhatsApp 通知店主。此後備入口只在自動通知失敗時使用，會開啟與店主的對話並預填完整訂單。",
     whatsappOrderCta: "手動開啟店主 WhatsApp",
     orderNumber: "訂單編號",
     whatsappGreeting: "你好，我想落單，訂單編號：",
@@ -513,6 +516,9 @@ export const translations = {
     placeOrder: "Pay now",
     secureNote:
       "Payments are encrypted by Stripe; the shop is notified on WhatsApp automatically after success.",
+    stripeMethodsPrimary: "Payments are securely handled by Stripe.",
+    stripeMethodsEligibility:
+      "Google Pay, PayMe and AlipayHK availability depends on the payment configuration, browser, device, country and HKD eligibility; Mainland Alipay is not offered.",
     stripeMethodsNote:
       "Payment is completed securely on Stripe Checkout. Google Pay, PayMe and AlipayHK visibility depends on the Stripe Payment Method Configuration and eligibility for the browser, device, country and HKD currency; Mainland Alipay is not offered.",
     walletMethodsNote:
@@ -557,7 +563,7 @@ export const translations = {
     stripeWalletPayHint: "Stripe only shows wallets supported by the current browser and device.",
     whatsappOrderTitle: "Manual WhatsApp backup",
     whatsappOrderHint:
-      "After you confirm payment, the server notifies the shop on WhatsApp automatically. Use this only if auto-notify failed — it opens a chat with the shop number and your full order prefilled.",
+      "After you confirm payment, the server notifies the shop on WhatsApp automatically. Use this backup only if auto-notify failed; it opens a chat with the shop number and your full order prefilled.",
     whatsappOrderCta: "Open shop WhatsApp manually",
     orderNumber: "Order number",
     whatsappGreeting: "Hi, I'd like to place an order. Order number:",

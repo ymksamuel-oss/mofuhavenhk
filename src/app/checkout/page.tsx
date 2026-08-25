@@ -12,6 +12,7 @@ import {
 import {
   EMPTY_SHIPPING_CONTACT,
   formatPhoneForDisplay,
+  getPhoneValidationError,
   ShippingContactForm,
   type ShippingContact,
 } from "@/components/checkout/ShippingContactForm";
@@ -74,6 +75,7 @@ function CheckoutContent() {
   const [shippingContact, setShippingContact] = useState<ShippingContact>(
     EMPTY_SHIPPING_CONTACT,
   );
+  const [showContactErrors, setShowContactErrors] = useState(false);
   const [receiptHref, setReceiptHref] = useState<string | null>(null);
   const preparingRef = useRef(false);
 
@@ -293,6 +295,31 @@ function CheckoutContent() {
     setPayError(message);
   }, []);
 
+  const validateShippingContact = useCallback(() => {
+    const firstInvalid = !shippingContact.name.trim()
+      ? "shipping-name"
+      : getPhoneValidationError(
+            shippingContact.phone,
+            shippingContact.phoneCountryCode,
+            locale,
+          )
+        ? "shipping-tel"
+        : !shippingContact.district
+          ? "shipping-district"
+          : !shippingContact.address.trim()
+            ? "shipping-address"
+            : null;
+
+    setShowContactErrors(Boolean(firstInvalid));
+    if (firstInvalid) {
+      window.requestAnimationFrame(() => {
+        document.getElementById(firstInvalid)?.focus();
+      });
+      return false;
+    }
+    return true;
+  }, [locale, shippingContact]);
+
   const startStripePayment = useCallback(async () => {
     if (!stripeConfigured || !publishableKey) {
       setPhase("stripe_missing");
@@ -301,6 +328,7 @@ function CheckoutContent() {
     if (preparingRef.current) return;
     if (phase === "paid" || phase === "paid_notify_failed") return;
     if (items.length === 0) return;
+    if (!validateShippingContact()) return;
 
     preparingRef.current = true;
     setPayError("");
@@ -426,6 +454,7 @@ function CheckoutContent() {
     t,
     shippingHkd,
     liveTotalHkd,
+    validateShippingContact,
   ]);
 
   const showStripeForm =
@@ -470,6 +499,7 @@ function CheckoutContent() {
               value={shippingContact}
               onChange={setShippingContact}
               disabled={qtyLocked}
+              showErrors={showContactErrors}
             />
           </div>
         </div>

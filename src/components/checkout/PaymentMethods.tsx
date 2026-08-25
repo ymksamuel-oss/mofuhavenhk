@@ -127,9 +127,10 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
           );
         })}
       </ul>
-      <p className="text-xs leading-relaxed text-[color:var(--muted)]">
-        {t("stripeMethodsNote")}
-      </p>
+      <div className="space-y-1 text-xs leading-relaxed text-[color:var(--muted)]">
+        <p className="font-medium text-[color:var(--ink)]">{t("stripeMethodsPrimary")}</p>
+        <p>{t("stripeMethodsEligibility")}</p>
+      </div>
     </section>
   );
 }
