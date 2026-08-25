@@ -35,7 +35,6 @@ const quickCategories = [
 export default function HomePage() {
   const { t } = useI18n();
   const [isDesktopHero, setIsDesktopHero] = useState(false);
-  const [isExploreOpen, setIsExploreOpen] = useState(false);
   const [exploreAnimal, setExploreAnimal] = useState<AnimalTab>("cats");
   const [dogCoatFilter, setDogCoatFilter] = useState<DogCoatFilter>("all");
 
@@ -81,44 +80,7 @@ export default function HomePage() {
             <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
               {t("homeSub")}
             </p>
-            <button
-              type="button"
-              onClick={() => setIsExploreOpen((open) => !open)}
-              aria-expanded={isExploreOpen}
-              className="mt-3 inline-flex min-h-10 items-center justify-center rounded-xl bg-[#4b3621] px-5 py-2 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:-translate-y-0.5 hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ead7bf] sm:mt-5 sm:min-h-12 sm:px-7 sm:py-3 sm:text-base"
-            >
-              {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
-            </button>
-            {isExploreOpen && (
-              <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
-                <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
-                <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                  {quickCategories.map(({ href, labelKey, Icon }) => (
-                    <CategoryNavLink
-                      key={href}
-                      href={href}
-                      className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
-                    >
-                      <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
-                      <span>{t(labelKey)}</span>
-                    </CategoryNavLink>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="mx-auto mt-3 max-w-7xl lg:hidden">
-          <button
-            type="button"
-            onClick={() => setIsExploreOpen((open) => !open)}
-            aria-expanded={isExploreOpen}
-            className="flex min-h-12 w-full items-center justify-center rounded-xl bg-[#4b3621] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_22px_-13px_rgba(75,54,33,0.72)] transition hover:bg-[#332417] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4b3621] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
-          >
-            {t("homeCta")} <span aria-hidden className="ml-2">{isExploreOpen ? "↑" : "→"}</span>
-          </button>
-          {isExploreOpen && (
-            <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
+            <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:mt-5 sm:p-4">
               <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
               <div className="grid grid-cols-4 gap-2 sm:gap-3">
                 {quickCategories.map(({ href, labelKey, Icon }) => (
@@ -133,7 +95,24 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-          )}
+          </div>
+        </div>
+        <div className="mx-auto mt-3 max-w-7xl lg:hidden">
+          <div className="w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
+            <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
+            <div className="grid grid-cols-4 gap-2 sm:gap-3">
+              {quickCategories.map(({ href, labelKey, Icon }) => (
+                <CategoryNavLink
+                  key={href}
+                  href={href}
+                  className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#eadfd6] bg-[#fdfbf9] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] transition hover:border-[#d7b893] hover:bg-white sm:min-h-16 sm:px-2 sm:text-xs"
+                >
+                  <Icon className="h-4 w-4 shrink-0 text-[#7a5949] transition-transform group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
+                  <span>{t(labelKey)}</span>
+                </CategoryNavLink>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

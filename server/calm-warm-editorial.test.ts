@@ -26,7 +26,6 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('bg-[#ead7bf]');
     expect(page).toContain('<BrandLogo title="Mofu Haven"');
     expect(page).toContain('t("homeHeadline")');
-    expect(page).toContain('t("homeCta")');
     expect(page).toContain('h-[14rem]');
     expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
     expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
@@ -35,13 +34,12 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('object-cover object-center');
     expect(page).toContain('origin-left scale-[1.5] object-cover object-[0%_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
-    expect(page).toContain('min-h-10');
     expect(page).toContain("<HomepageProductGrid />");
     expect(page).toContain('grid grid-cols-4 gap-2 sm:gap-3');
-    expect(page).toContain('onClick={() => setIsExploreOpen((open) => !open)}');
+    expect(page).not.toContain('setIsExploreOpen');
     expect(page).not.toContain('<ExplorePetControls');
     expect(page).toContain('t("categoryGridTitle")');
-    expect(page).toContain('aria-expanded={isExploreOpen}');
+    expect(page).not.toContain('aria-expanded={isExploreOpen}');
     expect(page).not.toContain('id="pet-breed-guide" className="mt-10"');
     expect(page).toContain('labelKey: "allProducts"');
     expect(page).toContain('href: "/menu#products"');
@@ -50,6 +48,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
     expect(page).toContain('hover:border-[#d7b893] hover:bg-white');
     expect(page).toContain('h-4 w-4 shrink-0 text-[#7a5949]');
+    expect(page.match(/grid grid-cols-4 gap-2 sm:gap-3/g)?.length).toBe(2);
     expect(page.indexOf('grid grid-cols-4 gap-2 sm:gap-3')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
