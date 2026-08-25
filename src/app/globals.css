@@ -2,19 +2,20 @@
 
 :root {
   /* Warm editorial palette — Japanese deep caramel / coffee */
-  --background: #fbf9f6;
-  --surface: #ffffff;
+  --background: #fbf7f5;
+  --surface: #fbf7f5;
+  --product-image-surface: #f6eee8;
   --ink: #2b2623;
   --muted: #756962;
-  --line: #efe8e1;
+  --line: #eaded5;
   --accent: #6d4c3d;
   --accent-strong: #7a4b31;
   --accent-hover: #54392d;
-  --accent-soft: #f5ebe6;
+  --accent-soft: #f3e8e0;
   --hero-deep: #54392d;
   --foreground: var(--ink);
-  --category-bg: #f5ebe6;
-  --category-bg-light: #ffffff;
+  --category-bg: #f3e8e0;
+  --category-bg-light: #fbf7f5;
   --category-bg-hover: #e8d5cc;
   --category-ink: #2b2623;
   --font-body: var(--font-sans);
@@ -48,9 +49,9 @@ body {
   /* Solid cream first so overscroll / gaps never show white */
   background-color: var(--background);
   background-image:
-    radial-gradient(1200px 500px at 10% -10%, #f5ebe6 0%, transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, #ffffff 0%, transparent 50%),
-    linear-gradient(180deg, #fbf9f6 0%, #f8f3ed 45%, #fbf9f6 100%);
+    radial-gradient(1200px 500px at 10% -10%, #f3e8e0 0%, transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, #fbf7f5 0%, transparent 50%),
+    linear-gradient(180deg, #fbf7f5 0%, #f8f1ec 45%, #fbf7f5 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--ink);
@@ -79,10 +80,10 @@ h3 {
 
 @media (max-width: 639px) {
   .mobile-home-soft-surface {
-    background-color: #f8f1e9;
+    background-color: var(--background);
     background-image:
-      radial-gradient(34rem 14rem at 100% 0%, rgba(234, 215, 191, 0.48) 0%, transparent 72%),
-      linear-gradient(180deg, #f8f1e9 0%, #fbf7f2 55%, #f8f3ed 100%);
+      radial-gradient(34rem 14rem at 100% 0%, rgba(234, 215, 191, 0.42) 0%, transparent 72%),
+      linear-gradient(180deg, #fbf7f5 0%, #f9f2ed 55%, #fbf7f5 100%);
   }
 }
 
@@ -106,9 +107,9 @@ h3 {
   background: color-mix(in srgb, var(--accent) 28%, white);
 }
 
-/* Warm, softly-elevated card used across the checkout / payment flow to
-   keep the milk-tea styling consistent between the payment, order-summary
-   and WhatsApp sections. */
+/* Warm, softly-elevated card used across the storefront, product pages and
+   checkout flow. The card now sits on the same pale milk-tea family as the
+   page background, with its border and shadow creating the separation. */
 .milk-tea-card {
   border-radius: 1.35rem;
   border: 1px solid color-mix(in srgb, var(--line) 92%, white);
@@ -116,6 +117,40 @@ h3 {
   box-shadow:
     0 18px 34px -24px rgba(43, 38, 35, 0.28),
     0 2px 6px -2px rgba(43, 38, 35, 0.06);
+}
+
+/* Replace hard-coded white UI surfaces with the shared pale milk-tea surface.
+   Deep brown primary controls are intentionally unaffected. */
+.bg-white {
+  background-color: var(--surface) !important;
+}
+
+.bg-white\/95 {
+  background-color: color-mix(in srgb, var(--surface) 95%, transparent) !important;
+}
+
+.bg-white\/90 {
+  background-color: color-mix(in srgb, var(--surface) 90%, transparent) !important;
+}
+
+.bg-white\/75 {
+  background-color: color-mix(in srgb, var(--surface) 75%, transparent) !important;
+}
+
+.bg-\[\#fbf7f3\] {
+  background-color: var(--background) !important;
+}
+
+/* Catalog images often arrive with a flat white source background. Multiply
+   blending lets that white visually inherit the milk-tea surface while keeping
+   the real product pixels, labels and proportions untouched. */
+.product-image-fusion {
+  mix-blend-mode: multiply;
+}
+
+.product-image-surface {
+  isolation: isolate;
+  background-color: var(--product-image-surface);
 }
 
 /* Checkout-only typography polish for clearer hierarchy. */

@@ -9,12 +9,14 @@ describe("calm warm editorial UI contract", () => {
   it("keeps the deep caramel and warm editorial palette", () => {
     const css = source("src/app/globals.css");
 
-    expect(css).toContain("--background: #fbf9f6");
-    expect(css).toContain("--surface: #ffffff");
-    expect(css).toContain("--line: #efe8e1");
+    expect(css).toContain("--background: #fbf7f5");
+    expect(css).toContain("--surface: #fbf7f5");
+    expect(css).toContain("--product-image-surface: #f6eee8");
+    expect(css).toContain("--line: #eaded5");
     expect(css).toContain("--accent: #6d4c3d");
     expect(css).toContain("--accent-hover: #54392d");
-    expect(css).toContain("--accent-soft: #f5ebe6");
+    expect(css).toContain("--accent-soft: #f3e8e0");
+    expect(css).toContain(".product-image-fusion");
     expect(css).toContain("--ink: #2b2623");
   });
 

@@ -31,7 +31,7 @@ export function ProductImage({
       <div
         role="img"
         aria-label={alt}
-        className={`absolute inset-0 flex h-full w-full items-center justify-center bg-[#edf0ee] text-[#9aa39d] ${className ?? ""}`}
+        className={`absolute inset-0 flex h-full w-full items-center justify-center bg-[color:var(--product-image-surface)] text-[#9a806e] ${className ?? ""}`}
       >
         <svg
           viewBox="0 0 24 24"
@@ -55,7 +55,7 @@ export function ProductImage({
       alt={alt}
       fill
       sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
-      className={className}
+      className={`product-image-fusion ${className ?? ""}`}
       priority={priority}
       onError={useFallback}
     />
