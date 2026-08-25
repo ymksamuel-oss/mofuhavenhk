@@ -242,9 +242,14 @@ export const QUARANTINED_PRODUCT_IDS = new Set<string>([
 ]);
 
 export function isStorefrontReadyProduct(product: Pick<Product, "id" | "image" | "inStock" | "metadata">): boolean {
+  const importedPlaceholder =
+    product.image === "catalog-placeholder" &&
+    product.metadata?.image_pending === "true";
+  const explicitlyVisibleWhenSoldOut = product.metadata?.show_when_out_of_stock === "true";
+
   return (
-    product.inStock !== false &&
-    product.image !== "catalog-placeholder" &&
+    (product.inStock !== false || explicitlyVisibleWhenSoldOut) &&
+    (product.image !== "catalog-placeholder" || importedPlaceholder) &&
     !product.metadata?.demo &&
     !QUARANTINED_PRODUCT_IDS.has(product.id)
   );
@@ -259,7 +264,7 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
-  return product.categorySlug;
+  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {

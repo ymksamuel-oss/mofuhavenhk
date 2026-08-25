@@ -43,7 +43,7 @@ const stripeCategoryFixtures: Product[] = [
   {
     id: "small-pet",
     metadata: { category: "小動物" },
-    categorySlug: "cats",
+    categorySlug: "small-pets",
     image: "https://example.com/small-pet.jpg",
     name: { zh: "小動物用品", en: "Small pet supply" },
     price: 10,

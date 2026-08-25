@@ -214,6 +214,19 @@ function iconForCategory(categorySlug: string): CategoryIconName {
   return CATEGORIES.find(({ slug }) => slug === categorySlug)?.icon ?? "bone";
 }
 
+function inStockFromMetadata(metadata: Record<string, string>): boolean {
+  const availability = [
+    metadata.inventory_status,
+    metadata.stock_status,
+    metadata.availability,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const explicit = metadata.in_stock?.trim().toLowerCase();
+  if (explicit === "false" || explicit === "0" || explicit === "no") return false;
+  return !/缺貨|缺货|out\s*of\s*stock|sold\s*out/i.test(availability);
+}
+
 async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> {
   const products: Stripe.Product[] = [];
   let startingAfter: string | undefined;
@@ -319,7 +332,7 @@ function stripeProductToCatalogProduct(
     ...(images.length > 0 ? { images } : {}),
     name: localizedName,
     price: priceRecord.amount,
-    inStock: true,
+    inStock: inStockFromMetadata(metadata),
     tags: Array.from(new Set([
       ...metadataTags(metadata),
       categorySlug,
