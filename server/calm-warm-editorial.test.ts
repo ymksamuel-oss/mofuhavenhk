@@ -235,6 +235,17 @@ describe("calm warm editorial UI contract", () => {
     expect(faqPage).toContain("<FAQAccordion />");
   });
 
+  it("keeps the mobile phone field compact and readable", () => {
+    const phoneForm = source("src/components/checkout/ShippingContactForm.tsx");
+
+    expect(phoneForm).toContain("grid-cols-[minmax(0,0.95fr)_minmax(0,2.05fr)]");
+    expect(phoneForm).toContain("w-full min-w-0 max-w-none shrink rounded-xl");
+    expect(phoneForm).toContain("placeholder:text-[0.78rem]");
+    expect(phoneForm).toContain("sm:flex-1 sm:px-3.5");
+    expect(phoneForm).toContain('id="shipping-phone-country"');
+    expect(phoneForm).toContain('id="shipping-tel"');
+  });
+
   it("keeps category and subcategory SEO metadata bilingual and shareable", () => {
     const seo = source("src/lib/seo/category-seo.ts");
     const categoryPage = source("src/app/categories/[slug]/page.tsx");
