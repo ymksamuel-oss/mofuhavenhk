@@ -8,6 +8,8 @@ import { useCart } from "@/lib/shop/cart";
 
 type AddToCartButtonProps = {
   productId: string;
+  /** Verified Stripe Price ID for the selected quantity tier. */
+  priceId?: string;
   className?: string;
   /** `list` = compact qty stepper for horizontal freeze-dried cards. */
   size?: "card" | "modal" | "list";
@@ -22,6 +24,7 @@ type AddToCartButtonProps = {
  */
 export function AddToCartButton({
   productId,
+  priceId,
   className = "",
   size = "card",
   showQuantity = true,
@@ -96,7 +99,7 @@ export function AddToCartButton({
           onClick={(event) => {
             stop(event);
             if (!purchasable) return;
-            addItem(productId, qty);
+            addItem(productId, qty, priceId);
             setAdded(true);
             setQty(MIN_QTY);
           }}
@@ -135,7 +138,7 @@ export function AddToCartButton({
         onClick={(event) => {
           stop(event);
           if (!purchasable) return;
-          addItem(productId, qty);
+          addItem(productId, qty, priceId);
           setAdded(true);
           setQty(MIN_QTY);
         }}

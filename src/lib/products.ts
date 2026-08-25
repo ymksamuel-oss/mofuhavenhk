@@ -52,6 +52,17 @@ export const DOG_SUBCATEGORIES = [
 export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
 export type ProductSubcategory = CatSubcategory | DogSubcategory;
 
+/** A purchasable product option with its own verified Stripe Price ID. */
+export type ProductVariant = {
+  key: string;
+  priceId: string;
+  price: number;
+  label: { zh: string; en: string };
+  /** Optional per-can reference shown only for pack-size variants. */
+  unitLabel?: { zh: string; en: string };
+  originalPrice?: number;
+};
+
 export type CatSnackSeries =
   | "無添加天然系列"
   | "老貓零食"
@@ -149,6 +160,8 @@ export type Product = {
   images?: string[];
   name: { zh: string; en: string };
   price: number;
+  /** Active pack-size variants sourced from Stripe Prices, ordered by pack count. */
+  variants?: ProductVariant[];
   originalPrice?: number;
   series?: { zh: string; en: string };
   snackSeries?: CatSnackSeries;

@@ -13,21 +13,28 @@ import { useCatalog } from "@/lib/catalog-context";
 import type { Product } from "@/lib/products";
 import {
   buildOrderItemsFromLines,
+  cartLineKey,
   MAX_QTY,
   type OrderItem,
 } from "@/lib/order";
 
 export const CART_STORAGE_KEY = "mofuhavenhk-cart";
 
-export type CartLine = { id: string; qty: number };
+export type CartLine = {
+  key: string;
+  id: string;
+  qty: number;
+  /** Selected Stripe Price ID for a quantity tier, when applicable. */
+  priceId?: string;
+};
 
 type CartContextValue = {
   lines: CartLine[];
-  /** Total units in the basket (sum of qty). */
+  /** Total packs in the basket (sum of selected-line qty). */
   itemCount: number;
-  addItem: (productId: string, qty?: number) => void;
-  setQty: (productId: string, qty: number) => void;
-  removeItem: (productId: string) => void;
+  addItem: (productId: string, qty?: number, priceId?: string) => void;
+  setQty: (lineKey: string, qty: number) => void;
+  removeItem: (lineKey: string) => void;
   clear: () => void;
   /** Catalog-priced order lines for checkout. */
   toOrderItems: () => OrderItem[];
@@ -36,28 +43,50 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function resolvedPriceId(product: Product, requestedPriceId?: string): string | undefined {
+  if (product.variants?.length) {
+    return product.variants.find((variant) => variant.priceId === requestedPriceId)?.priceId ??
+      product.variants[0]?.priceId;
+  }
+  return product.priceId;
+}
+
 export function sanitizeLines(
   raw: unknown,
   products: readonly Product[] = [],
 ): CartLine[] {
   if (!Array.isArray(raw)) return [];
-  const purchasable = new Set(
-    products.filter((product) => product.inStock !== false).map(
-      (product) => product.id,
-    ),
+  const purchasable = new Map(
+    products
+      .filter((product) => product.inStock !== false)
+      .map((product) => [product.id, product]),
   );
-  const byId = new Map<string, number>();
+  const byKey = new Map<string, CartLine>();
+
   for (const entry of raw) {
     if (!entry || typeof entry !== "object") continue;
     const id = (entry as { id?: unknown }).id;
     const qty = (entry as { qty?: unknown }).qty;
-    if (typeof id !== "string" || !purchasable.has(id)) continue;
+    const incomingPriceId = (entry as { priceId?: unknown }).priceId;
+    if (typeof id !== "string") continue;
+    const product = purchasable.get(id);
+    if (!product) continue;
     const numericQty = Math.floor(Number(qty));
     if (!Number.isFinite(numericQty) || numericQty < 1) continue;
-    const n = Math.min(MAX_QTY, numericQty);
-    byId.set(id, Math.min(MAX_QTY, (byId.get(id) ?? 0) + n));
+    const priceId = resolvedPriceId(
+      product,
+      typeof incomingPriceId === "string" ? incomingPriceId : undefined,
+    );
+    const key = cartLineKey(id, priceId);
+    const existing = byKey.get(key);
+    byKey.set(key, {
+      key,
+      id,
+      qty: Math.min(MAX_QTY, (existing?.qty ?? 0) + numericQty),
+      ...(priceId ? { priceId } : {}),
+    });
   }
-  return Array.from(byId.entries()).map(([id, qty]) => ({ id, qty }));
+  return Array.from(byKey.values());
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -84,43 +113,47 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [lines, ready]);
 
-  const addItem = useCallback((productId: string, qty = 1) => {
+  const addItem = useCallback((productId: string, qty = 1, requestedPriceId?: string) => {
     const product = products.find((candidate) => candidate.id === productId);
     if (!product || product.inStock === false) return;
     const numericQty = Math.floor(Number(qty));
     if (!Number.isFinite(numericQty) || numericQty < 1) return;
     const addQty = Math.min(MAX_QTY, numericQty);
+    const priceId = resolvedPriceId(product, requestedPriceId);
+    const key = cartLineKey(productId, priceId);
+
     setLines((current) => {
-      const existing = current.find((line) => line.id === productId);
+      const existing = current.find((line) => line.key === key);
       if (!existing) {
-        return [...current, { id: productId, qty: addQty }];
+        return [...current, { key, id: productId, qty: addQty, ...(priceId ? { priceId } : {}) }];
       }
       return current.map((line) =>
-        line.id === productId
+        line.key === key
           ? { ...line, qty: Math.min(MAX_QTY, line.qty + addQty) }
           : line,
       );
     });
   }, [products]);
 
-  const setQty = useCallback((productId: string, qty: number) => {
-    const product = products.find((candidate) => candidate.id === productId);
+  const setQty = useCallback((lineKey: string, qty: number) => {
     const numericQty = Math.floor(Number(qty));
     const next = Number.isFinite(numericQty)
       ? Math.min(MAX_QTY, Math.max(0, numericQty))
       : 0;
     setLines((current) => {
-      if (!product || product.inStock === false || next < 1) {
-        return current.filter((line) => line.id !== productId);
+      const line = current.find((candidate) => candidate.key === lineKey);
+      const product = line ? products.find((candidate) => candidate.id === line.id) : undefined;
+      if (!line || !product || product.inStock === false || next < 1) {
+        return current.filter((candidate) => candidate.key !== lineKey);
       }
-      return current.map((line) =>
-        line.id === productId ? { ...line, qty: next } : line,
+      return current.map((candidate) =>
+        candidate.key === lineKey ? { ...candidate, qty: next } : candidate,
       );
     });
   }, [products]);
 
-  const removeItem = useCallback((productId: string) => {
-    setLines((current) => current.filter((line) => line.id !== productId));
+  const removeItem = useCallback((lineKey: string) => {
+    setLines((current) => current.filter((line) => line.key !== lineKey));
   }, []);
 
   const clear = useCallback(() => {

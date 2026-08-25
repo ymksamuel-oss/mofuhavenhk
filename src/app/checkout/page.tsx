@@ -235,7 +235,7 @@ function CheckoutContent() {
     }
   };
 
-  const handleQtyChange = (id: string, qty: number) => {
+  const handleQtyChange = (lineKey: string, qty: number) => {
     if (
       phase === "paid" ||
       phase === "paid_notify_failed"
@@ -245,10 +245,10 @@ function CheckoutContent() {
     const nextQty = Math.min(MAX_QTY, Math.max(MIN_QTY, qty));
     setItems((current) =>
       current.map((item) =>
-        item.id === id ? { ...item, qty: nextQty } : item,
+        item.lineKey === lineKey ? { ...item, qty: nextQty } : item,
       ),
     );
-    cart.setQty(id, nextQty);
+    cart.setQty(lineKey, nextQty);
     if (clientSecret) {
       setClientSecret(null);
       setPhase("idle");
@@ -257,15 +257,15 @@ function CheckoutContent() {
   };
 
   /** Fully remove a line item from the order summary / cart. */
-  const handleRemoveItem = (id: string) => {
+  const handleRemoveItem = (lineKey: string) => {
     if (
       phase === "paid" ||
       phase === "paid_notify_failed"
     ) {
       return;
     }
-    setItems((current) => current.filter((item) => item.id !== id));
-    cart.removeItem(id);
+    setItems((current) => current.filter((item) => item.lineKey !== lineKey));
+    cart.removeItem(lineKey);
     if (clientSecret) {
       setClientSecret(null);
       setPhase("idle");
@@ -363,7 +363,7 @@ function CheckoutContent() {
                 paymentMethod: stripePaymentMethod,
                 customerName: shippingContact.name.trim(),
                 shippingContact,
-                lines: items.map((item) => ({ id: item.id, qty: item.qty })),
+                lines: items.map((item) => ({ id: item.id, qty: item.qty, priceId: item.stripePriceId })),
               }
             : {
                 category,
@@ -371,7 +371,7 @@ function CheckoutContent() {
                 locale,
                 paymentMethod: stripePaymentMethod,
                 customerName: shippingContact.name.trim(),
-                lines: items.map((item) => ({ id: item.id, qty: item.qty })),
+                lines: items.map((item) => ({ id: item.id, qty: item.qty, priceId: item.stripePriceId })),
               },
         ),
       });

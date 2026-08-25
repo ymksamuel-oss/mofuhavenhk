@@ -11,6 +11,7 @@ import {
   type CatSnackSeries,
   type Product,
   type ProductSubcategory,
+  type ProductVariant,
   isStorefrontReadyProduct,
   uniqueProductsById,
 } from "@/lib/products";
@@ -248,10 +249,58 @@ async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> 
   return products;
 }
 
-type StripePriceRecord = { id: string; amount: number };
+type StripePriceRecord = {
+  id: string;
+  amount: number;
+  metadata: Record<string, string>;
+};
 
-async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, StripePriceRecord>> {
-  const pricesByProductId = new Map<string, StripePriceRecord>();
+function packCountFromPrice(price: StripePriceRecord): number {
+  const value = Number(price.metadata.pack_count);
+  return Number.isInteger(value) && value > 0 ? value : Number.MAX_SAFE_INTEGER;
+}
+
+function productVariantsFromPrices(
+  productMetadata: Record<string, string>,
+  prices: readonly StripePriceRecord[],
+): ProductVariant[] | undefined {
+  if (productMetadata.variant_mode !== "pack_size") return undefined;
+
+  const variants = prices
+    .filter((price) => packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER)
+    .sort((left, right) => packCountFromPrice(left) - packCountFromPrice(right))
+    .map((price) => {
+      const packCount = packCountFromPrice(price);
+      const perCan = Number(price.metadata.per_can_hkd);
+      const originalPrice = compareAtPriceFromMetadata(
+        { ...productMetadata, ...price.metadata },
+        price.amount,
+      );
+      return {
+        key: `pack-${packCount}`,
+        priceId: price.id,
+        price: price.amount,
+        label: {
+          zh: price.metadata.variant_label_zh || `${packCount}罐裝`,
+          en: price.metadata.variant_label_en || `${packCount} Cans`,
+        },
+        ...(Number.isFinite(perCan) && perCan > 0
+          ? {
+              unitLabel: {
+                zh: `每罐 HK$${perCan.toFixed(2)}`,
+                en: `HK$${perCan.toFixed(2)} each`,
+              },
+            }
+          : {}),
+        ...(originalPrice ? { originalPrice } : {}),
+      };
+    });
+
+  return variants.length ? variants : undefined;
+}
+
+async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, StripePriceRecord[]>> {
+  const pricesByProductId = new Map<string, StripePriceRecord[]>();
   let startingAfter: string | undefined;
 
   do {
@@ -264,12 +313,13 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, Strip
     for (const price of page.data) {
       if (price.unit_amount === null) continue;
       const productId = typeof price.product === "string" ? price.product : price.product.id;
-      if (!pricesByProductId.has(productId)) {
-        pricesByProductId.set(productId, {
-          id: price.id,
-          amount: fromStripeAmountHkd(price.unit_amount),
-        });
-      }
+      const records = pricesByProductId.get(productId) ?? [];
+      records.push({
+        id: price.id,
+        amount: fromStripeAmountHkd(price.unit_amount),
+        metadata: price.metadata ?? {},
+      });
+      pricesByProductId.set(productId, records);
     }
     startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
     if (page.has_more && !startingAfter) {
@@ -282,10 +332,17 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, Strip
 
 function stripeProductToCatalogProduct(
   product: Stripe.Product,
-  pricesByProductId: ReadonlyMap<string, StripePriceRecord>,
+  pricesByProductId: ReadonlyMap<string, StripePriceRecord[]>,
 ): Product | null {
   const metadata = productMetadata(product);
-  const priceRecord = pricesByProductId.get(product.id);
+  const priceRecords = pricesByProductId.get(product.id) ?? [];
+  const variants = productVariantsFromPrices(metadata, priceRecords);
+  const defaultPriceId = typeof product.default_price === "string"
+    ? product.default_price
+    : product.default_price?.id;
+  const priceRecord = variants?.length
+    ? priceRecords.find((record) => record.id === variants[0].priceId)
+    : priceRecords.find((record) => record.id === defaultPriceId) ?? priceRecords[0];
   const images = Array.from(
     new Set((product.images ?? []).filter(isUsableCatalogImage)),
   ).slice(0, 5);
@@ -346,6 +403,7 @@ function stripeProductToCatalogProduct(
     ...(images.length > 0 ? { images } : {}),
     name: localizedName,
     price: priceRecord.amount,
+    ...(variants ? { variants } : {}),
     ...(originalPrice ? { originalPrice } : {}),
     inStock: inStockFromMetadata(metadata),
     tags: Array.from(new Set([

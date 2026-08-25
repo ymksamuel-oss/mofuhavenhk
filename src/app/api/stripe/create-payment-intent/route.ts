@@ -79,14 +79,15 @@ export async function POST(request: Request) {
     const lines = body.lines
       .map((line) => {
         if (!line || typeof line !== "object") return null;
-        const record = line as { id?: unknown; qty?: unknown };
+        const record = line as { id?: unknown; qty?: unknown; priceId?: unknown };
         if (typeof record.id !== "string") return null;
         return {
           id: record.id,
           qty: typeof record.qty === "number" ? record.qty : Number(record.qty),
+          ...(typeof record.priceId === "string" ? { priceId: record.priceId } : {}),
         };
       })
-      .filter((line): line is { id: string; qty: number } => Boolean(line));
+      .filter((line): line is { id: string; qty: number; priceId?: string } => Boolean(line));
     const rebuilt = buildOrderItemsFromLines(lines, catalog.products);
     if (rebuilt.length > 0) items = rebuilt;
   }

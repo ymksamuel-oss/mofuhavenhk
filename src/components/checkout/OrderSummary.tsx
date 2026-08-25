@@ -89,7 +89,7 @@ export function OrderSummary({
 
         {items.map((item) => (
           <li
-            key={item.id}
+            key={item.lineKey}
             className="flex items-start justify-between gap-3 rounded-2xl border border-[color:var(--line)] bg-[color:var(--background)] px-4 py-4 text-sm"
           >
             <div className="flex min-w-0 items-start gap-3">
@@ -106,6 +106,11 @@ export function OrderSummary({
                   <p className="font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
                     {item.name[locale]}
                   </p>
+                  {item.variantLabel ? (
+                    <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
+                      {item.variantLabel[locale] || item.variantLabel.zh}
+                    </p>
+                  ) : null}
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
                     {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                   </p>
@@ -121,7 +126,7 @@ export function OrderSummary({
                         type="button"
                         onClick={() =>
                           onQtyChange?.(
-                            item.id,
+                            item.lineKey,
                             Math.max(MIN_QTY, item.qty - 1),
                           )
                         }
@@ -138,7 +143,7 @@ export function OrderSummary({
                         type="button"
                         onClick={() =>
                           onQtyChange?.(
-                            item.id,
+                            item.lineKey,
                             Math.min(MAX_QTY, item.qty + 1),
                           )
                         }
@@ -153,7 +158,7 @@ export function OrderSummary({
                     {canRemove ? (
                       <button
                         type="button"
-                        onClick={() => onRemoveItem?.(item.id)}
+                        onClick={() => onRemoveItem?.(item.lineKey)}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-[#8a3a2a] transition hover:border-[#c45a45] hover:bg-[#fdeceb] hover:text-[#6b2418] active:scale-[0.97]"
                         aria-label={`${t("removeItem")}：${item.name[locale]}`}
                         title={t("removeItem")}

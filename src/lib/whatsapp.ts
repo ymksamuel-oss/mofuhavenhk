@@ -111,7 +111,7 @@ export function buildOrderMessage({
     items.length > 0
       ? items.map(
           (item, index) =>
-            `${index + 1}. ${item.name[locale]} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`,
+            `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || item.variantLabel.zh}）` : ""} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`,
         )
       : [`（${locale === "zh" ? "未有商品" : "No items"}）`];
 

@@ -151,7 +151,7 @@ export function MobileCartDrawer({
               <ul className="space-y-3">
                 {items.map((item) => (
                   <li
-                    key={item.id}
+                    key={item.lineKey}
                     className="flex gap-3 rounded-2xl border border-[color:var(--line)] bg-white px-4 py-4 shadow-[0_10px_24px_-24px_rgba(43,38,35,0.5)]"
                   >
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
@@ -164,12 +164,19 @@ export function MobileCartDrawer({
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
-                        <p className="line-clamp-2 text-sm font-medium leading-snug text-[color:var(--ink)]">
-                          {item.name[locale]}
-                        </p>
+                        <div className="min-w-0">
+                          <p className="line-clamp-2 text-sm font-medium leading-snug text-[color:var(--ink)]">
+                            {item.name[locale]}
+                          </p>
+                          {item.variantLabel ? (
+                            <p className="mt-0.5 text-xs text-[color:var(--muted)]">
+                              {item.variantLabel[locale] || item.variantLabel.zh}
+                            </p>
+                          ) : null}
+                        </div>
                         <button
                           type="button"
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.lineKey)}
                           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-lg leading-none text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
                           aria-label={`${t("removeItem")}：${item.name[locale]}`}
                         >
@@ -184,7 +191,7 @@ export function MobileCartDrawer({
                           <button
                             type="button"
                             onClick={() =>
-                              setQty(item.id, Math.max(MIN_QTY, item.qty - 1))
+                              setQty(item.lineKey, Math.max(MIN_QTY, item.qty - 1))
                             }
                             disabled={item.qty <= MIN_QTY}
                             className="flex h-8 w-8 items-center justify-center rounded-xl text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"
@@ -198,7 +205,7 @@ export function MobileCartDrawer({
                           <button
                             type="button"
                             onClick={() =>
-                              setQty(item.id, Math.min(MAX_QTY, item.qty + 1))
+                              setQty(item.lineKey, Math.min(MAX_QTY, item.qty + 1))
                             }
                             disabled={item.qty >= MAX_QTY}
                             className="flex h-8 w-8 items-center justify-center rounded-xl text-base font-semibold text-[color:var(--ink)] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-35"

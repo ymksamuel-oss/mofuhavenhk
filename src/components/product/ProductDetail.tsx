@@ -20,14 +20,34 @@ type ProductDetailProps = {
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems } = useCart();
-  const specOptions = product.specs?.length
-    ? product.specs
-    : [{ zh: t("productSpecDefault"), en: t("productSpecDefault") }];
+  const hasPackVariants = Boolean(product.variants?.length);
+  const specOptions = hasPackVariants
+    ? product.variants!.map((variant) => ({
+        zh: variant.label.zh,
+        en: variant.label.en,
+        price: variant.price,
+        priceId: variant.priceId,
+        unitLabel: variant.unitLabel,
+        originalPrice: variant.originalPrice,
+      }))
+    : product.specs?.length
+      ? product.specs
+      : [{ zh: t("productSpecDefault"), en: t("productSpecDefault") }];
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
+  const selectedOption = specOptions[selectedSpecIndex];
+  const selectedPrice = hasPackVariants && "price" in selectedOption
+    ? selectedOption.price
+    : product.price;
+  const selectedPriceId = hasPackVariants && "priceId" in selectedOption
+    ? selectedOption.priceId
+    : product.priceId;
+  const selectedOriginalPrice = hasPackVariants && "originalPrice" in selectedOption
+    ? selectedOption.originalPrice
+    : product.originalPrice;
   const category = getCategoryBySlug(product.categorySlug);
   const cartSubtotal = calcSubtotal(toOrderItems());
-  const discountPercent = product.originalPrice
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
+  const discountPercent = selectedOriginalPrice
+    ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100)
     : null;
 
   return (
@@ -77,11 +97,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <div className="mt-5 flex w-full min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">
             <span className="whitespace-nowrap text-4xl font-extrabold leading-none tabular-nums text-[color:var(--accent)] sm:text-[2.65rem]">
-              {formatMoney(product.price, locale)}
+              {formatMoney(selectedPrice, locale)}
             </span>
-            {product.originalPrice ? (
+            {selectedOriginalPrice ? (
               <span className="whitespace-nowrap text-base tabular-nums text-[color:var(--muted)] line-through">
-                {formatMoney(product.originalPrice, locale)}
+                {formatMoney(selectedOriginalPrice, locale)}
               </span>
             ) : null}
           </div>
@@ -158,7 +178,15 @@ export function ProductDetail({ product }: ProductDetailProps) {
                         : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
                     }`}
                   >
-                    <span className="min-w-0 leading-snug">{spec[locale] || spec.zh || spec.en}</span>
+                    <span className="min-w-0 leading-snug">
+                      <span className="block">{spec[locale] || spec.zh || spec.en}</span>
+                      {hasPackVariants && "price" in spec ? (
+                        <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
+                          {formatMoney(spec.price, locale)}
+                          {spec.unitLabel ? ` · ${spec.unitLabel[locale] || spec.unitLabel.zh}` : ""}
+                        </span>
+                      ) : null}
+                    </span>
                     <span
                       aria-hidden
                       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ${
@@ -193,7 +221,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ) : null}
 
           <div className="hidden space-y-3 sm:block">
-            <AddToCartButton productId={product.id} size="modal" />
+            <AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" />
             {product.inStock === false ? (
               <span
                 aria-disabled="true"
@@ -222,7 +250,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               {t("total")}
             </p>
             <p className="mt-0.5 text-xl font-extrabold leading-none tabular-nums text-[color:var(--accent)]">
-              {formatMoney(product.price, locale)}
+              {formatMoney(selectedPrice, locale)}
             </p>
           </div>
           {product.inStock === false ? (
@@ -235,6 +263,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ) : (
             <AddToCartButton
               productId={product.id}
+              priceId={selectedPriceId}
               size="modal"
               showQuantity={false}
               className="!mt-0 min-w-0 flex-1"
