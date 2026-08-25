@@ -1,0 +1,25 @@
+{
+  "session_id": "cs_live_a1m36NpEeePgtITZwc7Bj6kDK2JQb5cCG9ONMhPGgmBly4pbZaOooJPsrO",
+  "checks": {
+    "open_before_expiry": true,
+    "unpaid_before_expiry": true,
+    "target_price_present_once": true,
+    "target_item_amount_hkd": true,
+    "currency_hkd": true,
+    "expired_after_verification": true
+  },
+  "product_id": "prod_V8lAUga8Mwc3d0",
+  "price_id": "price_1U8TeIRyM6dRKLtZfLkTpmot",
+  "target_item_hkd": 19.9,
+  "session_total_hkd": 44.9,
+  "line_items": [
+    {
+      "description": "銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g",
+      "price_id": "price_1U8TeIRyM6dRKLtZfLkTpmot",
+      "quantity": 1,
+      "amount_total_hkd": 19.9
+    }
+  ],
+  "payment_status": "unpaid",
+  "final_session_status": "expired"
+}
