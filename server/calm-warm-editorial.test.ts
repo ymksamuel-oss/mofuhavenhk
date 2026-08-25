@@ -22,20 +22,21 @@ describe("calm warm editorial UI contract", () => {
     const page = source("src/app/page.tsx");
 
     expect(page).toContain('/images/hero-sleeping-shiba-taupe.jpg');
-    expect(page).toContain('lg:grid-cols-[1.06fr_0.94fr]');
+    expect(page).toContain('lg:grid-cols-[0.9fr_1.1fr]');
     expect(page).toContain('bg-[#ead7bf]');
     expect(page).toContain('<BrandLogo title="Mofu Haven"');
     expect(page).toContain('t("homeHeadline")');
-    expect(page).toContain('h-[14rem]');
+    expect(page).toContain('h-[15rem]');
     expect(page).toContain('const [isDesktopHero, setIsDesktopHero] = useState(false)');
     expect(page).toContain('window.matchMedia("(min-width: 1024px)")');
     expect(page).toContain('{isDesktopHero ? (');
     expect(page).toContain('src="/images/hero-mobile-mofu-haven.jpg"');
     expect(page).toContain('object-cover object-center');
     expect(page).toContain('origin-left scale-[1.5] object-cover object-[0%_58%]');
-    expect(page).toContain('h-10 sm:h-20 lg:h-32');
+    expect(page).toContain('h-12 sm:h-16 lg:h-20');
     expect(page).toContain("<HomepageProductGrid />");
-    expect(page).toContain('grid grid-cols-4 gap-2 sm:gap-3');
+    expect(page).toContain('grid grid-cols-2');
+    expect(page).toContain('lg:grid-cols-4');
     expect(page).not.toContain('setIsExploreOpen');
     expect(page).not.toContain('<ExplorePetControls');
     expect(page).toContain('t("categoryGridTitle")');
@@ -44,12 +45,11 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('labelKey: "allProducts"');
     expect(page).toContain('href: "/menu#products"');
     expect(page).toContain('Icon: BagIcon');
-    expect(page).toContain('min-h-14 flex-col items-center justify-center');
-    expect(page).toContain('rounded-xl border border-[#eadfd6] bg-[#fdfbf9]');
-    expect(page).toContain('hover:border-[#d7b893] hover:bg-white');
+    expect(page).toContain('min-h-14 items-center gap-2');
+    expect(page).toContain('border-y border-[#4b3621]/18');
+    expect(page).toContain('hover:border-[#8a6c55] hover:bg-[#f5ebe6]/70');
     expect(page).toContain('h-4 w-4 shrink-0 text-[#7a5949]');
-    expect(page.match(/grid grid-cols-4 gap-2 sm:gap-3/g)?.length).toBe(2);
-    expect(page.indexOf('grid grid-cols-4 gap-2 sm:gap-3')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
+    expect(page.indexOf('grid grid-cols-2')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
 
@@ -123,7 +123,7 @@ describe("calm warm editorial UI contract", () => {
     const nextConfig = source("next.config.ts");
 
     expect(page).toContain('import Image from "next/image"');
-    expect(page).toContain('sizes="53vw"');
+    expect(page).toContain('sizes="(min-width: 1024px) 60vw, 100vw"');
     expect(productImage).toContain('import Image from "next/image"');
     expect(productGrid).toContain('.slice(0, 12)');
     expect(nextConfig).toContain('hostname: "files.stripe.com"');
