@@ -119,3 +119,9 @@ latest31_cdn_urls.txt
 latest31_active_catalog_audit.json
 latest31_stripe_manifest.json
 latest31_stripe_verification.json
+
+# Local CIAO/Inaba can image staging and Stripe execution artifacts
+assets/new-ciao-inaba-cans/
+new_ciao_inaba_active_catalog_audit.json
+new_ciao_inaba_cans_stripe_manifest.json
+new_ciao_inaba_cans_stripe_verification.json
