@@ -1,0 +1,24 @@
+{
+  "replacement_count": 102,
+  "replacement_verified": 102,
+  "replacement_failures": [],
+  "sellable_active_product_count": 120,
+  "sellable_active_hkd_price_count": 134,
+  "sellable_prices_without_90_tail": [],
+  "sample": {
+    "product_id": "prod_V8feew2ryjD7ql",
+    "source_price_id": "price_1U8OIvRyM6dRKLtZqxQP3gmh",
+    "replacement_price_id": "price_1U8VfGRyM6dRKLtZqnZL6lHd",
+    "checks": {
+      "source_inactive": true,
+      "replacement_active": true,
+      "replacement_amount_matches": true,
+      "replacement_tail_is_90": true,
+      "replacement_marker": true,
+      "product_active": true,
+      "default_switched": true,
+      "comparison_valid_or_absent": true
+    }
+  },
+  "success": true
+}
