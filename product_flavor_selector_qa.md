@@ -25,3 +25,9 @@ ONE CARE 100g 罐頭、d.b.f 成犬／高齡犬 85g 主食罐、d.b.f 65g 肉糜
 ## 手機版檢查（375px）
 
 使用 375×812 本機截圖檢查 ONE CARE 牛肉罐頭頁。Header 維持緊湊的標誌、搜尋、購物籃、語言及選單入口；商品主圖、價格資訊及底部固定「加入購物籃」列沒有重疊。口味與規格選擇使用單欄／可換行按鈕的響應式布局，位於產品資訊後，並透過額外底部留白避開固定行動列。
+
+## 正式網站驗證
+
+測試入口：`https://www.mofuhavenhk.com/product/prod_V8Zo9dzijaQ39p?flavorselector=a28d7f83`
+
+正式網站已顯示 7 個 ONE CARE 真實口味及 5／15／30 罐裝選擇。由牛肉點選「雞肉」後，頁面即時切換為「雞肉口味罐頭 (Chicken)」、商品編號 `prod_V8ZpDXl9RWMDbc`、雞肉專屬描述與圖片 alt；這確認正式環境使用同系列的正確獨立 Stripe Product，而非僅變更文字標籤。
