@@ -56,6 +56,62 @@ function ArrowIcon({ className = "" }: IconProps) {
   );
 }
 
+export type CategoryMenuGroup = "cats" | "dogs";
+
+type CategorySubmenuProps = {
+  group: CategoryMenuGroup;
+  compact?: boolean;
+  onNavigate?: () => void;
+};
+
+/**
+ * A focused, text-led category list for a single top-level pet group.
+ * The desktop Header uses it as the reference-style vertical dropdown;
+ * the mobile drawer uses the same canonical links in its accordions.
+ */
+export function CategorySubmenu({ group, compact = false, onNavigate }: CategorySubmenuProps) {
+  const { t } = useI18n();
+  const isCats = group === "cats";
+  const items = isCats
+    ? [
+        { href: "/categories/cats/wet-cans", label: t("catSubWetCans") },
+        { href: "/categories/cats/dry-food", label: t("catSubDryFood") },
+        { href: "/categories/cats/freeze-dried", label: t("catSubFreezeDried") },
+        { href: "/categories/cats/snacks", label: t("catSubSnacks") },
+        { href: "/categories/cats/pill-treats", label: t("pillTreatsSubcategory") },
+      ]
+    : [
+        { href: "/categories/dogs/food", label: t("dogSubFood") },
+        { href: "/categories/dogs/snacks", label: t("dogSubSnacks") },
+        { href: "/categories/dogs/pill-treats", label: t("pillTreatsSubcategory") },
+      ];
+  const allHref = isCats ? "/categories/cats" : "/categories/dogs";
+  const allLabel = isCats ? t("navCategoriesAllCats") : t("navCategoriesAllDogs");
+  const panelClass = compact
+    ? "grid gap-1"
+    : "grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]";
+  const linkClass = "group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm leading-snug text-[color:var(--muted)] transition-[background-color,color,transform] duration-150 ease-out hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] active:scale-[0.98] focus-visible:bg-[color:var(--accent-soft)] focus-visible:text-[color:var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]";
+
+  return (
+    <div className={panelClass} aria-label={isCats ? t("navCategoriesCats") : t("navCategoriesDogs")}>
+      <CategoryNavLink
+        href={allHref}
+        onNavigate={onNavigate}
+        className={`${linkClass} border-b border-[color:var(--line)] pb-2.5 font-semibold text-[color:var(--ink)]`}
+      >
+        <span>{allLabel}</span>
+        <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--accent)]" />
+      </CategoryNavLink>
+      {items.map((item) => (
+        <CategoryNavLink key={item.href} href={item.href} onNavigate={onNavigate} className={linkClass}>
+          <span>{item.label}</span>
+          <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--muted)] opacity-0 transition-all duration-150 group-hover:translate-x-0.5 group-hover:opacity-100" />
+        </CategoryNavLink>
+      ))}
+    </div>
+  );
+}
+
 function DropdownLink({
   href,
   icon,
