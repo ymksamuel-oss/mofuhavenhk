@@ -19,6 +19,7 @@ export type FoodZoneSubcategory =
   | "貓貓小食"
   | "狗狗食品"
   | "狗狗小食"
+  | "狗狗冷凍脫水食品"
   | "投藥餵藥專用小食";
 
 export type ClassifiableProduct = {
@@ -40,7 +41,7 @@ const CAT_MARK = /貓貓|貓用|貓咪|\bcat\b/i;
 const SHARED_MARK =
   /貓狗|貓與狗|小貓小狗|小狗小貓|幼貓幼犬|幼犬幼貓|cats?\s*[&＋+]\s*dogs?|cat\s*&\s*dog|kitten\s*&\s*puppy|puppy\s*&\s*kitten|for cats?\s*(&|and)\s*dogs?/i;
 const FREEZE_MARK =
-  /冷凍脫水|凍乾|freeze[\s-]?dried|freeze[\s-]?dry/i;
+  /冷凍脫水|冷冻脱水|凍乾|凍干|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const CAT_SNACK_SERIES_MARK =
   /無添加天然系列|老貓零食|去毛球配方|bb貓零食|BB貓零食|吐毛球配方|毛玉配慮|幼貓用|1歳前|11歳起|14歳起|高齡貓/i;
 const SNACK_MARK =
@@ -130,6 +131,7 @@ export function inferFoodZone(
     product.categorySlug === "dogs" &&
     (product.subcategory === "狗狗食品" ||
       product.subcategory === "狗狗小食" ||
+      product.subcategory === "狗狗冷凍脫水食品" ||
       product.subcategory === "投藥餵藥專用小食")
   ) {
     return {
@@ -172,18 +174,18 @@ export function inferFoodZone(
     if (hasDog && !hasCat) {
       return {
         categorySlug: "dogs",
-        subcategory: "狗狗小食",
-        reason: "冷凍脫水 + 狗狗／狗用 → 狗狗小食",
-        tags: ["狗狗小食", "冷凍脫水系列", "狗用"],
+        subcategory: "狗狗冷凍脫水食品",
+        reason: "凍乾／凍干 + 狗狗／狗用 → 狗狗冷凍脫水食品",
+        tags: ["狗狗冷凍脫水食品", "凍乾糧", "狗用"],
       };
     }
     return {
       categorySlug: "cats",
       subcategory: "冷凍脫水系列",
       reason: hasCat
-        ? "冷凍脫水 + 貓貓／貓用 → 貓貓冷凍脫水系列"
-        : "冷凍脫水系列預設歸入貓貓專區",
-      tags: ["冷凍脫水系列", "貓貓小食", "貓用"],
+        ? "凍乾／凍干 + 貓貓／貓用 → 貓咪冷凍脫水系列"
+        : "凍乾／凍干系列預設歸入貓咪專區",
+      tags: ["冷凍脫水系列", "凍乾糧", "貓用"],
     };
   }
 

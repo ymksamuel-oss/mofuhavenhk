@@ -125,3 +125,7 @@ assets/new-ciao-inaba-cans/
 new_ciao_inaba_active_catalog_audit.json
 new_ciao_inaba_cans_stripe_manifest.json
 new_ciao_inaba_cans_stripe_verification.json
+
+# Generated freeze-dried category audit/runtime artifacts
+freeze_dried_category_audit.json
+freeze_dried_category_normalization_manifest.json
