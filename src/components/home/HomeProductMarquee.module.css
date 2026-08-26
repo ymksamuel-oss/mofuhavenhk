@@ -1,31 +1,86 @@
-.rowWrap {
+.rowSection {
   overflow: hidden;
+}
+
+.rowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 80rem;
+  margin: 0 auto 0.5rem;
+  padding: 0 1.5rem;
+}
+
+.rowLabel {
+  color: #765039;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.controlButton {
+  display: inline-flex;
+  width: 2.2rem;
+  height: 2.2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(137, 98, 70, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.82);
+  color: #6f4b35;
+  font-size: 1.15rem;
+  line-height: 1;
+  box-shadow: 0 6px 16px -13px rgba(75, 54, 33, 0.65);
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.controlButton:hover {
+  border-color: #7a543b;
+  background: #7a543b;
+  color: #fffaf4;
+  transform: translateY(-0.1rem);
+}
+
+.controlButton:active {
+  transform: scale(0.97);
+}
+
+.controlButton:focus-visible {
+  outline: 3px solid rgba(122, 84, 59, 0.35);
+  outline-offset: 2px;
+}
+
+.rowWrap {
   width: 100%;
-  padding: 0.35rem 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rowWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.rowWrap:active {
+  cursor: grabbing;
 }
 
 .track {
   display: flex;
   width: max-content;
   gap: 1rem;
-  padding: 0 0.75rem;
-  animation-name: home-product-marquee;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
-}
-
-.trackRegular {
-  animation-duration: 46s;
-}
-
-.trackSlow {
-  animation-duration: 58s;
-}
-
-.track:hover,
-.track:focus-within {
-  animation-play-state: paused;
+  padding: 0.35rem 0.75rem;
 }
 
 .card {
@@ -36,6 +91,7 @@
   border-radius: 1.15rem;
   background: rgba(255, 253, 250, 0.94);
   box-shadow: 0 14px 30px -24px rgba(75, 54, 33, 0.5);
+  scroll-snap-align: start;
   transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -120,20 +176,24 @@
   font-variant-numeric: tabular-nums;
 }
 
-@keyframes home-product-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
 @media (min-width: 640px) {
+  .rowHeader {
+    margin-bottom: 0.7rem;
+    padding: 0 2.5rem;
+  }
+
+  .rowLabel {
+    font-size: 0.78rem;
+  }
+
+  .controlButton {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
   .track {
     gap: 1.15rem;
-    padding: 0 1rem;
+    padding: 0.35rem 1rem;
   }
 
   .card {
@@ -158,21 +218,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rowWrap {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scrollbar-color: rgba(122, 84, 59, 0.45) transparent;
-    scrollbar-width: thin;
-  }
-
-  .track {
-    width: max-content;
-    animation: none;
-    padding-bottom: 0.55rem;
-  }
-
-  .card {
-    scroll-snap-align: start;
+    scroll-behavior: auto;
   }
 
   .card[data-marquee-copy="duplicate"] {

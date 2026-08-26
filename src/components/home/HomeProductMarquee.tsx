@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
@@ -11,76 +12,214 @@ import styles from "./HomeProductMarquee.module.css";
 type ProductRowProps = {
   label: string;
   products: Product[];
-  speed: "regular" | "slow";
 };
 
-function ProductRow({ label, products, speed }: ProductRowProps) {
+const AUTO_RESUME_DELAY_MS = 1800;
+const AUTO_SCROLL_INTERVAL_MS = 16;
+
+function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
-  const repeatedProducts = [...products, ...products];
+  const rowRef = useRef<HTMLDivElement>(null);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const repeatedProducts = [...products, ...products, ...products];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => setPrefersReducedMotion(mediaQuery.matches);
+    syncPreference();
+    mediaQuery.addEventListener("change", syncPreference);
+    return () => mediaQuery.removeEventListener("change", syncPreference);
+  }, []);
+
+  const clearResumeTimer = useCallback(() => {
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  }, []);
+
+  const pauseAutoPlay = useCallback(() => {
+    clearResumeTimer();
+    setIsAutoPlaying(false);
+  }, [clearResumeTimer]);
+
+  const resumeAutoPlaySoon = useCallback(() => {
+    clearResumeTimer();
+    resumeTimerRef.current = setTimeout(() => {
+      setIsAutoPlaying(true);
+      resumeTimerRef.current = null;
+    }, AUTO_RESUME_DELAY_MS);
+  }, [clearResumeTimer]);
+
+  const normaliseLoopPosition = useCallback(() => {
+    const row = rowRef.current;
+    if (!row) return;
+
+    const cycleWidth = row.scrollWidth / 3;
+    if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) return;
+
+    if (row.scrollLeft < cycleWidth * 0.18) {
+      row.scrollLeft += cycleWidth;
+    } else if (row.scrollLeft > cycleWidth * 1.82) {
+      row.scrollLeft -= cycleWidth;
+    }
+  }, []);
+
+  useEffect(() => {
+    const row = rowRef.current;
+    if (!row) return;
+
+    const positionAtMiddleCopy = () => {
+      if (prefersReducedMotion) {
+        row.scrollLeft = 0;
+        return;
+      }
+
+      const cycleWidth = row.scrollWidth / 3;
+      if (Number.isFinite(cycleWidth) && cycleWidth > 0) {
+        row.scrollLeft = cycleWidth;
+      }
+    };
+
+    positionAtMiddleCopy();
+    const resizeObserver = new ResizeObserver(positionAtMiddleCopy);
+    resizeObserver.observe(row);
+
+    const timer = window.setInterval(() => {
+      if (!isAutoPlaying || prefersReducedMotion) return;
+      const cycleWidth = row.scrollWidth / 3;
+      if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) return;
+
+      row.scrollLeft += Math.max(0.6, cycleWidth / 760);
+      normaliseLoopPosition();
+    }, AUTO_SCROLL_INTERVAL_MS);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.clearInterval(timer);
+    };
+  }, [isAutoPlaying, normaliseLoopPosition, prefersReducedMotion, products.length]);
+
+  useEffect(() => () => clearResumeTimer(), [clearResumeTimer]);
+
+  const moveByCards = (direction: -1 | 1) => {
+    const row = rowRef.current;
+    if (!row) return;
+
+    pauseAutoPlay();
+    const firstCard = row.querySelector<HTMLElement>(`[data-marquee-copy="source"]`);
+    const cardWidth = firstCard?.getBoundingClientRect().width ?? 156;
+    const distance = Math.max(cardWidth * 1.8, row.clientWidth * 0.62);
+    row.scrollBy({ left: direction * distance, behavior: "smooth" });
+
+    if (!prefersReducedMotion) {
+      window.setTimeout(normaliseLoopPosition, 420);
+      resumeAutoPlaySoon();
+    }
+  };
 
   return (
-    <div className={styles.rowWrap} aria-label={label}>
-      <div
-        className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
-        title={t("homeMarqueePause")}
-      >
-        {repeatedProducts.map((product, index) => {
-          const duplicate = index >= products.length;
-          const href = productHref(product.id);
-          const discountPercent = product.originalPrice
-            ? Math.round((1 - product.price / product.originalPrice) * 100)
-            : null;
+    <div className={styles.rowSection}>
+      <div className={styles.rowHeader}>
+        <p className={styles.rowLabel}>{label}</p>
+        <div className={styles.controls} aria-label={label}>
+          <button
+            type="button"
+            className={styles.controlButton}
+            onClick={() => moveByCards(-1)}
+            aria-label={t("homeMarqueePrevious")}
+            title={t("homeMarqueePrevious")}
+          >
+            <span aria-hidden>←</span>
+          </button>
+          <button
+            type="button"
+            className={styles.controlButton}
+            onClick={() => moveByCards(1)}
+            aria-label={t("homeMarqueeNext")}
+            title={t("homeMarqueeNext")}
+          >
+            <span aria-hidden>→</span>
+          </button>
+        </div>
+      </div>
 
-          return (
-            <article
-              key={`${product.id}-${index}`}
-              aria-hidden={duplicate || undefined}
-              data-marquee-copy={duplicate ? "duplicate" : "source"}
-              className={styles.card}
-            >
-              <CategoryNavLink
-                href={href}
-                tabIndex={duplicate ? -1 : undefined}
-                aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
-                className={styles.cardLink}
+      <div
+        ref={rowRef}
+        className={styles.rowWrap}
+        aria-label={label}
+        onPointerEnter={pauseAutoPlay}
+        onPointerLeave={resumeAutoPlaySoon}
+        onPointerDown={pauseAutoPlay}
+        onPointerUp={resumeAutoPlaySoon}
+        onFocusCapture={pauseAutoPlay}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            resumeAutoPlaySoon();
+          }
+        }}
+      >
+        <div className={styles.track} title={t("homeMarqueePause")}>
+          {repeatedProducts.map((product, index) => {
+            const duplicate = index < products.length || index >= products.length * 2;
+            const href = productHref(product.id);
+            const discountPercent = product.originalPrice
+              ? Math.round((1 - product.price / product.originalPrice) * 100)
+              : null;
+
+            return (
+              <article
+                key={`${product.id}-${index}`}
+                aria-hidden={duplicate || undefined}
+                data-marquee-copy={duplicate ? "duplicate" : "source"}
+                className={styles.card}
               >
-                <div className={styles.imageWrap}>
-                  <ProductImage
-                    src={product.image}
-                    alt={product.name[locale]}
-                    sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
-                  />
-                  {discountPercent ? (
-                    <span className={styles.discount}>-{discountPercent}%</span>
-                  ) : null}
-                </div>
-                <div className={styles.cardBody}>
-                  <p className={styles.name}>{product.name[locale]}</p>
-                  <div className={styles.priceLine}>
-                    <span className={styles.price}>{formatMoney(product.price, locale)}</span>
-                    {product.originalPrice ? (
-                      <span className={styles.originalPrice}>
-                        {formatMoney(product.originalPrice, locale)}
-                      </span>
+                <CategoryNavLink
+                  href={href}
+                  tabIndex={duplicate ? -1 : undefined}
+                  aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
+                  className={styles.cardLink}
+                >
+                  <div className={styles.imageWrap}>
+                    <ProductImage
+                      src={product.image}
+                      alt={product.name[locale]}
+                      sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
+                    />
+                    {discountPercent ? (
+                      <span className={styles.discount}>-{discountPercent}%</span>
                     ) : null}
                   </div>
-                </div>
-              </CategoryNavLink>
-            </article>
-          );
-        })}
+                  <div className={styles.cardBody}>
+                    <p className={styles.name}>{product.name[locale]}</p>
+                    <div className={styles.priceLine}>
+                      <span className={styles.price}>{formatMoney(product.price, locale)}</span>
+                      {product.originalPrice ? (
+                        <span className={styles.originalPrice}>
+                          {formatMoney(product.originalPrice, locale)}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                </CategoryNavLink>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 }
 
 /**
- * An editorial two-row product parade. Each row repeats the exact same active
- * catalog subset, so transform(-50%) loops without a visible jump.
+ * An editorial two-row product parade. A three-copy loop keeps the middle copy
+ * in view, allowing arrow controls and touch input to pause then resume naturally.
  */
 export function HomeProductMarquee() {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const activeProducts = catalogProducts.filter(isStorefrontReadyProduct);
   const catProducts = activeProducts.filter((product) => product.categorySlug === "cats").slice(0, 8);
@@ -112,19 +251,9 @@ export function HomeProductMarquee() {
         </div>
       </div>
 
-      <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6" data-locale={locale}>
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
-          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-            {t("homeMarqueeCats")}
-          </p>
-        </div>
-        <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
-        <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
-          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-            {t("homeMarqueeDogs")}
-          </p>
-        </div>
-        <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
+      <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6">
+        <ProductRow label={t("homeMarqueeCats")} products={catProducts} />
+        <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} />
       </div>
     </section>
   );
