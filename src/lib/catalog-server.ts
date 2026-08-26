@@ -8,6 +8,7 @@ import {
   categorySlugFromMetadata,
   isSmallPetProductText,
   subcategoryFromMetadata,
+  resolveCategorySubSlug,
   type CatSnackSeries,
   type Product,
   type ProductSubcategory,
@@ -110,10 +111,11 @@ function subcategoryFromProduct(
   const metadata = productMetadata(product);
   const raw =
     metadata.subcategory ?? metadata.sub_category ?? metadata.child_category ?? metadata["SubCategory"];
-  const fromMetadata = subcategoryFromMetadata(raw);
+  const fromMetadata = subcategoryFromMetadata(raw) ?? resolveCategorySubSlug(categorySlug, raw);
   // An explicit, granular metadata value remains authoritative. The legacy
   // generic value「狗狗食品」is refined below so dry food and wet food never
-  // share the new Header collections.
+  // share the new Header collections. This also prevents an import filename
+  // such as "cat-litter-and-dry-food" from overriding a declared dry-food slug.
   if (fromMetadata && fromMetadata !== "狗狗食品") return fromMetadata;
 
   const text = `${product.name ?? ""} ${product.description ?? ""} ${Object.values(metadata).join(" ")}`.toLowerCase();
@@ -301,10 +303,14 @@ function productVariantsFromPrices(
   prices: readonly StripePriceRecord[],
 ): ProductVariant[] | undefined {
   const variantMode = productMetadata.variant_mode;
-  if (variantMode !== "pack_size" && variantMode !== "option") return undefined;
+  const isGeneralChoice = variantMode === "option" || variantMode === "choice";
+  if (variantMode !== "pack_size" && !isGeneralChoice) return undefined;
 
   const variants = prices
-    .filter((price) => variantMode === "option" || packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER)
+    .filter((price) => {
+      const hasDeclaredVariant = Boolean(price.metadata.variant_key || price.metadata.variant_label_zh);
+      return isGeneralChoice || packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER || hasDeclaredVariant;
+    })
     .sort((left, right) => variantSortFromPrice(left) - variantSortFromPrice(right))
     .map((price) => {
       const packCount = packCountFromPrice(price);
@@ -318,8 +324,8 @@ function productVariantsFromPrices(
         priceId: price.id,
         price: price.amount,
         label: {
-          zh: price.metadata.variant_label_zh || (variantMode === "option" ? "選項" : `${packCount}罐裝`),
-          en: price.metadata.variant_label_en || (variantMode === "option" ? "Option" : `${packCount} Cans`),
+          zh: price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`),
+          en: price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`),
         },
         ...(Number.isFinite(perCan) && perCan > 0
           ? {

@@ -42,8 +42,8 @@ describe("cat feeding bowl option variants", () => {
   it("supports generic option variants and a product-defined selector label", () => {
     const catalogSource = fs.readFileSync(path.join(root, "src/lib/catalog-server.ts"), "utf8");
     const detailSource = fs.readFileSync(path.join(root, "src/components/product/ProductDetail.tsx"), "utf8");
-    expect(catalogSource).toMatch(/variantMode !== "pack_size" && variantMode !== "option"/);
-    expect(catalogSource).toMatch(/variantMode === "option"/);
+    expect(catalogSource).toMatch(/variantMode === "option" \|\| variantMode === "choice"/);
+    expect(catalogSource).toMatch(/resolveCategorySubSlug\(categorySlug, raw\)/);
     expect(detailSource).toMatch(/variant_selection_label_\$\{locale\}/);
     expect(detailSource).toMatch(/variantSelectorTitle/);
   });
