@@ -123,8 +123,15 @@ describe("calm warm editorial UI contract", () => {
     expect(marquee).toContain('product.categorySlug === "dogs"');
     expect(marquee).toContain("const repeatedProducts = [...products, ...products, ...products]");
     expect(marquee).toContain("AUTO_RESUME_DELAY_MS");
-    expect(marquee).toContain("AUTO_SCROLL_CYCLE_DIVISOR = 340");
-    expect(marquee).toContain("Math.max(1.8, cycleWidth / AUTO_SCROLL_CYCLE_DIVISOR)");
+    expect(marquee).toContain("AUTO_SCROLL_PIXELS_PER_SECOND = 150");
+    expect(marquee).toContain("MAX_ANIMATION_FRAME_DELTA_MS = 64");
+    expect(marquee).toContain("window.requestAnimationFrame(advanceLoop)");
+    expect(marquee).toContain("window.cancelAnimationFrame(animationFrameId)");
+    expect(marquee).toContain("const isAutoPlayingRef = useRef(true)");
+    expect(marquee).toContain("isAutoPlayingRef.current = false");
+    expect(marquee).toContain("isAutoPlayingRef.current = true");
+    expect(marquee).not.toContain("setIsAutoPlaying");
+    expect(marquee).not.toContain("window.setInterval(");
     expect(marquee).toContain("scrollBy({ left: direction * distance, behavior: \"smooth\" })");
     expect(marquee).toContain("homeMarqueePrevious");
     expect(marquee).toContain("homeMarqueeNext");
@@ -135,7 +142,9 @@ describe("calm warm editorial UI contract", () => {
     expect(marquee).toContain("<ProductImage");
     expect(marquee).toContain("homeMarqueeCats");
     expect(marquee).toContain("homeMarqueeDogs");
-    expect(marqueeStyles).toContain("scroll-snap-type: x proximity");
+    expect(marqueeStyles).toContain("scroll-behavior: auto");
+    expect(marqueeStyles).not.toContain("scroll-behavior: smooth");
+    expect(marqueeStyles).not.toContain("scroll-snap-type");
     expect(marqueeStyles).toContain(".controlButton");
     expect(marqueeStyles).toContain("@media (prefers-reduced-motion: reduce)");
     expect(marqueeStyles).toContain('card[data-marquee-copy="duplicate"]');

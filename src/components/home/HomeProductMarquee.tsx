@@ -16,15 +16,16 @@ type ProductRowProps = {
 };
 
 const AUTO_RESUME_DELAY_MS = 1800;
-const AUTO_SCROLL_INTERVAL_MS = 16;
-// A shorter cycle divisor creates a clearly noticeable, editorial-style flow.
-const AUTO_SCROLL_CYCLE_DIVISOR = 340;
+// Keep the loop at a stable visual velocity instead of tying each update to card width.
+const AUTO_SCROLL_PIXELS_PER_SECOND = 150;
+const MAX_ANIMATION_FRAME_DELTA_MS = 64;
 
 function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
   const rowRef = useRef<HTMLDivElement>(null);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  // This ref intentionally avoids restarting the loop effect whenever a user pauses or resumes it.
+  const isAutoPlayingRef = useRef(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const repeatedProducts = [...products, ...products, ...products];
 
@@ -45,13 +46,13 @@ function ProductRow({ label, products }: ProductRowProps) {
 
   const pauseAutoPlay = useCallback(() => {
     clearResumeTimer();
-    setIsAutoPlaying(false);
+    isAutoPlayingRef.current = false;
   }, [clearResumeTimer]);
 
   const resumeAutoPlaySoon = useCallback(() => {
     clearResumeTimer();
     resumeTimerRef.current = setTimeout(() => {
-      setIsAutoPlaying(true);
+      isAutoPlayingRef.current = true;
       resumeTimerRef.current = null;
     }, AUTO_RESUME_DELAY_MS);
   }, [clearResumeTimer]);
@@ -90,20 +91,36 @@ function ProductRow({ label, products }: ProductRowProps) {
     const resizeObserver = new ResizeObserver(positionAtMiddleCopy);
     resizeObserver.observe(row);
 
-    const timer = window.setInterval(() => {
-      if (!isAutoPlaying || prefersReducedMotion) return;
-      const cycleWidth = row.scrollWidth / 3;
-      if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) return;
+    let animationFrameId = 0;
+    let previousFrameTime: number | null = null;
 
-      row.scrollLeft += Math.max(1.8, cycleWidth / AUTO_SCROLL_CYCLE_DIVISOR);
-      normaliseLoopPosition();
-    }, AUTO_SCROLL_INTERVAL_MS);
+    const advanceLoop = (frameTime: number) => {
+      if (!isAutoPlayingRef.current || prefersReducedMotion) {
+        previousFrameTime = null;
+        animationFrameId = window.requestAnimationFrame(advanceLoop);
+        return;
+      }
+
+      if (previousFrameTime !== null) {
+        const elapsed = Math.min(frameTime - previousFrameTime, MAX_ANIMATION_FRAME_DELTA_MS);
+        const cycleWidth = row.scrollWidth / 3;
+        if (Number.isFinite(cycleWidth) && cycleWidth > 0 && elapsed > 0) {
+          row.scrollLeft += (AUTO_SCROLL_PIXELS_PER_SECOND * elapsed) / 1000;
+          normaliseLoopPosition();
+        }
+      }
+
+      previousFrameTime = frameTime;
+      animationFrameId = window.requestAnimationFrame(advanceLoop);
+    };
+
+    animationFrameId = window.requestAnimationFrame(advanceLoop);
 
     return () => {
       resizeObserver.disconnect();
-      window.clearInterval(timer);
+      window.cancelAnimationFrame(animationFrameId);
     };
-  }, [isAutoPlaying, normaliseLoopPosition, prefersReducedMotion, products.length]);
+  }, [normaliseLoopPosition, prefersReducedMotion, products.length]);
 
   useEffect(() => () => clearResumeTimer(), [clearResumeTimer]);
 
