@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
+  getLifestyleProductsBySubcategory,
+  getSmallPetProductsBySubcategory,
+  resolveCategorySubSlug,
   type Product,
 } from "../src/lib/products";
 
@@ -138,6 +141,56 @@ describe("strict category subcategory filtering", () => {
     ]);
     expect(getDogProductsBySubcategory("狗狗玩具", products).map((product) => product.id)).toEqual([
       "dog-toys",
+    ]);
+  });
+
+  it("keeps small-pet and lifestyle shelves strict after route slugs have been resolved", () => {
+    const expansionProducts: Product[] = [
+      {
+        id: "rabbit-supply",
+        categorySlug: "small-pets",
+        subcategory: "兔仔用品",
+        image: "/rabbit.jpg",
+        name: { zh: "兔仔用品", en: "Rabbit supply" },
+        price: 30,
+        icon: "bone",
+      },
+      {
+        id: "small-pet-hay",
+        categorySlug: "small-pets",
+        subcategory: "牧草及墊材",
+        image: "/hay.jpg",
+        name: { zh: "牧草", en: "Hay" },
+        price: 30,
+        icon: "bone",
+      },
+      {
+        id: "pet-bed",
+        categorySlug: "lifestyle",
+        subcategory: "睡窩及家居",
+        image: "/bed.jpg",
+        name: { zh: "寵物睡窩", en: "Pet bed" },
+        price: 30,
+        icon: "bag",
+      },
+      {
+        id: "pet-bowl",
+        categorySlug: "lifestyle",
+        subcategory: "食具及餵食",
+        image: "/bowl.jpg",
+        name: { zh: "寵物食具", en: "Pet bowl" },
+        price: 30,
+        icon: "bag",
+      },
+    ];
+
+    expect(resolveCategorySubSlug("small-pets", "兔仔用品")).toBe("兔仔用品");
+    expect(resolveCategorySubSlug("lifestyle", "睡窩及家居")).toBe("睡窩及家居");
+    expect(getSmallPetProductsBySubcategory("兔仔用品", expansionProducts).map((product) => product.id)).toEqual([
+      "rabbit-supply",
+    ]);
+    expect(getLifestyleProductsBySubcategory("睡窩及家居", expansionProducts).map((product) => product.id)).toEqual([
+      "pet-bed",
     ]);
   });
 });

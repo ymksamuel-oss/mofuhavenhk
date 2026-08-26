@@ -541,10 +541,20 @@ export function resolveCategorySubSlug(
     );
   }
   if (categorySlug === "small-pets") {
-    return SMALL_PET_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+    return (
+      SMALL_PET_SUBCATEGORY_BY_SLUG[subSlug] ??
+      (SMALL_PET_SUBCATEGORIES.includes(subSlug as SmallPetSubcategory)
+        ? (subSlug as SmallPetSubcategory)
+        : null)
+    );
   }
   if (categorySlug === "lifestyle") {
-    return LIFESTYLE_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+    return (
+      LIFESTYLE_SUBCATEGORY_BY_SLUG[subSlug] ??
+      (LIFESTYLE_SUBCATEGORIES.includes(subSlug as LifestyleSubcategory)
+        ? (subSlug as LifestyleSubcategory)
+        : null)
+    );
   }
   return null;
 }
