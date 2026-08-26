@@ -1,0 +1,22 @@
+{
+  "archive_apply_mode": "apply",
+  "old_candidate_count": 89,
+  "old_archived_verified": 89,
+  "old_archive_failures": [],
+  "protected_recent_count": 120,
+  "protected_recent_active_verified": 120,
+  "protected_recent_failures": [],
+  "old_product_sample": {
+    "product_id": "prod_V4htF8xn3apgbi",
+    "name": "北海道帆立貝乾",
+    "active": false,
+    "archive_marker": "temporary_pre_20260825"
+  },
+  "recent_product_sample": {
+    "product_id": "prod_V8lATUvYyTfiyk",
+    "name": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",
+    "active": true,
+    "created_hkt": "2026-08-26T07:21:02+08:00"
+  },
+  "success": true
+}
