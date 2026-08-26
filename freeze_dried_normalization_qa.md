@@ -22,3 +22,9 @@
 - Stripe 重新稽核結果：22 項凍干／凍乾相關商品，`needs_update_count = 0`。
 - 更新工具可重跑，只比對及更新分類、標籤及繁體中文資料欄位。
 - 未建立新 Product 或 Price，未修改付款流程。
+
+## Production 驗證
+
+- Vercel production 商品頁 `prod_V8W07sgetW5UqK` 已顯示 **「雞胸肉碎沫凍乾粉拌飯」**，售價仍為 HK$75.90。
+- 商品頁主圖仍使用原有 CDN URL；本次修正未改動圖片、Price 或庫存。
+- 已驗證的 Vercel deployment status 均為 success。
