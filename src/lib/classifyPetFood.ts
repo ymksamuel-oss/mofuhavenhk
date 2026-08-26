@@ -1,3 +1,5 @@
+import { normalizeProductClassificationText } from "./product-classification-text";
+
 /**
  * Keyword-based pet food zone classifier.
  *
@@ -83,7 +85,7 @@ function collectText(product: ClassifiableProduct): string {
     ...(product.tags ?? []),
     ...(product.specs ?? []).flatMap((s) => [s.zh, s.en]),
   ];
-  return bits.filter(Boolean).join("\n");
+  return normalizeProductClassificationText(bits.filter(Boolean).join("\n"));
 }
 
 function isNonFoodSku(product: ClassifiableProduct, text: string): boolean {

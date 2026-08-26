@@ -129,3 +129,8 @@ new_ciao_inaba_cans_stripe_verification.json
 # Generated freeze-dried category audit/runtime artifacts
 freeze_dried_category_audit.json
 freeze_dried_category_normalization_manifest.json
+
+# Generated whole-catalog classification audit/runtime artifacts
+simplified_catalog_classification_audit.json
+simplified_catalog_classification_summary.json
+catalog_classification_normalization_manifest.json

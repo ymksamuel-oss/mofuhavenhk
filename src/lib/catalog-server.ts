@@ -24,6 +24,7 @@ import {
 } from "@/lib/stripe";
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
+import { normalizeProductClassificationText } from "./product-classification-text";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -76,7 +77,7 @@ function categoryFromProduct(product: Stripe.Product): string {
   const metadata = productMetadata(product);
   const metadataCategory =
     metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
-  const metadataText = Object.values(metadata).join(" ");
+  const metadataText = normalizeProductClassificationText(Object.values(metadata).join(" "));
   const explicitCategory = categorySlugFromMetadata(metadataCategory);
   if (explicitCategory === "small-pets" || explicitCategory === "lifestyle") {
     return explicitCategory;
@@ -96,7 +97,7 @@ function categoryFromProduct(product: Stripe.Product): string {
   // Product copy is a stronger signal than stale category metadata for records
   // imported from earlier catalog versions. Only override metadata when the
   // name/description clearly identifies exactly one pet type.
-  const productText = `${product.name ?? ""} ${product.description ?? ""}`;
+  const productText = normalizeProductClassificationText(`${product.name ?? ""} ${product.description ?? ""}`);
   const isDogProduct = /狗|犬|dog|canine/i.test(productText);
   const isCatProduct = /貓|猫|cat|feline/i.test(productText);
   if (isDogProduct && !isCatProduct) return "dogs";
@@ -119,7 +120,7 @@ function subcategoryFromProduct(
   // such as "cat-litter-and-dry-food" from overriding a declared dry-food slug.
   if (fromMetadata && fromMetadata !== "狗狗食品") return fromMetadata;
 
-  const text = `${product.name ?? ""} ${product.description ?? ""} ${Object.values(metadata).join(" ")}`.toLowerCase();
+  const text = normalizeProductClassificationText(`${product.name ?? ""} ${product.description ?? ""} ${Object.values(metadata).join(" ")}`).toLowerCase();
   if (text.includes("投藥") || text.includes("餵藥") || text.includes("pill")) {
     return "投藥餵藥專用小食";
   }
@@ -168,9 +169,9 @@ function snackSeriesFromProduct(
       CAT_SNACK_SERIES.find((series) => series === explicit);
     if (matched) return matched;
   }
-  const text = [product.name, product.description, ...Object.values(metadata)]
+  const text = normalizeProductClassificationText([product.name, product.description, ...Object.values(metadata)]
     .filter(Boolean)
-    .join(" ");
+    .join(" "));
   if (/去毛球|毛玉|hairball/i.test(text)) return "去毛球配方";
   if (/老貓|高齡|senior|11\s*\+|11歲|14歲/i.test(text)) return "老貓零食";
   if (/bb\s*貓|幼貓|kitten|junior/i.test(text)) return "bb貓零食";

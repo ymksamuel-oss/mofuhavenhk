@@ -1,5 +1,6 @@
 import type { CategoryIconName } from "@/lib/categories";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { normalizeProductClassificationText } from "./product-classification-text";
 
 /**
  * Main child categories shown under 「貓咪商品」. These follow the user's
@@ -677,7 +678,7 @@ const SUBCATEGORY_PARENT_BY_METADATA: Record<
 };
 
 export function categorySlugFromMetadata(category: string | undefined): string | null {
-  const value = category?.trim();
+  const value = normalizeProductClassificationText(category?.trim());
   if (!value) return null;
   return (
     CATEGORY_SLUG_BY_METADATA[value.toLowerCase()] ??
@@ -687,7 +688,7 @@ export function categorySlugFromMetadata(category: string | undefined): string |
 }
 
 export function subcategoryFromMetadata(category: string | undefined): ProductSubcategory | null {
-  const value = category?.trim();
+  const value = normalizeProductClassificationText(category?.trim());
   if (!value) return null;
   return (
     SUBCATEGORY_PARENT_BY_METADATA[value]?.subcategory ??
