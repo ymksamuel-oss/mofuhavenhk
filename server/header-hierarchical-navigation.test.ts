@@ -6,34 +6,65 @@ const source = (relativePath: string) =>
   readFileSync(resolve(process.cwd(), relativePath), "utf8");
 
 describe("hierarchical header category navigation", () => {
-  it("uses the requested cat and dog primary navigation without an all-products button", () => {
+  it("shares the six requested primary groups across desktop and mobile without a header all-products button", () => {
     const header = source("src/components/Header.tsx");
-
-    expect(header).toContain('import { CategorySubmenu, type CategoryMenuGroup }');
-    expect(header).toContain('(["cats", "dogs"] as const).map((group)');
-    expect(header).toContain('group === "cats" ? t("navHeaderCats") : t("navHeaderDogs")');
-    expect(header).toContain('<CategorySubmenu group={group} onNavigate={() => setDesktopCategoryOpen(null)} />');
-    expect(header).toContain('onClick={() => setDesktopCategoryOpen(group)}');
-    expect(header).toContain("mobileCategoryOpen");
-    expect(header).toContain('setMobileCategoryOpen((open) => (open === group ? null : group))');
-    expect(header).not.toContain('<Link href="/menu"');
-    expect(header).not.toContain("CategoryDropdownContent");
-  });
-
-  it("uses only the requested vertical subcategory links for each pet group", () => {
     const submenu = source("src/components/CategoryDropdown.tsx");
 
-    expect(submenu).toContain('href: "/categories/cats/wet-cans"');
-    expect(submenu).toContain('href: "/categories/cats/snacks"');
-    expect(submenu).toContain('href: "/categories/cats/freeze-dried"');
-    expect(submenu).toContain('href: "/categories/cats/litter"');
-    expect(submenu).toContain('href: "/categories/cats/toys-climbing"');
-    expect(submenu).toContain('href: "/categories/dogs/dry-food"');
-    expect(submenu).toContain('href: "/categories/dogs/wet-cans"');
-    expect(submenu).toContain('href: "/categories/dogs/freeze-dried"');
-    expect(submenu).toContain('href: "/categories/dogs/snacks"');
-    expect(submenu).toContain('href: "/categories/dogs/toilet-pads"');
-    expect(submenu).toContain('href: "/categories/dogs/toys"');
+    expect(header).toContain("HEADER_MENU_GROUPS");
+    expect(header).toContain("HEADER_MENU_LABEL_KEY");
+    expect(header).toContain("HEADER_MENU_GROUPS.map((group)");
+    expect(header).toContain("mobileCategoryOpen");
+    expect(header).toContain('setMobileCategoryOpen((open) => (open === group ? null : group))');
+    expect(header).toContain('<CategorySubmenu group={group} onNavigate={() => setDesktopCategoryOpen(null)} />');
+    expect(header).toContain('onClick={() => setDesktopCategoryOpen(group)}');
+    expect(header).not.toContain('<Link href="/menu"');
+    expect(header).not.toContain("CategoryDropdownContent");
+
+    expect(submenu).toContain('"cats"');
+    expect(submenu).toContain('"dogs"');
+    expect(submenu).toContain('"small-pets"');
+    expect(submenu).toContain('"lifestyle"');
+    expect(submenu).toContain('"explore"');
+    expect(submenu).toContain('"shopping"');
+  });
+
+  it("lists all requested product, exploration and shopping destinations without generic all-products routes", () => {
+    const submenu = source("src/components/CategoryDropdown.tsx");
+
+    [
+      "/categories/cats/wet-cans",
+      "/categories/cats/snacks",
+      "/categories/cats/freeze-dried",
+      "/categories/cats/litter",
+      "/categories/cats/toys-climbing",
+      "/categories/dogs/dry-food",
+      "/categories/dogs/wet-cans",
+      "/categories/dogs/freeze-dried",
+      "/categories/dogs/snacks",
+      "/categories/dogs/toilet-pads",
+      "/categories/dogs/toys",
+      "/categories/small-pets/rabbits",
+      "/categories/small-pets/hamsters-gerbils",
+      "/categories/small-pets/guinea-pigs-chinchillas",
+      "/categories/small-pets/food-treats",
+      "/categories/small-pets/hay-bedding",
+      "/categories/small-pets/habitats",
+      "/categories/small-pets/toys-health",
+      "/categories/lifestyle/feeding",
+      "/categories/lifestyle/beds-home",
+      "/categories/lifestyle/outdoor-travel",
+      "/categories/lifestyle/cleaning-odour",
+      "/categories/lifestyle/grooming",
+      "/categories/lifestyle/training-safety",
+      "/categories/lifestyle/storage-accessories",
+      "/cat-breeds",
+      "/cat-breeds?animal=dogs",
+      "/categories/small-pets",
+      "/shipping-policy",
+      "/returns",
+      "/terms",
+    ].forEach((href) => expect(submenu).toContain(`href: "${href}"`));
+
     expect(submenu).not.toContain('href: "/menu"');
     expect(submenu).not.toContain("navCategoriesAllCats");
     expect(submenu).not.toContain("navCategoriesAllDogs");

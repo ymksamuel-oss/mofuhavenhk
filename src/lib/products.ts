@@ -39,7 +39,37 @@ export type DogSubcategory =
 
 const ALL_DOG_SUBCATEGORIES = [...DOG_SUBCATEGORIES, ...DOG_LEGACY_SUBCATEGORIES] as const;
 
-export type ProductSubcategory = CatSubcategory | DogSubcategory;
+/** Main child categories shown under 「小寵物用品」. */
+export const SMALL_PET_SUBCATEGORIES = [
+  "兔仔用品",
+  "倉鼠及沙鼠用品",
+  "天竺鼠及龍貓用品",
+  "小寵物主糧及零食",
+  "牧草及墊材",
+  "籠舍及居住用品",
+  "小寵物玩具及健康護理",
+] as const;
+
+export type SmallPetSubcategory = (typeof SMALL_PET_SUBCATEGORIES)[number];
+
+/** Main child categories shown under 「寵物生活用品」. */
+export const LIFESTYLE_SUBCATEGORIES = [
+  "食具及餵食",
+  "睡窩及家居",
+  "外出散步及旅行",
+  "清潔除臭及護理",
+  "梳毛洗護及美容",
+  "訓練安全及防護",
+  "收納及日常配件",
+] as const;
+
+export type LifestyleSubcategory = (typeof LIFESTYLE_SUBCATEGORIES)[number];
+
+export type ProductSubcategory =
+  | CatSubcategory
+  | DogSubcategory
+  | SmallPetSubcategory
+  | LifestyleSubcategory;
 
 export type ProductSubcategoryLabelKey = Extract<
   TranslationKey,
@@ -57,6 +87,20 @@ export type ProductSubcategoryLabelKey = Extract<
   | "dogSubSnacks"
   | "dogSubToiletPads"
   | "dogSubToys"
+  | "smallPetSubRabbits"
+  | "smallPetSubHamsters"
+  | "smallPetSubGuineaPigs"
+  | "smallPetSubFoodTreats"
+  | "smallPetSubHayBedding"
+  | "smallPetSubHabitats"
+  | "smallPetSubToysHealth"
+  | "lifestyleSubFeeding"
+  | "lifestyleSubBedsHome"
+  | "lifestyleSubOutdoorTravel"
+  | "lifestyleSubCleaningOdour"
+  | "lifestyleSubGrooming"
+  | "lifestyleSubTrainingSafety"
+  | "lifestyleSubStorageAccessories"
 >;
 
 export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
@@ -77,6 +121,20 @@ export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
   狗狗小食: "dogSubSnacks",
   狗狗廁所及尿墊: "dogSubToiletPads",
   狗狗玩具: "dogSubToys",
+  兔仔用品: "smallPetSubRabbits",
+  倉鼠及沙鼠用品: "smallPetSubHamsters",
+  天竺鼠及龍貓用品: "smallPetSubGuineaPigs",
+  小寵物主糧及零食: "smallPetSubFoodTreats",
+  牧草及墊材: "smallPetSubHayBedding",
+  籠舍及居住用品: "smallPetSubHabitats",
+  小寵物玩具及健康護理: "smallPetSubToysHealth",
+  食具及餵食: "lifestyleSubFeeding",
+  睡窩及家居: "lifestyleSubBedsHome",
+  外出散步及旅行: "lifestyleSubOutdoorTravel",
+  清潔除臭及護理: "lifestyleSubCleaningOdour",
+  梳毛洗護及美容: "lifestyleSubGrooming",
+  訓練安全及防護: "lifestyleSubTrainingSafety",
+  收納及日常配件: "lifestyleSubStorageAccessories",
 };
 
 export function getProductSubcategoryLabelKey(
@@ -195,6 +253,46 @@ export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
   投藥餵藥專用小食: "pill-treats",
 };
 
+export const SMALL_PET_SUBCATEGORY_BY_SLUG: Record<string, SmallPetSubcategory> = {
+  rabbits: "兔仔用品",
+  "hamsters-gerbils": "倉鼠及沙鼠用品",
+  "guinea-pigs-chinchillas": "天竺鼠及龍貓用品",
+  "food-treats": "小寵物主糧及零食",
+  "hay-bedding": "牧草及墊材",
+  habitats: "籠舍及居住用品",
+  "toys-health": "小寵物玩具及健康護理",
+};
+
+export const SMALL_PET_SUBCATEGORY_SLUG: Record<SmallPetSubcategory, string> = {
+  兔仔用品: "rabbits",
+  倉鼠及沙鼠用品: "hamsters-gerbils",
+  天竺鼠及龍貓用品: "guinea-pigs-chinchillas",
+  小寵物主糧及零食: "food-treats",
+  牧草及墊材: "hay-bedding",
+  籠舍及居住用品: "habitats",
+  小寵物玩具及健康護理: "toys-health",
+};
+
+export const LIFESTYLE_SUBCATEGORY_BY_SLUG: Record<string, LifestyleSubcategory> = {
+  feeding: "食具及餵食",
+  "beds-home": "睡窩及家居",
+  "outdoor-travel": "外出散步及旅行",
+  "cleaning-odour": "清潔除臭及護理",
+  grooming: "梳毛洗護及美容",
+  "training-safety": "訓練安全及防護",
+  "storage-accessories": "收納及日常配件",
+};
+
+export const LIFESTYLE_SUBCATEGORY_SLUG: Record<LifestyleSubcategory, string> = {
+  食具及餵食: "feeding",
+  睡窩及家居: "beds-home",
+  外出散步及旅行: "outdoor-travel",
+  清潔除臭及護理: "cleaning-odour",
+  梳毛洗護及美容: "grooming",
+  訓練安全及防護: "training-safety",
+  收納及日常配件: "storage-accessories",
+};
+
 export type Product = {
   id: string;
   /** Active HKD Stripe Price used by Checkout for this product. */
@@ -258,6 +356,8 @@ const CATEGORY_SLUG_BY_METADATA: Record<string, string> = {
   "small-pets": "small-pets",
   "小動物": "small-pets",
   "小寵物": "small-pets",
+  lifestyle: "lifestyle",
+  "寵物生活用品": "lifestyle",
   snacks: "snacks",
   snack: "snacks",
   "寵物小食": "snacks",
@@ -292,6 +392,20 @@ const SUBCATEGORY_PARENT_BY_METADATA: Record<
   "狗狗小食": { parent: "dogs", subcategory: "狗狗小食" },
   "狗狗廁所及尿墊": { parent: "dogs", subcategory: "狗狗廁所及尿墊" },
   "狗狗玩具": { parent: "dogs", subcategory: "狗狗玩具" },
+  "兔仔用品": { parent: "small-pets", subcategory: "兔仔用品" },
+  "倉鼠及沙鼠用品": { parent: "small-pets", subcategory: "倉鼠及沙鼠用品" },
+  "天竺鼠及龍貓用品": { parent: "small-pets", subcategory: "天竺鼠及龍貓用品" },
+  "小寵物主糧及零食": { parent: "small-pets", subcategory: "小寵物主糧及零食" },
+  "牧草及墊材": { parent: "small-pets", subcategory: "牧草及墊材" },
+  "籠舍及居住用品": { parent: "small-pets", subcategory: "籠舍及居住用品" },
+  "小寵物玩具及健康護理": { parent: "small-pets", subcategory: "小寵物玩具及健康護理" },
+  "食具及餵食": { parent: "lifestyle", subcategory: "食具及餵食" },
+  "睡窩及家居": { parent: "lifestyle", subcategory: "睡窩及家居" },
+  "外出散步及旅行": { parent: "lifestyle", subcategory: "外出散步及旅行" },
+  "清潔除臭及護理": { parent: "lifestyle", subcategory: "清潔除臭及護理" },
+  "梳毛洗護及美容": { parent: "lifestyle", subcategory: "梳毛洗護及美容" },
+  "訓練安全及防護": { parent: "lifestyle", subcategory: "訓練安全及防護" },
+  "收納及日常配件": { parent: "lifestyle", subcategory: "收納及日常配件" },
 };
 
 export function categorySlugFromMetadata(category: string | undefined): string | null {
@@ -379,6 +493,24 @@ export function getDogProductsBySubcategory(
   return dogs.filter((product) => productSubcategory(product) === subcategory);
 }
 
+export function getSmallPetProductsBySubcategory(
+  subcategory: SmallPetSubcategory | null,
+  products: readonly Product[] = [],
+): Product[] {
+  const smallPets = getProductsByCategory("small-pets", products);
+  if (!subcategory) return smallPets;
+  return smallPets.filter((product) => productSubcategory(product) === subcategory);
+}
+
+export function getLifestyleProductsBySubcategory(
+  subcategory: LifestyleSubcategory | null,
+  products: readonly Product[] = [],
+): Product[] {
+  const lifestyle = getProductsByCategory("lifestyle", products);
+  if (!subcategory) return lifestyle;
+  return lifestyle.filter((product) => productSubcategory(product) === subcategory);
+}
+
 export function getProductById(
   id: string | null | undefined,
   products: readonly Product[] = [],
@@ -407,6 +539,12 @@ export function resolveCategorySubSlug(
         ? (subSlug as DogSubcategory)
         : null)
     );
+  }
+  if (categorySlug === "small-pets") {
+    return SMALL_PET_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
+  }
+  if (categorySlug === "lifestyle") {
+    return LIFESTYLE_SUBCATEGORY_BY_SLUG[subSlug] ?? null;
   }
   return null;
 }

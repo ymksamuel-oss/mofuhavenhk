@@ -4,6 +4,8 @@ import {
   CAT_SNACK_SERIES_SLUG,
   CAT_SUBCATEGORY_SLUG,
   DOG_SUBCATEGORY_SLUG,
+  LIFESTYLE_SUBCATEGORY_SLUG,
+  SMALL_PET_SUBCATEGORY_SLUG,
   type CatSnackSeries,
   type ProductSubcategory,
 } from "@/lib/products";
@@ -49,6 +51,18 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
       title: "Small Pet Supplies | Japanese Essentials for Rabbits & More",
       description:
         "Explore Japanese food, supplements, and everyday essentials curated for rabbits, hamsters, and other small pets.",
+    },
+  },
+  lifestyle: {
+    zh: {
+      title: "寵物生活用品｜日常家居、清潔及外出好物",
+      description:
+        "探索食具、睡窩、清潔護理、外出及日常配件，為毛孩建立更舒適的生活節奏。",
+    },
+    en: {
+      title: "Pet Living Essentials | Home, Care & Travel",
+      description:
+        "Explore feeding, home comfort, cleaning, travel, and everyday accessories selected for easier pet routines.",
     },
   },
   snacks: {
@@ -137,7 +151,7 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
 };
 
-const SUBCATEGORY_SEO: Record<ProductSubcategory, BilingualSeoCopy> = {
+const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
   貓罐罐: {
     zh: {
       title: "貓罐頭及濕糧｜日本貓咪主食罐",
@@ -356,7 +370,8 @@ export function getCategorySeoCopy(
   { categorySlug, subcategory = null, snackSeries = null }: CategorySeoParams,
 ): SeoCopy {
   if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale];
-  if (subcategory) return SUBCATEGORY_SEO[subcategory][locale];
+  const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale] : null;
+  if (subcategoryCopy) return subcategoryCopy;
   return (
     CATEGORY_SEO[categorySlug]?.[locale] ?? {
       title: locale === "zh" ? "寵物商品分類" : "Pet Product Categories",
@@ -376,7 +391,13 @@ export function getCategoryCanonicalPath({
   const subSlug = subcategory
     ? categorySlug === "cats"
       ? CAT_SUBCATEGORY_SLUG[subcategory as keyof typeof CAT_SUBCATEGORY_SLUG]
-      : DOG_SUBCATEGORY_SLUG[subcategory as keyof typeof DOG_SUBCATEGORY_SLUG]
+      : categorySlug === "dogs"
+        ? DOG_SUBCATEGORY_SLUG[subcategory as keyof typeof DOG_SUBCATEGORY_SLUG]
+        : categorySlug === "small-pets"
+          ? SMALL_PET_SUBCATEGORY_SLUG[subcategory as keyof typeof SMALL_PET_SUBCATEGORY_SLUG]
+          : categorySlug === "lifestyle"
+            ? LIFESTYLE_SUBCATEGORY_SLUG[subcategory as keyof typeof LIFESTYLE_SUBCATEGORY_SLUG]
+            : null
     : null;
   const base = subSlug ? `/categories/${categorySlug}/${subSlug}` : `/categories/${categorySlug}`;
   return snackSeries ? `${base}?series=${CAT_SNACK_SERIES_SLUG[snackSeries]}` : base;

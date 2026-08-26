@@ -75,6 +75,10 @@ function categoryFromProduct(product: Stripe.Product): string {
   const metadataCategory =
     metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
   const metadataText = Object.values(metadata).join(" ");
+  const explicitCategory = categorySlugFromMetadata(metadataCategory);
+  if (explicitCategory === "small-pets" || explicitCategory === "lifestyle") {
+    return explicitCategory;
+  }
   if (
     isSmallPetProductText(
       product.name,
@@ -96,7 +100,7 @@ function categoryFromProduct(product: Stripe.Product): string {
   if (isDogProduct && !isCatProduct) return "dogs";
   if (isCatProduct && !isDogProduct) return "cats";
 
-  return categorySlugFromMetadata(metadataCategory) ?? (isDogProduct ? "dogs" : "cats");
+  return explicitCategory ?? (isDogProduct ? "dogs" : "cats");
 }
 
 function subcategoryFromProduct(

@@ -6,6 +6,8 @@ import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 import {
   CAT_SUBCATEGORY_BY_SLUG,
   DOG_SUBCATEGORY_BY_SLUG,
+  LIFESTYLE_SUBCATEGORY_BY_SLUG,
+  SMALL_PET_SUBCATEGORY_BY_SLUG,
   resolveCategorySubSlug,
   resolveCatSnackSeriesSlug,
 } from "@/lib/products";
@@ -24,7 +26,15 @@ export function generateStaticParams() {
     slug: "dogs",
     sub,
   }));
-  return [...catSubs, ...dogSubs];
+  const smallPetSubs = Object.keys(SMALL_PET_SUBCATEGORY_BY_SLUG).map((sub) => ({
+    slug: "small-pets",
+    sub,
+  }));
+  const lifestyleSubs = Object.keys(LIFESTYLE_SUBCATEGORY_BY_SLUG).map((sub) => ({
+    slug: "lifestyle",
+    sub,
+  }));
+  return [...catSubs, ...dogSubs, ...smallPetSubs, ...lifestyleSubs];
 }
 
 export async function generateMetadata({
@@ -33,7 +43,7 @@ export async function generateMetadata({
 }: CategorySubPageProps): Promise<Metadata> {
   const { slug, sub } = await params;
   const query = await searchParams;
-  if (!isCategorySlug(slug) || (slug !== "cats" && slug !== "dogs")) {
+  if (!isCategorySlug(slug) || !["cats", "dogs", "small-pets", "lifestyle"].includes(slug)) {
     return { robots: { index: false, follow: false } };
   }
 
@@ -70,7 +80,7 @@ export default async function CategorySubPage({
 }: CategorySubPageProps) {
   const { slug, sub } = await params;
   const query = await searchParams;
-  if (!isCategorySlug(slug) || (slug !== "cats" && slug !== "dogs")) {
+  if (!isCategorySlug(slug) || !["cats", "dogs", "small-pets", "lifestyle"].includes(slug)) {
     notFound();
   }
 

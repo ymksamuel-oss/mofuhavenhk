@@ -8,7 +8,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
-import { CategorySubmenu, type CategoryMenuGroup } from "@/components/CategoryDropdown";
+import {
+  CategorySubmenu,
+  HEADER_MENU_GROUPS,
+  HEADER_MENU_LABEL_KEY,
+  type CategoryMenuGroup,
+} from "@/components/CategoryDropdown";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
@@ -185,6 +190,16 @@ export function Header() {
     { href: "/checkout", label: t("navCheckout"), active: pathname === "/checkout" },
   ] as const;
 
+  const isMenuGroupActive = (group: CategoryMenuGroup) => {
+    if (group === "cats" || group === "dogs" || group === "small-pets" || group === "lifestyle") {
+      return pathname.startsWith(`/categories/${group}`);
+    }
+    if (group === "explore") {
+      return pathname.startsWith("/cat-breeds") || pathname.startsWith("/dog-breeds");
+    }
+    return pathname === "/shipping-policy" || pathname === "/returns" || pathname === "/terms";
+  };
+
   const mobileMenu =
     menuOpen && portalReady
       ? createPortal(
@@ -238,10 +253,10 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
-                {(["cats", "dogs"] as const).map((group) => {
+                {HEADER_MENU_GROUPS.map((group) => {
                   const isOpen = mobileCategoryOpen === group;
-                  const isActive = pathname.startsWith(`/categories/${group}`);
-                  const label = group === "cats" ? t("navHeaderCats") : t("navHeaderDogs");
+                  const isActive = isMenuGroupActive(group);
+                  const label = t(HEADER_MENU_LABEL_KEY[group]);
                   const panelId = `${mobileCategoriesId}-${group}`;
 
                   return (
@@ -300,7 +315,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
           <Link
             href="/"
             className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
@@ -315,16 +330,16 @@ export function Header() {
 
           <nav
             ref={desktopCategoryRef}
-            className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] lg:flex"
+            className="ml-2 hidden min-w-0 items-center gap-3 text-[13px] text-[color:var(--muted)] lg:flex xl:gap-4 xl:text-sm"
             aria-label="Primary"
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
             </Link>
-            {(["cats", "dogs"] as const).map((group) => {
+            {HEADER_MENU_GROUPS.map((group) => {
               const isOpen = desktopCategoryOpen === group;
-              const isActive = pathname.startsWith(`/categories/${group}`);
-              const label = group === "cats" ? t("categoryCats") : t("categoryDogs");
+              const isActive = isMenuGroupActive(group);
+              const label = t(HEADER_MENU_LABEL_KEY[group]);
               const panelId = `${desktopCategoriesId}-${group}`;
 
               return (

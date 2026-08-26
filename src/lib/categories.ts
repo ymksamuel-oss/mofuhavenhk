@@ -16,6 +16,7 @@ export type CategoryLabelKey = Extract<
   | "categoryCats"
   | "categoryDogs"
   | "categorySmallPets"
+  | "categoryLifestyle"
   | "categorySnacks"
   | "categoryHealth"
   | "categoryCleaning"
@@ -35,6 +36,7 @@ export const CATEGORIES: Category[] = [
   { slug: "cats", labelKey: "categoryCats", icon: "cat" },
   { slug: "dogs", labelKey: "categoryDogs", icon: "dog" },
   { slug: "small-pets", labelKey: "categorySmallPets", icon: "bone" },
+  { slug: "lifestyle", labelKey: "categoryLifestyle", icon: "bag" },
   { slug: "snacks", labelKey: "categorySnacks", icon: "bone" },
   { slug: "toys", labelKey: "categoryToys", icon: "toy" },
   { slug: "health", labelKey: "categoryHealth", icon: "health" },

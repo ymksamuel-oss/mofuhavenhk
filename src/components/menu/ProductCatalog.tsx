@@ -27,11 +27,15 @@ import {
   DOG_SUBCATEGORY_SLUG,
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
+  getLifestyleProductsBySubcategory,
+  getSmallPetProductsBySubcategory,
   getProductSubcategoryLabelKey,
   getProductsByCategory,
   isStorefrontReadyProduct,
   type CatSubcategory,
   type DogSubcategory,
+  type LifestyleSubcategory,
+  type SmallPetSubcategory,
   productHref,
   resolveCategorySubSlug,
   resolveCatSnackSeriesSlug,
@@ -119,7 +123,17 @@ export function ProductCatalog({
               selectedSubcategory as DogSubcategory,
               catalogProducts,
             )
-          : getProductsByCategory(categorySlug, catalogProducts);
+          : categorySlug === "small-pets" && selectedSubcategory
+            ? getSmallPetProductsBySubcategory(
+                selectedSubcategory as SmallPetSubcategory,
+                catalogProducts,
+              )
+            : categorySlug === "lifestyle" && selectedSubcategory
+              ? getLifestyleProductsBySubcategory(
+                  selectedSubcategory as LifestyleSubcategory,
+                  catalogProducts,
+                )
+              : getProductsByCategory(categorySlug, catalogProducts);
     return matchingProducts.filter(isStorefrontReadyProduct);
   }, [categorySlug, catalogProducts, selectedSnackSeries, selectedSubcategory]);
 

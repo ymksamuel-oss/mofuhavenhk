@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState, type SyntheticEvent } from "react";
+import { useEffect, useMemo, useState, type SyntheticEvent } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   CAT_BREED_IMAGE_FALLBACK,
   filterCatBreeds,
@@ -36,7 +37,12 @@ function handleBreedImageError(event: SyntheticEvent<HTMLImageElement>) {
 
 export function CatBreedsGuide() {
   const { t, locale } = useI18n();
+  const searchParams = useSearchParams();
   const [animal, setAnimal] = useState<AnimalTab>("cats");
+
+  useEffect(() => {
+    setAnimal(searchParams.get("animal") === "dogs" ? "dogs" : "cats");
+  }, [searchParams]);
   const [catFilter, setCatFilter] = useState<CatCoatFilter>("all");
   const [dogFilter, setDogFilter] = useState<DogCoatFilter>("all");
   const isEn = locale === "en";
