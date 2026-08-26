@@ -2,12 +2,13 @@
 // language switching moves off the compact toolbar so the Hero remains visually quiet.
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
+import { CategoryDropdownContent } from "@/components/CategoryDropdown";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
@@ -38,6 +39,19 @@ function CartIcon({ className = "" }: { className?: string }) {
       />
       <circle cx="10" cy="19.5" r="1.2" fill="currentColor" />
       <circle cx="17" cy="19.5" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function CaretIcon({ open = false }: { open?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 ease-out ${open ? "rotate-180" : ""}`}
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -75,9 +89,14 @@ export function Header() {
   const router = useRouter();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+  const [desktopCategoriesOpen, setDesktopCategoriesOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
+  const mobileCategoriesId = useId();
+  const desktopCategoriesId = useId();
+  const desktopCategoryRef = useRef<HTMLDivElement>(null);
 
   const switchLocale = (next: Locale) => {
     setLocale(next);
@@ -99,8 +118,35 @@ export function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
+    setMobileCategoriesOpen(false);
+    setDesktopCategoriesOpen(false);
     setCartOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (menuOpen) return;
+    setMobileCategoriesOpen(false);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!desktopCategoriesOpen) return;
+
+    const closeWhenOutside = (event: PointerEvent) => {
+      if (!desktopCategoryRef.current?.contains(event.target as Node)) {
+        setDesktopCategoriesOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setDesktopCategoriesOpen(false);
+    };
+
+    window.addEventListener("pointerdown", closeWhenOutside);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      window.removeEventListener("pointerdown", closeWhenOutside);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [desktopCategoriesOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -134,21 +180,14 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const navItems = [
+  const categoryAreaActive =
+    pathname === "/menu" ||
+    pathname.startsWith("/categories") ||
+    pathname.startsWith("/product");
+
+  const mobileNavItems = [
     { href: "/", label: t("navHome"), active: pathname === "/" },
-    {
-      href: "/menu",
-      label: t("navMenu"),
-      active:
-        pathname === "/menu" ||
-        pathname.startsWith("/categories") ||
-        pathname.startsWith("/product"),
-    },
-    {
-      href: "/checkout",
-      label: t("navCheckout"),
-      active: pathname === "/checkout",
-    },
+    { href: "/checkout", label: t("navCheckout"), active: pathname === "/checkout" },
   ] as const;
 
   const mobileMenu =
@@ -189,7 +228,54 @@ export function Header() {
                 </button>
               </div>
               <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-[max(1.5rem,calc(env(safe-area-inset-bottom,0px)+1rem))] pt-3 [-webkit-overflow-scrolling:touch]">
-                {navItems.map((item) => (
+                {mobileNavItems.slice(0, 1).map((item) => (
+                  <li key={item.href} className="block w-full">
+                    <Link
+                      href={item.href}
+                      className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
+                        item.active
+                          ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
+                      }`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+                <li className="block w-full">
+                  <button
+                    type="button"
+                    className={`flex min-h-11 w-full touch-manipulation items-center justify-between rounded-xl px-4 py-3.5 text-left text-base font-medium leading-normal transition ${
+                      categoryAreaActive || mobileCategoriesOpen
+                        ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                        : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
+                    }`}
+                    aria-expanded={mobileCategoriesOpen}
+                    aria-controls={mobileCategoriesId}
+                    onClick={() => setMobileCategoriesOpen((open) => !open)}
+                  >
+                    <span>{t("navCategories")}</span>
+                    <CaretIcon open={mobileCategoriesOpen} />
+                  </button>
+                  {mobileCategoriesOpen ? (
+                    <div
+                      id={mobileCategoriesId}
+                      className="motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]"
+                    >
+                      <div className="mx-1 mt-2 rounded-2xl border border-[color:var(--line)] bg-white/80 p-4 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">
+                        <CategoryDropdownContent
+                          compact
+                          onNavigate={() => {
+                            setMobileCategoriesOpen(false);
+                            setMenuOpen(false);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </li>
+                {mobileNavItems.slice(1).map((item) => (
                   <li key={item.href} className="block w-full">
                     <Link
                       href={item.href}
@@ -231,15 +317,40 @@ export function Header() {
             className="ml-2 hidden min-w-0 items-center gap-5 text-sm text-[color:var(--muted)] lg:flex"
             aria-label="Primary"
           >
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={navLinkClassName(item.active)}
+            <Link href="/" className={navLinkClassName(pathname === "/")}>
+              {t("navHome")}
+            </Link>
+            <div
+              ref={desktopCategoryRef}
+              className="relative"
+              onMouseEnter={() => setDesktopCategoriesOpen(true)}
+              onMouseLeave={() => setDesktopCategoriesOpen(false)}
+            >
+              <button
+                type="button"
+                className={`${navLinkClassName(categoryAreaActive || desktopCategoriesOpen)} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
+                aria-haspopup="menu"
+                aria-expanded={desktopCategoriesOpen}
+                aria-controls={desktopCategoriesId}
+                onClick={() => setDesktopCategoriesOpen(true)}
+                onFocus={() => setDesktopCategoriesOpen(true)}
               >
-                {item.label}
-              </Link>
-            ))}
+                {t("navCategories")}
+                <CaretIcon open={desktopCategoriesOpen} />
+              </button>
+              {desktopCategoriesOpen ? (
+                <div
+                  id={desktopCategoriesId}
+                  role="menu"
+                  className="category-menu-panel absolute left-[-1.1rem] top-[calc(100%+1rem)] z-50 w-[min(48rem,calc(100vw-4rem))] origin-top-left rounded-[1.35rem] border border-[color:var(--line)] bg-[#fffdfb]/98 p-5 shadow-[0_28px_58px_-30px_rgba(62,42,28,0.46)] backdrop-blur-xl motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]"
+                >
+                  <CategoryDropdownContent onNavigate={() => setDesktopCategoriesOpen(false)} />
+                </div>
+              ) : null}
+            </div>
+            <Link href="/checkout" className={navLinkClassName(pathname === "/checkout")}>
+              {t("navCheckout")}
+            </Link>
           </nav>
 
           {/* Search sits between 「結帳」nav and cart / language controls */}
