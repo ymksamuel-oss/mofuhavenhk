@@ -1,16 +1,45 @@
 import type { CategoryIconName } from "@/lib/categories";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
-/** Cat-products sub-filter keys (shown under 「貓咪商品」). */
+/**
+ * Main child categories shown under 「貓咪商品」. These follow the user's
+ * requested navigation order; legacy food routes remain resolvable below.
+ */
 export const CAT_SUBCATEGORIES = [
   "貓罐罐",
-  "貓乾糧",
-  "冷凍脫水系列",
   "貓貓小食",
-  "投藥餵藥專用小食",
+  "冷凍脫水系列",
+  "貓砂及貓砂盆",
+  "貓咪玩具及攀爬設施",
 ] as const;
 
-export type CatSubcategory = (typeof CAT_SUBCATEGORIES)[number];
+const CAT_LEGACY_SUBCATEGORIES = ["貓乾糧", "投藥餵藥專用小食"] as const;
+
+export type CatSubcategory =
+  | (typeof CAT_SUBCATEGORIES)[number]
+  | (typeof CAT_LEGACY_SUBCATEGORIES)[number];
+
+const ALL_CAT_SUBCATEGORIES = [...CAT_SUBCATEGORIES, ...CAT_LEGACY_SUBCATEGORIES] as const;
+
+/** Main child categories shown under 「狗狗專區」. */
+export const DOG_SUBCATEGORIES = [
+  "狗狗乾糧",
+  "狗狗罐頭及濕糧",
+  "狗狗冷凍脫水食品",
+  "狗狗小食",
+  "狗狗廁所及尿墊",
+  "狗狗玩具",
+] as const;
+
+const DOG_LEGACY_SUBCATEGORIES = ["狗狗食品", "投藥餵藥專用小食"] as const;
+
+export type DogSubcategory =
+  | (typeof DOG_SUBCATEGORIES)[number]
+  | (typeof DOG_LEGACY_SUBCATEGORIES)[number];
+
+const ALL_DOG_SUBCATEGORIES = [...DOG_SUBCATEGORIES, ...DOG_LEGACY_SUBCATEGORIES] as const;
+
+export type ProductSubcategory = CatSubcategory | DogSubcategory;
 
 export type ProductSubcategoryLabelKey = Extract<
   TranslationKey,
@@ -18,9 +47,16 @@ export type ProductSubcategoryLabelKey = Extract<
   | "catSubDryFood"
   | "catSubFreezeDried"
   | "catSubSnacks"
+  | "catSubLitter"
+  | "catSubToysClimbing"
   | "pillTreatsSubcategory"
   | "dogSubFood"
+  | "dogSubDryFood"
+  | "dogSubWetCans"
+  | "dogSubFreezeDried"
   | "dogSubSnacks"
+  | "dogSubToiletPads"
+  | "dogSubToys"
 >;
 
 export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
@@ -31,9 +67,16 @@ export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
   貓乾糧: "catSubDryFood",
   冷凍脫水系列: "catSubFreezeDried",
   貓貓小食: "catSubSnacks",
+  貓砂及貓砂盆: "catSubLitter",
+  貓咪玩具及攀爬設施: "catSubToysClimbing",
   投藥餵藥專用小食: "pillTreatsSubcategory",
   狗狗食品: "dogSubFood",
+  狗狗乾糧: "dogSubDryFood",
+  狗狗罐頭及濕糧: "dogSubWetCans",
+  狗狗冷凍脫水食品: "dogSubFreezeDried",
   狗狗小食: "dogSubSnacks",
+  狗狗廁所及尿墊: "dogSubToiletPads",
+  狗狗玩具: "dogSubToys",
 };
 
 export function getProductSubcategoryLabelKey(
@@ -41,16 +84,6 @@ export function getProductSubcategoryLabelKey(
 ): ProductSubcategoryLabelKey {
   return PRODUCT_SUBCATEGORY_LABEL_KEY[subcategory];
 }
-
-/** Dog-products sub-filter keys (shown under 「狗狗商品」). */
-export const DOG_SUBCATEGORIES = [
-  "狗狗食品",
-  "狗狗小食",
-  "投藥餵藥專用小食",
-] as const;
-
-export type DogSubcategory = (typeof DOG_SUBCATEGORIES)[number];
-export type ProductSubcategory = CatSubcategory | DogSubcategory;
 
 /** A purchasable product option with its own verified Stripe Price ID. */
 export type ProductVariant = {
@@ -120,29 +153,45 @@ export const CAT_SNACK_SERIES_SLUG: Record<CatSnackSeries, string> = {
 
 export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "wet-cans": "貓罐罐",
-  "dry-food": "貓乾糧",
-  "freeze-dried": "冷凍脫水系列",
   snacks: "貓貓小食",
+  "freeze-dried": "冷凍脫水系列",
+  litter: "貓砂及貓砂盆",
+  "toys-climbing": "貓咪玩具及攀爬設施",
+  // Kept for existing shared links; deliberately omitted from the new Header list.
+  "dry-food": "貓乾糧",
   "pill-treats": "投藥餵藥專用小食",
 };
 
 export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
   貓罐罐: "wet-cans",
-  貓乾糧: "dry-food",
-  冷凍脫水系列: "freeze-dried",
   貓貓小食: "snacks",
+  冷凍脫水系列: "freeze-dried",
+  貓砂及貓砂盆: "litter",
+  貓咪玩具及攀爬設施: "toys-climbing",
+  貓乾糧: "dry-food",
   投藥餵藥專用小食: "pill-treats",
 };
 
 export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
-  food: "狗狗食品",
+  "dry-food": "狗狗乾糧",
+  "wet-cans": "狗狗罐頭及濕糧",
+  "freeze-dried": "狗狗冷凍脫水食品",
   snacks: "狗狗小食",
+  "toilet-pads": "狗狗廁所及尿墊",
+  toys: "狗狗玩具",
+  // Kept for existing shared links; deliberately omitted from the new Header list.
+  food: "狗狗食品",
   "pill-treats": "投藥餵藥專用小食",
 };
 
 export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
-  狗狗食品: "food",
+  狗狗乾糧: "dry-food",
+  狗狗罐頭及濕糧: "wet-cans",
+  狗狗冷凍脫水食品: "freeze-dried",
   狗狗小食: "snacks",
+  狗狗廁所及尿墊: "toilet-pads",
+  狗狗玩具: "toys",
+  狗狗食品: "food",
   投藥餵藥專用小食: "pill-treats",
 };
 
@@ -234,8 +283,15 @@ const SUBCATEGORY_PARENT_BY_METADATA: Record<
   "貓乾糧": { parent: "cats", subcategory: "貓乾糧" },
   "冷凍脫水系列": { parent: "cats", subcategory: "冷凍脫水系列" },
   "貓貓小食": { parent: "cats", subcategory: "貓貓小食" },
+  "貓砂及貓砂盆": { parent: "cats", subcategory: "貓砂及貓砂盆" },
+  "貓咪玩具及攀爬設施": { parent: "cats", subcategory: "貓咪玩具及攀爬設施" },
   "狗狗食品": { parent: "dogs", subcategory: "狗狗食品" },
+  "狗狗乾糧": { parent: "dogs", subcategory: "狗狗乾糧" },
+  "狗狗罐頭及濕糧": { parent: "dogs", subcategory: "狗狗罐頭及濕糧" },
+  "狗狗冷凍脫水食品": { parent: "dogs", subcategory: "狗狗冷凍脫水食品" },
   "狗狗小食": { parent: "dogs", subcategory: "狗狗小食" },
+  "狗狗廁所及尿墊": { parent: "dogs", subcategory: "狗狗廁所及尿墊" },
+  "狗狗玩具": { parent: "dogs", subcategory: "狗狗玩具" },
 };
 
 export function categorySlugFromMetadata(category: string | undefined): string | null {
@@ -339,7 +395,7 @@ export function resolveCategorySubSlug(
   if (categorySlug === "cats") {
     return (
       CAT_SUBCATEGORY_BY_SLUG[subSlug] ??
-      (CAT_SUBCATEGORIES.includes(subSlug as CatSubcategory)
+      (ALL_CAT_SUBCATEGORIES.includes(subSlug as CatSubcategory)
         ? (subSlug as CatSubcategory)
         : null)
     );
@@ -347,7 +403,7 @@ export function resolveCategorySubSlug(
   if (categorySlug === "dogs") {
     return (
       DOG_SUBCATEGORY_BY_SLUG[subSlug] ??
-      (DOG_SUBCATEGORIES.includes(subSlug as DogSubcategory)
+      (ALL_DOG_SUBCATEGORIES.includes(subSlug as DogSubcategory)
         ? (subSlug as DogSubcategory)
         : null)
     );

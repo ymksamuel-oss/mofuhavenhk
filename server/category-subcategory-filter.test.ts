@@ -7,15 +7,6 @@ import {
 
 const products: Product[] = [
   {
-    id: "cat-dry-food",
-    categorySlug: "cats",
-    subcategory: "貓乾糧",
-    image: "/cat-dry.jpg",
-    name: { zh: "貓乾糧", en: "Cat dry food" },
-    price: 30,
-    icon: "cat",
-  },
-  {
     id: "cat-wet-cans",
     categorySlug: "cats",
     subcategory: "貓罐罐",
@@ -34,11 +25,56 @@ const products: Product[] = [
     icon: "cat",
   },
   {
-    id: "dog-food",
+    id: "cat-freeze-dried",
+    categorySlug: "cats",
+    subcategory: "冷凍脫水系列",
+    image: "/cat-freeze.jpg",
+    name: { zh: "貓咪凍乾", en: "Cat freeze-dried food" },
+    price: 30,
+    icon: "cat",
+  },
+  {
+    id: "cat-litter",
+    categorySlug: "cats",
+    subcategory: "貓砂及貓砂盆",
+    image: "/cat-litter.jpg",
+    name: { zh: "貓砂", en: "Cat litter" },
+    price: 30,
+    icon: "cat",
+  },
+  {
+    id: "cat-toys",
+    categorySlug: "cats",
+    subcategory: "貓咪玩具及攀爬設施",
+    image: "/cat-toy.jpg",
+    name: { zh: "貓咪玩具", en: "Cat toys" },
+    price: 30,
+    icon: "cat",
+  },
+  {
+    id: "dog-dry-food",
     categorySlug: "dogs",
-    subcategory: "狗狗食品",
-    image: "/dog-food.jpg",
-    name: { zh: "狗狗食品", en: "Dog food" },
+    subcategory: "狗狗乾糧",
+    image: "/dog-dry.jpg",
+    name: { zh: "狗狗乾糧", en: "Dog dry food" },
+    price: 30,
+    icon: "dog",
+  },
+  {
+    id: "dog-wet-cans",
+    categorySlug: "dogs",
+    subcategory: "狗狗罐頭及濕糧",
+    image: "/dog-wet.jpg",
+    name: { zh: "狗狗罐頭", en: "Dog wet cans" },
+    price: 30,
+    icon: "dog",
+  },
+  {
+    id: "dog-freeze-dried",
+    categorySlug: "dogs",
+    subcategory: "狗狗冷凍脫水食品",
+    image: "/dog-freeze.jpg",
+    name: { zh: "狗狗凍乾", en: "Dog freeze-dried food" },
     price: 30,
     icon: "dog",
   },
@@ -51,30 +87,57 @@ const products: Product[] = [
     price: 30,
     icon: "dog",
   },
+  {
+    id: "dog-toilet-pads",
+    categorySlug: "dogs",
+    subcategory: "狗狗廁所及尿墊",
+    image: "/dog-pads.jpg",
+    name: { zh: "狗狗尿墊", en: "Dog training pads" },
+    price: 30,
+    icon: "dog",
+  },
+  {
+    id: "dog-toys",
+    categorySlug: "dogs",
+    subcategory: "狗狗玩具",
+    image: "/dog-toy.jpg",
+    name: { zh: "狗狗玩具", en: "Dog toys" },
+    price: 30,
+    icon: "dog",
+  },
 ];
 
 describe("strict category subcategory filtering", () => {
-  it("shows only cat dry food on the cat dry-food route", () => {
-    expect(getCatProductsBySubcategory("貓乾糧", null, products).map((product) => product.id)).toEqual([
-      "cat-dry-food",
-    ]);
-  });
-
-  it("shows only cat wet cans on the cat wet-cans route", () => {
+  it("shows only the selected cat shelf and never falls back to the broader catalog", () => {
     expect(getCatProductsBySubcategory("貓罐罐", null, products).map((product) => product.id)).toEqual([
       "cat-wet-cans",
     ]);
-  });
-
-  it("shows only dog food on the dog food route", () => {
-    expect(getDogProductsBySubcategory("狗狗食品", products).map((product) => product.id)).toEqual([
-      "dog-food",
+    expect(getCatProductsBySubcategory("貓砂及貓砂盆", null, products).map((product) => product.id)).toEqual([
+      "cat-litter",
+    ]);
+    expect(getCatProductsBySubcategory("貓咪玩具及攀爬設施", null, products).map((product) => product.id)).toEqual([
+      "cat-toys",
     ]);
   });
 
-  it("shows only dog treats on the dog snacks route", () => {
+  it("keeps dog dry food, wet cans, freeze-dried food, treats, toilet supplies, and toys separate", () => {
+    expect(getDogProductsBySubcategory("狗狗乾糧", products).map((product) => product.id)).toEqual([
+      "dog-dry-food",
+    ]);
+    expect(getDogProductsBySubcategory("狗狗罐頭及濕糧", products).map((product) => product.id)).toEqual([
+      "dog-wet-cans",
+    ]);
+    expect(getDogProductsBySubcategory("狗狗冷凍脫水食品", products).map((product) => product.id)).toEqual([
+      "dog-freeze-dried",
+    ]);
     expect(getDogProductsBySubcategory("狗狗小食", products).map((product) => product.id)).toEqual([
       "dog-treats",
+    ]);
+    expect(getDogProductsBySubcategory("狗狗廁所及尿墊", products).map((product) => product.id)).toEqual([
+      "dog-toilet-pads",
+    ]);
+    expect(getDogProductsBySubcategory("狗狗玩具", products).map((product) => product.id)).toEqual([
+      "dog-toys",
     ]);
   });
 });

@@ -241,7 +241,7 @@ export function Header() {
                 {(["cats", "dogs"] as const).map((group) => {
                   const isOpen = mobileCategoryOpen === group;
                   const isActive = pathname.startsWith(`/categories/${group}`);
-                  const label = group === "cats" ? t("categoryCats") : t("categoryDogs");
+                  const label = group === "cats" ? t("navHeaderCats") : t("navHeaderDogs");
                   const panelId = `${mobileCategoriesId}-${group}`;
 
                   return (
@@ -358,15 +358,12 @@ export function Header() {
                 </div>
               );
             })}
-            <Link href="/menu" className={navLinkClassName(pathname === "/menu")}>
-              {t("allProducts")}
-            </Link>
             <Link href="/checkout" className={navLinkClassName(pathname === "/checkout")}>
               {t("navCheckout")}
             </Link>
           </nav>
 
-          {/* Search sits between 「結帳」nav and cart / language controls */}
+          {/* Search, cart and language controls remain visually separate from category navigation. */}
           <div className="ml-auto flex min-w-0 shrink items-center gap-1.5 sm:gap-2.5">
             <ProductSearch variant="header" />
 

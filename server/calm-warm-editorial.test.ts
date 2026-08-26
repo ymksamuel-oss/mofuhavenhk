@@ -137,7 +137,11 @@ describe("calm warm editorial UI contract", () => {
     expect(page).not.toContain("const quickCategories");
     expect(header).toContain("CategoryDropdown");
     expect(categoryDropdown).toContain('t("catSubWetCans")');
-    expect(categoryDropdown).toContain('t("catSubDryFood")');
+    expect(categoryDropdown).toContain('t("catSubLitter")');
+    expect(categoryDropdown).toContain('t("catSubToysClimbing")');
+    expect(categoryDropdown).toContain('t("dogSubDryFood")');
+    expect(categoryDropdown).toContain('t("dogSubWetCans")');
+    expect(categoryDropdown).toContain('t("dogSubToiletPads")');
     expect(products).toContain("PRODUCT_SUBCATEGORY_LABEL_KEY");
     expect(products).toContain("CAT_SNACK_SERIES_LABEL_KEY");
     expect(productCatalog).toContain('getProductSubcategoryLabelKey(option)');

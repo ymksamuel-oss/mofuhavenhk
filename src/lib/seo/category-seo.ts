@@ -186,6 +186,26 @@ const SUBCATEGORY_SEO: Record<ProductSubcategory, BilingualSeoCopy> = {
         "Browse Japanese cat purees, crunchy treats, and freeze-dried snacks for tasty, caring everyday rewards.",
     },
   },
+  貓砂及貓砂盆: {
+    zh: {
+      title: "貓砂及貓砂盆｜愛貓日常衛生用品",
+      description: "探索貓砂、貓砂盆及日常衛生用品，為愛貓準備舒適、整潔的居家空間。",
+    },
+    en: {
+      title: "Cat Litter & Litter Boxes | Everyday Cat Hygiene",
+      description: "Explore cat litter, litter boxes, and hygiene essentials for a clean, comfortable feline home.",
+    },
+  },
+  貓咪玩具及攀爬設施: {
+    zh: {
+      title: "貓咪玩具及攀爬設施｜日常玩樂與探索",
+      description: "探索貓咪玩具、抓玩及攀爬設施，為愛貓增添安全、有趣的日常活動。",
+    },
+    en: {
+      title: "Cat Toys & Climbing Furniture | Play and Enrichment",
+      description: "Discover cat toys and climbing furniture for safe, engaging everyday feline enrichment.",
+    },
+  },
   投藥餵藥專用小食: {
     zh: {
       title: "投藥餵藥專用小食｜寵物用藥好幫手",
@@ -210,6 +230,36 @@ const SUBCATEGORY_SEO: Record<ProductSubcategory, BilingualSeoCopy> = {
         "Explore Japanese dog food and everyday nutrition selected for dependable, delicious routines.",
     },
   },
+  狗狗乾糧: {
+    zh: {
+      title: "狗狗乾糧｜日本狗狗主糧",
+      description: "精選日本狗狗乾糧及日常主食，為狗狗提供安心、均衡的日常營養選擇。",
+    },
+    en: {
+      title: "Dog Dry Food | Japanese Staple Diets",
+      description: "Shop Japanese dog dry food and staple diets selected for balanced everyday nutrition.",
+    },
+  },
+  狗狗罐頭及濕糧: {
+    zh: {
+      title: "狗狗罐頭及濕糧｜日本狗狗濕食",
+      description: "探索日本狗狗罐頭、濕糧及濃湯配方，為日常餵食增添安心美味。",
+    },
+    en: {
+      title: "Dog Cans & Wet Food | Japanese Wet Meals",
+      description: "Browse Japanese dog cans, wet food, and soup recipes for delicious everyday feeding.",
+    },
+  },
+  狗狗冷凍脫水食品: {
+    zh: {
+      title: "狗狗凍乾及脫水食品｜日本自然好物",
+      description: "探索日本狗狗凍乾及脫水食品，保留食材風味，為日常增添自然口感。",
+    },
+    en: {
+      title: "Freeze-Dried Dog Food | Japanese Natural Essentials",
+      description: "Explore Japanese freeze-dried and dehydrated dog food selected for natural everyday feeding.",
+    },
+  },
   狗狗小食: {
     zh: {
       title: "狗狗小食｜日本獎勵零食及肉條",
@@ -220,6 +270,26 @@ const SUBCATEGORY_SEO: Record<ProductSubcategory, BilingualSeoCopy> = {
       title: "Dog Treats | Japanese Reward Snacks & Jerky",
       description:
         "Shop Japanese dog treats, jerky, and reward snacks for training, bonding, and everyday enjoyment.",
+    },
+  },
+  狗狗廁所及尿墊: {
+    zh: {
+      title: "狗狗廁所及尿墊｜日常如廁用品",
+      description: "探索狗狗廁所、尿墊及日常清潔用品，令毛孩居家生活更舒適整潔。",
+    },
+    en: {
+      title: "Dog Toilets & Training Pads | Everyday Hygiene",
+      description: "Discover dog toilets, training pads, and everyday hygiene supplies for a clean home routine.",
+    },
+  },
+  狗狗玩具: {
+    zh: {
+      title: "狗狗玩具｜互動及日常玩樂",
+      description: "探索狗狗玩具及互動用品，為毛孩增添安全、有趣的日常活動。",
+    },
+    en: {
+      title: "Dog Toys | Interactive Everyday Play",
+      description: "Explore dog toys and interactive play essentials for safe, engaging everyday activity.",
     },
   },
 };

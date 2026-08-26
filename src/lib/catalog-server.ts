@@ -107,19 +107,29 @@ function subcategoryFromProduct(
   const raw =
     metadata.subcategory ?? metadata.sub_category ?? metadata.child_category ?? metadata["SubCategory"];
   const fromMetadata = subcategoryFromMetadata(raw);
-  if (fromMetadata) return fromMetadata;
+  // An explicit, granular metadata value remains authoritative. The legacy
+  // generic value「狗狗食品」is refined below so dry food and wet food never
+  // share the new Header collections.
+  if (fromMetadata && fromMetadata !== "狗狗食品") return fromMetadata;
 
-  const text = `${product.name ?? ""} ${product.description ?? ""}`.toLowerCase();
+  const text = `${product.name ?? ""} ${product.description ?? ""} ${Object.values(metadata).join(" ")}`.toLowerCase();
   if (text.includes("投藥") || text.includes("餵藥") || text.includes("pill")) {
     return "投藥餵藥專用小食";
   }
   if (categorySlug === "cats") {
+    if (/(貓砂|litter|砂盆|cat\s*box)/i.test(text)) return "貓砂及貓砂盆";
+    if (/(攀爬|貓爬|cat\s*tree|cat\s*toy|玩具|toy)/i.test(text)) return "貓咪玩具及攀爬設施";
     if (text.includes("冷凍脫水") || text.includes("freeze-dried")) return "冷凍脫水系列";
     if (text.includes("罐頭") || text.includes("罐罐") || text.includes("濕糧") || text.includes("濕食")) return "貓罐罐";
     if (text.includes("乾糧") || text.includes("飼料")) return "貓乾糧";
     if (text.includes("小食") || text.includes("零食") || text.includes("脆餅") || text.includes("肉泥") || text.includes("凍乾")) return "貓貓小食";
   }
   if (categorySlug === "dogs") {
+    if (/(尿墊|尿布|狗廁|toilet|training\s*pad|pee\s*pad)/i.test(text)) return "狗狗廁所及尿墊";
+    if (/(狗玩具|dog\s*toy|玩具|toy)/i.test(text)) return "狗狗玩具";
+    if (text.includes("冷凍脫水") || text.includes("凍乾") || text.includes("freeze-dried")) return "狗狗冷凍脫水食品";
+    if (/(乾糧|狗糧|kibble|dry\s*food)/i.test(text)) return "狗狗乾糧";
+    if (/(罐頭|罐罐|濕糧|濕食|wet\s*food|canned|\bcan\b|pouch)/i.test(text)) return "狗狗罐頭及濕糧";
     if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷")) return "狗狗小食";
     return "狗狗食品";
   }
