@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
+import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 import { calcSubtotal } from "@/lib/order";
@@ -106,6 +107,11 @@ export function ProductQuickView({
             {t("productDiscountBadge")}
           </p>
         ) : null}
+        <MarketReferencePrice
+          price={product.marketReferencePrice}
+          asOf={product.marketReferenceAsOf}
+          className="mt-1 justify-center text-center"
+        />
 
         <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 

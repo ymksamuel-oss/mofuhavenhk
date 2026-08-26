@@ -1,0 +1,50 @@
+{
+  "schema": "market-reference-price-v1",
+  "policy": {
+    "public_label_zh": "市場參考價",
+    "public_label_en": "Market reference",
+    "public_source_disclosure": false,
+    "note": "This is an external same-spec market reference, not a Mofu Haven original price. Source details remain in the internal audit report."
+  },
+  "products": [
+    {
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "expected_import_key": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "expected_name_fragment": "雞胸肉雞肫",
+      "expected_current_price_hkd": 62.4,
+      "market_reference_price_hkd": 75,
+      "market_reference_as_of": "2026-08-25",
+      "reference_id": "MR-20260825-001",
+      "evidence_status": "same-spec external page directly reviewed",
+      "internal_source_document": "recent_48h_compare_at_source_notes.md"
+    },
+    {
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "expected_sku": "DBF-19",
+      "expected_name_fragment": "牛肉",
+      "expected_current_price_hkd": 27.2,
+      "market_reference_price_hkd": 37,
+      "market_reference_as_of": "2026-08-25",
+      "reference_id": "MR-20260825-002",
+      "evidence_status": "same-spec external page directly reviewed",
+      "internal_source_document": "recent_48h_compare_at_source_notes.md"
+    },
+    {
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "expected_sku": "DBF-14",
+      "expected_name_fragment": "高齡犬",
+      "expected_current_price_hkd": 27.2,
+      "market_reference_price_hkd": 36,
+      "market_reference_as_of": "2026-08-25",
+      "reference_id": "MR-20260825-003",
+      "evidence_status": "same-spec external page directly reviewed",
+      "internal_source_document": "recent_48h_compare_at_source_notes.md"
+    }
+  ],
+  "excluded_pending_sku_reconciliation": [
+    {
+      "product_ids": ["prod_V8e143elQIOfMM", "prod_V8e2wynYC6XsBo"],
+      "reason": "Both map to public D1104 85g evidence but were imported with different product names; no market reference is shown until package/SKU reconciliation is completed."
+    }
+  ]
+}

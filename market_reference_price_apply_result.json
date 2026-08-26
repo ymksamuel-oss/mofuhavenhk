@@ -1,0 +1,83 @@
+{
+  "schema": "market-reference-price-apply-result-v1",
+  "mode": "apply",
+  "checked": [
+    {
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "sku": null,
+      "mofu_import_key": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "name": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "current_price_hkd": 62.4,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 75.0,
+      "reference_id": "MR-20260825-001"
+    },
+    {
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "sku": "DBF-19",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-19",
+      "name": "d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g",
+      "current_price_hkd": 27.2,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 37.0,
+      "reference_id": "MR-20260825-002"
+    },
+    {
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "sku": "DBF-14",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-14",
+      "name": "d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g",
+      "current_price_hkd": 27.2,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 36.0,
+      "reference_id": "MR-20260825-003"
+    }
+  ],
+  "updated": [
+    {
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "sku": null,
+      "mofu_import_key": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "name": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "current_price_hkd": 62.4,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 75.0,
+      "reference_id": "MR-20260825-001",
+      "stored_market_reference_price_hkd": "75.00",
+      "stored_market_reference_as_of": "2026-08-25"
+    },
+    {
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "sku": "DBF-19",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-19",
+      "name": "d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g",
+      "current_price_hkd": 27.2,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 37.0,
+      "reference_id": "MR-20260825-002",
+      "stored_market_reference_price_hkd": "37.00",
+      "stored_market_reference_as_of": "2026-08-25"
+    },
+    {
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "sku": "DBF-14",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-14",
+      "name": "d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g",
+      "current_price_hkd": 27.2,
+      "existing_original_price_hkd": "0",
+      "proposed_market_reference_price_hkd": 36.0,
+      "reference_id": "MR-20260825-003",
+      "stored_market_reference_price_hkd": "36.00",
+      "stored_market_reference_as_of": "2026-08-25"
+    }
+  ],
+  "excluded_pending_sku_reconciliation": [
+    {
+      "product_ids": [
+        "prod_V8e143elQIOfMM",
+        "prod_V8e2wynYC6XsBo"
+      ],
+      "reason": "Both map to public D1104 85g evidence but were imported with different product names; no market reference is shown until package/SKU reconciliation is completed."
+    }
+  ]
+}

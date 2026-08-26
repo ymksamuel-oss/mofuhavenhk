@@ -2,6 +2,7 @@
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -131,6 +132,12 @@ export function HomepageProductGrid() {
                         </p>
                       ) : null}
                     </div>
+                    <MarketReferencePrice
+                      price={product.marketReferencePrice}
+                      asOf={product.marketReferenceAsOf}
+                      compact
+                      className="-mt-1"
+                    />
                     <AddToCartButton productId={product.id} size="card" />
                   </div>
                 </li>

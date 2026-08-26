@@ -4,7 +4,9 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { FAQAccordion } from "@/components/FAQAccordion";
+import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductImage } from "@/components/product/ProductImage";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -110,6 +112,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
               {t("productDiscountBadge")}
             </p>
           ) : null}
+          <MarketReferencePrice
+            price={product.marketReferencePrice}
+            asOf={product.marketReferenceAsOf}
+            className="mt-2"
+          />
 
           <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 

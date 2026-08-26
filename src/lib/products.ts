@@ -162,7 +162,12 @@ export type Product = {
   price: number;
   /** Active pack-size variants sourced from Stripe Prices, ordered by pack count. */
   variants?: ProductVariant[];
+  /** Verified Mofu Haven prior/list price, displayed as a promotional strikethrough. */
   originalPrice?: number;
+  /** Same-spec external market reference, intentionally distinct from this store's original price. */
+  marketReferencePrice?: number;
+  /** Optional internal publication date for the verified market reference. */
+  marketReferenceAsOf?: string;
   series?: { zh: string; en: string };
   snackSeries?: CatSnackSeries;
   icon: CategoryIconName;

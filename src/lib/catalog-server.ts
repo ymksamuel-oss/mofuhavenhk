@@ -53,6 +53,23 @@ function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
 }
 
+function marketReferencePriceFromMetadata(
+  metadata: Readonly<Record<string, string>>,
+  currentPrice: number,
+): number | undefined {
+  const rawValue = metadata.market_reference_price_hkd;
+  if (!rawValue) return undefined;
+  const parsed = Number(rawValue.replace(/[^0-9.]/g, ""));
+  return Number.isFinite(parsed) && parsed > currentPrice ? parsed : undefined;
+}
+
+function marketReferenceAsOfFromMetadata(
+  metadata: Readonly<Record<string, string>>,
+): string | undefined {
+  const value = metadata.market_reference_as_of?.trim();
+  return value || undefined;
+}
+
 function categoryFromProduct(product: Stripe.Product): string {
   const metadata = productMetadata(product);
   const metadataCategory =
@@ -392,6 +409,8 @@ function stripeProductToCatalogProduct(
   );
   const defaultVariantOriginalPrice = variants?.find((variant) => variant.priceId === priceRecord.id)?.originalPrice;
   const originalPrice = defaultVariantOriginalPrice ?? compareAtPriceFromMetadata(metadata, priceRecord.amount);
+  const marketReferencePrice = marketReferencePriceFromMetadata(metadata, priceRecord.amount);
+  const marketReferenceAsOf = marketReferenceAsOfFromMetadata(metadata);
   const catalogProduct: Product = {
     id,
     priceId: priceRecord.id,
@@ -406,6 +425,8 @@ function stripeProductToCatalogProduct(
     price: priceRecord.amount,
     ...(variants ? { variants } : {}),
     ...(originalPrice ? { originalPrice } : {}),
+    ...(marketReferencePrice ? { marketReferencePrice } : {}),
+    ...(marketReferenceAsOf ? { marketReferenceAsOf } : {}),
     inStock: inStockFromMetadata(metadata),
     tags: Array.from(new Set([
       ...metadataTags(metadata),

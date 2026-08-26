@@ -5,6 +5,7 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { EditorialPageSlogan } from "@/components/EditorialPageSlogan";
 import { ProductSearch } from "@/components/ProductSearch";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
+import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import {
   CATEGORIES,
@@ -365,6 +366,12 @@ export function ProductCatalog({
                       </p>
                     ) : null}
                   </div>
+                  <MarketReferencePrice
+                    price={product.marketReferencePrice}
+                    asOf={product.marketReferenceAsOf}
+                    compact
+                    className="-mt-1"
+                  />
                   <AddToCartButton productId={product.id} size="card" />
                 </div>
               </li>
