@@ -291,6 +291,11 @@ function packCountFromPrice(price: StripePriceRecord): number {
   return Number.isInteger(value) && value > 0 ? value : Number.MAX_SAFE_INTEGER;
 }
 
+function variantSortFromPrice(price: StripePriceRecord): number {
+  const value = Number(price.metadata.variant_sort);
+  return Number.isInteger(value) && value > 0 ? value : packCountFromPrice(price);
+}
+
 function productVariantsFromPrices(
   productMetadata: Record<string, string>,
   prices: readonly StripePriceRecord[],
@@ -299,7 +304,7 @@ function productVariantsFromPrices(
 
   const variants = prices
     .filter((price) => packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER)
-    .sort((left, right) => packCountFromPrice(left) - packCountFromPrice(right))
+    .sort((left, right) => variantSortFromPrice(left) - variantSortFromPrice(right))
     .map((price) => {
       const packCount = packCountFromPrice(price);
       const perCan = Number(price.metadata.per_can_hkd);
@@ -308,7 +313,7 @@ function productVariantsFromPrices(
         price.amount,
       );
       return {
-        key: `pack-${packCount}`,
+        key: price.metadata.variant_key || `pack-${packCount}`,
         priceId: price.id,
         price: price.amount,
         label: {

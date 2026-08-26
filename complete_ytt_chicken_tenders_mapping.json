@@ -1,0 +1,77 @@
+{
+  "product": {
+    "import_key": "complete-ytt-chicken-tenders-20g",
+    "brand": "Complete ytt",
+    "name_zh": "Complete ytt 日本犬用雞肉條小食 20g",
+    "name_en": "Complete ytt Chicken Tender Dog Treats 20g",
+    "category": "dogs",
+    "subcategory": "狗狗小食",
+    "description_zh": "Complete ytt 犬用雞肉條小食，包裝標示為 20g 小包裝，提供不同數量及混合口味組合選擇。請按原包裝建議份量餵食，並提供充足清水。",
+    "description_en": "Complete ytt chicken tender dog treats in 20g packs. Choose from the verified quantity and mixed-flavour pack options shown below. Feed according to the original package guidance and provide fresh water.",
+    "specs_zh": "每包：20g｜產品類型：犬用雞肉條小食｜可選不同包數及混合口味組合",
+    "specs_en": "Per pack: 20g | Product type: chicken tender dog treats | Choose from quantity and mixed-flavour pack options",
+    "image_source": "/home/ubuntu/upload/IMG_1645.PNG",
+    "image_cdn_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/tAVnWbJFNUyySvTK.png",
+    "image_mode": "one_cleaned_product_image_only"
+  },
+  "pricing_rule": {
+    "currency": "HKD",
+    "cny_to_hkd": 1.1654,
+    "target_product_gross_margin": 0.45,
+    "supplier_to_hong_kong_shipping_hkd": 0,
+    "rounding": "round upward to a .90 ending",
+    "customer_delivery_note": "Order-level customer shipping is excluded from product cost."
+  },
+  "variants": [
+    {
+      "variant_key": "trial-1-pack",
+      "label_zh": "體驗裝｜三文魚海苔味 1 包（8 根）",
+      "label_en": "Trial | Salmon & seaweed, 1 pack (8 sticks)",
+      "pack_count": 1,
+      "total_sticks": 8,
+      "cost_cny": 6.74,
+      "unrounded_retail_hkd": 14.28,
+      "retail_hkd": 14.9
+    },
+    {
+      "variant_key": "random-2-packs",
+      "label_zh": "隨機 2 包／可自選（16 根）",
+      "label_en": "2 packs, random or choose (16 sticks)",
+      "pack_count": 2,
+      "total_sticks": 16,
+      "cost_cny": 12.9,
+      "unrounded_retail_hkd": 27.33,
+      "retail_hkd": 27.9
+    },
+    {
+      "variant_key": "four-flavours-8-packs",
+      "label_zh": "4 口味各 2 包（共 64 根）",
+      "label_en": "4 flavours × 2 packs (64 sticks total)",
+      "pack_count": 8,
+      "total_sticks": 64,
+      "cost_cny": 32.9,
+      "unrounded_retail_hkd": 69.71,
+      "retail_hkd": 69.9
+    },
+    {
+      "variant_key": "mix-8-packs",
+      "label_zh": "混合口味 8 包／可自選（共 64 根）",
+      "label_en": "Mixed flavours, 8 packs, choose your mix (64 sticks)",
+      "pack_count": 8,
+      "total_sticks": 64,
+      "cost_cny": 32.9,
+      "unrounded_retail_hkd": 69.71,
+      "retail_hkd": 69.9
+    },
+    {
+      "variant_key": "mix-10-packs",
+      "label_zh": "混合口味 10 包（共 80 根）",
+      "label_en": "Mixed flavours, 10 packs (80 sticks)",
+      "pack_count": 10,
+      "total_sticks": 80,
+      "cost_cny": 36.7,
+      "unrounded_retail_hkd": 77.76,
+      "retail_hkd": 78.9
+    }
+  ]
+}
