@@ -336,6 +336,211 @@ export type Product = {
   sourceCategory?: string;
 };
 
+/** A verified sibling product in the same purchasable flavour, formula, or size family. */
+export type ProductFlavorChoice = {
+  productId: string;
+  label: { zh: string; en: string };
+};
+
+/**
+ * Product families intentionally use explicit Stripe Product IDs rather than name matching.
+ * This keeps an ingredient selector honest: every option is a live, separately purchasable
+ * product with its own server-verified Stripe Price ID.
+ */
+export type ProductFlavorFamily = {
+  key: string;
+  selector: { zh: string; en: string };
+  label: { zh: string; en: string };
+  choices: readonly ProductFlavorChoice[];
+};
+
+export const PRODUCT_FLAVOR_FAMILIES: readonly ProductFlavorFamily[] = [
+  {
+    key: "one-care-100g-dog-can",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "ONE CARE 100g 主食罐", en: "ONE CARE 100g wet food" },
+    choices: [
+      { productId: "prod_V8ZpWi2bc00Aty", label: { zh: "白身魚", en: "White fish" } },
+      { productId: "prod_V8ZpDXl9RWMDbc", label: { zh: "雞肉", en: "Chicken" } },
+      { productId: "prod_V8Zo9dzijaQ39p", label: { zh: "牛肉", en: "Beef" } },
+      { productId: "prod_V8ZodBXbffvz6o", label: { zh: "雞肝", en: "Chicken liver" } },
+      { productId: "prod_V8ZoNtJinLFNNG", label: { zh: "雙重口味拼配", en: "Two-flavour mix" } },
+      { productId: "prod_V8ZoJ2fwrBOiHL", label: { zh: "牛肉飯", en: "Beef & rice" } },
+      { productId: "prod_V8ZorEO6daplRl", label: { zh: "牛肉蔬菜", en: "Beef & vegetables" } },
+    ],
+  },
+  {
+    key: "dbf-adult-dog-85g",
+    selector: { zh: "選擇配方", en: "Choose a recipe" },
+    label: { zh: "d.b.f 成犬之食事 85g", en: "d.b.f Adult Dog Meal 85g" },
+    choices: [
+      { productId: "prod_V8e2MnRWL8I3ON", label: { zh: "雞肉", en: "Chicken" } },
+      { productId: "prod_V8e2eck5fdwDtP", label: { zh: "雞肉蔬菜", en: "Chicken & vegetables" } },
+      { productId: "prod_V8e2wynYC6XsBo", label: { zh: "雞肉紅薯", en: "Chicken & sweet potato" } },
+      { productId: "prod_V8e1EgYIqCWkcb", label: { zh: "雞肉軟骨", en: "Chicken & cartilage" } },
+    ],
+  },
+  {
+    key: "dbf-senior-dog-85g",
+    selector: { zh: "選擇配方", en: "Choose a recipe" },
+    label: { zh: "d.b.f 高齡犬之食事 85g", en: "d.b.f Senior Dog Meal 85g" },
+    choices: [
+      { productId: "prod_V8e22XlcOMIRus", label: { zh: "雞肉", en: "Chicken" } },
+      { productId: "prod_V8e2oW8u6WCtg5", label: { zh: "雞肉蔬菜", en: "Chicken & vegetables" } },
+      { productId: "prod_V8e2hvyqfhk59B", label: { zh: "雞肉紅薯", en: "Chicken & sweet potato" } },
+      { productId: "prod_V8e2NVxYYDt7TI", label: { zh: "雞肉軟骨", en: "Chicken & cartilage" } },
+    ],
+  },
+  {
+    key: "dbf-puree-65g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "d.b.f 65g 肉糜罐", en: "d.b.f 65g purée can" },
+    choices: [
+      { productId: "prod_V8e1Jgdnr9v8HM", label: { zh: "牛肉糜", en: "Beef purée" } },
+      { productId: "prod_V8e1qdj8efQTs9", label: { zh: "雞肉糜", en: "Chicken purée" } },
+      { productId: "prod_V8e2HgqFtfTeZ3", label: { zh: "低脂雞胸肉糜", en: "Lower-fat chicken breast purée" } },
+    ],
+  },
+  {
+    key: "dbf-150g-side-dish",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "d.b.f 150g 營養副食", en: "d.b.f 150g side dish" },
+    choices: [
+      { productId: "prod_V8e2NpxQsXvHOA", label: { zh: "雞肉雞胸肉糜紅薯", en: "Chicken, breast purée & sweet potato" } },
+      { productId: "prod_V8e2yXi5ewIEg5", label: { zh: "雞肉雞胸肉糜蔬菜", en: "Chicken, breast purée & vegetables" } },
+    ],
+  },
+  {
+    key: "combo-present-kidney-mini",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "COMBO Present 維護腎臟小包", en: "COMBO Present Kidney Support mini pack" },
+    choices: [
+      { productId: "prod_V8crtmrNegpX6C", label: { zh: "混合肉味", en: "Meat" } },
+      { productId: "prod_V8crvbMiPxxJvt", label: { zh: "混合海鮮", en: "Seafood" } },
+    ],
+  },
+  {
+    key: "combo-present-dental-mini",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "COMBO Present 潔齒防口臭小包", en: "COMBO Present Dental Care mini pack" },
+    choices: [
+      { productId: "prod_V8cr9iyVmqUz8O", label: { zh: "混合肉味", en: "Meat" } },
+      { productId: "prod_V8crzRJNuOzt2e", label: { zh: "混合海鮮", en: "Seafood" } },
+    ],
+  },
+  {
+    key: "petline-gochisou-time",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "PETLINE 盛宴時光 25g×4", en: "PETLINE Gochisou Time 25g×4" },
+    choices: [
+      { productId: "prod_V8lAMmluHgtE1f", label: { zh: "雞肉泥牛奶果凍芝士", en: "Chicken paste milk jelly & cheese" } },
+      { productId: "prod_V8lAXdhHafIDnG", label: { zh: "雞胸肉牛奶燉芝士", en: "Chicken breast milk stew & cheese" } },
+      { productId: "prod_V8lAt5mJJ5YOb7", label: { zh: "雞胸肉芝士果凍", en: "Chicken breast & cheese jelly" } },
+      { productId: "prod_V8lAPSEzKs8rpv", label: { zh: "雞胸肉蔬菜牛肉風味果凍", en: "Chicken breast, vegetable & beef-style jelly" } },
+    ],
+  },
+  {
+    key: "ciao-grilled-30g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "CIAO 炙烤盛宴 30g", en: "CIAO Grilled Dinner 30g" },
+    choices: [
+      { productId: "prod_V8fe3PM27QjYNh", label: { zh: "正宗高湯味", en: "Authentic broth" } },
+      { productId: "prod_V8fenfKdEjRnr7", label: { zh: "銀魚扇貝味", en: "Shirasu & scallop" } },
+      { productId: "prod_V8feNaBEY6Pn28", label: { zh: "北海道風味扇貝", en: "Hokkaido scallop" } },
+      { productId: "prod_V8fefdYTxUdNva", label: { zh: "鰹魚干扇貝味", en: "Bonito flakes & scallop" } },
+    ],
+  },
+  {
+    key: "ciao-probiotic-40g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "CIAO 超強乳酸菌 40g", en: "CIAO Probiotic 40g" },
+    choices: [
+      { productId: "prod_V8feeIGBK4DYB1", label: { zh: "雞肉鰹魚干高湯", en: "Chicken & bonito broth" } },
+      { productId: "prod_V8feoZ4v72AX1T", label: { zh: "金槍魚雞肉鰹魚", en: "Tuna, chicken & bonito" } },
+      { productId: "prod_V8feXQdvRNrV4B", label: { zh: "鮪魚雞肉柴魚片高湯", en: "Tuna, chicken & bonito flakes broth" } },
+    ],
+  },
+  {
+    key: "ciao-premium-30g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "CIAO Premium 30g", en: "CIAO Premium 30g" },
+    choices: [
+      { productId: "prod_V8feew2ryjD7ql", label: { zh: "雞胸肉扇貝", en: "Chicken breast & scallop" } },
+      { productId: "prod_V8fe1kWPFBfcKh", label: { zh: "鰹魚雞胸肉木魚花", en: "Bonito, chicken & bonito flakes" } },
+    ],
+  },
+  {
+    key: "vets-labo-medimousse",
+    selector: { zh: "選擇配方", en: "Choose a formula" },
+    label: { zh: "Vet’s Labo MediMousse 95g", en: "Vet’s Labo MediMousse 95g" },
+    choices: [
+      { productId: "prod_V8fexvyuSOogz8", label: { zh: "健康支持", en: "Health support" } },
+      { productId: "prod_V8feViin1yPowA", label: { zh: "腸胃呵護", en: "Digestive support" } },
+      { productId: "prod_V8feexDq7xAidn", label: { zh: "皮膚維護", en: "Skin support" } },
+      { productId: "prod_V8fe6YUsIrEf8Q", label: { zh: "減肥減脂", en: "Weight support" } },
+    ],
+  },
+  {
+    key: "silver-spoon-70g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "銀之匙貓罐頭 70g", en: "Gin no Spoon cat can 70g" },
+    choices: [
+      { productId: "prod_V8lATUvYyTfiyk", label: { zh: "魚肉雞胸肉鰹魚節", en: "Fish, chicken breast & bonito flakes" } },
+      { productId: "prod_V8lAGdiamaGSwC", label: { zh: "魚肉雞胸肉吻仔魚", en: "Fish, chicken breast & shirasu" } },
+      { productId: "prod_V8lATH0SDiLKBx", label: { zh: "濃湯鮪魚鰹魚雞胸肉", en: "Gravy tuna, bonito & chicken" } },
+      { productId: "prod_V8lAjMRJn8PScz", label: { zh: "鮪魚鰹魚雞胸肉", en: "Tuna, bonito & chicken" } },
+      { productId: "prod_V8lAUga8Mwc3d0", label: { zh: "濃湯鮪魚", en: "Gravy tuna" } },
+    ],
+  },
+  {
+    key: "freeze-dried-chicken-gizzard",
+    selector: { zh: "選擇規格", en: "Choose a size" },
+    label: { zh: "雞胸肉雞肫凍乾", en: "Freeze-dried chicken breast & gizzard" },
+    choices: [
+      { productId: "prod_V8W072ieTWyOZ7", label: { zh: "18g", en: "18g" } },
+      { productId: "prod_V8W06fowHsMOSF", label: { zh: "120g", en: "120g" } },
+    ],
+  },
+  {
+    key: "freeze-dried-chicken-liver",
+    selector: { zh: "選擇規格", en: "Choose a size" },
+    label: { zh: "雞胸肉雞肝凍乾", en: "Freeze-dried chicken breast & liver" },
+    choices: [
+      { productId: "prod_V8VzYLI6mgAR3P", label: { zh: "18g", en: "18g" } },
+      { productId: "prod_V8W0oMeIOyFLhp", label: { zh: "120g", en: "120g" } },
+    ],
+  },
+  {
+    key: "freeze-dried-cat-chicken-tenderloin",
+    selector: { zh: "選擇規格", en: "Choose a size" },
+    label: { zh: "雞里脊凍乾（貓用）", en: "Freeze-dried chicken tenderloin (cat)" },
+    choices: [
+      { productId: "prod_V8VzICRXhFqVtH", label: { zh: "30g", en: "30g" } },
+      { productId: "prod_V8Vz4r6kx51OK2", label: { zh: "150g", en: "150g" } },
+    ],
+  },
+  {
+    key: "freeze-dried-cat-chicken-breast",
+    selector: { zh: "選擇規格", en: "Choose a size" },
+    label: { zh: "雞胸肉凍乾（貓用）", en: "Freeze-dried chicken breast (cat)" },
+    choices: [
+      { productId: "prod_V8VzTooOH64y65", label: { zh: "30g", en: "30g" } },
+      { productId: "prod_V8VzG9Cs8B2Rjb", label: { zh: "150g", en: "150g" } },
+    ],
+  },
+] as const;
+
+const PRODUCT_FLAVOR_FAMILY_BY_PRODUCT_ID = new Map<string, ProductFlavorFamily>();
+for (const family of PRODUCT_FLAVOR_FAMILIES) {
+  for (const choice of family.choices) {
+    PRODUCT_FLAVOR_FAMILY_BY_PRODUCT_ID.set(choice.productId, family);
+  }
+}
+
+export function getProductFlavorFamily(productId: string): ProductFlavorFamily | undefined {
+  return PRODUCT_FLAVOR_FAMILY_BY_PRODUCT_ID.get(productId);
+}
+
 /**
  * Product wording that identifies the small-pet shelf. Keep this broad enough
  * for future Stripe / sheet products while avoiding generic pet wording.

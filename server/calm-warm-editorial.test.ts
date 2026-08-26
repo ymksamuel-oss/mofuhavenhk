@@ -295,8 +295,10 @@ describe("calm warm editorial UI contract", () => {
     expect(catalog).toContain("const localizedName = metadataName ??");
     expect(catalog).toContain("const localizedDescription = metadataDescription ??");
     expect(catalog).toContain('"specs_en"');
-    expect(detail).toContain("product.description[locale] || product.description.zh");
-    expect(detail).toContain("spec[locale] || spec.zh");
+    expect(detail).toContain("selectedProduct.description[locale] || selectedProduct.description.zh");
+    expect(detail).toContain("spec.label[locale] || spec.label.zh");
+    expect(detail).toContain("getProductFlavorFamily");
+    expect(detail).not.toContain("product.specs?.length");
     expect(quickView).toContain("product.description[locale] || product.description.zh");
     expect(quickView).toContain("spec[locale] || spec.zh");
   });
@@ -402,7 +404,8 @@ describe("calm warm editorial UI contract", () => {
     const productType = source("src/lib/products.ts");
 
     expect(productDetail).toContain("<ProductGallery");
-    expect(productDetail).toContain("images={product.images}");
+    expect(productDetail).toContain("images={selectedProduct.images}");
+    expect(productDetail).toContain("key={selectedProduct.id}");
     expect(gallery).toContain("slice(0, 5)");
     expect(gallery).toContain("snap-x snap-mandatory");
     expect(gallery).toContain('role="tablist"');
