@@ -38,3 +38,9 @@
 第二次執行上架腳本後，產品仍為 `prod_V8sFjjO8IgpPvO`，五個 `price_action` 均為 `reused`；確認腳本不會建立重複 Stripe Product 或 Price。現有伺服器訂單重建及 Stripe Price 所屬產品驗證保持不變。
 
 `npm test` 共 42 項通過（新增 3 項單圖多規格回歸測試）；`npm run validate:products` 及 `npm run build` 均通過。建置期間有遠端圖片 TLS 重試紀錄，但最終編譯及 65 個頁面建置成功。
+
+## 正式網站驗證
+
+測試入口：`https://www.mofuhavenhk.com/product/prod_V8sFjjO8IgpPvO?completeytt=3a59a47d`
+
+正式頁面已顯示唯一清理後的 Complete ytt 包裝主圖，並列出五個實際數量／組合選擇：HK$14.90、HK$27.90、HK$69.90、HK$69.90 及 HK$78.90。已在正式頁選取「混合口味 8 包／可自選（共 64 根）」；主價格即時更新至 HK$69.90，而「4 口味各 2 包」維持為另一個可選項，確認兩者沒有因同樣 8 包而混同。未進行付款或送出結帳。
