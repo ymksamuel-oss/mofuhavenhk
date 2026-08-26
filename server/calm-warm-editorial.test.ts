@@ -38,6 +38,7 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('origin-left scale-[1.5] object-cover object-[0%_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain("<HomepageProductGrid />");
+    expect(page).toContain("<HomeProductMarquee />");
     expect(page).not.toContain("const quickCategories");
     expect(page).not.toContain('t("categoryGridTitle")');
     expect(page).not.toContain('grid grid-cols-4 gap-2 sm:gap-3');
@@ -110,6 +111,25 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).toContain('"prod_V5eKT1ckCpsx5I"');
     expect(productGrid).toContain(".sort((left, right)");
     expect(productGrid).toContain("isStorefrontReadyProduct");
+  });
+
+  it("keeps a two-row accessible product marquee backed by the live catalog", () => {
+    const marquee = source("src/components/home/HomeProductMarquee.tsx");
+    const marqueeStyles = source("src/components/home/HomeProductMarquee.module.css");
+
+    expect(marquee).toContain("useCatalog");
+    expect(marquee).toContain("isStorefrontReadyProduct");
+    expect(marquee).toContain('product.categorySlug === "cats"');
+    expect(marquee).toContain('product.categorySlug === "dogs"');
+    expect(marquee).toContain("const repeatedProducts = [...products, ...products]");
+    expect(marquee).toContain("tabIndex={duplicate ? -1 : undefined}");
+    expect(marquee).toContain("<ProductImage");
+    expect(marquee).toContain("homeMarqueeCats");
+    expect(marquee).toContain("homeMarqueeDogs");
+    expect(marqueeStyles).toContain("animation-name: home-product-marquee");
+    expect(marqueeStyles).toContain("animation-play-state: paused");
+    expect(marqueeStyles).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(marqueeStyles).toContain('card[data-marquee-copy="duplicate"]');
   });
 
   it("uses responsive image delivery and a focused homepage product selection", () => {
