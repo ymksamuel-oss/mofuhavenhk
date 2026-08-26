@@ -300,10 +300,11 @@ function productVariantsFromPrices(
   productMetadata: Record<string, string>,
   prices: readonly StripePriceRecord[],
 ): ProductVariant[] | undefined {
-  if (productMetadata.variant_mode !== "pack_size") return undefined;
+  const variantMode = productMetadata.variant_mode;
+  if (variantMode !== "pack_size" && variantMode !== "option") return undefined;
 
   const variants = prices
-    .filter((price) => packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER)
+    .filter((price) => variantMode === "option" || packCountFromPrice(price) !== Number.MAX_SAFE_INTEGER)
     .sort((left, right) => variantSortFromPrice(left) - variantSortFromPrice(right))
     .map((price) => {
       const packCount = packCountFromPrice(price);
@@ -317,8 +318,8 @@ function productVariantsFromPrices(
         priceId: price.id,
         price: price.amount,
         label: {
-          zh: price.metadata.variant_label_zh || `${packCount}罐裝`,
-          en: price.metadata.variant_label_en || `${packCount} Cans`,
+          zh: price.metadata.variant_label_zh || (variantMode === "option" ? "選項" : `${packCount}罐裝`),
+          en: price.metadata.variant_label_en || (variantMode === "option" ? "Option" : `${packCount} Cans`),
         },
         ...(Number.isFinite(perCan) && perCan > 0
           ? {

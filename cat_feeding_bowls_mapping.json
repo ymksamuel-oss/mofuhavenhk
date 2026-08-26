@@ -1,0 +1,94 @@
+{
+  "pricing_basis": {
+    "currency_cost": "CNY",
+    "cny_to_hkd": 1.1654,
+    "target_product_margin": 0.45,
+    "upward_price_ending": ".90",
+    "source_shipping_hkd": 0,
+    "customer_shipping_note": "客戶順豐運費屬訂單層，未計入產品成本。"
+  },
+  "category": {
+    "category_slug": "lifestyle",
+    "subcategory": "食具及餵食",
+    "pet_type": "cats"
+  },
+  "products": [
+    {
+      "import_key": "cat-ear-slanted-bowl-12cm",
+      "name_zh": "貓耳斜口高腳陶瓷食盤 12cm",
+      "name_en": "Cat Ear Raised Slanted Ceramic Bowl 12cm",
+      "description_zh": "12cm 貓耳造型斜口高腳陶瓷食盤；前碗口約高 9.5cm、後高約 12cm。斜口設計方便日常進食，請按毛孩實際需要選擇。",
+      "description_en": "A 12cm cat-ear raised slanted ceramic feeding bowl with an approximately 9.5cm front rim and 12cm rear height.",
+      "cost_cny": 25.5,
+      "base_price_hkd": 54.0322,
+      "retail_hkd": 54.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/zEnGXuatNYNuvnbK.png",
+      "variants": [
+        "自在如風（藍色插畫）",
+        "柿柿如意（綠色插畫）",
+        "藍胖胖",
+        "綠胖胖"
+      ]
+    },
+    {
+      "import_key": "blue-cat-slanted-raised-bowl-m",
+      "name_zh": "藍貓圖案斜口高腳陶瓷食盤 M",
+      "name_en": "Blue Cat Pattern Raised Slanted Ceramic Bowl M",
+      "description_zh": "中型斜口高腳陶瓷食盤，盤寬約 15cm、前高約 7.8cm、後高約 10cm、底徑約 12.6cm。",
+      "description_en": "A medium raised slanted ceramic bowl, approximately 15cm wide with a 12.6cm base diameter.",
+      "cost_cny": 30.95,
+      "base_price_hkd": 65.5802,
+      "retail_hkd": 65.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/AFPjmvKJBUrdjJkN.png",
+      "variants": ["藍貓圖案 M"]
+    },
+    {
+      "import_key": "white-cat-wave-slanted-bowl-m",
+      "name_zh": "白貓海浪紋斜口高腳陶瓷食盤 M",
+      "name_en": "White Cat Wave Pattern Raised Slanted Ceramic Bowl M",
+      "description_zh": "白貓及海浪紋斜口高腳陶瓷食盤，寬約 15.2cm、高約 8.8cm、底徑約 12.4cm。",
+      "description_en": "A white cat and wave-pattern raised slanted ceramic bowl, approximately 15.2cm wide and 8.8cm high.",
+      "cost_cny": 27.94,
+      "base_price_hkd": 59.2023,
+      "retail_hkd": 59.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/EAFbboCkgpXSCkmO.png",
+      "variants": ["白貓海浪紋 M"]
+    },
+    {
+      "import_key": "flat-raised-ceramic-bowl-250ml",
+      "name_zh": "高腳平口陶瓷貓咪食盤 250ml",
+      "name_en": "Raised Flat-Rim Ceramic Cat Bowl 250ml",
+      "description_zh": "平口高腳陶瓷貓咪食盤，直徑約 12.4cm、高約 11.2cm，容量約 250ml。",
+      "description_en": "A raised flat-rim ceramic cat bowl, approximately 12.4cm in diameter, 11.2cm high, and 250ml in capacity.",
+      "cost_cny": 18.34,
+      "base_price_hkd": 38.8608,
+      "retail_hkd": 38.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jHsYihZUhsRnfazI.png",
+      "variants": ["魚圖案", "綠葉圖案", "羽毛圖案"]
+    },
+    {
+      "import_key": "cat-face-slanted-raised-bowl-350ml",
+      "name_zh": "貓臉斜口高腳陶瓷食盤 350ml",
+      "name_en": "Cat Face Raised Slanted Ceramic Bowl 350ml",
+      "description_zh": "貓臉造型斜口高腳陶瓷食盤，盤寬約 14.6cm、高約 10.2cm，容量約 350ml。",
+      "description_en": "A cat-face raised slanted ceramic bowl, approximately 14.6cm wide, 10.2cm high, and 350ml in capacity.",
+      "cost_cny": 27.94,
+      "base_price_hkd": 59.2023,
+      "retail_hkd": 59.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jVYIoSHpzOBHdpSi.png",
+      "variants": ["白色", "橘色", "藍色"]
+    },
+    {
+      "import_key": "navy-cat-face-raised-bowl-m",
+      "name_zh": "深藍貓臉高腳陶瓷食盤 M",
+      "name_en": "Navy Cat Face Raised Ceramic Bowl M",
+      "description_zh": "深藍色貓臉高腳陶瓷食盤，直徑約 11.6cm、高約 10cm。",
+      "description_en": "A navy cat-face raised ceramic bowl, approximately 11.6cm in diameter and 10cm high.",
+      "cost_cny": 21.9,
+      "base_price_hkd": 46.4041,
+      "retail_hkd": 46.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/OdGJvUGjlxVJiMee.png",
+      "variants": ["深藍色 M"]
+    }
+  ]
+}

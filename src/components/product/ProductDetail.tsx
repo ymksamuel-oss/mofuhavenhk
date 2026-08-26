@@ -56,6 +56,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
   }, [selectedProduct.id]);
 
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
+  const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${locale}`]
+    ?? t("productSpecSelectorTitle");
   const specOptions = hasPackVariants ? selectedProduct.variants! : [];
   const selectedOption = specOptions[selectedSpecIndex] ?? specOptions[0];
   const selectedPrice = selectedOption?.price ?? selectedProduct.price;
@@ -239,7 +241,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   id="product-pack-selector-title"
                   className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
                 >
-                  {t("productSpecSelectorTitle")}
+                  {variantSelectorTitle}
                 </h2>
                 <span className="text-[11px] text-[color:var(--muted)]">
                   {t("productModalSpecsTitle")}
@@ -248,7 +250,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <div
                 className="mt-3 grid gap-2 sm:grid-cols-2"
                 role="radiogroup"
-                aria-label={t("productSpecSelectorTitle")}
+                aria-label={variantSelectorTitle}
               >
                 {specOptions.map((spec, index) => {
                   const selected = selectedSpecIndex === index;
