@@ -105,10 +105,10 @@ describe("calm warm editorial UI contract", () => {
     expect(productGrid).not.toContain("查看全部商品");
     expect(productGrid).not.toContain("查看全部");
     expect(productGrid).toContain("HOME_FEATURED_PRODUCT_IDS");
-    expect(productGrid).toContain('"prod_V5eKYSnRNwaczq"');
-    expect(productGrid).toContain('"prod_V5eKRNO3yNFKAe"');
-    expect(productGrid).toContain('"prod_V5eKvVH9j8xjri"');
-    expect(productGrid).toContain('"prod_V5eKT1ckCpsx5I"');
+    expect(productGrid).toContain("ProductStatusBadges");
+    expect(source("src/components/product/ProductStatusBadges.tsx")).toContain('"prod_V8cr2Q8hiWwniV"');
+    expect(source("src/components/product/ProductStatusBadges.tsx")).toContain("NEW_ARRIVAL_WINDOW_MS");
+    expect(source("src/components/product/ProductStatusBadges.tsx")).toContain("inStock === true && statuses.length === 0");
     expect(productGrid).toContain(".sort((left, right)");
     expect(productGrid).toContain("isStorefrontReadyProduct");
   });

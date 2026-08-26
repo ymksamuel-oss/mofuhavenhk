@@ -4,25 +4,11 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
+import { HOME_FEATURED_PRODUCT_IDS, ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref } from "@/lib/products";
-
-/**
- * Stable Product IDs keep the home shelf intentional even when Stripe returns
- * products in a different order. This selection balances cats, dogs and treats.
- */
-const HOME_FEATURED_PRODUCT_IDS = [
-  "prod_V4htHmH3FlZbUv", // Sheba hairball treats
-  "prod_V5eKYSnRNwaczq", // Petio dog chicken rolls
-  "prod_V4jv2phsRuMpTq", // MonPetit salmon treat
-  "prod_V5eKRNO3yNFKAe", // Petzroute dog chicken cartilage treat
-  "prod_V4jv3rKvrSLixq", // CIAO senior cat bonito treat
-  "prod_V5eKvVH9j8xjri", // Petio dog chicken breast treat
-  "prod_V4jv6tnlPJm090", // CIAO probiotic dry food
-  "prod_V5eKT1ckCpsx5I", // Petzroute dog vegetable treat
-] as const;
 
 /**
  * Homepage storefront section backed by the live catalog supplied by the
@@ -109,6 +95,7 @@ export function HomepageProductGrid() {
                         -{discountPercent}%
                       </span>
                     ) : null}
+                    <ProductStatusBadges product={product} className="right-2.5 top-2.5" />
                   </CategoryNavLink>
                   <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                     <CategoryNavLink

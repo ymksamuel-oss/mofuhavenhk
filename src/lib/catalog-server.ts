@@ -427,6 +427,7 @@ function stripeProductToCatalogProduct(
   const marketReferenceAsOf = marketReferenceAsOfFromMetadata(metadata);
   const catalogProduct: Product = {
     id,
+    createdAt: product.created,
     priceId: priceRecord.id,
     metadata,
     categorySlug,

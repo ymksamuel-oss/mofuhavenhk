@@ -134,6 +134,11 @@
   box-shadow: 0 3px 10px -5px rgba(90, 38, 28, 0.8);
 }
 
+.statusBadges {
+  right: 0.55rem;
+  top: 0.55rem;
+}
+
 .cardBody {
   display: flex;
   min-height: 5rem;

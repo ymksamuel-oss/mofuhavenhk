@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
+import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -192,6 +193,7 @@ function ProductRow({ label, products }: ProductRowProps) {
                     {discountPercent ? (
                       <span className={styles.discount}>-{discountPercent}%</span>
                     ) : null}
+                    <ProductStatusBadges product={product} className={styles.statusBadges} />
                   </div>
                   <div className={styles.cardBody}>
                     <p className={styles.name}>{product.name[locale]}</p>
