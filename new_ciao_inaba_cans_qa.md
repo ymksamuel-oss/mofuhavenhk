@@ -30,3 +30,7 @@ CIC-10（來源標示缺貨）以 direct product URL 讀取時由 storefront cat
 ## 購物籃驗證
 
 Inaba かつまぐろ 鮪魚貓罐頭 85g（CIC-24）本機商品頁已確認主圖、現貨標籤及 HK$14.90。按「加入購物籃」後，購物籃計數由 4 增至 5，按鈕顯示「已加入購物籃 ✓」；未進入付款、未提交訂單、未建立 Stripe Checkout Session。
+
+## 正式部署驗證
+
+既有 Vercel production 網址已確認 CIC-01 正確呈現：`https://mofuhavenhk.vercel.app/product/prod_V90yLm2ySqOvLR?ciao-inaba=7f4a60e4`。商品頁顯示已清理的 CIAO 主圖、名稱「鮪魚魷魚濃湯貓罐頭」、HK$25.90、現貨及「貓罐罐」規格狀態；主圖在首次遠端請求的短暫延遲後正常載入。
