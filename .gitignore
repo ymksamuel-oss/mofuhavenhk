@@ -134,3 +134,7 @@ freeze_dried_category_normalization_manifest.json
 simplified_catalog_classification_audit.json
 simplified_catalog_classification_summary.json
 catalog_classification_normalization_manifest.json
+
+# Generated cat life-stage audit/runtime artifacts
+cat_life_stage_audit.json
+cat_life_stage_normalization_manifest.json

@@ -10,6 +10,7 @@ import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
+  getCatProductsByLifeStage,
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
   getLifestyleProductsBySubcategory,
@@ -17,6 +18,7 @@ import {
   getProductSubcategoryLabelKey,
   getProductsByCategory,
   isStorefrontReadyProduct,
+  type CatLifeStage,
   type CatSubcategory,
   type DogSubcategory,
   type LifestyleSubcategory,
@@ -55,6 +57,8 @@ type ProductCatalogProps = {
   categorySlug: string | null;
   /** Ignored legacy route parameters retained for route compatibility. */
   subcategory?: unknown;
+  /** Direct 貓咪商品 life-stage collection: kitten, adult or senior. */
+  catLifeStage?: unknown;
   snackSeries?: unknown;
   /** Show the homepage-style search section on `/categories/...` pages only. */
   showProductSearch?: boolean;
@@ -68,6 +72,7 @@ type ProductCatalogProps = {
 export function ProductCatalog({
   categorySlug,
   subcategory,
+  catLifeStage,
   snackSeries,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
@@ -79,15 +84,21 @@ export function ProductCatalog({
       : null;
   const selectedSnackSeries =
     typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
+  const selectedCatLifeStage =
+    catLifeStage === "kitten" || catLifeStage === "adult" || catLifeStage === "senior"
+      ? (catLifeStage as CatLifeStage)
+      : null;
   const products = useMemo(() => {
     const matchingProducts =
-      categorySlug === "cats" && selectedSubcategory
-        ? getCatProductsBySubcategory(
+      categorySlug === "cats" && selectedCatLifeStage
+        ? getCatProductsByLifeStage(selectedCatLifeStage, catalogProducts)
+        : categorySlug === "cats" && selectedSubcategory
+          ? getCatProductsBySubcategory(
             selectedSubcategory as CatSubcategory,
             selectedSnackSeries,
             catalogProducts,
           )
-        : categorySlug === "dogs" && selectedSubcategory
+          : categorySlug === "dogs" && selectedSubcategory
           ? getDogProductsBySubcategory(
               selectedSubcategory as DogSubcategory,
               catalogProducts,
@@ -104,10 +115,15 @@ export function ProductCatalog({
                 )
               : getProductsByCategory(categorySlug, catalogProducts);
     return matchingProducts.filter(isStorefrontReadyProduct);
-  }, [categorySlug, catalogProducts, selectedSnackSeries, selectedSubcategory]);
+  }, [categorySlug, catalogProducts, selectedCatLifeStage, selectedSnackSeries, selectedSubcategory]);
 
-  const title = selectedSubcategory
-    ? t(getProductSubcategoryLabelKey(selectedSubcategory))
+  const lifeStageLabelKey = selectedCatLifeStage
+    ? ({ kitten: "catDirectKitten", adult: "catDirectAdult", senior: "catDirectSenior" } as const)[selectedCatLifeStage]
+    : null;
+  const title = lifeStageLabelKey
+    ? t(lifeStageLabelKey)
+    : selectedSubcategory
+      ? t(getProductSubcategoryLabelKey(selectedSubcategory))
     : category
       ? t(category.labelKey)
       : t("menuTitle");

@@ -20,6 +20,21 @@ export type CatSubcategory =
   | (typeof CAT_SUBCATEGORIES)[number]
   | (typeof CAT_LEGACY_SUBCATEGORIES)[number];
 
+/** Direct shopping collections under 貓咪商品; not children of dry food. */
+export const CAT_LIFE_STAGES = ["kitten", "adult", "senior"] as const;
+export type CatLifeStage = (typeof CAT_LIFE_STAGES)[number];
+
+export const CAT_LIFE_STAGE_BY_SLUG: Record<string, CatLifeStage> = {
+  kitten: "kitten",
+  adult: "adult",
+  senior: "senior",
+};
+
+export function resolveCatLifeStageSlug(value: string | undefined | null): CatLifeStage | null {
+  if (!value) return null;
+  return CAT_LIFE_STAGE_BY_SLUG[value.toLowerCase()] ?? null;
+}
+
 const ALL_CAT_SUBCATEGORIES = [...CAT_SUBCATEGORIES, ...CAT_LEGACY_SUBCATEGORIES] as const;
 
 /** Main child categories shown under 「狗狗專區」. */
@@ -751,6 +766,49 @@ export function getCatProductsBySubcategory(
   const bySub = cats.filter((product) => productSubcategory(product) === subcategory);
   if (!snackSeries || subcategory !== "貓貓小食") return bySub;
   return bySub.filter((product) => product.snackSeries === snackSeries);
+}
+
+const CAT_LIFE_STAGE_PATTERNS: Record<CatLifeStage, RegExp> = {
+  kitten: /幼貓|kitten|成長期|0\s*[-~至]\s*12\s*(?:個月|个月|months?)/i,
+  adult: /成貓|adult|室內成貓|室内成猫|adult\s*cat/i,
+  senior: /老貓|高齡|高龄|senior|(?:7|10|11|14|15)\s*(?:歲|岁|歳|才)\s*(?:起|以上|\+)/i,
+};
+
+/**
+ * Strictly assign a cat product to a life-stage collection only when its
+ * Stripe metadata or verified product wording explicitly states that stage.
+ * Products with no age claim deliberately stay out of these three collections.
+ */
+export function getCatProductLifeStage(product: Product): CatLifeStage | null {
+  const explicit = (product.metadata?.life_stage ?? product.metadata?.lifeStage ?? "").toLowerCase();
+  if (explicit === "kitten") return "kitten";
+  if (explicit === "adult") return "adult";
+  if (explicit === "senior") return "senior";
+
+  const text = normalizeProductClassificationText([
+    product.name.zh,
+    product.name.en,
+    product.description?.zh,
+    product.description?.en,
+    ...(product.tags ?? []),
+    ...(product.specs ?? []).flatMap((spec) => [spec.zh, spec.en]),
+    ...Object.values(product.metadata ?? {}),
+  ].filter(Boolean).join(" "));
+
+  if (CAT_LIFE_STAGE_PATTERNS.kitten.test(text)) return "kitten";
+  if (CAT_LIFE_STAGE_PATTERNS.senior.test(text)) return "senior";
+  if (CAT_LIFE_STAGE_PATTERNS.adult.test(text)) return "adult";
+  return null;
+}
+
+export function getCatProductsByLifeStage(
+  lifeStage: CatLifeStage | null,
+  products: readonly Product[] = [],
+): Product[] {
+  if (!lifeStage) return [];
+  return getProductsByCategory("cats", products).filter(
+    (product) => getCatProductLifeStage(product) === lifeStage,
+  );
 }
 
 export function getDogProductsBySubcategory(

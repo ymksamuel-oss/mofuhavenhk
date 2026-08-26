@@ -9,6 +9,7 @@ import {
   LIFESTYLE_SUBCATEGORY_BY_SLUG,
   SMALL_PET_SUBCATEGORY_BY_SLUG,
   resolveCategorySubSlug,
+  resolveCatLifeStageSlug,
   resolveCatSnackSeriesSlug,
 } from "@/lib/products";
 
@@ -19,6 +20,10 @@ type CategorySubPageProps = {
 
 export function generateStaticParams() {
   const catSubs = Object.keys(CAT_SUBCATEGORY_BY_SLUG).map((sub) => ({
+    slug: "cats",
+    sub,
+  }));
+  const catLifeStages = ["kitten", "adult", "senior"].map((sub) => ({
     slug: "cats",
     sub,
   }));
@@ -34,7 +39,7 @@ export function generateStaticParams() {
     slug: "lifestyle",
     sub,
   }));
-  return [...catSubs, ...dogSubs, ...smallPetSubs, ...lifestyleSubs];
+  return [...catSubs, ...catLifeStages, ...dogSubs, ...smallPetSubs, ...lifestyleSubs];
 }
 
 export async function generateMetadata({
@@ -47,16 +52,31 @@ export async function generateMetadata({
     return { robots: { index: false, follow: false } };
   }
 
+  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
   const subcategory = resolveCategorySubSlug(slug, sub);
-  if (!subcategory) return { robots: { index: false, follow: false } };
+  const catLifeStage = slug === "cats" ? resolveCatLifeStageSlug(sub) : null;
+  if (!subcategory && !catLifeStage) return { robots: { index: false, follow: false } };
+  if (catLifeStage) {
+    const stageLabels = {
+      kitten: { zh: "幼貓", en: "Kitten" },
+      adult: { zh: "成貓", en: "Adult Cat" },
+      senior: { zh: "老貓", en: "Senior Cat" },
+    } as const;
+    const stage = stageLabels[catLifeStage];
+    const english = lang === "en";
+    return {
+      title: `${english ? stage.en : stage.zh}｜Mofu Haven HK`,
+      description: english
+        ? `Strictly filtered cat products with verified ${stage.en.toLowerCase()} suitability.`
+        : `只顯示已核對適合${stage.zh}的貓咪產品。`,
+    };
+  }
 
   const seriesParam = Array.isArray(query.series) ? query.series[0] : query.series;
   const snackSeries =
     slug === "cats" && subcategory === "貓貓小食"
       ? resolveCatSnackSeriesSlug(seriesParam)
       : null;
-  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
-
   return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
     categorySlug: slug,
     subcategory,
@@ -85,7 +105,8 @@ export default async function CategorySubPage({
   }
 
   const subcategory = resolveCategorySubSlug(slug, sub);
-  if (!subcategory) {
+  const catLifeStage = slug === "cats" ? resolveCatLifeStageSlug(sub) : null;
+  if (!subcategory && !catLifeStage) {
     notFound();
   }
 
@@ -99,6 +120,7 @@ export default async function CategorySubPage({
     <ProductCatalog
       categorySlug={slug}
       subcategory={subcategory}
+      catLifeStage={catLifeStage}
       snackSeries={snackSeries}
       showProductSearch
     />

@@ -47,8 +47,12 @@ export function CategorySubmenu({ group, compact = false, onNavigate }: Category
   const { t } = useI18n();
   const itemsByGroup = {
     cats: [
+      { href: "/categories/cats/dry-food", label: t("catDirectDryFood") },
+      { href: "/categories/cats/kitten", label: t("catDirectKitten") },
+      { href: "/categories/cats/adult", label: t("catDirectAdult") },
+      { href: "/categories/cats/senior", label: t("catDirectSenior") },
+      { href: "/categories/cats/snacks", label: t("catDirectTreats") },
       { href: "/categories/cats/wet-cans", label: t("catSubWetCans") },
-      { href: "/categories/cats/snacks", label: t("catSubSnacks") },
       { href: "/categories/cats/freeze-dried", label: t("catSubFreezeDried") },
       { href: "/categories/cats/litter", label: t("catSubLitter") },
       { href: "/categories/cats/toys-climbing", label: t("catSubToysClimbing") },
