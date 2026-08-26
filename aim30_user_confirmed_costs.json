@@ -1,0 +1,10 @@
+{
+  "pricing_rule": {"cny_to_hkd": 1.1654, "target_product_gross_margin": 0.45, "shipping_hkd": 0, "rounding": "upward .90"},
+  "products": [
+    {"source":"IMG_1734.PNG","image_output":"aim30-karitto-chicken-crab-25g.png","name_zh":"AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g","cost_cny":23.8,"retail_hkd":50.9,"family":"aim30-karitto-basic-25g"},
+    {"source":"IMG_1735.PNG","image_output":"aim30-karitto-chicken-beef-25g.png","name_zh":"AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g","cost_cny":23.8,"retail_hkd":50.9,"family":"aim30-karitto-basic-25g"},
+    {"source":"IMG_1739.PNG","image_output":"aim30-karitto-ranch-assortment-80g.png","name_zh":"AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g","cost_cny":56,"retail_hkd":118.9,"family":"aim30-karitto-80g"},
+    {"source":"IMG_1740.PNG","image_output":"aim30-karitto-tuna-chicken-assortment-80g.png","name_zh":"AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g","cost_cny":56,"retail_hkd":118.9,"family":"aim30-karitto-80g"},
+    {"source":"IMG_1719.PNG","image_output":"aim30-karitto-tuna-salmon-25g.png","name_zh":"AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g","cost_cny":56,"retail_hkd":118.9,"family":"aim30-karitto-basic-25g"}
+  ]
+}
