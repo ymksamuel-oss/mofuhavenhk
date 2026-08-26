@@ -2,29 +2,14 @@
 
 import { useMemo } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { EditorialPageSlogan } from "@/components/EditorialPageSlogan";
-import { ProductSearch } from "@/components/ProductSearch";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
-import {
-  CATEGORIES,
-  categoryHref,
-  categorySubHref,
-  catSnacksSeriesHref,
-  getCategoryBySlug,
-} from "@/lib/categories";
+import { getCategoryBySlug } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
-  CAT_SNACK_SERIES,
-  CAT_SNACK_SERIES_LABEL_KEY,
-  CAT_SNACK_SERIES_SLUG,
-  CAT_SUBCATEGORIES,
-  CAT_SUBCATEGORY_SLUG,
-  DOG_SUBCATEGORIES,
-  DOG_SUBCATEGORY_SLUG,
   getCatProductsBySubcategory,
   getDogProductsBySubcategory,
   getLifestyleProductsBySubcategory,
@@ -40,14 +25,6 @@ import {
   resolveCategorySubSlug,
   resolveCatSnackSeriesSlug,
 } from "@/lib/products";
-
-function categoryMenuLinkClassName(active: boolean) {
-  return `group/link flex min-h-11 items-center justify-between border-b px-1 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
-    active
-      ? "border-[color:var(--accent)] font-semibold text-[color:var(--ink)]"
-      : "border-[color:var(--line)]/70 font-medium text-[color:var(--muted)] hover:border-[color:var(--accent)]/70 hover:text-[color:var(--ink)]"
-  }`;
-}
 
 function getProductBadge(product: {
   id: string;
@@ -92,7 +69,6 @@ export function ProductCatalog({
   categorySlug,
   subcategory,
   snackSeries,
-  showProductSearch = false,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
@@ -103,13 +79,6 @@ export function ProductCatalog({
       : null;
   const selectedSnackSeries =
     typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
-  const subcategoryOptions =
-    categorySlug === "cats"
-      ? CAT_SUBCATEGORIES
-      : categorySlug === "dogs"
-        ? DOG_SUBCATEGORIES
-        : [];
-
   const products = useMemo(() => {
     const matchingProducts =
       categorySlug === "cats" && selectedSubcategory
@@ -142,174 +111,9 @@ export function ProductCatalog({
     : category
       ? t(category.labelKey)
       : t("menuTitle");
-  const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
-
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
-      <header className="mb-8 max-w-2xl">
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">
-          {title}
-        </h1>
-        <p className="mt-2 text-[color:var(--muted)]">{subtitle}</p>
-        <EditorialPageSlogan
-          className="mt-6"
-          eyebrow={t("menuSloganEyebrow")}
-          title={t("menuSloganTitle")}
-          body={t("menuSloganBody")}
-        />
-      </header>
-
-      {showProductSearch ? (
-        <section
-          aria-labelledby="category-product-search-title"
-          className="relative z-20 mb-6 max-w-2xl sm:mb-8"
-        >
-          <div className="mb-4">
-            <h2
-              id="category-product-search-title"
-              className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-2xl"
-            >
-              {t("productSearchHomeTitle")}
-            </h2>
-            <p className="mt-1.5 text-sm text-[color:var(--muted)] sm:text-base">
-              {t("productSearchHomeSub")}
-            </p>
-          </div>
-          <ProductSearch variant="home" />
-        </section>
-      ) : null}
-
-      {/* @section: product-categories */}
-      <details className="group mb-5 overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] shadow-[0_14px_30px_-26px_rgba(43,38,35,0.2)] sm:mb-6">
-        <summary className="flex min-h-11 cursor-pointer list-none touch-manipulation items-center justify-between gap-3 px-4 py-3 font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent)] [&::-webkit-details-marker]:hidden sm:px-5">
-          <span className="min-w-0">
-            <span className="block">{t("categoryNavLabel")}</span>
-            <span className="mt-0.5 block truncate text-xs font-normal text-[color:var(--muted)]">
-              {category ? t(category.labelKey) : t("menuAllCategories")}
-            </span>
-          </span>
-          <svg
-            viewBox="0 0 20 20"
-            className="h-5 w-5 shrink-0 text-[color:var(--accent)] transition-transform duration-200 group-open:rotate-180 motion-reduce:transition-none"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="m5 7.5 5 5 5-5"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </summary>
-
-        <nav
-          aria-label={t("categoryNavLabel")}
-          className="border-t border-[color:var(--line)] px-3 py-3 sm:px-4 sm:py-4"
-        >
-          <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORIES.map(({ slug, labelKey }) => {
-              const active = categorySlug === slug;
-              return (
-                <CategoryNavLink
-                  key={slug}
-                  href={categoryHref(slug)}
-                  aria-current={active ? "page" : undefined}
-                  className={categoryMenuLinkClassName(active)}
-                >
-                  <span>{t(labelKey)}</span>
-                  {active ? <span aria-hidden="true">✓</span> : null}
-                </CategoryNavLink>
-              );
-            })}
-          </div>
-
-          {/* 探索寵物世界區塊已依要求隱藏／移除，保持畫面乾淨簡潔 */}
-        </nav>
-      </details>
-
-      {categorySlug === "cats" || categorySlug === "dogs" ? (
-        <section
-          aria-label={t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")}
-          className="mb-6 border-y border-[color:var(--line)] py-4"
-        >
-          <p className="mb-3 text-sm font-semibold text-[color:var(--ink)]">
-            {t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <CategoryNavLink
-              href={categoryHref(categorySlug)}
-              className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
-                !selectedSubcategory
-                  ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                  : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-              }`}
-            >
-              {t(categorySlug === "cats" ? "catSubAll" : "dogSubAll")}
-            </CategoryNavLink>
-            {subcategoryOptions.map((option) => {
-              const isActive = selectedSubcategory === option;
-              const subSlug =
-                categorySlug === "cats"
-                  ? CAT_SUBCATEGORY_SLUG[option as CatSubcategory]
-                  : DOG_SUBCATEGORY_SLUG[option as DogSubcategory];
-              return (
-                <CategoryNavLink
-                  key={option}
-                  href={categorySubHref(categorySlug, subSlug)}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
-                    isActive
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                      : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                  }`}
-                >
-                  {t(getProductSubcategoryLabelKey(option))}
-                </CategoryNavLink>
-              );
-            })}
-          </div>
-
-          {categorySlug === "cats" && selectedSubcategory === "貓貓小食" ? (
-            <div className="mt-4 border-t border-[color:var(--line)] pt-4">
-              <p className="mb-3 text-sm font-semibold text-[color:var(--ink)]">
-                {t("catSnackSeriesNavLabel")}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <CategoryNavLink
-                  href={catSnacksSeriesHref(null)}
-                  className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
-                    !selectedSnackSeries
-                      ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
-                      : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                  }`}
-                >
-                  {t("catSnackSeriesAll")}
-                </CategoryNavLink>
-                {CAT_SNACK_SERIES.map((series) => {
-                  const isActive = selectedSnackSeries === series;
-                  return (
-                    <CategoryNavLink
-                      key={series}
-                      href={catSnacksSeriesHref(CAT_SNACK_SERIES_SLUG[series])}
-                      aria-current={isActive ? "page" : undefined}
-                      className={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
-                        isActive
-                          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
-                          : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                      }`}
-                    >
-                      {t(CAT_SNACK_SERIES_LABEL_KEY[series])}
-                    </CategoryNavLink>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
-
+      <h1 className="sr-only">{title}</h1>
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (

@@ -314,7 +314,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
         <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
           <Link
             href="/"
@@ -345,9 +345,8 @@ export function Header() {
               return (
                 <div
                   key={group}
-                  className="relative"
+                  className="relative -mb-3 pb-3"
                   onMouseEnter={() => setDesktopCategoryOpen(group)}
-                  onMouseLeave={() => setDesktopCategoryOpen(null)}
                 >
                   <button
                     type="button"
@@ -355,6 +354,10 @@ export function Header() {
                     aria-haspopup="menu"
                     aria-expanded={isOpen}
                     aria-controls={panelId}
+                    onPointerDown={(event) => {
+                      event.stopPropagation();
+                      setDesktopCategoryOpen(group);
+                    }}
                     onClick={() => setDesktopCategoryOpen(group)}
                     onFocus={() => setDesktopCategoryOpen(group)}
                   >
@@ -365,7 +368,7 @@ export function Header() {
                     <div
                       id={panelId}
                       role="menu"
-                      className="absolute left-[-0.65rem] top-[calc(100%+0.8rem)] z-50 origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]"
+                      className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]"
                     >
                       <CategorySubmenu group={group} onNavigate={() => setDesktopCategoryOpen(null)} />
                     </div>

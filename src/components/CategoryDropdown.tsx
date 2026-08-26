@@ -94,14 +94,14 @@ export function CategorySubmenu({ group, compact = false, onNavigate }: Category
   const panelClass = compact
     ? "grid gap-1"
     : "grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]";
-  const linkClass = "group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm leading-snug text-[color:var(--muted)] transition-[background-color,color,transform] duration-150 ease-out hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] active:scale-[0.98] focus-visible:bg-[color:var(--accent-soft)] focus-visible:text-[color:var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]";
+  const linkClass = "group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm leading-snug text-[color:var(--muted)] transition-[background-color,color,transform,box-shadow] duration-150 ease-out hover:translate-x-0.5 hover:bg-[#f1ded1] hover:text-[#583827] hover:shadow-[0_8px_16px_-14px_rgba(79,50,33,0.7)] active:scale-[0.98] focus-visible:bg-[#f1ded1] focus-visible:text-[#583827] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]";
 
   return (
     <div className={panelClass} aria-label={t(HEADER_MENU_LABEL_KEY[group])}>
       {items.map((item) => (
         <CategoryNavLink key={item.href} href={item.href} onNavigate={onNavigate} className={linkClass}>
           <span>{item.label}</span>
-          <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--muted)] opacity-0 transition-all duration-150 group-hover:translate-x-0.5 group-hover:opacity-100" />
+          <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--muted)] opacity-0 transition-all duration-150 group-hover:translate-x-1 group-hover:text-[#583827] group-hover:opacity-100" />
         </CategoryNavLink>
       ))}
     </div>

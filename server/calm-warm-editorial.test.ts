@@ -144,11 +144,14 @@ describe("calm warm editorial UI contract", () => {
     expect(categoryDropdown).toContain('t("dogSubToiletPads")');
     expect(products).toContain("PRODUCT_SUBCATEGORY_LABEL_KEY");
     expect(products).toContain("CAT_SNACK_SERIES_LABEL_KEY");
-    expect(productCatalog).toContain('getProductSubcategoryLabelKey(option)');
+    expect(productCatalog).toContain('getProductSubcategoryLabelKey(selectedSubcategory)');
+    expect(productCatalog).toContain('<h1 className="sr-only">{title}</h1>');
     expect(productCatalog).toContain('id="products"');
     expect(productCatalog).toContain('scroll-mt-24');
-    expect(productCatalog).toContain("CAT_SNACK_SERIES_LABEL_KEY[series]");
-    expect(productCatalog).toContain('t(categorySlug === "cats" ? "catSubNavLabel" : "dogSubNavLabel")');
+    expect(productCatalog).not.toContain('ProductSearch variant="home"');
+    expect(productCatalog).not.toContain('category-product-search-title');
+    expect(productCatalog).not.toContain('categoryNavLabel');
+    expect(productCatalog).not.toContain('CAT_SNACK_SERIES.map');
     expect(translations).toContain('catSubWetCans: "Cans / Wet food"');
     expect(translations).toContain('dogSubSnacks: "Dog treats"');
 

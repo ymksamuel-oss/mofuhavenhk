@@ -16,7 +16,13 @@ describe("hierarchical header category navigation", () => {
     expect(header).toContain("mobileCategoryOpen");
     expect(header).toContain('setMobileCategoryOpen((open) => (open === group ? null : group))');
     expect(header).toContain('<CategorySubmenu group={group} onNavigate={() => setDesktopCategoryOpen(null)} />');
+    expect(header).toContain('onPointerDown={(event) => {');
+    expect(header).toContain('event.stopPropagation();');
     expect(header).toContain('onClick={() => setDesktopCategoryOpen(group)}');
+    expect(header).toContain('className="relative -mb-3 pb-3"');
+    expect(header).toContain('sticky top-0 z-[60]');
+    expect(submenu).toContain('hover:bg-[#f1ded1]');
+    expect(submenu).toContain('group-hover:text-[#583827]');
     expect(header).not.toContain('<Link href="/menu"');
     expect(header).not.toContain("CategoryDropdownContent");
 
