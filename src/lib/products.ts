@@ -495,6 +495,24 @@ export const PRODUCT_FLAVOR_FAMILIES: readonly ProductFlavorFamily[] = [
     ],
   },
   {
+    key: "ginnospoon-mitsuboshi-cream-180g",
+    selector: { zh: "選擇配方", en: "Choose a recipe" },
+    label: { zh: "銀之匙 三ツ星グルメ 夾心奶油 180g", en: "Gin no Spoon Mitsuboshi Gourmet cream-filled 180g" },
+    choices: [
+      { productId: "prod_V8th51dTMblovb", label: { zh: "金槍魚・雞里脊味", en: "Tuna & chicken tender" } },
+      { productId: "prod_V8th4gMOUDUrzu", label: { zh: "魚肉・雞里脊三拼", en: "Fish & chicken tender three-recipe" } },
+    ],
+  },
+  {
+    key: "ginnospoon-mitsuboshi-shimi-192g",
+    selector: { zh: "選擇配方", en: "Choose a recipe" },
+    label: { zh: "銀之匙 三ツ星グルメ 鮮旨香 192g", en: "Gin no Spoon Mitsuboshi Gourmet Shimi-Uma 192g" },
+    choices: [
+      { productId: "prod_V8thsQJq4RYszQ", label: { zh: "金槍魚・雞里脊・鰹魚", en: "Tuna, chicken tender & bonito" } },
+      { productId: "prod_V8thk9qKECj0in", label: { zh: "金槍魚・鯛魚・鰹魚", en: "Tuna, sea bream & bonito" } },
+    ],
+  },
+  {
     key: "freeze-dried-chicken-gizzard",
     selector: { zh: "選擇規格", en: "Choose a size" },
     label: { zh: "雞胸肉雞肫凍乾", en: "Freeze-dried chicken breast & gizzard" },
