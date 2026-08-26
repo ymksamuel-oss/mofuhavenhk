@@ -111,3 +111,11 @@ temp/
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
 .project-config.json
+
+# Local product-image staging and Stripe execution artifacts
+assets/latest-31/
+latest31_cdn_map.tsv
+latest31_cdn_urls.txt
+latest31_active_catalog_audit.json
+latest31_stripe_manifest.json
+latest31_stripe_verification.json

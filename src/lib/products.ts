@@ -548,6 +548,49 @@ export const PRODUCT_FLAVOR_FAMILIES: readonly ProductFlavorFamily[] = [
       { productId: "prod_V8VzG9Cs8B2Rjb", label: { zh: "150g", en: "150g" } },
     ],
   },
+  {
+    key: "aim30-indoor-adult-600g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "AIM30 室內成貓 600g", en: "AIM30 Indoor Adult Cat Food 600g" },
+    choices: [
+      { productId: "prod_V8xXuAW047ti4v", label: { zh: "雞肉味", en: "Chicken" } },
+      { productId: "prod_V8xXIokF7G9Er0", label: { zh: "鮮魚味", en: "Fish" } },
+    ],
+  },
+  {
+    key: "monpetit-crispy-kiss-luxury-24g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "Mon Petit Crispy Kiss 奢華系列 24g", en: "Mon Petit Crispy Kiss Luxury 24g" },
+    choices: [
+      { productId: "prod_V8xXBfCtwPwxjK", label: { zh: "奢華鮮魚味", en: "Luxury fish" } },
+      { productId: "prod_V8xX5m49XGPiSw", label: { zh: "奢華雞肉味", en: "Luxury chicken" } },
+      { productId: "prod_V8xXV7x4AmWu89", label: { zh: "奢華三文魚味", en: "Luxury salmon" } },
+    ],
+  },
+  {
+    key: "monpetit-crispy-kiss-30g",
+    selector: { zh: "選擇口味", en: "Choose a flavour" },
+    label: { zh: "Mon Petit Crispy Kiss 30g", en: "Mon Petit Crispy Kiss 30g" },
+    choices: [
+      { productId: "prod_V8xXSx8MWb3Y8D", label: { zh: "芝士及雞肉味", en: "Cheese & chicken" } },
+      { productId: "prod_V8xXYKr9wN7Aee", label: { zh: "鮮魚精選", en: "Fish select" } },
+      { productId: "prod_V8xXmrlDUto85d", label: { zh: "海鮮味", en: "Seafood" } },
+      { productId: "prod_V8xXZsF0TMS5c8", label: { zh: "真鯛、鰹魚及小魚高湯味", en: "Snapper, bonito & small fish broth" } },
+      { productId: "prod_V8xXn4fyGQ2Iwg", label: { zh: "鰹魚及小魚高湯味", en: "Bonito & small fish broth" } },
+      { productId: "prod_V8xXMB8UApWAYP", label: { zh: "三文魚、鰹魚及小魚味", en: "Salmon, bonito & small fish" } },
+    ],
+  },
+  {
+    key: "monpetit-crispy-kiss-variety-144g",
+    selector: { zh: "選擇綜合包", en: "Choose an assortment" },
+    label: { zh: "Mon Petit Crispy Kiss 綜合包 144g", en: "Mon Petit Crispy Kiss Assortment 144g" },
+    choices: [
+      { productId: "prod_V8xXRC7As2ra5W", label: { zh: "肉類精選", en: "Meat selection" } },
+      { productId: "prod_V8xXFw4xx3NEuP", label: { zh: "海鮮及雞肉", en: "Seafood & chicken" } },
+      { productId: "prod_V8xX3586zZhcZt", label: { zh: "海鮮、芝士及雞肉燒烤味", en: "Seafood, cheese & chicken grill" } },
+      { productId: "prod_V8xXM2ONlpEcC3", label: { zh: "真鯛及海鮮", en: "Snapper & seafood" } },
+    ],
+  },
 ] as const;
 
 const PRODUCT_FLAVOR_FAMILY_BY_PRODUCT_ID = new Map<string, ProductFlavorFamily>();
