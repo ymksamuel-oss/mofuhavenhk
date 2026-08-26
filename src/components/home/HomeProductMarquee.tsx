@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
@@ -19,6 +19,15 @@ const AUTO_RESUME_DELAY_MS = 1800;
 // Keep the loop at a stable visual velocity instead of tying each update to card width.
 const AUTO_SCROLL_PIXELS_PER_SECOND = 150;
 const MAX_ANIMATION_FRAME_DELTA_MS = 64;
+
+function shuffledProducts(products: Product[]): Product[] {
+  const shuffled = [...products];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+  return shuffled;
+}
 
 function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
@@ -242,9 +251,25 @@ function ProductRow({ label, products }: ProductRowProps) {
 export function HomeProductMarquee() {
   const { t } = useI18n();
   const { products: catalogProducts } = useCatalog();
-  const activeProducts = catalogProducts.filter(isStorefrontReadyProduct);
-  const catProducts = activeProducts.filter((product) => product.categorySlug === "cats").slice(0, 8);
-  const dogProducts = activeProducts.filter((product) => product.categorySlug === "dogs").slice(0, 8);
+  // Render the server and first client pass in catalog order, then shuffle once after hydration.
+  // This gives each fresh homepage load a new selection without hydration mismatch or mid-loop reshuffles.
+  const [carouselSeed, setCarouselSeed] = useState(0);
+  useEffect(() => {
+    setCarouselSeed(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1);
+  }, []);
+
+  const activeProducts = useMemo(
+    () => catalogProducts.filter(isStorefrontReadyProduct),
+    [catalogProducts],
+  );
+  const catProducts = useMemo(() => {
+    const products = activeProducts.filter((product) => product.categorySlug === "cats");
+    return (carouselSeed === 0 ? products : shuffledProducts(products)).slice(0, 8);
+  }, [activeProducts, carouselSeed]);
+  const dogProducts = useMemo(() => {
+    const products = activeProducts.filter((product) => product.categorySlug === "dogs");
+    return (carouselSeed === 0 ? products : shuffledProducts(products)).slice(0, 8);
+  }, [activeProducts, carouselSeed]);
 
   if (catProducts.length === 0 || dogProducts.length === 0) {
     return null;

@@ -119,8 +119,13 @@ describe("calm warm editorial UI contract", () => {
 
     expect(marquee).toContain("useCatalog");
     expect(marquee).toContain("isStorefrontReadyProduct");
+    expect(marquee).toContain("function shuffledProducts(products: Product[])");
+    expect(marquee).toContain("const [carouselSeed, setCarouselSeed] = useState(0)");
+    expect(marquee).toContain("setCarouselSeed(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1)");
+    expect(marquee).toContain("carouselSeed === 0 ? products : shuffledProducts(products)");
     expect(marquee).toContain('product.categorySlug === "cats"');
     expect(marquee).toContain('product.categorySlug === "dogs"');
+    expect(marquee).toContain(".slice(0, 8)");
     expect(marquee).toContain("const repeatedProducts = [...products, ...products, ...products]");
     expect(marquee).toContain("AUTO_RESUME_DELAY_MS");
     expect(marquee).toContain("AUTO_SCROLL_PIXELS_PER_SECOND = 150");
