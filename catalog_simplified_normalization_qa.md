@@ -25,3 +25,7 @@
 ## 簡繁防護規則
 
 分類鏈路現在在 Stripe catalog 轉換、食品分類器及 metadata taxonomy 解析三個入口共用相同的簡繁正規化。已覆蓋貓／小寵物、乾糧、濕糧、罐頭、凍乾、貓砂、廁所及尿墊、清潔、營養、訓練、護理、牽引、籠舍、睡窩等會影響食品或用品分類的關鍵詞。凍乾配料的狗狗乾糧仍優先保留在狗狗乾糧，不會被錯置為凍乾小食。
+
+## Production 驗證
+
+既有 Vercel production 的 `/categories/dogs/wet-cans` 已成功顯示 d.b.f 狗狗罐頭／濕糧，頁面標題為「狗狗罐頭及濕糧」，產品不會混入狗狗乾糧或其他寵物分類。兩個既有 Vercel deployment status 均已成功。
