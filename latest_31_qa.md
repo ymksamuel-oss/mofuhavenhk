@@ -31,3 +31,7 @@ Mon Petit Crispy Kiss 奢華鮮魚味 24g（`/product/prod_V8xXBfCtwPwxjK`）顯
 | `npm test` | 12 個測試檔、57 項測試通過（加入 144g 綜合包選擇後，相關兩個測試檔再次通過） |
 | `npm run validate:products` | 通過 |
 | `npm run build` | 通過；過程有遠端圖片 TLS 重試，但最終編譯、靜態頁生成及最佳化完成 |
+
+## Production 驗證
+
+GitHub commit status 顯示兩個既有 Vercel project 的部署均已成功。於 `https://mofuhavenhk.vercel.app` 加入 cache-buster 後，AIM30 室內成貓雞肉味 600g 顯示唯一主圖、HK$356.90 及兩個已驗證口味；Mon Petit Crispy Kiss 奢華鮮魚味 24g 顯示唯一主圖、HK$29.90 及三個同系列口味。自訂網域 `mofuhaven.com` 與 `www.mofuhaven.com` 在本次 sandbox 環境發生 TLS handshake failure（`ERR_SSL_VERSION_OR_CIPHER_MISMATCH`），因此無法直接在該環境以自訂網域完成瀏覽器測試；Vercel 公開 production 網址已提供獨立驗證。
