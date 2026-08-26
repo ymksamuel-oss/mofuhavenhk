@@ -123,6 +123,8 @@ describe("calm warm editorial UI contract", () => {
     expect(marquee).toContain('product.categorySlug === "dogs"');
     expect(marquee).toContain("const repeatedProducts = [...products, ...products, ...products]");
     expect(marquee).toContain("AUTO_RESUME_DELAY_MS");
+    expect(marquee).toContain("AUTO_SCROLL_CYCLE_DIVISOR = 340");
+    expect(marquee).toContain("Math.max(1.8, cycleWidth / AUTO_SCROLL_CYCLE_DIVISOR)");
     expect(marquee).toContain("scrollBy({ left: direction * distance, behavior: \"smooth\" })");
     expect(marquee).toContain("homeMarqueePrevious");
     expect(marquee).toContain("homeMarqueeNext");

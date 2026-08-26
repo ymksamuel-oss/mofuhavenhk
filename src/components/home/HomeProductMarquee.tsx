@@ -17,6 +17,8 @@ type ProductRowProps = {
 
 const AUTO_RESUME_DELAY_MS = 1800;
 const AUTO_SCROLL_INTERVAL_MS = 16;
+// A shorter cycle divisor creates a clearly noticeable, editorial-style flow.
+const AUTO_SCROLL_CYCLE_DIVISOR = 340;
 
 function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
@@ -93,7 +95,7 @@ function ProductRow({ label, products }: ProductRowProps) {
       const cycleWidth = row.scrollWidth / 3;
       if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) return;
 
-      row.scrollLeft += Math.max(0.6, cycleWidth / 760);
+      row.scrollLeft += Math.max(1.8, cycleWidth / AUTO_SCROLL_CYCLE_DIVISOR);
       normaliseLoopPosition();
     }, AUTO_SCROLL_INTERVAL_MS);
 
