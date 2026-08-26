@@ -22,6 +22,7 @@ describe("calm warm editorial UI contract", () => {
 
   it("keeps the responsive shiba hero warm, branded and readable", () => {
     const page = source("src/app/page.tsx");
+    const header = source("src/components/Header.tsx");
 
     expect(page).toContain('/images/hero-sleeping-shiba-taupe.jpg');
     expect(page).toContain('lg:grid-cols-[1.06fr_0.94fr]');
@@ -37,23 +38,14 @@ describe("calm warm editorial UI contract", () => {
     expect(page).toContain('origin-left scale-[1.5] object-cover object-[0%_58%]');
     expect(page).toContain('h-10 sm:h-20 lg:h-32');
     expect(page).toContain("<HomepageProductGrid />");
-    expect(page).toContain('grid grid-cols-4 gap-2 sm:gap-3');
+    expect(page).not.toContain("const quickCategories");
+    expect(page).not.toContain('t("categoryGridTitle")');
+    expect(page).not.toContain('grid grid-cols-4 gap-2 sm:gap-3');
+    expect(header).toContain("CategoryDropdown");
     expect(page).not.toContain('setIsExploreOpen');
     expect(page).not.toContain('<ExplorePetControls');
-    expect(page).toContain('t("categoryGridTitle")');
     expect(page).not.toContain('aria-expanded={isExploreOpen}');
     expect(page).not.toContain('id="pet-breed-guide" className="mt-10"');
-    expect(page).toContain('labelKey: "allProducts"');
-    expect(page).toContain('href: "/menu#products"');
-    expect(page).toContain('Icon: BagIcon');
-    expect(page).toContain('min-h-14 flex-col items-center justify-center');
-    expect(page).toContain('rounded-xl border border-[#d4b899] bg-[#f3e3d0]');
-    expect(page).toContain('hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3]');
-    expect(page).toContain('active:translate-y-0 active:bg-[#e4c5a3]');
-    expect(page).toContain('focus-visible:ring-2 focus-visible:ring-[#8a6248]');
-    expect(page).toContain('h-4 w-4 shrink-0 text-[#6a4938]');
-    expect(page.match(/grid grid-cols-4 gap-2 sm:gap-3/g)?.length).toBe(2);
-    expect(page.indexOf('grid grid-cols-4 gap-2 sm:gap-3')).toBeLessThan(page.indexOf("<HomepageProductGrid />"));
     expect(page.indexOf("<HomepageProductGrid />")).toBeLessThan(page.indexOf('id="brand-story"'));
   });
 
@@ -136,12 +128,16 @@ describe("calm warm editorial UI contract", () => {
 
   it("keeps category and subcategory navigation bilingual", () => {
     const page = source("src/app/page.tsx");
+    const header = source("src/components/Header.tsx");
+    const categoryDropdown = source("src/components/CategoryDropdown.tsx");
     const productCatalog = source("src/components/menu/ProductCatalog.tsx");
     const products = source("src/lib/products.ts");
     const translations = source("src/lib/i18n/translations.ts");
 
-    expect(page).toContain("labelKey: \"catSubWetCans\"");
-    expect(page).toContain("labelKey: \"catSubDryFood\"");
+    expect(page).not.toContain("const quickCategories");
+    expect(header).toContain("CategoryDropdown");
+    expect(categoryDropdown).toContain('t("catSubWetCans")');
+    expect(categoryDropdown).toContain('t("catSubDryFood")');
     expect(products).toContain("PRODUCT_SUBCATEGORY_LABEL_KEY");
     expect(products).toContain("CAT_SNACK_SERIES_LABEL_KEY");
     expect(productCatalog).toContain('getProductSubcategoryLabelKey(option)');

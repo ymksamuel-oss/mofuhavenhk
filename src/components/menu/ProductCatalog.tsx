@@ -123,7 +123,11 @@ export function ProductCatalog({
     return matchingProducts.filter(isStorefrontReadyProduct);
   }, [categorySlug, catalogProducts, selectedSnackSeries, selectedSubcategory]);
 
-  const title = category ? t(category.labelKey) : t("menuTitle");
+  const title = selectedSubcategory
+    ? t(getProductSubcategoryLabelKey(selectedSubcategory))
+    : category
+      ? t(category.labelKey)
+      : t("menuTitle");
   const subtitle = category ? t("categoryPageSubtitle") : t("menuSubtitle");
 
   return (

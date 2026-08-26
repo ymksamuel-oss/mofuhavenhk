@@ -10,27 +10,7 @@ import { FAQAccordion } from "@/components/FAQAccordion";
 import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { ProductSearch } from "@/components/ProductSearch";
-import {
-  BagIcon,
-  BoneIcon,
-  CatIcon,
-  CleaningIcon,
-  DogIcon,
-  HealthIcon,
-  ToyIcon,
-} from "@/components/icons/CategoryIcons";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-
-const quickCategories = [
-  { href: "/menu#products", labelKey: "allProducts", Icon: BagIcon },
-  { href: "/categories/cats", labelKey: "categoryCats", Icon: CatIcon },
-  { href: "/categories/dogs", labelKey: "categoryDogs", Icon: DogIcon },
-  { href: "/categories/small-pets", labelKey: "categorySmallPets", Icon: BoneIcon },
-  { href: "/categories/cats/wet-cans", labelKey: "catSubWetCans", Icon: HealthIcon },
-  { href: "/categories/cats/dry-food", labelKey: "catSubDryFood", Icon: BoneIcon },
-  { href: "/categories/cleaning", labelKey: "categoryCleaning", Icon: CleaningIcon },
-  { href: "/categories/toys", labelKey: "categoryToys", Icon: ToyIcon },
-] as const;
 
 export default function HomePage() {
   const { t } = useI18n();
@@ -80,21 +60,6 @@ export default function HomePage() {
             <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
               {t("homeSub")}
             </p>
-            <div className="mt-3 w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:mt-5 sm:p-4">
-              <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
-              <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                {quickCategories.map(({ href, labelKey, Icon }) => (
-                  <CategoryNavLink
-                    key={href}
-                    href={href}
-                    className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#d4b899] bg-[#f3e3d0] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] shadow-[0_8px_14px_-12px_rgba(75,54,33,0.7)] transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3] hover:shadow-[0_12px_18px_-13px_rgba(75,54,33,0.72)] active:translate-y-0 active:bg-[#e4c5a3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8a6248] focus-visible:ring-offset-2 sm:min-h-16 sm:px-2 sm:text-xs"
-                  >
-                    <Icon className="h-4 w-4 shrink-0 text-[#6a4938] transition-transform duration-200 group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
-                    <span>{t(labelKey)}</span>
-                  </CategoryNavLink>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
@@ -112,23 +77,6 @@ export default function HomePage() {
           </p>
         </section>
 
-        <div className="mx-auto mt-3 max-w-7xl lg:hidden">
-          <div className="w-full rounded-2xl border border-[#4B3621]/15 bg-[#F7EFE8]/90 p-3 text-left shadow-[0_16px_28px_-24px_rgba(75,54,33,0.7)] sm:p-4">
-            <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[#4B3621]/70">{t("categoryGridTitle")}</p>
-            <div className="grid grid-cols-4 gap-2 sm:gap-3">
-              {quickCategories.map(({ href, labelKey, Icon }) => (
-                <CategoryNavLink
-                  key={href}
-                  href={href}
-                  className="group flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl border border-[#d4b899] bg-[#f3e3d0] px-1 py-2 text-center text-[10px] font-semibold leading-tight text-[#4b3621] shadow-[0_8px_14px_-12px_rgba(75,54,33,0.7)] transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[#b68c62] hover:bg-[#ead1b3] hover:shadow-[0_12px_18px_-13px_rgba(75,54,33,0.72)] active:translate-y-0 active:bg-[#e4c5a3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8a6248] focus-visible:ring-offset-2 sm:min-h-16 sm:px-2 sm:text-xs"
-                >
-                  <Icon className="h-4 w-4 shrink-0 text-[#6a4938] transition-transform duration-200 group-hover:scale-110 sm:h-[1.1rem] sm:w-[1.1rem]" />
-                  <span>{t(labelKey)}</span>
-                </CategoryNavLink>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       <HomepageProductGrid />
