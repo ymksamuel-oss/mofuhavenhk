@@ -23,3 +23,7 @@
 
 - 共用的貓咪下拉選單已確認以直接並列次序顯示：乾糧、幼貓、成貓、老貓、零食／小食；手機抽屜與桌面下拉共用同一 `CategorySubmenu` 資料，不會出現兩端分類不同步。
 - `/categories/cats/senior` 顯示 15 款已確認高齡貓產品，包含包裝標示高齡貓用的 CIAO 小食、10／11／14／15 歲以上的乾糧及貓罐頭；未標示年齡的產品不會混入。
+
+## Production 驗證
+
+既有 Vercel production 的 `/categories/cats/senior` 已顯示 15 款明確標示高齡貓、10／11／14／15 歲以上的產品；頁面沒有混入幼貓、成貓或未標示年齡商品。兩個既有 Vercel deployment status 均已成功。
