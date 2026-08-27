@@ -6,8 +6,10 @@ Usage:
   python3 scripts/sync_verified_product_metadata.py data/<batch>.json --apply
 
 The script only updates Stripe Product descriptions and an explicit allow-list of
-metadata keys. It never changes Prices, images, inventory, checkout settings, or
-product active status. --apply is required for any Stripe write.
+metadata keys. It never changes Prices, images, inventory values, checkout settings,
+or product active status. The explicit `show_when_out_of_stock` key only controls
+whether an already-unavailable item remains visible for customer enquiry. --apply is
+required for any Stripe write.
 """
 
 from __future__ import annotations
@@ -32,6 +34,7 @@ ALLOWED_METADATA_KEYS = {
     "specs_en",
     "availability_display_zh",
     "availability_display_en",
+    "show_when_out_of_stock",
     "product_format",
     "pet_suitability",
     "product_type_zh",

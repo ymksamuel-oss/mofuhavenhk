@@ -5,6 +5,7 @@ import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
+import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/translations";
 import { calcSubtotal } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
@@ -184,10 +185,18 @@ export function ProductQuickView({
             <p className="mt-1 text-sm leading-relaxed text-[color:var(--muted)]">
               {t("productOutOfStockMessage")}
             </p>
+            <p className="mt-2 text-xs leading-relaxed text-[color:var(--muted)]">
+              {t("productOrderInquiryHint")}
+            </p>
+            <OutOfStockOrderButton
+              productId={product.id}
+              productName={product.name}
+              className="mt-3"
+            />
           </div>
         ) : null}
 
-        <AddToCartButton productId={product.id} size="modal" />
+        {product.inStock === false ? null : <AddToCartButton productId={product.id} size="modal" />}
       </div>
     </div>
   );

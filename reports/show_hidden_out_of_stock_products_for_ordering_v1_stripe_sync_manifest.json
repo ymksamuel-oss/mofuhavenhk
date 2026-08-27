@@ -1,0 +1,25 @@
+{
+  "batch": "show_hidden_out_of_stock_products_for_ordering_v1",
+  "synced_at_utc": "2026-08-27T01:17:37.552016+00:00",
+  "count": 2,
+  "updated": [
+    {
+      "stripe_product_id": "prod_V90y14gfPJNkP3",
+      "metadata_verified": true,
+      "updated_keys": [
+        "availability_display_en",
+        "availability_display_zh",
+        "show_when_out_of_stock"
+      ]
+    },
+    {
+      "stripe_product_id": "prod_V90yHSNJqbGEZF",
+      "metadata_verified": true,
+      "updated_keys": [
+        "availability_display_en",
+        "availability_display_zh",
+        "show_when_out_of_stock"
+      ]
+    }
+  ]
+}

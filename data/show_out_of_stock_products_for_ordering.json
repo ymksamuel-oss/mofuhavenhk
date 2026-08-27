@@ -1,0 +1,17 @@
+{
+  "batch": "show_hidden_out_of_stock_products_for_ordering_v1",
+  "source": "User-authorised storefront visibility update for two active Stripe products that are currently out of stock. The customer-facing order enquiry path is implemented in the storefront, not in Stripe checkout.",
+  "metadata_defaults": {
+    "show_when_out_of_stock": "true",
+    "availability_display_zh": "暫時缺貨｜如需訂貨請聯絡店主查詢安排",
+    "availability_display_en": "Temporarily out of stock | Contact the shop owner for ordering arrangements"
+  },
+  "products": [
+    {
+      "stripe_product_id": "prod_V90y14gfPJNkP3"
+    },
+    {
+      "stripe_product_id": "prod_V90yHSNJqbGEZF"
+    }
+  ]
+}

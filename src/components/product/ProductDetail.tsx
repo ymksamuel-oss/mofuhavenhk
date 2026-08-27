@@ -6,6 +6,7 @@ import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -404,25 +405,33 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <p className="mt-1 text-sm leading-relaxed text-[color:var(--muted)]">
                 {t("productOutOfStockMessage")}
               </p>
+              <p className="mt-2 text-xs leading-relaxed text-[color:var(--muted)]">
+                {t("productOrderInquiryHint")}
+              </p>
+              <OutOfStockOrderButton
+                productId={selectedProduct.id}
+                productName={selectedProduct.name}
+                className="mt-3"
+              />
             </div>
           ) : null}
 
           <div className="hidden space-y-3 sm:block">
-            <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" />
             {selectedProduct.inStock === false ? (
-              <span
-                aria-disabled="true"
-                className="inline-flex min-h-11 w-full cursor-not-allowed items-center justify-center rounded-2xl border border-[color:var(--line)] bg-[color:var(--muted)] px-4 py-3 text-sm font-semibold text-white opacity-70"
-              >
-                {t("productSoldOut")}
-              </span>
+              <OutOfStockOrderButton
+                productId={selectedProduct.id}
+                productName={selectedProduct.name}
+              />
             ) : (
-              <CategoryNavLink
-                href="/checkout"
-                className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
-              >
-                {t("menuAddToCheckout")}
-              </CategoryNavLink>
+              <>
+                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" />
+                <CategoryNavLink
+                  href="/checkout"
+                  className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
+                >
+                  {t("menuAddToCheckout")}
+                </CategoryNavLink>
+              </>
             )}
           </div>
         </div>
@@ -441,12 +450,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </p>
           </div>
           {selectedProduct.inStock === false ? (
-            <span
-              aria-disabled="true"
-              className="flex min-h-12 min-w-0 flex-1 items-center justify-center rounded-2xl bg-[color:var(--muted)] px-4 py-3 text-sm font-semibold text-white opacity-70"
-            >
-              {t("productSoldOut")}
-            </span>
+            <OutOfStockOrderButton
+              productId={selectedProduct.id}
+              productName={selectedProduct.name}
+              className="!min-h-12 min-w-0 flex-1"
+            />
           ) : (
             <AddToCartButton
               productId={selectedProduct.id}
