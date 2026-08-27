@@ -447,8 +447,8 @@ describe("calm warm editorial UI contract", () => {
     const productType = source("src/lib/products.ts");
 
     expect(productDetail).toContain("<ProductGallery");
-    expect(productDetail).toContain("images={selectedProduct.images}");
-    expect(productDetail).toContain("key={selectedProduct.id}");
+    expect(productDetail).toContain("images={selectedOption?.image ? [selectedOption.image] : selectedProduct.images}");
+    expect(productDetail).toContain("key={`${selectedProduct.id}-${selectedPriceId}`}");
     expect(gallery).toContain("slice(0, 5)");
     expect(gallery).toContain("snap-x snap-mandatory");
     expect(gallery).toContain('role="tablist"');

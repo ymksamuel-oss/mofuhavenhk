@@ -6,6 +6,7 @@ import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductImage } from "@/components/product/ProductImage";
 import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
@@ -305,7 +306,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       aria-checked={selected}
                       disabled={unavailable}
                       onClick={() => setSelectedProductId(choice.product.id)}
-                      className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
+                      className={`flex min-h-16 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
                         selected
                           ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
                           : unavailable
@@ -313,11 +314,21 @@ export function ProductDetail({ product }: ProductDetailProps) {
                             : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
                       }`}
                     >
-                      <span className="min-w-0 leading-snug">
-                        <span className="block">{choice.label[locale]}</span>
-                        <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
-                          {formatMoney(choice.product.price, locale)}
-                          {unavailable ? ` · ${t("productSoldOut")}` : ""}
+                      <span className="flex min-w-0 items-center gap-3">
+                        <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
+                          <ProductImage
+                            src={choice.product.image}
+                            alt={choice.label[locale]}
+                            sizes="48px"
+                            className="object-contain p-1"
+                          />
+                        </span>
+                        <span className="min-w-0 leading-snug">
+                          <span className="block">{choice.label[locale]}</span>
+                          <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
+                            {formatMoney(choice.product.price, locale)}
+                            {unavailable ? ` · ${t("productSoldOut")}` : ""}
+                          </span>
                         </span>
                       </span>
                       <span
@@ -364,17 +375,29 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       role="radio"
                       aria-checked={selected}
                       onClick={() => setSelectedSpecIndex(index)}
-                      className={`flex min-h-11 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
+                      className={`flex min-h-16 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
                         selected
                           ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
                           : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
                       }`}
                     >
-                      <span className="min-w-0 leading-snug">
-                        <span className="block">{spec.label[locale] || spec.label.zh || spec.label.en}</span>
-                        <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
-                          {formatMoney(spec.price, locale)}
-                          {spec.unitLabel ? ` · ${spec.unitLabel[locale] || spec.unitLabel.zh}` : ""}
+                      <span className="flex min-w-0 items-center gap-3">
+                        {spec.image ? (
+                          <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
+                            <ProductImage
+                              src={spec.image}
+                              alt={spec.label[locale] || spec.label.zh || spec.label.en}
+                              sizes="48px"
+                              className="object-contain p-1"
+                            />
+                          </span>
+                        ) : null}
+                        <span className="min-w-0 leading-snug">
+                          <span className="block">{spec.label[locale] || spec.label.zh || spec.label.en}</span>
+                          <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
+                            {formatMoney(spec.price, locale)}
+                            {spec.unitLabel ? ` · ${spec.unitLabel[locale] || spec.unitLabel.zh}` : ""}
+                          </span>
                         </span>
                       </span>
                       <span

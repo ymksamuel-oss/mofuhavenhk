@@ -37,3 +37,16 @@
 ## 正式網站驗證
 
 正式產品頁 `prod_V8szxN4qvZQyrJ` 已顯示唯一清理後主圖、HK$54.90 售價及四個可選圖案／顏色 Price：自在如風（藍色插畫）、柿柿如意（綠色插畫）、藍胖胖、綠胖胖。產品頁控制標題為「選擇圖案／顏色」，分類 breadcrumb 為「寵物生活用品」。延遲載入後主圖在正式環境正常呈現。
+
+
+## 變體 v2 修正（本機 production branch working tree）
+
+日期：2026-08-28（香港時間）
+
+本次修正把食物碗 mapping 由依位置的 `option-N` 字串升級為穩定語義 key、雙語標籤及每項圖片。`catalog-server` 會先使用 Stripe Price metadata 的 `variant_image_url`，對尚未有 metadata 的既有食物碗 Price，才使用按 Product ID 及語義標籤核實的 fallback；未知選項不會猜用其他圖片。
+
+產品詳情頁的圖案／顏色選項及食品口味家族選項現在會顯示對應商品縮圖；選取後主圖會以所選 variant image 更新，加入購物籃仍傳遞所選 Product ID 和 Price ID。食物碗匯入腳本也會按語義 key 重用舊 Price 並原地更新 metadata，避免重跑時建立重複 Price。
+
+驗證結果：`npm test` 19 個測試檔、91 項測試全部通過；`npx tsc --noEmit`、`npm run validate:products`、變更檔案 targeted ESLint 及 Python `py_compile` 全部通過。完整 `npm run lint` 仍有 production 分支既有的 15 個 error／34 個 warning；未見本次變更檔案的 targeted lint 錯誤。`npm run build` 已成功編譯，但在既有 `/_global-error` prerender 階段因本機 React `useContext` 錯誤停止；這不是變體 TypeScript 編譯錯誤，且 Vercel 目前 production commit 已有成功部署記錄。
+
+本節變更目前只存在於本機 `main` working tree，尚未推送至 GitHub，亦未觸發 Vercel 重新部署。

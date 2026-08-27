@@ -70,7 +70,8 @@ def product_metadata(item: dict, pricing: dict) -> dict[str, str]:
         "mofu_import_source": MAPPING_PATH.name,
         "mofu_import_key": item["import_key"],
         "variant_mode": "option" if is_multi_option else "single",
-        "variant_schema": "v1",
+        "variant_schema": "v2",
+        "variant_selection_type": "pattern_color",
         "variant_selection_label_zh": "選擇圖案／顏色",
         "variant_selection_label_en": "Choose pattern / colour",
         "category": "lifestyle",
@@ -121,11 +122,23 @@ def update_or_create_prices(product: dict, item: dict, pricing: dict) -> list[di
         "GET", "prices",
         params={"product": product["id"], "active": "true", "currency": "hkd", "limit": "100"},
     ).get("data", [])
-    options = item["variants"]
     result: list[dict] = []
-    for index, label_zh in enumerate(options, start=1):
-        # Labels are Chinese and cannot safely be slugged into unique ASCII keys.
-        variant_key = f"option-{index}"
+    for index, option in enumerate(item["variants"], start=1):
+        # New mappings use semantic keys and explicit images. The string branch is
+        # retained for backwards compatibility with older mapping files.
+        if isinstance(option, str):
+            variant_key = f"option-{index}"
+            label_zh = option
+            label_en = "Option " + str(index)
+            image_url = ""
+        else:
+            variant_key = str(option.get("key", "")).strip()
+            label_zh = str(option.get("label_zh", "")).strip()
+            label_en = str(option.get("label_en", "")).strip() or "Option " + str(index)
+            image_url = str(option.get("image", "")).strip()
+        if not variant_key or not label_zh:
+            raise SystemExit(f"{item['import_key']} option {index}: key and label_zh are required")
+
         amount = cents(item["retail_hkd"])
         existing = next(
             (price for price in active_prices
@@ -133,6 +146,15 @@ def update_or_create_prices(product: dict, item: dict, pricing: dict) -> list[di
              and price.get("unit_amount") == amount),
             None,
         )
+        # Reuse legacy index-key Prices by label once, then upgrade their metadata
+        # in place. This keeps Stripe Price IDs and existing basket references safe.
+        if not existing:
+            existing = next(
+                (price for price in active_prices
+                 if (price.get("metadata") or {}).get("variant_label_zh", "").strip() == label_zh
+                 and price.get("unit_amount") == amount),
+                None,
+            )
         action = "reused"
         if not existing:
             price_data = {
@@ -144,17 +166,46 @@ def update_or_create_prices(product: dict, item: dict, pricing: dict) -> list[di
                 "metadata[variant_key]": variant_key,
                 "metadata[variant_sort]": str(index),
                 "metadata[variant_label_zh]": label_zh,
-                "metadata[variant_label_en]": "Option " + str(index),
+                "metadata[variant_label_en]": label_en,
                 "metadata[cost_cny]": f"{Decimal(str(item['cost_cny'])).quantize(Decimal('0.01'))}",
                 "metadata[unrounded_retail_hkd]": f"{Decimal(str(item['base_price_hkd'])).quantize(Decimal('0.01'))}",
                 "metadata[retail_pricing_rule]": "CNY×1.1654/(1-45%), upward .90",
                 "metadata[compare_at_price_hkd]": "0",
             }
-            existing = request("POST", "prices", data=price_data, key=f"{item['import_key']}-price-v1-{index}")
+            if image_url:
+                price_data["metadata[variant_image_url]"] = image_url
+            existing = request("POST", "prices", data=price_data, key=f"{item['import_key']}-price-v2-{index}")
             action = "created"
+        else:
+            current_metadata = existing.get("metadata") or {}
+            desired_metadata = {
+                "mofu_import_source": MAPPING_PATH.name,
+                "mofu_import_key": item["import_key"],
+                "variant_key": variant_key,
+                "variant_sort": str(index),
+                "variant_label_zh": label_zh,
+                "variant_label_en": label_en,
+            }
+            if image_url:
+                desired_metadata["variant_image_url"] = image_url
+            metadata_updates = {
+                f"metadata[{key}]": value
+                for key, value in desired_metadata.items()
+                if current_metadata.get(key) != value
+            }
+            if metadata_updates:
+                existing = request(
+                    "POST",
+                    f"prices/{existing['id']}",
+                    data=metadata_updates,
+                    key=f"{item['import_key']}-price-metadata-v2-{index}",
+                )
+                action = "metadata_updated"
         result.append({
             "variant_key": variant_key,
             "label_zh": label_zh,
+            "label_en": label_en,
+            "image": image_url or None,
             "retail_hkd": item["retail_hkd"],
             "stripe_price_id": existing["id"],
             "stripe_unit_amount": existing["unit_amount"],

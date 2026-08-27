@@ -24,10 +24,10 @@
       "retail_hkd": 54.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/zEnGXuatNYNuvnbK.png",
       "variants": [
-        "自在如風（藍色插畫）",
-        "柿柿如意（綠色插畫）",
-        "藍胖胖",
-        "綠胖胖"
+        { "key": "cat-ear-zizai-rufeng-blue", "label_zh": "自在如風（藍色插畫）", "label_en": "Zizai Rufeng (blue illustration)", "image": "/images/product-variants/cat-bowls/cat-ear-zizai-rufeng.png" },
+        { "key": "cat-ear-persimmon-ruyi-green", "label_zh": "柿柿如意（綠色插畫）", "label_en": "Persimmon Ruyi (green illustration)", "image": "/images/product-variants/cat-bowls/cat-ear-persimmon-ruiyi.png" },
+        { "key": "cat-ear-blue-chubby", "label_zh": "藍胖胖", "label_en": "Blue chubby cat", "image": "/images/product-variants/cat-bowls/cat-ear-blue-chubby.png" },
+        { "key": "cat-ear-green-chubby", "label_zh": "綠胖胖", "label_en": "Green chubby cat", "image": "/images/product-variants/cat-bowls/cat-ear-green-chubby.png" }
       ]
     },
     {
@@ -40,7 +40,9 @@
       "base_price_hkd": 65.5802,
       "retail_hkd": 65.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/AFPjmvKJBUrdjJkN.png",
-      "variants": ["藍貓圖案 M"]
+      "variants": [
+        { "key": "blue-cat-pattern-m", "label_zh": "藍貓圖案 M", "label_en": "Blue cat pattern M", "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/AFPjmvKJBUrdjJkN.png" }
+      ]
     },
     {
       "import_key": "white-cat-wave-slanted-bowl-m",
@@ -52,7 +54,9 @@
       "base_price_hkd": 59.2023,
       "retail_hkd": 59.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/EAFbboCkgpXSCkmO.png",
-      "variants": ["白貓海浪紋 M"]
+      "variants": [
+        { "key": "white-cat-wave-m", "label_zh": "白貓海浪紋 M", "label_en": "White cat wave pattern M", "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/EAFbboCkgpXSCkmO.png" }
+      ]
     },
     {
       "import_key": "flat-raised-ceramic-bowl-250ml",
@@ -64,7 +68,11 @@
       "base_price_hkd": 38.8608,
       "retail_hkd": 38.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jHsYihZUhsRnfazI.png",
-      "variants": ["魚圖案", "綠葉圖案", "羽毛圖案"]
+      "variants": [
+        { "key": "raised-flat-fish", "label_zh": "魚圖案", "label_en": "Fish pattern", "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jHsYihZUhsRnfazI.png" },
+        { "key": "raised-flat-green-leaf", "label_zh": "綠葉圖案", "label_en": "Green leaf pattern", "image": "/images/product-variants/cat-bowls/raised-flat-green-leaf.png" },
+        { "key": "raised-flat-feather", "label_zh": "羽毛圖案", "label_en": "Feather pattern", "image": "/images/product-variants/cat-bowls/raised-flat-feather.png" }
+      ]
     },
     {
       "import_key": "cat-face-slanted-raised-bowl-350ml",
@@ -76,7 +84,11 @@
       "base_price_hkd": 59.2023,
       "retail_hkd": 59.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jVYIoSHpzOBHdpSi.png",
-      "variants": ["白色", "橘色", "藍色"]
+      "variants": [
+        { "key": "cat-face-slanted-white", "label_zh": "白色", "label_en": "White", "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/jVYIoSHpzOBHdpSi.png" },
+        { "key": "cat-face-slanted-orange", "label_zh": "橘色", "label_en": "Orange", "image": "/images/product-variants/cat-bowls/cat-face-slanted-orange.png" },
+        { "key": "cat-face-slanted-blue", "label_zh": "藍色", "label_en": "Blue", "image": "/images/product-variants/cat-bowls/cat-face-slanted-blue.png" }
+      ]
     },
     {
       "import_key": "navy-cat-face-raised-bowl-m",
@@ -88,7 +100,9 @@
       "base_price_hkd": 46.4041,
       "retail_hkd": 46.9,
       "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/OdGJvUGjlxVJiMee.png",
-      "variants": ["深藍色 M"]
+      "variants": [
+        { "key": "navy-cat-face-m", "label_zh": "深藍色 M", "label_en": "Navy cat face M", "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663854897952/OdGJvUGjlxVJiMee.png" }
+      ]
     }
   ]
 }

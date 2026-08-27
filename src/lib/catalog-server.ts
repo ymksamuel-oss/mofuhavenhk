@@ -25,6 +25,7 @@ import {
 import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
+import { resolveProductVariantImage } from "./product-variant-images";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -301,6 +302,7 @@ function variantSortFromPrice(price: StripePriceRecord): number {
 }
 
 function productVariantsFromPrices(
+  productId: string,
   productMetadata: Record<string, string>,
   prices: readonly StripePriceRecord[],
 ): ProductVariant[] | undefined {
@@ -321,17 +323,24 @@ function productVariantsFromPrices(
         { ...productMetadata, ...price.metadata },
         price.amount,
       );
+      const variantLabelZh = price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`);
+      const variantLabelEn = price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`);
+      const variantImage = resolveProductVariantImage({
+        productId,
+        variantKey: price.metadata.variant_key,
+        labelZh: variantLabelZh,
+        labelEn: variantLabelEn,
+        explicitImage: price.metadata.variant_image_url,
+      });
       return {
         key: price.metadata.variant_key || `pack-${packCount}`,
         priceId: price.id,
         price: price.amount,
         label: {
-          zh: price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`),
-          en: price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`),
+          zh: variantLabelZh,
+          en: variantLabelEn,
         },
-        ...(price.metadata.variant_image_url?.trim()
-          ? { image: price.metadata.variant_image_url.trim() }
-          : {}),
+        ...(variantImage ? { image: variantImage } : {}),
         ...(Number.isFinite(perCan) && perCan > 0
           ? {
               unitLabel: {
@@ -384,7 +393,7 @@ function stripeProductToCatalogProduct(
 ): Product | null {
   const metadata = productMetadata(product);
   const priceRecords = pricesByProductId.get(product.id) ?? [];
-  const variants = productVariantsFromPrices(metadata, priceRecords);
+  const variants = productVariantsFromPrices(product.id, metadata, priceRecords);
   const defaultPriceId = typeof product.default_price === "string"
     ? product.default_price
     : product.default_price?.id;
