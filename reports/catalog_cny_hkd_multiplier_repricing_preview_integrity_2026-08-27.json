@@ -1,0 +1,16 @@
+{
+  "verification_mode": "read_only",
+  "no_stripe_writes_performed_by_verifier": true,
+  "products_checked": 226,
+  "global_active_hkd_prices_checked": 399,
+  "linked_active_hkd_prices_checked": 255,
+  "preview_records_checked": 255,
+  "calculated_price_records_checked": 150,
+  "awaiting_cost_price_records_checked": 105,
+  "pending_price_replacements_checked": 130,
+  "pending_product_policy_operations_checked": 129,
+  "blocked_product_policy_operations_checked": 6,
+  "manifest_integrity_sha256_verified": true,
+  "failure_count": 0,
+  "failures": []
+}
