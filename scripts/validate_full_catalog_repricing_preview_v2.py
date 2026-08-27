@@ -38,6 +38,8 @@ def main() -> None:
     product_ids: set[str] = set()
     recalculable = 0
     changing = 0
+    price_increase = 0
+    price_decrease = 0
     missing_cost = 0
     recalculable_product_ids: set[str] = set()
     missing_cost_product_ids: set[str] = set()
@@ -82,6 +84,10 @@ def main() -> None:
                     errors.append(f"row {index}: no_change record has non-zero delta")
             else:
                 changing += 1
+                if actual_change > 0:
+                    price_increase += 1
+                elif actual_change < 0:
+                    price_decrease += 1
                 if actual_change == 0:
                     errors.append(f"row {index}: changing record has zero delta")
         elif status == "awaiting_cny_cost":
@@ -114,6 +120,8 @@ def main() -> None:
         "recalculable_price_count": recalculable,
         "recalculable_product_count": len(recalculable_product_ids),
         "changing_price_count": changing,
+        "price_increase_count": price_increase,
+        "price_decrease_count": price_decrease,
         "awaiting_cny_cost_price_count": missing_cost,
         "awaiting_cny_cost_product_count": len(missing_cost_product_ids),
         "passed": not errors,
