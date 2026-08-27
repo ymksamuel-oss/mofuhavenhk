@@ -1,0 +1,109 @@
+{
+  "batch": "vets_labo_medimousse_verified_metadata_v1",
+  "source": "Vet’s Labo official product pages 196, 205, 202 and 189, read 2026-08-27.",
+  "metadata_defaults": {
+    "brand": "Vet’s Labo",
+    "product_type_zh": "貓用功能性營養補助食（一般食）",
+    "product_type_en": "Functional nutritional supplementary food for cats (general food)",
+    "pet_suitability": "cats",
+    "feeding_zh": "官方建議按貓咪品種、年齡、活動量及個體情況調整。可參考每日 1–5kg：1 包；5–10kg：2 包，分 1 至 2 次餵食。",
+    "feeding_en": "The official guidance varies by breed, age, activity and individual condition. As a guide, feed 1 pouch daily for 1–5kg and 2 pouches daily for 5–10kg, divided into one or two meals.",
+    "storage_zh": "請避免陽光直射及高溫潮濕處；開封後冷藏並盡快餵食，並放置於幼兒無法取得的位置。",
+    "storage_en": "Avoid direct sun and hot, humid places. Refrigerate after opening and serve promptly. Keep out of reach of young children.",
+    "notice_zh": "本產品為一般食／功能性營養補助食，並非完整營養主食、處方食品或治療用品。如寵物已有疾病、特殊飲食需要或正接受治療，請先諮詢獸醫。",
+    "notice_en": "This is a general food / functional nutritional supplementary food, not a complete staple, prescription diet or treatment. Consult a veterinarian first for pets with illness, special dietary needs or ongoing treatment.",
+    "verification_note_zh": "品名、用途、淨重、原料、成分值、能量、產地、餵食與保存資料均以對應 Vet’s Labo 官方單品頁核實。",
+    "verification_note_en": "Name, purpose, net weight, ingredients, analysis, energy, origin, feeding and storage data are verified against the corresponding Vet’s Labo official product page.",
+    "product_content_version": "vets-labo-medimousse-v1"
+  },
+  "products": [
+    {
+      "stripe_product_id": "prod_V8feexDq7xAidn",
+      "description_zh": "Vet’s Labo MediMousse 貓用皮膚健康支持為柔軟慕斯狀的功能性營養補助食（一般食），不含穀物，配方含雞肉、吞拿魚、三文魚及鮭魚鼻軟骨萃取物。適合作為日常膳食的配料使用。",
+      "description_en": "Vet’s Labo MediMousse Skin Support for Cats is a soft mousse-style functional nutritional supplementary food (general food). It is grain-free and contains chicken, tuna, salmon and salmon-nasal-cartilage extract. It may be served as a daily meal topper.",
+      "texture_zh": "柔軟慕斯質地，方便拌入日常食物。",
+      "texture_en": "Soft mousse texture that is easy to mix with everyday food.",
+      "specs_zh": "規格：95g｜類型：貓用功能性營養補助食（一般食）｜穀物不使用｜產地：日本",
+      "specs_en": "Size: 95g · Type: functional nutritional supplementary food for cats (general food) · Grain-free · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "肉類（雞柳、雞肉、袋鼠肉）、吞拿魚、三文魚、馬鈴薯澱粉、蠔萃取物（含牛磺酸）、植物性油脂、紫蘇油、輔酶Q10、含蛋白聚糖鮭魚鼻軟骨萃取物（糊精、鮭魚鼻軟骨萃取物）、增稠多醣類、礦物質類（鉀）、維他命類、聚谷氨酸、乳鐵蛋白濃縮物",
+        "ingredients_en": "Meats (chicken tenderloin, chicken, kangaroo), tuna, salmon, potato starch, oyster extract (containing taurine), vegetable oil, perilla oil, coenzyme Q10, proteoglycan-containing salmon nasal cartilage extract (dextrin, salmon nasal cartilage extract), thickening polysaccharides, minerals (potassium), vitamins, polyglutamic acid, lactoferrin concentrate",
+        "guaranteed_analysis_zh": "蛋白質 ≥2.5%、脂肪 ≥1.5%、粗纖維 ≤0.5%、灰分 ≤2.0%、水分 ≤93.0%",
+        "guaranteed_analysis_en": "Protein ≥2.5%, fat ≥1.5%, crude fibre ≤0.5%, ash ≤2.0%, moisture ≤93.0%",
+        "energy_zh": "約43 kcal／包",
+        "energy_en": "Approximately 43 kcal per pouch",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://vetslabo.com/products/202/",
+        "official_source_label_zh": "Vet’s Labo 官方單品頁（皮膚支持）",
+        "official_source_label_en": "Vet’s Labo official product page (Skin Support)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8fexvyuSOogz8",
+      "description_zh": "Vet’s Labo MediMousse 貓用健康支持為柔軟慕斯狀的功能性營養補助食（一般食），不含穀物，配方含雞肉、吞拿魚、藍莓及菠菜等材料。適合作為日常膳食的配料使用。",
+      "description_en": "Vet’s Labo MediMousse Health Support for Cats is a soft mousse-style functional nutritional supplementary food (general food). It is grain-free and contains chicken, tuna, blueberries and spinach. It may be served as a daily meal topper.",
+      "texture_zh": "柔軟慕斯質地，方便拌入日常食物。",
+      "texture_en": "Soft mousse texture that is easy to mix with everyday food.",
+      "specs_zh": "規格：95g｜類型：貓用功能性營養補助食（一般食）｜穀物不使用｜產地：日本",
+      "specs_en": "Size: 95g · Type: functional nutritional supplementary food for cats (general food) · Grain-free · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "肉類（雞柳、雞肉、袋鼠肉）、吞拿魚、馬鈴薯澱粉、藍莓、菠菜、蠔萃取物（含牛磺酸）、植物性油脂、紫蘇油、乳酸菌、增稠多醣類、礦物質類（鉀）、聚谷氨酸、L-肉鹼、L-賴氨酸、乳鐵蛋白濃縮物",
+        "ingredients_en": "Meats (chicken tenderloin, chicken, kangaroo), tuna, potato starch, blueberries, spinach, oyster extract (containing taurine), vegetable oil, perilla oil, lactic acid bacteria, thickening polysaccharides, minerals (potassium), polyglutamic acid, L-carnitine, L-lysine, lactoferrin concentrate",
+        "guaranteed_analysis_zh": "蛋白質 ≥3.0%、脂肪 ≥2.5%、粗纖維 ≤0.5%、灰分 ≤2.0%、水分 ≤93.0%",
+        "guaranteed_analysis_en": "Protein ≥3.0%, fat ≥2.5%, crude fibre ≤0.5%, ash ≤2.0%, moisture ≤93.0%",
+        "energy_zh": "約56 kcal／包",
+        "energy_en": "Approximately 56 kcal per pouch",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://vetslabo.com/products/196/",
+        "official_source_label_zh": "Vet’s Labo 官方單品頁（健康支持）",
+        "official_source_label_en": "Vet’s Labo official product page (Health Support)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8fe6YUsIrEf8Q",
+      "description_zh": "Vet’s Labo MediMousse 貓用體重管理支持為柔軟慕斯狀的功能性營養補助食（一般食），不含穀物，配方含雞肉、吞拿魚、三文魚及洋車前子殼。適合作為日常膳食的配料使用。",
+      "description_en": "Vet’s Labo MediMousse Weight Management Support for Cats is a soft mousse-style functional nutritional supplementary food (general food). It is grain-free and contains chicken, tuna, salmon and psyllium husk. It may be served as a daily meal topper.",
+      "texture_zh": "柔軟慕斯質地，方便拌入日常食物。",
+      "texture_en": "Soft mousse texture that is easy to mix with everyday food.",
+      "specs_zh": "規格：95g｜類型：貓用功能性營養補助食（一般食）｜穀物不使用｜產地：日本",
+      "specs_en": "Size: 95g · Type: functional nutritional supplementary food for cats (general food) · Grain-free · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "肉類（雞柳、雞肉、袋鼠肉）、吞拿魚、三文魚、洋車前子殼、蠔萃取物（含牛磺酸）、植物性油脂、紫蘇油、增稠多醣類、礦物質類（鉀）、維他命類、蛋氨酸、聚谷氨酸、乳鐵蛋白濃縮物",
+        "ingredients_en": "Meats (chicken tenderloin, chicken, kangaroo), tuna, salmon, psyllium husk, oyster extract (containing taurine), vegetable oil, perilla oil, thickening polysaccharides, minerals (potassium), vitamins, methionine, polyglutamic acid, lactoferrin concentrate",
+        "guaranteed_analysis_zh": "蛋白質 ≥3.0%、脂肪 ≥1.5%、粗纖維 ≤0.5%、灰分 ≤2.0%、水分 ≤93.0%",
+        "guaranteed_analysis_en": "Protein ≥3.0%, fat ≥1.5%, crude fibre ≤0.5%, ash ≤2.0%, moisture ≤93.0%",
+        "energy_zh": "約43 kcal／包",
+        "energy_en": "Approximately 43 kcal per pouch",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://vetslabo.com/products/205/",
+        "official_source_label_zh": "Vet’s Labo 官方單品頁（體重管理支持）",
+        "official_source_label_en": "Vet’s Labo official product page (Weight Management Support)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8feViin1yPowA",
+      "description_zh": "Vet’s Labo MediMousse 貓用腸胃健康支持為柔軟慕斯狀的功能性營養補助食（一般食），不含穀物，配方含雞肉、吞拿魚、低聚糖及乳鐵蛋白濃縮物。適合作為日常膳食的配料使用。",
+      "description_en": "Vet’s Labo MediMousse Digestive Support for Cats is a soft mousse-style functional nutritional supplementary food (general food). It is grain-free and contains chicken, tuna, oligosaccharides and lactoferrin concentrate. It may be served as a daily meal topper.",
+      "texture_zh": "柔軟慕斯質地，方便拌入日常食物。",
+      "texture_en": "Soft mousse texture that is easy to mix with everyday food.",
+      "specs_zh": "規格：95g｜類型：貓用功能性營養補助食（一般食）｜穀物不使用｜產地：日本",
+      "specs_en": "Size: 95g · Type: functional nutritional supplementary food for cats (general food) · Grain-free · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "肉類（雞柳、雞肉、袋鼠肉）、吞拿魚、馬鈴薯澱粉、蜂蜜、蠔萃取物（含牛磺酸）、低聚糖、植物性油脂、紫蘇油、魚油、甜瓜萃取物、增稠多醣類、礦物質類（鉀）、聚谷氨酸、乳鐵蛋白濃縮物",
+        "ingredients_en": "Meats (chicken tenderloin, chicken, kangaroo), tuna, potato starch, honey, oyster extract (containing taurine), oligosaccharides, vegetable oil, perilla oil, fish oil, melon extract, thickening polysaccharides, minerals (potassium), polyglutamic acid, lactoferrin concentrate",
+        "guaranteed_analysis_zh": "蛋白質 ≥3.0%、脂肪 ≥0.5%、粗纖維 ≤0.5%、灰分 ≤2.0%、水分 ≤95.0%",
+        "guaranteed_analysis_en": "Protein ≥3.0%, fat ≥0.5%, crude fibre ≤0.5%, ash ≤2.0%, moisture ≤95.0%",
+        "energy_zh": "約49 kcal／包",
+        "energy_en": "Approximately 49 kcal per pouch",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://vetslabo.com/products/189/",
+        "official_source_label_zh": "Vet’s Labo 官方單品頁（腸胃支持）",
+        "official_source_label_en": "Vet’s Labo official product page (Digestive Support)"
+      }
+    }
+  ]
+}
