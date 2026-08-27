@@ -1,0 +1,2320 @@
+{
+  "generated_at_utc": "2026-08-27T01:56:32.097997+00:00",
+  "active_product_count": 226,
+  "active_hkd_price_count": 399,
+  "reprice_eligible_product_count": 106,
+  "reprice_eligible_hkd_price_count": 121,
+  "missing_cost_hkd_price_count": 0,
+  "missing_margin_product_count": 120,
+  "missing_fx_product_count": 0,
+  "recognized_pricing_metadata_key_counts": {
+    "cost_cny": 121,
+    "cny_cost": 0,
+    "pricing_target_product_gross_margin": 106,
+    "target_product_margin": 0,
+    "pricing_cny_to_hkd": 106,
+    "fx_cny_to_hkd": 0,
+    "pricing_rounding": 106,
+    "pricing_ship_to_hk_hkd": 106,
+    "retail_pricing_rule": 121
+  },
+  "eligible_price_records": [
+    {
+      "product_id": "prod_V90yWGm3mtcreN",
+      "name": "Inaba かつまぐろ｜高齡貓鮪魚貓罐頭｜85g／單罐",
+      "mofu_sku": "MH-CAT-CIAO-028",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwzRyM6dRKLtZ5uUc9AxZ",
+      "current_hkd": "14.90",
+      "cost_cny": "6.81",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yCfcKRyo9ou",
+      "name": "Inaba かつまぐろ｜多口味隨機混拼貓罐頭｜85g × 6罐",
+      "mofu_sku": "MH-CAT-CIAO-027",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwyRyM6dRKLtZS9C8A5Eu",
+      "current_hkd": "62.90",
+      "cost_cny": "29.42",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yAWxmanLYZk",
+      "name": "Inaba かつまぐろ｜鮪魚小銀魚貓罐頭｜85g／單罐",
+      "mofu_sku": "MH-CAT-CIAO-026",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwxRyM6dRKLtZccf5xxZZ",
+      "current_hkd": "14.90",
+      "cost_cny": "6.81",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yWS8dLSjcn2",
+      "name": "Inaba かつまぐろ｜鮪魚三文魚貓罐頭｜85g／單罐",
+      "mofu_sku": "MH-CAT-CIAO-025",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwwRyM6dRKLtZ4TVBysAG",
+      "current_hkd": "14.90",
+      "cost_cny": "6.81",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yhuy2ZgCVZK",
+      "name": "Inaba かつまぐろ｜鮪魚貓罐頭｜85g／單罐",
+      "mofu_sku": "MH-CAT-CIAO-024",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwuRyM6dRKLtZD1NxsXXw",
+      "current_hkd": "14.90",
+      "cost_cny": "6.81",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yhIRALdzZyY",
+      "name": "Inaba かつまぐろ｜鮪魚雞肉貓罐頭｜85g／單罐",
+      "mofu_sku": "MH-CAT-CIAO-023",
+      "brand": "Inaba かつまぐろ",
+      "price_id": "price_1U8iwtRyM6dRKLtZyY5icJzG",
+      "current_hkd": "14.90",
+      "cost_cny": "6.81",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yC8a54bE0EL",
+      "name": "CIAO｜14歲以上鰹魚柴魚片貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-022",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwsRyM6dRKLtZ9WdAiJhl",
+      "current_hkd": "33.90",
+      "cost_cny": "15.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yoyex98iTAW",
+      "name": "CIAO｜14歲以上鮪魚白肉小銀魚貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-021",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwrRyM6dRKLtZ3rlOZMIV",
+      "current_hkd": "33.90",
+      "cost_cny": "15.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yRB01IgVrDV",
+      "name": "CIAO｜11歲以上鮪魚白肉貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-020",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwqRyM6dRKLtZTZ0TAzAG",
+      "current_hkd": "33.90",
+      "cost_cny": "15.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90y14gfPJNkP3",
+      "name": "CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-019",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwpRyM6dRKLtZc7uPsPIp",
+      "current_hkd": "33.90",
+      "cost_cny": "15.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yyLLKXQRQey",
+      "name": "CIAO｜鮪魚白肉扇貝柱貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-018",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwoRyM6dRKLtZP8VcS1tu",
+      "current_hkd": "27.90",
+      "cost_cny": "12.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yqFB6WTazQ9",
+      "name": "CIAO｜雞肉蟹柳貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-017",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwmRyM6dRKLtZY9nLDMUK",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90ytLadcfCm8a",
+      "name": "CIAO｜雞肉蟹柳柴魚片貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-016",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwlRyM6dRKLtZUPCtyfo0",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90ynvqu5ntnjO",
+      "name": "CIAO｜雞肉扇貝柱貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-015",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwkRyM6dRKLtZLKkQOBAC",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yisznvIVXlp",
+      "name": "CIAO｜烤鰹魚鮪魚雞肉貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-014",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwjRyM6dRKLtZL7hePLZM",
+      "current_hkd": "33.90",
+      "cost_cny": "15.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90ynw7GK161mE",
+      "name": "CIAO｜鰹魚柴魚片貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-013",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwiRyM6dRKLtZDni4Rrvo",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yrU6QwJj9H4",
+      "name": "CIAO｜雞肉甜蝦小銀魚貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-012",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwhRyM6dRKLtZedeY1D6y",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yxohDmOksl3",
+      "name": "CIAO｜雞肉烤鰹魚柴魚片貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-011",
+      "brand": "CIAO",
+      "price_id": "price_1U8iwgRyM6dRKLtZWmshq8Qw",
+      "current_hkd": "27.90",
+      "cost_cny": "12.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yHSNJqbGEZF",
+      "name": "CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-010",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwfRyM6dRKLtZujEk5TUK",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yhouIdri4Ou",
+      "name": "CIAO とろみ｜11歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-009",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iweRyM6dRKLtZOPT6WHop",
+      "current_hkd": "25.90",
+      "cost_cny": "11.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yGkxpp9OU57",
+      "name": "CIAO とろみ｜奶油濃湯雞肉鰹魚柴魚片貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-008",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwdRyM6dRKLtZ7nW4lVOy",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yJbWqkU76Xa",
+      "name": "CIAO とろみ｜奶油濃湯雞肉鮪魚蟹柳貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-007",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwbRyM6dRKLtZl7K9ejmQ",
+      "current_hkd": "25.90",
+      "cost_cny": "11.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yH5bCkLyGYU",
+      "name": "CIAO とろみ｜下泌尿道配慮雞肉鮪魚扇貝濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-006",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwaRyM6dRKLtZbm2N3cUU",
+      "current_hkd": "25.90",
+      "cost_cny": "11.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yLEVAaxxHJj",
+      "name": "CIAO とろみ｜鰹魚高湯雞肉鮪魚魷魚濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-005",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwZRyM6dRKLtZc4a9huRq",
+      "current_hkd": "22.90",
+      "cost_cny": "10.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90ygMTkWiOVNg",
+      "name": "CIAO とろみ｜烤鰹魚雞肉柴魚片濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-004",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwYRyM6dRKLtZYbdZDFYL",
+      "current_hkd": "25.90",
+      "cost_cny": "11.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yamZYZI7jNF",
+      "name": "CIAO とろみ｜鰹魚高湯雞肉鰹魚扇貝濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-003",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwXRyM6dRKLtZywWN34fZ",
+      "current_hkd": "22.90",
+      "cost_cny": "10.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yHw6lb8trQi",
+      "name": "CIAO とろみ｜鰹魚高湯雞肉鮪魚蟹柳濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-002",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwVRyM6dRKLtZBxhHTGze",
+      "current_hkd": "29.90",
+      "cost_cny": "13.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V90yLm2ySqOvLR",
+      "name": "CIAO とろみ｜鮪魚魷魚濃湯貓罐頭｜單罐",
+      "mofu_sku": "MH-CAT-CIAO-001",
+      "brand": "CIAO とろみ",
+      "price_id": "price_1U8iwURyM6dRKLtZvEEuMvIT",
+      "current_hkd": "25.90",
+      "cost_cny": "11.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXV7x4AmWu89",
+      "name": "Mon Petit Crispy Kiss 奢華三文魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Salmon Flavour Cat Treats 24g",
+      "mofu_sku": "MH-CAT-MONP-007",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcRRyM6dRKLtZMvlsOquW",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXMB8UApWAYP",
+      "name": "Mon Petit Crispy Kiss 三文魚、鰹魚及小魚味貓咪小食 30g｜Mon Petit Crispy Kiss Salmon, Bonito and Small Fish Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-009",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcQRyM6dRKLtZAt0dJH05",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXn4fyGQ2Iwg",
+      "name": "Mon Petit Crispy Kiss 鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Bonito and Small Fish Broth Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-001",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcPRyM6dRKLtZkmzKQFaa",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXZsF0TMS5c8",
+      "name": "Mon Petit Crispy Kiss 真鯛、鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Snapper, Skipjack Tuna and Small Fish Broth Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-013",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcORyM6dRKLtZ1yMnnhEK",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXM2ONlpEcC3",
+      "name": "Mon Petit Crispy Kiss 真鯛及海鮮綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Snapper and Seafood Assortment Cat Treats 144g",
+      "mofu_sku": "MH-CAT-MONP-014",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcNRyM6dRKLtZWtmFsbjT",
+      "current_hkd": "127.90",
+      "cost_cny": "59.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xX3586zZhcZt",
+      "name": "Mon Petit Crispy Kiss 海鮮、芝士及雞肉燒烤味綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood, Cheese and Chicken Grill Variety Pack Cat Treats 144g",
+      "mofu_sku": "MH-CAT-MONP-011",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcMRyM6dRKLtZa6kX1FcS",
+      "current_hkd": "127.90",
+      "cost_cny": "59.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXmrlDUto85d",
+      "name": "Mon Petit Crispy Kiss 海鮮味貓咪小食 30g｜Mon Petit Crispy Kiss Seafood Flavour Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-010",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcKRyM6dRKLtZsJdoHEu4",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXYKr9wN7Aee",
+      "name": "Mon Petit Crispy Kiss 鮮魚精選貓咪小食 30g｜Mon Petit Crispy Kiss Fish Select Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-004",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcJRyM6dRKLtZd8RKpg9m",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXFw4xx3NEuP",
+      "name": "Mon Petit Crispy Kiss 海鮮及雞肉綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood and Chicken Variety Pack Cat Treats 144g",
+      "mofu_sku": "MH-CAT-MONP-012",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcIRyM6dRKLtZhierJFH2",
+      "current_hkd": "127.90",
+      "cost_cny": "59.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXRC7As2ra5W",
+      "name": "Mon Petit Crispy Kiss 肉類精選綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Meat Selection Variety Pack Cat Treats 144g",
+      "mofu_sku": "MH-CAT-MONP-008",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcHRyM6dRKLtZ0WA7KbpT",
+      "current_hkd": "127.90",
+      "cost_cny": "59.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXSx8MWb3Y8D",
+      "name": "Mon Petit Crispy Kiss 芝士及雞肉味貓咪小食 30g｜Mon Petit Crispy Kiss Cheese and Chicken Flavour Cat Treats 30g",
+      "mofu_sku": "MH-CAT-MONP-002",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcGRyM6dRKLtZbNYK0jlM",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xX5m49XGPiSw",
+      "name": "Mon Petit Crispy Kiss 奢華雞肉味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Chicken Flavour Cat Treats 24g",
+      "mofu_sku": "MH-CAT-MONP-005",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcFRyM6dRKLtZeD9cGjwS",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXBfCtwPwxjK",
+      "name": "Mon Petit Crispy Kiss 奢華鮮魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Fish Flavour Cat Treats 24g",
+      "mofu_sku": "MH-CAT-MONP-006",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcERyM6dRKLtZ463dtKpL",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXLMbKeB2tb9",
+      "name": "Mon Petit Crispy Kiss 鮮魚雞肉貓薄荷味貓咪小食 24g｜Mon Petit Crispy Kiss Fish and Chicken with Catnip Cat Treats 24g",
+      "mofu_sku": "MH-CAT-MONP-003",
+      "brand": "Purina Mon Petit",
+      "price_id": "price_1U8fcDRyM6dRKLtZDd0FVQMW",
+      "current_hkd": "29.90",
+      "cost_cny": "13.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXxYtzIJ6S93",
+      "name": "AIM30 室內已絕育成貓 雞肉味乾糧 1.2kg｜AIM30 Indoor Spayed and Neutered Adult Cat Food Chicken Flavour 1.2kg",
+      "mofu_sku": "MH-CAT-SNR-028",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fcCRyM6dRKLtZhVXn5d9C",
+      "current_hkd": "417.90",
+      "cost_cny": "197.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXMTWORpMyun",
+      "name": "AIM30 室內高齡貓 11 歲以上 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Fish Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-030",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fcBRyM6dRKLtZpuYulJ4J",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXwQzwhjo93R",
+      "name": "AIM30 室內高齡貓 15 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Chicken Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-031",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc9RyM6dRKLtZcSJjz0IP",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXT4XG39RY4o",
+      "name": "AIM30 室內高齡貓 15 歲以上 腎臟健康照護 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Fish Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-032",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc8RyM6dRKLtZkNh900Ke",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXTyAkIg3YGz",
+      "name": "AIM30 室內高齡貓 15 歲以上 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Chicken Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-033",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc6RyM6dRKLtZ8UU70tzG",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXwAmye0eVa6",
+      "name": "AIM30 室內成貓 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Kidney Health Care Chicken Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-027",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc5RyM6dRKLtZ1foJPEVT",
+      "current_hkd": "222.90",
+      "cost_cny": "105.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXIokF7G9Er0",
+      "name": "AIM30 室內成貓 鮮魚味乾糧 600g｜AIM30 Indoor Adult Cat Food Fish Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-026",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc4RyM6dRKLtZnmbBZ59U",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXuAW047ti4v",
+      "name": "AIM30 室內成貓 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Chicken Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-025",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc3RyM6dRKLtZ8kbEZQmk",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8xXaZ0jwFhqkT",
+      "name": "AIM30 室內高齡貓 11 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Chicken Flavour 600g",
+      "mofu_sku": "MH-CAT-SNR-029",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8fc2RyM6dRKLtZ3lk0Ei43",
+      "current_hkd": "356.90",
+      "cost_cny": "168.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vsohIxXgEVDb",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g",
+      "mofu_sku": "MH-CAT-SNR-007",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e0NRyM6dRKLtZOs14Trkd",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vs7g4SLaJWJ3",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g",
+      "mofu_sku": "MH-CAT-SNR-006",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e0LRyM6dRKLtZDV8NlhJy",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vsqALfCDaZlZ",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g",
+      "mofu_sku": "MH-CAT-SNR-005",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e0IRyM6dRKLtZYfKTJ5RW",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrBdjzLlg7F7",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g",
+      "mofu_sku": "MH-CAT-SNR-004",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e0FRyM6dRKLtZE4JPj5uL",
+      "current_hkd": "50.90",
+      "cost_cny": "23.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrvYaxZ1cxLJ",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g",
+      "mofu_sku": "MH-CAT-SNR-003",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e0DRyM6dRKLtZ7D7Iai7O",
+      "current_hkd": "50.90",
+      "cost_cny": "23.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vr5nCW67gu8X",
+      "name": "銀之匙 三ツ星グルメ 魚肉奶油夾心 鮪魚及白蝦味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & White Shrimp Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-015",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8e0ARyM6dRKLtZWOXn9WYV",
+      "current_hkd": "116.90",
+      "cost_cny": "55.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vro3NAxi0isd",
+      "name": "AIM30 貓咪吞拿魚片 30g｜AIM30 Cat Tuna Slices 30g",
+      "mofu_sku": "MH-CAT-SNR-024",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e07RyM6dRKLtZMgv8TuPi",
+      "current_hkd": "42.90",
+      "cost_cny": "19.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrSwyPdcre4F",
+      "name": "AIM30 貓咪雞肉絲 25g｜AIM30 Cat Shredded Chicken Fillet 25g",
+      "mofu_sku": "MH-CAT-SNR-002",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e04RyM6dRKLtZkoQSmpqZ",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vriJ8BqO90r3",
+      "name": "AIM30 貓咪鰹魚削節 12g｜AIM30 Cat Bonito Flakes 12g",
+      "mofu_sku": "MH-CAT-SNR-001",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8e01RyM6dRKLtZOgbpOPvb",
+      "current_hkd": "42.90",
+      "cost_cny": "19.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrEgpUGj9fjI",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 魚味四種綜合包 80g｜AIM30 Karitto Treats Crispy Cat Treats Four Fish Flavours Assortment 80g",
+      "mofu_sku": "MH-CAT-SNR-016",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzzRyM6dRKLtZyAr6CctM",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrsKDQclIgy0",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 80g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 80g",
+      "mofu_sku": "MH-CAT-SNR-013",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzwRyM6dRKLtZ7ujj8KaR",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrYMEciXr909",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 80g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 80g",
+      "mofu_sku": "MH-CAT-SNR-015",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dztRyM6dRKLtZ3WxywbNW",
+      "current_hkd": "118.90",
+      "cost_cny": "56.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrxdYkx6Hq9O",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 綜合營養吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Balanced Nutrition Tuna 25g",
+      "mofu_sku": "MH-CAT-SNR-008",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzrRyM6dRKLtZSyj8L3go",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vr09YUCbk2x6",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 乳酸菌吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna with Lactic Acid Bacteria 25g",
+      "mofu_sku": "MH-CAT-SNR-018",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzoRyM6dRKLtZuW3r2eij",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrEGzFHOkIGq",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 毛球護理吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Hairball Care Tuna 25g",
+      "mofu_sku": "MH-CAT-SNR-017",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzlRyM6dRKLtZddHrurtA",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrJdunHu4yQD",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及蟹肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna & Crab Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-022",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dziRyM6dRKLtZ8ixLg9g3",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrCIoYlfznHf",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 鰹魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Bonito Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-010",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzgRyM6dRKLtZTCmIF0v5",
+      "current_hkd": "42.90",
+      "cost_cny": "19.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vragc9O6bDre",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 金槍魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-019",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzdRyM6dRKLtZmYLY5TKe",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vr8q8jdO6wNr",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-023",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzaRyM6dRKLtZjQNjilZt",
+      "current_hkd": "42.90",
+      "cost_cny": "19.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrVGdqH472WR",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 牛肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Beef Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-009",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzYRyM6dRKLtZ80e1VIfP",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrEO4eoZSj2o",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 芝士味 25g｜AIM30 Karitto Treats Crispy Cat Treats Cheese Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-011",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzVRyM6dRKLtZNWWJarJn",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrqp1avymNZ9",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 海鮮味 25g｜AIM30 Karitto Treats Crispy Cat Treats Seafood Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-021",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzTRyM6dRKLtZAzLsio4t",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vr3X8ZjnY554",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 三文魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Salmon Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-020",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzQRyM6dRKLtZJ5Dc0Gve",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vrkohKHcwdKL",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-012",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzNRyM6dRKLtZwBGGo3H9",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8vq78vZ3hdOmK",
+      "name": "AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 25g",
+      "mofu_sku": "MH-CAT-SNR-014",
+      "brand": "Sunrise AIM30",
+      "price_id": "price_1U8dzLRyM6dRKLtZiNLM7My7",
+      "current_hkd": "30.90",
+      "cost_cny": "14.40",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uJVy7nhLvdrI",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香 金槍魚鯛魚鰹魚扇貝乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Tuna, Sea Bream, Bonito & Scallop Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-010",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUXRyM6dRKLtZaTGFfSor",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uJcEJtSEmb69",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香 魚味綜合乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Assorted Fish Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-006",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUURyM6dRKLtZjiy5wjhq",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uJPueROjgX6L",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香 毛球護理乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Hairball Care Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-009",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cURRyM6dRKLtZxOISi7XP",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uJI32Jxh5dCc",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香 魚肉雞肉四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish & Chicken Four-Recipe Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-007",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUPRyM6dRKLtZO8S4Hj2n",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uILuFno1z4MZ",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香 腸胃健康照護乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Gut-Health Care Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-008",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUMRyM6dRKLtZiqoZhzs8",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIgedRHwtgJJ",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 腸胃健康魚味三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Gut-Health Fish Three-Recipe Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-012",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUJRyM6dRKLtZoV9l2W9Y",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIfmE32YGKQz",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 魚味綜合乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Assorted Fish Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-011",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUHRyM6dRKLtZILTR8TCU",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uID4s03TNUrL",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鯛魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Sea Bream Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-014",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUERyM6dRKLtZmdIE2erH",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIc8IHCyEuCW",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-013",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8cUCRyM6dRKLtZZdqgSvlS",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIPfhAKY5ONF",
+      "name": "SNAPPY 低粉塵膨潤土貓砂 原味無香 7L｜SNAPPY Low-Dust Bentonite Cat Litter Unscented 7L",
+      "mofu_sku": "MH-CAT-SNP-001",
+      "brand": "SNAPPY",
+      "price_id": "price_1U8cU9RyM6dRKLtZnyUTF5xl",
+      "current_hkd": "96.90",
+      "cost_cny": "45.45",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uInkIOBbpTsp",
+      "name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
+      "mofu_sku": "MH-CAT-PAMAX-001",
+      "brand": "PAMAX",
+      "price_id": "price_1U8cU7RyM6dRKLtZu7s2FINt",
+      "current_hkd": "472.90",
+      "cost_cny": "223.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8uInkIOBbpTsp",
+      "name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
+      "mofu_sku": "MH-CAT-PAMAX-001",
+      "brand": "PAMAX",
+      "price_id": "price_1U8cU6RyM6dRKLtZIwFymbls",
+      "current_hkd": "190.90",
+      "cost_cny": "90.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8uInkIOBbpTsp",
+      "name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
+      "mofu_sku": "MH-CAT-PAMAX-001",
+      "brand": "PAMAX",
+      "price_id": "price_1U8cU6RyM6dRKLtZuYsvr2FS",
+      "current_hkd": "97.90",
+      "cost_cny": "46.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIOVwsFqgPTV",
+      "name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
+      "mofu_sku": "MH-LIF-ST-001",
+      "brand": "S.T. ニャンとも清潔トイレ",
+      "price_id": "price_1U8cU3RyM6dRKLtZBkHsqyun",
+      "current_hkd": "203.90",
+      "cost_cny": "96.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8uIOVwsFqgPTV",
+      "name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
+      "mofu_sku": "MH-LIF-ST-001",
+      "brand": "S.T. ニャンとも清潔トイレ",
+      "price_id": "price_1U8cU3RyM6dRKLtZTKnfNwxt",
+      "current_hkd": "203.90",
+      "cost_cny": "96.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8uIOVwsFqgPTV",
+      "name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
+      "mofu_sku": "MH-LIF-ST-001",
+      "brand": "S.T. ニャンとも清潔トイレ",
+      "price_id": "price_1U8cU3RyM6dRKLtZYlkAeABl",
+      "current_hkd": "203.90",
+      "cost_cny": "96.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8uIO7LzUQjeCT",
+      "name": "Unicharm Deotoilet 消臭抗菌沸石貓砂 清新庭院香 3.8L｜Unicharm Deotoilet Deodorising Antibacterial Zeolite Cat Litter Natural Green 3.8L",
+      "mofu_sku": "MH-CAT-UCM-001",
+      "brand": "Unicharm Deotoilet",
+      "price_id": "price_1U8cU0RyM6dRKLtZ8uu3Ejr3",
+      "current_hkd": "91.90",
+      "cost_cny": "43.00",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thBqcqHiv3cZ",
+      "name": "銀之匙 三ツ星グルメ 幼貓魚味加牛奶乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Kitten Fish Recipe with Milk Dry Cat Food 240g",
+      "mofu_sku": "MH-CAT-GNSP-020",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8bu8RyM6dRKLtZrtZ6IOrx",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thwhOf6ahDTN",
+      "name": "銀之匙 三ツ星グルメ 10歲起腎臟健康維護魚味四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet 10+ Kidney Health Maintenance Fish Four-Recipe Dry Cat Food 200g",
+      "mofu_sku": "MH-CAT-GNSP-021",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8bu5RyM6dRKLtZGPNwKLAo",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thPo6RjbpnwO",
+      "name": "銀之匙 三ツ星グルメ 餐後吐毛輕減及毛球護理魚味乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Dry Cat Food for Reduced Post-Meal Vomiting & Hairball Care 192g",
+      "mofu_sku": "MH-CAT-GNSP-025",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8bu3RyM6dRKLtZLjAK97QM",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thk9qKECj0in",
+      "name": "銀之匙 三ツ星グルメ 鮮旨香 金槍魚鯛魚鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Sea Bream & Bonito Dry Cat Food 192g",
+      "mofu_sku": "MH-CAT-GNSP-024",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8bu0RyM6dRKLtZKGEvnAcj",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thsQJq4RYszQ",
+      "name": "銀之匙 三ツ星グルメ 鮮旨香 金槍魚雞里脊鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Chicken Tender & Bonito Dry Cat Food 192g",
+      "mofu_sku": "MH-CAT-GNSP-023",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8btyRyM6dRKLtZ2aDVvnPF",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thRjwLfHWe9X",
+      "name": "銀之匙 三ツ星グルメ 鮮旨香 魚肉雞里脊三拼乾糧 160g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Fish & Chicken Tender Three-Recipe Dry Cat Food 160g",
+      "mofu_sku": "MH-CAT-GNSP-022",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8btvRyM6dRKLtZPuQqw0hP",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thb2VVnmHjCY",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚毛球護理乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Hairball Care Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-017",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8bttRyM6dRKLtZYVjv60by",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8th4gMOUDUrzu",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 魚肉雞里脊三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Fish & Chicken Tender Three-Recipe Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-016",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8btqRyM6dRKLtZ3JpWeJNI",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8th51dTMblovb",
+      "name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚雞里脊味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Chicken Tender Dry Cat Food 180g",
+      "mofu_sku": "MH-CAT-GNSP-018",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8btoRyM6dRKLtZuVNr212k",
+      "current_hkd": "99.90",
+      "cost_cny": "46.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8thjTAXBn4Lnx",
+      "name": "銀之匙 三ツ星グルメ 香酥魚香毛球護理乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Hairball Care Dry Cat Food 240g",
+      "mofu_sku": "MH-CAT-GNSP-019",
+      "brand": "銀之匙／三ツ星グルメ",
+      "price_id": "price_1U8btlRyM6dRKLtZG99b8TZR",
+      "current_hkd": "95.90",
+      "cost_cny": "44.80",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8t0eKeqlC0GzI",
+      "name": "深藍貓臉高腳陶瓷食盤 M｜Navy Cat Face Raised Ceramic Bowl M",
+      "mofu_sku": "MH-LIF-GEN-005",
+      "brand": "",
+      "price_id": "price_1U8bE6RyM6dRKLtZKBGrzFqk",
+      "current_hkd": "46.90",
+      "cost_cny": "21.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8t03LiP3rgoHN",
+      "name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
+      "mofu_sku": "MH-LIF-GEN-003",
+      "brand": "",
+      "price_id": "price_1U8bE3RyM6dRKLtZ2dyFDhQx",
+      "current_hkd": "59.90",
+      "cost_cny": "27.94",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8t03LiP3rgoHN",
+      "name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
+      "mofu_sku": "MH-LIF-GEN-003",
+      "brand": "",
+      "price_id": "price_1U8bE3RyM6dRKLtZoo1SG8fs",
+      "current_hkd": "59.90",
+      "cost_cny": "27.94",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8t03LiP3rgoHN",
+      "name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
+      "mofu_sku": "MH-LIF-GEN-003",
+      "brand": "",
+      "price_id": "price_1U8bE3RyM6dRKLtZ6NUu82ih",
+      "current_hkd": "59.90",
+      "cost_cny": "27.94",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8szss31Rm8tiJ",
+      "name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
+      "mofu_sku": "MH-LIF-GEN-004",
+      "brand": "",
+      "price_id": "price_1U8bE0RyM6dRKLtZMRGdUPd6",
+      "current_hkd": "38.90",
+      "cost_cny": "18.34",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8szss31Rm8tiJ",
+      "name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
+      "mofu_sku": "MH-LIF-GEN-004",
+      "brand": "",
+      "price_id": "price_1U8bE0RyM6dRKLtZEhY45gCA",
+      "current_hkd": "38.90",
+      "cost_cny": "18.34",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8szss31Rm8tiJ",
+      "name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
+      "mofu_sku": "MH-LIF-GEN-004",
+      "brand": "",
+      "price_id": "price_1U8bDzRyM6dRKLtZ4X3eofhW",
+      "current_hkd": "38.90",
+      "cost_cny": "18.34",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8szzgASg2ZnbO",
+      "name": "白貓海浪紋斜口高腳陶瓷食盤 M｜White Cat Wave Pattern Raised Slanted Ceramic Bowl M",
+      "mofu_sku": "MH-LIF-GEN-006",
+      "brand": "",
+      "price_id": "price_1U8bDxRyM6dRKLtZBY1GwTXp",
+      "current_hkd": "59.90",
+      "cost_cny": "27.94",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8szJB1xzy0Hkm",
+      "name": "藍貓圖案斜口高腳陶瓷食盤 M｜Blue Cat Pattern Raised Slanted Ceramic Bowl M",
+      "mofu_sku": "MH-LIF-GEN-001",
+      "brand": "",
+      "price_id": "price_1U8bDuRyM6dRKLtZLWNMemMt",
+      "current_hkd": "65.90",
+      "cost_cny": "30.95",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
+      "mofu_sku": "MH-LIF-GEN-002",
+      "brand": "",
+      "price_id": "price_1U8bDsRyM6dRKLtZjeQdGEbD",
+      "current_hkd": "54.90",
+      "cost_cny": "25.50",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
+      "mofu_sku": "MH-LIF-GEN-002",
+      "brand": "",
+      "price_id": "price_1U8bDrRyM6dRKLtZ4BGKfDgq",
+      "current_hkd": "54.90",
+      "cost_cny": "25.50",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
+      "mofu_sku": "MH-LIF-GEN-002",
+      "brand": "",
+      "price_id": "price_1U8bDrRyM6dRKLtZvZK2osMh",
+      "current_hkd": "54.90",
+      "cost_cny": "25.50",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
+      "mofu_sku": "MH-LIF-GEN-002",
+      "brand": "",
+      "price_id": "price_1U8bDrRyM6dRKLtZFJenWOBn",
+      "current_hkd": "54.90",
+      "cost_cny": "25.50",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    },
+    {
+      "product_id": "prod_V8sFjjO8IgpPvO",
+      "name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
+      "mofu_sku": "MH-DOG-GEN-001",
+      "brand": "Complete ytt",
+      "price_id": "price_1U8aVORyM6dRKLtZIb6ivl1D",
+      "current_hkd": "78.90",
+      "cost_cny": "36.70",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8sFjjO8IgpPvO",
+      "name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
+      "mofu_sku": "MH-DOG-GEN-001",
+      "brand": "Complete ytt",
+      "price_id": "price_1U8aVORyM6dRKLtZ8BiiBL40",
+      "current_hkd": "69.90",
+      "cost_cny": "32.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8sFjjO8IgpPvO",
+      "name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
+      "mofu_sku": "MH-DOG-GEN-001",
+      "brand": "Complete ytt",
+      "price_id": "price_1U8aVORyM6dRKLtZyvltXD1x",
+      "current_hkd": "69.90",
+      "cost_cny": "32.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8sFjjO8IgpPvO",
+      "name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
+      "mofu_sku": "MH-DOG-GEN-001",
+      "brand": "Complete ytt",
+      "price_id": "price_1U8aVNRyM6dRKLtZqwr4DE1J",
+      "current_hkd": "27.90",
+      "cost_cny": "12.90",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "false"
+    },
+    {
+      "product_id": "prod_V8sFjjO8IgpPvO",
+      "name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
+      "mofu_sku": "MH-DOG-GEN-001",
+      "brand": "Complete ytt",
+      "price_id": "price_1U8aVNRyM6dRKLtZ7S60votS",
+      "current_hkd": "14.90",
+      "cost_cny": "6.74",
+      "target_product_margin": "0.45",
+      "stored_cny_to_hkd": "1.1654",
+      "rounding_rule": "upward .90",
+      "is_default_price": "true"
+    }
+  ],
+  "missing_cost_hkd_price_records": [],
+  "missing_margin_product_records": [
+    {
+      "product_id": "prod_V8lATUvYyTfiyk",
+      "name": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",
+      "mofu_sku": "MH-CAT-GNSP-005",
+      "brand": "銀之匙"
+    },
+    {
+      "product_id": "prod_V8lAGdiamaGSwC",
+      "name": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Shirasu Cat Can 70g",
+      "mofu_sku": "MH-CAT-GNSP-004",
+      "brand": "銀之匙"
+    },
+    {
+      "product_id": "prod_V8lATH0SDiLKBx",
+      "name": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "mofu_sku": "MH-CAT-GNSP-003",
+      "brand": "銀之匙"
+    },
+    {
+      "product_id": "prod_V8lAjMRJn8PScz",
+      "name": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "mofu_sku": "MH-CAT-GNSP-002",
+      "brand": "銀之匙"
+    },
+    {
+      "product_id": "prod_V8lAUga8Mwc3d0",
+      "name": "銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g",
+      "mofu_sku": "MH-CAT-GNSP-001",
+      "brand": "銀之匙"
+    },
+    {
+      "product_id": "prod_V8lA3QuLuCwOig",
+      "name": "COMBO Pure 魚肉米狗狗乾糧 540g｜COMBO Pure Fish & Rice Dry Dog Food 540g",
+      "mofu_sku": "MH-DOG-COMBO-012",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAaOLN6jDE2s",
+      "name": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g｜COMBO Pure Freeze-Dried Topping Japanese Chicken & Vegetable Dry Dog Food 540g",
+      "mofu_sku": "MH-DOG-COMBO-011",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAGBIlndcl9U",
+      "name": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Low-Fat Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_sku": "MH-DOG-COMBO-010",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lArvqiVc3AMr",
+      "name": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Extra-Small Kibble Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_sku": "MH-DOG-COMBO-009",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lA3mO6fUVnGr",
+      "name": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g｜COMBO Pure Selected Cheese & Japanese Chicken Dry Dog Food 600g",
+      "mofu_sku": "MH-DOG-COMBO-008",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAFkM1R1Q06Q",
+      "name": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g｜COMBO Pure Vegetable & Selected Cheese Dry Dog Food 600g",
+      "mofu_sku": "MH-DOG-COMBO-007",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lA8TrpHKZ0AE",
+      "name": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_sku": "MH-DOG-COMBO-006",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAWevxk3Za0C",
+      "name": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g",
+      "mofu_sku": "MH-CAT-COMBO-003",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8lAeH2hqPlna6",
+      "name": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g",
+      "mofu_sku": "MH-CAT-COMBO-002",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8lAOpvuncOCZM",
+      "name": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g",
+      "mofu_sku": "MH-CAT-COMBO-001",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8lA7fjOQvodwx",
+      "name": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g｜COMBO Pure Chicken Breast & Three Vegetable Cubes Dog Treat 50g",
+      "mofu_sku": "MH-DOG-COMBO-005",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lA4N42hxS8dk",
+      "name": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g｜COMBO Pure Chicken & Cartilage Cubes Dog Treat 50g",
+      "mofu_sku": "MH-DOG-COMBO-004",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lA3nhXSFdHkU",
+      "name": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g｜COMBO Pure Basil-Scented Chicken Cubes Dog Treat 50g",
+      "mofu_sku": "MH-DOG-COMBO-003",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAyjALw49Mz2",
+      "name": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g｜COMBO Pure Tender Chicken Breast Strips Dog Treat 50g",
+      "mofu_sku": "MH-DOG-COMBO-002",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lActmdKRF9Nz",
+      "name": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g｜COMBO Pure Tender Chicken Breast Cubes Dog Treat 50g",
+      "mofu_sku": "MH-DOG-COMBO-001",
+      "brand": "COMBO Pure"
+    },
+    {
+      "product_id": "prod_V8lAMmluHgtE1f",
+      "name": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4｜PETLINE Gochisou Time Chicken Paste Milk Jelly with Cheese Pouches 25g×4",
+      "mofu_sku": "MH-DOG-PTL-004",
+      "brand": "PETLINE"
+    },
+    {
+      "product_id": "prod_V8lAXdhHafIDnG",
+      "name": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4｜PETLINE Gochisou Time Chicken Breast Milk-Stew with Cheese Pouches 25g×4",
+      "mofu_sku": "MH-DOG-PTL-003",
+      "brand": "PETLINE"
+    },
+    {
+      "product_id": "prod_V8lAt5mJJ5YOb7",
+      "name": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast & Cheese Jelly Pouches 25g×4",
+      "mofu_sku": "MH-DOG-PTL-002",
+      "brand": "PETLINE"
+    },
+    {
+      "product_id": "prod_V8lAPSEzKs8rpv",
+      "name": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast, Vegetable & Beef-Style Jelly Pouches 25g×4",
+      "mofu_sku": "MH-DOG-PTL-001",
+      "brand": "PETLINE"
+    },
+    {
+      "product_id": "prod_V8kNg5nRdCoND1",
+      "name": "COMBO 低脂 7歲以上狗狗乾糧 720g｜COMBO Low-Fat Senior Dry Dog Food 720g",
+      "mofu_sku": "MH-DOG-COMBO-017",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8kNXGrzdUVGWS",
+      "name": "COMBO 低脂小魚乾雞肉狗狗乾糧 720g｜COMBO Low-Fat Dried Small Fish & Chicken Dry Dog Food 720g",
+      "mofu_sku": "MH-DOG-COMBO-016",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8kNDRrV7QQWc8",
+      "name": "COMBO 捲心菜牛肉狗狗乾糧 720g｜COMBO Cabbage & Beef Dry Dog Food 720g",
+      "mofu_sku": "MH-DOG-COMBO-013",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8kNDHKt8kCFkT",
+      "name": "COMBO 馬蘇里拉芝士角切狗狗乾糧 720g｜COMBO Mozzarella Cheese Cubes Dry Dog Food 720g",
+      "mofu_sku": "MH-DOG-COMBO-015",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8kNSV91CKgxb8",
+      "name": "COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g｜COMBO Beef, Dried Small Fish, Cheese & Vegetable Blend Dry Dog Food 720g",
+      "mofu_sku": "MH-DOG-COMBO-014",
+      "brand": "COMBO"
+    },
+    {
+      "product_id": "prod_V8fe6YUsIrEf8Q",
+      "name": "Vet's Labo｜MediMousse 減肥減脂慕斯｜95g",
+      "mofu_sku": "MH-CAT-CIAO-048",
+      "brand": "Vet’s Labo"
+    },
+    {
+      "product_id": "prod_V8feexDq7xAidn",
+      "name": "Vet's Labo｜MediMousse 皮膚維護慕斯｜95g",
+      "mofu_sku": "MH-CAT-CIAO-047",
+      "brand": "Vet’s Labo"
+    },
+    {
+      "product_id": "prod_V8fexvyuSOogz8",
+      "name": "Vet's Labo｜MediMousse 健康支持慕斯｜95g",
+      "mofu_sku": "MH-CAT-CIAO-046",
+      "brand": "Vet’s Labo"
+    },
+    {
+      "product_id": "prod_V8feViin1yPowA",
+      "name": "Vet's Labo｜MediMousse 腸胃呵護慕斯｜95g",
+      "mofu_sku": "MH-CAT-CIAO-045",
+      "brand": "Vet’s Labo"
+    },
+    {
+      "product_id": "prod_V8feew2ryjD7ql",
+      "name": "CIAO Premium｜6種功能性成分 (雞胸肉扇貝味)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-044",
+      "brand": "CIAO Premium"
+    },
+    {
+      "product_id": "prod_V8fe1kWPFBfcKh",
+      "name": "CIAO Premium｜6種功能性成分 (鰹魚雞胸肉木魚花)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-043",
+      "brand": "CIAO Premium"
+    },
+    {
+      "product_id": "prod_V8fe3PM27QjYNh",
+      "name": "CIAO 炙烤盛宴｜正宗高湯味 (香烤風味)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-042",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fenfKdEjRnr7",
+      "name": "CIAO 炙烤盛宴｜銀魚扇貝味 (香烤風味)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-041",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8feNaBEY6Pn28",
+      "name": "CIAO 炙烤盛宴｜北海道風味扇貝 (香烤風味)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-040",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fefdYTxUdNva",
+      "name": "CIAO 炙烤盛宴｜鰹魚干扇貝味 (香烤風味)｜30g",
+      "mofu_sku": "MH-CAT-CIAO-039",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8feeIGBK4DYB1",
+      "name": "CIAO 超強乳酸菌｜雞肉鰹魚干高湯｜40g",
+      "mofu_sku": "MH-CAT-CIAO-038",
+      "brand": "CIAO 超強乳酸菌"
+    },
+    {
+      "product_id": "prod_V8feXQdvRNrV4B",
+      "name": "CIAO 超強乳酸菌｜鮪魚雞肉柴魚片高湯｜40g",
+      "mofu_sku": "MH-CAT-CIAO-037",
+      "brand": "CIAO 超強乳酸菌"
+    },
+    {
+      "product_id": "prod_V8fe4RA15lCQZO",
+      "name": "CIAO 炙烤盛宴｜雞胸肉扇貝柱｜50g",
+      "mofu_sku": "MH-CAT-CIAO-036",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fe010ZPXAJ1J",
+      "name": "CIAO 炙烤盛宴｜化毛呵護鰹魚片扇貝柱｜50g",
+      "mofu_sku": "MH-CAT-CIAO-035",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8feoZ4v72AX1T",
+      "name": "CIAO 超強乳酸菌｜金槍魚雞肉鰹魚｜40g",
+      "mofu_sku": "MH-CAT-CIAO-034",
+      "brand": "CIAO 超強乳酸菌"
+    },
+    {
+      "product_id": "prod_V8fep70tdjHDoG",
+      "name": "CIAO 炙烤盛宴｜炙烤雞胸肉含蟹肉棒+扇貝柱｜50g",
+      "mofu_sku": "MH-CAT-CIAO-033",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fdnUyX0IymBN",
+      "name": "CIAO 炙烤盛宴｜烤鰹魚含小銀魚+扇貝柱｜50g",
+      "mofu_sku": "MH-CAT-CIAO-032",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fdpmkax4VOq1",
+      "name": "CIAO 炙烤盛宴｜扇貝柱正宗高湯｜50g",
+      "mofu_sku": "MH-CAT-CIAO-031",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fd05UFEZNURC",
+      "name": "CIAO 炙烤盛宴｜香烤扇貝柱 (高齡貓用)｜50g",
+      "mofu_sku": "MH-CAT-CIAO-030",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8fduDqyGKiazf",
+      "name": "CIAO 炙烤盛宴｜香烤鰹魚干瑤柱 (高齡貓用)｜50g",
+      "mofu_sku": "MH-CAT-CIAO-029",
+      "brand": "CIAO 炙烤盛宴"
+    },
+    {
+      "product_id": "prod_V8e2NpxQsXvHOA",
+      "name": "d.b.f 雞肉&雞胸肉糜紅薯｜d.b.f Chicken & Chicken Breast Mince with Sweet Potato 150g",
+      "mofu_sku": "MH-DOG-DBF-023",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2yXi5ewIEg5",
+      "name": "d.b.f 雞肉&雞胸肉糜蔬菜｜d.b.f Chicken & Chicken Breast Mince with Vegetables 150g",
+      "mofu_sku": "MH-DOG-DBF-022",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2HgqFtfTeZ3",
+      "name": "d.b.f 雞胸肉糜 (脂肪含量更少 0.5% 以上)｜d.b.f Chicken Breast Mince Low-fat Dog Can 65g",
+      "mofu_sku": "MH-DOG-DBF-021",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2NVxYYDt7TI",
+      "name": "d.b.f 高齡犬之食事 雞肉軟骨 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Cartilage 85g",
+      "mofu_sku": "MH-DOG-DBF-020",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "name": "d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-019",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2MnRWL8I3ON",
+      "name": "d.b.f 成犬之食事 雞肉｜d.b.f Adult Dog Meal Chicken 85g",
+      "mofu_sku": "MH-DOG-DBF-018",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2oW8u6WCtg5",
+      "name": "d.b.f 高齡犬之食事 雞肉蔬菜 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Vegetables 85g",
+      "mofu_sku": "MH-DOG-DBF-017",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e22XlcOMIRus",
+      "name": "d.b.f 高齡犬之食事 雞肉 (7歲及以上)｜d.b.f Senior Dog Meal Chicken 85g",
+      "mofu_sku": "MH-DOG-DBF-016",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2hyOUdfOwnM",
+      "name": "d.b.f 牛肉紅薯｜d.b.f Beef & Sweet Potato Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-015",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "name": "d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g",
+      "mofu_sku": "MH-DOG-DBF-014",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2eck5fdwDtP",
+      "name": "d.b.f 成犬之食事 雞肉蔬菜｜d.b.f Adult Dog Meal Chicken & Vegetables 85g",
+      "mofu_sku": "MH-DOG-DBF-013",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e2wynYC6XsBo",
+      "name": "d.b.f 成犬之食事 雞肉紅薯｜d.b.f Adult Dog Meal Chicken & Sweet Potato 85g",
+      "mofu_sku": "MH-DOG-DBF-012",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1EgYIqCWkcb",
+      "name": "d.b.f 成犬之食事 雞肉軟骨｜d.b.f Adult Dog Meal Chicken & Cartilage 85g",
+      "mofu_sku": "MH-DOG-DBF-011",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1qdj8efQTs9",
+      "name": "d.b.f 雞肉糜｜d.b.f Chicken Mince Dog Can 65g",
+      "mofu_sku": "MH-DOG-DBF-010",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1Y4NZgoH3mG",
+      "name": "d.b.f 雞肉雞胗濃湯｜d.b.f Chicken Breast & Gizzard Soup Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-009",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e143elQIOfMM",
+      "name": "d.b.f 雞肉&紅薯小粒｜d.b.f Chicken & Sweet Potato Adult Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-008",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1Jgdnr9v8HM",
+      "name": "d.b.f 牛肉糜｜d.b.f Beef Mince Dog Can 65g",
+      "mofu_sku": "MH-DOG-DBF-007",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1nNRuozpeTU",
+      "name": "d.b.f 牛肉&軟骨｜d.b.f Beef & Cartilage Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-006",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1XhfhroMZtV",
+      "name": "d.b.f 雞肉&蔬菜｜d.b.f Chicken & Vegetables Adult Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-005",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1qzONSyt8ru",
+      "name": "d.b.f 雞肉&芝士｜d.b.f Chicken & Cheese Adult Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-004",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1MyE7x9BZDl",
+      "name": "d.b.f 雞胸肉濃湯｜d.b.f Chicken Breast in Soup Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-003",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1ExxiCmg67D",
+      "name": "d.b.f 雞胸肉&奶酪｜d.b.f Chicken Breast & Cheese Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-002",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8e1g0toA5TEk7",
+      "name": "d.b.f 雞肉軟骨｜d.b.f Chicken Breast & Cartilage Dog Can 85g",
+      "mofu_sku": "MH-DOG-DBF-001",
+      "brand": "d.b.f"
+    },
+    {
+      "product_id": "prod_V8crzn01d7SXcg",
+      "name": "COMBO Present 低脂絕育貓 混合海鮮 小包｜COMBO Present Low-Fat Neutered Cat Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-016",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cr8kOWyjP3g1",
+      "name": "COMBO Present 維護泌尿 混合海鮮 小包｜COMBO Present Urinary Health Support Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-017",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crpeVGxpASKY",
+      "name": "COMBO Present 化毛配方 混合海鮮 小包｜COMBO Present Hairball Care Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-008",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crtmrNegpX6C",
+      "name": "COMBO Present 維護腎臟 混合肉味 小包｜COMBO Present Kidney Health Support Meat Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-013",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crvbMiPxxJvt",
+      "name": "COMBO Present 維護腎臟 混合海鮮 小包｜COMBO Present Kidney Health Support Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-014",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cr9iyVmqUz8O",
+      "name": "COMBO Present 潔齒防口臭 混合肉味 小包｜COMBO Present Dental and Breath Care Meat Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-002",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crzRJNuOzt2e",
+      "name": "COMBO Present 潔齒防口臭 混合海鮮 小包｜COMBO Present Dental and Breath Care Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-003",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crHGAsSzl77H",
+      "name": "COMBO Present 男生喜歡的口味 魚味 小包｜COMBO Present Boy-Friendly Fish Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-001",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cr9Jv6Ewv0ui",
+      "name": "COMBO Present 女生喜歡口味 混合海鮮 小包｜COMBO Present Girl-Friendly Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-007",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crT5vLCe95hY",
+      "name": "COMBO Present 腸道環境維持 海鮮 小包｜COMBO Present Digestive Support Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-005",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crrguHp5YAXt",
+      "name": "COMBO Present 免疫力維持 海鮮 小包｜COMBO Present Immune Support Seafood Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-009",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crhpakrZfoXD",
+      "name": "COMBO Present 室內貓 金槍魚 小包｜COMBO Present Indoor Cat Tuna Mini Pack",
+      "mofu_sku": "MH-CAT-CMP-012",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crErEJilA30r",
+      "name": "COMBO Present 維護腎臟配方 三種口味｜COMBO Present Kidney Health Support Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-015",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crKsH08GDJxM",
+      "name": "COMBO Present 維護泌尿配方 三種口味｜COMBO Present Urinary Health Support Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-018",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8crNNIKOTELSy",
+      "name": "COMBO Present 潔齒防口臭 三種口味｜COMBO Present Dental and Breath Care Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-004",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8croZ9K3Kppbf",
+      "name": "COMBO Present 室內貓化毛 三種口味｜COMBO Present Indoor Cat Hairball Care Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-011",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cr2Q8hiWwniV",
+      "name": "COMBO Present 免疫力維持 三種口味｜COMBO Present Immune Support Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-010",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cr9ARnvUOKQM",
+      "name": "COMBO Present 腸道環境維持 三種口味｜COMBO Present Digestive Support Three-Flavour Variety Pack",
+      "mofu_sku": "MH-CAT-CMP-006",
+      "brand": "COMBO Present"
+    },
+    {
+      "product_id": "prod_V8cru9Bp0V6puG",
+      "name": "DoggyMan 爆漿夾心卷（雞肝）｜DoggyMan Creamy Chicken Liver Roll Treats",
+      "mofu_sku": "MH-DOG-DGM-001",
+      "brand": "DoggyMan"
+    },
+    {
+      "product_id": "prod_V8cr46ftMdO2E3",
+      "name": "DoggyMan 爆漿夾心卷（雞肉）｜DoggyMan Creamy Chicken Roll Treats",
+      "mofu_sku": "MH-DOG-DGM-002",
+      "brand": "DoggyMan"
+    },
+    {
+      "product_id": "prod_V8ZpWi2bc00Aty",
+      "name": "白身魚口味罐頭（White Fish）",
+      "mofu_sku": "MH-DOG-IRIS-007",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8ZpDXl9RWMDbc",
+      "name": "雞肉口味罐頭（Chicken）",
+      "mofu_sku": "MH-DOG-IRIS-003",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8Zo9dzijaQ39p",
+      "name": "牛肉口味罐頭（Beef）",
+      "mofu_sku": "MH-DOG-IRIS-001",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8ZodBXbffvz6o",
+      "name": "雞肝口味罐頭（Chicken Liver）",
+      "mofu_sku": "MH-DOG-IRIS-002",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8ZoNtJinLFNNG",
+      "name": "新款 2個口味拼罐頭（New 2-Flavor Mix）",
+      "mofu_sku": "MH-DOG-IRIS-004",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8ZoJ2fwrBOiHL",
+      "name": "新款牛肉米飯罐頭（New Beef & Rice）",
+      "mofu_sku": "MH-DOG-IRIS-005",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8ZorEO6daplRl",
+      "name": "新款牛肉蔬菜罐頭（New Beef & Vegetables）",
+      "mofu_sku": "MH-DOG-IRIS-006",
+      "brand": "ONE CARE"
+    },
+    {
+      "product_id": "prod_V8W0gp0Oink4Cg",
+      "name": "雞里脊 150g (犬用) (現貨 / 2027.11.11)",
+      "mofu_sku": "MH-DOG-MCK-001",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0oLt83VbMEB",
+      "name": "三文魚 17g (預定)",
+      "mofu_sku": "MH-CAT-MCK-001",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0xHzc6tqf3B",
+      "name": "胡瓜魚凍干 10g (預定)",
+      "mofu_sku": "MH-CAT-MCK-005",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0mdB77ZJc5M",
+      "name": "金槍魚 14g (預定)",
+      "mofu_sku": "MH-CAT-MCK-009",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0fChA9h4VNq",
+      "name": "虹鱒魚 15g (現貨 / 賞味 27.5)",
+      "mofu_sku": "MH-CAT-MCK-006",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0BWVdW0bKlr",
+      "name": "扇貝 11g (現貨 / 27.01.15)",
+      "mofu_sku": "MH-CAT-MCK-003",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W073h3MHqGhr",
+      "name": "銀魚 10g (預定)",
+      "mofu_sku": "MH-CAT-MCK-010",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0DDhtV271xl",
+      "name": "豬大腿肉 20g (預定)",
+      "mofu_sku": "MH-CAT-MCK-007",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0eQFDHSCPxC",
+      "name": "牛大腿肉 17g (現貨 / 2027.12.01)",
+      "mofu_sku": "MH-CAT-MCK-004",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0LKmYo2bfxf",
+      "name": "豬心 25g (預定 (缺貨))",
+      "mofu_sku": "MH-CAT-MCK-008",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0n6wDbyKpya",
+      "name": "圓粒雞里脊 18g (現貨 / 賞味 28.01)",
+      "mofu_sku": "MH-CAT-MCK-002",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0OgEY0HBtlD",
+      "name": "雞里脊碎沫凍干粉拌飯 (預定)",
+      "mofu_sku": "MH-CAT-MCK-020",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W07sgetW5UqK",
+      "name": "雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17)",
+      "mofu_sku": "MH-CAT-MCK-013",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W06fowHsMOSF",
+      "name": "雞胸肉雞肫凍干 120g (現貨 / 2027.04.03)",
+      "mofu_sku": "MH-CAT-MCK-016",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "name": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "mofu_sku": "MH-CAT-MCK-017",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8W0oMeIOyFLhp",
+      "name": "雞胸肉雞肝凍干 120g (現貨 / 27.07)",
+      "mofu_sku": "MH-CAT-MCK-014",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8VzYLI6mgAR3P",
+      "name": "雞胸肉雞肝凍干 18g (預定)",
+      "mofu_sku": "MH-CAT-MCK-015",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8Vz4r6kx51OK2",
+      "name": "雞里脊 150g (現貨 / 2027.11.30)",
+      "mofu_sku": "MH-CAT-MCK-018",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8VzICRXhFqVtH",
+      "name": "雞里脊 30g (預定)",
+      "mofu_sku": "MH-CAT-MCK-019",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8VzG9Cs8B2Rjb",
+      "name": "雞胸肉 150g (現貨 / 賞味 27.10)",
+      "mofu_sku": "MH-CAT-MCK-011",
+      "brand": "Mamacook"
+    },
+    {
+      "product_id": "prod_V8VzTooOH64y65",
+      "name": "雞胸肉 30g (現貨 / 賞味 28.01)",
+      "mofu_sku": "MH-CAT-MCK-012",
+      "brand": "Mamacook"
+    }
+  ],
+  "missing_fx_product_records": []
+}

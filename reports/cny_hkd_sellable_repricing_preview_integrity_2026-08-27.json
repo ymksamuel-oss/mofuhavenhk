@@ -1,0 +1,14 @@
+{
+  "verification_mode": "read_only",
+  "preview_mode": "read_only_preview",
+  "no_stripe_writes_performed_by_verifier": true,
+  "expected_eligible_product_count": 106,
+  "actual_unique_product_count": 106,
+  "expected_sellable_hkd_price_count": 121,
+  "actual_price_record_count": 121,
+  "actual_unique_price_id_count": 121,
+  "all_proposed_prices_use_upward_90": true,
+  "all_live_old_prices_remain_active_hkd_and_match_preview": true,
+  "failure_count": 0,
+  "failures": []
+}
