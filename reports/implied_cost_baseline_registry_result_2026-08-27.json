@@ -1,0 +1,959 @@
+{
+  "mode": "apply",
+  "purpose": "owner-approved daily FX pricing fallback from existing retail price; not true purchase cost",
+  "no_price_amount_change": true,
+  "no_real_cost_metadata_written": true,
+  "started_at_utc": "2026-08-27T11:50:25.045095+00:00",
+  "records": [
+    {
+      "price_id": "price_1U8VfIRyM6dRKLtZYp1aULxk",
+      "product_id": "prod_V8fe1kWPFBfcKh",
+      "mofu_sku": "MH-CAT-CIAO-043",
+      "current_hkd": "10.90",
+      "implied_cost_cny_baseline": "5.31147668",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:13.174537+00:00"
+    },
+    {
+      "price_id": "price_1U8VfGRyM6dRKLtZqnZL6lHd",
+      "product_id": "prod_V8feew2ryjD7ql",
+      "mofu_sku": "MH-CAT-CIAO-044",
+      "current_hkd": "10.90",
+      "implied_cost_cny_baseline": "5.31147668",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:13.710261+00:00"
+    },
+    {
+      "price_id": "price_1U8VfZRyM6dRKLtZOVHdViM0",
+      "product_id": "prod_V8fduDqyGKiazf",
+      "mofu_sku": "MH-CAT-CIAO-029",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:14.253989+00:00"
+    },
+    {
+      "price_id": "price_1U8VfXRyM6dRKLtZFvN0Equa",
+      "product_id": "prod_V8fd05UFEZNURC",
+      "mofu_sku": "MH-CAT-CIAO-030",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:14.790102+00:00"
+    },
+    {
+      "price_id": "price_1U8VfNRyM6dRKLtZ71a6mIuN",
+      "product_id": "prod_V8fdpmkax4VOq1",
+      "mofu_sku": "MH-CAT-CIAO-031",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:15.338906+00:00"
+    },
+    {
+      "price_id": "price_1U8VfSRyM6dRKLtZeHgrgP2N",
+      "product_id": "prod_V8fdnUyX0IymBN",
+      "mofu_sku": "MH-CAT-CIAO-032",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:15.889098+00:00"
+    },
+    {
+      "price_id": "price_1U8VfQRyM6dRKLtZr1rEXVaM",
+      "product_id": "prod_V8fep70tdjHDoG",
+      "mofu_sku": "MH-CAT-CIAO-033",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:16.420535+00:00"
+    },
+    {
+      "price_id": "price_1U8VfJRyM6dRKLtZYUNbtDOa",
+      "product_id": "prod_V8fe010ZPXAJ1J",
+      "mofu_sku": "MH-CAT-CIAO-035",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:16.941814+00:00"
+    },
+    {
+      "price_id": "price_1U8VfVRyM6dRKLtZhrXqqdFe",
+      "product_id": "prod_V8fe4RA15lCQZO",
+      "mofu_sku": "MH-CAT-CIAO-036",
+      "current_hkd": "16.90",
+      "implied_cost_cny_baseline": "8.23522532",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:17.484979+00:00"
+    },
+    {
+      "price_id": "price_1U8VfaRyM6dRKLtZnd4iwlcL",
+      "product_id": "prod_V8fefdYTxUdNva",
+      "mofu_sku": "MH-CAT-CIAO-039",
+      "current_hkd": "14.90",
+      "implied_cost_cny_baseline": "7.26064244",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:18.047347+00:00"
+    },
+    {
+      "price_id": "price_1U8VfLRyM6dRKLtZ5nEpH6ij",
+      "product_id": "prod_V8feNaBEY6Pn28",
+      "mofu_sku": "MH-CAT-CIAO-040",
+      "current_hkd": "14.90",
+      "implied_cost_cny_baseline": "7.26064244",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:18.589009+00:00"
+    },
+    {
+      "price_id": "price_1U8VfURyM6dRKLtZsfDqR6c3",
+      "product_id": "prod_V8fenfKdEjRnr7",
+      "mofu_sku": "MH-CAT-CIAO-041",
+      "current_hkd": "14.90",
+      "implied_cost_cny_baseline": "7.26064244",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:19.133963+00:00"
+    },
+    {
+      "price_id": "price_1U8VfPRyM6dRKLtZSELHnoX6",
+      "product_id": "prod_V8fe3PM27QjYNh",
+      "mofu_sku": "MH-CAT-CIAO-042",
+      "current_hkd": "14.90",
+      "implied_cost_cny_baseline": "7.26064244",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:19.667529+00:00"
+    },
+    {
+      "price_id": "price_1U8VfcRyM6dRKLtZmgPvy27P",
+      "product_id": "prod_V8feoZ4v72AX1T",
+      "mofu_sku": "MH-CAT-CIAO-034",
+      "current_hkd": "12.90",
+      "implied_cost_cny_baseline": "6.28605956",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:20.197661+00:00"
+    },
+    {
+      "price_id": "price_1U8VffRyM6dRKLtZQ1rrh41H",
+      "product_id": "prod_V8feXQdvRNrV4B",
+      "mofu_sku": "MH-CAT-CIAO-037",
+      "current_hkd": "12.90",
+      "implied_cost_cny_baseline": "6.28605956",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:20.759467+00:00"
+    },
+    {
+      "price_id": "price_1U8VfdRyM6dRKLtZBZUCAmmJ",
+      "product_id": "prod_V8feeIGBK4DYB1",
+      "mofu_sku": "MH-CAT-CIAO-038",
+      "current_hkd": "12.90",
+      "implied_cost_cny_baseline": "6.28605956",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:21.291780+00:00"
+    },
+    {
+      "price_id": "price_1U8VfyRyM6dRKLtZv3pqg3t2",
+      "product_id": "prod_V8crHGAsSzl77H",
+      "mofu_sku": "MH-CAT-CMP-001",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:21.856395+00:00"
+    },
+    {
+      "price_id": "price_1U8VfwRyM6dRKLtZTi5PY8Go",
+      "product_id": "prod_V8cr9iyVmqUz8O",
+      "mofu_sku": "MH-CAT-CMP-002",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:22.397823+00:00"
+    },
+    {
+      "price_id": "price_1U8VfuRyM6dRKLtZ1Xzbqwgz",
+      "product_id": "prod_V8crzRJNuOzt2e",
+      "mofu_sku": "MH-CAT-CMP-003",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:22.930316+00:00"
+    },
+    {
+      "price_id": "price_1U8VftRyM6dRKLtZjUSxlTXX",
+      "product_id": "prod_V8crNNIKOTELSy",
+      "mofu_sku": "MH-CAT-CMP-004",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:23.477780+00:00"
+    },
+    {
+      "price_id": "price_1U8VgARyM6dRKLtZ6qLx74OA",
+      "product_id": "prod_V8crT5vLCe95hY",
+      "mofu_sku": "MH-CAT-CMP-005",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:24.014946+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg8RyM6dRKLtZk2x37iHr",
+      "product_id": "prod_V8cr9ARnvUOKQM",
+      "mofu_sku": "MH-CAT-CMP-006",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:24.586287+00:00"
+    },
+    {
+      "price_id": "price_1U8VfoRyM6dRKLtZD0xQ0o0K",
+      "product_id": "prod_V8cr9Jv6Ewv0ui",
+      "mofu_sku": "MH-CAT-CMP-007",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:25.122766+00:00"
+    },
+    {
+      "price_id": "price_1U8VfmRyM6dRKLtZmIZuJdnn",
+      "product_id": "prod_V8crpeVGxpASKY",
+      "mofu_sku": "MH-CAT-CMP-008",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:25.673955+00:00"
+    },
+    {
+      "price_id": "price_1U8VfkRyM6dRKLtZyi6EfUZn",
+      "product_id": "prod_V8crrguHp5YAXt",
+      "mofu_sku": "MH-CAT-CMP-009",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:26.221175+00:00"
+    },
+    {
+      "price_id": "price_1U8VfiRyM6dRKLtZUsusaDXK",
+      "product_id": "prod_V8cr2Q8hiWwniV",
+      "mofu_sku": "MH-CAT-CMP-010",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:26.744269+00:00"
+    },
+    {
+      "price_id": "price_1U8VfrRyM6dRKLtZUS6x0qQo",
+      "product_id": "prod_V8croZ9K3Kppbf",
+      "mofu_sku": "MH-CAT-CMP-011",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:27.294632+00:00"
+    },
+    {
+      "price_id": "price_1U8VfqRyM6dRKLtZkB11qUqD",
+      "product_id": "prod_V8crhpakrZfoXD",
+      "mofu_sku": "MH-CAT-CMP-012",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:27.832525+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg5RyM6dRKLtZqlVvcVTl",
+      "product_id": "prod_V8crtmrNegpX6C",
+      "mofu_sku": "MH-CAT-CMP-013",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:28.362330+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg3RyM6dRKLtZqTxXdIMe",
+      "product_id": "prod_V8crvbMiPxxJvt",
+      "mofu_sku": "MH-CAT-CMP-014",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:28.935074+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg7RyM6dRKLtZaWtSwItm",
+      "product_id": "prod_V8crErEJilA30r",
+      "mofu_sku": "MH-CAT-CMP-015",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:29.474822+00:00"
+    },
+    {
+      "price_id": "price_1U8VfhRyM6dRKLtZQxO4fpuu",
+      "product_id": "prod_V8crzn01d7SXcg",
+      "mofu_sku": "MH-CAT-CMP-016",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:30.014928+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg0RyM6dRKLtZALUmo5Pt",
+      "product_id": "prod_V8cr8kOWyjP3g1",
+      "mofu_sku": "MH-CAT-CMP-017",
+      "current_hkd": "32.90",
+      "implied_cost_cny_baseline": "16.03188835",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:30.570481+00:00"
+    },
+    {
+      "price_id": "price_1U8Vg1RyM6dRKLtZnRYfKHeX",
+      "product_id": "prod_V8crKsH08GDJxM",
+      "mofu_sku": "MH-CAT-CMP-018",
+      "current_hkd": "58.90",
+      "implied_cost_cny_baseline": "28.70146577",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:31.108106+00:00"
+    },
+    {
+      "price_id": "price_1U8VgDRyM6dRKLtZ24NTG3uj",
+      "product_id": "prod_V8cru9Bp0V6puG",
+      "mofu_sku": "MH-DOG-DGM-001",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:31.649188+00:00"
+    },
+    {
+      "price_id": "price_1U8VgBRyM6dRKLtZv2Xk9e47",
+      "product_id": "prod_V8cr46ftMdO2E3",
+      "mofu_sku": "MH-DOG-DGM-002",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:32.196225+00:00"
+    },
+    {
+      "price_id": "price_1U8VgvRyM6dRKLtZh8vgbQgO",
+      "product_id": "prod_V8W0oLt83VbMEB",
+      "mofu_sku": "MH-CAT-MCK-001",
+      "current_hkd": "106.90",
+      "implied_cost_cny_baseline": "52.09145485",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:32.735260+00:00"
+    },
+    {
+      "price_id": "price_1U8VgxRyM6dRKLtZMYRg7EId",
+      "product_id": "prod_V8W0n6wDbyKpya",
+      "mofu_sku": "MH-CAT-MCK-002",
+      "current_hkd": "64.90",
+      "implied_cost_cny_baseline": "31.62521440",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:33.283107+00:00"
+    },
+    {
+      "price_id": "price_1U8VgzRyM6dRKLtZMgGqC4Ob",
+      "product_id": "prod_V8W0BWVdW0bKlr",
+      "mofu_sku": "MH-CAT-MCK-003",
+      "current_hkd": "78.90",
+      "implied_cost_cny_baseline": "38.44729455",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:33.822646+00:00"
+    },
+    {
+      "price_id": "price_1U8VhERyM6dRKLtZRJUYIode",
+      "product_id": "prod_V8W0eQFDHSCPxC",
+      "mofu_sku": "MH-CAT-MCK-004",
+      "current_hkd": "82.90",
+      "implied_cost_cny_baseline": "40.39646031",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:34.358447+00:00"
+    },
+    {
+      "price_id": "price_1U8VhORyM6dRKLtZaHHmw4vx",
+      "product_id": "prod_V8W0xHzc6tqf3B",
+      "mofu_sku": "MH-CAT-MCK-005",
+      "current_hkd": "80.90",
+      "implied_cost_cny_baseline": "39.42187743",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:34.909160+00:00"
+    },
+    {
+      "price_id": "price_1U8VhQRyM6dRKLtZcmZ9StPG",
+      "product_id": "prod_V8W0fChA9h4VNq",
+      "mofu_sku": "MH-CAT-MCK-006",
+      "current_hkd": "80.90",
+      "implied_cost_cny_baseline": "39.42187743",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:35.432875+00:00"
+    },
+    {
+      "price_id": "price_1U8VhSRyM6dRKLtZMdg6lgBN",
+      "product_id": "prod_V8W0DDhtV271xl",
+      "mofu_sku": "MH-CAT-MCK-007",
+      "current_hkd": "73.90",
+      "implied_cost_cny_baseline": "36.01083736",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:36.004339+00:00"
+    },
+    {
+      "price_id": "price_1U8VhTRyM6dRKLtZCXZk7rs1",
+      "product_id": "prod_V8W0LKmYo2bfxf",
+      "mofu_sku": "MH-CAT-MCK-008",
+      "current_hkd": "75.90",
+      "implied_cost_cny_baseline": "36.98542024",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:36.584371+00:00"
+    },
+    {
+      "price_id": "price_1U8VhVRyM6dRKLtZ2SNCvfDD",
+      "product_id": "prod_V8W0mdB77ZJc5M",
+      "mofu_sku": "MH-CAT-MCK-009",
+      "current_hkd": "80.90",
+      "implied_cost_cny_baseline": "39.42187743",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:37.104409+00:00"
+    },
+    {
+      "price_id": "price_1U8VhXRyM6dRKLtZpnl8JDZN",
+      "product_id": "prod_V8W073h3MHqGhr",
+      "mofu_sku": "MH-CAT-MCK-010",
+      "current_hkd": "78.90",
+      "implied_cost_cny_baseline": "38.44729455",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:37.645400+00:00"
+    },
+    {
+      "price_id": "price_1U8VhhRyM6dRKLtZreAjaaqG",
+      "product_id": "prod_V8VzG9Cs8B2Rjb",
+      "mofu_sku": "MH-CAT-MCK-011",
+      "current_hkd": "262.90",
+      "implied_cost_cny_baseline": "128.10891938",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:38.189669+00:00"
+    },
+    {
+      "price_id": "price_1U8VhiRyM6dRKLtZcE0BERx5",
+      "product_id": "prod_V8VzTooOH64y65",
+      "mofu_sku": "MH-CAT-MCK-012",
+      "current_hkd": "77.90",
+      "implied_cost_cny_baseline": "37.96000311",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:38.781818+00:00"
+    },
+    {
+      "price_id": "price_1U8VhkRyM6dRKLtZzV6cvj1O",
+      "product_id": "prod_V8W07sgetW5UqK",
+      "mofu_sku": "MH-CAT-MCK-013",
+      "current_hkd": "75.90",
+      "implied_cost_cny_baseline": "36.98542024",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:39.314312+00:00"
+    },
+    {
+      "price_id": "price_1U8Ey0RyM6dRKLtZea02ekZN",
+      "product_id": "prod_V8W0oMeIOyFLhp",
+      "mofu_sku": "MH-CAT-MCK-014",
+      "current_hkd": "250.90",
+      "implied_cost_cny_baseline": "122.26142211",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:40.235359+00:00"
+    },
+    {
+      "price_id": "price_1U8VhmRyM6dRKLtZQLMUjgZb",
+      "product_id": "prod_V8VzYLI6mgAR3P",
+      "mofu_sku": "MH-CAT-MCK-015",
+      "current_hkd": "62.90",
+      "implied_cost_cny_baseline": "30.65063152",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:40.763027+00:00"
+    },
+    {
+      "price_id": "price_1U8Ey3RyM6dRKLtZ4nscQPyL",
+      "product_id": "prod_V8W06fowHsMOSF",
+      "mofu_sku": "MH-CAT-MCK-016",
+      "current_hkd": "250.90",
+      "implied_cost_cny_baseline": "122.26142211",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:41.291729+00:00"
+    },
+    {
+      "price_id": "price_1U8VhoRyM6dRKLtZEPUbvHtX",
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "mofu_sku": "MH-CAT-MCK-017",
+      "current_hkd": "62.90",
+      "implied_cost_cny_baseline": "30.65063152",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:41.834329+00:00"
+    },
+    {
+      "price_id": "price_1U8VhrRyM6dRKLtZCmbpVwO6",
+      "product_id": "prod_V8Vz4r6kx51OK2",
+      "mofu_sku": "MH-CAT-MCK-018",
+      "current_hkd": "262.90",
+      "implied_cost_cny_baseline": "128.10891938",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:42.368379+00:00"
+    },
+    {
+      "price_id": "price_1U8VhsRyM6dRKLtZxrrjuIFL",
+      "product_id": "prod_V8VzICRXhFqVtH",
+      "mofu_sku": "MH-CAT-MCK-019",
+      "current_hkd": "77.90",
+      "implied_cost_cny_baseline": "37.96000311",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:42.898967+00:00"
+    },
+    {
+      "price_id": "price_1U8VhuRyM6dRKLtZgTSXTyfh",
+      "product_id": "prod_V8W0OgEY0HBtlD",
+      "mofu_sku": "MH-CAT-MCK-020",
+      "current_hkd": "90.90",
+      "implied_cost_cny_baseline": "44.29479182",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:43.432571+00:00"
+    },
+    {
+      "price_id": "price_1U8VhpRyM6dRKLtZBDNjC1P3",
+      "product_id": "prod_V8W0gp0Oink4Cg",
+      "mofu_sku": "MH-DOG-MCK-001",
+      "current_hkd": "257.90",
+      "implied_cost_cny_baseline": "125.67246218",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:43.971668+00:00"
+    },
+    {
+      "price_id": "price_1U8VhFRyM6dRKLtZwbD6Db3k",
+      "product_id": "prod_V8Zo9dzijaQ39p",
+      "mofu_sku": "MH-DOG-IRIS-001",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:44.526371+00:00"
+    },
+    {
+      "price_id": "price_1U8VhHRyM6dRKLtZz2uFya7W",
+      "product_id": "prod_V8Zo9dzijaQ39p",
+      "mofu_sku": "MH-DOG-IRIS-001",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:45.059401+00:00"
+    },
+    {
+      "price_id": "price_1U8VhIRyM6dRKLtZM1d1iDY5",
+      "product_id": "prod_V8Zo9dzijaQ39p",
+      "mofu_sku": "MH-DOG-IRIS-001",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:45.577591+00:00"
+    },
+    {
+      "price_id": "price_1U8VhdRyM6dRKLtZcp5X8ifb",
+      "product_id": "prod_V8ZodBXbffvz6o",
+      "mofu_sku": "MH-DOG-IRIS-002",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:46.104492+00:00"
+    },
+    {
+      "price_id": "price_1U8VheRyM6dRKLtZFEetoprF",
+      "product_id": "prod_V8ZodBXbffvz6o",
+      "mofu_sku": "MH-DOG-IRIS-002",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:46.635240+00:00"
+    },
+    {
+      "price_id": "price_1U8VhgRyM6dRKLtZXSGwxJUo",
+      "product_id": "prod_V8ZodBXbffvz6o",
+      "mofu_sku": "MH-DOG-IRIS-002",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:47.165283+00:00"
+    },
+    {
+      "price_id": "price_1U8VhYRyM6dRKLtZGsnu90Cl",
+      "product_id": "prod_V8ZpDXl9RWMDbc",
+      "mofu_sku": "MH-DOG-IRIS-003",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:47.705433+00:00"
+    },
+    {
+      "price_id": "price_1U8VhaRyM6dRKLtZDuPhfSTS",
+      "product_id": "prod_V8ZpDXl9RWMDbc",
+      "mofu_sku": "MH-DOG-IRIS-003",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:48.251469+00:00"
+    },
+    {
+      "price_id": "price_1U8VhbRyM6dRKLtZwAu2ieZo",
+      "product_id": "prod_V8ZpDXl9RWMDbc",
+      "mofu_sku": "MH-DOG-IRIS-003",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:48.799879+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh1RyM6dRKLtZ2pb9imkA",
+      "product_id": "prod_V8ZoNtJinLFNNG",
+      "mofu_sku": "MH-DOG-IRIS-004",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:49.336351+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh2RyM6dRKLtZ0lZlFrKf",
+      "product_id": "prod_V8ZoNtJinLFNNG",
+      "mofu_sku": "MH-DOG-IRIS-004",
+      "current_hkd": "108.90",
+      "implied_cost_cny_baseline": "53.06603773",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:49.863113+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh4RyM6dRKLtZAatzUjjE",
+      "product_id": "prod_V8ZoNtJinLFNNG",
+      "mofu_sku": "MH-DOG-IRIS-004",
+      "current_hkd": "198.90",
+      "implied_cost_cny_baseline": "96.92226726",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:50.409994+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh5RyM6dRKLtZbYoXHN33",
+      "product_id": "prod_V8ZoJ2fwrBOiHL",
+      "mofu_sku": "MH-DOG-IRIS-005",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:50.975521+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh7RyM6dRKLtZJXZ94rLD",
+      "product_id": "prod_V8ZoJ2fwrBOiHL",
+      "mofu_sku": "MH-DOG-IRIS-005",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:51.913364+00:00"
+    },
+    {
+      "price_id": "price_1U8Vh8RyM6dRKLtZHSPJQw7B",
+      "product_id": "prod_V8ZoJ2fwrBOiHL",
+      "mofu_sku": "MH-DOG-IRIS-005",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:52.445439+00:00"
+    },
+    {
+      "price_id": "price_1U8VhARyM6dRKLtZCksW5NjG",
+      "product_id": "prod_V8ZorEO6daplRl",
+      "mofu_sku": "MH-DOG-IRIS-006",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:52.984888+00:00"
+    },
+    {
+      "price_id": "price_1U8VhBRyM6dRKLtZULSmUBud",
+      "product_id": "prod_V8ZorEO6daplRl",
+      "mofu_sku": "MH-DOG-IRIS-006",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:53.516953+00:00"
+    },
+    {
+      "price_id": "price_1U8VhCRyM6dRKLtZbmo2rOZf",
+      "product_id": "prod_V8ZorEO6daplRl",
+      "mofu_sku": "MH-DOG-IRIS-006",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:54.048762+00:00"
+    },
+    {
+      "price_id": "price_1U8VhKRyM6dRKLtZ1BP6Yc7u",
+      "product_id": "prod_V8ZpWi2bc00Aty",
+      "mofu_sku": "MH-DOG-IRIS-007",
+      "current_hkd": "45.90",
+      "implied_cost_cny_baseline": "22.36667706",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:54.585784+00:00"
+    },
+    {
+      "price_id": "price_1U8VhLRyM6dRKLtZCwjfhbdt",
+      "product_id": "prod_V8ZpWi2bc00Aty",
+      "mofu_sku": "MH-DOG-IRIS-007",
+      "current_hkd": "98.90",
+      "implied_cost_cny_baseline": "48.19312334",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:55.521228+00:00"
+    },
+    {
+      "price_id": "price_1U8VhNRyM6dRKLtZyBD2uK6n",
+      "product_id": "prod_V8ZpWi2bc00Aty",
+      "mofu_sku": "MH-DOG-IRIS-007",
+      "current_hkd": "188.90",
+      "implied_cost_cny_baseline": "92.04935287",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:56.050577+00:00"
+    },
+    {
+      "price_id": "price_1U8VgJRyM6dRKLtZ4V7rcIn2",
+      "product_id": "prod_V8feViin1yPowA",
+      "mofu_sku": "MH-CAT-CIAO-045",
+      "current_hkd": "38.90",
+      "implied_cost_cny_baseline": "18.95563698",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:56.620524+00:00"
+    },
+    {
+      "price_id": "price_1U8VgFRyM6dRKLtZy9DpjTcg",
+      "product_id": "prod_V8fexvyuSOogz8",
+      "mofu_sku": "MH-CAT-CIAO-046",
+      "current_hkd": "38.90",
+      "implied_cost_cny_baseline": "18.95563698",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:57.178808+00:00"
+    },
+    {
+      "price_id": "price_1U8VgIRyM6dRKLtZ5N8bJkjF",
+      "product_id": "prod_V8feexDq7xAidn",
+      "mofu_sku": "MH-CAT-CIAO-047",
+      "current_hkd": "38.90",
+      "implied_cost_cny_baseline": "18.95563698",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:57.739247+00:00"
+    },
+    {
+      "price_id": "price_1U8VgGRyM6dRKLtZXOrz5nwX",
+      "product_id": "prod_V8fe6YUsIrEf8Q",
+      "mofu_sku": "MH-CAT-CIAO-048",
+      "current_hkd": "38.90",
+      "implied_cost_cny_baseline": "18.95563698",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:58.283908+00:00"
+    },
+    {
+      "price_id": "price_1U8VghRyM6dRKLtZxGwSE72f",
+      "product_id": "prod_V8e1g0toA5TEk7",
+      "mofu_sku": "MH-DOG-DBF-001",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:58.815105+00:00"
+    },
+    {
+      "price_id": "price_1U8VgkRyM6dRKLtZ3NUks8VZ",
+      "product_id": "prod_V8e1ExxiCmg67D",
+      "mofu_sku": "MH-DOG-DBF-002",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:59.396570+00:00"
+    },
+    {
+      "price_id": "price_1U8VglRyM6dRKLtZJSyEL0xC",
+      "product_id": "prod_V8e1MyE7x9BZDl",
+      "mofu_sku": "MH-DOG-DBF-003",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:51:59.918724+00:00"
+    },
+    {
+      "price_id": "price_1U8VgaRyM6dRKLtZ506eApli",
+      "product_id": "prod_V8e1qzONSyt8ru",
+      "mofu_sku": "MH-DOG-DBF-004",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:00.444853+00:00"
+    },
+    {
+      "price_id": "price_1U8VgbRyM6dRKLtZlxvYMDLR",
+      "product_id": "prod_V8e1XhfhroMZtV",
+      "mofu_sku": "MH-DOG-DBF-005",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:01.371551+00:00"
+    },
+    {
+      "price_id": "price_1U8VgSRyM6dRKLtZs3ZbrVza",
+      "product_id": "prod_V8e1nNRuozpeTU",
+      "mofu_sku": "MH-DOG-DBF-006",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:01.909905+00:00"
+    },
+    {
+      "price_id": "price_1U8VgVRyM6dRKLtZ7gyPlKxI",
+      "product_id": "prod_V8e1Jgdnr9v8HM",
+      "mofu_sku": "MH-DOG-DBF-007",
+      "current_hkd": "26.90",
+      "implied_cost_cny_baseline": "13.10813971",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:02.441170+00:00"
+    },
+    {
+      "price_id": "price_1U8VgYRyM6dRKLtZxDR4pp7h",
+      "product_id": "prod_V8e143elQIOfMM",
+      "mofu_sku": "MH-DOG-DBF-008",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:02.992884+00:00"
+    },
+    {
+      "price_id": "price_1U8VgiRyM6dRKLtZPBByowjt",
+      "product_id": "prod_V8e1Y4NZgoH3mG",
+      "mofu_sku": "MH-DOG-DBF-009",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:03.539791+00:00"
+    },
+    {
+      "price_id": "price_1U8MjuRyM6dRKLtZgrVX9mqI",
+      "product_id": "prod_V8e1qdj8efQTs9",
+      "mofu_sku": "MH-DOG-DBF-010",
+      "current_hkd": "22.90",
+      "implied_cost_cny_baseline": "11.15897395",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:04.088334+00:00"
+    },
+    {
+      "price_id": "price_1U8VgORyM6dRKLtZZ3aglbbL",
+      "product_id": "prod_V8e1EgYIqCWkcb",
+      "mofu_sku": "MH-DOG-DBF-011",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:04.634399+00:00"
+    },
+    {
+      "price_id": "price_1U8VgLRyM6dRKLtZAGauubws",
+      "product_id": "prod_V8e2wynYC6XsBo",
+      "mofu_sku": "MH-DOG-DBF-012",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:05.614895+00:00"
+    },
+    {
+      "price_id": "price_1U8VgNRyM6dRKLtZQs8turyO",
+      "product_id": "prod_V8e2eck5fdwDtP",
+      "mofu_sku": "MH-DOG-DBF-013",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:06.159070+00:00"
+    },
+    {
+      "price_id": "price_1U8VgrRyM6dRKLtZQQyAMw9r",
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "mofu_sku": "MH-DOG-DBF-014",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:07.098358+00:00"
+    },
+    {
+      "price_id": "price_1U8VgXRyM6dRKLtZ1809VYTH",
+      "product_id": "prod_V8e2hyOUdfOwnM",
+      "mofu_sku": "MH-DOG-DBF-015",
+      "current_hkd": "31.90",
+      "implied_cost_cny_baseline": "15.54459691",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:07.676306+00:00"
+    },
+    {
+      "price_id": "price_1U8VgpRyM6dRKLtZtyzfIREm",
+      "product_id": "prod_V8e22XlcOMIRus",
+      "mofu_sku": "MH-DOG-DBF-016",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:08.615954+00:00"
+    },
+    {
+      "price_id": "price_1U8VgsRyM6dRKLtZZdvsRHV7",
+      "product_id": "prod_V8e2oW8u6WCtg5",
+      "mofu_sku": "MH-DOG-DBF-017",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:09.161416+00:00"
+    },
+    {
+      "price_id": "price_1U8VgQRyM6dRKLtZoohhjjug",
+      "product_id": "prod_V8e2MnRWL8I3ON",
+      "mofu_sku": "MH-DOG-DBF-018",
+      "current_hkd": "31.90",
+      "implied_cost_cny_baseline": "15.54459691",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:09.752594+00:00"
+    },
+    {
+      "price_id": "price_1U8VgTRyM6dRKLtZXyxJ7VDz",
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "mofu_sku": "MH-DOG-DBF-019",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:10.303166+00:00"
+    },
+    {
+      "price_id": "price_1U8VguRyM6dRKLtZcl3gkGhu",
+      "product_id": "prod_V8e2NVxYYDt7TI",
+      "mofu_sku": "MH-DOG-DBF-020",
+      "current_hkd": "27.90",
+      "implied_cost_cny_baseline": "13.59543115",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:10.841490+00:00"
+    },
+    {
+      "price_id": "price_1U8VgnRyM6dRKLtZpoXJ8AO1",
+      "product_id": "prod_V8e2HgqFtfTeZ3",
+      "mofu_sku": "MH-DOG-DBF-021",
+      "current_hkd": "26.90",
+      "implied_cost_cny_baseline": "13.10813971",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:11.410429+00:00"
+    },
+    {
+      "price_id": "price_1U8VgfRyM6dRKLtZ4FJtM5x2",
+      "product_id": "prod_V8e2yXi5ewIEg5",
+      "mofu_sku": "MH-DOG-DBF-022",
+      "current_hkd": "43.90",
+      "implied_cost_cny_baseline": "21.39209418",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:11.943418+00:00"
+    },
+    {
+      "price_id": "price_1U8VgdRyM6dRKLtZrks64yvz",
+      "product_id": "prod_V8e2NpxQsXvHOA",
+      "mofu_sku": "MH-DOG-DBF-023",
+      "current_hkd": "43.90",
+      "implied_cost_cny_baseline": "21.39209418",
+      "status": "baseline_written",
+      "completed_at_utc": "2026-08-27T11:52:12.478687+00:00"
+    }
+  ],
+  "preflight_passed_at_utc": "2026-08-27T11:51:12.616986+00:00",
+  "completed_at_utc": "2026-08-27T11:52:12.479651+00:00",
+  "status_counts": {
+    "baseline_written": 105
+  }
+}

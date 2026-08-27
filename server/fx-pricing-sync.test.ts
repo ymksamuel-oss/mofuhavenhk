@@ -55,7 +55,9 @@ describe("daily CNY/HKD FX pricing policy", () => {
     expect(service).toContain('"unit_cost_cny"');
     expect(service).toContain("storefrontPriceIds(product, productPrices)");
     expect(service).toContain("if (!selectedIds.has(price.id))");
-    expect(service).toContain("if (!costCny)");
+    expect(service).toContain("if (!pricingInput)");
+    expect(service).toContain('"pricing_cost_cny_baseline"');
+    expect(service).toContain('kind: "implied_baseline"');
     expect(service).toContain("idempotencyKey: `mofu-fx-create-");
     expect(service).toContain("idempotencyKey: `mofu-fx-deactivate-");
   });

@@ -10,6 +10,10 @@ const CNY_TO_HKD_MAX = 1.5;
 const RETAIL_MULTIPLIER = 1.76;
 const PRICE_TAIL_HKD = 0.9;
 const ROUNDING_EPSILON = 1e-10;
+// Eight-decimal inferred baselines are intentionally floored so they preserve
+// their source retail price at the calibration rate; their largest storage gap
+// is below this amount after applying the 1.76 multiplier and CNY/HKD rate.
+const IMPLIED_BASELINE_EPSILON = 3e-8;
 const COST_METADATA_KEYS = [
   "cost_cny",
   "cny_cost",
@@ -18,6 +22,7 @@ const COST_METADATA_KEYS = [
   "supplier_cost_cny",
   "unit_cost_cny",
 ] as const;
+const IMPLIED_COST_BASELINE_KEY = "pricing_cost_cny_baseline";
 
 type EcbRateRow = {
   date?: unknown;
@@ -44,6 +49,11 @@ export type CnyHkdDailyRate = {
   /** Finite numeric representation used only for the owner-specified price calculation. */
   rateValue: number;
   source: "frankfurter_ecb_eur_cross";
+};
+
+type PricingInput = {
+  value: string;
+  kind: "true_cost" | "implied_baseline";
 };
 
 export type FxPricingOperation = {
@@ -133,14 +143,18 @@ export async function fetchLatestCnyHkdDailyRate(): Promise<CnyHkdDailyRate> {
 }
 
 /** Calculates the smallest positive HKD cents price ending in .90 that is not below the raw formula price. */
-export function retailCentsFromCnyCost(costCny: string, rateValue: number): number {
-  const cost = positiveDecimal(costCny, 4);
-  if (cost === null) throw new Error("CNY cost must be a positive number with at most four decimal places");
+export function retailCentsFromCnyCost(
+  costCny: string,
+  rateValue: number,
+  roundingEpsilon = ROUNDING_EPSILON,
+): number {
+  const cost = positiveDecimal(costCny, 8);
+  if (cost === null) throw new Error("CNY cost must be a positive number with at most eight decimal places");
   if (!Number.isFinite(rateValue) || rateValue < CNY_TO_HKD_MIN || rateValue > CNY_TO_HKD_MAX) {
     throw new Error("CNY/HKD rate is outside the configured safety band");
   }
   const rawHkd = cost * rateValue * RETAIL_MULTIPLIER;
-  const upwardDollar = Math.ceil(rawHkd - PRICE_TAIL_HKD - ROUNDING_EPSILON);
+  const upwardDollar = Math.ceil(rawHkd - PRICE_TAIL_HKD - roundingEpsilon);
   const cents = Math.round((upwardDollar + PRICE_TAIL_HKD) * 100);
   if (!Number.isSafeInteger(cents) || cents <= 0) throw new Error("Computed retail cents are outside the supported range");
   return cents;
@@ -150,18 +164,25 @@ function trustedCostCny(
   priceMetadata: Record<string, string>,
   productMetadata: Record<string, string>,
   activePriceCount: number,
-): string | null {
+): PricingInput | null {
   for (const key of COST_METADATA_KEYS) {
     const value = text(priceMetadata[key]);
-    if (positiveDecimal(value, 4) !== null) return value;
+    if (positiveDecimal(value, 4) !== null) return { value, kind: "true_cost" };
   }
   // A product-level cost is safe only when the product has one active HKD Price.
-  if (activePriceCount !== 1) return null;
-  for (const key of COST_METADATA_KEYS) {
-    const value = text(productMetadata[key]);
-    if (positiveDecimal(value, 4) !== null) return value;
+  if (activePriceCount === 1) {
+    for (const key of COST_METADATA_KEYS) {
+      const value = text(productMetadata[key]);
+      if (positiveDecimal(value, 4) !== null) return { value, kind: "true_cost" };
+    }
   }
-  return null;
+  // This owner-approved value is a retail-price-derived pricing baseline, not a
+  // purchase cost. It is accepted only at the Price level so variants never share
+  // an inferred input by accident; any future true cost above remains preferred.
+  const impliedBaseline = text(priceMetadata[IMPLIED_COST_BASELINE_KEY]);
+  return positiveDecimal(impliedBaseline, 8) !== null
+    ? { value: impliedBaseline, kind: "implied_baseline" }
+    : null;
 }
 
 function isDeclaredVariant(price: PriceRecord): boolean {
@@ -311,17 +332,21 @@ export async function syncCatalogToLatestFxRate(options: { apply: boolean }): Pr
         skippedPriceCount += 1;
         continue;
       }
-      const costCny = trustedCostCny(
+      const pricingInput = trustedCostCny(
         price.metadata,
         product.metadata ?? {},
         productPrices.length,
       );
-      if (!costCny) {
+      if (!pricingInput) {
         missingCostPriceCount += 1;
         continue;
       }
       eligiblePriceCount += 1;
-      const targetCents = retailCentsFromCnyCost(costCny, rate.rateValue);
+      const targetCents = retailCentsFromCnyCost(
+        pricingInput.value,
+        rate.rateValue,
+        pricingInput.kind === "implied_baseline" ? IMPLIED_BASELINE_EPSILON : ROUNDING_EPSILON,
+      );
       if (targetCents === price.unitAmount) {
         unchangedPriceCount += 1;
         continue;

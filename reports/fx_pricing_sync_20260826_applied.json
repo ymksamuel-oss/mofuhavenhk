@@ -4,11 +4,958 @@
   "rateDate": "2026-08-26",
   "rateHkdPerCny": "1.166292622",
   "activeProductCount": 226,
-  "eligiblePriceCount": 150,
-  "missingCostPriceCount": 105,
-  "unchangedPriceCount": 147,
-  "replacedPriceCount": 3,
+  "eligiblePriceCount": 255,
+  "missingCostPriceCount": 0,
+  "unchangedPriceCount": 150,
+  "replacedPriceCount": 105,
   "failedPriceCount": 0,
   "skippedPriceCount": 0,
-  "completedAt": "2026-08-27T11:21:02.613Z"
+  "operations": [
+    {
+      "productId": "prod_V8fe6YUsIrEf8Q",
+      "sourcePriceId": "price_1U8VgGRyM6dRKLtZXOrz5nwX",
+      "replacementPriceId": "price_1U91tbRyM6dRKLtZlmosP2L1",
+      "oldCents": 3890,
+      "newCents": 3990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feexDq7xAidn",
+      "sourcePriceId": "price_1U8VgIRyM6dRKLtZ5N8bJkjF",
+      "replacementPriceId": "price_1U91tcRyM6dRKLtZU2Jx8wfs",
+      "oldCents": 3890,
+      "newCents": 3990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fexvyuSOogz8",
+      "sourcePriceId": "price_1U8VgFRyM6dRKLtZy9DpjTcg",
+      "replacementPriceId": "price_1U91tdRyM6dRKLtZrFeml44Q",
+      "oldCents": 3890,
+      "newCents": 3990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feViin1yPowA",
+      "sourcePriceId": "price_1U8VgJRyM6dRKLtZ4V7rcIn2",
+      "replacementPriceId": "price_1U91teRyM6dRKLtZMpuMEpiY",
+      "oldCents": 3890,
+      "newCents": 3990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feew2ryjD7ql",
+      "sourcePriceId": "price_1U8VfGRyM6dRKLtZqnZL6lHd",
+      "replacementPriceId": "price_1U91tfRyM6dRKLtZYA3wvwn0",
+      "oldCents": 1090,
+      "newCents": 1190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fe1kWPFBfcKh",
+      "sourcePriceId": "price_1U8VfIRyM6dRKLtZYp1aULxk",
+      "replacementPriceId": "price_1U91tgRyM6dRKLtZc9UJIbeW",
+      "oldCents": 1090,
+      "newCents": 1190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fe3PM27QjYNh",
+      "sourcePriceId": "price_1U8VfPRyM6dRKLtZSELHnoX6",
+      "replacementPriceId": "price_1U91thRyM6dRKLtZc9Idl17C",
+      "oldCents": 1490,
+      "newCents": 1590,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fenfKdEjRnr7",
+      "sourcePriceId": "price_1U8VfURyM6dRKLtZsfDqR6c3",
+      "replacementPriceId": "price_1U91tiRyM6dRKLtZiC38AXim",
+      "oldCents": 1490,
+      "newCents": 1590,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feNaBEY6Pn28",
+      "sourcePriceId": "price_1U8VfLRyM6dRKLtZ5nEpH6ij",
+      "replacementPriceId": "price_1U91tjRyM6dRKLtZNzkakzxS",
+      "oldCents": 1490,
+      "newCents": 1590,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fefdYTxUdNva",
+      "sourcePriceId": "price_1U8VfaRyM6dRKLtZnd4iwlcL",
+      "replacementPriceId": "price_1U91tkRyM6dRKLtZLB4KN51f",
+      "oldCents": 1490,
+      "newCents": 1590,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feeIGBK4DYB1",
+      "sourcePriceId": "price_1U8VfdRyM6dRKLtZBZUCAmmJ",
+      "replacementPriceId": "price_1U91tlRyM6dRKLtZFnV8aH3t",
+      "oldCents": 1290,
+      "newCents": 1390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feXQdvRNrV4B",
+      "sourcePriceId": "price_1U8VffRyM6dRKLtZQ1rrh41H",
+      "replacementPriceId": "price_1U91tmRyM6dRKLtZ8qZFAnED",
+      "oldCents": 1290,
+      "newCents": 1390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fe4RA15lCQZO",
+      "sourcePriceId": "price_1U8VfVRyM6dRKLtZhrXqqdFe",
+      "replacementPriceId": "price_1U91tnRyM6dRKLtZ5BUVkENk",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fe010ZPXAJ1J",
+      "sourcePriceId": "price_1U8VfJRyM6dRKLtZYUNbtDOa",
+      "replacementPriceId": "price_1U91toRyM6dRKLtZbDeDPV3q",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8feoZ4v72AX1T",
+      "sourcePriceId": "price_1U8VfcRyM6dRKLtZmgPvy27P",
+      "replacementPriceId": "price_1U91tpRyM6dRKLtZBJ2iY0Uu",
+      "oldCents": 1290,
+      "newCents": 1390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fep70tdjHDoG",
+      "sourcePriceId": "price_1U8VfQRyM6dRKLtZr1rEXVaM",
+      "replacementPriceId": "price_1U91tqRyM6dRKLtZ4wWerJ1F",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fdnUyX0IymBN",
+      "sourcePriceId": "price_1U8VfSRyM6dRKLtZeHgrgP2N",
+      "replacementPriceId": "price_1U91trRyM6dRKLtZCybZZS9W",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fdpmkax4VOq1",
+      "sourcePriceId": "price_1U8VfNRyM6dRKLtZ71a6mIuN",
+      "replacementPriceId": "price_1U91tsRyM6dRKLtZPV2iCmXm",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fd05UFEZNURC",
+      "sourcePriceId": "price_1U8VfXRyM6dRKLtZFvN0Equa",
+      "replacementPriceId": "price_1U91ttRyM6dRKLtZ2CiYNhfc",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8fduDqyGKiazf",
+      "sourcePriceId": "price_1U8VfZRyM6dRKLtZOVHdViM0",
+      "replacementPriceId": "price_1U91tuRyM6dRKLtZ6qsNXQeF",
+      "oldCents": 1690,
+      "newCents": 1790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2NpxQsXvHOA",
+      "sourcePriceId": "price_1U8VgdRyM6dRKLtZrks64yvz",
+      "replacementPriceId": "price_1U91tvRyM6dRKLtZincoxDBA",
+      "oldCents": 4390,
+      "newCents": 4490,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2yXi5ewIEg5",
+      "sourcePriceId": "price_1U8VgfRyM6dRKLtZ4FJtM5x2",
+      "replacementPriceId": "price_1U91twRyM6dRKLtZK8VCWRBo",
+      "oldCents": 4390,
+      "newCents": 4490,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2HgqFtfTeZ3",
+      "sourcePriceId": "price_1U8VgnRyM6dRKLtZpoXJ8AO1",
+      "replacementPriceId": "price_1U91txRyM6dRKLtZaV1SnuP4",
+      "oldCents": 2690,
+      "newCents": 2790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2NVxYYDt7TI",
+      "sourcePriceId": "price_1U8VguRyM6dRKLtZcl3gkGhu",
+      "replacementPriceId": "price_1U91tyRyM6dRKLtZ6YsIyqm2",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2EKKmnHUR8w",
+      "sourcePriceId": "price_1U8VgTRyM6dRKLtZXyxJ7VDz",
+      "replacementPriceId": "price_1U91tzRyM6dRKLtZWgT8Efq7",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2MnRWL8I3ON",
+      "sourcePriceId": "price_1U8VgQRyM6dRKLtZoohhjjug",
+      "replacementPriceId": "price_1U91u0RyM6dRKLtZLzvO5BqL",
+      "oldCents": 3190,
+      "newCents": 3290,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2oW8u6WCtg5",
+      "sourcePriceId": "price_1U8VgsRyM6dRKLtZZdvsRHV7",
+      "replacementPriceId": "price_1U91u0RyM6dRKLtZUxovYowV",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e22XlcOMIRus",
+      "sourcePriceId": "price_1U8VgpRyM6dRKLtZtyzfIREm",
+      "replacementPriceId": "price_1U91u1RyM6dRKLtZVXhBycMR",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2hyOUdfOwnM",
+      "sourcePriceId": "price_1U8VgXRyM6dRKLtZ1809VYTH",
+      "replacementPriceId": "price_1U91u2RyM6dRKLtZTYEKntBb",
+      "oldCents": 3190,
+      "newCents": 3290,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2hvyqfhk59B",
+      "sourcePriceId": "price_1U8VgrRyM6dRKLtZQQyAMw9r",
+      "replacementPriceId": "price_1U91u3RyM6dRKLtZmCyZtkzn",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2eck5fdwDtP",
+      "sourcePriceId": "price_1U8VgNRyM6dRKLtZQs8turyO",
+      "replacementPriceId": "price_1U91u4RyM6dRKLtZaA5DUGsR",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e2wynYC6XsBo",
+      "sourcePriceId": "price_1U8VgLRyM6dRKLtZAGauubws",
+      "replacementPriceId": "price_1U91u5RyM6dRKLtZPVZkvZ4T",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1EgYIqCWkcb",
+      "sourcePriceId": "price_1U8VgORyM6dRKLtZZ3aglbbL",
+      "replacementPriceId": "price_1U91u6RyM6dRKLtZ8WJAvU0D",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1qdj8efQTs9",
+      "sourcePriceId": "price_1U8MjuRyM6dRKLtZgrVX9mqI",
+      "replacementPriceId": "price_1U91u7RyM6dRKLtZV1W983iE",
+      "oldCents": 2290,
+      "newCents": 2390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1Y4NZgoH3mG",
+      "sourcePriceId": "price_1U8VgiRyM6dRKLtZPBByowjt",
+      "replacementPriceId": "price_1U91u8RyM6dRKLtZlfZ1yXfT",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e143elQIOfMM",
+      "sourcePriceId": "price_1U8VgYRyM6dRKLtZxDR4pp7h",
+      "replacementPriceId": "price_1U91u9RyM6dRKLtZhA948VL3",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1Jgdnr9v8HM",
+      "sourcePriceId": "price_1U8VgVRyM6dRKLtZ7gyPlKxI",
+      "replacementPriceId": "price_1U91uARyM6dRKLtZ8WTc7qJu",
+      "oldCents": 2690,
+      "newCents": 2790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1nNRuozpeTU",
+      "sourcePriceId": "price_1U8VgSRyM6dRKLtZs3ZbrVza",
+      "replacementPriceId": "price_1U91uBRyM6dRKLtZrZVTc6SJ",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1XhfhroMZtV",
+      "sourcePriceId": "price_1U8VgbRyM6dRKLtZlxvYMDLR",
+      "replacementPriceId": "price_1U91uCRyM6dRKLtZ0uvabiWm",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1qzONSyt8ru",
+      "sourcePriceId": "price_1U8VgaRyM6dRKLtZ506eApli",
+      "replacementPriceId": "price_1U91uDRyM6dRKLtZLJtT5fOr",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1MyE7x9BZDl",
+      "sourcePriceId": "price_1U8VglRyM6dRKLtZJSyEL0xC",
+      "replacementPriceId": "price_1U91uERyM6dRKLtZQZV55yw8",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1ExxiCmg67D",
+      "sourcePriceId": "price_1U8VgkRyM6dRKLtZ3NUks8VZ",
+      "replacementPriceId": "price_1U91uFRyM6dRKLtZdi5JgQDQ",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8e1g0toA5TEk7",
+      "sourcePriceId": "price_1U8VghRyM6dRKLtZxGwSE72f",
+      "replacementPriceId": "price_1U91uGRyM6dRKLtZx0DrlOVj",
+      "oldCents": 2790,
+      "newCents": 2890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crzn01d7SXcg",
+      "sourcePriceId": "price_1U8VfhRyM6dRKLtZQxO4fpuu",
+      "replacementPriceId": "price_1U91uHRyM6dRKLtZkWxWtZfw",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr8kOWyjP3g1",
+      "sourcePriceId": "price_1U8Vg0RyM6dRKLtZALUmo5Pt",
+      "replacementPriceId": "price_1U91uIRyM6dRKLtZnvbvp85m",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crpeVGxpASKY",
+      "sourcePriceId": "price_1U8VfmRyM6dRKLtZmIZuJdnn",
+      "replacementPriceId": "price_1U91uJRyM6dRKLtZ8FTJ5UsY",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crtmrNegpX6C",
+      "sourcePriceId": "price_1U8Vg5RyM6dRKLtZqlVvcVTl",
+      "replacementPriceId": "price_1U91uKRyM6dRKLtZ78PG5Gp1",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crvbMiPxxJvt",
+      "sourcePriceId": "price_1U8Vg3RyM6dRKLtZqTxXdIMe",
+      "replacementPriceId": "price_1U91uLRyM6dRKLtZBEnP9BZH",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr9iyVmqUz8O",
+      "sourcePriceId": "price_1U8VfwRyM6dRKLtZTi5PY8Go",
+      "replacementPriceId": "price_1U91uMRyM6dRKLtZblVt7aTW",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crzRJNuOzt2e",
+      "sourcePriceId": "price_1U8VfuRyM6dRKLtZ1Xzbqwgz",
+      "replacementPriceId": "price_1U91uNRyM6dRKLtZ5Ltl3EIX",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crHGAsSzl77H",
+      "sourcePriceId": "price_1U8VfyRyM6dRKLtZv3pqg3t2",
+      "replacementPriceId": "price_1U91uORyM6dRKLtZNIIokvMi",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr9Jv6Ewv0ui",
+      "sourcePriceId": "price_1U8VfoRyM6dRKLtZD0xQ0o0K",
+      "replacementPriceId": "price_1U91uPRyM6dRKLtZHmIahrQe",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crT5vLCe95hY",
+      "sourcePriceId": "price_1U8VgARyM6dRKLtZ6qLx74OA",
+      "replacementPriceId": "price_1U91uQRyM6dRKLtZChQ3XHkN",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crrguHp5YAXt",
+      "sourcePriceId": "price_1U8VfkRyM6dRKLtZyi6EfUZn",
+      "replacementPriceId": "price_1U91uRRyM6dRKLtZKnB9Zin9",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crhpakrZfoXD",
+      "sourcePriceId": "price_1U8VfqRyM6dRKLtZkB11qUqD",
+      "replacementPriceId": "price_1U91uSRyM6dRKLtZnr1jPUmO",
+      "oldCents": 3290,
+      "newCents": 3390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crErEJilA30r",
+      "sourcePriceId": "price_1U8Vg7RyM6dRKLtZaWtSwItm",
+      "replacementPriceId": "price_1U91uTRyM6dRKLtZrzNuC1Z8",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crKsH08GDJxM",
+      "sourcePriceId": "price_1U8Vg1RyM6dRKLtZnRYfKHeX",
+      "replacementPriceId": "price_1U91uTRyM6dRKLtZ1G1sMnnr",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8crNNIKOTELSy",
+      "sourcePriceId": "price_1U8VftRyM6dRKLtZjUSxlTXX",
+      "replacementPriceId": "price_1U91uURyM6dRKLtZUjYblE0G",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8croZ9K3Kppbf",
+      "sourcePriceId": "price_1U8VfrRyM6dRKLtZUS6x0qQo",
+      "replacementPriceId": "price_1U91uVRyM6dRKLtZxa9SrPzw",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr2Q8hiWwniV",
+      "sourcePriceId": "price_1U8VfiRyM6dRKLtZUsusaDXK",
+      "replacementPriceId": "price_1U91uWRyM6dRKLtZyHo2neqX",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr9ARnvUOKQM",
+      "sourcePriceId": "price_1U8Vg8RyM6dRKLtZk2x37iHr",
+      "replacementPriceId": "price_1U91uXRyM6dRKLtZHlUm9XxG",
+      "oldCents": 5890,
+      "newCents": 5990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cru9Bp0V6puG",
+      "sourcePriceId": "price_1U8VgDRyM6dRKLtZ24NTG3uj",
+      "replacementPriceId": "price_1U91uYRyM6dRKLtZ9yfi282c",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8cr46ftMdO2E3",
+      "sourcePriceId": "price_1U8VgBRyM6dRKLtZv2Xk9e47",
+      "replacementPriceId": "price_1U91uZRyM6dRKLtZtuDWHNVN",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpWi2bc00Aty",
+      "sourcePriceId": "price_1U8VhNRyM6dRKLtZyBD2uK6n",
+      "replacementPriceId": "price_1U91uaRyM6dRKLtZgq1ZdJ9I",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpWi2bc00Aty",
+      "sourcePriceId": "price_1U8VhLRyM6dRKLtZCwjfhbdt",
+      "replacementPriceId": "price_1U91ubRyM6dRKLtZ2js2MGbu",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpWi2bc00Aty",
+      "sourcePriceId": "price_1U8VhKRyM6dRKLtZ1BP6Yc7u",
+      "replacementPriceId": "price_1U91ucRyM6dRKLtZ4LOZNmq4",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpDXl9RWMDbc",
+      "sourcePriceId": "price_1U8VhbRyM6dRKLtZwAu2ieZo",
+      "replacementPriceId": "price_1U91udRyM6dRKLtZjbQCaLvn",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpDXl9RWMDbc",
+      "sourcePriceId": "price_1U8VhaRyM6dRKLtZDuPhfSTS",
+      "replacementPriceId": "price_1U91udRyM6dRKLtZtxhDCmKe",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZpDXl9RWMDbc",
+      "sourcePriceId": "price_1U8VhYRyM6dRKLtZGsnu90Cl",
+      "replacementPriceId": "price_1U91ueRyM6dRKLtZEUzLG2wv",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8Zo9dzijaQ39p",
+      "sourcePriceId": "price_1U8VhIRyM6dRKLtZM1d1iDY5",
+      "replacementPriceId": "price_1U91ufRyM6dRKLtZfIxnBqQj",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8Zo9dzijaQ39p",
+      "sourcePriceId": "price_1U8VhHRyM6dRKLtZz2uFya7W",
+      "replacementPriceId": "price_1U91ufRyM6dRKLtZxUKK8fRS",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8Zo9dzijaQ39p",
+      "sourcePriceId": "price_1U8VhFRyM6dRKLtZwbD6Db3k",
+      "replacementPriceId": "price_1U91ugRyM6dRKLtZHRr1tpXd",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZodBXbffvz6o",
+      "sourcePriceId": "price_1U8VhgRyM6dRKLtZXSGwxJUo",
+      "replacementPriceId": "price_1U91uhRyM6dRKLtZvydC0Bg6",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZodBXbffvz6o",
+      "sourcePriceId": "price_1U8VheRyM6dRKLtZFEetoprF",
+      "replacementPriceId": "price_1U91uiRyM6dRKLtZbWctFTP9",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZodBXbffvz6o",
+      "sourcePriceId": "price_1U8VhdRyM6dRKLtZcp5X8ifb",
+      "replacementPriceId": "price_1U91uiRyM6dRKLtZBiwChZDM",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoNtJinLFNNG",
+      "sourcePriceId": "price_1U8Vh4RyM6dRKLtZAatzUjjE",
+      "replacementPriceId": "price_1U91ujRyM6dRKLtZkc9AN38t",
+      "oldCents": 19890,
+      "newCents": 19990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoNtJinLFNNG",
+      "sourcePriceId": "price_1U8Vh2RyM6dRKLtZ0lZlFrKf",
+      "replacementPriceId": "price_1U91ukRyM6dRKLtZDGjpvD8b",
+      "oldCents": 10890,
+      "newCents": 10990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoNtJinLFNNG",
+      "sourcePriceId": "price_1U8Vh1RyM6dRKLtZ2pb9imkA",
+      "replacementPriceId": "price_1U91ulRyM6dRKLtZEBtAJZCX",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoJ2fwrBOiHL",
+      "sourcePriceId": "price_1U8Vh8RyM6dRKLtZHSPJQw7B",
+      "replacementPriceId": "price_1U91umRyM6dRKLtZZ6Bp2sqT",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoJ2fwrBOiHL",
+      "sourcePriceId": "price_1U8Vh7RyM6dRKLtZJXZ94rLD",
+      "replacementPriceId": "price_1U91umRyM6dRKLtZF4bFf505",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZoJ2fwrBOiHL",
+      "sourcePriceId": "price_1U8Vh5RyM6dRKLtZbYoXHN33",
+      "replacementPriceId": "price_1U91unRyM6dRKLtZ71tl6SBA",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZorEO6daplRl",
+      "sourcePriceId": "price_1U8VhCRyM6dRKLtZbmo2rOZf",
+      "replacementPriceId": "price_1U91uoRyM6dRKLtZoMbTbHm9",
+      "oldCents": 18890,
+      "newCents": 18990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZorEO6daplRl",
+      "sourcePriceId": "price_1U8VhBRyM6dRKLtZULSmUBud",
+      "replacementPriceId": "price_1U91uoRyM6dRKLtZ4AV2DvUV",
+      "oldCents": 9890,
+      "newCents": 9990,
+      "defaultPriceSwitched": false,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8ZorEO6daplRl",
+      "sourcePriceId": "price_1U8VhARyM6dRKLtZCksW5NjG",
+      "replacementPriceId": "price_1U91upRyM6dRKLtZKBR18rK8",
+      "oldCents": 4590,
+      "newCents": 4690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0gp0Oink4Cg",
+      "sourcePriceId": "price_1U8VhpRyM6dRKLtZBDNjC1P3",
+      "replacementPriceId": "price_1U91uqRyM6dRKLtZPATuxk6g",
+      "oldCents": 25790,
+      "newCents": 25890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0oLt83VbMEB",
+      "sourcePriceId": "price_1U8VgvRyM6dRKLtZh8vgbQgO",
+      "replacementPriceId": "price_1U91urRyM6dRKLtZbLU0E4rZ",
+      "oldCents": 10690,
+      "newCents": 10790,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0xHzc6tqf3B",
+      "sourcePriceId": "price_1U8VhORyM6dRKLtZaHHmw4vx",
+      "replacementPriceId": "price_1U91usRyM6dRKLtZD1lPxnJx",
+      "oldCents": 8090,
+      "newCents": 8190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0mdB77ZJc5M",
+      "sourcePriceId": "price_1U8VhVRyM6dRKLtZ2SNCvfDD",
+      "replacementPriceId": "price_1U91utRyM6dRKLtZxkvanqKa",
+      "oldCents": 8090,
+      "newCents": 8190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0fChA9h4VNq",
+      "sourcePriceId": "price_1U8VhQRyM6dRKLtZcmZ9StPG",
+      "replacementPriceId": "price_1U91uuRyM6dRKLtZkVdoxOMB",
+      "oldCents": 8090,
+      "newCents": 8190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0BWVdW0bKlr",
+      "sourcePriceId": "price_1U8VgzRyM6dRKLtZMgGqC4Ob",
+      "replacementPriceId": "price_1U91uvRyM6dRKLtZq06gK9uI",
+      "oldCents": 7890,
+      "newCents": 7990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W073h3MHqGhr",
+      "sourcePriceId": "price_1U8VhXRyM6dRKLtZpnl8JDZN",
+      "replacementPriceId": "price_1U91uwRyM6dRKLtZHUSUMD3M",
+      "oldCents": 7890,
+      "newCents": 7990,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0DDhtV271xl",
+      "sourcePriceId": "price_1U8VhSRyM6dRKLtZMdg6lgBN",
+      "replacementPriceId": "price_1U91uxRyM6dRKLtZpAFxi6yJ",
+      "oldCents": 7390,
+      "newCents": 7490,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0eQFDHSCPxC",
+      "sourcePriceId": "price_1U8VhERyM6dRKLtZRJUYIode",
+      "replacementPriceId": "price_1U91uyRyM6dRKLtZGsbsYSDs",
+      "oldCents": 8290,
+      "newCents": 8390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0LKmYo2bfxf",
+      "sourcePriceId": "price_1U8VhTRyM6dRKLtZCXZk7rs1",
+      "replacementPriceId": "price_1U91uzRyM6dRKLtZ9vw5RUda",
+      "oldCents": 7590,
+      "newCents": 7690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0n6wDbyKpya",
+      "sourcePriceId": "price_1U8VgxRyM6dRKLtZMYRg7EId",
+      "replacementPriceId": "price_1U91v0RyM6dRKLtZaK5aufiN",
+      "oldCents": 6490,
+      "newCents": 6590,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0OgEY0HBtlD",
+      "sourcePriceId": "price_1U8VhuRyM6dRKLtZgTSXTyfh",
+      "replacementPriceId": "price_1U91v0RyM6dRKLtZ6o10IZd1",
+      "oldCents": 9090,
+      "newCents": 9190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W07sgetW5UqK",
+      "sourcePriceId": "price_1U8VhkRyM6dRKLtZzV6cvj1O",
+      "replacementPriceId": "price_1U91v1RyM6dRKLtZ2aNtiHbD",
+      "oldCents": 7590,
+      "newCents": 7690,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W06fowHsMOSF",
+      "sourcePriceId": "price_1U8Ey3RyM6dRKLtZ4nscQPyL",
+      "replacementPriceId": "price_1U91v2RyM6dRKLtZQb2bXuDo",
+      "oldCents": 25090,
+      "newCents": 25190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W072ieTWyOZ7",
+      "sourcePriceId": "price_1U8VhoRyM6dRKLtZEPUbvHtX",
+      "replacementPriceId": "price_1U91v3RyM6dRKLtZV3hlbOXt",
+      "oldCents": 6290,
+      "newCents": 6390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8W0oMeIOyFLhp",
+      "sourcePriceId": "price_1U8Ey0RyM6dRKLtZea02ekZN",
+      "replacementPriceId": "price_1U91v4RyM6dRKLtZ7RspiN3q",
+      "oldCents": 25090,
+      "newCents": 25190,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8VzYLI6mgAR3P",
+      "sourcePriceId": "price_1U8VhmRyM6dRKLtZQLMUjgZb",
+      "replacementPriceId": "price_1U91v5RyM6dRKLtZyWTNvKoL",
+      "oldCents": 6290,
+      "newCents": 6390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8Vz4r6kx51OK2",
+      "sourcePriceId": "price_1U8VhrRyM6dRKLtZCmbpVwO6",
+      "replacementPriceId": "price_1U91v6RyM6dRKLtZ9ZxpS1Yj",
+      "oldCents": 26290,
+      "newCents": 26390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8VzICRXhFqVtH",
+      "sourcePriceId": "price_1U8VhsRyM6dRKLtZxrrjuIFL",
+      "replacementPriceId": "price_1U91v7RyM6dRKLtZuSNhlzUp",
+      "oldCents": 7790,
+      "newCents": 7890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8VzG9Cs8B2Rjb",
+      "sourcePriceId": "price_1U8VhhRyM6dRKLtZreAjaaqG",
+      "replacementPriceId": "price_1U91v8RyM6dRKLtZ3inxiptO",
+      "oldCents": 26290,
+      "newCents": 26390,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    },
+    {
+      "productId": "prod_V8VzTooOH64y65",
+      "sourcePriceId": "price_1U8VhiRyM6dRKLtZcE0BERx5",
+      "replacementPriceId": "price_1U91v9RyM6dRKLtZq29W1nZq",
+      "oldCents": 7790,
+      "newCents": 7890,
+      "defaultPriceSwitched": true,
+      "status": "replaced"
+    }
+  ],
+  "completedAt": "2026-08-27T11:56:40.341Z"
 }
