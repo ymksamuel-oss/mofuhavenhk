@@ -14,6 +14,7 @@ import {
   buildOrderItemsFromLines,
   calcSubtotal,
   getShippingCost,
+  type OrderItem,
 } from "@/lib/order";
 
 export const runtime = "nodejs";
@@ -102,9 +103,11 @@ export async function POST(request: Request) {
   const lines = parseOrderLines(body.items);
 
   let resolvedTotal: number | null = null;
+  let resolvedItems: OrderItem[] = [];
   if (lines) {
     const catalog = await getCatalogSnapshot();
     const items = buildOrderItemsFromLines(lines, catalog.products);
+    resolvedItems = items;
     if (items.length > 0) {
       const subtotal = calcSubtotal(items);
       resolvedTotal = subtotal + getShippingCost(subtotal, items.length > 0);
@@ -146,6 +149,7 @@ export async function POST(request: Request) {
     paymentLabel: paymentLabel.trim().slice(0, 100),
     total: resolvedTotal,
     currency: isNonEmptyString(currency) ? currency.trim() : "HK$",
+    items: resolvedItems,
   });
 
   const result = await sendWhatsAppNotification(message);

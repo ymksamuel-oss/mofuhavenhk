@@ -1,0 +1,16 @@
+{
+  "batch": "mofu_sku_assignment_metadata_limit_exception_v1",
+  "source": "Prepared from the active Stripe SKU mapping. This exception is for the only product at Stripe's 50-metadata-key maximum; it adds a stable mofu_sku and removes only the redundant English texture fallback, while retaining the Chinese texture field and all operational metadata.",
+  "metadata_defaults": {},
+  "products": [
+    {
+      "stripe_product_id": "prod_V8uIOVwsFqgPTV",
+      "metadata": {
+        "mofu_sku": "MH-LIF-ST-001"
+      },
+      "remove_metadata_keys": [
+        "texture_en"
+      ]
+    }
+  ]
+}

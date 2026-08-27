@@ -92,6 +92,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const officialSourceLabel = metadataValue("official_source_label_zh", "official_source_label_en") ?? safeOfficialSourceUrl;
   const notice = metadataValue("notice_zh", "notice_en");
   const verificationNote = metadataValue("verification_note_zh", "verification_note_en");
+  const mofuSku = metadata.mofu_sku?.trim();
 
   return (
     <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(9.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
@@ -134,7 +135,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         <div className="milk-tea-card p-5 sm:p-7">
-          <p className="text-sm text-[color:var(--muted)]">商品編號：{selectedProduct.id}</p>
+          <p className="text-sm text-[color:var(--muted)]">
+            {locale === "zh" ? (mofuSku ? "店內貨號" : "商品編號") : (mofuSku ? "Store SKU" : "Product ID")}：{mofuSku ?? selectedProduct.id}
+          </p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
             {selectedProduct.name[locale]}
           </h1>
@@ -411,6 +414,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
                 productName={selectedProduct.name}
+                mofuSku={mofuSku}
                 className="mt-3"
               />
             </div>
@@ -421,6 +425,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
                 productName={selectedProduct.name}
+                mofuSku={mofuSku}
               />
             ) : (
               <>
@@ -453,6 +458,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <OutOfStockOrderButton
               productId={selectedProduct.id}
               productName={selectedProduct.name}
+              mofuSku={mofuSku}
               className="!min-h-12 min-w-0 flex-1"
             />
           ) : (

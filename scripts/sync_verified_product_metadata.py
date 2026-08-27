@@ -63,7 +63,11 @@ ALLOWED_METADATA_KEYS = {
     "official_source_label_zh",
     "official_source_label_en",
     "product_content_version",
+    "mofu_sku",
 }
+# Only redundant language fallbacks may be removed to make room for a stable
+# internal SKU when a legacy product already uses Stripe's 50-key maximum.
+REMOVABLE_METADATA_KEYS = {"texture_en", "care_en", "storage_en"}
 
 
 def require_string(value: Any, label: str) -> str:
@@ -84,7 +88,7 @@ def read_batch(path: Path) -> tuple[str, dict[str, str], list[dict[str, Any]]]:
     return batch_name, {str(key): str(value).strip() for key, value in defaults.items() if str(value).strip()}, products
 
 
-def product_updates(product: dict[str, Any], defaults: dict[str, str]) -> tuple[str, str | None, dict[str, str]]:
+def product_updates(product: dict[str, Any], defaults: dict[str, str]) -> tuple[str, str | None, dict[str, str], list[str]]:
     product_id = require_string(product.get("stripe_product_id"), "stripe_product_id")
     metadata = dict(defaults)
     row_metadata = product.get("metadata", {})
@@ -105,15 +109,33 @@ def product_updates(product: dict[str, Any], defaults: dict[str, str]) -> tuple[
     invalid_keys = sorted(set(metadata) - ALLOWED_METADATA_KEYS)
     if invalid_keys:
         raise ValueError(f"{product_id}: unsupported metadata keys: {', '.join(invalid_keys)}")
-    if not metadata:
+
+    raw_removals = product.get("remove_metadata_keys", [])
+    if raw_removals is None:
+        raw_removals = []
+    if not isinstance(raw_removals, list) or any(not isinstance(key, str) or not key.strip() for key in raw_removals):
+        raise ValueError(f"{product_id}: remove_metadata_keys must be a list of non-empty strings")
+    remove_metadata_keys = sorted({key.strip() for key in raw_removals})
+    invalid_removals = sorted(set(remove_metadata_keys) - REMOVABLE_METADATA_KEYS)
+    if invalid_removals:
+        raise ValueError(f"{product_id}: unsupported metadata removals: {', '.join(invalid_removals)}")
+    overlap = sorted(set(remove_metadata_keys) & set(metadata))
+    if overlap:
+        raise ValueError(f"{product_id}: metadata update/removal overlap: {', '.join(overlap)}")
+    if not metadata and not remove_metadata_keys:
         raise ValueError(f"{product_id}: no reviewed fields to update")
 
     display_description = metadata.get("description_zh")
-    return product_id, display_description, metadata
+    return product_id, display_description, metadata, remove_metadata_keys
 
 
-def build_form(description: str | None, metadata: dict[str, str]) -> dict[str, str]:
+def build_form(
+    description: str | None,
+    metadata: dict[str, str],
+    remove_metadata_keys: list[str],
+) -> dict[str, str]:
     form = {f"metadata[{key}]": value for key, value in metadata.items()}
+    form.update({f"metadata[{key}]": "" for key in remove_metadata_keys})
     if description:
         form["description"] = description
     return form
@@ -143,7 +165,7 @@ def main() -> None:
 
     batch_name, defaults, products = read_batch(args.batch_file)
     seen_ids: set[str] = set()
-    plan: list[tuple[str, str | None, dict[str, str]]] = []
+    plan: list[tuple[str, str | None, dict[str, str], list[str]]] = []
     for product in products:
         if not isinstance(product, dict):
             raise ValueError("every products entry must be an object")
@@ -154,10 +176,13 @@ def main() -> None:
         plan.append(item)
 
     preview = []
-    for product_id, description, metadata in plan:
+    for product_id, description, metadata, remove_metadata_keys in plan:
         existing = read_stripe_product(api_key, product_id)
         existing_metadata = existing.get("metadata") or {}
-        final_metadata_key_count = len(set(existing_metadata) | set(metadata))
+        missing_removals = [key for key in remove_metadata_keys if key not in existing_metadata]
+        if missing_removals:
+            raise ValueError(f"{product_id}: cannot remove absent metadata keys: {', '.join(missing_removals)}")
+        final_metadata_key_count = len((set(existing_metadata) - set(remove_metadata_keys)) | set(metadata))
         if final_metadata_key_count > 50:
             raise ValueError(
                 f"{product_id}: Stripe metadata would contain {final_metadata_key_count} keys; "
@@ -169,17 +194,18 @@ def main() -> None:
             "description_updated": bool(description),
             "metadata_key_count_before": len(existing_metadata),
             "metadata_key_count_after": final_metadata_key_count,
+            "removed_metadata_keys": remove_metadata_keys,
         })
     if args.dry_run:
         print(json.dumps({"batch": batch_name, "mode": "dry-run", "count": len(preview), "products": preview}, ensure_ascii=False, indent=2))
         return
 
     updated: list[dict[str, Any]] = []
-    for product_id, description, metadata in plan:
+    for product_id, description, metadata, remove_metadata_keys in plan:
         response = requests.post(
             f"{API_URL}/{product_id}",
             auth=(api_key, ""),
-            data=build_form(description, metadata),
+            data=build_form(description, metadata, remove_metadata_keys),
             timeout=60,
         )
         if not response.ok:
@@ -193,7 +219,15 @@ def main() -> None:
             raise RuntimeError(f"{product_id}: metadata mismatch after write: {', '.join(mismatched)}")
         if description and saved.get("description") != description:
             raise RuntimeError(f"{product_id}: description mismatch after write")
-        updated.append({"stripe_product_id": product_id, "metadata_verified": True, "updated_keys": sorted(metadata)})
+        remaining_removals = [key for key in remove_metadata_keys if key in saved_metadata]
+        if remaining_removals:
+            raise RuntimeError(f"{product_id}: metadata removals did not apply: {', '.join(remaining_removals)}")
+        updated.append({
+            "stripe_product_id": product_id,
+            "metadata_verified": True,
+            "updated_keys": sorted(metadata),
+            "removed_metadata_keys": remove_metadata_keys,
+        })
 
     manifest = {
         "batch": batch_name,

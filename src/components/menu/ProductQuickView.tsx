@@ -191,6 +191,7 @@ export function ProductQuickView({
             <OutOfStockOrderButton
               productId={product.id}
               productName={product.name}
+              mofuSku={product.metadata?.mofu_sku}
               className="mt-3"
             />
           </div>

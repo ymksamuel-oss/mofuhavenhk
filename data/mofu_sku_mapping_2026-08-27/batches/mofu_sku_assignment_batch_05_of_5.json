@@ -1,0 +1,157 @@
+{
+  "batch": "mofu_sku_assignment_batch_05_of_5",
+  "source": "Generated from current active Stripe products. Only adds a unique mofu_sku metadata field; preserves original Stripe Product IDs and existing supplier SKU values.",
+  "metadata_defaults": {},
+  "products": [
+    {
+      "stripe_product_id": "prod_V8e2NVxYYDt7TI",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DBF-020"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8e2HgqFtfTeZ3",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DBF-021"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8e2yXi5ewIEg5",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DBF-022"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8e2NpxQsXvHOA",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DBF-023"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8cru9Bp0V6puG",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DGM-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8cr46ftMdO2E3",
+      "metadata": {
+        "mofu_sku": "MH-DOG-DGM-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8sFjjO8IgpPvO",
+      "metadata": {
+        "mofu_sku": "MH-DOG-GEN-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8Zo9dzijaQ39p",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZodBXbffvz6o",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZpDXl9RWMDbc",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-003"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZoNtJinLFNNG",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-004"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZoJ2fwrBOiHL",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-005"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZorEO6daplRl",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-006"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8ZpWi2bc00Aty",
+      "metadata": {
+        "mofu_sku": "MH-DOG-IRIS-007"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W0gp0Oink4Cg",
+      "metadata": {
+        "mofu_sku": "MH-DOG-MCK-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAPSEzKs8rpv",
+      "metadata": {
+        "mofu_sku": "MH-DOG-PTL-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAt5mJJ5YOb7",
+      "metadata": {
+        "mofu_sku": "MH-DOG-PTL-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAXdhHafIDnG",
+      "metadata": {
+        "mofu_sku": "MH-DOG-PTL-003"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAMmluHgtE1f",
+      "metadata": {
+        "mofu_sku": "MH-DOG-PTL-004"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8szJB1xzy0Hkm",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8szxN4qvZQyrJ",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8t03LiP3rgoHN",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-003"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8szss31Rm8tiJ",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-004"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8t0eKeqlC0GzI",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-005"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8szzgASg2ZnbO",
+      "metadata": {
+        "mofu_sku": "MH-LIF-GEN-006"
+      }
+    }
+  ]
+}

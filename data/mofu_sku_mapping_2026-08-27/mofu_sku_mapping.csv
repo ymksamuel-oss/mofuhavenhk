@@ -1,0 +1,227 @@
+mofu_sku,stripe_product_id,product_name,category_code,brand_code,existing_supplier_sku,mofu_import_key,in_stock,show_when_out_of_stock,metadata_key_count_before,metadata_key_count_after,write_status
+MH-CAT-CIAO-001,prod_V90yLm2ySqOvLR,CIAO とろみ｜鮪魚魷魚濃湯貓罐頭｜單罐,CAT,CIAO,CIC-01,ciao-inaba-cans-2026::cic-01,true,false,28,29,ready_to_write
+MH-CAT-CIAO-002,prod_V90yHw6lb8trQi,CIAO とろみ｜鰹魚高湯雞肉鮪魚蟹柳濃湯貓罐頭｜單罐,CAT,CIAO,CIC-02,ciao-inaba-cans-2026::cic-02,true,false,28,29,ready_to_write
+MH-CAT-CIAO-003,prod_V90yamZYZI7jNF,CIAO とろみ｜鰹魚高湯雞肉鰹魚扇貝濃湯貓罐頭｜單罐,CAT,CIAO,CIC-03,ciao-inaba-cans-2026::cic-03,true,false,28,29,ready_to_write
+MH-CAT-CIAO-004,prod_V90ygMTkWiOVNg,CIAO とろみ｜烤鰹魚雞肉柴魚片濃湯貓罐頭｜單罐,CAT,CIAO,CIC-04,ciao-inaba-cans-2026::cic-04,true,false,28,29,ready_to_write
+MH-CAT-CIAO-005,prod_V90yLEVAaxxHJj,CIAO とろみ｜鰹魚高湯雞肉鮪魚魷魚濃湯貓罐頭｜單罐,CAT,CIAO,CIC-05,ciao-inaba-cans-2026::cic-05,true,false,28,29,ready_to_write
+MH-CAT-CIAO-006,prod_V90yH5bCkLyGYU,CIAO とろみ｜下泌尿道配慮雞肉鮪魚扇貝濃湯貓罐頭｜單罐,CAT,CIAO,CIC-06,ciao-inaba-cans-2026::cic-06,true,false,28,29,ready_to_write
+MH-CAT-CIAO-007,prod_V90yJbWqkU76Xa,CIAO とろみ｜奶油濃湯雞肉鮪魚蟹柳貓罐頭｜單罐,CAT,CIAO,CIC-07,ciao-inaba-cans-2026::cic-07,true,false,28,29,ready_to_write
+MH-CAT-CIAO-008,prod_V90yGkxpp9OU57,CIAO とろみ｜奶油濃湯雞肉鰹魚柴魚片貓罐頭｜單罐,CAT,CIAO,CIC-08,ciao-inaba-cans-2026::cic-08,true,false,28,29,ready_to_write
+MH-CAT-CIAO-009,prod_V90yhouIdri4Ou,CIAO とろみ｜11歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐,CAT,CIAO,CIC-09,ciao-inaba-cans-2026::cic-09,true,false,30,31,ready_to_write
+MH-CAT-CIAO-010,prod_V90yHSNJqbGEZF,CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐,CAT,CIAO,CIC-10,ciao-inaba-cans-2026::cic-10,false,true,30,31,ready_to_write
+MH-CAT-CIAO-011,prod_V90yxohDmOksl3,CIAO｜雞肉烤鰹魚柴魚片貓罐頭｜單罐,CAT,CIAO,CIC-11,ciao-inaba-cans-2026::cic-11,true,false,28,29,ready_to_write
+MH-CAT-CIAO-012,prod_V90yrU6QwJj9H4,CIAO｜雞肉甜蝦小銀魚貓罐頭｜單罐,CAT,CIAO,CIC-12,ciao-inaba-cans-2026::cic-12,true,false,28,29,ready_to_write
+MH-CAT-CIAO-013,prod_V90ynw7GK161mE,CIAO｜鰹魚柴魚片貓罐頭｜單罐,CAT,CIAO,CIC-13,ciao-inaba-cans-2026::cic-13,true,false,28,29,ready_to_write
+MH-CAT-CIAO-014,prod_V90yisznvIVXlp,CIAO｜烤鰹魚鮪魚雞肉貓罐頭｜單罐,CAT,CIAO,CIC-14,ciao-inaba-cans-2026::cic-14,true,false,28,29,ready_to_write
+MH-CAT-CIAO-015,prod_V90ynvqu5ntnjO,CIAO｜雞肉扇貝柱貓罐頭｜單罐,CAT,CIAO,CIC-15,ciao-inaba-cans-2026::cic-15,true,false,28,29,ready_to_write
+MH-CAT-CIAO-016,prod_V90ytLadcfCm8a,CIAO｜雞肉蟹柳柴魚片貓罐頭｜單罐,CAT,CIAO,CIC-16,ciao-inaba-cans-2026::cic-16,true,false,28,29,ready_to_write
+MH-CAT-CIAO-017,prod_V90yqFB6WTazQ9,CIAO｜雞肉蟹柳貓罐頭｜單罐,CAT,CIAO,CIC-17,ciao-inaba-cans-2026::cic-17,true,false,28,29,ready_to_write
+MH-CAT-CIAO-018,prod_V90yyLLKXQRQey,CIAO｜鮪魚白肉扇貝柱貓罐頭｜單罐,CAT,CIAO,CIC-18,ciao-inaba-cans-2026::cic-18,true,false,28,29,ready_to_write
+MH-CAT-CIAO-019,prod_V90y14gfPJNkP3,CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐,CAT,CIAO,CIC-19,ciao-inaba-cans-2026::cic-19,false,true,30,31,ready_to_write
+MH-CAT-CIAO-020,prod_V90yRB01IgVrDV,CIAO｜11歲以上鮪魚白肉貓罐頭｜單罐,CAT,CIAO,CIC-20,ciao-inaba-cans-2026::cic-20,true,false,30,31,ready_to_write
+MH-CAT-CIAO-021,prod_V90yoyex98iTAW,CIAO｜14歲以上鮪魚白肉小銀魚貓罐頭｜單罐,CAT,CIAO,CIC-21,ciao-inaba-cans-2026::cic-21,true,false,30,31,ready_to_write
+MH-CAT-CIAO-022,prod_V90yC8a54bE0EL,CIAO｜14歲以上鰹魚柴魚片貓罐頭｜單罐,CAT,CIAO,CIC-22,ciao-inaba-cans-2026::cic-22,true,false,30,31,ready_to_write
+MH-CAT-CIAO-023,prod_V90yhIRALdzZyY,Inaba かつまぐろ｜鮪魚雞肉貓罐頭｜85g／單罐,CAT,CIAO,CIC-23,ciao-inaba-cans-2026::cic-23,true,false,28,29,ready_to_write
+MH-CAT-CIAO-024,prod_V90yhuy2ZgCVZK,Inaba かつまぐろ｜鮪魚貓罐頭｜85g／單罐,CAT,CIAO,CIC-24,ciao-inaba-cans-2026::cic-24,true,false,28,29,ready_to_write
+MH-CAT-CIAO-025,prod_V90yWS8dLSjcn2,Inaba かつまぐろ｜鮪魚三文魚貓罐頭｜85g／單罐,CAT,CIAO,CIC-25,ciao-inaba-cans-2026::cic-25,true,false,28,29,ready_to_write
+MH-CAT-CIAO-026,prod_V90yAWxmanLYZk,Inaba かつまぐろ｜鮪魚小銀魚貓罐頭｜85g／單罐,CAT,CIAO,CIC-26,ciao-inaba-cans-2026::cic-26,true,false,28,29,ready_to_write
+MH-CAT-CIAO-027,prod_V90yCfcKRyo9ou,Inaba かつまぐろ｜多口味隨機混拼貓罐頭｜85g × 6罐,CAT,CIAO,CIC-27,ciao-inaba-cans-2026::cic-27,true,false,28,29,ready_to_write
+MH-CAT-CIAO-028,prod_V90yWGm3mtcreN,Inaba かつまぐろ｜高齡貓鮪魚貓罐頭｜85g／單罐,CAT,CIAO,CIC-28,ciao-inaba-cans-2026::cic-28,true,false,30,31,ready_to_write
+MH-CAT-CIAO-029,prod_V8fduDqyGKiazf,CIAO 炙烤盛宴｜香烤鰹魚干瑤柱 (高齡貓用)｜50g,CAT,CIAO,CIAOVL-01,ciao-vetslabo-2026::ciaovl-01,true,,29,30,ready_to_write
+MH-CAT-CIAO-030,prod_V8fd05UFEZNURC,CIAO 炙烤盛宴｜香烤扇貝柱 (高齡貓用)｜50g,CAT,CIAO,CIAOVL-02,ciao-vetslabo-2026::ciaovl-02,true,,29,30,ready_to_write
+MH-CAT-CIAO-031,prod_V8fdpmkax4VOq1,CIAO 炙烤盛宴｜扇貝柱正宗高湯｜50g,CAT,CIAO,CIAOVL-03,ciao-vetslabo-2026::ciaovl-03,true,,26,27,ready_to_write
+MH-CAT-CIAO-032,prod_V8fdnUyX0IymBN,CIAO 炙烤盛宴｜烤鰹魚含小銀魚+扇貝柱｜50g,CAT,CIAO,CIAOVL-04,ciao-vetslabo-2026::ciaovl-04,true,,26,27,ready_to_write
+MH-CAT-CIAO-033,prod_V8fep70tdjHDoG,CIAO 炙烤盛宴｜炙烤雞胸肉含蟹肉棒+扇貝柱｜50g,CAT,CIAO,CIAOVL-05,ciao-vetslabo-2026::ciaovl-05,true,,26,27,ready_to_write
+MH-CAT-CIAO-034,prod_V8feoZ4v72AX1T,CIAO 超強乳酸菌｜金槍魚雞肉鰹魚｜40g,CAT,CIAO,CIAOVL-06,ciao-vetslabo-2026::ciaovl-06,true,,26,27,ready_to_write
+MH-CAT-CIAO-035,prod_V8fe010ZPXAJ1J,CIAO 炙烤盛宴｜化毛呵護鰹魚片扇貝柱｜50g,CAT,CIAO,CIAOVL-07,ciao-vetslabo-2026::ciaovl-07,true,,27,28,ready_to_write
+MH-CAT-CIAO-036,prod_V8fe4RA15lCQZO,CIAO 炙烤盛宴｜雞胸肉扇貝柱｜50g,CAT,CIAO,CIAOVL-08,ciao-vetslabo-2026::ciaovl-08,true,,26,27,ready_to_write
+MH-CAT-CIAO-037,prod_V8feXQdvRNrV4B,CIAO 超強乳酸菌｜鮪魚雞肉柴魚片高湯｜40g,CAT,CIAO,CIAOVL-09,ciao-vetslabo-2026::ciaovl-09,true,,26,27,ready_to_write
+MH-CAT-CIAO-038,prod_V8feeIGBK4DYB1,CIAO 超強乳酸菌｜雞肉鰹魚干高湯｜40g,CAT,CIAO,CIAOVL-10,ciao-vetslabo-2026::ciaovl-10,true,,26,27,ready_to_write
+MH-CAT-CIAO-039,prod_V8fefdYTxUdNva,CIAO 炙烤盛宴｜鰹魚干扇貝味 (香烤風味)｜30g,CAT,CIAO,CIAOVL-11,ciao-vetslabo-2026::ciaovl-11,true,,26,27,ready_to_write
+MH-CAT-CIAO-040,prod_V8feNaBEY6Pn28,CIAO 炙烤盛宴｜北海道風味扇貝 (香烤風味)｜30g,CAT,CIAO,CIAOVL-12,ciao-vetslabo-2026::ciaovl-12,true,,26,27,ready_to_write
+MH-CAT-CIAO-041,prod_V8fenfKdEjRnr7,CIAO 炙烤盛宴｜銀魚扇貝味 (香烤風味)｜30g,CAT,CIAO,CIAOVL-13,ciao-vetslabo-2026::ciaovl-13,true,,26,27,ready_to_write
+MH-CAT-CIAO-042,prod_V8fe3PM27QjYNh,CIAO 炙烤盛宴｜正宗高湯味 (香烤風味)｜30g,CAT,CIAO,CIAOVL-14,ciao-vetslabo-2026::ciaovl-14,true,,26,27,ready_to_write
+MH-CAT-CIAO-043,prod_V8fe1kWPFBfcKh,CIAO Premium｜6種功能性成分 (鰹魚雞胸肉木魚花)｜30g,CAT,CIAO,CIAOVL-15,ciao-vetslabo-2026::ciaovl-15,true,,26,27,ready_to_write
+MH-CAT-CIAO-044,prod_V8feew2ryjD7ql,CIAO Premium｜6種功能性成分 (雞胸肉扇貝味)｜30g,CAT,CIAO,CIAOVL-16,ciao-vetslabo-2026::ciaovl-16,true,,26,27,ready_to_write
+MH-CAT-CIAO-045,prod_V8feViin1yPowA,Vet's Labo｜MediMousse 腸胃呵護慕斯｜95g,CAT,CIAO,CIAOVL-17,ciao-vetslabo-2026::ciaovl-17,true,,49,50,ready_to_write
+MH-CAT-CIAO-046,prod_V8fexvyuSOogz8,Vet's Labo｜MediMousse 健康支持慕斯｜95g,CAT,CIAO,CIAOVL-18,ciao-vetslabo-2026::ciaovl-18,true,,49,50,ready_to_write
+MH-CAT-CIAO-047,prod_V8feexDq7xAidn,Vet's Labo｜MediMousse 皮膚維護慕斯｜95g,CAT,CIAO,CIAOVL-19,ciao-vetslabo-2026::ciaovl-19,true,,49,50,ready_to_write
+MH-CAT-CIAO-048,prod_V8fe6YUsIrEf8Q,Vet's Labo｜MediMousse 減肥減脂慕斯｜95g,CAT,CIAO,CIAOVL-20,ciao-vetslabo-2026::ciaovl-20,true,,49,50,ready_to_write
+MH-CAT-CMP-001,prod_V8crHGAsSzl77H,COMBO Present 男生喜歡的口味 魚味 小包｜COMBO Present Boy-Friendly Fish Mini Pack,CAT,CMP,,snack-order-2026::combo-present-boy-friendly-fish-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-002,prod_V8cr9iyVmqUz8O,COMBO Present 潔齒防口臭 混合肉味 小包｜COMBO Present Dental and Breath Care Meat Mini Pack,CAT,CMP,,snack-order-2026::combo-present-dental-and-breath-care-meat-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-003,prod_V8crzRJNuOzt2e,COMBO Present 潔齒防口臭 混合海鮮 小包｜COMBO Present Dental and Breath Care Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-dental-and-breath-care-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-004,prod_V8crNNIKOTELSy,COMBO Present 潔齒防口臭 三種口味｜COMBO Present Dental and Breath Care Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-dental-and-breath-care-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-005,prod_V8crT5vLCe95hY,COMBO Present 腸道環境維持 海鮮 小包｜COMBO Present Digestive Support Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-digestive-support-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-006,prod_V8cr9ARnvUOKQM,COMBO Present 腸道環境維持 三種口味｜COMBO Present Digestive Support Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-digestive-support-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-007,prod_V8cr9Jv6Ewv0ui,COMBO Present 女生喜歡口味 混合海鮮 小包｜COMBO Present Girl-Friendly Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-girl-friendly-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-008,prod_V8crpeVGxpASKY,COMBO Present 化毛配方 混合海鮮 小包｜COMBO Present Hairball Care Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-hairball-care-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-009,prod_V8crrguHp5YAXt,COMBO Present 免疫力維持 海鮮 小包｜COMBO Present Immune Support Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-immune-support-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-010,prod_V8cr2Q8hiWwniV,COMBO Present 免疫力維持 三種口味｜COMBO Present Immune Support Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-immune-support-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-011,prod_V8croZ9K3Kppbf,COMBO Present 室內貓化毛 三種口味｜COMBO Present Indoor Cat Hairball Care Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-indoor-cat-hairball-care-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-012,prod_V8crhpakrZfoXD,COMBO Present 室內貓 金槍魚 小包｜COMBO Present Indoor Cat Tuna Mini Pack,CAT,CMP,,snack-order-2026::combo-present-indoor-cat-tuna-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-013,prod_V8crtmrNegpX6C,COMBO Present 維護腎臟 混合肉味 小包｜COMBO Present Kidney Health Support Meat Mini Pack,CAT,CMP,,snack-order-2026::combo-present-kidney-health-support-meat-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-014,prod_V8crvbMiPxxJvt,COMBO Present 維護腎臟 混合海鮮 小包｜COMBO Present Kidney Health Support Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-kidney-health-support-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-015,prod_V8crErEJilA30r,COMBO Present 維護腎臟配方 三種口味｜COMBO Present Kidney Health Support Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-kidney-health-support-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-016,prod_V8crzn01d7SXcg,COMBO Present 低脂絕育貓 混合海鮮 小包｜COMBO Present Low-Fat Neutered Cat Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-low-fat-neutered-cat-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-017,prod_V8cr8kOWyjP3g1,COMBO Present 維護泌尿 混合海鮮 小包｜COMBO Present Urinary Health Support Seafood Mini Pack,CAT,CMP,,snack-order-2026::combo-present-urinary-health-support-seafood-mini-pack,true,false,26,27,ready_to_write
+MH-CAT-CMP-018,prod_V8crKsH08GDJxM,COMBO Present 維護泌尿配方 三種口味｜COMBO Present Urinary Health Support Three-Flavour Variety Pack,CAT,CMP,,snack-order-2026::combo-present-urinary-health-support-three-flavour-variety-pack,true,false,26,27,ready_to_write
+MH-CAT-COMBO-001,prod_V8lAOpvuncOCZM,COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g,CAT,COMBO,B24-10,batch24-2026::b24-10,true,false,28,29,ready_to_write
+MH-CAT-COMBO-002,prod_V8lAeH2hqPlna6,COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g,CAT,COMBO,B24-11,batch24-2026::b24-11,true,false,28,29,ready_to_write
+MH-CAT-COMBO-003,prod_V8lAWevxk3Za0C,COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g,CAT,COMBO,B24-12,batch24-2026::b24-12,true,false,28,29,ready_to_write
+MH-CAT-GNSP-001,prod_V8lAUga8Mwc3d0,銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g,CAT,GNSP,B24-20,batch24-2026::b24-20,true,false,28,29,ready_to_write
+MH-CAT-GNSP-002,prod_V8lAjMRJn8PScz,"銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Tuna, Bonito & Chicken Breast Cat Can 70g",CAT,GNSP,B24-21,batch24-2026::b24-21,true,false,28,29,ready_to_write
+MH-CAT-GNSP-003,prod_V8lATH0SDiLKBx,"銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna, Bonito & Chicken Breast Cat Can 70g",CAT,GNSP,B24-22,batch24-2026::b24-22,true,false,28,29,ready_to_write
+MH-CAT-GNSP-004,prod_V8lAGdiamaGSwC,"銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Shirasu Cat Can 70g",CAT,GNSP,B24-23,batch24-2026::b24-23,true,false,28,29,ready_to_write
+MH-CAT-GNSP-005,prod_V8lATUvYyTfiyk,"銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",CAT,GNSP,B24-24,batch24-2026::b24-24,true,false,28,29,ready_to_write
+MH-CAT-GNSP-006,prod_V8uJcEJtSEmb69,銀之匙 三ツ星グルメ 香酥魚香 魚味綜合乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Assorted Fish Dry Cat Food 200g,CAT,GNSP,,ginnospoon-aromatic-fish-assorted-200g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-007,prod_V8uJI32Jxh5dCc,銀之匙 三ツ星グルメ 香酥魚香 魚肉雞肉四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish & Chicken Four-Recipe Dry Cat Food 200g,CAT,GNSP,,ginnospoon-aromatic-fish-chicken-200g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-008,prod_V8uILuFno1z4MZ,銀之匙 三ツ星グルメ 香酥魚香 腸胃健康照護乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Gut-Health Care Dry Cat Food 200g,CAT,GNSP,,ginnospoon-aromatic-gut-care-200g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-009,prod_V8uJPueROjgX6L,銀之匙 三ツ星グルメ 香酥魚香 毛球護理乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Hairball Care Dry Cat Food 200g,CAT,GNSP,,ginnospoon-aromatic-hairball-200g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-010,prod_V8uJVy7nhLvdrI,"銀之匙 三ツ星グルメ 香酥魚香 金槍魚鯛魚鰹魚扇貝乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Tuna, Sea Bream, Bonito & Scallop Dry Cat Food 200g",CAT,GNSP,,ginnospoon-aromatic-tuna-seabream-200g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-011,prod_V8uIfmE32YGKQz,銀之匙 三ツ星グルメ 夾心奶油 魚味綜合乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Assorted Fish Dry Cat Food 180g,CAT,GNSP,,ginnospoon-cream-fish-assorted-180g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-012,prod_V8uIgedRHwtgJJ,銀之匙 三ツ星グルメ 夾心奶油 腸胃健康魚味三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Gut-Health Fish Three-Recipe Dry Cat Food 180g,CAT,GNSP,,ginnospoon-cream-gut-care-180g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-013,prod_V8uIc8IHCyEuCW,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Dry Cat Food 180g,CAT,GNSP,,ginnospoon-cream-tuna-bonito-180g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-014,prod_V8uID4s03TNUrL,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鯛魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Sea Bream Dry Cat Food 180g,CAT,GNSP,,ginnospoon-cream-tuna-seabream-180g-v1,true,true,28,29,ready_to_write
+MH-CAT-GNSP-015,prod_V8vr5nCW67gu8X,銀之匙 三ツ星グルメ 魚肉奶油夾心 鮪魚及白蝦味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & White Shrimp Dry Cat Food 180g,CAT,GNSP,,ginnospoon-cream-tuna-white-shrimp-180g-v1,true,true,34,35,ready_to_write
+MH-CAT-GNSP-016,prod_V8th4gMOUDUrzu,銀之匙 三ツ星グルメ 夾心奶油 魚肉雞里脊三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Fish & Chicken Tender Three-Recipe Dry Cat Food 180g,CAT,GNSP,,ginnospoon-mitsuboshi-cream-fish-chicken-three-180g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-017,prod_V8thb2VVnmHjCY,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚毛球護理乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Hairball Care Dry Cat Food 180g,CAT,GNSP,,ginnospoon-mitsuboshi-cream-hairball-180g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-018,prod_V8th51dTMblovb,銀之匙 三ツ星グルメ 夾心奶油 金槍魚雞里脊味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Chicken Tender Dry Cat Food 180g,CAT,GNSP,,ginnospoon-mitsuboshi-cream-tuna-chicken-180g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-019,prod_V8thjTAXBn4Lnx,銀之匙 三ツ星グルメ 香酥魚香毛球護理乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Hairball Care Dry Cat Food 240g,CAT,GNSP,,ginnospoon-mitsuboshi-hairball-fish-240g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-020,prod_V8thBqcqHiv3cZ,銀之匙 三ツ星グルメ 幼貓魚味加牛奶乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Kitten Fish Recipe with Milk Dry Cat Food 240g,CAT,GNSP,,ginnospoon-mitsuboshi-kitten-fish-240g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-021,prod_V8thwhOf6ahDTN,銀之匙 三ツ星グルメ 10歲起腎臟健康維護魚味四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet 10+ Kidney Health Maintenance Fish Four-Recipe Dry Cat Food 200g,CAT,GNSP,,ginnospoon-mitsuboshi-senior-kidney-200g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-022,prod_V8thRjwLfHWe9X,銀之匙 三ツ星グルメ 鮮旨香 魚肉雞里脊三拼乾糧 160g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Fish & Chicken Tender Three-Recipe Dry Cat Food 160g,CAT,GNSP,,ginnospoon-mitsuboshi-shimi-fish-chicken-three-160g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-023,prod_V8thsQJq4RYszQ,"銀之匙 三ツ星グルメ 鮮旨香 金槍魚雞里脊鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Chicken Tender & Bonito Dry Cat Food 192g",CAT,GNSP,,ginnospoon-mitsuboshi-shimi-tuna-chicken-192g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-024,prod_V8thk9qKECj0in,"銀之匙 三ツ星グルメ 鮮旨香 金槍魚鯛魚鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Sea Bream & Bonito Dry Cat Food 192g",CAT,GNSP,,ginnospoon-mitsuboshi-shimi-tuna-seabream-192g-v1,true,true,32,33,ready_to_write
+MH-CAT-GNSP-025,prod_V8thPo6RjbpnwO,銀之匙 三ツ星グルメ 餐後吐毛輕減及毛球護理魚味乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Dry Cat Food for Reduced Post-Meal Vomiting & Hairball Care 192g,CAT,GNSP,,ginnospoon-mitsuboshi-vomit-hairball-care-192g-v1,true,true,32,33,ready_to_write
+MH-CAT-MCK-001,prod_V8W0oLt83VbMEB,三文魚 17g (預定),CAT,MCK,,三文魚 17g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-002,prod_V8W0n6wDbyKpya,圓粒雞里脊 18g (現貨 / 賞味 28.01),CAT,MCK,,圓粒雞里脊 18g (現貨 / 賞味 28.01),true,true,40,41,ready_to_write
+MH-CAT-MCK-003,prod_V8W0BWVdW0bKlr,扇貝 11g (現貨 / 27.01.15),CAT,MCK,,扇貝 11g (現貨 / 27.01.15),true,true,40,41,ready_to_write
+MH-CAT-MCK-004,prod_V8W0eQFDHSCPxC,牛大腿肉 17g (現貨 / 2027.12.01),CAT,MCK,,牛大腿肉 17g (現貨 / 2027.12.01),true,true,40,41,ready_to_write
+MH-CAT-MCK-005,prod_V8W0xHzc6tqf3B,胡瓜魚凍干 10g (預定),CAT,MCK,,胡瓜魚凍干 10g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-006,prod_V8W0fChA9h4VNq,虹鱒魚 15g (現貨 / 賞味 27.5),CAT,MCK,,虹鱒魚 15g (現貨 / 賞味 27.5),true,true,40,41,ready_to_write
+MH-CAT-MCK-007,prod_V8W0DDhtV271xl,豬大腿肉 20g (預定),CAT,MCK,,豬大腿肉 20g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-008,prod_V8W0LKmYo2bfxf,豬心 25g (預定 (缺貨)),CAT,MCK,,豬心 25g (預定 (缺貨)),false,true,40,41,ready_to_write
+MH-CAT-MCK-009,prod_V8W0mdB77ZJc5M,金槍魚 14g (預定),CAT,MCK,,金槍魚 14g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-010,prod_V8W073h3MHqGhr,銀魚 10g (預定),CAT,MCK,,銀魚 10g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-011,prod_V8VzG9Cs8B2Rjb,雞胸肉 150g (現貨 / 賞味 27.10),CAT,MCK,,雞胸肉 150g (現貨 / 賞味 27.10),true,true,40,41,ready_to_write
+MH-CAT-MCK-012,prod_V8VzTooOH64y65,雞胸肉 30g (現貨 / 賞味 28.01),CAT,MCK,,雞胸肉 30g (現貨 / 賞味 28.01),true,true,40,41,ready_to_write
+MH-CAT-MCK-013,prod_V8W07sgetW5UqK,雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17),CAT,MCK,,雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17),true,true,40,41,ready_to_write
+MH-CAT-MCK-014,prod_V8W0oMeIOyFLhp,雞胸肉雞肝凍干 120g (現貨 / 27.07),CAT,MCK,,雞胸肉雞肝凍干 120g (現貨 / 27.07),true,true,40,41,ready_to_write
+MH-CAT-MCK-015,prod_V8VzYLI6mgAR3P,雞胸肉雞肝凍干 18g (預定),CAT,MCK,,雞胸肉雞肝凍干 18g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-016,prod_V8W06fowHsMOSF,雞胸肉雞肫凍干 120g (現貨 / 2027.04.03),CAT,MCK,,雞胸肉雞肫凍干 120g (現貨 / 2027.04.03),true,true,40,41,ready_to_write
+MH-CAT-MCK-017,prod_V8W072ieTWyOZ7,雞胸肉雞肫凍干 18g (現貨 / 2027.04.25),CAT,MCK,,雞胸肉雞肫凍干 18g (現貨 / 2027.04.25),true,true,44,45,ready_to_write
+MH-CAT-MCK-018,prod_V8Vz4r6kx51OK2,雞里脊 150g (現貨 / 2027.11.30),CAT,MCK,,雞里脊 150g (現貨 / 2027.11.30),true,true,40,41,ready_to_write
+MH-CAT-MCK-019,prod_V8VzICRXhFqVtH,雞里脊 30g (預定),CAT,MCK,,雞里脊 30g (預定),true,true,40,41,ready_to_write
+MH-CAT-MCK-020,prod_V8W0OgEY0HBtlD,雞里脊碎沫凍干粉拌飯 (預定),CAT,MCK,,雞里脊碎沫凍干粉拌飯 (預定),true,true,40,41,ready_to_write
+MH-CAT-MONP-001,prod_V8xXn4fyGQ2Iwg,Mon Petit Crispy Kiss 鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Bonito and Small Fish Broth Cat Treats 30g,CAT,MONP,monpetit-crispy-kiss-bonito-smallfish-broth-30g,latest31-2026::monpetit-crispy-kiss-bonito-smallfish-broth-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-002,prod_V8xXSx8MWb3Y8D,Mon Petit Crispy Kiss 芝士及雞肉味貓咪小食 30g｜Mon Petit Crispy Kiss Cheese and Chicken Flavour Cat Treats 30g,CAT,MONP,monpetit-crispy-kiss-cheese-chicken-30g,latest31-2026::monpetit-crispy-kiss-cheese-chicken-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-003,prod_V8xXLMbKeB2tb9,Mon Petit Crispy Kiss 鮮魚雞肉貓薄荷味貓咪小食 24g｜Mon Petit Crispy Kiss Fish and Chicken with Catnip Cat Treats 24g,CAT,MONP,monpetit-crispy-kiss-fish-chicken-catnip-24g,latest31-2026::monpetit-crispy-kiss-fish-chicken-catnip-24g,true,false,34,35,ready_to_write
+MH-CAT-MONP-004,prod_V8xXYKr9wN7Aee,Mon Petit Crispy Kiss 鮮魚精選貓咪小食 30g｜Mon Petit Crispy Kiss Fish Select Cat Treats 30g,CAT,MONP,monpetit-crispy-kiss-fish-select-30g,latest31-2026::monpetit-crispy-kiss-fish-select-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-005,prod_V8xX5m49XGPiSw,Mon Petit Crispy Kiss 奢華雞肉味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Chicken Flavour Cat Treats 24g,CAT,MONP,monpetit-crispy-kiss-luxury-chicken-24g,latest31-2026::monpetit-crispy-kiss-luxury-chicken-24g,true,false,34,35,ready_to_write
+MH-CAT-MONP-006,prod_V8xXBfCtwPwxjK,Mon Petit Crispy Kiss 奢華鮮魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Fish Flavour Cat Treats 24g,CAT,MONP,monpetit-crispy-kiss-luxury-fish-24g,latest31-2026::monpetit-crispy-kiss-luxury-fish-24g,true,false,34,35,ready_to_write
+MH-CAT-MONP-007,prod_V8xXV7x4AmWu89,Mon Petit Crispy Kiss 奢華三文魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Salmon Flavour Cat Treats 24g,CAT,MONP,monpetit-crispy-kiss-luxury-salmon-24g,latest31-2026::monpetit-crispy-kiss-luxury-salmon-24g,true,false,34,35,ready_to_write
+MH-CAT-MONP-008,prod_V8xXRC7As2ra5W,Mon Petit Crispy Kiss 肉類精選綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Meat Selection Variety Pack Cat Treats 144g,CAT,MONP,monpetit-crispy-kiss-meat-variety-144g,latest31-2026::monpetit-crispy-kiss-meat-variety-144g,true,false,34,35,ready_to_write
+MH-CAT-MONP-009,prod_V8xXMB8UApWAYP,"Mon Petit Crispy Kiss 三文魚、鰹魚及小魚味貓咪小食 30g｜Mon Petit Crispy Kiss Salmon, Bonito and Small Fish Cat Treats 30g",CAT,MONP,monpetit-crispy-kiss-salmon-bonito-smallfish-30g,latest31-2026::monpetit-crispy-kiss-salmon-bonito-smallfish-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-010,prod_V8xXmrlDUto85d,Mon Petit Crispy Kiss 海鮮味貓咪小食 30g｜Mon Petit Crispy Kiss Seafood Flavour Cat Treats 30g,CAT,MONP,monpetit-crispy-kiss-seafood-30g,latest31-2026::monpetit-crispy-kiss-seafood-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-011,prod_V8xX3586zZhcZt,"Mon Petit Crispy Kiss 海鮮、芝士及雞肉燒烤味綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood, Cheese and Chicken Grill Variety Pack Cat Treats 144g",CAT,MONP,monpetit-crispy-kiss-seafood-cheese-chicken-144g,latest31-2026::monpetit-crispy-kiss-seafood-cheese-chicken-144g,true,false,34,35,ready_to_write
+MH-CAT-MONP-012,prod_V8xXFw4xx3NEuP,Mon Petit Crispy Kiss 海鮮及雞肉綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood and Chicken Variety Pack Cat Treats 144g,CAT,MONP,monpetit-crispy-kiss-seafood-chicken-variety-144g,latest31-2026::monpetit-crispy-kiss-seafood-chicken-variety-144g,true,false,34,35,ready_to_write
+MH-CAT-MONP-013,prod_V8xXZsF0TMS5c8,"Mon Petit Crispy Kiss 真鯛、鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Snapper, Skipjack Tuna and Small Fish Broth Cat Treats 30g",CAT,MONP,monpetit-crispy-kiss-snapper-broth-30g,latest31-2026::monpetit-crispy-kiss-snapper-broth-30g,true,false,34,35,ready_to_write
+MH-CAT-MONP-014,prod_V8xXM2ONlpEcC3,Mon Petit Crispy Kiss 真鯛及海鮮綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Snapper and Seafood Assortment Cat Treats 144g,CAT,MONP,monpetit-crispy-kiss-snapper-seafood-144g,latest31-2026::monpetit-crispy-kiss-snapper-seafood-144g,true,false,34,35,ready_to_write
+MH-CAT-PAMAX-001,prod_V8uInkIOBbpTsp,PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg,CAT,PAMAX,,pamax-miracle-enzyme-cat-litter-v1,true,true,30,31,ready_to_write
+MH-CAT-SNP-001,prod_V8uIPfhAKY5ONF,SNAPPY 低粉塵膨潤土貓砂 原味無香 7L｜SNAPPY Low-Dust Bentonite Cat Litter Unscented 7L,CAT,SNP,,snappy-dust-cut-bentonite-litter-7l-v1,true,true,28,29,ready_to_write
+MH-CAT-SNR-001,prod_V8vriJ8BqO90r3,AIM30 貓咪鰹魚削節 12g｜AIM30 Cat Bonito Flakes 12g,CAT,SNR,,aim30-bonito-flakes-12g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-002,prod_V8vrSwyPdcre4F,AIM30 貓咪雞肉絲 25g｜AIM30 Cat Shredded Chicken Fillet 25g,CAT,SNR,,aim30-chicken-shreds-25g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-003,prod_V8vrvYaxZ1cxLJ,AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g,CAT,SNR,,aim30-confirmed-1-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-004,prod_V8vrBdjzLlg7F7,AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g,CAT,SNR,,aim30-confirmed-2-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-005,prod_V8vsqALfCDaZlZ,AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g,CAT,SNR,,aim30-confirmed-3-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-006,prod_V8vs7g4SLaJWJ3,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g,CAT,SNR,,aim30-confirmed-4-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-007,prod_V8vsohIxXgEVDb,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g,CAT,SNR,,aim30-confirmed-5-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-008,prod_V8vrxdYkx6Hq9O,AIM30 Karitto Treats 酥脆貓咪零食 綜合營養吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Balanced Nutrition Tuna 25g,CAT,SNR,,aim30-karitto-balanced-tuna-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-009,prod_V8vrVGdqH472WR,AIM30 Karitto Treats 酥脆貓咪零食 牛肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Beef Flavour 25g,CAT,SNR,,aim30-karitto-beef-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-010,prod_V8vrCIoYlfznHf,AIM30 Karitto Treats 酥脆貓咪零食 鰹魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Bonito Flavour 25g,CAT,SNR,,aim30-karitto-bonito-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-011,prod_V8vrEO4eoZSj2o,AIM30 Karitto Treats 酥脆貓咪零食 芝士味 25g｜AIM30 Karitto Treats Crispy Cat Treats Cheese Flavour 25g,CAT,SNR,,aim30-karitto-cheese-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-012,prod_V8vrkohKHcwdKL,AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 25g,CAT,SNR,,aim30-karitto-chicken-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-013,prod_V8vrsKDQclIgy0,AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 80g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 80g,CAT,SNR,,aim30-karitto-chicken-80g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-014,prod_V8vq78vZ3hdOmK,AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 25g,CAT,SNR,,aim30-karitto-fish-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-015,prod_V8vrYMEciXr909,AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 80g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 80g,CAT,SNR,,aim30-karitto-fish-80g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-016,prod_V8vrEgpUGj9fjI,AIM30 Karitto Treats 酥脆貓咪零食 魚味四種綜合包 80g｜AIM30 Karitto Treats Crispy Cat Treats Four Fish Flavours Assortment 80g,CAT,SNR,,aim30-karitto-fish-four-80g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-017,prod_V8vrEGzFHOkIGq,AIM30 Karitto Treats 酥脆貓咪零食 毛球護理吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Hairball Care Tuna 25g,CAT,SNR,,aim30-karitto-hairball-tuna-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-018,prod_V8vr09YUCbk2x6,AIM30 Karitto Treats 酥脆貓咪零食 乳酸菌吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna with Lactic Acid Bacteria 25g,CAT,SNR,,aim30-karitto-lactic-tuna-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-019,prod_V8vragc9O6bDre,AIM30 Karitto Treats 酥脆貓咪零食 金槍魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g,CAT,SNR,,aim30-karitto-maguro-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-020,prod_V8vr3X8ZjnY554,AIM30 Karitto Treats 酥脆貓咪零食 三文魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Salmon Flavour 25g,CAT,SNR,,aim30-karitto-salmon-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-021,prod_V8vrqp1avymNZ9,AIM30 Karitto Treats 酥脆貓咪零食 海鮮味 25g｜AIM30 Karitto Treats Crispy Cat Treats Seafood Flavour 25g,CAT,SNR,,aim30-karitto-seafood-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-022,prod_V8vrJdunHu4yQD,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及蟹肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna & Crab Flavour 25g,CAT,SNR,,aim30-karitto-tuna-crab-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-023,prod_V8vr8q8jdO6wNr,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g,CAT,SNR,,aim30-karitto-tuna-green-25g-v1,true,true,31,32,ready_to_write
+MH-CAT-SNR-024,prod_V8vro3NAxi0isd,AIM30 貓咪吞拿魚片 30g｜AIM30 Cat Tuna Slices 30g,CAT,SNR,,aim30-tuna-slices-30g-v1,true,true,34,35,ready_to_write
+MH-CAT-SNR-025,prod_V8xXuAW047ti4v,AIM30 室內成貓 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Chicken Flavour 600g,CAT,SNR,aim30-indoor-adult-chicken-600g,latest31-2026::aim30-indoor-adult-chicken-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-026,prod_V8xXIokF7G9Er0,AIM30 室內成貓 鮮魚味乾糧 600g｜AIM30 Indoor Adult Cat Food Fish Flavour 600g,CAT,SNR,aim30-indoor-adult-fish-600g,latest31-2026::aim30-indoor-adult-fish-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-027,prod_V8xXwAmye0eVa6,AIM30 室內成貓 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Kidney Health Care Chicken Flavour 600g,CAT,SNR,aim30-indoor-kidney-chicken-600g,latest31-2026::aim30-indoor-kidney-chicken-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-028,prod_V8xXxYtzIJ6S93,AIM30 室內已絕育成貓 雞肉味乾糧 1.2kg｜AIM30 Indoor Spayed and Neutered Adult Cat Food Chicken Flavour 1.2kg,CAT,SNR,aim30-neutered-indoor-chicken-1-2kg,latest31-2026::aim30-neutered-indoor-chicken-1-2kg,true,false,35,36,ready_to_write
+MH-CAT-SNR-029,prod_V8xXaZ0jwFhqkT,AIM30 室內高齡貓 11 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Chicken Flavour 600g,CAT,SNR,aim30-senior-11plus-chicken-600g,latest31-2026::aim30-senior-11plus-chicken-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-030,prod_V8xXMTWORpMyun,AIM30 室內高齡貓 11 歲以上 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Fish Flavour 600g,CAT,SNR,aim30-senior-11plus-fish-600g,latest31-2026::aim30-senior-11plus-fish-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-031,prod_V8xXwQzwhjo93R,AIM30 室內高齡貓 15 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Chicken Flavour 600g,CAT,SNR,aim30-senior-15plus-chicken-600g,latest31-2026::aim30-senior-15plus-chicken-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-032,prod_V8xXT4XG39RY4o,AIM30 室內高齡貓 15 歲以上 腎臟健康照護 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Fish Flavour 600g,CAT,SNR,aim30-senior-15plus-fish-600g,latest31-2026::aim30-senior-15plus-fish-600g,true,false,35,36,ready_to_write
+MH-CAT-SNR-033,prod_V8xXTyAkIg3YGz,AIM30 室內高齡貓 15 歲以上 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Chicken Flavour 600g,CAT,SNR,aim30-senior-15plus-kidney-chicken-600g,latest31-2026::aim30-senior-15plus-kidney-chicken-600g,true,false,35,36,ready_to_write
+MH-CAT-UCM-001,prod_V8uIO7LzUQjeCT,Unicharm Deotoilet 消臭抗菌沸石貓砂 清新庭院香 3.8L｜Unicharm Deotoilet Deodorising Antibacterial Zeolite Cat Litter Natural Green 3.8L,CAT,UCM,,unicharm-deotile-natural-green-litter-3-8l-v1,true,true,49,50,ready_to_write
+MH-DOG-COMBO-001,prod_V8lActmdKRF9Nz,COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g｜COMBO Pure Tender Chicken Breast Cubes Dog Treat 50g,DOG,COMBO,B24-05,batch24-2026::b24-05,true,false,28,29,ready_to_write
+MH-DOG-COMBO-002,prod_V8lAyjALw49Mz2,COMBO Pure 香嫩雞胸肉絲狗狗小食 50g｜COMBO Pure Tender Chicken Breast Strips Dog Treat 50g,DOG,COMBO,B24-06,batch24-2026::b24-06,true,false,28,29,ready_to_write
+MH-DOG-COMBO-003,prod_V8lA3nhXSFdHkU,COMBO Pure 羅勒香雞肉切塊狗狗小食 50g｜COMBO Pure Basil-Scented Chicken Cubes Dog Treat 50g,DOG,COMBO,B24-07,batch24-2026::b24-07,true,false,28,29,ready_to_write
+MH-DOG-COMBO-004,prod_V8lA4N42hxS8dk,COMBO Pure 雞肉軟骨切塊狗狗小食 50g｜COMBO Pure Chicken & Cartilage Cubes Dog Treat 50g,DOG,COMBO,B24-08,batch24-2026::b24-08,true,false,28,29,ready_to_write
+MH-DOG-COMBO-005,prod_V8lA7fjOQvodwx,COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g｜COMBO Pure Chicken Breast & Three Vegetable Cubes Dog Treat 50g,DOG,COMBO,B24-09,batch24-2026::b24-09,true,false,28,29,ready_to_write
+MH-DOG-COMBO-006,prod_V8lA8TrpHKZ0AE,COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Japanese Chicken & Vegetable Dry Dog Food 600g,DOG,COMBO,B24-13,batch24-2026::b24-13,true,false,28,29,ready_to_write
+MH-DOG-COMBO-007,prod_V8lAFkM1R1Q06Q,COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g｜COMBO Pure Vegetable & Selected Cheese Dry Dog Food 600g,DOG,COMBO,B24-14,batch24-2026::b24-14,true,false,28,29,ready_to_write
+MH-DOG-COMBO-008,prod_V8lA3mO6fUVnGr,COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g｜COMBO Pure Selected Cheese & Japanese Chicken Dry Dog Food 600g,DOG,COMBO,B24-15,batch24-2026::b24-15,true,false,28,29,ready_to_write
+MH-DOG-COMBO-009,prod_V8lArvqiVc3AMr,COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Extra-Small Kibble Japanese Chicken & Vegetable Dry Dog Food 600g,DOG,COMBO,B24-16,batch24-2026::b24-16,true,false,28,29,ready_to_write
+MH-DOG-COMBO-010,prod_V8lAGBIlndcl9U,COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Low-Fat Japanese Chicken & Vegetable Dry Dog Food 600g,DOG,COMBO,B24-17,batch24-2026::b24-17,true,false,28,29,ready_to_write
+MH-DOG-COMBO-011,prod_V8lAaOLN6jDE2s,COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g｜COMBO Pure Freeze-Dried Topping Japanese Chicken & Vegetable Dry Dog Food 540g,DOG,COMBO,B24-18,batch24-2026::b24-18,true,false,29,30,ready_to_write
+MH-DOG-COMBO-012,prod_V8lA3QuLuCwOig,COMBO Pure 魚肉米狗狗乾糧 540g｜COMBO Pure Fish & Rice Dry Dog Food 540g,DOG,COMBO,B24-19,batch24-2026::b24-19,true,false,28,29,ready_to_write
+MH-DOG-COMBO-013,prod_V8kNDRrV7QQWc8,COMBO 捲心菜牛肉狗狗乾糧 720g｜COMBO Cabbage & Beef Dry Dog Food 720g,DOG,COMBO,COMBO-DOG-720-03,combo-dogfood-720g-2026::combo-dogfood-720g-cabbage-beef,true,false,27,28,ready_to_write
+MH-DOG-COMBO-014,prod_V8kNSV91CKgxb8,"COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g｜COMBO Beef, Dried Small Fish, Cheese & Vegetable Blend Dry Dog Food 720g",DOG,COMBO,COMBO-DOG-720-01,combo-dogfood-720g-2026::combo-dogfood-720g-chicken-beef-small-fish,true,false,27,28,ready_to_write
+MH-DOG-COMBO-015,prod_V8kNDHKt8kCFkT,COMBO 馬蘇里拉芝士角切狗狗乾糧 720g｜COMBO Mozzarella Cheese Cubes Dry Dog Food 720g,DOG,COMBO,COMBO-DOG-720-02,combo-dogfood-720g-2026::combo-dogfood-720g-chicken-cheese,true,false,27,28,ready_to_write
+MH-DOG-COMBO-016,prod_V8kNXGrzdUVGWS,COMBO 低脂小魚乾雞肉狗狗乾糧 720g｜COMBO Low-Fat Dried Small Fish & Chicken Dry Dog Food 720g,DOG,COMBO,COMBO-DOG-720-04,combo-dogfood-720g-2026::combo-dogfood-720g-low-fat-chicken-vegetables-small-fish,true,false,27,28,ready_to_write
+MH-DOG-COMBO-017,prod_V8kNg5nRdCoND1,COMBO 低脂 7歲以上狗狗乾糧 720g｜COMBO Low-Fat Senior Dry Dog Food 720g,DOG,COMBO,COMBO-DOG-720-05,combo-dogfood-720g-2026::combo-dogfood-720g-low-fat-senior-chicken-vegetables,true,false,27,28,ready_to_write
+MH-DOG-DBF-001,prod_V8e1g0toA5TEk7,d.b.f 雞肉軟骨｜d.b.f Chicken Breast & Cartilage Dog Can 85g,DOG,DBF,DBF-01,dbf-dog-cans-2026::dbf-01,true,false,30,31,ready_to_write
+MH-DOG-DBF-002,prod_V8e1ExxiCmg67D,d.b.f 雞胸肉&奶酪｜d.b.f Chicken Breast & Cheese Dog Can 85g,DOG,DBF,DBF-02,dbf-dog-cans-2026::dbf-02,true,false,30,31,ready_to_write
+MH-DOG-DBF-003,prod_V8e1MyE7x9BZDl,d.b.f 雞胸肉濃湯｜d.b.f Chicken Breast in Soup Dog Can 85g,DOG,DBF,DBF-03,dbf-dog-cans-2026::dbf-03,true,false,30,31,ready_to_write
+MH-DOG-DBF-004,prod_V8e1qzONSyt8ru,d.b.f 雞肉&芝士｜d.b.f Chicken & Cheese Adult Dog Can 85g,DOG,DBF,DBF-04,dbf-dog-cans-2026::dbf-04,true,false,30,31,ready_to_write
+MH-DOG-DBF-005,prod_V8e1XhfhroMZtV,d.b.f 雞肉&蔬菜｜d.b.f Chicken & Vegetables Adult Dog Can 85g,DOG,DBF,DBF-05,dbf-dog-cans-2026::dbf-05,true,false,30,31,ready_to_write
+MH-DOG-DBF-006,prod_V8e1nNRuozpeTU,d.b.f 牛肉&軟骨｜d.b.f Beef & Cartilage Dog Can 85g,DOG,DBF,DBF-06,dbf-dog-cans-2026::dbf-06,true,false,30,31,ready_to_write
+MH-DOG-DBF-007,prod_V8e1Jgdnr9v8HM,d.b.f 牛肉糜｜d.b.f Beef Mince Dog Can 65g,DOG,DBF,DBF-07,dbf-dog-cans-2026::dbf-07,false,true,30,31,ready_to_write
+MH-DOG-DBF-008,prod_V8e143elQIOfMM,d.b.f 雞肉&紅薯小粒｜d.b.f Chicken & Sweet Potato Adult Dog Can 85g,DOG,DBF,DBF-08,dbf-dog-cans-2026::dbf-08,true,false,30,31,ready_to_write
+MH-DOG-DBF-009,prod_V8e1Y4NZgoH3mG,d.b.f 雞肉雞胗濃湯｜d.b.f Chicken Breast & Gizzard Soup Dog Can 85g,DOG,DBF,DBF-09,dbf-dog-cans-2026::dbf-09,true,false,30,31,ready_to_write
+MH-DOG-DBF-010,prod_V8e1qdj8efQTs9,d.b.f 雞肉糜｜d.b.f Chicken Mince Dog Can 65g,DOG,DBF,DBF-10,dbf-dog-cans-2026::dbf-10,true,false,30,31,ready_to_write
+MH-DOG-DBF-011,prod_V8e1EgYIqCWkcb,d.b.f 成犬之食事 雞肉軟骨｜d.b.f Adult Dog Meal Chicken & Cartilage 85g,DOG,DBF,DBF-11,dbf-dog-cans-2026::dbf-11,true,false,29,30,ready_to_write
+MH-DOG-DBF-012,prod_V8e2wynYC6XsBo,d.b.f 成犬之食事 雞肉紅薯｜d.b.f Adult Dog Meal Chicken & Sweet Potato 85g,DOG,DBF,DBF-12,dbf-dog-cans-2026::dbf-12,true,false,29,30,ready_to_write
+MH-DOG-DBF-013,prod_V8e2eck5fdwDtP,d.b.f 成犬之食事 雞肉蔬菜｜d.b.f Adult Dog Meal Chicken & Vegetables 85g,DOG,DBF,DBF-13,dbf-dog-cans-2026::dbf-13,true,false,29,30,ready_to_write
+MH-DOG-DBF-014,prod_V8e2hvyqfhk59B,d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g,DOG,DBF,DBF-14,dbf-dog-cans-2026::dbf-14,true,false,33,34,ready_to_write
+MH-DOG-DBF-015,prod_V8e2hyOUdfOwnM,d.b.f 牛肉紅薯｜d.b.f Beef & Sweet Potato Dog Can 85g,DOG,DBF,DBF-15,dbf-dog-cans-2026::dbf-15,false,true,29,30,ready_to_write
+MH-DOG-DBF-016,prod_V8e22XlcOMIRus,d.b.f 高齡犬之食事 雞肉 (7歲及以上)｜d.b.f Senior Dog Meal Chicken 85g,DOG,DBF,DBF-16,dbf-dog-cans-2026::dbf-16,true,false,29,30,ready_to_write
+MH-DOG-DBF-017,prod_V8e2oW8u6WCtg5,d.b.f 高齡犬之食事 雞肉蔬菜 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Vegetables 85g,DOG,DBF,DBF-17,dbf-dog-cans-2026::dbf-17,true,false,29,30,ready_to_write
+MH-DOG-DBF-018,prod_V8e2MnRWL8I3ON,d.b.f 成犬之食事 雞肉｜d.b.f Adult Dog Meal Chicken 85g,DOG,DBF,DBF-18,dbf-dog-cans-2026::dbf-18,false,true,29,30,ready_to_write
+MH-DOG-DBF-019,prod_V8e2EKKmnHUR8w,d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g,DOG,DBF,DBF-19,dbf-dog-cans-2026::dbf-19,true,false,33,34,ready_to_write
+MH-DOG-DBF-020,prod_V8e2NVxYYDt7TI,d.b.f 高齡犬之食事 雞肉軟骨 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Cartilage 85g,DOG,DBF,DBF-20,dbf-dog-cans-2026::dbf-20,true,false,29,30,ready_to_write
+MH-DOG-DBF-021,prod_V8e2HgqFtfTeZ3,d.b.f 雞胸肉糜 (脂肪含量更少 0.5% 以上)｜d.b.f Chicken Breast Mince Low-fat Dog Can 65g,DOG,DBF,DBF-21,dbf-dog-cans-2026::dbf-21,false,true,30,31,ready_to_write
+MH-DOG-DBF-022,prod_V8e2yXi5ewIEg5,d.b.f 雞肉&雞胸肉糜蔬菜｜d.b.f Chicken & Chicken Breast Mince with Vegetables 150g,DOG,DBF,DBF-22,dbf-dog-cans-2026::dbf-22,true,false,30,31,ready_to_write
+MH-DOG-DBF-023,prod_V8e2NpxQsXvHOA,d.b.f 雞肉&雞胸肉糜紅薯｜d.b.f Chicken & Chicken Breast Mince with Sweet Potato 150g,DOG,DBF,DBF-23,dbf-dog-cans-2026::dbf-23,true,false,30,31,ready_to_write
+MH-DOG-DGM-001,prod_V8cru9Bp0V6puG,DoggyMan 爆漿夾心卷（雞肝）｜DoggyMan Creamy Chicken Liver Roll Treats,DOG,DGM,,snack-order-2026::doggyman-creamy-chicken-liver-roll-treats,true,false,26,27,ready_to_write
+MH-DOG-DGM-002,prod_V8cr46ftMdO2E3,DoggyMan 爆漿夾心卷（雞肉）｜DoggyMan Creamy Chicken Roll Treats,DOG,DGM,,snack-order-2026::doggyman-creamy-chicken-roll-treats,true,false,49,50,ready_to_write
+MH-DOG-GEN-001,prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,DOG,GEN,,complete-ytt-chicken-tenders-20g,true,true,35,36,ready_to_write
+MH-DOG-IRIS-001,prod_V8Zo9dzijaQ39p,牛肉口味罐頭（Beef）,DOG,IRIS,,onecared-can::beef,true,true,27,28,ready_to_write
+MH-DOG-IRIS-002,prod_V8ZodBXbffvz6o,雞肝口味罐頭（Chicken Liver）,DOG,IRIS,,onecared-can::chicken-liver,true,true,27,28,ready_to_write
+MH-DOG-IRIS-003,prod_V8ZpDXl9RWMDbc,雞肉口味罐頭（Chicken）,DOG,IRIS,,onecared-can::chicken,true,true,27,28,ready_to_write
+MH-DOG-IRIS-004,prod_V8ZoNtJinLFNNG,新款 2個口味拼罐頭（New 2-Flavor Mix）,DOG,IRIS,,onecared-can::new-2-flavor-mix,true,true,27,28,ready_to_write
+MH-DOG-IRIS-005,prod_V8ZoJ2fwrBOiHL,新款牛肉米飯罐頭（New Beef & Rice）,DOG,IRIS,,onecared-can::new-beef-and-rice,true,true,27,28,ready_to_write
+MH-DOG-IRIS-006,prod_V8ZorEO6daplRl,新款牛肉蔬菜罐頭（New Beef & Vegetables）,DOG,IRIS,,onecared-can::new-beef-and-vegetables,true,true,27,28,ready_to_write
+MH-DOG-IRIS-007,prod_V8ZpWi2bc00Aty,白身魚口味罐頭（White Fish）,DOG,IRIS,,onecared-can::white-fish,true,true,27,28,ready_to_write
+MH-DOG-MCK-001,prod_V8W0gp0Oink4Cg,雞里脊 150g (犬用) (現貨 / 2027.11.11),DOG,MCK,,雞里脊 150g (犬用) (現貨 / 2027.11.11),true,true,40,41,ready_to_write
+MH-DOG-PTL-001,prod_V8lAPSEzKs8rpv,"PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast, Vegetable & Beef-Style Jelly Pouches 25g×4",DOG,PTL,B24-01,batch24-2026::b24-01,true,false,49,50,ready_to_write
+MH-DOG-PTL-002,prod_V8lAt5mJJ5YOb7,PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast & Cheese Jelly Pouches 25g×4,DOG,PTL,B24-02,batch24-2026::b24-02,true,false,49,50,ready_to_write
+MH-DOG-PTL-003,prod_V8lAXdhHafIDnG,PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4｜PETLINE Gochisou Time Chicken Breast Milk-Stew with Cheese Pouches 25g×4,DOG,PTL,B24-03,batch24-2026::b24-03,true,false,49,50,ready_to_write
+MH-DOG-PTL-004,prod_V8lAMmluHgtE1f,PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4｜PETLINE Gochisou Time Chicken Paste Milk Jelly with Cheese Pouches 25g×4,DOG,PTL,B24-04,batch24-2026::b24-04,true,false,49,50,ready_to_write
+MH-LIF-GEN-001,prod_V8szJB1xzy0Hkm,藍貓圖案斜口高腳陶瓷食盤 M｜Blue Cat Pattern Raised Slanted Ceramic Bowl M,LIF,GEN,,blue-cat-slanted-raised-bowl-m,true,true,32,33,ready_to_write
+MH-LIF-GEN-002,prod_V8szxN4qvZQyrJ,貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm,LIF,GEN,,cat-ear-slanted-bowl-12cm,true,true,32,33,ready_to_write
+MH-LIF-GEN-003,prod_V8t03LiP3rgoHN,貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml,LIF,GEN,,cat-face-slanted-raised-bowl-350ml,true,true,32,33,ready_to_write
+MH-LIF-GEN-004,prod_V8szss31Rm8tiJ,高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml,LIF,GEN,,flat-raised-ceramic-bowl-250ml,true,true,32,33,ready_to_write
+MH-LIF-GEN-005,prod_V8t0eKeqlC0GzI,深藍貓臉高腳陶瓷食盤 M｜Navy Cat Face Raised Ceramic Bowl M,LIF,GEN,,navy-cat-face-raised-bowl-m,true,true,32,33,ready_to_write
+MH-LIF-GEN-006,prod_V8szzgASg2ZnbO,白貓海浪紋斜口高腳陶瓷食盤 M｜White Cat Wave Pattern Raised Slanted Ceramic Bowl M,LIF,GEN,,white-cat-wave-slanted-bowl-m,true,true,32,33,ready_to_write
+MH-LIF-ST-001,prod_V8uIOVwsFqgPTV,Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L,LIF,ST,,nyantomo-wood-litter-4-4l-v1,true,true,50,51,blocked_metadata_limit

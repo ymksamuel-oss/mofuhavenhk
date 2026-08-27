@@ -1,0 +1,407 @@
+{
+  "batch": "mofu_sku_assignment_batch_03_of_5",
+  "synced_at_utc": "2026-08-27T01:40:07.642768+00:00",
+  "count": 50,
+  "updated": [
+    {
+      "stripe_product_id": "prod_V8W0DDhtV271xl",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W0LKmYo2bfxf",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W0mdB77ZJc5M",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W073h3MHqGhr",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8VzG9Cs8B2Rjb",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8VzTooOH64y65",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W07sgetW5UqK",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W0oMeIOyFLhp",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8VzYLI6mgAR3P",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W06fowHsMOSF",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W072ieTWyOZ7",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8Vz4r6kx51OK2",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8VzICRXhFqVtH",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8W0OgEY0HBtlD",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXn4fyGQ2Iwg",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXSx8MWb3Y8D",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXLMbKeB2tb9",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXYKr9wN7Aee",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xX5m49XGPiSw",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXBfCtwPwxjK",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXV7x4AmWu89",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXRC7As2ra5W",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXMB8UApWAYP",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXmrlDUto85d",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xX3586zZhcZt",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXFw4xx3NEuP",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXZsF0TMS5c8",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8xXM2ONlpEcC3",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8uInkIOBbpTsp",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8uIPfhAKY5ONF",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vriJ8BqO90r3",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrSwyPdcre4F",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrvYaxZ1cxLJ",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrBdjzLlg7F7",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vsqALfCDaZlZ",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vs7g4SLaJWJ3",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vsohIxXgEVDb",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrxdYkx6Hq9O",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrVGdqH472WR",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrCIoYlfznHf",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrEO4eoZSj2o",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrkohKHcwdKL",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrsKDQclIgy0",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vq78vZ3hdOmK",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrYMEciXr909",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrEgpUGj9fjI",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vrEGzFHOkIGq",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vr09YUCbk2x6",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vragc9O6bDre",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    },
+    {
+      "stripe_product_id": "prod_V8vr3X8ZjnY554",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": []
+    }
+  ]
+}

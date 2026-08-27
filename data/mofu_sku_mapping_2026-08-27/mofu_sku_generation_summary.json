@@ -1,0 +1,11 @@
+{
+  "generated_at_utc": "2026-08-27T01:35:11.935Z",
+  "active_product_count": 226,
+  "existing_mofu_sku_count": 0,
+  "new_mofu_sku_ready_to_write_count": 225,
+  "blocked_by_metadata_limit_count": 1,
+  "unique_mofu_sku_count": 226,
+  "generated_collision_count": 0,
+  "batch_count": 5,
+  "format": "MH-{CATEGORY}-{BRAND}-{NNN}"
+}

@@ -1,0 +1,307 @@
+{
+  "batch": "mofu_sku_assignment_batch_03_of_5",
+  "source": "Generated from current active Stripe products. Only adds a unique mofu_sku metadata field; preserves original Stripe Product IDs and existing supplier SKU values.",
+  "metadata_defaults": {},
+  "products": [
+    {
+      "stripe_product_id": "prod_V8W0DDhtV271xl",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-007"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W0LKmYo2bfxf",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-008"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W0mdB77ZJc5M",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-009"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W073h3MHqGhr",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-010"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8VzG9Cs8B2Rjb",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-011"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8VzTooOH64y65",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-012"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W07sgetW5UqK",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-013"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W0oMeIOyFLhp",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-014"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8VzYLI6mgAR3P",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-015"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W06fowHsMOSF",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-016"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W072ieTWyOZ7",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-017"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8Vz4r6kx51OK2",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-018"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8VzICRXhFqVtH",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-019"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8W0OgEY0HBtlD",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MCK-020"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXn4fyGQ2Iwg",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXSx8MWb3Y8D",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXLMbKeB2tb9",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-003"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXYKr9wN7Aee",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-004"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xX5m49XGPiSw",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-005"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXBfCtwPwxjK",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-006"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXV7x4AmWu89",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-007"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXRC7As2ra5W",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-008"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXMB8UApWAYP",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-009"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXmrlDUto85d",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-010"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xX3586zZhcZt",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-011"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXFw4xx3NEuP",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-012"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXZsF0TMS5c8",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-013"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8xXM2ONlpEcC3",
+      "metadata": {
+        "mofu_sku": "MH-CAT-MONP-014"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8uInkIOBbpTsp",
+      "metadata": {
+        "mofu_sku": "MH-CAT-PAMAX-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8uIPfhAKY5ONF",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNP-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vriJ8BqO90r3",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-001"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrSwyPdcre4F",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-002"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrvYaxZ1cxLJ",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-003"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrBdjzLlg7F7",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-004"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vsqALfCDaZlZ",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-005"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vs7g4SLaJWJ3",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-006"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vsohIxXgEVDb",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-007"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrxdYkx6Hq9O",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-008"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrVGdqH472WR",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-009"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrCIoYlfznHf",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-010"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrEO4eoZSj2o",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-011"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrkohKHcwdKL",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-012"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrsKDQclIgy0",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-013"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vq78vZ3hdOmK",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-014"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrYMEciXr909",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-015"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrEgpUGj9fjI",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-016"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vrEGzFHOkIGq",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-017"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vr09YUCbk2x6",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-018"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vragc9O6bDre",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-019"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8vr3X8ZjnY554",
+      "metadata": {
+        "mofu_sku": "MH-CAT-SNR-020"
+      }
+    }
+  ]
+}

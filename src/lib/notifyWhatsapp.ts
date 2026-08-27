@@ -6,6 +6,7 @@
  * environment variables; the repository never carries plaintext secrets.
  */
 
+import type { OrderItem } from "@/lib/order";
 import { readServerEnv } from "@/lib/serverEnv";
 
 const SHOP_HANDLE = readServerEnv("SHOP_WHATSAPP_HANDLE") || "MofuHavenHK";
@@ -18,6 +19,8 @@ export type NotifyOrderInput = {
   /** Real order total in HKD (subtotal + shipping). Never hardcode. */
   total: number;
   currency?: string;
+  /** Catalog-revalidated items for shop-side picking; never client-provided prices. */
+  items?: OrderItem[];
 };
 
 /**
@@ -48,6 +51,8 @@ export type NotifyResult =
  * 付款方式：…
  * 應付總額：HK$…
  * 顧客：…
+ * 商品：
+ * - MH-… × 1
  * 請到後台 / Blobs 核對完整訂單資料。
  * — mofuhavenhk.com
  */
@@ -57,6 +62,7 @@ export function buildNotifyMessage({
   paymentLabel,
   total,
   currency = "HK$",
+  items = [],
 }: NotifyOrderInput): string {
   // Prefer safe CallMeBot-friendly formatting. If a custom currency is passed
   // that is not HK$, keep a space between symbol and amount.
@@ -65,12 +71,19 @@ export function buildNotifyMessage({
       ? formatHkdForWhatsApp(total)
       : `${currency} ${Number(total).toFixed(2)}`;
 
+  const itemLines = items.slice(0, 20).map((item) => {
+    const identifier = item.mofuSku || item.name.zh || item.name.en;
+    const variant = item.variantLabel?.zh || item.variantLabel?.en;
+    return `- ${identifier}${variant ? `（${variant}）` : ""} × ${item.qty}`;
+  });
+
   return [
     `🛒 Mofu Haven 新訂單通知`,
     `訂單編號：${orderNumber}`,
     `付款方式：${paymentLabel}`,
     `應付總額：${formattedTotal}`,
     `顧客：${customerName}`,
+    ...(itemLines.length > 0 ? ["", "商品：", ...itemLines] : []),
     `請到後台 / Blobs 核對完整訂單資料。`,
     `— ${SITE_LABEL}`,
   ].join("\n");

@@ -110,8 +110,14 @@ export function buildOrderMessage({
   const itemLines =
     items.length > 0
       ? items.map(
-          (item, index) =>
-            `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || item.variantLabel.zh}）` : ""} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`,
+          (item, index) => {
+            const skuLabel = item.mofuSku
+              ? locale === "zh"
+                ? `［貨號：${item.mofuSku}］`
+                : ` [SKU: ${item.mofuSku}]`
+              : "";
+            return `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || item.variantLabel.zh}）` : ""}${skuLabel} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`;
+          },
         )
       : [`（${locale === "zh" ? "未有商品" : "No items"}）`];
 

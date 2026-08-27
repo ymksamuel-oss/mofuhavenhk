@@ -8,6 +8,8 @@ export type OrderItem = {
   stripePriceId?: string;
   /** Selected quantity-tier label, if the product has Stripe-backed variants. */
   variantLabel?: { zh: string; en: string };
+  /** Stable shop-facing item code, distinct from Stripe Product and Price IDs. */
+  mofuSku?: string;
   name: { zh: string; en: string };
   /** Real product photograph from the active catalog (local path or URL). */
   image: string;
@@ -58,6 +60,7 @@ function orderItemFromProduct(
     id: product.id,
     ...(stripePriceId ? { stripePriceId } : {}),
     ...(variant ? { variantLabel: variant.label } : {}),
+    ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
     name: product.name,
     image: product.image,
     qty,

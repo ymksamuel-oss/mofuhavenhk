@@ -1,0 +1,17 @@
+{
+  "batch": "mofu_sku_assignment_metadata_limit_exception_v1",
+  "synced_at_utc": "2026-08-27T01:40:58.745687+00:00",
+  "count": 1,
+  "updated": [
+    {
+      "stripe_product_id": "prod_V8uIOVwsFqgPTV",
+      "metadata_verified": true,
+      "updated_keys": [
+        "mofu_sku"
+      ],
+      "removed_metadata_keys": [
+        "texture_en"
+      ]
+    }
+  ]
+}

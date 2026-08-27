@@ -1,0 +1,13 @@
+{
+  "verified_at_utc": "2026-08-27T01:45:54.062Z",
+  "valid": true,
+  "active_product_count": 226,
+  "expected_mapping_count": 226,
+  "saved_mofu_sku_count": 226,
+  "missing_sku_product_ids": [],
+  "malformed_skus": [],
+  "duplicate_skus": [],
+  "mapping_mismatches": [],
+  "unexpected_active_product_ids": [],
+  "expected_but_not_active_or_missing_product_ids": []
+}
