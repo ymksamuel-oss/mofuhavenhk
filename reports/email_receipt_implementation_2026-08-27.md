@@ -10,13 +10,14 @@
 
 本次實作在結帳「收件資料」中新增必填電子收據電郵地址。Stripe 確認付款成功後，既有的簽名驗證 webhook 會先維持原本店主 WhatsApp 訂單通知，再由同一份已確認的 PaymentIntent 產生一封 Mofu Haven 品牌 HTML 電子收據。前端成功頁或信用卡付款完成後的瀏覽器回調只作後備；付款與收據的權威判定仍由伺服器端 Stripe webhook 負責。[1]
 
-收據使用現有的透明 Mofu Haven 貓狗 Logo，採用暖米白及棕色系、窄螢幕可閱讀的卡片式版面。內容包括訂單編號、香港時區購買日期、實際付款方式、逐項商品名稱、變體、店內 SKU、數量、單價、行小計、運費及總金額。HTML 外亦提供純文字版本，方便不顯示 HTML 的電郵客戶端。
+收據使用現有的透明 Mofu Haven 貓狗 Logo，採用暖米白及棕色系、窄螢幕可閱讀的卡片式版面。內容包括訂單編號、收件人、聯絡電話、完整送貨地址、香港時區購買日期、實際付款方式、逐項商品名稱、變體、店內 SKU、數量、單價、行小計、運費及總金額。HTML 外亦提供純文字版本，方便不顯示 HTML 的電郵客戶端。
 
 | 收據資料 | 資料來源 | 保護方式 |
 | --- | --- | --- |
 | 訂單編號、運費及總額 | PaymentIntent / Checkout Session metadata | 金額在建立付款時由伺服器端目錄重建，不信任前端總額。 |
 | 商品行、變體、SKU、單價 | 付款時保存的 Stripe Price ID + quantity；付款後重新讀取不可變 Stripe Price | 不以後來可能改動的前端購物籃資料作收據依據。 |
-| 收件地址 | Hosted Checkout 的最終 customer email，或信用卡 PaymentIntent 關聯的 Stripe Customer | 電郵**不寫入 Stripe metadata**。 |
+| 收據收件電郵 | Hosted Checkout 的最終 customer email，或信用卡 PaymentIntent 關聯的 Stripe Customer | 電郵**不寫入 Stripe metadata**。 |
+| 收件人、電話及送貨地址 | 建立付款時由結帳收件資料寫入 PaymentIntent / Checkout Session metadata；地址包含第二行、地區及填寫時的順豐站／智能櫃代碼 | 付款後只讀取該筆訂單保存的資料，以便客戶核對送貨資訊。 |
 | 付款方式 | PaymentIntent 已展開 PaymentMethod | 顯示實際卡、Apple Pay、Google Pay 等付款標籤。 |
 | 購買日期 | Stripe Charge 建立時間（暫時不可用時回退 PaymentIntent 建立時間） | 統一按 `Asia/Hong_Kong` 顯示。 |
 
@@ -50,10 +51,10 @@
 | --- | --- |
 | 電子收據專屬單元測試 | 6 項全數通過：Logo／內容、HTML escaping、Resend 請求、冪等鍵、缺設定不寄信、Stripe Price 重建及 sent flag。 |
 | Stripe webhook 契約測試 | 7 項全數通過：raw-body 簽名、三種成功事件、付款方式／Customer 展開、WhatsApp 與收據統一處理。 |
-| 全專案測試 | 17 個測試檔、80 項測試全數通過。 |
+| 全專案測試 | 17 個測試檔、81 項測試全數通過。 |
 | TypeScript | `tsc --noEmit` 通過。 |
 | Next.js 生產建置 | `next build` 通過；付款與 webhook routes 均成功建立。 |
-| 收據視覺預覽 | 已以虛構訂單在瀏覽器渲染，Logo、產品表格、付款資料與總額均清楚。 |
+| 收據視覺預覽 | 已以虛構訂單在瀏覽器渲染，Logo、收件人、電話、完整送貨地址、產品表格、付款資料與總額均清楚。 |
 | 結帳 UI 預覽 | 本機 production build 顯示必填電子收據電郵欄位，原有 Apple Pay、Google Pay、PayMe、AlipayHK、Visa、Mastercard 及訂單摘要仍正常。 |
 | 真實電郵寄送 | 尚未執行；本機沒有 Resend 生產設定，並且不會在未驗證寄件網域前寄信。 |
 
