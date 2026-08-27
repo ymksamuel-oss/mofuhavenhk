@@ -116,6 +116,15 @@ def build_form(description: str | None, metadata: dict[str, str]) -> dict[str, s
     return form
 
 
+def read_stripe_product(api_key: str, product_id: str) -> dict[str, Any]:
+    response = requests.get(f"{API_URL}/{product_id}", auth=(api_key, ""), timeout=60)
+    if not response.ok:
+        raise RuntimeError(
+            f"{product_id}: Stripe read failed with HTTP {response.status_code}: {response.text}"
+        )
+    return response.json()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("batch_file", type=Path)
@@ -141,10 +150,23 @@ def main() -> None:
         seen_ids.add(item[0])
         plan.append(item)
 
-    preview = [
-        {"stripe_product_id": product_id, "metadata_keys": sorted(metadata), "description_updated": bool(description)}
-        for product_id, description, metadata in plan
-    ]
+    preview = []
+    for product_id, description, metadata in plan:
+        existing = read_stripe_product(api_key, product_id)
+        existing_metadata = existing.get("metadata") or {}
+        final_metadata_key_count = len(set(existing_metadata) | set(metadata))
+        if final_metadata_key_count > 50:
+            raise ValueError(
+                f"{product_id}: Stripe metadata would contain {final_metadata_key_count} keys; "
+                "the maximum is 50. Remove a non-essential field before applying."
+            )
+        preview.append({
+            "stripe_product_id": product_id,
+            "metadata_keys": sorted(metadata),
+            "description_updated": bool(description),
+            "metadata_key_count_before": len(existing_metadata),
+            "metadata_key_count_after": final_metadata_key_count,
+        })
     if args.dry_run:
         print(json.dumps({"batch": batch_name, "mode": "dry-run", "count": len(preview), "products": preview}, ensure_ascii=False, indent=2))
         return
@@ -157,7 +179,10 @@ def main() -> None:
             data=build_form(description, metadata),
             timeout=60,
         )
-        response.raise_for_status()
+        if not response.ok:
+            raise RuntimeError(
+                f"{product_id}: Stripe update failed with HTTP {response.status_code}: {response.text}"
+            )
         saved = response.json()
         saved_metadata = saved.get("metadata") or {}
         mismatched = [key for key, value in metadata.items() if saved_metadata.get(key) != value]

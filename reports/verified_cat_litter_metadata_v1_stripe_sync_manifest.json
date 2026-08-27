@@ -1,0 +1,66 @@
+{
+  "batch": "verified_cat_litter_metadata_v1",
+  "synced_at_utc": "2026-08-27T00:33:51.985241+00:00",
+  "count": 2,
+  "updated": [
+    {
+      "stripe_product_id": "prod_V8uIOVwsFqgPTV",
+      "metadata_verified": true,
+      "updated_keys": [
+        "brand",
+        "care_en",
+        "care_zh",
+        "description_en",
+        "description_zh",
+        "material_en",
+        "material_zh",
+        "notice_en",
+        "notice_zh",
+        "official_source_label_en",
+        "official_source_label_zh",
+        "official_source_url",
+        "pet_suitability",
+        "product_content_version",
+        "product_type_en",
+        "product_type_zh",
+        "specs_en",
+        "specs_zh",
+        "storage_zh",
+        "texture_en",
+        "texture_zh",
+        "verification_note_en",
+        "verification_note_zh"
+      ]
+    },
+    {
+      "stripe_product_id": "prod_V8uIO7LzUQjeCT",
+      "metadata_verified": true,
+      "updated_keys": [
+        "brand",
+        "care_en",
+        "care_zh",
+        "country_of_origin_en",
+        "country_of_origin_zh",
+        "description_en",
+        "description_zh",
+        "material_en",
+        "material_zh",
+        "notice_en",
+        "notice_zh",
+        "official_source_label_en",
+        "official_source_label_zh",
+        "official_source_url",
+        "pet_suitability",
+        "product_content_version",
+        "product_type_en",
+        "product_type_zh",
+        "specs_en",
+        "specs_zh",
+        "texture_en",
+        "texture_zh",
+        "verification_note_en",
+        "verification_note_zh"
+      ]
+    }
+  ]
+}

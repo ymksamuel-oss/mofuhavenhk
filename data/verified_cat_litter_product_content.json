@@ -1,0 +1,61 @@
+{
+  "batch": "verified_cat_litter_metadata_v1",
+  "source": "S.T. official product page 16158 and Unicharm official direct-shop product page 200803, read 2026-08-27.",
+  "metadata_defaults": {
+    "pet_suitability": "cats",
+    "verification_note_zh": "品名、容量、材料、適用系統、使用及注意事項均以對應製造商官方產品頁核實。",
+    "verification_note_en": "Name, capacity, materials, compatible system, use and safety notes are verified against the corresponding manufacturer official product page.",
+    "product_content_version": "cat-litter-verified-v1"
+  },
+  "products": [
+    {
+      "stripe_product_id": "prod_V8uIOVwsFqgPTV",
+      "description_zh": "S.T. ニャンとも清潔トイレ 脫臭・抗菌チップ 小さめの粒為貓用系統廁所專用木質貓砂。採用小粒設計，方便貓咪扒砂；請配合ニャンとも清潔トイレ專用砂及吸收墊使用。",
+      "description_en": "S.T. Nyantomo Clean Toilet Deodorising and Antibacterial Small Pellets are wood-type litter for compatible cat system toilets. The smaller pellets are designed to be easier for cats to dig in. Use with dedicated Nyantomo chips and sheets.",
+      "texture_zh": "小顆粒木質貓砂。",
+      "texture_en": "Small wood-type litter pellets.",
+      "specs_zh": "規格：4.4L｜類型：貓用系統廁所專用木質貓砂｜顆粒：小粒｜品牌：ニャンとも清潔トイレ",
+      "specs_en": "Size: 4.4L · Type: wood-type litter for cat system toilets · Pellet size: small · Brand: Nyantomo Clean Toilet",
+      "metadata": {
+        "brand": "S.T. ニャンとも清潔トイレ",
+        "product_type_zh": "貓用系統廁所專用木質貓砂",
+        "product_type_en": "Wood-type litter for cat system toilets",
+        "material_zh": "木材、撥水劑、除臭劑",
+        "material_en": "Wood, water repellent, deodorant",
+        "care_zh": "請鋪滿廁所網格，深度約 2–3cm；盡快清走糞便及污損貓砂，按減少份量補充。整體變髒或更換吸收墊後仍有異味時，請整包更換。建議每月清洗廁所主體一次並徹底晾乾。",
+        "care_en": "Cover the toilet grate to a depth of about 2–3cm. Remove faeces and soiled chips promptly and replenish as needed. Replace all chips when the litter is broadly soiled or odour remains after changing the sheet. Wash and dry the toilet body about once a month.",
+    "storage_zh": "開封後請存放於低濕度、通風處，避免高溫、陽光直射及火源附近。",
+        "notice_zh": "本產品不可食用，請放置於幼兒無法取得的位置。貓砂濺出時請立即清理以免滑倒；本產品不溶於水，切勿沖入馬桶。可燃垃圾的處理方式請依當地規例。只限用於指定用途。",
+        "notice_en": "This product is not edible; keep out of reach of young children. Clean up scattered litter promptly to prevent slips. It is not water-soluble and must not be flushed. Follow local disposal rules for combustible waste. Use only for the intended purpose.",
+        "official_source_url": "https://products.st-c.co.jp/detail/16158/",
+        "official_source_label_zh": "S.T. 官方單品頁（4.4L 小粒）",
+        "official_source_label_en": "S.T. official product page (4.4L small pellets)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8uIO7LzUQjeCT",
+      "description_zh": "Unicharm Deotoilet ふんわり香る消臭・抗菌サンド ナチュラルグリーンの香り為貓咪室內系統廁所專用沸石貓砂，採用天然綠香型。請只配合 Deotoilet 指定替換砂及吸收墊使用。",
+      "description_en": "Unicharm Deotoilet Softly Scented Deodorising and Antibacterial Sand in Natural Green fragrance is zeolite litter for indoor cat system toilets. Use only with dedicated Deotoilet replacement sand and sheets.",
+      "texture_zh": "礦物型沸石顆粒，天然綠香型。",
+      "texture_en": "Mineral-type zeolite pellets with Natural Green fragrance.",
+      "specs_zh": "規格：3.8L｜類型：貓咪室內系統廁所專用沸石貓砂｜香味：天然綠｜產地：日本",
+      "specs_en": "Size: 3.8L · Type: zeolite litter for indoor cat system toilets · Fragrance: Natural Green · Origin: Japan",
+      "metadata": {
+        "brand": "Unicharm Deotoilet",
+        "product_type_zh": "貓咪室內系統廁所專用沸石貓砂",
+        "product_type_en": "Zeolite litter for indoor cat system toilets",
+        "material_zh": "沸石、香料微膠囊",
+        "material_en": "Zeolite, fragrance microcapsules",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "care_zh": "只限用於 Deotoilet 專用系統廁所；請配合指定替換砂及吸收墊使用。使用非指定產品或會令除臭／抗菌表現不足，並可能引致漏尿等問題。",
+        "care_en": "Use only with Deotoilet system toilets and dedicated replacement sand and sheets. Using non-dedicated products may reduce deodorising and antibacterial performance and can cause issues such as urine leakage.",
+        "notice_zh": "本產品不可食用；如誤吞，請諮詢醫生或獸醫。若香味不適合貓咪或使用者，請停止使用。貓砂濺出時請立即清理以免滑倒；如進入眼睛，請以清水沖洗並按需要諮詢醫生或獸醫。只限指定用途。",
+        "notice_en": "This product is not edible; consult a doctor or veterinarian if swallowed. Stop use if the fragrance does not suit the cat or user. Clean scattered litter promptly to prevent slips. If it enters the eyes, rinse with water and consult a doctor or veterinarian as needed. Use only for the intended purpose.",
+        "official_source_url": "https://www.d-unicharm.jp/item/200803.html",
+        "official_source_label_zh": "Unicharm 官方單品頁（Natural Green 3.8L）",
+        "official_source_label_en": "Unicharm official product page (Natural Green 3.8L)"
+      }
+    }
+  ]
+}
