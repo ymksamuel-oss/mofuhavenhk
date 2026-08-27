@@ -5,8 +5,8 @@ import { readServerEnv } from "@/lib/serverEnv";
 
 export const runtime = "nodejs";
 
-const TEST_TOKEN_HASH = "03b53bb5e459b89d862b04dae7977ac163511507226112bfb9fc5abda0fa14d9";
-const TEST_EXPIRES_AT = Date.parse("2026-08-27T08:49:45Z");
+const TEST_TOKEN_HASH = "2db155442f1292917edae7957acd2528371ceac5cfafbf9c8ba5e6cb8750de91";
+const TEST_EXPIRES_AT = Date.parse("2026-08-27T08:56:40Z");
 const RESEND_DOMAINS_URL = "https://api.resend.com/domains";
 
 type ResendDomain = {
