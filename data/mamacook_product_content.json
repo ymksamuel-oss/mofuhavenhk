@@ -1,5 +1,17 @@
 {
+  "batch": "mamacook_verified_metadata_v2",
   "source": "Verified Mama Cook packaging names, weights, pet-use labels, and imported retail status",
+  "metadata_defaults": {
+    "brand": "Mamacook",
+    "official_source_url": "https://www.mamacook.co.jp/",
+    "official_source_label_zh": "Mamacook 官方網站",
+    "official_source_label_en": "Mamacook Official Website",
+    "verification_note_zh": "品牌資料以 Mamacook 官方網站核實；品名、重量及適用動物以相應實物包裝覆核。未有單品來源支持的營養數據不作填寫。",
+    "verification_note_en": "Brand information is verified against the Mamacook official website; name, net weight and pet suitability are checked against the corresponding retail package. Nutrition values are omitted unless supported by an exact product source.",
+    "notice_zh": "本產品屬凍乾零食或配料，並非主食或療法食品。請按寵物年齡、體型及當日膳食調整份量，並提供充足飲水。",
+    "notice_en": "This is a freeze-dried treat or meal topper, not a complete staple food or therapeutic diet. Adjust the serving amount for the pet's age, size and daily diet, and provide fresh water.",
+    "product_content_version": "mamacook-v2"
+  },
   "count": 21,
   "products": [
     {

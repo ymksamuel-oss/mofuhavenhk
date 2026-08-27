@@ -68,6 +68,29 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const discountPercent = selectedOriginalPrice
     ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100)
     : null;
+  const metadata = selectedProduct.metadata ?? {};
+  const metadataValue = (zhKey: string, enKey: string) => {
+    const preferred = locale === "zh" ? metadata[zhKey] : metadata[enKey];
+    const fallback = locale === "zh" ? metadata[enKey] : metadata[zhKey];
+    return preferred?.trim() || fallback?.trim();
+  };
+  const detailedInformation = [
+    { label: locale === "zh" ? "品牌" : "Brand", value: selectedProduct.brand || metadataValue("brand", "brand") },
+    { label: locale === "zh" ? "產品類別" : "Product type", value: metadataValue("product_type_zh", "product_type_en") },
+    { label: locale === "zh" ? "成分" : "Ingredients", value: metadataValue("ingredients_zh", "ingredients_en") },
+    { label: locale === "zh" ? "材質" : "Material", value: metadataValue("material_zh", "material_en") },
+    { label: locale === "zh" ? "保證成分分析" : "Guaranteed analysis", value: metadataValue("guaranteed_analysis_zh", "guaranteed_analysis_en") },
+    { label: locale === "zh" ? "能量" : "Energy", value: metadataValue("energy_zh", "energy_en") },
+    { label: locale === "zh" ? "產地" : "Country of origin", value: metadataValue("country_of_origin_zh", "country_of_origin_en") },
+    { label: locale === "zh" ? "餵食／使用方式" : "Feeding / use", value: metadataValue("feeding_zh", "feeding_en") },
+    { label: locale === "zh" ? "保存方式" : "Storage", value: metadataValue("storage_zh", "storage_en") },
+    { label: locale === "zh" ? "清潔／護理" : "Care", value: metadataValue("care_zh", "care_en") },
+  ].filter((item): item is { label: string; value: string } => Boolean(item.value));
+  const officialSourceUrl = metadata.official_source_url?.trim();
+  const safeOfficialSourceUrl = officialSourceUrl?.startsWith("https://") ? officialSourceUrl : undefined;
+  const officialSourceLabel = metadataValue("official_source_label_zh", "official_source_label_en") ?? safeOfficialSourceUrl;
+  const notice = metadataValue("notice_zh", "notice_en");
+  const verificationNote = metadataValue("verification_note_zh", "verification_note_en");
 
   return (
     <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(9.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
@@ -196,6 +219,57 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   </li>
                 ))}
               </ul>
+            </section>
+          ) : null}
+
+          {detailedInformation.length > 0 ? (
+            <section className="mt-6 border-t border-[color:var(--line)] pt-6" aria-labelledby="product-information-title">
+              <h2
+                id="product-information-title"
+                className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
+              >
+                {locale === "zh" ? "詳細資料" : "Product information"}
+              </h2>
+              <dl className="mt-3 space-y-3">
+                {detailedInformation.map((item) => (
+                  <div key={item.label} className="grid gap-1 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                    <dt className="text-xs font-semibold tracking-wide text-[color:var(--accent)]">{item.label}</dt>
+                    <dd className="text-sm leading-relaxed text-[color:var(--ink)]">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ) : null}
+
+          {safeOfficialSourceUrl ? (
+            <section className="mt-6" aria-labelledby="product-source-title">
+              <h2
+                id="product-source-title"
+                className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
+              >
+                {locale === "zh" ? "官方資料來源" : "Official source"}
+              </h2>
+              <a
+                href={safeOfficialSourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-1.5 inline-flex text-sm font-medium leading-relaxed text-[color:var(--accent)] underline underline-offset-4 hover:text-[color:var(--hero-deep)]"
+              >
+                {officialSourceLabel}
+              </a>
+            </section>
+          ) : null}
+
+          {notice || verificationNote ? (
+            <section className="mt-6 rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-3" aria-labelledby="product-notice-title">
+              <h2
+                id="product-notice-title"
+                className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
+              >
+                {locale === "zh" ? "選購注意" : "Important notes"}
+              </h2>
+              {notice ? <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">{notice}</p> : null}
+              {verificationNote ? <p className="mt-2 text-xs leading-relaxed text-[color:var(--muted)]">{verificationNote}</p> : null}
             </section>
           ) : null}
 
