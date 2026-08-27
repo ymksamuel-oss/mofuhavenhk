@@ -1,0 +1,1288 @@
+{
+  "mode": "read_only_metadata_sync_preview",
+  "generated_at_utc": "2026-08-27T02:31:57.100093+00:00",
+  "no_stripe_writes_performed": true,
+  "scope": "29 products cost-verified by supplier SKU against batch24_product_mapping.json and combo_dogfood_5_import_mapping.json only",
+  "proposed_metadata_schema": {
+    "price": {
+      "cost_cny": "CNY product cost for that active HKD Price"
+    },
+    "product": {
+      "pricing_target_product_gross_margin": "0.45",
+      "pricing_cny_to_hkd": "1.1654",
+      "pricing_ship_to_hk_hkd": "0.00",
+      "pricing_rounding": "upward .90"
+    }
+  },
+  "summary": {
+    "expected_source_product_count": 29,
+    "matched_active_stripe_product_count": 29,
+    "ready_for_future_apply_product_count": 25,
+    "blocked_product_count": 4,
+    "blocked_reason_counts": {
+      "product_metadata_capacity_exceeded": 4
+    },
+    "active_hkd_price_record_count_in_scope": 29,
+    "ready_active_hkd_price_record_count": 25,
+    "blocked_product_metadata_capacity_count": 4,
+    "conflict_product_count": 0,
+    "conflict_active_hkd_price_count": 0
+  },
+  "records": [
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-01",
+      "source_import_key": "batch24-img_1602",
+      "product_name_source": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4",
+      "cost_cny": "19.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "blocked",
+      "blocking_reasons": [
+        "product_metadata_capacity_exceeded"
+      ],
+      "product_id": "prod_V8lAPSEzKs8rpv",
+      "mofu_sku": "MH-DOG-PTL-001",
+      "product_name_stripe": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast, Vegetable & Beef-Style Jelly Pouches 25g×4",
+      "product_metadata_key_count_before": 50,
+      "product_metadata_key_count_after_preview": 54,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TdxRyM6dRKLtZS4vQb2w7",
+          "is_default_price": "true",
+          "current_hkd": "49.90",
+          "variant_key": "",
+          "variant_label_zh": "25g×4",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "19.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-02",
+      "source_import_key": "batch24-img_1603",
+      "product_name_source": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4",
+      "cost_cny": "19.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "blocked",
+      "blocking_reasons": [
+        "product_metadata_capacity_exceeded"
+      ],
+      "product_id": "prod_V8lAt5mJJ5YOb7",
+      "mofu_sku": "MH-DOG-PTL-002",
+      "product_name_stripe": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast & Cheese Jelly Pouches 25g×4",
+      "product_metadata_key_count_before": 50,
+      "product_metadata_key_count_after_preview": 54,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TdyRyM6dRKLtZYeTThu5A",
+          "is_default_price": "true",
+          "current_hkd": "49.90",
+          "variant_key": "",
+          "variant_label_zh": "25g×4",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "19.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-03",
+      "source_import_key": "batch24-img_1604",
+      "product_name_source": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4",
+      "cost_cny": "19.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "blocked",
+      "blocking_reasons": [
+        "product_metadata_capacity_exceeded"
+      ],
+      "product_id": "prod_V8lAXdhHafIDnG",
+      "mofu_sku": "MH-DOG-PTL-003",
+      "product_name_stripe": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4｜PETLINE Gochisou Time Chicken Breast Milk-Stew with Cheese Pouches 25g×4",
+      "product_metadata_key_count_before": 50,
+      "product_metadata_key_count_after_preview": 54,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TdzRyM6dRKLtZcZlk1ao4",
+          "is_default_price": "true",
+          "current_hkd": "49.90",
+          "variant_key": "",
+          "variant_label_zh": "25g×4",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "19.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-04",
+      "source_import_key": "batch24-img_1605",
+      "product_name_source": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4",
+      "cost_cny": "19.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "blocked",
+      "blocking_reasons": [
+        "product_metadata_capacity_exceeded"
+      ],
+      "product_id": "prod_V8lAMmluHgtE1f",
+      "mofu_sku": "MH-DOG-PTL-004",
+      "product_name_stripe": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4｜PETLINE Gochisou Time Chicken Paste Milk Jelly with Cheese Pouches 25g×4",
+      "product_metadata_key_count_before": 50,
+      "product_metadata_key_count_after_preview": 54,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te1RyM6dRKLtZhKa7smDU",
+          "is_default_price": "true",
+          "current_hkd": "49.90",
+          "variant_key": "",
+          "variant_label_zh": "25g×4",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "19.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-05",
+      "source_import_key": "batch24-img_1606",
+      "product_name_source": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g",
+      "cost_cny": "31.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lActmdKRF9Nz",
+      "mofu_sku": "MH-DOG-COMBO-001",
+      "product_name_stripe": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g｜COMBO Pure Tender Chicken Breast Cubes Dog Treat 50g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te2RyM6dRKLtZjnp6TQr0",
+          "is_default_price": "true",
+          "current_hkd": "69.90",
+          "variant_key": "",
+          "variant_label_zh": "50g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "31.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-06",
+      "source_import_key": "batch24-img_1607",
+      "product_name_source": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g",
+      "cost_cny": "31.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAyjALw49Mz2",
+      "mofu_sku": "MH-DOG-COMBO-002",
+      "product_name_stripe": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g｜COMBO Pure Tender Chicken Breast Strips Dog Treat 50g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te3RyM6dRKLtZQYZvdm4f",
+          "is_default_price": "true",
+          "current_hkd": "69.90",
+          "variant_key": "",
+          "variant_label_zh": "50g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "31.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-07",
+      "source_import_key": "batch24-img_1608",
+      "product_name_source": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g",
+      "cost_cny": "31.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA3nhXSFdHkU",
+      "mofu_sku": "MH-DOG-COMBO-003",
+      "product_name_stripe": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g｜COMBO Pure Basil-Scented Chicken Cubes Dog Treat 50g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te4RyM6dRKLtZsMkoDZgO",
+          "is_default_price": "true",
+          "current_hkd": "69.90",
+          "variant_key": "",
+          "variant_label_zh": "50g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "31.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-08",
+      "source_import_key": "batch24-img_1609",
+      "product_name_source": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g",
+      "cost_cny": "31.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA4N42hxS8dk",
+      "mofu_sku": "MH-DOG-COMBO-004",
+      "product_name_stripe": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g｜COMBO Pure Chicken & Cartilage Cubes Dog Treat 50g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te5RyM6dRKLtZ9oA7GOJI",
+          "is_default_price": "true",
+          "current_hkd": "69.90",
+          "variant_key": "",
+          "variant_label_zh": "50g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "31.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-09",
+      "source_import_key": "batch24-img_1610",
+      "product_name_source": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g",
+      "cost_cny": "31.7",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA7fjOQvodwx",
+      "mofu_sku": "MH-DOG-COMBO-005",
+      "product_name_stripe": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g｜COMBO Pure Chicken Breast & Three Vegetable Cubes Dog Treat 50g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te6RyM6dRKLtZtPnsIajn",
+          "is_default_price": "true",
+          "current_hkd": "69.90",
+          "variant_key": "",
+          "variant_label_zh": "50g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "31.7"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-10",
+      "source_import_key": "batch24-img_1611",
+      "product_name_source": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g",
+      "cost_cny": "89.6",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAOpvuncOCZM",
+      "mofu_sku": "MH-CAT-COMBO-001",
+      "product_name_stripe": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te7RyM6dRKLtZw2QIvSDA",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g（120g×5）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "89.6"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-11",
+      "source_import_key": "batch24-img_1612",
+      "product_name_source": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g",
+      "cost_cny": "89.6",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAeH2hqPlna6",
+      "mofu_sku": "MH-CAT-COMBO-002",
+      "product_name_stripe": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te8RyM6dRKLtZf1Zb7BlY",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "700g（140g×5）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "89.6"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-12",
+      "source_import_key": "batch24-img_1613",
+      "product_name_source": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g",
+      "cost_cny": "89.6",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAWevxk3Za0C",
+      "mofu_sku": "MH-CAT-COMBO-003",
+      "product_name_stripe": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8Te9RyM6dRKLtZbFSz0rsZ",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g（120g×5）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "89.6"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-13",
+      "source_import_key": "batch24-img_1614",
+      "product_name_source": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA8TrpHKZ0AE",
+      "mofu_sku": "MH-DOG-COMBO-006",
+      "product_name_stripe": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeARyM6dRKLtZQu5zOWNW",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-14",
+      "source_import_key": "batch24-img_1615",
+      "product_name_source": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAFkM1R1Q06Q",
+      "mofu_sku": "MH-DOG-COMBO-007",
+      "product_name_stripe": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g｜COMBO Pure Vegetable & Selected Cheese Dry Dog Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeBRyM6dRKLtZzFpXrLkJ",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g（300g×2）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-15",
+      "source_import_key": "batch24-img_1616",
+      "product_name_source": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA3mO6fUVnGr",
+      "mofu_sku": "MH-DOG-COMBO-008",
+      "product_name_stripe": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g｜COMBO Pure Selected Cheese & Japanese Chicken Dry Dog Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeCRyM6dRKLtZj8yHgAgF",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-16",
+      "source_import_key": "batch24-img_1617",
+      "product_name_source": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lArvqiVc3AMr",
+      "mofu_sku": "MH-DOG-COMBO-009",
+      "product_name_stripe": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Extra-Small Kibble Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeDRyM6dRKLtZlJaNJ6sH",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g（300g×2）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-17",
+      "source_import_key": "batch24-img_1618",
+      "product_name_source": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAGBIlndcl9U",
+      "mofu_sku": "MH-DOG-COMBO-010",
+      "product_name_stripe": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Low-Fat Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeERyM6dRKLtZkFfIYDtC",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "600g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-18",
+      "source_import_key": "batch24-img_1619",
+      "product_name_source": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAaOLN6jDE2s",
+      "mofu_sku": "MH-DOG-COMBO-011",
+      "product_name_stripe": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g｜COMBO Pure Freeze-Dried Topping Japanese Chicken & Vegetable Dry Dog Food 540g",
+      "product_metadata_key_count_before": 30,
+      "product_metadata_key_count_after_preview": 34,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeFRyM6dRKLtZuol9PSsc",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "540g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-19",
+      "source_import_key": "batch24-img_1620",
+      "product_name_source": "COMBO Pure 魚肉米狗狗乾糧 540g",
+      "cost_cny": "87.0",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lA3QuLuCwOig",
+      "mofu_sku": "MH-DOG-COMBO-012",
+      "product_name_stripe": "COMBO Pure 魚肉米狗狗乾糧 540g｜COMBO Pure Fish & Rice Dry Dog Food 540g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeHRyM6dRKLtZVgeSBzyq",
+          "is_default_price": "true",
+          "current_hkd": "189.90",
+          "variant_key": "",
+          "variant_label_zh": "540g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "87.0"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-20",
+      "source_import_key": "batch24-img_1621",
+      "product_name_source": "銀之匙 濃湯仕立鮪魚貓罐頭 70g",
+      "cost_cny": "9.3",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAUga8Mwc3d0",
+      "mofu_sku": "MH-CAT-GNSP-001",
+      "product_name_stripe": "銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeIRyM6dRKLtZfLkTpmot",
+          "is_default_price": "true",
+          "current_hkd": "19.90",
+          "variant_key": "",
+          "variant_label_zh": "70g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "9.3"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-21",
+      "source_import_key": "batch24-img_1622",
+      "product_name_source": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g",
+      "cost_cny": "9.3",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAjMRJn8PScz",
+      "mofu_sku": "MH-CAT-GNSP-002",
+      "product_name_stripe": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeJRyM6dRKLtZZNQsVoYK",
+          "is_default_price": "true",
+          "current_hkd": "19.90",
+          "variant_key": "",
+          "variant_label_zh": "70g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "9.3"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-22",
+      "source_import_key": "batch24-img_1623",
+      "product_name_source": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g",
+      "cost_cny": "9.3",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lATH0SDiLKBx",
+      "mofu_sku": "MH-CAT-GNSP-003",
+      "product_name_stripe": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeKRyM6dRKLtZ06iNBorq",
+          "is_default_price": "true",
+          "current_hkd": "19.90",
+          "variant_key": "",
+          "variant_label_zh": "70g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "9.3"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-23",
+      "source_import_key": "batch24-img_1624",
+      "product_name_source": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g",
+      "cost_cny": "9.3",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lAGdiamaGSwC",
+      "mofu_sku": "MH-CAT-GNSP-004",
+      "product_name_stripe": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Shirasu Cat Can 70g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeLRyM6dRKLtZR3jNQ3eA",
+          "is_default_price": "true",
+          "current_hkd": "19.90",
+          "variant_key": "",
+          "variant_label_zh": "70g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "9.3"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "batch24_product_mapping.json",
+      "supplier_sku": "B24-24",
+      "source_import_key": "batch24-img_1625",
+      "product_name_source": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g",
+      "cost_cny": "9.3",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期 CNY/HKD 市場匯率；按既定內地包郵直運到港處理。",
+      "source_pricing_basis": "45% target product gross margin; upward rounding to the next .90 price point.",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8lATUvYyTfiyk",
+      "mofu_sku": "MH-CAT-GNSP-005",
+      "product_name_stripe": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",
+      "product_metadata_key_count_before": 29,
+      "product_metadata_key_count_after_preview": 33,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8TeMRyM6dRKLtZ8duuCeG8",
+          "is_default_price": "true",
+          "current_hkd": "19.90",
+          "variant_key": "",
+          "variant_label_zh": "70g",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "9.3"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "combo_dogfood_5_import_mapping.json",
+      "supplier_sku": "COMBO-DOG-720-01",
+      "source_import_key": "combo-dogfood-720g-chicken-beef-small-fish",
+      "product_name_source": "COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g",
+      "cost_cny": "114",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期七日 CNY/HKD 市場匯率；內地包郵直運到港",
+      "source_pricing_basis": "45% target product gross margin; customer-facing price rounded to HK$249.90",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8kNSV91CKgxb8",
+      "mofu_sku": "MH-DOG-COMBO-014",
+      "product_name_stripe": "COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g｜COMBO Beef, Dried Small Fish, Cheese & Vegetable Blend Dry Dog Food 720g",
+      "product_metadata_key_count_before": 28,
+      "product_metadata_key_count_after_preview": 32,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8SsmRyM6dRKLtZ3iaLqEV5",
+          "is_default_price": "true",
+          "current_hkd": "249.90",
+          "variant_key": "",
+          "variant_label_zh": "720g（4 小包裝）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "114"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "combo_dogfood_5_import_mapping.json",
+      "supplier_sku": "COMBO-DOG-720-02",
+      "source_import_key": "combo-dogfood-720g-chicken-cheese",
+      "product_name_source": "COMBO 馬蘇里拉芝士角切狗狗乾糧 720g",
+      "cost_cny": "114",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期七日 CNY/HKD 市場匯率；內地包郵直運到港",
+      "source_pricing_basis": "45% target product gross margin; customer-facing price rounded to HK$249.90",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8kNDHKt8kCFkT",
+      "mofu_sku": "MH-DOG-COMBO-015",
+      "product_name_stripe": "COMBO 馬蘇里拉芝士角切狗狗乾糧 720g｜COMBO Mozzarella Cheese Cubes Dry Dog Food 720g",
+      "product_metadata_key_count_before": 28,
+      "product_metadata_key_count_after_preview": 32,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8SsoRyM6dRKLtZv82WvY8y",
+          "is_default_price": "true",
+          "current_hkd": "249.90",
+          "variant_key": "",
+          "variant_label_zh": "720g（4 小包裝）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "114"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "combo_dogfood_5_import_mapping.json",
+      "supplier_sku": "COMBO-DOG-720-03",
+      "source_import_key": "combo-dogfood-720g-cabbage-beef",
+      "product_name_source": "COMBO 捲心菜牛肉狗狗乾糧 720g",
+      "cost_cny": "114",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期七日 CNY/HKD 市場匯率；內地包郵直運到港",
+      "source_pricing_basis": "45% target product gross margin; customer-facing price rounded to HK$249.90",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8kNDRrV7QQWc8",
+      "mofu_sku": "MH-DOG-COMBO-013",
+      "product_name_stripe": "COMBO 捲心菜牛肉狗狗乾糧 720g｜COMBO Cabbage & Beef Dry Dog Food 720g",
+      "product_metadata_key_count_before": 28,
+      "product_metadata_key_count_after_preview": 32,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8SspRyM6dRKLtZdI80zla7",
+          "is_default_price": "true",
+          "current_hkd": "249.90",
+          "variant_key": "",
+          "variant_label_zh": "720g（4 小包裝）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "114"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "combo_dogfood_5_import_mapping.json",
+      "supplier_sku": "COMBO-DOG-720-04",
+      "source_import_key": "combo-dogfood-720g-low-fat-chicken-vegetables-small-fish",
+      "product_name_source": "COMBO 低脂小魚乾雞肉狗狗乾糧 720g",
+      "cost_cny": "114",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期七日 CNY/HKD 市場匯率；內地包郵直運到港",
+      "source_pricing_basis": "45% target product gross margin; customer-facing price rounded to HK$249.90",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8kNXGrzdUVGWS",
+      "mofu_sku": "MH-DOG-COMBO-016",
+      "product_name_stripe": "COMBO 低脂小魚乾雞肉狗狗乾糧 720g｜COMBO Low-Fat Dried Small Fish & Chicken Dry Dog Food 720g",
+      "product_metadata_key_count_before": 28,
+      "product_metadata_key_count_after_preview": 32,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8SsqRyM6dRKLtZP2yQef0B",
+          "is_default_price": "true",
+          "current_hkd": "249.90",
+          "variant_key": "",
+          "variant_label_zh": "720g（4 小包裝）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "114"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    },
+    {
+      "source_file": "combo_dogfood_5_import_mapping.json",
+      "supplier_sku": "COMBO-DOG-720-05",
+      "source_import_key": "combo-dogfood-720g-low-fat-senior-chicken-vegetables",
+      "product_name_source": "COMBO 低脂 7歲以上狗狗乾糧 720g",
+      "cost_cny": "114",
+      "target_margin": "0.45",
+      "fx_cny_to_hkd": "1.1654",
+      "ship_to_hk_hkd": "0.00",
+      "rounding": "upward .90",
+      "source_cost_status": "暫估：近期七日 CNY/HKD 市場匯率；內地包郵直運到港",
+      "source_pricing_basis": "45% target product gross margin; customer-facing price rounded to HK$249.90",
+      "status": "ready_for_future_apply",
+      "blocking_reasons": [],
+      "product_id": "prod_V8kNg5nRdCoND1",
+      "mofu_sku": "MH-DOG-COMBO-017",
+      "product_name_stripe": "COMBO 低脂 7歲以上狗狗乾糧 720g｜COMBO Low-Fat Senior Dry Dog Food 720g",
+      "product_metadata_key_count_before": 28,
+      "product_metadata_key_count_after_preview": 32,
+      "proposed_product_metadata_additions": {
+        "pricing_target_product_gross_margin": "0.45",
+        "pricing_cny_to_hkd": "1.1654",
+        "pricing_ship_to_hk_hkd": "0.00",
+        "pricing_rounding": "upward .90"
+      },
+      "product_metadata_conflicts": {},
+      "active_hkd_price_preview": [
+        {
+          "price_id": "price_1U8SsrRyM6dRKLtZoKEOSOWV",
+          "is_default_price": "true",
+          "current_hkd": "249.90",
+          "variant_key": "",
+          "variant_label_zh": "720g（4 小包裝；7 歲以上）",
+          "metadata_key_count_before": 7,
+          "metadata_key_count_after_preview": 8,
+          "proposed_metadata_additions": {
+            "cost_cny": "114"
+          },
+          "metadata_conflicts": {},
+          "sync_status": "ready"
+        }
+      ]
+    }
+  ]
+}

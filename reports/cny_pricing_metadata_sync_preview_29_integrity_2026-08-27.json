@@ -1,0 +1,11 @@
+{
+  "verification_mode": "read_only",
+  "no_stripe_writes_performed_by_verifier": true,
+  "expected_product_count": 29,
+  "preview_product_count": 29,
+  "expected_active_hkd_price_count": 29,
+  "checked_active_hkd_price_count": 29,
+  "pending_metadata_fields_remain_unwritten": true,
+  "failure_count": 0,
+  "failures": []
+}
