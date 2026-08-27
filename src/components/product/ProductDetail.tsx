@@ -174,6 +174,31 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </dl>
           ) : null}
 
+          {selectedProduct.specs && selectedProduct.specs.length > 0 ? (
+            <section className="mt-6" aria-labelledby="product-specifications-title">
+              <h2
+                id="product-specifications-title"
+                className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
+              >
+                {t("productModalSpecsTitle")}
+              </h2>
+              <ul className="mt-2 space-y-2">
+                {selectedProduct.specs.map((spec, index) => (
+                  <li
+                    key={`${selectedProduct.id}-spec-${index}`}
+                    className="flex items-start gap-2 text-sm leading-relaxed text-[color:var(--ink)]"
+                  >
+                    <span
+                      aria-hidden
+                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
+                    />
+                    {spec[locale] || spec.zh || spec.en}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
           {family && familyChoices.length > 1 ? (
             <section className="mt-6" aria-labelledby="product-family-selector-title">
               <div className="flex items-end justify-between gap-3">
