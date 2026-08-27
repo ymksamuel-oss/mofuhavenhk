@@ -2,7 +2,7 @@
 
 ## Automatic commits
 
-After completing each coherent user-requested change to code, catalogue data, documentation, configuration, or tests, validate the relevant change and create a local Git commit automatically. Use a concise Conventional Commit-style message such as `fix: restore cart button binding` or `docs: update product verification sources`.
+After completing each coherent user-requested change to code, catalogue data, documentation, configuration, or tests, validate the relevant change and create a local Git commit automatically. The user has granted standing authorization for these local commits, so do not request confirmation before committing. Use a concise Conventional Commit-style message such as `fix: restore cart button binding` or `docs: update product verification sources`.
 
 Do not create empty commits. Group only closely related edits in the same commit, and inspect `git status` and `git diff --cached` before committing.
 
