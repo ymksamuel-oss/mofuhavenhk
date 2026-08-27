@@ -1,0 +1,64 @@
+{
+  "active_product_count": 226,
+  "out_of_stock_count": 7,
+  "out_of_stock_visible_count": 5,
+  "out_of_stock_hidden_count": 2,
+  "out_of_stock_products": [
+    {
+      "product_id": "prod_V90y14gfPJNkP3",
+      "name": "CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐",
+      "category": "貓咪商品",
+      "availability": "暫時缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "false"
+    },
+    {
+      "product_id": "prod_V90yHSNJqbGEZF",
+      "name": "CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
+      "category": "貓咪商品",
+      "availability": "暫時缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "false"
+    },
+    {
+      "product_id": "prod_V8e2HgqFtfTeZ3",
+      "name": "d.b.f 雞胸肉糜 (脂肪含量更少 0.5% 以上)｜d.b.f Chicken Breast Mince Low-fat Dog Can 65g",
+      "category": "狗狗",
+      "availability": "缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "true"
+    },
+    {
+      "product_id": "prod_V8e2MnRWL8I3ON",
+      "name": "d.b.f 成犬之食事 雞肉｜d.b.f Adult Dog Meal Chicken 85g",
+      "category": "狗狗",
+      "availability": "缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "true"
+    },
+    {
+      "product_id": "prod_V8e2hyOUdfOwnM",
+      "name": "d.b.f 牛肉紅薯｜d.b.f Beef & Sweet Potato Dog Can 85g",
+      "category": "狗狗",
+      "availability": "缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "true"
+    },
+    {
+      "product_id": "prod_V8e1Jgdnr9v8HM",
+      "name": "d.b.f 牛肉糜｜d.b.f Beef Mince Dog Can 65g",
+      "category": "狗狗",
+      "availability": "缺貨",
+      "in_stock": "false",
+      "show_when_out_of_stock": "true"
+    },
+    {
+      "product_id": "prod_V8W0LKmYo2bfxf",
+      "name": "豬心 25g (預定 (缺貨))",
+      "category": "貓咪",
+      "availability": "預定 (缺貨)",
+      "in_stock": "false",
+      "show_when_out_of_stock": "true"
+    }
+  ]
+}
