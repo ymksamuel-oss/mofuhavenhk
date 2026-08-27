@@ -1,0 +1,107 @@
+{
+  "batch": "petline_gpp_verified_metadata_v1",
+  "source": "PETLINE official product pages GPP-51, GPP-52, GPP-59 and GPP-60, read 2026-08-27.",
+  "metadata_defaults": {
+    "brand": "PETLINE",
+    "product_type_zh": "犬用即食濕糧小包（飼料配料／零食）",
+    "product_type_en": "Dog wet-food pouch (meal topper / treat)",
+    "pet_suitability": "dogs",
+    "feeding_zh": "可作日常膳食配料或散步時小食。請按原包裝建議份量餵食，並配合當日整體膳食調整。",
+    "feeding_en": "Serve as a meal topper or a treat while out walking. Follow the serving guidance on the original package and adjust for the dog's overall daily diet.",
+    "notice_zh": "本產品定位為犬用飼料配料或零食，並非完整營養主食或療法食品。實際保存方法及開封後處理請以原包裝為準。",
+    "notice_en": "This product is a dog-food topper or treat, not a complete staple food or therapeutic diet. Follow the original package for storage and after-opening instructions.",
+    "verification_note_zh": "品名、淨重、成分、保證成分、能量及產地均以 PETLINE 對應單品官方頁核實。",
+    "verification_note_en": "Name, net weight, ingredients, guaranteed analysis, energy and country of origin are verified against the corresponding PETLINE official product page.",
+    "product_content_version": "petline-gpp-v1"
+  },
+  "products": [
+    {
+      "stripe_product_id": "prod_V8lAMmluHgtE1f",
+      "description_zh": "PETLINE ごちそうタイム 鶏ペーストのミルクジュレ チーズ添え為犬用即食濕糧小包，使用日本國產若雞胸肉蓉及芝士，以無乳糖牛奶啫喱包裹。可作日常膳食配料或零食使用。",
+      "description_en": "PETLINE Gochiso Time Chicken Paste Milk Jelly with Cheese is a dog wet-food pouch made with Japanese domestic young chicken-breast paste and cheese in lactose-free milk jelly. It may be served as a meal topper or treat.",
+      "texture_zh": "雞肉蓉及芝士配無乳糖牛奶啫喱的即食小包裝。",
+      "texture_en": "A ready-to-serve pouch of chicken paste and cheese in lactose-free milk jelly.",
+      "specs_zh": "規格：100g（25g × 4 小袋）｜類型：犬用即食濕糧小包／飼料配料或零食｜產地：日本",
+      "specs_en": "Size: 100g (4 × 25g pouches) · Format: dog wet-food pouch / topper or treat · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "雞胸肉、芝士、無乳糖牛奶、增稠多醣類",
+        "ingredients_en": "Chicken breast, cheese, lactose-free milk, thickening polysaccharides",
+        "guaranteed_analysis_zh": "蛋白質 ≥2.0%、脂肪 ≥0.2%、粗纖維 ≤0.5%、灰分 ≤1.5%、水分 ≤97.5%",
+        "guaranteed_analysis_en": "Protein ≥2.0%, fat ≥0.2%, crude fibre ≤0.5%, ash ≤1.5%, moisture ≤97.5%",
+        "energy_zh": "代謝能量：約15 kcal／袋（標準25g）",
+        "energy_en": "Metabolisable energy: approximately 15 kcal per pouch (standard 25g)",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://www.petline.co.jp/dog/GPP/GPP-59/",
+        "official_source_label_zh": "PETLINE 官方單品頁（GPP-59）",
+        "official_source_label_en": "PETLINE official product page (GPP-59)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAXdhHafIDnG",
+      "description_zh": "PETLINE ごちそうタイム 鶏むね肉のミルク煮 チーズ入り為犬用即食濕糧小包，使用日本國產若雞胸肉，配芝士及無乳糖牛奶製作。可作日常膳食配料或零食使用。",
+      "description_en": "PETLINE Gochiso Time Chicken Breast Simmered in Milk with Cheese is a dog wet-food pouch made with Japanese domestic young chicken breast, cheese and lactose-free milk. It may be served as a meal topper or treat.",
+      "texture_zh": "雞胸肉配芝士及無乳糖牛奶調製的即食小包裝。",
+      "texture_en": "A ready-to-serve pouch of chicken breast with cheese and lactose-free milk.",
+      "specs_zh": "規格：100g（25g × 4 小袋）｜類型：犬用即食濕糧小包／飼料配料或零食｜產地：日本",
+      "specs_en": "Size: 100g (4 × 25g pouches) · Format: dog wet-food pouch / topper or treat · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "雞胸肉、芝士、無乳糖牛奶、增稠多醣類",
+        "ingredients_en": "Chicken breast, cheese, lactose-free milk, thickening polysaccharides",
+        "guaranteed_analysis_zh": "蛋白質 ≥3.8%、脂肪 ≥0.5%、粗纖維 ≤0.5%、灰分 ≤1.5%、水分 ≤95.5%",
+        "guaranteed_analysis_en": "Protein ≥3.8%, fat ≥0.5%, crude fibre ≤0.5%, ash ≤1.5%, moisture ≤95.5%",
+        "energy_zh": "代謝能量：約11 kcal／袋（標準25g）",
+        "energy_en": "Metabolisable energy: approximately 11 kcal per pouch (standard 25g)",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://www.petline.co.jp/dog/GPP/GPP-51/",
+        "official_source_label_zh": "PETLINE 官方單品頁（GPP-51）",
+        "official_source_label_en": "PETLINE official product page (GPP-51)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAt5mJJ5YOb7",
+      "description_zh": "PETLINE ごちそうタイム 鶏むね肉のチーズゼリー為犬用即食濕糧小包，使用日本國產若雞胸肉及芝士，以啫喱包裹。可作日常膳食配料或零食使用。",
+      "description_en": "PETLINE Gochiso Time Chicken Breast Cheese Jelly is a dog wet-food pouch made with Japanese domestic young chicken breast and cheese in jelly. It may be served as a meal topper or treat.",
+      "texture_zh": "雞胸肉及芝士配啫喱的即食小包裝。",
+      "texture_en": "A ready-to-serve pouch of chicken breast and cheese in jelly.",
+      "specs_zh": "規格：100g（25g × 4 小袋）｜類型：犬用即食濕糧小包／飼料配料或零食｜產地：日本",
+      "specs_en": "Size: 100g (4 × 25g pouches) · Format: dog wet-food pouch / topper or treat · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "雞胸肉、芝士、增稠穩定劑（卡拉膠）",
+        "ingredients_en": "Chicken breast, cheese, thickening stabiliser (carrageenan)",
+        "guaranteed_analysis_zh": "蛋白質 ≥1.3%、脂肪 ≥0.2%、粗纖維 ≤0.5%、灰分 ≤1.5%、水分 ≤98.0%",
+        "guaranteed_analysis_en": "Protein ≥1.3%, fat ≥0.2%, crude fibre ≤0.5%, ash ≤1.5%, moisture ≤98.0%",
+        "energy_zh": "代謝能量：約9 kcal／袋（標準25g）",
+        "energy_en": "Metabolisable energy: approximately 9 kcal per pouch (standard 25g)",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://www.petline.co.jp/dog/GPP/GPP-52/",
+        "official_source_label_zh": "PETLINE 官方單品頁（GPP-52）",
+        "official_source_label_en": "PETLINE official product page (GPP-52)"
+      }
+    },
+    {
+      "stripe_product_id": "prod_V8lAPSEzKs8rpv",
+      "description_zh": "PETLINE ごちそうタイム 鶏むね肉と野菜のゼリー寄せ ビーフ仕立て為犬用即食濕糧小包，使用日本國產若雞胸肉及蔬菜，以牛肉風味啫喱包裹。可作日常膳食配料或零食使用。",
+      "description_en": "PETLINE Gochiso Time Chicken Breast and Vegetable Jelly in Beef Style is a dog wet-food pouch made with Japanese domestic young chicken breast and vegetables in beef-style jelly. It may be served as a meal topper or treat.",
+      "texture_zh": "雞胸肉及蔬菜配牛肉風味啫喱的即食小包裝。",
+      "texture_en": "A ready-to-serve pouch of chicken breast and vegetables in beef-style jelly.",
+      "specs_zh": "規格：100g（25g × 4 小袋）｜類型：犬用即食濕糧小包／飼料配料或零食｜產地：日本",
+      "specs_en": "Size: 100g (4 × 25g pouches) · Format: dog wet-food pouch / topper or treat · Origin: Japan",
+      "metadata": {
+        "ingredients_zh": "雞胸肉、牛肉萃取物、紅蘿蔔、粟米、青豆、增稠穩定劑（卡拉膠）",
+        "ingredients_en": "Chicken breast, beef extract, carrot, corn, green peas, thickening stabiliser (carrageenan)",
+        "guaranteed_analysis_zh": "蛋白質 ≥3.0%、脂肪 ≥0.5%、粗纖維 ≤0.5%、灰分 ≤2.0%、水分 ≤92.0%",
+        "guaranteed_analysis_en": "Protein ≥3.0%, fat ≥0.5%, crude fibre ≤0.5%, ash ≤2.0%, moisture ≤92.0%",
+        "energy_zh": "代謝能量：約14 kcal／袋（標準25g）",
+        "energy_en": "Metabolisable energy: approximately 14 kcal per pouch (standard 25g)",
+        "country_of_origin_zh": "日本",
+        "country_of_origin_en": "Japan",
+        "official_source_url": "https://www.petline.co.jp/dog/GPP/GPP-60/",
+        "official_source_label_zh": "PETLINE 官方單品頁（GPP-60）",
+        "official_source_label_en": "PETLINE official product page (GPP-60)"
+      }
+    }
+  ]
+}
