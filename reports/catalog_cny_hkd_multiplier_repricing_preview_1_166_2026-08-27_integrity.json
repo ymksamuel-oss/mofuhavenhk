@@ -1,0 +1,14 @@
+{
+  "validated_at_utc": "2026-08-27T10:06:13.361262+00:00",
+  "no_stripe_writes_performed": true,
+  "preview_json_sha256": "295c16db6399803f10689a27b676cf92992c2be56188aac83b61a112c6ac1ba4",
+  "preview_csv_sha256": "9da10d9849694567fbe445e05e679ffdfe6f27bca89259d318b0d95e7552106d",
+  "record_count": 255,
+  "unique_product_count_in_price_scope": 226,
+  "unique_price_count": 255,
+  "recalculable_price_count": 150,
+  "changing_price_count": 138,
+  "awaiting_cny_cost_price_count": 105,
+  "passed": true,
+  "errors": []
+}
