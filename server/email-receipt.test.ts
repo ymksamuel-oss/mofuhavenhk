@@ -27,6 +27,9 @@ const sampleReceipt: OrderReceiptEmailInput = {
   orderNumber: "MH20260827-1234",
   customerName: "陳小明",
   customerEmail: "customer@example.com",
+  shippingRecipientName: "陳小明",
+  shippingPhone: "+852 91234567",
+  shippingAddress: "九龍城區｜九龍城道 88 號｜Mofu 大廈 10 樓 A 室",
   paidAt: new Date("2026-08-27T08:35:00.000Z"),
   paymentLabel: "信用卡／全球支付 (Stripe)",
   subtotalHkd: 100.8,
@@ -73,10 +76,14 @@ describe("payment receipt email", () => {
     expect(html).toContain("mofu-haven-cat-dog-logo-transparent.png");
     expect(html).toContain("MH20260827-1234");
     expect(html).toContain("MH-CAT-CIAO-001");
+    expect(html).toContain("+852 91234567");
+    expect(html).toContain("九龍城區｜九龍城道 88 號｜Mofu 大廈 10 樓 A 室");
     expect(html).toContain("HK$125.80");
     expect(html).toContain("CIAO 測試商品 &lt;安全&gt;");
     expect(html).not.toContain("CIAO 測試商品 <安全>");
     expect(text).toContain("付款方式：信用卡／全球支付 (Stripe)");
+    expect(text).toContain("聯絡電話：+852 91234567");
+    expect(text).toContain("送貨地址：九龍城區｜九龍城道 88 號｜Mofu 大廈 10 樓 A 室");
     expect(text).toContain("總金額：HK$125.80");
   });
 
@@ -180,6 +187,12 @@ describe("payment receipt email", () => {
       metadata: {
         orderNumber: "MH20260827-1234",
         customerName: "陳小明",
+        shippingName: "陳小明",
+        shippingPhone: "+852 91234567",
+        shippingAddress: "九龍城道 88 號",
+        shippingAddressLine2: "Mofu 大廈 10 樓 A 室",
+        shippingDistrict: "九龍城區",
+        shippingSfStationCode: "KLC123",
         subtotalHkd: "100.80",
         shippingHkd: "25.00",
         totalHkd: "125.80",
@@ -197,6 +210,9 @@ describe("payment receipt email", () => {
         providerMessageId: "email_789",
       });
       expect(emailFetch).toHaveBeenCalledOnce();
+      const payload = JSON.parse(String(emailFetch.mock.calls[0][1]?.body)) as { html: string; text: string };
+      expect(payload.html).toContain("順豐站／智能櫃：KLC123");
+      expect(payload.text).toContain("送貨地址：九龍城道 88 號，Mofu 大廈 10 樓 A 室，九龍城區，順豐站／智能櫃：KLC123");
       expect(update).toHaveBeenCalledWith(
         "pi_ABC123",
         expect.objectContaining({

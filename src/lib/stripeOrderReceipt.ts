@@ -45,6 +45,17 @@ function positiveMoney(metadata: Stripe.Metadata, key: string): number | null {
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
 }
 
+function shippingAddress(metadata: Stripe.Metadata): string {
+  const address = [
+    value(metadata, "shippingAddress"),
+    value(metadata, "shippingAddressLine2"),
+    value(metadata, "shippingDistrict"),
+  ].filter(Boolean);
+  const sfStationCode = value(metadata, "shippingSfStationCode");
+  if (sfStationCode) address.push(`順豐站／智能櫃：${sfStationCode}`);
+  return address.join("，");
+}
+
 function isExpandedProduct(product: Stripe.Price["product"]): product is Stripe.Product {
   return typeof product !== "string" && !("deleted" in product && product.deleted);
 }
@@ -183,6 +194,9 @@ export async function sendPaidOrderReceipt({
     orderNumber,
     customerName: value(metadata, "customerName") || "顧客",
     customerEmail: email,
+    shippingRecipientName: value(metadata, "shippingName") || value(metadata, "customerName") || "顧客",
+    shippingPhone: value(metadata, "shippingPhone"),
+    shippingAddress: shippingAddress(metadata),
     paidAt: await paymentCompletedAt(stripe, paymentIntent),
     paymentLabel,
     subtotalHkd,
