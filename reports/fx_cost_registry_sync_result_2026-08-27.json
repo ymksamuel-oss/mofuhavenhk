@@ -1,0 +1,59 @@
+{
+  "mode": "apply",
+  "no_price_amount_change": true,
+  "started_at_utc": "2026-08-27T11:20:13.580592+00:00",
+  "records": [
+    {
+      "price_id": "price_1U8TeLRyM6dRKLtZR3jNQ3eA",
+      "product_id": "prod_V8lAGdiamaGSwC",
+      "mofu_sku": "MH-CAT-GNSP-004",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku",
+      "status": "cost_cny_written",
+      "completed_at_utc": "2026-08-27T11:20:16.223457+00:00"
+    },
+    {
+      "price_id": "price_1U8TeKRyM6dRKLtZ06iNBorq",
+      "product_id": "prod_V8lATH0SDiLKBx",
+      "mofu_sku": "MH-CAT-GNSP-003",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku",
+      "status": "cost_cny_written",
+      "completed_at_utc": "2026-08-27T11:20:16.543319+00:00"
+    },
+    {
+      "price_id": "price_1U8TeMRyM6dRKLtZ8duuCeG8",
+      "product_id": "prod_V8lATUvYyTfiyk",
+      "mofu_sku": "MH-CAT-GNSP-005",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku",
+      "status": "cost_cny_written",
+      "completed_at_utc": "2026-08-27T11:20:16.858488+00:00"
+    },
+    {
+      "price_id": "price_1U8TeIRyM6dRKLtZfLkTpmot",
+      "product_id": "prod_V8lAUga8Mwc3d0",
+      "mofu_sku": "MH-CAT-GNSP-001",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku",
+      "status": "cost_cny_written",
+      "completed_at_utc": "2026-08-27T11:20:17.166586+00:00"
+    },
+    {
+      "price_id": "price_1U8TeJRyM6dRKLtZZNQsVoYK",
+      "product_id": "prod_V8lAjMRJn8PScz",
+      "mofu_sku": "MH-CAT-GNSP-002",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku",
+      "status": "cost_cny_written",
+      "completed_at_utc": "2026-08-27T11:20:17.482395+00:00"
+    }
+  ],
+  "preflight_passed_at_utc": "2026-08-27T11:20:15.913808+00:00",
+  "completed_at_utc": "2026-08-27T11:20:17.482667+00:00"
+}

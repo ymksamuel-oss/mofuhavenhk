@@ -1,0 +1,14 @@
+{
+  "mode": "applied",
+  "source": "frankfurter_ecb_eur_cross",
+  "rateDate": "2026-08-26",
+  "rateHkdPerCny": "1.166292622",
+  "activeProductCount": 226,
+  "eligiblePriceCount": 150,
+  "missingCostPriceCount": 105,
+  "unchangedPriceCount": 147,
+  "replacedPriceCount": 3,
+  "failedPriceCount": 0,
+  "skippedPriceCount": 0,
+  "completedAt": "2026-08-27T11:21:02.613Z"
+}

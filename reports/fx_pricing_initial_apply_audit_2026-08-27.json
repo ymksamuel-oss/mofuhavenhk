@@ -1,0 +1,53 @@
+{
+  "audited_at_utc": "2026-08-27T11:22:55.554798+00:00",
+  "no_stripe_writes_performed": true,
+  "rate_date": "2026-08-26",
+  "rate_hkd_per_cny": "1.166292622",
+  "replacement_price_count": 3,
+  "passed_count": 3,
+  "failed_count": 0,
+  "records": [
+    {
+      "mofu_sku": "MH-CAT-COMBO-001",
+      "product_id": "prod_V8lAOpvuncOCZM",
+      "product_name": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g",
+      "source_price_id": "price_1U90TlRyM6dRKLtZ6GLk9xjl",
+      "replacement_price_id": "price_1U91MfRyM6dRKLtZzhqc0JxS",
+      "old_hkd": "183.90",
+      "new_hkd": "184.90",
+      "cost_cny": "89.6000",
+      "source_inactive": true,
+      "replacement_active": true,
+      "default_price_is_replacement": true,
+      "verified": true
+    },
+    {
+      "mofu_sku": "MH-CAT-COMBO-002",
+      "product_id": "prod_V8lAeH2hqPlna6",
+      "product_name": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g",
+      "source_price_id": "price_1U90TrRyM6dRKLtZl9rMZv4g",
+      "replacement_price_id": "price_1U91MeRyM6dRKLtZ5O0AYreF",
+      "old_hkd": "183.90",
+      "new_hkd": "184.90",
+      "cost_cny": "89.6000",
+      "source_inactive": true,
+      "replacement_active": true,
+      "default_price_is_replacement": true,
+      "verified": true
+    },
+    {
+      "mofu_sku": "MH-CAT-COMBO-003",
+      "product_id": "prod_V8lAWevxk3Za0C",
+      "product_name": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g",
+      "source_price_id": "price_1U90TnRyM6dRKLtZ6217JLWk",
+      "replacement_price_id": "price_1U91MdRyM6dRKLtZDPeHsiFk",
+      "old_hkd": "183.90",
+      "new_hkd": "184.90",
+      "cost_cny": "89.6000",
+      "source_inactive": true,
+      "replacement_active": true,
+      "default_price_is_replacement": true,
+      "verified": true
+    }
+  ]
+}

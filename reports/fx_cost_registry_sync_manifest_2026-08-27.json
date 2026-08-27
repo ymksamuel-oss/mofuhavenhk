@@ -1,0 +1,48 @@
+{
+  "mode": "explicit_owner_approved_fx_automation_cost_registry_sync",
+  "purpose": "Persist only the five locally recovered, prior-reviewed CNY costs absent from current Stripe Price metadata so every previously verified calculable Price is eligible for daily FX repricing.",
+  "no_price_amount_change": true,
+  "approved_by_owner_context": "Owner approved daily automatic FX repricing for all current products with every new daily rate.",
+  "records": [
+    {
+      "price_id": "price_1U8TeLRyM6dRKLtZR3jNQ3eA",
+      "product_id": "prod_V8lAGdiamaGSwC",
+      "mofu_sku": "MH-CAT-GNSP-004",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku"
+    },
+    {
+      "price_id": "price_1U8TeKRyM6dRKLtZ06iNBorq",
+      "product_id": "prod_V8lATH0SDiLKBx",
+      "mofu_sku": "MH-CAT-GNSP-003",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku"
+    },
+    {
+      "price_id": "price_1U8TeMRyM6dRKLtZ8duuCeG8",
+      "product_id": "prod_V8lATUvYyTfiyk",
+      "mofu_sku": "MH-CAT-GNSP-005",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku"
+    },
+    {
+      "price_id": "price_1U8TeIRyM6dRKLtZfLkTpmot",
+      "product_id": "prod_V8lAUga8Mwc3d0",
+      "mofu_sku": "MH-CAT-GNSP-001",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku"
+    },
+    {
+      "price_id": "price_1U8TeJRyM6dRKLtZZNQsVoYK",
+      "product_id": "prod_V8lAjMRJn8PScz",
+      "mofu_sku": "MH-CAT-GNSP-002",
+      "expected_current_cents": 1990,
+      "cost_cny": "9.3000",
+      "cost_source": "prior_reviewed_preview_exact_price_match:locally_recovered_supplier_sku"
+    }
+  ]
+}
