@@ -1,0 +1,43 @@
+{
+  "batch": "doggyman_sasami_roll_verified_metadata_v1",
+  "source": "DoggyMan official showroom product page 3085, read 2026-08-27.",
+  "metadata_defaults": {
+    "brand": "DoggyMan",
+    "product_type_zh": "全犬種用零食",
+    "product_type_en": "Dog snack for all breeds",
+    "pet_suitability": "dogs",
+    "feeding_zh": "請按原包裝的建議餵食量，並按犬隻年齡、體型、體質及當日整體膳食調整份量。",
+    "feeding_en": "Follow the serving guide on the original package and adjust for the dog's age, size, condition and overall daily diet.",
+    "storage_zh": "保存方法請以原包裝標示為準；開封後請盡快食用。",
+    "storage_en": "Follow the storage guidance on the original package and use promptly after opening.",
+    "notice_zh": "本產品為全犬種用零食，並非完整營養主食或療法食品。官方標示：兩個月以下幼犬不宜餵食。",
+    "notice_en": "This product is a snack for all dog breeds, not a complete staple food or therapeutic diet. The official label states that it must not be given to puppies under two months old.",
+    "verification_note_zh": "品名、用途、淨重、原料、成分值、能量及產地均以 DoggyMan 官方單品頁核實。",
+    "verification_note_en": "Name, purpose, net weight, ingredients, analysis, energy and country of origin are verified against the DoggyMan official product page.",
+    "product_content_version": "doggyman-sasami-roll-v1"
+  },
+  "products": [
+    {
+      "stripe_product_id": "prod_V8cr46ftMdO2E3",
+      "description_zh": "DoggyMan ドギースナック バリュー トロッとササミロール為全犬種用零食，外層柔軟、內餡為雞柳，採雙層質感設計。適合按原包裝建議作日常互動或獎勵小食。",
+      "description_en": "DoggyMan Doggy Snack Value Creamy Chicken Tenderloin Roll is a snack for all dog breeds, with a soft outer layer and a creamy chicken-tenderloin centre in a two-layer texture.",
+      "texture_zh": "外層柔軟、內層雞柳夾心的雙層零食。",
+      "texture_en": "A two-layer snack with a soft outer layer and chicken-tenderloin centre.",
+      "specs_zh": "規格：30g｜類型：全犬種用零食｜產地：中國",
+      "specs_en": "Size: 30g · Type: dog snack for all breeds · Origin: China",
+      "metadata": {
+        "ingredients_zh": "雞柳、粟米澱粉、雞脂肪、鰹魚乾、膳食纖維（纖維素）、增稠穩定劑（寒天、瓜爾豆膠、刺槐豆膠）、酪蛋白酸鈉、礦物質類（鈉）",
+        "ingredients_en": "Chicken tenderloin, corn starch, chicken fat, dried bonito flakes, dietary fibre (cellulose), thickening stabilisers (agar, guar gum, locust bean gum), sodium caseinate, minerals (sodium)",
+        "guaranteed_analysis_zh": "粗蛋白質 ≥23.0%、粗脂肪 ≥2.0%、粗纖維 ≤1.5%、粗灰分 ≤4.5%、水分 ≤70.0%",
+        "guaranteed_analysis_en": "Crude protein ≥23.0%, crude fat ≥2.0%, crude fibre ≤1.5%, crude ash ≤4.5%, moisture ≤70.0%",
+        "energy_zh": "180 kcal／100g",
+        "energy_en": "180 kcal per 100g",
+        "country_of_origin_zh": "中國",
+        "country_of_origin_en": "China",
+        "official_source_url": "https://www.doggyman.com/?p=showroom&keywords=%E3%82%B5%E3%82%B5%E3%83%9F%E3%83%AD%E3%83%BC%E3%83%AB&id=3085",
+        "official_source_label_zh": "DoggyMan 官方單品頁（トロッとササミロール）",
+        "official_source_label_en": "DoggyMan official product page (Creamy Chicken Tenderloin Roll)"
+      }
+    }
+  ]
+}
