@@ -1,0 +1,24 @@
+{
+  "file": "/home/ubuntu/upload/recalculated_pricing_output(1).csv",
+  "record_count": 121,
+  "cost_cny_present": 121,
+  "cost_cny_missing": 0,
+  "proposed_hkd_present": 121,
+  "proposed_hkd_missing": 0,
+  "unique_product_ids": 106,
+  "unique_price_ids": 121,
+  "duplicate_product_ids": {
+    "prod_V8uInkIOBbpTsp": 3,
+    "prod_V8sFjjO8IgpPvO": 5,
+    "prod_V8szxN4qvZQyrJ": 4,
+    "prod_V8t03LiP3rgoHN": 3,
+    "prod_V8szss31Rm8tiJ": 3,
+    "prod_V8uIOVwsFqgPTV": 3
+  },
+  "duplicate_price_ids": {},
+  "cost_cny_values": {
+    "min": 6.74,
+    "max": 223.0
+  },
+  "interpretation": "Per owner instruction, every nonblank cost_cny in this supplied CSV is treated as the verified TaoBao supplier cost for the shop analysis."
+}
