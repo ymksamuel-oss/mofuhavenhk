@@ -1,0 +1,256 @@
+﻿product_id,product_name,mofu_sku,price_id,is_default,variant_label_zh,retail_hkd,cost_cny,cost_source,cost_hkd_at_rate,gross_profit_hkd,gross_margin_pct
+prod_V8fe6YUsIrEf8Q,Vet's Labo｜MediMousse 減肥減脂慕斯｜95g,MH-CAT-CIAO-048,price_1U91tbRyM6dRKLtZlmosP2L1,True,95g,39.9,,,,,
+prod_V8feexDq7xAidn,Vet's Labo｜MediMousse 皮膚維護慕斯｜95g,MH-CAT-CIAO-047,price_1U91tcRyM6dRKLtZU2Jx8wfs,True,95g,39.9,,,,,
+prod_V8fexvyuSOogz8,Vet's Labo｜MediMousse 健康支持慕斯｜95g,MH-CAT-CIAO-046,price_1U91tdRyM6dRKLtZrFeml44Q,True,95g,39.9,,,,,
+prod_V8feViin1yPowA,Vet's Labo｜MediMousse 腸胃呵護慕斯｜95g,MH-CAT-CIAO-045,price_1U91teRyM6dRKLtZMpuMEpiY,True,95g,39.9,,,,,
+prod_V8feew2ryjD7ql,CIAO Premium｜6種功能性成分 (雞胸肉扇貝味)｜30g,MH-CAT-CIAO-044,price_1U91tfRyM6dRKLtZYA3wvwn0,True,30g,11.9,,,,,
+prod_V8fe1kWPFBfcKh,CIAO Premium｜6種功能性成分 (鰹魚雞胸肉木魚花)｜30g,MH-CAT-CIAO-043,price_1U91tgRyM6dRKLtZc9UJIbeW,True,30g,11.9,,,,,
+prod_V8fe3PM27QjYNh,CIAO 炙烤盛宴｜正宗高湯味 (香烤風味)｜30g,MH-CAT-CIAO-042,price_1U91thRyM6dRKLtZc9Idl17C,True,30g,15.9,,,,,
+prod_V8fenfKdEjRnr7,CIAO 炙烤盛宴｜銀魚扇貝味 (香烤風味)｜30g,MH-CAT-CIAO-041,price_1U91tiRyM6dRKLtZiC38AXim,True,30g,15.9,,,,,
+prod_V8feNaBEY6Pn28,CIAO 炙烤盛宴｜北海道風味扇貝 (香烤風味)｜30g,MH-CAT-CIAO-040,price_1U91tjRyM6dRKLtZNzkakzxS,True,30g,15.9,,,,,
+prod_V8fefdYTxUdNva,CIAO 炙烤盛宴｜鰹魚干扇貝味 (香烤風味)｜30g,MH-CAT-CIAO-039,price_1U91tkRyM6dRKLtZLB4KN51f,True,30g,15.9,,,,,
+prod_V8feeIGBK4DYB1,CIAO 超強乳酸菌｜雞肉鰹魚干高湯｜40g,MH-CAT-CIAO-038,price_1U91tlRyM6dRKLtZFnV8aH3t,True,40g,13.9,,,,,
+prod_V8feXQdvRNrV4B,CIAO 超強乳酸菌｜鮪魚雞肉柴魚片高湯｜40g,MH-CAT-CIAO-037,price_1U91tmRyM6dRKLtZ8qZFAnED,True,40g,13.9,,,,,
+prod_V8fe4RA15lCQZO,CIAO 炙烤盛宴｜雞胸肉扇貝柱｜50g,MH-CAT-CIAO-036,price_1U91tnRyM6dRKLtZ5BUVkENk,True,50g,17.9,,,,,
+prod_V8fe010ZPXAJ1J,CIAO 炙烤盛宴｜化毛呵護鰹魚片扇貝柱｜50g,MH-CAT-CIAO-035,price_1U91toRyM6dRKLtZbDeDPV3q,True,50g,17.9,,,,,
+prod_V8feoZ4v72AX1T,CIAO 超強乳酸菌｜金槍魚雞肉鰹魚｜40g,MH-CAT-CIAO-034,price_1U91tpRyM6dRKLtZBJ2iY0Uu,True,40g,13.9,,,,,
+prod_V8fep70tdjHDoG,CIAO 炙烤盛宴｜炙烤雞胸肉含蟹肉棒+扇貝柱｜50g,MH-CAT-CIAO-033,price_1U91tqRyM6dRKLtZ4wWerJ1F,True,50g,17.9,,,,,
+prod_V8fdnUyX0IymBN,CIAO 炙烤盛宴｜烤鰹魚含小銀魚+扇貝柱｜50g,MH-CAT-CIAO-032,price_1U91trRyM6dRKLtZCybZZS9W,True,50g,17.9,,,,,
+prod_V8fdpmkax4VOq1,CIAO 炙烤盛宴｜扇貝柱正宗高湯｜50g,MH-CAT-CIAO-031,price_1U91tsRyM6dRKLtZPV2iCmXm,True,50g,17.9,,,,,
+prod_V8fd05UFEZNURC,CIAO 炙烤盛宴｜香烤扇貝柱 (高齡貓用)｜50g,MH-CAT-CIAO-030,price_1U91ttRyM6dRKLtZ2CiYNhfc,True,50g,17.9,,,,,
+prod_V8e2NpxQsXvHOA,d.b.f 雞肉&雞胸肉糜紅薯｜d.b.f Chicken & Chicken Breast Mince with Sweet Potato 150g,MH-DOG-DBF-023,price_1U91tvRyM6dRKLtZincoxDBA,True,150g,44.9,,,,,
+prod_V8e2yXi5ewIEg5,d.b.f 雞肉&雞胸肉糜蔬菜｜d.b.f Chicken & Chicken Breast Mince with Vegetables 150g,MH-DOG-DBF-022,price_1U91twRyM6dRKLtZK8VCWRBo,True,150g,44.9,,,,,
+prod_V8e2HgqFtfTeZ3,d.b.f 雞胸肉糜 (脂肪含量更少 0.5% 以上)｜d.b.f Chicken Breast Mince Low-fat Dog Can 65g,MH-DOG-DBF-021,price_1U91txRyM6dRKLtZaV1SnuP4,True,65g,27.9,,,,,
+prod_V8e2NVxYYDt7TI,d.b.f 高齡犬之食事 雞肉軟骨 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Cartilage 85g,MH-DOG-DBF-020,price_1U91tyRyM6dRKLtZ6YsIyqm2,True,85g,28.9,,,,,
+prod_V8e2EKKmnHUR8w,d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g,MH-DOG-DBF-019,price_1U91tzRyM6dRKLtZWgT8Efq7,True,85g,28.9,,,,,
+prod_V8e2MnRWL8I3ON,d.b.f 成犬之食事 雞肉｜d.b.f Adult Dog Meal Chicken 85g,MH-DOG-DBF-018,price_1U91u0RyM6dRKLtZLzvO5BqL,True,85g,32.9,,,,,
+prod_V8e2oW8u6WCtg5,d.b.f 高齡犬之食事 雞肉蔬菜 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Vegetables 85g,MH-DOG-DBF-017,price_1U91u0RyM6dRKLtZUxovYowV,True,85g,28.9,,,,,
+prod_V8e22XlcOMIRus,d.b.f 高齡犬之食事 雞肉 (7歲及以上)｜d.b.f Senior Dog Meal Chicken 85g,MH-DOG-DBF-016,price_1U91u1RyM6dRKLtZVXhBycMR,True,85g,28.9,,,,,
+prod_V8e2hyOUdfOwnM,d.b.f 牛肉紅薯｜d.b.f Beef & Sweet Potato Dog Can 85g,MH-DOG-DBF-015,price_1U91u2RyM6dRKLtZTYEKntBb,True,85g,32.9,,,,,
+prod_V8e2hvyqfhk59B,d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g,MH-DOG-DBF-014,price_1U91u3RyM6dRKLtZmCyZtkzn,True,85g,28.9,,,,,
+prod_V8e2eck5fdwDtP,d.b.f 成犬之食事 雞肉蔬菜｜d.b.f Adult Dog Meal Chicken & Vegetables 85g,MH-DOG-DBF-013,price_1U91u4RyM6dRKLtZaA5DUGsR,True,85g,28.9,,,,,
+prod_V8e2wynYC6XsBo,d.b.f 成犬之食事 雞肉紅薯｜d.b.f Adult Dog Meal Chicken & Sweet Potato 85g,MH-DOG-DBF-012,price_1U91u5RyM6dRKLtZPVZkvZ4T,True,85g,28.9,,,,,
+prod_V8e1EgYIqCWkcb,d.b.f 成犬之食事 雞肉軟骨｜d.b.f Adult Dog Meal Chicken & Cartilage 85g,MH-DOG-DBF-011,price_1U91u6RyM6dRKLtZ8WJAvU0D,True,85g,28.9,,,,,
+prod_V8e1qdj8efQTs9,d.b.f 雞肉糜｜d.b.f Chicken Mince Dog Can 65g,MH-DOG-DBF-010,price_1U91u7RyM6dRKLtZV1W983iE,True,65g,23.9,,,,,
+prod_V8e1Y4NZgoH3mG,d.b.f 雞肉雞胗濃湯｜d.b.f Chicken Breast & Gizzard Soup Dog Can 85g,MH-DOG-DBF-009,price_1U91u8RyM6dRKLtZlfZ1yXfT,True,85g,28.9,,,,,
+prod_V8e143elQIOfMM,d.b.f 雞肉&紅薯小粒｜d.b.f Chicken & Sweet Potato Adult Dog Can 85g,MH-DOG-DBF-008,price_1U91u9RyM6dRKLtZhA948VL3,True,85g,28.9,,,,,
+prod_V8e1Jgdnr9v8HM,d.b.f 牛肉糜｜d.b.f Beef Mince Dog Can 65g,MH-DOG-DBF-007,price_1U91uARyM6dRKLtZ8WTc7qJu,True,65g,27.9,,,,,
+prod_V8e1nNRuozpeTU,d.b.f 牛肉&軟骨｜d.b.f Beef & Cartilage Dog Can 85g,MH-DOG-DBF-006,price_1U91uBRyM6dRKLtZrZVTc6SJ,True,85g,28.9,,,,,
+prod_V8e1XhfhroMZtV,d.b.f 雞肉&蔬菜｜d.b.f Chicken & Vegetables Adult Dog Can 85g,MH-DOG-DBF-005,price_1U91uCRyM6dRKLtZ0uvabiWm,True,85g,28.9,,,,,
+prod_V8e1qzONSyt8ru,d.b.f 雞肉&芝士｜d.b.f Chicken & Cheese Adult Dog Can 85g,MH-DOG-DBF-004,price_1U91uDRyM6dRKLtZLJtT5fOr,True,85g,28.9,,,,,
+prod_V8e1MyE7x9BZDl,d.b.f 雞胸肉濃湯｜d.b.f Chicken Breast in Soup Dog Can 85g,MH-DOG-DBF-003,price_1U91uERyM6dRKLtZQZV55yw8,True,85g,28.9,,,,,
+prod_V8e1ExxiCmg67D,d.b.f 雞胸肉&奶酪｜d.b.f Chicken Breast & Cheese Dog Can 85g,MH-DOG-DBF-002,price_1U91uFRyM6dRKLtZdi5JgQDQ,True,85g,28.9,,,,,
+prod_V8e1g0toA5TEk7,d.b.f 雞肉軟骨｜d.b.f Chicken Breast & Cartilage Dog Can 85g,MH-DOG-DBF-001,price_1U91uGRyM6dRKLtZx0DrlOVj,True,85g,28.9,,,,,
+prod_V8crzn01d7SXcg,COMBO Present 低脂絕育貓 混合海鮮 小包｜COMBO Present Low-Fat Neutered Cat Seafood Mini Pack,MH-CAT-CMP-016,price_1U91uHRyM6dRKLtZkWxWtZfw,True,42g (3g×14包),33.9,,,,,
+prod_V8cr8kOWyjP3g1,COMBO Present 維護泌尿 混合海鮮 小包｜COMBO Present Urinary Health Support Seafood Mini Pack,MH-CAT-CMP-017,price_1U91uIRyM6dRKLtZnvbvp85m,True,42g (3g×14包),33.9,,,,,
+prod_V8crpeVGxpASKY,COMBO Present 化毛配方 混合海鮮 小包｜COMBO Present Hairball Care Seafood Mini Pack,MH-CAT-CMP-008,price_1U91uJRyM6dRKLtZ8FTJ5UsY,True,42g (3g×14包),33.9,,,,,
+prod_V8crtmrNegpX6C,COMBO Present 維護腎臟 混合肉味 小包｜COMBO Present Kidney Health Support Meat Mini Pack,MH-CAT-CMP-013,price_1U91uKRyM6dRKLtZ78PG5Gp1,True,42g (3g×14包),33.9,,,,,
+prod_V8crvbMiPxxJvt,COMBO Present 維護腎臟 混合海鮮 小包｜COMBO Present Kidney Health Support Seafood Mini Pack,MH-CAT-CMP-014,price_1U91uLRyM6dRKLtZBEnP9BZH,True,42g (3g×14包),33.9,,,,,
+prod_V8cr9iyVmqUz8O,COMBO Present 潔齒防口臭 混合肉味 小包｜COMBO Present Dental and Breath Care Meat Mini Pack,MH-CAT-CMP-002,price_1U91uMRyM6dRKLtZblVt7aTW,True,42g (3g×14包),33.9,,,,,
+prod_V8crzRJNuOzt2e,COMBO Present 潔齒防口臭 混合海鮮 小包｜COMBO Present Dental and Breath Care Seafood Mini Pack,MH-CAT-CMP-003,price_1U91uNRyM6dRKLtZ5Ltl3EIX,True,42g (3g×14包),33.9,,,,,
+prod_V8crHGAsSzl77H,COMBO Present 男生喜歡的口味 魚味 小包｜COMBO Present Boy-Friendly Fish Mini Pack,MH-CAT-CMP-001,price_1U91uORyM6dRKLtZNIIokvMi,True,42g (3g×14包),33.9,,,,,
+prod_V8cr9Jv6Ewv0ui,COMBO Present 女生喜歡口味 混合海鮮 小包｜COMBO Present Girl-Friendly Seafood Mini Pack,MH-CAT-CMP-007,price_1U91uPRyM6dRKLtZHmIahrQe,True,42g (3g×14包),33.9,,,,,
+prod_V8crT5vLCe95hY,COMBO Present 腸道環境維持 海鮮 小包｜COMBO Present Digestive Support Seafood Mini Pack,MH-CAT-CMP-005,price_1U91uQRyM6dRKLtZChQ3XHkN,True,42g (3g×14包),33.9,,,,,
+prod_V8crrguHp5YAXt,COMBO Present 免疫力維持 海鮮 小包｜COMBO Present Immune Support Seafood Mini Pack,MH-CAT-CMP-009,price_1U91uRRyM6dRKLtZKnB9Zin9,True,42g (3g×14包),33.9,,,,,
+prod_V8crhpakrZfoXD,COMBO Present 室內貓 金槍魚 小包｜COMBO Present Indoor Cat Tuna Mini Pack,MH-CAT-CMP-012,price_1U91uSRyM6dRKLtZnr1jPUmO,True,42g (3g×14包),33.9,,,,,
+prod_V8crErEJilA30r,COMBO Present 維護腎臟配方 三種口味｜COMBO Present Kidney Health Support Three-Flavour Variety Pack,MH-CAT-CMP-015,price_1U91uTRyM6dRKLtZrzNuC1Z8,True,90g (3g×30包),59.9,,,,,
+prod_V8crKsH08GDJxM,COMBO Present 維護泌尿配方 三種口味｜COMBO Present Urinary Health Support Three-Flavour Variety Pack,MH-CAT-CMP-018,price_1U91uTRyM6dRKLtZ1G1sMnnr,True,90g (3g×30包),59.9,,,,,
+prod_V8crNNIKOTELSy,COMBO Present 潔齒防口臭 三種口味｜COMBO Present Dental and Breath Care Three-Flavour Variety Pack,MH-CAT-CMP-004,price_1U91uURyM6dRKLtZUjYblE0G,True,90g (3g×30包),59.9,,,,,
+prod_V8croZ9K3Kppbf,COMBO Present 室內貓化毛 三種口味｜COMBO Present Indoor Cat Hairball Care Three-Flavour Variety Pack,MH-CAT-CMP-011,price_1U91uVRyM6dRKLtZxa9SrPzw,True,90g (3g×30包),59.9,,,,,
+prod_V8cr2Q8hiWwniV,COMBO Present 免疫力維持 三種口味｜COMBO Present Immune Support Three-Flavour Variety Pack,MH-CAT-CMP-010,price_1U91uWRyM6dRKLtZyHo2neqX,True,90g (3g×30包),59.9,,,,,
+prod_V8cr9ARnvUOKQM,COMBO Present 腸道環境維持 三種口味｜COMBO Present Digestive Support Three-Flavour Variety Pack,MH-CAT-CMP-006,price_1U91uXRyM6dRKLtZHlUm9XxG,True,90g (3g×30包),59.9,,,,,
+prod_V8cru9Bp0V6puG,DoggyMan 爆漿夾心卷（雞肝）｜DoggyMan Creamy Chicken Liver Roll Treats,MH-DOG-DGM-001,price_1U91uYRyM6dRKLtZ9yfi282c,True,30g,46.9,,,,,
+prod_V8cr46ftMdO2E3,DoggyMan 爆漿夾心卷（雞肉）｜DoggyMan Creamy Chicken Roll Treats,MH-DOG-DGM-002,price_1U91uZRyM6dRKLtZtuDWHNVN,True,30g,46.9,,,,,
+prod_V8ZpWi2bc00Aty,白身魚口味罐頭（White Fish）,MH-DOG-IRIS-007,price_1U91ucRyM6dRKLtZ4LOZNmq4,True,5罐裝,46.9,,,,,
+prod_V8ZpWi2bc00Aty,白身魚口味罐頭（White Fish）,MH-DOG-IRIS-007,price_1U91ubRyM6dRKLtZ2js2MGbu,False,15罐裝,99.9,,,,,
+prod_V8ZpWi2bc00Aty,白身魚口味罐頭（White Fish）,MH-DOG-IRIS-007,price_1U91uaRyM6dRKLtZgq1ZdJ9I,False,30罐裝,189.9,,,,,
+prod_V8ZpDXl9RWMDbc,雞肉口味罐頭（Chicken）,MH-DOG-IRIS-003,price_1U91ueRyM6dRKLtZEUzLG2wv,True,5罐裝,46.9,,,,,
+prod_V8ZpDXl9RWMDbc,雞肉口味罐頭（Chicken）,MH-DOG-IRIS-003,price_1U91udRyM6dRKLtZtxhDCmKe,False,15罐裝,99.9,,,,,
+prod_V8ZpDXl9RWMDbc,雞肉口味罐頭（Chicken）,MH-DOG-IRIS-003,price_1U91udRyM6dRKLtZjbQCaLvn,False,30罐裝,189.9,,,,,
+prod_V8Zo9dzijaQ39p,牛肉口味罐頭（Beef）,MH-DOG-IRIS-001,price_1U91ugRyM6dRKLtZHRr1tpXd,True,5罐裝,46.9,,,,,
+prod_V8Zo9dzijaQ39p,牛肉口味罐頭（Beef）,MH-DOG-IRIS-001,price_1U91ufRyM6dRKLtZxUKK8fRS,False,15罐裝,99.9,,,,,
+prod_V8Zo9dzijaQ39p,牛肉口味罐頭（Beef）,MH-DOG-IRIS-001,price_1U91ufRyM6dRKLtZfIxnBqQj,False,30罐裝,189.9,,,,,
+prod_V8ZodBXbffvz6o,雞肝口味罐頭（Chicken Liver）,MH-DOG-IRIS-002,price_1U91uiRyM6dRKLtZBiwChZDM,True,5罐裝,46.9,,,,,
+prod_V8ZodBXbffvz6o,雞肝口味罐頭（Chicken Liver）,MH-DOG-IRIS-002,price_1U91uiRyM6dRKLtZbWctFTP9,False,15罐裝,99.9,,,,,
+prod_V8ZodBXbffvz6o,雞肝口味罐頭（Chicken Liver）,MH-DOG-IRIS-002,price_1U91uhRyM6dRKLtZvydC0Bg6,False,30罐裝,189.9,,,,,
+prod_V8ZoNtJinLFNNG,新款 2個口味拼罐頭（New 2-Flavor Mix）,MH-DOG-IRIS-004,price_1U91ulRyM6dRKLtZEBtAJZCX,True,5罐裝,46.9,,,,,
+prod_V8ZoNtJinLFNNG,新款 2個口味拼罐頭（New 2-Flavor Mix）,MH-DOG-IRIS-004,price_1U91ukRyM6dRKLtZDGjpvD8b,False,15罐裝,109.9,,,,,
+prod_V8ZoNtJinLFNNG,新款 2個口味拼罐頭（New 2-Flavor Mix）,MH-DOG-IRIS-004,price_1U91ujRyM6dRKLtZkc9AN38t,False,30罐裝,199.9,,,,,
+prod_V8ZoJ2fwrBOiHL,新款牛肉米飯罐頭（New Beef & Rice）,MH-DOG-IRIS-005,price_1U91unRyM6dRKLtZ71tl6SBA,True,5罐裝,46.9,,,,,
+prod_V8ZoJ2fwrBOiHL,新款牛肉米飯罐頭（New Beef & Rice）,MH-DOG-IRIS-005,price_1U91umRyM6dRKLtZF4bFf505,False,15罐裝,99.9,,,,,
+prod_V8ZoJ2fwrBOiHL,新款牛肉米飯罐頭（New Beef & Rice）,MH-DOG-IRIS-005,price_1U91umRyM6dRKLtZZ6Bp2sqT,False,30罐裝,189.9,,,,,
+prod_V8ZorEO6daplRl,新款牛肉蔬菜罐頭（New Beef & Vegetables）,MH-DOG-IRIS-006,price_1U91upRyM6dRKLtZKBR18rK8,True,5罐裝,46.9,,,,,
+prod_V8ZorEO6daplRl,新款牛肉蔬菜罐頭（New Beef & Vegetables）,MH-DOG-IRIS-006,price_1U91uoRyM6dRKLtZ4AV2DvUV,False,15罐裝,99.9,,,,,
+prod_V8ZorEO6daplRl,新款牛肉蔬菜罐頭（New Beef & Vegetables）,MH-DOG-IRIS-006,price_1U91uoRyM6dRKLtZoMbTbHm9,False,30罐裝,189.9,,,,,
+prod_V8W0gp0Oink4Cg,雞里脊 150g (犬用) (現貨 / 2027.11.11),MH-DOG-MCK-001,price_1U91uqRyM6dRKLtZPATuxk6g,True,,258.9,,,,,
+prod_V8W0oLt83VbMEB,三文魚 17g (預定),MH-CAT-MCK-001,price_1U91urRyM6dRKLtZbLU0E4rZ,True,,107.9,,,,,
+prod_V8W0xHzc6tqf3B,胡瓜魚凍干 10g (預定),MH-CAT-MCK-005,price_1U91usRyM6dRKLtZD1lPxnJx,True,,81.9,,,,,
+prod_V8W0mdB77ZJc5M,金槍魚 14g (預定),MH-CAT-MCK-009,price_1U91utRyM6dRKLtZxkvanqKa,True,,81.9,,,,,
+prod_V8W0fChA9h4VNq,虹鱒魚 15g (現貨 / 賞味 27.5),MH-CAT-MCK-006,price_1U91uuRyM6dRKLtZkVdoxOMB,True,,81.9,,,,,
+prod_V8W0BWVdW0bKlr,扇貝 11g (現貨 / 27.01.15),MH-CAT-MCK-003,price_1U91uvRyM6dRKLtZq06gK9uI,True,,79.9,,,,,
+prod_V8W073h3MHqGhr,銀魚 10g (預定),MH-CAT-MCK-010,price_1U91uwRyM6dRKLtZHUSUMD3M,True,,79.9,,,,,
+prod_V8W0DDhtV271xl,豬大腿肉 20g (預定),MH-CAT-MCK-007,price_1U91uxRyM6dRKLtZpAFxi6yJ,True,,74.9,,,,,
+prod_V8W0eQFDHSCPxC,牛大腿肉 17g (現貨 / 2027.12.01),MH-CAT-MCK-004,price_1U91uyRyM6dRKLtZGsbsYSDs,True,,83.9,,,,,
+prod_V8W0LKmYo2bfxf,豬心 25g (預定 (缺貨)),MH-CAT-MCK-008,price_1U91uzRyM6dRKLtZ9vw5RUda,True,,76.9,,,,,
+prod_V8W0n6wDbyKpya,圓粒雞里脊 18g (現貨 / 賞味 28.01),MH-CAT-MCK-002,price_1U91v0RyM6dRKLtZaK5aufiN,True,,65.9,,,,,
+prod_V8W0OgEY0HBtlD,雞里脊碎沫凍干粉拌飯 (預定),MH-CAT-MCK-020,price_1U91v0RyM6dRKLtZ6o10IZd1,True,,91.9,,,,,
+prod_V8W07sgetW5UqK,雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17),MH-CAT-MCK-013,price_1U91v1RyM6dRKLtZ2aNtiHbD,True,,76.9,,,,,
+prod_V8W06fowHsMOSF,雞胸肉雞肫凍干 120g (現貨 / 2027.04.03),MH-CAT-MCK-016,price_1U91v2RyM6dRKLtZQb2bXuDo,True,,251.9,,,,,
+prod_V8W072ieTWyOZ7,雞胸肉雞肫凍干 18g (現貨 / 2027.04.25),MH-CAT-MCK-017,price_1U91v3RyM6dRKLtZV3hlbOXt,True,,63.9,,,,,
+prod_V8W0oMeIOyFLhp,雞胸肉雞肝凍干 120g (現貨 / 27.07),MH-CAT-MCK-014,price_1U91v4RyM6dRKLtZ7RspiN3q,True,,251.9,,,,,
+prod_V8VzYLI6mgAR3P,雞胸肉雞肝凍干 18g (預定),MH-CAT-MCK-015,price_1U91v5RyM6dRKLtZyWTNvKoL,True,,63.9,,,,,
+prod_V8Vz4r6kx51OK2,雞里脊 150g (現貨 / 2027.11.30),MH-CAT-MCK-018,price_1U91v6RyM6dRKLtZ9ZxpS1Yj,True,,263.9,,,,,
+prod_V8VzICRXhFqVtH,雞里脊 30g (預定),MH-CAT-MCK-019,price_1U91v7RyM6dRKLtZuSNhlzUp,True,,78.9,,,,,
+prod_V8VzG9Cs8B2Rjb,雞胸肉 150g (現貨 / 賞味 27.10),MH-CAT-MCK-011,price_1U91v8RyM6dRKLtZ3inxiptO,True,,263.9,,,,,
+prod_V8VzTooOH64y65,雞胸肉 30g (現貨 / 賞味 28.01),MH-CAT-MCK-012,price_1U91v9RyM6dRKLtZq29W1nZq,True,,78.9,,,,,
+prod_V8lA3QuLuCwOig,COMBO Pure 魚肉米狗狗乾糧 540g｜COMBO Pure Fish & Rice Dry Dog Food 540g,MH-DOG-COMBO-012,price_1U90TcRyM6dRKLtZqUcntXTV,True,540g,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lAaOLN6jDE2s,COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g｜COMBO Pure Freeze-Dried Topping Japanese Chicken & Vegetable Dry Dog Food 540g,MH-DOG-COMBO-011,price_1U90TpRyM6dRKLtZPEBmnzI5,True,540g,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lAGBIlndcl9U,COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Low-Fat Japanese Chicken & Vegetable Dry Dog Food 600g,MH-DOG-COMBO-010,price_1U90TjRyM6dRKLtZ6SUOdjvj,True,600g,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lArvqiVc3AMr,COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Extra-Small Kibble Japanese Chicken & Vegetable Dry Dog Food 600g,MH-DOG-COMBO-009,price_1U90TsRyM6dRKLtZioR1zXXj,True,600g（300g×2）,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lA3mO6fUVnGr,COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g｜COMBO Pure Selected Cheese & Japanese Chicken Dry Dog Food 600g,MH-DOG-COMBO-008,price_1U90TdRyM6dRKLtZwHed2NNy,True,600g,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lAFkM1R1Q06Q,COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g｜COMBO Pure Vegetable & Selected Cheese Dry Dog Food 600g,MH-DOG-COMBO-007,price_1U90TiRyM6dRKLtZXvCDc0kQ,True,600g（300g×2）,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8lA8TrpHKZ0AE,COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Japanese Chicken & Vegetable Dry Dog Food 600g,MH-DOG-COMBO-006,price_1U90ThRyM6dRKLtZse2oFhSo,True,600g,178.9,87.0000,price_metadata,101.48,77.42,43.28
+prod_V8kNg5nRdCoND1,COMBO 低脂 7歲以上狗狗乾糧 720g｜COMBO Low-Fat Senior Dry Dog Food 720g,MH-DOG-COMBO-017,price_1U90TbRyM6dRKLtZygTCmy0F,True,720g（4 小包裝；7 歲以上）,234.9,114.0000,price_metadata,132.97,101.93,43.39
+prod_V8kNXGrzdUVGWS,COMBO 低脂小魚乾雞肉狗狗乾糧 720g｜COMBO Low-Fat Dried Small Fish & Chicken Dry Dog Food 720g,MH-DOG-COMBO-016,price_1U90TaRyM6dRKLtZWuVaHBFp,True,720g（4 小包裝）,234.9,114.0000,price_metadata,132.97,101.93,43.39
+prod_V8kNDRrV7QQWc8,COMBO 捲心菜牛肉狗狗乾糧 720g｜COMBO Cabbage & Beef Dry Dog Food 720g,MH-DOG-COMBO-013,price_1U90TYRyM6dRKLtZdZNpfM38,True,720g（4 小包裝）,234.9,114.0000,price_metadata,132.97,101.93,43.39
+prod_V8kNDHKt8kCFkT,COMBO 馬蘇里拉芝士角切狗狗乾糧 720g｜COMBO Mozzarella Cheese Cubes Dry Dog Food 720g,MH-DOG-COMBO-015,price_1U90TXRyM6dRKLtZARGBBySv,True,720g（4 小包裝）,234.9,114.0000,price_metadata,132.97,101.93,43.39
+prod_V8kNSV91CKgxb8,"COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g｜COMBO Beef, Dried Small Fish, Cheese & Vegetable Blend Dry Dog Food 720g",MH-DOG-COMBO-014,price_1U90TZRyM6dRKLtZtQ7cumCz,True,720g（4 小包裝）,234.9,114.0000,price_metadata,132.97,101.93,43.39
+prod_V8lAWevxk3Za0C,COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g,MH-CAT-COMBO-003,price_1U91MdRyM6dRKLtZDPeHsiFk,True,600g（120g×5）,184.9,89.6000,price_metadata,104.51,80.39,43.48
+prod_V8lAeH2hqPlna6,COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g,MH-CAT-COMBO-002,price_1U91MeRyM6dRKLtZ5O0AYreF,True,700g（140g×5）,184.9,89.6000,price_metadata,104.51,80.39,43.48
+prod_V8lAOpvuncOCZM,COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g,MH-CAT-COMBO-001,price_1U91MfRyM6dRKLtZzhqc0JxS,True,600g（120g×5）,184.9,89.6000,price_metadata,104.51,80.39,43.48
+prod_V8lAMmluHgtE1f,PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4｜PETLINE Gochisou Time Chicken Paste Milk Jelly with Cheese Pouches 25g×4,MH-DOG-PTL-004,price_1U90TkRyM6dRKLtZDOKY162e,True,25g×4,40.9,19.7000,price_metadata,22.98,17.92,43.82
+prod_V8lAXdhHafIDnG,PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4｜PETLINE Gochisou Time Chicken Breast Milk-Stew with Cheese Pouches 25g×4,MH-DOG-PTL-003,price_1U90ToRyM6dRKLtZX8MagmYU,True,25g×4,40.9,19.7000,price_metadata,22.98,17.92,43.82
+prod_V8lAt5mJJ5YOb7,PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast & Cheese Jelly Pouches 25g×4,MH-DOG-PTL-002,price_1U90TtRyM6dRKLtZ6uoUCcpH,True,25g×4,40.9,19.7000,price_metadata,22.98,17.92,43.82
+prod_V8lAPSEzKs8rpv,"PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast, Vegetable & Beef-Style Jelly Pouches 25g×4",MH-DOG-PTL-001,price_1U90TmRyM6dRKLtZwKHnI6J8,True,25g×4,40.9,19.7000,price_metadata,22.98,17.92,43.82
+prod_V8lA7fjOQvodwx,COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g｜COMBO Pure Chicken Breast & Three Vegetable Cubes Dog Treat 50g,MH-DOG-COMBO-005,price_1U90TgRyM6dRKLtZOSQ0bR5c,True,50g,65.9,31.7000,price_metadata,36.98,28.92,43.89
+prod_V8lA4N42hxS8dk,COMBO Pure 雞肉軟骨切塊狗狗小食 50g｜COMBO Pure Chicken & Cartilage Cubes Dog Treat 50g,MH-DOG-COMBO-004,price_1U90TfRyM6dRKLtZYA48AO1y,True,50g,65.9,31.7000,price_metadata,36.98,28.92,43.89
+prod_V8lA3nhXSFdHkU,COMBO Pure 羅勒香雞肉切塊狗狗小食 50g｜COMBO Pure Basil-Scented Chicken Cubes Dog Treat 50g,MH-DOG-COMBO-003,price_1U90TeRyM6dRKLtZlBbwP7Sb,True,50g,65.9,31.7000,price_metadata,36.98,28.92,43.89
+prod_V8lAyjALw49Mz2,COMBO Pure 香嫩雞胸肉絲狗狗小食 50g｜COMBO Pure Tender Chicken Breast Strips Dog Treat 50g,MH-DOG-COMBO-002,price_1U90TuRyM6dRKLtZCkAleg1y,True,50g,65.9,31.7000,price_metadata,36.98,28.92,43.89
+prod_V8lActmdKRF9Nz,COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g｜COMBO Pure Tender Chicken Breast Cubes Dog Treat 50g,MH-DOG-COMBO-001,price_1U90TqRyM6dRKLtZ7F9UXZ0h,True,50g,65.9,31.7000,price_metadata,36.98,28.92,43.89
+prod_V8uIOVwsFqgPTV,Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L,MH-LIF-ST-001,price_1U98a8RyM6dRKLtZQY87lty8,True,4.4L｜極小顆粒,203.9,96.0,price_metadata,111.98,91.92,45.08
+prod_V8uIOVwsFqgPTV,Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L,MH-LIF-ST-001,price_1U98a7RyM6dRKLtZzm5frgsp,False,4.4L｜小顆粒,203.9,96.0,price_metadata,111.98,91.92,45.08
+prod_V8uIOVwsFqgPTV,Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L,MH-LIF-ST-001,price_1U98a6RyM6dRKLtZruKTBEiS,False,4.4L｜大顆粒,203.9,96.0,price_metadata,111.98,91.92,45.08
+prod_V8xXMTWORpMyun,AIM30 室內高齡貓 11 歲以上 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Fish Flavour 600g,MH-CAT-SNR-030,price_1U98ZbRyM6dRKLtZP60fXKdc,True,11 歲以上｜鮮魚味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXwQzwhjo93R,AIM30 室內高齡貓 15 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Chicken Flavour 600g,MH-CAT-SNR-031,price_1U98ZcRyM6dRKLtZeNW3mQ9j,True,15 歲以上｜雞肉味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXT4XG39RY4o,AIM30 室內高齡貓 15 歲以上 腎臟健康照護 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Fish Flavour 600g,MH-CAT-SNR-032,price_1U98ZeRyM6dRKLtZfGAOyach,True,15 歲以上｜腎臟健康照護｜鮮魚味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXTyAkIg3YGz,AIM30 室內高齡貓 15 歲以上 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Chicken Flavour 600g,MH-CAT-SNR-033,price_1U98ZfRyM6dRKLtZVUXoqDgL,True,15 歲以上｜腎臟健康照護｜雞肉味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXIokF7G9Er0,AIM30 室內成貓 鮮魚味乾糧 600g｜AIM30 Indoor Adult Cat Food Fish Flavour 600g,MH-CAT-SNR-026,price_1U98ZVRyM6dRKLtZkZ7ms3x4,True,鮮魚味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXuAW047ti4v,AIM30 室內成貓 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Chicken Flavour 600g,MH-CAT-SNR-025,price_1U98ZTRyM6dRKLtZW8abtsIM,True,雞肉味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8xXaZ0jwFhqkT,AIM30 室內高齡貓 11 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Chicken Flavour 600g,MH-CAT-SNR-029,price_1U98ZZRyM6dRKLtZrnFOByt4,True,11 歲以上｜雞肉味｜600g,356.9,168.0,price_metadata,195.96,160.94,45.09
+prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,MH-DOG-GEN-001,price_1U98ZnRyM6dRKLtZ9KSIKyO0,False,4 口味各 2 包（共 64 根）,69.9,32.9,price_metadata,38.38,31.52,45.10
+prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,MH-DOG-GEN-001,price_1U98ZlRyM6dRKLtZ1mT1w5nb,False,混合口味 8 包／可自選（共 64 根）,69.9,32.9,price_metadata,38.38,31.52,45.10
+prod_V8uInkIOBbpTsp,PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg,MH-CAT-PAMAX-001,price_1U98YqRyM6dRKLtZ8XeHeeoy,False,6 包｜16.2kg,473.9,223.0,price_metadata,260.11,213.79,45.11
+prod_V8vr5nCW67gu8X,銀之匙 三ツ星グルメ 魚肉奶油夾心 鮪魚及白蝦味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & White Shrimp Dry Cat Food 180g,MH-CAT-GNSP-015,price_1U98YCRyM6dRKLtZMsO5qwK0,True,鮪魚及白蝦味,116.9,55.0,price_metadata,64.15,52.75,45.12
+prod_V8xXxYtzIJ6S93,AIM30 室內已絕育成貓 雞肉味乾糧 1.2kg｜AIM30 Indoor Spayed and Neutered Adult Cat Food Chicken Flavour 1.2kg,MH-CAT-SNR-028,price_1U98ZYRyM6dRKLtZRu6JWaTm,True,已絕育成貓｜雞肉味｜1.2kg,418.9,197.0,price_metadata,229.79,189.11,45.15
+prod_V8uInkIOBbpTsp,PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg,MH-CAT-PAMAX-001,price_1U98YpRyM6dRKLtZfZ5qZH6U,True,1 包｜2.7kg,97.9,46.0,price_metadata,53.66,44.24,45.19
+prod_V8fduDqyGKiazf,CIAO 炙烤盛宴｜香烤鰹魚干瑤柱 (高齡貓用)｜50g,MH-CAT-CIAO-029,price_1U95SoRyM6dRKLtZ60fcuC3D,True,50g,24.9,11.70,price_metadata,13.65,11.25,45.19
+prod_V8szJB1xzy0Hkm,藍貓圖案斜口高腳陶瓷食盤 M｜Blue Cat Pattern Raised Slanted Ceramic Bowl M,MH-LIF-GEN-001,price_1U98ZoRyM6dRKLtZ3C4bEZbc,True,藍貓圖案 M,65.9,30.95,price_metadata,36.10,29.80,45.22
+prod_V8uIPfhAKY5ONF,SNAPPY 低粉塵膨潤土貓砂 原味無香 7L｜SNAPPY Low-Dust Bentonite Cat Litter Unscented 7L,MH-CAT-SNP-001,price_1U98YrRyM6dRKLtZsayRktj0,True,7L｜原味無香,96.9,45.45,price_metadata,53.01,43.89,45.29
+prod_V8xXwAmye0eVa6,AIM30 室內成貓 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Kidney Health Care Chicken Flavour 600g,MH-CAT-SNR-027,price_1U98ZWRyM6dRKLtZWvIfa7KS,True,腎臟健康照護｜雞肉味｜600g,223.9,105.0,price_metadata,122.47,101.43,45.30
+prod_V8uInkIOBbpTsp,PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg,MH-CAT-PAMAX-001,price_1U98YoRyM6dRKLtZSbUnoVVZ,False,2 包｜5.4kg,191.9,90.0,price_metadata,104.98,86.92,45.30
+prod_V8thBqcqHiv3cZ,銀之匙 三ツ星グルメ 幼貓魚味加牛奶乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Kitten Fish Recipe with Milk Dry Cat Food 240g,MH-CAT-GNSP-020,price_1U98YJRyM6dRKLtZOyBm370r,True,240g (20g × 12 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thwhOf6ahDTN,銀之匙 三ツ星グルメ 10歲起腎臟健康維護魚味四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet 10+ Kidney Health Maintenance Fish Four-Recipe Dry Cat Food 200g,MH-CAT-GNSP-021,price_1U98YLRyM6dRKLtZDAWadEwe,True,200g (20g × 10 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thPo6RjbpnwO,銀之匙 三ツ星グルメ 餐後吐毛輕減及毛球護理魚味乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Dry Cat Food for Reduced Post-Meal Vomiting & Hairball Care 192g,MH-CAT-GNSP-025,price_1U98YRRyM6dRKLtZwIXIOk9F,True,192g (16g × 12 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thk9qKECj0in,"銀之匙 三ツ星グルメ 鮮旨香 金槍魚鯛魚鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Sea Bream & Bonito Dry Cat Food 192g",MH-CAT-GNSP-024,price_1U98YPRyM6dRKLtZynWg0fwG,True,192g (16g × 12 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thsQJq4RYszQ,"銀之匙 三ツ星グルメ 鮮旨香 金槍魚雞里脊鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Chicken Tender & Bonito Dry Cat Food 192g",MH-CAT-GNSP-023,price_1U98YORyM6dRKLtZHqh2MSFb,True,192g (16g × 12 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thRjwLfHWe9X,銀之匙 三ツ星グルメ 鮮旨香 魚肉雞里脊三拼乾糧 160g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Fish & Chicken Tender Three-Recipe Dry Cat Food 160g,MH-CAT-GNSP-022,price_1U98YMRyM6dRKLtZxNC1QmDm,True,160g (16g × 10 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8thb2VVnmHjCY,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚毛球護理乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Hairball Care Dry Cat Food 180g,MH-CAT-GNSP-017,price_1U98YFRyM6dRKLtZz4zy1NpT,True,180g (18g × 10 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8th4gMOUDUrzu,銀之匙 三ツ星グルメ 夾心奶油 魚肉雞里脊三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Fish & Chicken Tender Three-Recipe Dry Cat Food 180g,MH-CAT-GNSP-016,price_1U98YDRyM6dRKLtZIqUYSNNT,True,180g (18g × 10 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8th51dTMblovb,銀之匙 三ツ星グルメ 夾心奶油 金槍魚雞里脊味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Chicken Tender Dry Cat Food 180g,MH-CAT-GNSP-018,price_1U98YGRyM6dRKLtZUEtamdny,True,180g (18g × 10 bags),99.9,46.8,price_metadata,54.59,45.31,45.36
+prod_V8xXM2ONlpEcC3,Mon Petit Crispy Kiss 真鯛及海鮮綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Snapper and Seafood Assortment Cat Treats 144g,MH-CAT-MONP-014,price_1U98YmRyM6dRKLtZsaA09Z9h,True,真鯛及海鮮綜合包｜144g,127.9,59.9,price_metadata,69.87,58.03,45.37
+prod_V8xX3586zZhcZt,"Mon Petit Crispy Kiss 海鮮、芝士及雞肉燒烤味綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood, Cheese and Chicken Grill Variety Pack Cat Treats 144g",MH-CAT-MONP-011,price_1U98YiRyM6dRKLtZ9KNUbAgy,True,海鮮、芝士及雞肉燒烤味綜合包｜144g,127.9,59.9,price_metadata,69.87,58.03,45.37
+prod_V8xXFw4xx3NEuP,Mon Petit Crispy Kiss 海鮮及雞肉綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood and Chicken Variety Pack Cat Treats 144g,MH-CAT-MONP-012,price_1U98YjRyM6dRKLtZvvBI0EjY,True,海鮮及雞肉綜合包｜144g,127.9,59.9,price_metadata,69.87,58.03,45.37
+prod_V8xXRC7As2ra5W,Mon Petit Crispy Kiss 肉類精選綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Meat Selection Variety Pack Cat Treats 144g,MH-CAT-MONP-008,price_1U98YdRyM6dRKLtZAjJTRhgY,True,肉類精選綜合包｜144g,127.9,59.9,price_metadata,69.87,58.03,45.37
+prod_V8uIO7LzUQjeCT,Unicharm Deotoilet 消臭抗菌沸石貓砂 清新庭院香 3.8L｜Unicharm Deotoilet Deodorising Antibacterial Zeolite Cat Litter Natural Green 3.8L,MH-CAT-UCM-001,price_1U98ZhRyM6dRKLtZ42qJmIPX,True,3.8L｜清新庭院香,91.9,43.0,price_metadata,50.16,41.74,45.42
+prod_V90yCfcKRyo9ou,Inaba かつまぐろ｜多口味隨機混拼貓罐頭｜85g × 6罐,MH-CAT-CIAO-027,price_1U98XxRyM6dRKLtZkQ69zpfz,True,85g × 6罐,62.9,29.42,price_metadata,34.32,28.58,45.44
+prod_V8vrBdjzLlg7F7,AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g,MH-CAT-SNR-004,price_1U98YyRyM6dRKLtZ6q1UzqAk,True,日本包裝規格,50.9,23.8,price_metadata,27.76,23.14,45.46
+prod_V8vrvYaxZ1cxLJ,AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g,MH-CAT-SNR-003,price_1U98YwRyM6dRKLtZMCpHdd1r,True,日本包裝規格,50.9,23.8,price_metadata,27.76,23.14,45.46
+prod_V8lATUvYyTfiyk,"銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",MH-CAT-GNSP-005,price_1U8TeMRyM6dRKLtZ8duuCeG8,True,70g,19.9,9.3000,price_metadata,10.85,9.05,45.49
+prod_V8lAGdiamaGSwC,"銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Shirasu Cat Can 70g",MH-CAT-GNSP-004,price_1U8TeLRyM6dRKLtZR3jNQ3eA,True,70g,19.9,9.3000,price_metadata,10.85,9.05,45.49
+prod_V8lATH0SDiLKBx,"銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna, Bonito & Chicken Breast Cat Can 70g",MH-CAT-GNSP-003,price_1U8TeKRyM6dRKLtZ06iNBorq,True,70g,19.9,9.3000,price_metadata,10.85,9.05,45.49
+prod_V8lAjMRJn8PScz,"銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Tuna, Bonito & Chicken Breast Cat Can 70g",MH-CAT-GNSP-002,price_1U8TeJRyM6dRKLtZZNQsVoYK,True,70g,19.9,9.3000,price_metadata,10.85,9.05,45.49
+prod_V8lAUga8Mwc3d0,銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g,MH-CAT-GNSP-001,price_1U8TeIRyM6dRKLtZfLkTpmot,True,70g,19.9,9.3000,price_metadata,10.85,9.05,45.49
+prod_V8uJVy7nhLvdrI,"銀之匙 三ツ星グルメ 香酥魚香 金槍魚鯛魚鰹魚扇貝乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Tuna, Sea Bream, Bonito & Scallop Dry Cat Food 200g",MH-CAT-GNSP-010,price_1U98Y5RyM6dRKLtZAs4q2N8A,True,200g（20g × 10袋）,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uJcEJtSEmb69,銀之匙 三ツ星グルメ 香酥魚香 魚味綜合乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Assorted Fish Dry Cat Food 200g,MH-CAT-GNSP-006,price_1U98XzRyM6dRKLtZGT7FFeuH,True,200g（20g × 10袋）,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uJPueROjgX6L,銀之匙 三ツ星グルメ 香酥魚香 毛球護理乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Hairball Care Dry Cat Food 200g,MH-CAT-GNSP-009,price_1U98Y3RyM6dRKLtZ2ROnZCVo,True,200g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uJI32Jxh5dCc,銀之匙 三ツ星グルメ 香酥魚香 魚肉雞肉四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish & Chicken Four-Recipe Dry Cat Food 200g,MH-CAT-GNSP-007,price_1U98Y0RyM6dRKLtZCXkrdmPA,True,200g（20g × 10袋）,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uILuFno1z4MZ,銀之匙 三ツ星グルメ 香酥魚香 腸胃健康照護乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Gut-Health Care Dry Cat Food 200g,MH-CAT-GNSP-008,price_1U98Y2RyM6dRKLtZxczPOazx,True,200g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uIgedRHwtgJJ,銀之匙 三ツ星グルメ 夾心奶油 腸胃健康魚味三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Gut-Health Fish Three-Recipe Dry Cat Food 180g,MH-CAT-GNSP-012,price_1U98Y8RyM6dRKLtZFPNxxwfT,True,180g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uIfmE32YGKQz,銀之匙 三ツ星グルメ 夾心奶油 魚味綜合乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Assorted Fish Dry Cat Food 180g,MH-CAT-GNSP-011,price_1U98Y6RyM6dRKLtZFQJLFvcA,True,180g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uID4s03TNUrL,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鯛魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Sea Bream Dry Cat Food 180g,MH-CAT-GNSP-014,price_1U98YARyM6dRKLtZZoa3SBCO,True,180g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8uIc8IHCyEuCW,銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Dry Cat Food 180g,MH-CAT-GNSP-013,price_1U98Y9RyM6dRKLtZrZMp5AsW,True,180g,95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8thjTAXBn4Lnx,銀之匙 三ツ星グルメ 香酥魚香毛球護理乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Hairball Care Dry Cat Food 240g,MH-CAT-GNSP-019,price_1U98YIRyM6dRKLtZzaoqnBbW,True,240g (20g × 12 bags),95.9,44.8,price_metadata,52.26,43.64,45.51
+prod_V8vsohIxXgEVDb,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g,MH-CAT-SNR-007,price_1U98Z2RyM6dRKLtZ0aUp5uT7,True,日本包裝規格,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8vs7g4SLaJWJ3,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g,MH-CAT-SNR-006,price_1U98Z1RyM6dRKLtZ4dN6Yfmo,True,日本包裝規格,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8vsqALfCDaZlZ,AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g,MH-CAT-SNR-005,price_1U98YzRyM6dRKLtZMNyAueu6,True,日本包裝規格,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8vrEgpUGj9fjI,AIM30 Karitto Treats 酥脆貓咪零食 魚味四種綜合包 80g｜AIM30 Karitto Treats Crispy Cat Treats Four Fish Flavours Assortment 80g,MH-CAT-SNR-016,price_1U98ZGRyM6dRKLtZgVu1paOw,True,魚味四種綜合｜80g,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8vrsKDQclIgy0,AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 80g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 80g,MH-CAT-SNR-013,price_1U98ZBRyM6dRKLtZxnqaN8Za,True,雞肉味｜80g,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8vrYMEciXr909,AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 80g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 80g,MH-CAT-SNR-015,price_1U98ZERyM6dRKLtZuQBiWEf2,True,鮮魚味｜80g,119.9,56.0,price_metadata,65.32,54.58,45.52
+prod_V8t0eKeqlC0GzI,深藍貓臉高腳陶瓷食盤 M｜Navy Cat Face Raised Ceramic Bowl M,MH-LIF-GEN-005,price_1U98a2RyM6dRKLtZrWJuvWej,True,深藍色 M,46.9,21.9,price_metadata,25.54,21.36,45.53
+prod_V8t03LiP3rgoHN,貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml,MH-LIF-GEN-003,price_1U98ZxRyM6dRKLtZWJ0g67SJ,False,橘色,59.9,27.94,price_metadata,32.59,27.31,45.59
+prod_V8t03LiP3rgoHN,貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml,MH-LIF-GEN-003,price_1U98ZwRyM6dRKLtZIH1C9qdw,True,白色,59.9,27.94,price_metadata,32.59,27.31,45.59
+prod_V8t03LiP3rgoHN,貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml,MH-LIF-GEN-003,price_1U98ZvRyM6dRKLtZzQWhmAsL,False,藍色,59.9,27.94,price_metadata,32.59,27.31,45.59
+prod_V8szzgASg2ZnbO,白貓海浪紋斜口高腳陶瓷食盤 M｜White Cat Wave Pattern Raised Slanted Ceramic Bowl M,MH-LIF-GEN-006,price_1U98a4RyM6dRKLtZckhBFtU6,True,白貓海浪紋 M,59.9,27.94,price_metadata,32.59,27.31,45.59
+prod_V90yC8a54bE0EL,CIAO｜14歲以上鰹魚柴魚片貓罐頭｜單罐,MH-CAT-CIAO-022,price_1U98XsRyM6dRKLtZxoIltoTI,True,單罐,33.9,15.8,price_metadata,18.43,15.47,45.64
+prod_V90yoyex98iTAW,CIAO｜14歲以上鮪魚白肉小銀魚貓罐頭｜單罐,MH-CAT-CIAO-021,price_1U98XqRyM6dRKLtZMK9i3yHJ,True,單罐,33.9,15.8,price_metadata,18.43,15.47,45.64
+prod_V90yRB01IgVrDV,CIAO｜11歲以上鮪魚白肉貓罐頭｜單罐,MH-CAT-CIAO-020,price_1U98XpRyM6dRKLtZ4BhHYtZw,True,單罐,33.9,15.8,price_metadata,18.43,15.47,45.64
+prod_V90y14gfPJNkP3,CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐,MH-CAT-CIAO-019,price_1U98XnRyM6dRKLtZwWeZKA65,True,單罐,33.9,15.8,price_metadata,18.43,15.47,45.64
+prod_V90yisznvIVXlp,CIAO｜烤鰹魚鮪魚雞肉貓罐頭｜單罐,MH-CAT-CIAO-014,price_1U98XgRyM6dRKLtZjPr1RcsS,True,單罐,33.9,15.8,price_metadata,18.43,15.47,45.64
+prod_V8vrSwyPdcre4F,AIM30 貓咪雞肉絲 25g｜AIM30 Cat Shredded Chicken Fillet 25g,MH-CAT-SNR-002,price_1U98YuRyM6dRKLtZnw5z08GB,True,25g,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrxdYkx6Hq9O,AIM30 Karitto Treats 酥脆貓咪零食 綜合營養吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Balanced Nutrition Tuna 25g,MH-CAT-SNR-008,price_1U98Z4RyM6dRKLtZuYthiBxt,True,綜合營養｜吞拿魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vr09YUCbk2x6,AIM30 Karitto Treats 酥脆貓咪零食 乳酸菌吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna with Lactic Acid Bacteria 25g,MH-CAT-SNR-018,price_1U98ZJRyM6dRKLtZEfdJBIuv,True,乳酸菌｜吞拿魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrEGzFHOkIGq,AIM30 Karitto Treats 酥脆貓咪零食 毛球護理吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Hairball Care Tuna 25g,MH-CAT-SNR-017,price_1U98ZHRyM6dRKLtZjWmva06L,True,毛球護理｜吞拿魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrJdunHu4yQD,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及蟹肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna & Crab Flavour 25g,MH-CAT-SNR-022,price_1U98ZPRyM6dRKLtZmt4qBeAH,True,吞拿魚及蟹肉味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vragc9O6bDre,AIM30 Karitto Treats 酥脆貓咪零食 金槍魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g,MH-CAT-SNR-019,price_1U98ZKRyM6dRKLtZwhpQtkBq,True,金槍魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrVGdqH472WR,AIM30 Karitto Treats 酥脆貓咪零食 牛肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Beef Flavour 25g,MH-CAT-SNR-009,price_1U98Z5RyM6dRKLtZD2zFTKA3,True,牛肉味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrEO4eoZSj2o,AIM30 Karitto Treats 酥脆貓咪零食 芝士味 25g｜AIM30 Karitto Treats Crispy Cat Treats Cheese Flavour 25g,MH-CAT-SNR-011,price_1U98Z8RyM6dRKLtZToQqzerS,True,芝士味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrqp1avymNZ9,AIM30 Karitto Treats 酥脆貓咪零食 海鮮味 25g｜AIM30 Karitto Treats Crispy Cat Treats Seafood Flavour 25g,MH-CAT-SNR-021,price_1U98ZNRyM6dRKLtZ2ijMM6xd,True,海鮮味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vr3X8ZjnY554,AIM30 Karitto Treats 酥脆貓咪零食 三文魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Salmon Flavour 25g,MH-CAT-SNR-020,price_1U98ZMRyM6dRKLtZyZpmtmrR,True,三文魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vrkohKHcwdKL,AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 25g,MH-CAT-SNR-012,price_1U98ZARyM6dRKLtZt6qfYJAr,True,雞肉味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8vq78vZ3hdOmK,AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 25g,MH-CAT-SNR-014,price_1U98ZDRyM6dRKLtZdDbRp8YM,True,鮮魚味,30.9,14.4,price_metadata,16.80,14.10,45.64
+prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,MH-DOG-GEN-001,price_1U98ZmRyM6dRKLtZyOWdMNmE,False,混合口味 10 包（共 80 根）,78.9,36.7,price_metadata,42.81,36.09,45.74
+prod_V8xXV7x4AmWu89,Mon Petit Crispy Kiss 奢華三文魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Salmon Flavour Cat Treats 24g,MH-CAT-MONP-007,price_1U98YbRyM6dRKLtZxHclpLoF,True,奢華三文魚味｜24g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXMB8UApWAYP,"Mon Petit Crispy Kiss 三文魚、鰹魚及小魚味貓咪小食 30g｜Mon Petit Crispy Kiss Salmon, Bonito and Small Fish Cat Treats 30g",MH-CAT-MONP-009,price_1U98YeRyM6dRKLtZg8WaICIf,True,三文魚、鰹魚及小魚味｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXn4fyGQ2Iwg,Mon Petit Crispy Kiss 鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Bonito and Small Fish Broth Cat Treats 30g,MH-CAT-MONP-001,price_1U98YSRyM6dRKLtZivAh7MmL,True,鰹魚及小魚高湯味｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXZsF0TMS5c8,"Mon Petit Crispy Kiss 真鯛、鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Snapper, Skipjack Tuna and Small Fish Broth Cat Treats 30g",MH-CAT-MONP-013,price_1U98YlRyM6dRKLtZby0WJaA0,True,真鯛、鰹魚及小魚高湯味｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXmrlDUto85d,Mon Petit Crispy Kiss 海鮮味貓咪小食 30g｜Mon Petit Crispy Kiss Seafood Flavour Cat Treats 30g,MH-CAT-MONP-010,price_1U98YgRyM6dRKLtZkLH4sRxr,True,海鮮味｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXYKr9wN7Aee,Mon Petit Crispy Kiss 鮮魚精選貓咪小食 30g｜Mon Petit Crispy Kiss Fish Select Cat Treats 30g,MH-CAT-MONP-004,price_1U98YWRyM6dRKLtZbOFcUHcm,True,鮮魚精選｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXSx8MWb3Y8D,Mon Petit Crispy Kiss 芝士及雞肉味貓咪小食 30g｜Mon Petit Crispy Kiss Cheese and Chicken Flavour Cat Treats 30g,MH-CAT-MONP-002,price_1U98YTRyM6dRKLtZqnLtEhUo,True,芝士及雞肉味｜30g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xX5m49XGPiSw,Mon Petit Crispy Kiss 奢華雞肉味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Chicken Flavour Cat Treats 24g,MH-CAT-MONP-005,price_1U98YYRyM6dRKLtZsQhU3POM,True,奢華雞肉味｜24g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXBfCtwPwxjK,Mon Petit Crispy Kiss 奢華鮮魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Fish Flavour Cat Treats 24g,MH-CAT-MONP-006,price_1U98YZRyM6dRKLtZCSeLVQCG,True,奢華鮮魚味｜24g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8xXLMbKeB2tb9,Mon Petit Crispy Kiss 鮮魚雞肉貓薄荷味貓咪小食 24g｜Mon Petit Crispy Kiss Fish and Chicken with Catnip Cat Treats 24g,MH-CAT-MONP-003,price_1U98YVRyM6dRKLtZCI3An1cd,True,鮮魚、雞肉及貓薄荷｜24g,29.9,13.9,price_metadata,16.21,13.69,45.77
+prod_V8szxN4qvZQyrJ,貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm,MH-LIF-GEN-002,price_1U98ZtRyM6dRKLtZg0q7RMnL,False,綠胖胖,54.9,25.5,price_metadata,29.74,25.16,45.82
+prod_V8szxN4qvZQyrJ,貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm,MH-LIF-GEN-002,price_1U98ZsRyM6dRKLtZlwKi3Oqi,False,柿柿如意（綠色插畫）,54.9,25.5,price_metadata,29.74,25.16,45.82
+prod_V8szxN4qvZQyrJ,貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm,MH-LIF-GEN-002,price_1U98ZrRyM6dRKLtZfbm5ktUC,True,自在如風（藍色插畫）,54.9,25.5,price_metadata,29.74,25.16,45.82
+prod_V8szxN4qvZQyrJ,貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm,MH-LIF-GEN-002,price_1U98ZqRyM6dRKLtZGAHX2lMB,False,藍胖胖,54.9,25.5,price_metadata,29.74,25.16,45.82
+prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,MH-DOG-GEN-001,price_1U98ZkRyM6dRKLtZosnWfonS,False,隨機 2 包／可自選（16 根）,27.9,12.9,price_metadata,15.05,12.85,46.07
+prod_V90yqFB6WTazQ9,CIAO｜雞肉蟹柳貓罐頭｜單罐,MH-CAT-CIAO-017,price_1U98XkRyM6dRKLtZD8lzOrlz,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90ytLadcfCm8a,CIAO｜雞肉蟹柳柴魚片貓罐頭｜單罐,MH-CAT-CIAO-016,price_1U98XjRyM6dRKLtZAAXqFLj7,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90ynvqu5ntnjO,CIAO｜雞肉扇貝柱貓罐頭｜單罐,MH-CAT-CIAO-015,price_1U98XhRyM6dRKLtZnBHDloxN,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90ynw7GK161mE,CIAO｜鰹魚柴魚片貓罐頭｜單罐,MH-CAT-CIAO-013,price_1U98XfRyM6dRKLtZYqP4V0mc,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90yrU6QwJj9H4,CIAO｜雞肉甜蝦小銀魚貓罐頭｜單罐,MH-CAT-CIAO-012,price_1U98XdRyM6dRKLtZaD6SfLIA,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90yHSNJqbGEZF,CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐,MH-CAT-CIAO-010,price_1U98XaRyM6dRKLtZhU4Ph3MU,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90yGkxpp9OU57,CIAO とろみ｜奶油濃湯雞肉鰹魚柴魚片貓罐頭｜單罐,MH-CAT-CIAO-008,price_1U98XXRyM6dRKLtZt3Tnq6M3,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V90yHw6lb8trQi,CIAO とろみ｜鰹魚高湯雞肉鮪魚蟹柳濃湯貓罐頭｜單罐,MH-CAT-CIAO-002,price_1U98XORyM6dRKLtZ6AeAYBYE,True,單罐,29.9,13.8,price_metadata,16.10,13.80,46.17
+prod_V8vro3NAxi0isd,AIM30 貓咪吞拿魚片 30g｜AIM30 Cat Tuna Slices 30g,MH-CAT-SNR-024,price_1U98ZSRyM6dRKLtZwv1GogXP,True,30g,42.9,19.8,price_metadata,23.10,19.80,46.17
+prod_V8vriJ8BqO90r3,AIM30 貓咪鰹魚削節 12g｜AIM30 Cat Bonito Flakes 12g,MH-CAT-SNR-001,price_1U98YtRyM6dRKLtZ8o7bIBf9,True,12g,42.9,19.8,price_metadata,23.10,19.80,46.17
+prod_V8vrCIoYlfznHf,AIM30 Karitto Treats 酥脆貓咪零食 鰹魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Bonito Flavour 25g,MH-CAT-SNR-010,price_1U98Z7RyM6dRKLtZAgyRXQT5,True,鰹魚味,42.9,19.8,price_metadata,23.10,19.80,46.17
+prod_V8vr8q8jdO6wNr,AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g,MH-CAT-SNR-023,price_1U98ZQRyM6dRKLtZ4E0uAXgo,True,吞拿魚味,42.9,19.8,price_metadata,23.10,19.80,46.17
+prod_V8szss31Rm8tiJ,高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml,MH-LIF-GEN-004,price_1U98a1RyM6dRKLtZpqIw4GDF,False,羽毛圖案,39.9,18.34,price_metadata,21.39,18.51,46.39
+prod_V8szss31Rm8tiJ,高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml,MH-LIF-GEN-004,price_1U98a0RyM6dRKLtZ0ZvBhJIe,False,綠葉圖案,39.9,18.34,price_metadata,21.39,18.51,46.39
+prod_V8szss31Rm8tiJ,高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml,MH-LIF-GEN-004,price_1U98ZzRyM6dRKLtZfIerTFwO,True,魚圖案,39.9,18.34,price_metadata,21.39,18.51,46.39
+prod_V90yyLLKXQRQey,CIAO｜鮪魚白肉扇貝柱貓罐頭｜單罐,MH-CAT-CIAO-018,price_1U98XmRyM6dRKLtZarl7G8Jc,True,單罐,27.9,12.8,price_metadata,14.93,12.97,46.49
+prod_V90yxohDmOksl3,CIAO｜雞肉烤鰹魚柴魚片貓罐頭｜單罐,MH-CAT-CIAO-011,price_1U98XcRyM6dRKLtZcqimpVwy,True,單罐,27.9,12.8,price_metadata,14.93,12.97,46.49
+prod_V90yWGm3mtcreN,Inaba かつまぐろ｜高齡貓鮪魚貓罐頭｜85g／單罐,MH-CAT-CIAO-028,price_1U8iwzRyM6dRKLtZ5uUc9AxZ,True,85g／單罐,14.9,6.81,price_metadata,7.94,6.96,46.69
+prod_V90yAWxmanLYZk,Inaba かつまぐろ｜鮪魚小銀魚貓罐頭｜85g／單罐,MH-CAT-CIAO-026,price_1U8iwxRyM6dRKLtZccf5xxZZ,True,85g／單罐,14.9,6.81,price_metadata,7.94,6.96,46.69
+prod_V90yWS8dLSjcn2,Inaba かつまぐろ｜鮪魚三文魚貓罐頭｜85g／單罐,MH-CAT-CIAO-025,price_1U8iwwRyM6dRKLtZ4TVBysAG,True,85g／單罐,14.9,6.81,price_metadata,7.94,6.96,46.69
+prod_V90yhuy2ZgCVZK,Inaba かつまぐろ｜鮪魚貓罐頭｜85g／單罐,MH-CAT-CIAO-024,price_1U8iwuRyM6dRKLtZD1NxsXXw,True,85g／單罐,14.9,6.81,price_metadata,7.94,6.96,46.69
+prod_V90yhIRALdzZyY,Inaba かつまぐろ｜鮪魚雞肉貓罐頭｜85g／單罐,MH-CAT-CIAO-023,price_1U8iwtRyM6dRKLtZyY5icJzG,True,85g／單罐,14.9,6.81,price_metadata,7.94,6.96,46.69
+prod_V90yhouIdri4Ou,CIAO とろみ｜11歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐,MH-CAT-CIAO-009,price_1U98XYRyM6dRKLtZaR6LPGCA,True,單罐,25.9,11.8,price_metadata,13.76,12.14,46.86
+prod_V90yJbWqkU76Xa,CIAO とろみ｜奶油濃湯雞肉鮪魚蟹柳貓罐頭｜單罐,MH-CAT-CIAO-007,price_1U98XVRyM6dRKLtZah3Sc5Dr,True,單罐,25.9,11.8,price_metadata,13.76,12.14,46.86
+prod_V90yH5bCkLyGYU,CIAO とろみ｜下泌尿道配慮雞肉鮪魚扇貝濃湯貓罐頭｜單罐,MH-CAT-CIAO-006,price_1U98XURyM6dRKLtZVwguyUaw,True,單罐,25.9,11.8,price_metadata,13.76,12.14,46.86
+prod_V90ygMTkWiOVNg,CIAO とろみ｜烤鰹魚雞肉柴魚片濃湯貓罐頭｜單罐,MH-CAT-CIAO-004,price_1U98XQRyM6dRKLtZFsFMaK1C,True,單罐,25.9,11.8,price_metadata,13.76,12.14,46.86
+prod_V90yLm2ySqOvLR,CIAO とろみ｜鮪魚魷魚濃湯貓罐頭｜單罐,MH-CAT-CIAO-001,price_1U98XMRyM6dRKLtZyYotBGRt,True,單罐,25.9,11.8,price_metadata,13.76,12.14,46.86
+prod_V8sFjjO8IgpPvO,Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g,MH-DOG-GEN-001,price_1U98ZiRyM6dRKLtZZTekXVyt,True,體驗裝｜三文魚海苔味 1 包（8 根）,14.9,6.74,price_metadata,7.86,7.04,47.24
+prod_V90yLEVAaxxHJj,CIAO とろみ｜鰹魚高湯雞肉鮪魚魷魚濃湯貓罐頭｜單罐,MH-CAT-CIAO-005,price_1U98XSRyM6dRKLtZ15gGudl9,True,單罐,23.9,10.8,price_metadata,12.60,11.30,47.29
+prod_V90yamZYZI7jNF,CIAO とろみ｜鰹魚高湯雞肉鰹魚扇貝濃湯貓罐頭｜單罐,MH-CAT-CIAO-003,price_1U98XPRyM6dRKLtZRA37FVZC,True,單罐,23.9,10.8,price_metadata,12.60,11.30,47.29
