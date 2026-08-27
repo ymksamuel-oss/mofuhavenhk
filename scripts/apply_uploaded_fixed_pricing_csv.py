@@ -21,7 +21,7 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = Path("/home/ubuntu/upload/recalculated_pricing_output.csv")
-MAPPING = ROOT / "reports" / "recalculated_pricing_output_current_price_mapping_2026-08-27.json"
+MAPPING = ROOT / "reports" / "recalculated_pricing_output_complete_strict_mapping_2026-08-27.json"
 RESULT = ROOT / "reports" / "recalculated_pricing_output_apply_result_2026-08-27.json"
 IMPLIED_KEYS = ("pricing_cost_cny_baseline", "pricing_cost_baseline_method")
 REAL_COST_KEYS = ("cost_cny", "cny_cost", "source_cost_cny", "cost_cny_per_product", "supplier_cost_cny", "unit_cost_cny")

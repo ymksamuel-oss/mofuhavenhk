@@ -1,13 +1,13 @@
 {
   "mode": "apply",
   "input_rule": "CSV cost_cny and proposed_hkd used exactly; no FX, formula, rounding, or inferred-cost logic",
-  "started_at_utc": "2026-08-27T12:38:44.154077+00:00",
+  "started_at_utc": "2026-08-27T18:59:31.483148+00:00",
   "records": [
     {
       "csv_row": 2,
       "product_id": "prod_V90yLm2ySqOvLR",
       "source_csv_price_id": "price_1U8iwURyM6dRKLtZvEEuMvIT",
-      "source_current_price_id": "price_1U90VRRyM6dRKLtZFYXH9cyn",
+      "source_current_price_id": "price_1U95S4RyM6dRKLtZl8jDeIwS",
       "mofu_sku": "MH-CAT-CIAO-001",
       "product_name": "CIAO とろみ｜鮪魚魷魚濃湯貓罐頭｜單罐",
       "cost_cny": "11.8",
@@ -16,16 +16,16 @@
       "old_cents": 2490,
       "new_cents": 2590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92avRyM6dRKLtZbdU3CdbW",
+      "result_price_id": "price_1U98XMRyM6dRKLtZyYotBGRt",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:51.277692+00:00"
+      "completed_at_utc": "2026-08-27T19:00:33.406825+00:00"
     },
     {
       "csv_row": 3,
       "product_id": "prod_V90yHw6lb8trQi",
       "source_csv_price_id": "price_1U8iwVRyM6dRKLtZBxhHTGze",
-      "source_current_price_id": "price_1U90VPRyM6dRKLtZuzjUUDVQ",
+      "source_current_price_id": "price_1U95S4RyM6dRKLtZOmlh2kaY",
       "mofu_sku": "MH-CAT-CIAO-002",
       "product_name": "CIAO とろみ｜鰹魚高湯雞肉鮪魚蟹柳濃湯貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -34,16 +34,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92axRyM6dRKLtZp83aoECz",
+      "result_price_id": "price_1U98XORyM6dRKLtZ6AeAYBYE",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:52.689831+00:00"
+      "completed_at_utc": "2026-08-27T19:00:34.882081+00:00"
     },
     {
       "csv_row": 4,
       "product_id": "prod_V90yamZYZI7jNF",
       "source_csv_price_id": "price_1U8iwXRyM6dRKLtZywWN34fZ",
-      "source_current_price_id": "price_1U8iwXRyM6dRKLtZywWN34fZ",
+      "source_current_price_id": "price_1U95S3RyM6dRKLtZODwUyYqa",
       "mofu_sku": "MH-CAT-CIAO-003",
       "product_name": "CIAO とろみ｜鰹魚高湯雞肉鰹魚扇貝濃湯貓罐頭｜單罐",
       "cost_cny": "10.8",
@@ -52,16 +52,16 @@
       "old_cents": 2290,
       "new_cents": 2390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92azRyM6dRKLtZJlcaweNT",
+      "result_price_id": "price_1U98XPRyM6dRKLtZRA37FVZC",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:54.119764+00:00"
+      "completed_at_utc": "2026-08-27T19:00:36.370809+00:00"
     },
     {
       "csv_row": 5,
       "product_id": "prod_V90ygMTkWiOVNg",
       "source_csv_price_id": "price_1U8iwYRyM6dRKLtZYbdZDFYL",
-      "source_current_price_id": "price_1U90VTRyM6dRKLtZliouKIMN",
+      "source_current_price_id": "price_1U95S3RyM6dRKLtZjT7KXuOj",
       "mofu_sku": "MH-CAT-CIAO-004",
       "product_name": "CIAO とろみ｜烤鰹魚雞肉柴魚片濃湯貓罐頭｜單罐",
       "cost_cny": "11.8",
@@ -70,16 +70,16 @@
       "old_cents": 2490,
       "new_cents": 2590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b0RyM6dRKLtZv6bGM6Qt",
+      "result_price_id": "price_1U98XQRyM6dRKLtZFsFMaK1C",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:55.549104+00:00"
+      "completed_at_utc": "2026-08-27T19:00:37.855324+00:00"
     },
     {
       "csv_row": 6,
       "product_id": "prod_V90yLEVAaxxHJj",
       "source_csv_price_id": "price_1U8iwZRyM6dRKLtZc4a9huRq",
-      "source_current_price_id": "price_1U8iwZRyM6dRKLtZc4a9huRq",
+      "source_current_price_id": "price_1U95S2RyM6dRKLtZaj93Fu9i",
       "mofu_sku": "MH-CAT-CIAO-005",
       "product_name": "CIAO とろみ｜鰹魚高湯雞肉鮪魚魷魚濃湯貓罐頭｜單罐",
       "cost_cny": "10.8",
@@ -88,16 +88,16 @@
       "old_cents": 2290,
       "new_cents": 2390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b2RyM6dRKLtZNmxWsbSd",
+      "result_price_id": "price_1U98XSRyM6dRKLtZ15gGudl9",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:57.007739+00:00"
+      "completed_at_utc": "2026-08-27T19:00:39.781410+00:00"
     },
     {
       "csv_row": 7,
       "product_id": "prod_V90yH5bCkLyGYU",
       "source_csv_price_id": "price_1U8iwaRyM6dRKLtZbm2N3cUU",
-      "source_current_price_id": "price_1U90VNRyM6dRKLtZK5AI2hOI",
+      "source_current_price_id": "price_1U95S2RyM6dRKLtZqgg5YMqc",
       "mofu_sku": "MH-CAT-CIAO-006",
       "product_name": "CIAO とろみ｜下泌尿道配慮雞肉鮪魚扇貝濃湯貓罐頭｜單罐",
       "cost_cny": "11.8",
@@ -106,16 +106,16 @@
       "old_cents": 2490,
       "new_cents": 2590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b3RyM6dRKLtZf6MBpy5H",
+      "result_price_id": "price_1U98XURyM6dRKLtZVwguyUaw",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:58.423263+00:00"
+      "completed_at_utc": "2026-08-27T19:00:41.231882+00:00"
     },
     {
       "csv_row": 8,
       "product_id": "prod_V90yJbWqkU76Xa",
       "source_csv_price_id": "price_1U8iwbRyM6dRKLtZl7K9ejmQ",
-      "source_current_price_id": "price_1U90VQRyM6dRKLtZqQl036Bq",
+      "source_current_price_id": "price_1U95S1RyM6dRKLtZcUJ6HHuR",
       "mofu_sku": "MH-CAT-CIAO-007",
       "product_name": "CIAO とろみ｜奶油濃湯雞肉鮪魚蟹柳貓罐頭｜單罐",
       "cost_cny": "11.8",
@@ -124,16 +124,16 @@
       "old_cents": 2490,
       "new_cents": 2590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b5RyM6dRKLtZUCALgTdq",
+      "result_price_id": "price_1U98XVRyM6dRKLtZah3Sc5Dr",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:39:59.852334+00:00"
+      "completed_at_utc": "2026-08-27T19:00:42.732373+00:00"
     },
     {
       "csv_row": 9,
       "product_id": "prod_V90yGkxpp9OU57",
       "source_csv_price_id": "price_1U8iwdRyM6dRKLtZ7nW4lVOy",
-      "source_current_price_id": "price_1U90VMRyM6dRKLtZ33Q7muU6",
+      "source_current_price_id": "price_1U95S0RyM6dRKLtZ6PmsJNkD",
       "mofu_sku": "MH-CAT-CIAO-008",
       "product_name": "CIAO とろみ｜奶油濃湯雞肉鰹魚柴魚片貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -142,16 +142,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b6RyM6dRKLtZukI6DrYY",
+      "result_price_id": "price_1U98XXRyM6dRKLtZt3Tnq6M3",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:01.274668+00:00"
+      "completed_at_utc": "2026-08-27T19:00:44.160727+00:00"
     },
     {
       "csv_row": 10,
       "product_id": "prod_V90yhouIdri4Ou",
       "source_csv_price_id": "price_1U8iweRyM6dRKLtZOPT6WHop",
-      "source_current_price_id": "price_1U90VURyM6dRKLtZu5D2r6NG",
+      "source_current_price_id": "price_1U95S0RyM6dRKLtZV0jVhbKG",
       "mofu_sku": "MH-CAT-CIAO-009",
       "product_name": "CIAO とろみ｜11歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
       "cost_cny": "11.8",
@@ -160,16 +160,16 @@
       "old_cents": 2490,
       "new_cents": 2590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b7RyM6dRKLtZfE9XBBN4",
+      "result_price_id": "price_1U98XYRyM6dRKLtZaR6LPGCA",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:02.720040+00:00"
+      "completed_at_utc": "2026-08-27T19:00:45.602812+00:00"
     },
     {
       "csv_row": 11,
       "product_id": "prod_V90yHSNJqbGEZF",
       "source_csv_price_id": "price_1U8iwfRyM6dRKLtZujEk5TUK",
-      "source_current_price_id": "price_1U90VORyM6dRKLtZd3IS030U",
+      "source_current_price_id": "price_1U95RzRyM6dRKLtZi2oDT4gC",
       "mofu_sku": "MH-CAT-CIAO-010",
       "product_name": "CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -178,16 +178,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92b9RyM6dRKLtZMel2eEmB",
+      "result_price_id": "price_1U98XaRyM6dRKLtZhU4Ph3MU",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:04.141539+00:00"
+      "completed_at_utc": "2026-08-27T19:00:47.464883+00:00"
     },
     {
       "csv_row": 12,
       "product_id": "prod_V90yxohDmOksl3",
       "source_csv_price_id": "price_1U8iwgRyM6dRKLtZWmshq8Qw",
-      "source_current_price_id": "price_1U90VcRyM6dRKLtZHWkOBIIX",
+      "source_current_price_id": "price_1U95RzRyM6dRKLtZ9bYLd9tO",
       "mofu_sku": "MH-CAT-CIAO-011",
       "product_name": "CIAO｜雞肉烤鰹魚柴魚片貓罐頭｜單罐",
       "cost_cny": "12.8",
@@ -196,16 +196,16 @@
       "old_cents": 2690,
       "new_cents": 2790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bARyM6dRKLtZPaKgjkPD",
+      "result_price_id": "price_1U98XcRyM6dRKLtZcqimpVwy",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:05.592099+00:00"
+      "completed_at_utc": "2026-08-27T19:00:48.929545+00:00"
     },
     {
       "csv_row": 13,
       "product_id": "prod_V90yrU6QwJj9H4",
       "source_csv_price_id": "price_1U8iwhRyM6dRKLtZedeY1D6y",
-      "source_current_price_id": "price_1U90VaRyM6dRKLtZUgLoMWES",
+      "source_current_price_id": "price_1U95RyRyM6dRKLtZ3LQsI9PM",
       "mofu_sku": "MH-CAT-CIAO-012",
       "product_name": "CIAO｜雞肉甜蝦小銀魚貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -214,16 +214,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bCRyM6dRKLtZ1v4Tu7G9",
+      "result_price_id": "price_1U98XdRyM6dRKLtZaD6SfLIA",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:07.038531+00:00"
+      "completed_at_utc": "2026-08-27T19:00:50.381053+00:00"
     },
     {
       "csv_row": 14,
       "product_id": "prod_V90ynw7GK161mE",
       "source_csv_price_id": "price_1U8iwiRyM6dRKLtZDni4Rrvo",
-      "source_current_price_id": "price_1U90VXRyM6dRKLtZBITrxe2x",
+      "source_current_price_id": "price_1U95RyRyM6dRKLtZU6gwjsXo",
       "mofu_sku": "MH-CAT-CIAO-013",
       "product_name": "CIAO｜鰹魚柴魚片貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -232,16 +232,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bDRyM6dRKLtZKMcJKopZ",
+      "result_price_id": "price_1U98XfRyM6dRKLtZYqP4V0mc",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:08.488086+00:00"
+      "completed_at_utc": "2026-08-27T19:00:51.845976+00:00"
     },
     {
       "csv_row": 15,
       "product_id": "prod_V90yisznvIVXlp",
       "source_csv_price_id": "price_1U8iwjRyM6dRKLtZL7hePLZM",
-      "source_current_price_id": "price_1U90VVRyM6dRKLtZ66UbXymb",
+      "source_current_price_id": "price_1U95RxRyM6dRKLtZSs44DUGk",
       "mofu_sku": "MH-CAT-CIAO-014",
       "product_name": "CIAO｜烤鰹魚鮪魚雞肉貓罐頭｜單罐",
       "cost_cny": "15.8",
@@ -250,16 +250,16 @@
       "old_cents": 3290,
       "new_cents": 3390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bFRyM6dRKLtZlYrWAkIn",
+      "result_price_id": "price_1U98XgRyM6dRKLtZjPr1RcsS",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:09.975819+00:00"
+      "completed_at_utc": "2026-08-27T19:00:53.257023+00:00"
     },
     {
       "csv_row": 16,
       "product_id": "prod_V90ynvqu5ntnjO",
       "source_csv_price_id": "price_1U8iwkRyM6dRKLtZLKkQOBAC",
-      "source_current_price_id": "price_1U90VWRyM6dRKLtZDnKb0U4T",
+      "source_current_price_id": "price_1U95RxRyM6dRKLtZj4H3Earf",
       "mofu_sku": "MH-CAT-CIAO-015",
       "product_name": "CIAO｜雞肉扇貝柱貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -268,16 +268,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bGRyM6dRKLtZRYHxi2K6",
+      "result_price_id": "price_1U98XhRyM6dRKLtZnBHDloxN",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:11.830668+00:00"
+      "completed_at_utc": "2026-08-27T19:00:54.726361+00:00"
     },
     {
       "csv_row": 17,
       "product_id": "prod_V90ytLadcfCm8a",
       "source_csv_price_id": "price_1U8iwlRyM6dRKLtZUPCtyfo0",
-      "source_current_price_id": "price_1U90VbRyM6dRKLtZXUOkZaeJ",
+      "source_current_price_id": "price_1U95RwRyM6dRKLtZwFdVxsld",
       "mofu_sku": "MH-CAT-CIAO-016",
       "product_name": "CIAO｜雞肉蟹柳柴魚片貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -286,16 +286,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bIRyM6dRKLtZDdgtlcrJ",
+      "result_price_id": "price_1U98XjRyM6dRKLtZAAXqFLj7",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:13.236355+00:00"
+      "completed_at_utc": "2026-08-27T19:00:56.172840+00:00"
     },
     {
       "csv_row": 18,
       "product_id": "prod_V90yqFB6WTazQ9",
       "source_csv_price_id": "price_1U8iwmRyM6dRKLtZY9nLDMUK",
-      "source_current_price_id": "price_1U90VZRyM6dRKLtZMpko1E4s",
+      "source_current_price_id": "price_1U95RwRyM6dRKLtZtizUxfCN",
       "mofu_sku": "MH-CAT-CIAO-017",
       "product_name": "CIAO｜雞肉蟹柳貓罐頭｜單罐",
       "cost_cny": "13.8",
@@ -304,16 +304,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bJRyM6dRKLtZNBfa7zZ2",
+      "result_price_id": "price_1U98XkRyM6dRKLtZD8lzOrlz",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:14.684275+00:00"
+      "completed_at_utc": "2026-08-27T19:00:57.649726+00:00"
     },
     {
       "csv_row": 19,
       "product_id": "prod_V90yyLLKXQRQey",
       "source_csv_price_id": "price_1U8iwoRyM6dRKLtZP8VcS1tu",
-      "source_current_price_id": "price_1U90VdRyM6dRKLtZnxqOGUlV",
+      "source_current_price_id": "price_1U95RvRyM6dRKLtZBwH9Q6I5",
       "mofu_sku": "MH-CAT-CIAO-018",
       "product_name": "CIAO｜鮪魚白肉扇貝柱貓罐頭｜單罐",
       "cost_cny": "12.8",
@@ -322,16 +322,16 @@
       "old_cents": 2690,
       "new_cents": 2790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bLRyM6dRKLtZXjNYMz6i",
+      "result_price_id": "price_1U98XmRyM6dRKLtZarl7G8Jc",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:16.096238+00:00"
+      "completed_at_utc": "2026-08-27T19:00:59.170114+00:00"
     },
     {
       "csv_row": 20,
       "product_id": "prod_V90y14gfPJNkP3",
       "source_csv_price_id": "price_1U8iwpRyM6dRKLtZc7uPsPIp",
-      "source_current_price_id": "price_1U90VKRyM6dRKLtZCTgrpp2Y",
+      "source_current_price_id": "price_1U95RvRyM6dRKLtZeLE1Vif3",
       "mofu_sku": "MH-CAT-CIAO-019",
       "product_name": "CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐",
       "cost_cny": "15.8",
@@ -340,16 +340,16 @@
       "old_cents": 3290,
       "new_cents": 3390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bMRyM6dRKLtZbxi0CtBd",
+      "result_price_id": "price_1U98XnRyM6dRKLtZwWeZKA65",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:17.544461+00:00"
+      "completed_at_utc": "2026-08-27T19:01:00.685334+00:00"
     },
     {
       "csv_row": 21,
       "product_id": "prod_V90yRB01IgVrDV",
       "source_csv_price_id": "price_1U8iwqRyM6dRKLtZTZ0TAzAG",
-      "source_current_price_id": "price_1U90VSRyM6dRKLtZz1M90pfE",
+      "source_current_price_id": "price_1U95RuRyM6dRKLtZcT9kgShF",
       "mofu_sku": "MH-CAT-CIAO-020",
       "product_name": "CIAO｜11歲以上鮪魚白肉貓罐頭｜單罐",
       "cost_cny": "15.8",
@@ -358,16 +358,16 @@
       "old_cents": 3290,
       "new_cents": 3390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bORyM6dRKLtZnmTs7R4q",
+      "result_price_id": "price_1U98XpRyM6dRKLtZ4BhHYtZw",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:18.991454+00:00"
+      "completed_at_utc": "2026-08-27T19:01:02.190676+00:00"
     },
     {
       "csv_row": 22,
       "product_id": "prod_V90yoyex98iTAW",
       "source_csv_price_id": "price_1U8iwrRyM6dRKLtZ3rlOZMIV",
-      "source_current_price_id": "price_1U90VYRyM6dRKLtZfSre5KHV",
+      "source_current_price_id": "price_1U95RuRyM6dRKLtZVjGr2QTi",
       "mofu_sku": "MH-CAT-CIAO-021",
       "product_name": "CIAO｜14歲以上鮪魚白肉小銀魚貓罐頭｜單罐",
       "cost_cny": "15.8",
@@ -376,16 +376,16 @@
       "old_cents": 3290,
       "new_cents": 3390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bPRyM6dRKLtZqPKnP8c4",
+      "result_price_id": "price_1U98XqRyM6dRKLtZMK9i3yHJ",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:20.407149+00:00"
+      "completed_at_utc": "2026-08-27T19:01:03.654411+00:00"
     },
     {
       "csv_row": 23,
       "product_id": "prod_V90yC8a54bE0EL",
       "source_csv_price_id": "price_1U8iwsRyM6dRKLtZ9WdAiJhl",
-      "source_current_price_id": "price_1U90VLRyM6dRKLtZHECimDDB",
+      "source_current_price_id": "price_1U95RtRyM6dRKLtZektUsZ8A",
       "mofu_sku": "MH-CAT-CIAO-022",
       "product_name": "CIAO｜14歲以上鰹魚柴魚片貓罐頭｜單罐",
       "cost_cny": "15.8",
@@ -394,10 +394,10 @@
       "old_cents": 3290,
       "new_cents": 3390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bRRyM6dRKLtZmq5XH6Jw",
+      "result_price_id": "price_1U98XsRyM6dRKLtZxoIltoTI",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:21.844963+00:00"
+      "completed_at_utc": "2026-08-27T19:01:05.512304+00:00"
     },
     {
       "csv_row": 24,
@@ -413,7 +413,7 @@
       "new_cents": 1490,
       "status": "updated_metadata_only",
       "result_price_id": "price_1U8iwtRyM6dRKLtZyY5icJzG",
-      "completed_at_utc": "2026-08-27T12:40:22.620167+00:00"
+      "completed_at_utc": "2026-08-27T19:01:06.265512+00:00"
     },
     {
       "csv_row": 25,
@@ -429,7 +429,7 @@
       "new_cents": 1490,
       "status": "updated_metadata_only",
       "result_price_id": "price_1U8iwuRyM6dRKLtZD1NxsXXw",
-      "completed_at_utc": "2026-08-27T12:40:23.380907+00:00"
+      "completed_at_utc": "2026-08-27T19:01:06.961622+00:00"
     },
     {
       "csv_row": 26,
@@ -445,7 +445,7 @@
       "new_cents": 1490,
       "status": "updated_metadata_only",
       "result_price_id": "price_1U8iwwRyM6dRKLtZ4TVBysAG",
-      "completed_at_utc": "2026-08-27T12:40:24.150757+00:00"
+      "completed_at_utc": "2026-08-27T19:01:07.667952+00:00"
     },
     {
       "csv_row": 27,
@@ -461,13 +461,13 @@
       "new_cents": 1490,
       "status": "updated_metadata_only",
       "result_price_id": "price_1U8iwxRyM6dRKLtZccf5xxZZ",
-      "completed_at_utc": "2026-08-27T12:40:24.918538+00:00"
+      "completed_at_utc": "2026-08-27T19:01:08.387970+00:00"
     },
     {
       "csv_row": 28,
       "product_id": "prod_V90yCfcKRyo9ou",
       "source_csv_price_id": "price_1U8iwyRyM6dRKLtZS9C8A5Eu",
-      "source_current_price_id": "price_1U90VLRyM6dRKLtZENtMthNq",
+      "source_current_price_id": "price_1U95RtRyM6dRKLtZenPoCwd5",
       "mofu_sku": "MH-CAT-CIAO-027",
       "product_name": "Inaba かつまぐろ｜多口味隨機混拼貓罐頭｜85g × 6罐",
       "cost_cny": "29.42",
@@ -476,10 +476,10 @@
       "old_cents": 6090,
       "new_cents": 6290,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bVRyM6dRKLtZK8PsTOVw",
+      "result_price_id": "price_1U98XxRyM6dRKLtZkQ69zpfz",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:26.336623+00:00"
+      "completed_at_utc": "2026-08-27T19:01:09.872563+00:00"
     },
     {
       "csv_row": 29,
@@ -495,13 +495,13 @@
       "new_cents": 1490,
       "status": "updated_metadata_only",
       "result_price_id": "price_1U8iwzRyM6dRKLtZ5uUc9AxZ",
-      "completed_at_utc": "2026-08-27T12:40:27.115477+00:00"
+      "completed_at_utc": "2026-08-27T19:01:10.602720+00:00"
     },
     {
       "csv_row": 30,
       "product_id": "prod_V8uJcEJtSEmb69",
       "source_csv_price_id": "price_1U8cUURyM6dRKLtZjiy5wjhq",
-      "source_current_price_id": "price_1U90UYRyM6dRKLtZrFyIguvH",
+      "source_current_price_id": "price_1U95SVRyM6dRKLtZ6A65Uh0R",
       "mofu_sku": "MH-CAT-GNSP-006",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香 魚味綜合乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Assorted Fish Dry Cat Food 200g",
       "cost_cny": "44.8",
@@ -510,16 +510,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bXRyM6dRKLtZ0YpnimrY",
+      "result_price_id": "price_1U98XzRyM6dRKLtZGT7FFeuH",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:28.631447+00:00"
+      "completed_at_utc": "2026-08-27T19:01:12.058848+00:00"
     },
     {
       "csv_row": 31,
       "product_id": "prod_V8uJI32Jxh5dCc",
       "source_csv_price_id": "price_1U8cUPRyM6dRKLtZO8S4Hj2n",
-      "source_current_price_id": "price_1U90UVRyM6dRKLtZdpRMCdVh",
+      "source_current_price_id": "price_1U95SWRyM6dRKLtZ6CUYZqKS",
       "mofu_sku": "MH-CAT-GNSP-007",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香 魚肉雞肉四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish & Chicken Four-Recipe Dry Cat Food 200g",
       "cost_cny": "44.8",
@@ -528,16 +528,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bZRyM6dRKLtZZZkMBqWO",
+      "result_price_id": "price_1U98Y0RyM6dRKLtZCXkrdmPA",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:30.060464+00:00"
+      "completed_at_utc": "2026-08-27T19:01:13.504650+00:00"
     },
     {
       "csv_row": 32,
       "product_id": "prod_V8uILuFno1z4MZ",
       "source_csv_price_id": "price_1U8cUMRyM6dRKLtZiqoZhzs8",
-      "source_current_price_id": "price_1U90ULRyM6dRKLtZEB8JClxR",
+      "source_current_price_id": "price_1U95SWRyM6dRKLtZ1igZrdwq",
       "mofu_sku": "MH-CAT-GNSP-008",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香 腸胃健康照護乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Gut-Health Care Dry Cat Food 200g",
       "cost_cny": "44.8",
@@ -546,16 +546,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92baRyM6dRKLtZrrrzvp6O",
+      "result_price_id": "price_1U98Y2RyM6dRKLtZxczPOazx",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:31.492745+00:00"
+      "completed_at_utc": "2026-08-27T19:01:14.925524+00:00"
     },
     {
       "csv_row": 33,
       "product_id": "prod_V8uJPueROjgX6L",
       "source_csv_price_id": "price_1U8cURRyM6dRKLtZxOISi7XP",
-      "source_current_price_id": "price_1U90UWRyM6dRKLtZpGCnNCfv",
+      "source_current_price_id": "price_1U95SVRyM6dRKLtZr1fdEzoQ",
       "mofu_sku": "MH-CAT-GNSP-009",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香 毛球護理乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Fish Hairball Care Dry Cat Food 200g",
       "cost_cny": "44.8",
@@ -564,16 +564,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bcRyM6dRKLtZJdQTiNcp",
+      "result_price_id": "price_1U98Y3RyM6dRKLtZ2ROnZCVo",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:32.892397+00:00"
+      "completed_at_utc": "2026-08-27T19:01:16.457583+00:00"
     },
     {
       "csv_row": 34,
       "product_id": "prod_V8uJVy7nhLvdrI",
       "source_csv_price_id": "price_1U8cUXRyM6dRKLtZaTGFfSor",
-      "source_current_price_id": "price_1U90UXRyM6dRKLtZPnwAPeD0",
+      "source_current_price_id": "price_1U95SURyM6dRKLtZJXi2Zk59",
       "mofu_sku": "MH-CAT-GNSP-010",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香 金槍魚鯛魚鰹魚扇貝乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet Aromatic Tuna, Sea Bream, Bonito & Scallop Dry Cat Food 200g",
       "cost_cny": "44.8",
@@ -582,16 +582,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bdRyM6dRKLtZQ9YCubz3",
+      "result_price_id": "price_1U98Y5RyM6dRKLtZAs4q2N8A",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:34.344436+00:00"
+      "completed_at_utc": "2026-08-27T19:01:17.972737+00:00"
     },
     {
       "csv_row": 35,
       "product_id": "prod_V8uIfmE32YGKQz",
       "source_csv_price_id": "price_1U8cUHRyM6dRKLtZILTR8TCU",
-      "source_current_price_id": "price_1U90URRyM6dRKLtZrJSTVo0e",
+      "source_current_price_id": "price_1U95SXRyM6dRKLtZQOSn44il",
       "mofu_sku": "MH-CAT-GNSP-011",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 魚味綜合乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Assorted Fish Dry Cat Food 180g",
       "cost_cny": "44.8",
@@ -600,16 +600,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92beRyM6dRKLtZmG3IIc0z",
+      "result_price_id": "price_1U98Y6RyM6dRKLtZFQJLFvcA",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:35.817201+00:00"
+      "completed_at_utc": "2026-08-27T19:01:19.410367+00:00"
     },
     {
       "csv_row": 36,
       "product_id": "prod_V8uIgedRHwtgJJ",
       "source_csv_price_id": "price_1U8cUJRyM6dRKLtZoV9l2W9Y",
-      "source_current_price_id": "price_1U90USRyM6dRKLtZcBAMOLrG",
+      "source_current_price_id": "price_1U95SXRyM6dRKLtZBpvZBqNk",
       "mofu_sku": "MH-CAT-GNSP-012",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 腸胃健康魚味三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Gut-Health Fish Three-Recipe Dry Cat Food 180g",
       "cost_cny": "44.8",
@@ -618,16 +618,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bgRyM6dRKLtZLsvvmfwp",
+      "result_price_id": "price_1U98Y8RyM6dRKLtZFPNxxwfT",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:37.278778+00:00"
+      "completed_at_utc": "2026-08-27T19:01:20.869818+00:00"
     },
     {
       "csv_row": 37,
       "product_id": "prod_V8uIc8IHCyEuCW",
       "source_csv_price_id": "price_1U8cUCRyM6dRKLtZZdqgSvlS",
-      "source_current_price_id": "price_1U90UQRyM6dRKLtZMBbN46uT",
+      "source_current_price_id": "price_1U95SYRyM6dRKLtZX93tDC7g",
       "mofu_sku": "MH-CAT-GNSP-013",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Dry Cat Food 180g",
       "cost_cny": "44.8",
@@ -636,16 +636,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92biRyM6dRKLtZtuNG6kjP",
+      "result_price_id": "price_1U98Y9RyM6dRKLtZrZMp5AsW",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:39.132026+00:00"
+      "completed_at_utc": "2026-08-27T19:01:22.328213+00:00"
     },
     {
       "csv_row": 38,
       "product_id": "prod_V8uID4s03TNUrL",
       "source_csv_price_id": "price_1U8cUERyM6dRKLtZmdIE2erH",
-      "source_current_price_id": "price_1U90UJRyM6dRKLtZkHGlR5LS",
+      "source_current_price_id": "price_1U95SYRyM6dRKLtZBagSDTLz",
       "mofu_sku": "MH-CAT-GNSP-014",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鯛魚味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Sea Bream Dry Cat Food 180g",
       "cost_cny": "44.8",
@@ -654,34 +654,34 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bjRyM6dRKLtZoIWRW42a",
+      "result_price_id": "price_1U98YARyM6dRKLtZZoa3SBCO",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:40.542751+00:00"
+      "completed_at_utc": "2026-08-27T19:01:23.740897+00:00"
     },
     {
       "csv_row": 39,
       "product_id": "prod_V8vr5nCW67gu8X",
       "source_csv_price_id": "price_1U8e0ARyM6dRKLtZWOXn9WYV",
-      "source_current_price_id": "price_1U90UcRyM6dRKLtZI9rgG0ZK",
+      "source_current_price_id": "price_1U95SKRyM6dRKLtZsRVhugVL",
       "mofu_sku": "MH-CAT-GNSP-015",
       "product_name": "銀之匙 三ツ星グルメ 魚肉奶油夾心 鮪魚及白蝦味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & White Shrimp Dry Cat Food 180g",
       "cost_cny": "55.0",
-      "old_hkd": "112.90",
+      "old_hkd": "113.90",
       "new_hkd": "116.9",
-      "old_cents": 11290,
+      "old_cents": 11390,
       "new_cents": 11690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92blRyM6dRKLtZ6lw9V0Mm",
+      "result_price_id": "price_1U98YCRyM6dRKLtZMsO5qwK0",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:41.990777+00:00"
+      "completed_at_utc": "2026-08-27T19:01:25.199904+00:00"
     },
     {
       "csv_row": 40,
       "product_id": "prod_V8th4gMOUDUrzu",
       "source_csv_price_id": "price_1U8btqRyM6dRKLtZ3JpWeJNI",
-      "source_current_price_id": "price_1U90U9RyM6dRKLtZVNCdKvBq",
+      "source_current_price_id": "price_1U95SgRyM6dRKLtZZBoD5dGV",
       "mofu_sku": "MH-CAT-GNSP-016",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 魚肉雞里脊三拼乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Fish & Chicken Tender Three-Recipe Dry Cat Food 180g",
       "cost_cny": "46.8",
@@ -690,16 +690,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bnRyM6dRKLtZ11iGKGVe",
+      "result_price_id": "price_1U98YDRyM6dRKLtZIqUYSNNT",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:43.810901+00:00"
+      "completed_at_utc": "2026-08-27T19:01:26.711600+00:00"
     },
     {
       "csv_row": 41,
       "product_id": "prod_V8thb2VVnmHjCY",
       "source_csv_price_id": "price_1U8bttRyM6dRKLtZYVjv60by",
-      "source_current_price_id": "price_1U90UERyM6dRKLtZ1iJxMjSq",
+      "source_current_price_id": "price_1U95SgRyM6dRKLtZsyfjbPpl",
       "mofu_sku": "MH-CAT-GNSP-017",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚鰹魚毛球護理乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Bonito Hairball Care Dry Cat Food 180g",
       "cost_cny": "46.8",
@@ -708,16 +708,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92boRyM6dRKLtZseQYaopY",
+      "result_price_id": "price_1U98YFRyM6dRKLtZz4zy1NpT",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:45.230201+00:00"
+      "completed_at_utc": "2026-08-27T19:01:28.161272+00:00"
     },
     {
       "csv_row": 42,
       "product_id": "prod_V8th51dTMblovb",
       "source_csv_price_id": "price_1U8btoRyM6dRKLtZuVNr212k",
-      "source_current_price_id": "price_1U90UARyM6dRKLtZVVo8P52S",
+      "source_current_price_id": "price_1U95ShRyM6dRKLtZKnCm9lAb",
       "mofu_sku": "MH-CAT-GNSP-018",
       "product_name": "銀之匙 三ツ星グルメ 夾心奶油 金槍魚雞里脊味乾糧 180g｜Gin no Spoon Mitsuboshi Gourmet Cream-Filled Tuna & Chicken Tender Dry Cat Food 180g",
       "cost_cny": "46.8",
@@ -726,16 +726,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bpRyM6dRKLtZpnMkY8wu",
+      "result_price_id": "price_1U98YGRyM6dRKLtZUEtamdny",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:46.724736+00:00"
+      "completed_at_utc": "2026-08-27T19:01:29.676891+00:00"
     },
     {
       "csv_row": 43,
       "product_id": "prod_V8thjTAXBn4Lnx",
       "source_csv_price_id": "price_1U8btlRyM6dRKLtZG99b8TZR",
-      "source_current_price_id": "price_1U90UFRyM6dRKLtZfDs6FCKI",
+      "source_current_price_id": "price_1U95ShRyM6dRKLtZYcsVEon0",
       "mofu_sku": "MH-CAT-GNSP-019",
       "product_name": "銀之匙 三ツ星グルメ 香酥魚香毛球護理乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Hairball Care Dry Cat Food 240g",
       "cost_cny": "44.8",
@@ -744,16 +744,16 @@
       "old_cents": 9290,
       "new_cents": 9590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92brRyM6dRKLtZb4fhlQNf",
+      "result_price_id": "price_1U98YIRyM6dRKLtZzaoqnBbW",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:48.156215+00:00"
+      "completed_at_utc": "2026-08-27T19:01:31.143711+00:00"
     },
     {
       "csv_row": 44,
       "product_id": "prod_V8thBqcqHiv3cZ",
       "source_csv_price_id": "price_1U8bu8RyM6dRKLtZrtZ6IOrx",
-      "source_current_price_id": "price_1U90UBRyM6dRKLtZweJ42eYf",
+      "source_current_price_id": "price_1U95ScRyM6dRKLtZWZRV6Tsu",
       "mofu_sku": "MH-CAT-GNSP-020",
       "product_name": "銀之匙 三ツ星グルメ 幼貓魚味加牛奶乾糧 240g｜Gin no Spoon Mitsuboshi Gourmet Kitten Fish Recipe with Milk Dry Cat Food 240g",
       "cost_cny": "46.8",
@@ -762,16 +762,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bsRyM6dRKLtZXuvhCOiy",
+      "result_price_id": "price_1U98YJRyM6dRKLtZOyBm370r",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:49.615704+00:00"
+      "completed_at_utc": "2026-08-27T19:01:32.656136+00:00"
     },
     {
       "csv_row": 45,
       "product_id": "prod_V8thwhOf6ahDTN",
       "source_csv_price_id": "price_1U8bu5RyM6dRKLtZGPNwKLAo",
-      "source_current_price_id": "price_1U90UJRyM6dRKLtZSS0HzuHg",
+      "source_current_price_id": "price_1U95SdRyM6dRKLtZAebS78PT",
       "mofu_sku": "MH-CAT-GNSP-021",
       "product_name": "銀之匙 三ツ星グルメ 10歲起腎臟健康維護魚味四拼乾糧 200g｜Gin no Spoon Mitsuboshi Gourmet 10+ Kidney Health Maintenance Fish Four-Recipe Dry Cat Food 200g",
       "cost_cny": "46.8",
@@ -780,16 +780,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92buRyM6dRKLtZvALP7vFh",
+      "result_price_id": "price_1U98YLRyM6dRKLtZDAWadEwe",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:51.028129+00:00"
+      "completed_at_utc": "2026-08-27T19:01:34.096802+00:00"
     },
     {
       "csv_row": 46,
       "product_id": "prod_V8thRjwLfHWe9X",
       "source_csv_price_id": "price_1U8btvRyM6dRKLtZPuQqw0hP",
-      "source_current_price_id": "price_1U90UDRyM6dRKLtZGGjbUvCL",
+      "source_current_price_id": "price_1U95SfRyM6dRKLtZrFAobdTy",
       "mofu_sku": "MH-CAT-GNSP-022",
       "product_name": "銀之匙 三ツ星グルメ 鮮旨香 魚肉雞里脊三拼乾糧 160g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Fish & Chicken Tender Three-Recipe Dry Cat Food 160g",
       "cost_cny": "46.8",
@@ -798,16 +798,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bvRyM6dRKLtZ9opkKa5A",
+      "result_price_id": "price_1U98YMRyM6dRKLtZxNC1QmDm",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:52.459848+00:00"
+      "completed_at_utc": "2026-08-27T19:01:35.553040+00:00"
     },
     {
       "csv_row": 47,
       "product_id": "prod_V8thsQJq4RYszQ",
       "source_csv_price_id": "price_1U8btyRyM6dRKLtZ2aDVvnPF",
-      "source_current_price_id": "price_1U90UIRyM6dRKLtZX816NXBC",
+      "source_current_price_id": "price_1U95SfRyM6dRKLtZiWEm90fb",
       "mofu_sku": "MH-CAT-GNSP-023",
       "product_name": "銀之匙 三ツ星グルメ 鮮旨香 金槍魚雞里脊鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Chicken Tender & Bonito Dry Cat Food 192g",
       "cost_cny": "46.8",
@@ -816,16 +816,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bxRyM6dRKLtZnKbh5677",
+      "result_price_id": "price_1U98YORyM6dRKLtZHqh2MSFb",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:53.897138+00:00"
+      "completed_at_utc": "2026-08-27T19:01:36.980478+00:00"
     },
     {
       "csv_row": 48,
       "product_id": "prod_V8thk9qKECj0in",
       "source_csv_price_id": "price_1U8bu0RyM6dRKLtZKGEvnAcj",
-      "source_current_price_id": "price_1U90UGRyM6dRKLtZs4CWYdMK",
+      "source_current_price_id": "price_1U95SeRyM6dRKLtZ33Ich4ga",
       "mofu_sku": "MH-CAT-GNSP-024",
       "product_name": "銀之匙 三ツ星グルメ 鮮旨香 金槍魚鯛魚鰹魚乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Shimi-Uma Tuna, Sea Bream & Bonito Dry Cat Food 192g",
       "cost_cny": "46.8",
@@ -834,16 +834,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92byRyM6dRKLtZpPAsVaUD",
+      "result_price_id": "price_1U98YPRyM6dRKLtZynWg0fwG",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:55.337470+00:00"
+      "completed_at_utc": "2026-08-27T19:01:38.394718+00:00"
     },
     {
       "csv_row": 49,
       "product_id": "prod_V8thPo6RjbpnwO",
       "source_csv_price_id": "price_1U8bu3RyM6dRKLtZLjAK97QM",
-      "source_current_price_id": "price_1U90UCRyM6dRKLtZnxOW8Xb7",
+      "source_current_price_id": "price_1U95SdRyM6dRKLtZ9qdR8Eoa",
       "mofu_sku": "MH-CAT-GNSP-025",
       "product_name": "銀之匙 三ツ星グルメ 餐後吐毛輕減及毛球護理魚味乾糧 192g｜Gin no Spoon Mitsuboshi Gourmet Fish Recipe Dry Cat Food for Reduced Post-Meal Vomiting & Hairball Care 192g",
       "cost_cny": "46.8",
@@ -852,16 +852,16 @@
       "old_cents": 9690,
       "new_cents": 9990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92bzRyM6dRKLtZFdLPAMbX",
+      "result_price_id": "price_1U98YRRyM6dRKLtZwIXIOk9F",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:56.762739+00:00"
+      "completed_at_utc": "2026-08-27T19:01:39.890176+00:00"
     },
     {
       "csv_row": 50,
       "product_id": "prod_V8xXn4fyGQ2Iwg",
       "source_csv_price_id": "price_1U8fcPRyM6dRKLtZkmzKQFaa",
-      "source_current_price_id": "price_1U90VFRyM6dRKLtZjOr4bhLh",
+      "source_current_price_id": "price_1U95S6RyM6dRKLtZMHQKYmCT",
       "mofu_sku": "MH-CAT-MONP-001",
       "product_name": "Mon Petit Crispy Kiss 鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Bonito and Small Fish Broth Cat Treats 30g",
       "cost_cny": "13.9",
@@ -870,16 +870,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c1RyM6dRKLtZXiEdYZal",
+      "result_price_id": "price_1U98YSRyM6dRKLtZivAh7MmL",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:58.236830+00:00"
+      "completed_at_utc": "2026-08-27T19:01:41.309420+00:00"
     },
     {
       "csv_row": 51,
       "product_id": "prod_V8xXSx8MWb3Y8D",
       "source_csv_price_id": "price_1U8fcGRyM6dRKLtZbNYK0jlM",
-      "source_current_price_id": "price_1U90V7RyM6dRKLtZT1JURFbi",
+      "source_current_price_id": "price_1U95SBRyM6dRKLtZpeSNrqOz",
       "mofu_sku": "MH-CAT-MONP-002",
       "product_name": "Mon Petit Crispy Kiss 芝士及雞肉味貓咪小食 30g｜Mon Petit Crispy Kiss Cheese and Chicken Flavour Cat Treats 30g",
       "cost_cny": "13.9",
@@ -888,16 +888,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c2RyM6dRKLtZCsWLVG3f",
+      "result_price_id": "price_1U98YTRyM6dRKLtZqnLtEhUo",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:40:59.640547+00:00"
+      "completed_at_utc": "2026-08-27T19:01:42.719399+00:00"
     },
     {
       "csv_row": 52,
       "product_id": "prod_V8xXLMbKeB2tb9",
       "source_csv_price_id": "price_1U8fcDRyM6dRKLtZDd0FVQMW",
-      "source_current_price_id": "price_1U90V2RyM6dRKLtZ55juiHBJ",
+      "source_current_price_id": "price_1U95SCRyM6dRKLtZlveDXDo8",
       "mofu_sku": "MH-CAT-MONP-003",
       "product_name": "Mon Petit Crispy Kiss 鮮魚雞肉貓薄荷味貓咪小食 24g｜Mon Petit Crispy Kiss Fish and Chicken with Catnip Cat Treats 24g",
       "cost_cny": "13.9",
@@ -906,16 +906,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c4RyM6dRKLtZt9ElROTi",
+      "result_price_id": "price_1U98YVRyM6dRKLtZCI3An1cd",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:01.067950+00:00"
+      "completed_at_utc": "2026-08-27T19:01:44.236231+00:00"
     },
     {
       "csv_row": 53,
       "product_id": "prod_V8xXYKr9wN7Aee",
       "source_csv_price_id": "price_1U8fcJRyM6dRKLtZd8RKpg9m",
-      "source_current_price_id": "price_1U90VBRyM6dRKLtZlGUxjIZD",
+      "source_current_price_id": "price_1U95S9RyM6dRKLtZYsM39Rrz",
       "mofu_sku": "MH-CAT-MONP-004",
       "product_name": "Mon Petit Crispy Kiss 鮮魚精選貓咪小食 30g｜Mon Petit Crispy Kiss Fish Select Cat Treats 30g",
       "cost_cny": "13.9",
@@ -924,16 +924,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c5RyM6dRKLtZixmJDKPw",
+      "result_price_id": "price_1U98YWRyM6dRKLtZbOFcUHcm",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:02.505257+00:00"
+      "completed_at_utc": "2026-08-27T19:01:45.710587+00:00"
     },
     {
       "csv_row": 54,
       "product_id": "prod_V8xX5m49XGPiSw",
       "source_csv_price_id": "price_1U8fcFRyM6dRKLtZeD9cGjwS",
-      "source_current_price_id": "price_1U90UyRyM6dRKLtZGcFJLD54",
+      "source_current_price_id": "price_1U95SBRyM6dRKLtZKqVdsOQq",
       "mofu_sku": "MH-CAT-MONP-005",
       "product_name": "Mon Petit Crispy Kiss 奢華雞肉味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Chicken Flavour Cat Treats 24g",
       "cost_cny": "13.9",
@@ -942,16 +942,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c7RyM6dRKLtZUdFIxUm1",
+      "result_price_id": "price_1U98YYRyM6dRKLtZsQhU3POM",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:03.926189+00:00"
+      "completed_at_utc": "2026-08-27T19:01:47.223381+00:00"
     },
     {
       "csv_row": 55,
       "product_id": "prod_V8xXBfCtwPwxjK",
       "source_csv_price_id": "price_1U8fcERyM6dRKLtZ463dtKpL",
-      "source_current_price_id": "price_1U90UzRyM6dRKLtZu93gYJdU",
+      "source_current_price_id": "price_1U95SCRyM6dRKLtZllerZnJd",
       "mofu_sku": "MH-CAT-MONP-006",
       "product_name": "Mon Petit Crispy Kiss 奢華鮮魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Fish Flavour Cat Treats 24g",
       "cost_cny": "13.9",
@@ -960,16 +960,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92c8RyM6dRKLtZIPKJhmEZ",
+      "result_price_id": "price_1U98YZRyM6dRKLtZCSeLVQCG",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:05.395487+00:00"
+      "completed_at_utc": "2026-08-27T19:01:48.684780+00:00"
     },
     {
       "csv_row": 56,
       "product_id": "prod_V8xXV7x4AmWu89",
       "source_csv_price_id": "price_1U8fcRRyM6dRKLtZMvlsOquW",
-      "source_current_price_id": "price_1U90VARyM6dRKLtZIMiTPMeC",
+      "source_current_price_id": "price_1U95S5RyM6dRKLtZd4Y0KMz1",
       "mofu_sku": "MH-CAT-MONP-007",
       "product_name": "Mon Petit Crispy Kiss 奢華三文魚味貓咪小食 24g｜Mon Petit Crispy Kiss Luxury Salmon Flavour Cat Treats 24g",
       "cost_cny": "13.9",
@@ -978,16 +978,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cARyM6dRKLtZ42tDMFOl",
+      "result_price_id": "price_1U98YbRyM6dRKLtZxHclpLoF",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:06.875618+00:00"
+      "completed_at_utc": "2026-08-27T19:01:50.590832+00:00"
     },
     {
       "csv_row": 57,
       "product_id": "prod_V8xXRC7As2ra5W",
       "source_csv_price_id": "price_1U8fcHRyM6dRKLtZ0WA7KbpT",
-      "source_current_price_id": "price_1U90V6RyM6dRKLtZDgD1rY6E",
+      "source_current_price_id": "price_1U95SARyM6dRKLtZStl9zJYF",
       "mofu_sku": "MH-CAT-MONP-008",
       "product_name": "Mon Petit Crispy Kiss 肉類精選綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Meat Selection Variety Pack Cat Treats 144g",
       "cost_cny": "59.9",
@@ -996,16 +996,16 @@
       "old_cents": 12390,
       "new_cents": 12790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cBRyM6dRKLtZuD5lTlz3",
+      "result_price_id": "price_1U98YdRyM6dRKLtZAjJTRhgY",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:08.283041+00:00"
+      "completed_at_utc": "2026-08-27T19:01:52.076238+00:00"
     },
     {
       "csv_row": 58,
       "product_id": "prod_V8xXMB8UApWAYP",
       "source_csv_price_id": "price_1U8fcQRyM6dRKLtZAt0dJH05",
-      "source_current_price_id": "price_1U90V4RyM6dRKLtZiEGy9NiO",
+      "source_current_price_id": "price_1U95S5RyM6dRKLtZkjdmstz9",
       "mofu_sku": "MH-CAT-MONP-009",
       "product_name": "Mon Petit Crispy Kiss 三文魚、鰹魚及小魚味貓咪小食 30g｜Mon Petit Crispy Kiss Salmon, Bonito and Small Fish Cat Treats 30g",
       "cost_cny": "13.9",
@@ -1014,16 +1014,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cDRyM6dRKLtZnmG0YS73",
+      "result_price_id": "price_1U98YeRyM6dRKLtZg8WaICIf",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:10.135427+00:00"
+      "completed_at_utc": "2026-08-27T19:01:54.015747+00:00"
     },
     {
       "csv_row": 59,
       "product_id": "prod_V8xXmrlDUto85d",
       "source_csv_price_id": "price_1U8fcKRyM6dRKLtZsJdoHEu4",
-      "source_current_price_id": "price_1U90VERyM6dRKLtZvWBCXYd9",
+      "source_current_price_id": "price_1U95S8RyM6dRKLtZQktVoqRL",
       "mofu_sku": "MH-CAT-MONP-010",
       "product_name": "Mon Petit Crispy Kiss 海鮮味貓咪小食 30g｜Mon Petit Crispy Kiss Seafood Flavour Cat Treats 30g",
       "cost_cny": "13.9",
@@ -1032,16 +1032,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cERyM6dRKLtZFqsEi8P0",
+      "result_price_id": "price_1U98YgRyM6dRKLtZkLH4sRxr",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:11.620153+00:00"
+      "completed_at_utc": "2026-08-27T19:01:55.476219+00:00"
     },
     {
       "csv_row": 60,
       "product_id": "prod_V8xX3586zZhcZt",
       "source_csv_price_id": "price_1U8fcMRyM6dRKLtZa6kX1FcS",
-      "source_current_price_id": "price_1U90UxRyM6dRKLtZNd9wbSzb",
+      "source_current_price_id": "price_1U95S7RyM6dRKLtZQUM7wVl7",
       "mofu_sku": "MH-CAT-MONP-011",
       "product_name": "Mon Petit Crispy Kiss 海鮮、芝士及雞肉燒烤味綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood, Cheese and Chicken Grill Variety Pack Cat Treats 144g",
       "cost_cny": "59.9",
@@ -1050,16 +1050,16 @@
       "old_cents": 12390,
       "new_cents": 12790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cGRyM6dRKLtZ4Wu1Dgnx",
+      "result_price_id": "price_1U98YiRyM6dRKLtZ9KNUbAgy",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:13.061459+00:00"
+      "completed_at_utc": "2026-08-27T19:01:57.026172+00:00"
     },
     {
       "csv_row": 61,
       "product_id": "prod_V8xXFw4xx3NEuP",
       "source_csv_price_id": "price_1U8fcIRyM6dRKLtZhierJFH2",
-      "source_current_price_id": "price_1U90V0RyM6dRKLtZBnbfEKOe",
+      "source_current_price_id": "price_1U95S9RyM6dRKLtZPWm7Y208",
       "mofu_sku": "MH-CAT-MONP-012",
       "product_name": "Mon Petit Crispy Kiss 海鮮及雞肉綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Seafood and Chicken Variety Pack Cat Treats 144g",
       "cost_cny": "59.9",
@@ -1068,16 +1068,16 @@
       "old_cents": 12390,
       "new_cents": 12790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cHRyM6dRKLtZt6NOUDny",
+      "result_price_id": "price_1U98YjRyM6dRKLtZvvBI0EjY",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:14.478989+00:00"
+      "completed_at_utc": "2026-08-27T19:01:58.533984+00:00"
     },
     {
       "csv_row": 62,
       "product_id": "prod_V8xXZsF0TMS5c8",
       "source_csv_price_id": "price_1U8fcORyM6dRKLtZ1yMnnhEK",
-      "source_current_price_id": "price_1U90VCRyM6dRKLtZDkJrWAvy",
+      "source_current_price_id": "price_1U95S6RyM6dRKLtZ5a6FWOPF",
       "mofu_sku": "MH-CAT-MONP-013",
       "product_name": "Mon Petit Crispy Kiss 真鯛、鰹魚及小魚高湯味貓咪小食 30g｜Mon Petit Crispy Kiss Snapper, Skipjack Tuna and Small Fish Broth Cat Treats 30g",
       "cost_cny": "13.9",
@@ -1086,16 +1086,16 @@
       "old_cents": 2890,
       "new_cents": 2990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cJRyM6dRKLtZhSxWDhFf",
+      "result_price_id": "price_1U98YlRyM6dRKLtZby0WJaA0",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:15.991865+00:00"
+      "completed_at_utc": "2026-08-27T19:02:00.014227+00:00"
     },
     {
       "csv_row": 63,
       "product_id": "prod_V8xXM2ONlpEcC3",
       "source_csv_price_id": "price_1U8fcNRyM6dRKLtZWtmFsbjT",
-      "source_current_price_id": "price_1U90V3RyM6dRKLtZx0YL7SgA",
+      "source_current_price_id": "price_1U95S7RyM6dRKLtZUe6KXR1D",
       "mofu_sku": "MH-CAT-MONP-014",
       "product_name": "Mon Petit Crispy Kiss 真鯛及海鮮綜合包貓咪小食 144g｜Mon Petit Crispy Kiss Snapper and Seafood Assortment Cat Treats 144g",
       "cost_cny": "59.9",
@@ -1104,16 +1104,16 @@
       "old_cents": 12390,
       "new_cents": 12790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cKRyM6dRKLtZQ2st81TE",
+      "result_price_id": "price_1U98YmRyM6dRKLtZsaA09Z9h",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:17.455040+00:00"
+      "completed_at_utc": "2026-08-27T19:02:01.483137+00:00"
     },
     {
       "csv_row": 64,
       "product_id": "prod_V8uInkIOBbpTsp",
       "source_csv_price_id": "price_1U8cU6RyM6dRKLtZIwFymbls",
-      "source_current_price_id": "price_1U90UTRyM6dRKLtZG5Yi17iE",
+      "source_current_price_id": "price_1U95SaRyM6dRKLtZt7ZULzdr",
       "mofu_sku": "MH-CAT-PAMAX-001",
       "product_name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
       "cost_cny": "90.0",
@@ -1122,16 +1122,16 @@
       "old_cents": 18490,
       "new_cents": 19190,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cMRyM6dRKLtZD9I4beES",
+      "result_price_id": "price_1U98YoRyM6dRKLtZSbUnoVVZ",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:41:18.558072+00:00"
+      "completed_at_utc": "2026-08-27T19:02:02.596279+00:00"
     },
     {
       "csv_row": 65,
       "product_id": "prod_V8uInkIOBbpTsp",
       "source_csv_price_id": "price_1U8cU6RyM6dRKLtZuYsvr2FS",
-      "source_current_price_id": "price_1U90UTRyM6dRKLtZ7w2uTrRN",
+      "source_current_price_id": "price_1U95SZRyM6dRKLtZynT3b6VR",
       "mofu_sku": "MH-CAT-PAMAX-001",
       "product_name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
       "cost_cny": "46.0",
@@ -1140,16 +1140,16 @@
       "old_cents": 9490,
       "new_cents": 9790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cNRyM6dRKLtZgMoIBTGk",
+      "result_price_id": "price_1U98YpRyM6dRKLtZfZ5qZH6U",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:19.975391+00:00"
+      "completed_at_utc": "2026-08-27T19:02:04.116447+00:00"
     },
     {
       "csv_row": 66,
       "product_id": "prod_V8uInkIOBbpTsp",
       "source_csv_price_id": "price_1U8cU7RyM6dRKLtZu7s2FINt",
-      "source_current_price_id": "price_1U90UURyM6dRKLtZVrbGJPun",
+      "source_current_price_id": "price_1U95SZRyM6dRKLtZ0CgCsnGH",
       "mofu_sku": "MH-CAT-PAMAX-001",
       "product_name": "PAMAX Miracle Series 生物酶除味貓砂 2.7kg｜PAMAX Miracle Series Enzyme Odour-Control Cat Litter 2.7kg",
       "cost_cny": "223.0",
@@ -1158,16 +1158,16 @@
       "old_cents": 45790,
       "new_cents": 47390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cORyM6dRKLtZ8klVKPGY",
+      "result_price_id": "price_1U98YqRyM6dRKLtZ8XeHeeoy",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:41:21.112417+00:00"
+      "completed_at_utc": "2026-08-27T19:02:05.292958+00:00"
     },
     {
       "csv_row": 67,
       "product_id": "prod_V8uIPfhAKY5ONF",
       "source_csv_price_id": "price_1U8cU9RyM6dRKLtZnyUTF5xl",
-      "source_current_price_id": "price_1U90UPRyM6dRKLtZMHm0POgc",
+      "source_current_price_id": "price_1U95SZRyM6dRKLtZoPXqcWjU",
       "mofu_sku": "MH-CAT-SNP-001",
       "product_name": "SNAPPY 低粉塵膨潤土貓砂 原味無香 7L｜SNAPPY Low-Dust Bentonite Cat Litter Unscented 7L",
       "cost_cny": "45.45",
@@ -1176,16 +1176,16 @@
       "old_cents": 9390,
       "new_cents": 9690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cPRyM6dRKLtZXtREBMtj",
+      "result_price_id": "price_1U98YrRyM6dRKLtZsayRktj0",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:22.503549+00:00"
+      "completed_at_utc": "2026-08-27T19:02:06.811072+00:00"
     },
     {
       "csv_row": 68,
       "product_id": "prod_V8vriJ8BqO90r3",
       "source_csv_price_id": "price_1U8e01RyM6dRKLtZOgbpOPvb",
-      "source_current_price_id": "price_1U90UnRyM6dRKLtZ9jd0Ick5",
+      "source_current_price_id": "price_1U95SMRyM6dRKLtZB14baUJ1",
       "mofu_sku": "MH-CAT-SNR-001",
       "product_name": "AIM30 貓咪鰹魚削節 12g｜AIM30 Cat Bonito Flakes 12g",
       "cost_cny": "19.8",
@@ -1194,16 +1194,16 @@
       "old_cents": 4090,
       "new_cents": 4290,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cRRyM6dRKLtZURNsKWZv",
+      "result_price_id": "price_1U98YtRyM6dRKLtZ8o7bIBf9",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:24.022420+00:00"
+      "completed_at_utc": "2026-08-27T19:02:08.301147+00:00"
     },
     {
       "csv_row": 69,
       "product_id": "prod_V8vrSwyPdcre4F",
       "source_csv_price_id": "price_1U8e04RyM6dRKLtZkoQSmpqZ",
-      "source_current_price_id": "price_1U90UjRyM6dRKLtZUcWxvibc",
+      "source_current_price_id": "price_1U95SLRyM6dRKLtZaorlObkz",
       "mofu_sku": "MH-CAT-SNR-002",
       "product_name": "AIM30 貓咪雞肉絲 25g｜AIM30 Cat Shredded Chicken Fillet 25g",
       "cost_cny": "14.4",
@@ -1212,16 +1212,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cSRyM6dRKLtZooONeXJ4",
+      "result_price_id": "price_1U98YuRyM6dRKLtZnw5z08GB",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:25.415388+00:00"
+      "completed_at_utc": "2026-08-27T19:02:09.825826+00:00"
     },
     {
       "csv_row": 70,
       "product_id": "prod_V8vrvYaxZ1cxLJ",
       "source_csv_price_id": "price_1U8e0DRyM6dRKLtZ7D7Iai7O",
-      "source_current_price_id": "price_1U90UsRyM6dRKLtZK9gSfkYR",
+      "source_current_price_id": "price_1U95SJRyM6dRKLtZEu6sr6Da",
       "mofu_sku": "MH-CAT-SNR-003",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及蟹肉味 25g",
       "cost_cny": "23.8",
@@ -1230,16 +1230,16 @@
       "old_cents": 4890,
       "new_cents": 5090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cURyM6dRKLtZ4aRaEYkQ",
+      "result_price_id": "price_1U98YwRyM6dRKLtZMCpHdd1r",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:26.845254+00:00"
+      "completed_at_utc": "2026-08-27T19:02:11.383709+00:00"
     },
     {
       "csv_row": 71,
       "product_id": "prod_V8vrBdjzLlg7F7",
       "source_csv_price_id": "price_1U8e0FRyM6dRKLtZE4JPj5uL",
-      "source_current_price_id": "price_1U90UeRyM6dRKLtZbZKrb0kY",
+      "source_current_price_id": "price_1U95SJRyM6dRKLtZZvZKz0FM",
       "mofu_sku": "MH-CAT-SNR-004",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 雞肉及牛肉味 25g",
       "cost_cny": "23.8",
@@ -1248,16 +1248,16 @@
       "old_cents": 4890,
       "new_cents": 5090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cVRyM6dRKLtZ9ee1dve1",
+      "result_price_id": "price_1U98YyRyM6dRKLtZ6q1UzqAk",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:28.287111+00:00"
+      "completed_at_utc": "2026-08-27T19:02:12.947352+00:00"
     },
     {
       "csv_row": 72,
       "product_id": "prod_V8vsqALfCDaZlZ",
       "source_csv_price_id": "price_1U8e0IRyM6dRKLtZYfKTJ5RW",
-      "source_current_price_id": "price_1U90UwRyM6dRKLtZbTqtcJN0",
+      "source_current_price_id": "price_1U95SIRyM6dRKLtZRAcbiG9J",
       "mofu_sku": "MH-CAT-SNR-005",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 牧場美味四種綜合包 80g",
       "cost_cny": "56.0",
@@ -1266,16 +1266,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cWRyM6dRKLtZbfuZX24b",
+      "result_price_id": "price_1U98YzRyM6dRKLtZMNyAueu6",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:29.715745+00:00"
+      "completed_at_utc": "2026-08-27T19:02:14.451214+00:00"
     },
     {
       "csv_row": 73,
       "product_id": "prod_V8vs7g4SLaJWJ3",
       "source_csv_price_id": "price_1U8e0LRyM6dRKLtZDV8NlhJy",
-      "source_current_price_id": "price_1U90UuRyM6dRKLtZ5Ykm1PMs",
+      "source_current_price_id": "price_1U95SIRyM6dRKLtZwGA7ntnA",
       "mofu_sku": "MH-CAT-SNR-006",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及雞肉雙拼綜合包 80g",
       "cost_cny": "56.0",
@@ -1284,16 +1284,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cZRyM6dRKLtZ47TcdL2i",
+      "result_price_id": "price_1U98Z1RyM6dRKLtZ4dN6Yfmo",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:31.928555+00:00"
+      "completed_at_utc": "2026-08-27T19:02:15.954218+00:00"
     },
     {
       "csv_row": 74,
       "product_id": "prod_V8vsohIxXgEVDb",
       "source_csv_price_id": "price_1U8e0NRyM6dRKLtZOs14Trkd",
-      "source_current_price_id": "price_1U90UvRyM6dRKLtZyNL3geji",
+      "source_current_price_id": "price_1U95SHRyM6dRKLtZbfqsZVgB",
       "mofu_sku": "MH-CAT-SNR-007",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g｜AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及三文魚味 25g",
       "cost_cny": "56.0",
@@ -1302,16 +1302,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92caRyM6dRKLtZxdQa08LF",
+      "result_price_id": "price_1U98Z2RyM6dRKLtZ0aUp5uT7",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:33.339313+00:00"
+      "completed_at_utc": "2026-08-27T19:02:17.441744+00:00"
     },
     {
       "csv_row": 75,
       "product_id": "prod_V8vrxdYkx6Hq9O",
       "source_csv_price_id": "price_1U8dzrRyM6dRKLtZSyj8L3go",
-      "source_current_price_id": "price_1U90UtRyM6dRKLtZJ5kbDR2U",
+      "source_current_price_id": "price_1U95SORyM6dRKLtZnIHJEOoy",
       "mofu_sku": "MH-CAT-SNR-008",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 綜合營養吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Balanced Nutrition Tuna 25g",
       "cost_cny": "14.4",
@@ -1320,16 +1320,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cbRyM6dRKLtZ1o8s4vfO",
+      "result_price_id": "price_1U98Z4RyM6dRKLtZuYthiBxt",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:34.812793+00:00"
+      "completed_at_utc": "2026-08-27T19:02:18.961036+00:00"
     },
     {
       "csv_row": 76,
       "product_id": "prod_V8vrVGdqH472WR",
       "source_csv_price_id": "price_1U8dzYRyM6dRKLtZ80e1VIfP",
-      "source_current_price_id": "price_1U90UkRyM6dRKLtZ8Dgj5oIF",
+      "source_current_price_id": "price_1U95SRRyM6dRKLtZtM7WDy6Y",
       "mofu_sku": "MH-CAT-SNR-009",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 牛肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Beef Flavour 25g",
       "cost_cny": "14.4",
@@ -1338,16 +1338,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cdRyM6dRKLtZTvZaO26Y",
+      "result_price_id": "price_1U98Z5RyM6dRKLtZD2zFTKA3",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:36.259625+00:00"
+      "completed_at_utc": "2026-08-27T19:02:20.498937+00:00"
     },
     {
       "csv_row": 77,
       "product_id": "prod_V8vrCIoYlfznHf",
       "source_csv_price_id": "price_1U8dzgRyM6dRKLtZTCmIF0v5",
-      "source_current_price_id": "price_1U90UfRyM6dRKLtZUQCxCIhM",
+      "source_current_price_id": "price_1U95SQRyM6dRKLtZdy5HTMS6",
       "mofu_sku": "MH-CAT-SNR-010",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 鰹魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Bonito Flavour 25g",
       "cost_cny": "19.8",
@@ -1356,16 +1356,16 @@
       "old_cents": 4090,
       "new_cents": 4290,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92ceRyM6dRKLtZ9rlPF5fQ",
+      "result_price_id": "price_1U98Z7RyM6dRKLtZAgyRXQT5",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:37.681696+00:00"
+      "completed_at_utc": "2026-08-27T19:02:21.958979+00:00"
     },
     {
       "csv_row": 78,
       "product_id": "prod_V8vrEO4eoZSj2o",
       "source_csv_price_id": "price_1U8dzVRyM6dRKLtZNWWJarJn",
-      "source_current_price_id": "price_1U90UgRyM6dRKLtZYBURbREu",
+      "source_current_price_id": "price_1U95SSRyM6dRKLtZGKQ7tKdv",
       "mofu_sku": "MH-CAT-SNR-011",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 芝士味 25g｜AIM30 Karitto Treats Crispy Cat Treats Cheese Flavour 25g",
       "cost_cny": "14.4",
@@ -1374,16 +1374,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cgRyM6dRKLtZZqvjv3EW",
+      "result_price_id": "price_1U98Z8RyM6dRKLtZToQqzerS",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:39.181978+00:00"
+      "completed_at_utc": "2026-08-27T19:02:23.426014+00:00"
     },
     {
       "csv_row": 79,
       "product_id": "prod_V8vrkohKHcwdKL",
       "source_csv_price_id": "price_1U8dzNRyM6dRKLtZwBGGo3H9",
-      "source_current_price_id": "price_1U90UoRyM6dRKLtZdWNTjDgn",
+      "source_current_price_id": "price_1U95STRyM6dRKLtZCvrPGKve",
       "mofu_sku": "MH-CAT-SNR-012",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 25g",
       "cost_cny": "14.4",
@@ -1392,16 +1392,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92chRyM6dRKLtZjZJb9N5w",
+      "result_price_id": "price_1U98ZARyM6dRKLtZt6qfYJAr",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:40.644667+00:00"
+      "completed_at_utc": "2026-08-27T19:02:24.947626+00:00"
     },
     {
       "csv_row": 80,
       "product_id": "prod_V8vrsKDQclIgy0",
       "source_csv_price_id": "price_1U8dzwRyM6dRKLtZ7ujj8KaR",
-      "source_current_price_id": "price_1U90UrRyM6dRKLtZF78Kyv3h",
+      "source_current_price_id": "price_1U95SNRyM6dRKLtZSet7rLMr",
       "mofu_sku": "MH-CAT-SNR-013",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 雞肉味 80g｜AIM30 Karitto Treats Crispy Cat Treats Chicken Flavour 80g",
       "cost_cny": "56.0",
@@ -1410,16 +1410,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cjRyM6dRKLtZWhChLaeS",
+      "result_price_id": "price_1U98ZBRyM6dRKLtZxnqaN8Za",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:42.554559+00:00"
+      "completed_at_utc": "2026-08-27T19:02:26.471608+00:00"
     },
     {
       "csv_row": 81,
       "product_id": "prod_V8vq78vZ3hdOmK",
       "source_csv_price_id": "price_1U8dzLRyM6dRKLtZiNLM7My7",
-      "source_current_price_id": "price_1U90UZRyM6dRKLtZfuIyn5I5",
+      "source_current_price_id": "price_1U95SURyM6dRKLtZCzi9AMC3",
       "mofu_sku": "MH-CAT-SNR-014",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 25g",
       "cost_cny": "14.4",
@@ -1428,16 +1428,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92clRyM6dRKLtZ1uMZrRwW",
+      "result_price_id": "price_1U98ZDRyM6dRKLtZdDbRp8YM",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:43.965240+00:00"
+      "completed_at_utc": "2026-08-27T19:02:28.006295+00:00"
     },
     {
       "csv_row": 82,
       "product_id": "prod_V8vrYMEciXr909",
       "source_csv_price_id": "price_1U8dztRyM6dRKLtZ3WxywbNW",
-      "source_current_price_id": "price_1U90UlRyM6dRKLtZUOEGf3Zp",
+      "source_current_price_id": "price_1U95SNRyM6dRKLtZreLoLnqn",
       "mofu_sku": "MH-CAT-SNR-015",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 鮮魚味 80g｜AIM30 Karitto Treats Crispy Cat Treats Fish Flavour 80g",
       "cost_cny": "56.0",
@@ -1446,16 +1446,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cmRyM6dRKLtZPpewg1U9",
+      "result_price_id": "price_1U98ZERyM6dRKLtZuQBiWEf2",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:45.390463+00:00"
+      "completed_at_utc": "2026-08-27T19:02:29.477779+00:00"
     },
     {
       "csv_row": 83,
       "product_id": "prod_V8vrEgpUGj9fjI",
       "source_csv_price_id": "price_1U8dzzRyM6dRKLtZyAr6CctM",
-      "source_current_price_id": "price_1U90UhRyM6dRKLtZ9r3Nj431",
+      "source_current_price_id": "price_1U95SMRyM6dRKLtZcba0QMWO",
       "mofu_sku": "MH-CAT-SNR-016",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 魚味四種綜合包 80g｜AIM30 Karitto Treats Crispy Cat Treats Four Fish Flavours Assortment 80g",
       "cost_cny": "56.0",
@@ -1464,16 +1464,16 @@
       "old_cents": 11590,
       "new_cents": 11990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cnRyM6dRKLtZipXHwfwH",
+      "result_price_id": "price_1U98ZGRyM6dRKLtZgVu1paOw",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:46.852395+00:00"
+      "completed_at_utc": "2026-08-27T19:02:31.020424+00:00"
     },
     {
       "csv_row": 84,
       "product_id": "prod_V8vrEGzFHOkIGq",
       "source_csv_price_id": "price_1U8dzlRyM6dRKLtZddHrurtA",
-      "source_current_price_id": "price_1U90UgRyM6dRKLtZwAX5Tu6D",
+      "source_current_price_id": "price_1U95SPRyM6dRKLtZnjytT2hj",
       "mofu_sku": "MH-CAT-SNR-017",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 毛球護理吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Hairball Care Tuna 25g",
       "cost_cny": "14.4",
@@ -1482,16 +1482,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cpRyM6dRKLtZQSh9OR9M",
+      "result_price_id": "price_1U98ZHRyM6dRKLtZjWmva06L",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:48.263325+00:00"
+      "completed_at_utc": "2026-08-27T19:02:32.520711+00:00"
     },
     {
       "csv_row": 85,
       "product_id": "prod_V8vr09YUCbk2x6",
       "source_csv_price_id": "price_1U8dzoRyM6dRKLtZuW3r2eij",
-      "source_current_price_id": "price_1U90UaRyM6dRKLtZZr8F8rrj",
+      "source_current_price_id": "price_1U95SORyM6dRKLtZ732VNYnl",
       "mofu_sku": "MH-CAT-SNR-018",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 乳酸菌吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna with Lactic Acid Bacteria 25g",
       "cost_cny": "14.4",
@@ -1500,16 +1500,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cqRyM6dRKLtZ4ay2wadE",
+      "result_price_id": "price_1U98ZJRyM6dRKLtZEfdJBIuv",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:49.723675+00:00"
+      "completed_at_utc": "2026-08-27T19:02:34.073352+00:00"
     },
     {
       "csv_row": 86,
       "product_id": "prod_V8vragc9O6bDre",
       "source_csv_price_id": "price_1U8dzdRyM6dRKLtZmYLY5TKe",
-      "source_current_price_id": "price_1U90UmRyM6dRKLtZLzJJx5L3",
+      "source_current_price_id": "price_1U95SQRyM6dRKLtZL7IQUFrl",
       "mofu_sku": "MH-CAT-SNR-019",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 金槍魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g",
       "cost_cny": "14.4",
@@ -1518,16 +1518,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92csRyM6dRKLtZ2eSEm4Tl",
+      "result_price_id": "price_1U98ZKRyM6dRKLtZwhpQtkBq",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:51.130772+00:00"
+      "completed_at_utc": "2026-08-27T19:02:35.585368+00:00"
     },
     {
       "csv_row": 87,
       "product_id": "prod_V8vr3X8ZjnY554",
       "source_csv_price_id": "price_1U8dzQRyM6dRKLtZJ5Dc0Gve",
-      "source_current_price_id": "price_1U90UbRyM6dRKLtZU5NFcUOh",
+      "source_current_price_id": "price_1U95STRyM6dRKLtZAdBm8LaP",
       "mofu_sku": "MH-CAT-SNR-020",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 三文魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Salmon Flavour 25g",
       "cost_cny": "14.4",
@@ -1536,16 +1536,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92ctRyM6dRKLtZILliTNuV",
+      "result_price_id": "price_1U98ZMRyM6dRKLtZyZpmtmrR",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:52.571489+00:00"
+      "completed_at_utc": "2026-08-27T19:02:37.117744+00:00"
     },
     {
       "csv_row": 88,
       "product_id": "prod_V8vrqp1avymNZ9",
       "source_csv_price_id": "price_1U8dzTRyM6dRKLtZAzLsio4t",
-      "source_current_price_id": "price_1U90UqRyM6dRKLtZI6NDRzkH",
+      "source_current_price_id": "price_1U95SSRyM6dRKLtZg7oNG1i9",
       "mofu_sku": "MH-CAT-SNR-021",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 海鮮味 25g｜AIM30 Karitto Treats Crispy Cat Treats Seafood Flavour 25g",
       "cost_cny": "14.4",
@@ -1554,16 +1554,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cvRyM6dRKLtZ0wuyoY4i",
+      "result_price_id": "price_1U98ZNRyM6dRKLtZ2ijMM6xd",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:54.013935+00:00"
+      "completed_at_utc": "2026-08-27T19:02:38.609613+00:00"
     },
     {
       "csv_row": 89,
       "product_id": "prod_V8vrJdunHu4yQD",
       "source_csv_price_id": "price_1U8dziRyM6dRKLtZ8ixLg9g3",
-      "source_current_price_id": "price_1U90UiRyM6dRKLtZvgZXuZCO",
+      "source_current_price_id": "price_1U95SPRyM6dRKLtZsMMrJJRl",
       "mofu_sku": "MH-CAT-SNR-022",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚及蟹肉味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna & Crab Flavour 25g",
       "cost_cny": "14.4",
@@ -1572,16 +1572,16 @@
       "old_cents": 2990,
       "new_cents": 3090,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cwRyM6dRKLtZQNotFV64",
+      "result_price_id": "price_1U98ZPRyM6dRKLtZmt4qBeAH",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:55.514996+00:00"
+      "completed_at_utc": "2026-08-27T19:02:40.120920+00:00"
     },
     {
       "csv_row": 90,
       "product_id": "prod_V8vr8q8jdO6wNr",
       "source_csv_price_id": "price_1U8dzaRyM6dRKLtZjQNjilZt",
-      "source_current_price_id": "price_1U90UdRyM6dRKLtZbXqoJb9j",
+      "source_current_price_id": "price_1U95SRRyM6dRKLtZVUmwkFHt",
       "mofu_sku": "MH-CAT-SNR-023",
       "product_name": "AIM30 Karitto Treats 酥脆貓咪零食 吞拿魚味 25g｜AIM30 Karitto Treats Crispy Cat Treats Tuna Flavour 25g",
       "cost_cny": "19.8",
@@ -1590,16 +1590,16 @@
       "old_cents": 4090,
       "new_cents": 4290,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92cyRyM6dRKLtZAjBUMtHk",
+      "result_price_id": "price_1U98ZQRyM6dRKLtZ4E0uAXgo",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:56.947454+00:00"
+      "completed_at_utc": "2026-08-27T19:02:41.591846+00:00"
     },
     {
       "csv_row": 91,
       "product_id": "prod_V8vro3NAxi0isd",
       "source_csv_price_id": "price_1U8e07RyM6dRKLtZMgv8TuPi",
-      "source_current_price_id": "price_1U90UpRyM6dRKLtZowe2nk2e",
+      "source_current_price_id": "price_1U95SLRyM6dRKLtZuRL4WYIu",
       "mofu_sku": "MH-CAT-SNR-024",
       "product_name": "AIM30 貓咪吞拿魚片 30g｜AIM30 Cat Tuna Slices 30g",
       "cost_cny": "19.8",
@@ -1608,16 +1608,16 @@
       "old_cents": 4090,
       "new_cents": 4290,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92czRyM6dRKLtZmbozTWZa",
+      "result_price_id": "price_1U98ZSRyM6dRKLtZwv1GogXP",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:58.363810+00:00"
+      "completed_at_utc": "2026-08-27T19:02:43.083669+00:00"
     },
     {
       "csv_row": 92,
       "product_id": "prod_V8xXuAW047ti4v",
       "source_csv_price_id": "price_1U8fc3RyM6dRKLtZ8kbEZQmk",
-      "source_current_price_id": "price_1U90VGRyM6dRKLtZ2S5lj3VA",
+      "source_current_price_id": "price_1U95SGRyM6dRKLtZ01LzCNqS",
       "mofu_sku": "MH-CAT-SNR-025",
       "product_name": "AIM30 室內成貓 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Chicken Flavour 600g",
       "cost_cny": "168.0",
@@ -1626,16 +1626,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d0RyM6dRKLtZdERJh6Vk",
+      "result_price_id": "price_1U98ZTRyM6dRKLtZW8abtsIM",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:41:59.787805+00:00"
+      "completed_at_utc": "2026-08-27T19:02:44.537993+00:00"
     },
     {
       "csv_row": 93,
       "product_id": "prod_V8xXIokF7G9Er0",
       "source_csv_price_id": "price_1U8fc4RyM6dRKLtZnmbBZ59U",
-      "source_current_price_id": "price_1U90V1RyM6dRKLtZWvY33hpc",
+      "source_current_price_id": "price_1U95SGRyM6dRKLtZJQ76NPr4",
       "mofu_sku": "MH-CAT-SNR-026",
       "product_name": "AIM30 室內成貓 鮮魚味乾糧 600g｜AIM30 Indoor Adult Cat Food Fish Flavour 600g",
       "cost_cny": "168.0",
@@ -1644,16 +1644,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d2RyM6dRKLtZLmwY2w0c",
+      "result_price_id": "price_1U98ZVRyM6dRKLtZkZ7ms3x4",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:01.230109+00:00"
+      "completed_at_utc": "2026-08-27T19:02:46.050000+00:00"
     },
     {
       "csv_row": 94,
       "product_id": "prod_V8xXwAmye0eVa6",
       "source_csv_price_id": "price_1U8fc5RyM6dRKLtZ1foJPEVT",
-      "source_current_price_id": "price_1U90VHRyM6dRKLtZokzJj0Oh",
+      "source_current_price_id": "price_1U95SFRyM6dRKLtZzuYgALZ6",
       "mofu_sku": "MH-CAT-SNR-027",
       "product_name": "AIM30 室內成貓 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Adult Cat Food Kidney Health Care Chicken Flavour 600g",
       "cost_cny": "105.0",
@@ -1662,16 +1662,16 @@
       "old_cents": 21590,
       "new_cents": 22390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d3RyM6dRKLtZfO6JFKLA",
+      "result_price_id": "price_1U98ZWRyM6dRKLtZWvIfa7KS",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:02.667783+00:00"
+      "completed_at_utc": "2026-08-27T19:02:47.531101+00:00"
     },
     {
       "csv_row": 95,
       "product_id": "prod_V8xXxYtzIJ6S93",
       "source_csv_price_id": "price_1U8fcCRyM6dRKLtZhVXn5d9C",
-      "source_current_price_id": "price_1U90VJRyM6dRKLtZLFxld1Mk",
+      "source_current_price_id": "price_1U95SDRyM6dRKLtZy0OYqmfC",
       "mofu_sku": "MH-CAT-SNR-028",
       "product_name": "AIM30 室內已絕育成貓 雞肉味乾糧 1.2kg｜AIM30 Indoor Spayed and Neutered Adult Cat Food Chicken Flavour 1.2kg",
       "cost_cny": "197.0",
@@ -1680,16 +1680,16 @@
       "old_cents": 40490,
       "new_cents": 41890,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d5RyM6dRKLtZWl7zAy7w",
+      "result_price_id": "price_1U98ZYRyM6dRKLtZRu6JWaTm",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:04.149771+00:00"
+      "completed_at_utc": "2026-08-27T19:02:49.010989+00:00"
     },
     {
       "csv_row": 96,
       "product_id": "prod_V8xXaZ0jwFhqkT",
       "source_csv_price_id": "price_1U8fc2RyM6dRKLtZ3lk0Ei43",
-      "source_current_price_id": "price_1U90VDRyM6dRKLtZsCZkGfIs",
+      "source_current_price_id": "price_1U95SHRyM6dRKLtZbKQcxFog",
       "mofu_sku": "MH-CAT-SNR-029",
       "product_name": "AIM30 室內高齡貓 11 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Chicken Flavour 600g",
       "cost_cny": "168.0",
@@ -1698,16 +1698,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d6RyM6dRKLtZjm8T3KGh",
+      "result_price_id": "price_1U98ZZRyM6dRKLtZrnFOByt4",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:05.561051+00:00"
+      "completed_at_utc": "2026-08-27T19:02:50.476422+00:00"
     },
     {
       "csv_row": 97,
       "product_id": "prod_V8xXMTWORpMyun",
       "source_csv_price_id": "price_1U8fcBRyM6dRKLtZpuYulJ4J",
-      "source_current_price_id": "price_1U90V5RyM6dRKLtZiXpTjbXR",
+      "source_current_price_id": "price_1U95SDRyM6dRKLtZV2Q1wTTO",
       "mofu_sku": "MH-CAT-SNR-030",
       "product_name": "AIM30 室內高齡貓 11 歲以上 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 11+ Fish Flavour 600g",
       "cost_cny": "168.0",
@@ -1716,16 +1716,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d8RyM6dRKLtZQMmxhTVN",
+      "result_price_id": "price_1U98ZbRyM6dRKLtZP60fXKdc",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:06.997510+00:00"
+      "completed_at_utc": "2026-08-27T19:02:51.998313+00:00"
     },
     {
       "csv_row": 98,
       "product_id": "prod_V8xXwQzwhjo93R",
       "source_csv_price_id": "price_1U8fc9RyM6dRKLtZcSJjz0IP",
-      "source_current_price_id": "price_1U90VIRyM6dRKLtZ2lmrawZI",
+      "source_current_price_id": "price_1U95SERyM6dRKLtZVUaPsmDf",
       "mofu_sku": "MH-CAT-SNR-031",
       "product_name": "AIM30 室內高齡貓 15 歲以上 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Chicken Flavour 600g",
       "cost_cny": "168.0",
@@ -1734,16 +1734,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92d9RyM6dRKLtZO5d8WYG2",
+      "result_price_id": "price_1U98ZcRyM6dRKLtZeNW3mQ9j",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:08.404232+00:00"
+      "completed_at_utc": "2026-08-27T19:02:53.517342+00:00"
     },
     {
       "csv_row": 99,
       "product_id": "prod_V8xXT4XG39RY4o",
       "source_csv_price_id": "price_1U8fc8RyM6dRKLtZkNh900Ke",
-      "source_current_price_id": "price_1U90V8RyM6dRKLtZA8abkf2V",
+      "source_current_price_id": "price_1U95SERyM6dRKLtZIuWX6TQ9",
       "mofu_sku": "MH-CAT-SNR-032",
       "product_name": "AIM30 室內高齡貓 15 歲以上 腎臟健康照護 鮮魚味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Fish Flavour 600g",
       "cost_cny": "168.0",
@@ -1752,16 +1752,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dBRyM6dRKLtZYUWcmvHM",
+      "result_price_id": "price_1U98ZeRyM6dRKLtZfGAOyach",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:09.833435+00:00"
+      "completed_at_utc": "2026-08-27T19:02:55.044865+00:00"
     },
     {
       "csv_row": 100,
       "product_id": "prod_V8xXTyAkIg3YGz",
       "source_csv_price_id": "price_1U8fc6RyM6dRKLtZ8UU70tzG",
-      "source_current_price_id": "price_1U90V9RyM6dRKLtZDZEmpFaX",
+      "source_current_price_id": "price_1U95SFRyM6dRKLtZyjcc2bD2",
       "mofu_sku": "MH-CAT-SNR-033",
       "product_name": "AIM30 室內高齡貓 15 歲以上 腎臟健康照護 雞肉味乾糧 600g｜AIM30 Indoor Senior Cat Food 15+ Kidney Health Care Chicken Flavour 600g",
       "cost_cny": "168.0",
@@ -1770,16 +1770,16 @@
       "old_cents": 34490,
       "new_cents": 35690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dCRyM6dRKLtZPsnQyZOO",
+      "result_price_id": "price_1U98ZfRyM6dRKLtZVUXoqDgL",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:11.255780+00:00"
+      "completed_at_utc": "2026-08-27T19:02:56.518714+00:00"
     },
     {
       "csv_row": 101,
       "product_id": "prod_V8uIO7LzUQjeCT",
       "source_csv_price_id": "price_1U8cU0RyM6dRKLtZ8uu3Ejr3",
-      "source_current_price_id": "price_1U90UMRyM6dRKLtZBWpBGc4z",
+      "source_current_price_id": "price_1U95ScRyM6dRKLtZohCvN8zv",
       "mofu_sku": "MH-CAT-UCM-001",
       "product_name": "Unicharm Deotoilet 消臭抗菌沸石貓砂 清新庭院香 3.8L｜Unicharm Deotoilet Deodorising Antibacterial Zeolite Cat Litter Natural Green 3.8L",
       "cost_cny": "43.0",
@@ -1788,16 +1788,16 @@
       "old_cents": 8890,
       "new_cents": 9190,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dDRyM6dRKLtZicS662AB",
+      "result_price_id": "price_1U98ZhRyM6dRKLtZ42qJmIPX",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:12.664378+00:00"
+      "completed_at_utc": "2026-08-27T19:02:57.984286+00:00"
     },
     {
       "csv_row": 102,
       "product_id": "prod_V8sFjjO8IgpPvO",
       "source_csv_price_id": "price_1U8aVNRyM6dRKLtZ7S60votS",
-      "source_current_price_id": "price_1U90TvRyM6dRKLtZxyVKNGkh",
+      "source_current_price_id": "price_1U95SoRyM6dRKLtZJ2jHgdYk",
       "mofu_sku": "MH-DOG-GEN-001",
       "product_name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
       "cost_cny": "6.74",
@@ -1806,16 +1806,16 @@
       "old_cents": 1390,
       "new_cents": 1490,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dFRyM6dRKLtZZLH2D9qF",
+      "result_price_id": "price_1U98ZiRyM6dRKLtZZTekXVyt",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:14.075399+00:00"
+      "completed_at_utc": "2026-08-27T19:02:59.451983+00:00"
     },
     {
       "csv_row": 103,
       "product_id": "prod_V8sFjjO8IgpPvO",
       "source_csv_price_id": "price_1U8aVNRyM6dRKLtZqwr4DE1J",
-      "source_current_price_id": "price_1U90TwRyM6dRKLtZWMr2o7IJ",
+      "source_current_price_id": "price_1U95SoRyM6dRKLtZ92u9pyOV",
       "mofu_sku": "MH-DOG-GEN-001",
       "product_name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
       "cost_cny": "12.9",
@@ -1824,16 +1824,16 @@
       "old_cents": 2690,
       "new_cents": 2790,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dGRyM6dRKLtZZafsQ0aX",
+      "result_price_id": "price_1U98ZkRyM6dRKLtZosnWfonS",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:15.227484+00:00"
+      "completed_at_utc": "2026-08-27T19:03:00.617243+00:00"
     },
     {
       "csv_row": 104,
       "product_id": "prod_V8sFjjO8IgpPvO",
       "source_csv_price_id": "price_1U8aVORyM6dRKLtZ8BiiBL40",
-      "source_current_price_id": "price_1U90TxRyM6dRKLtZG6lyhu3U",
+      "source_current_price_id": "price_1U95SnRyM6dRKLtZcQMcBLlv",
       "mofu_sku": "MH-DOG-GEN-001",
       "product_name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
       "cost_cny": "32.9",
@@ -1842,16 +1842,16 @@
       "old_cents": 6790,
       "new_cents": 6990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dIRyM6dRKLtZC33pAKKz",
+      "result_price_id": "price_1U98ZlRyM6dRKLtZ1mT1w5nb",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:16.758698+00:00"
+      "completed_at_utc": "2026-08-27T19:03:01.727925+00:00"
     },
     {
       "csv_row": 105,
       "product_id": "prod_V8sFjjO8IgpPvO",
       "source_csv_price_id": "price_1U8aVORyM6dRKLtZIb6ivl1D",
-      "source_current_price_id": "price_1U90TxRyM6dRKLtZLzOCyvVt",
+      "source_current_price_id": "price_1U95SnRyM6dRKLtZThzqN1kX",
       "mofu_sku": "MH-DOG-GEN-001",
       "product_name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
       "cost_cny": "36.7",
@@ -1860,16 +1860,16 @@
       "old_cents": 7590,
       "new_cents": 7890,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dJRyM6dRKLtZfen7ZKzn",
+      "result_price_id": "price_1U98ZmRyM6dRKLtZyOWdMNmE",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:17.865778+00:00"
+      "completed_at_utc": "2026-08-27T19:03:02.855825+00:00"
     },
     {
       "csv_row": 106,
       "product_id": "prod_V8sFjjO8IgpPvO",
       "source_csv_price_id": "price_1U8aVORyM6dRKLtZyvltXD1x",
-      "source_current_price_id": "price_1U90TyRyM6dRKLtZuCzym2Wg",
+      "source_current_price_id": "price_1U95SnRyM6dRKLtZ1MmN5orm",
       "mofu_sku": "MH-DOG-GEN-001",
       "product_name": "Complete ytt 日本犬用雞肉條小食 20g｜Complete ytt Chicken Tender Dog Treats 20g",
       "cost_cny": "32.9",
@@ -1878,16 +1878,16 @@
       "old_cents": 6790,
       "new_cents": 6990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dKRyM6dRKLtZV1YXpEW3",
+      "result_price_id": "price_1U98ZnRyM6dRKLtZ9KSIKyO0",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:19.012749+00:00"
+      "completed_at_utc": "2026-08-27T19:03:03.991046+00:00"
     },
     {
       "csv_row": 107,
       "product_id": "prod_V8szJB1xzy0Hkm",
       "source_csv_price_id": "price_1U8bDuRyM6dRKLtZLWNMemMt",
-      "source_current_price_id": "price_1U90TzRyM6dRKLtZ8d3asNMj",
+      "source_current_price_id": "price_1U95SlRyM6dRKLtZqAe5uJ0p",
       "mofu_sku": "MH-LIF-GEN-001",
       "product_name": "藍貓圖案斜口高腳陶瓷食盤 M｜Blue Cat Pattern Raised Slanted Ceramic Bowl M",
       "cost_cny": "30.95",
@@ -1896,16 +1896,16 @@
       "old_cents": 6390,
       "new_cents": 6590,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dLRyM6dRKLtZ2f7ZTljS",
+      "result_price_id": "price_1U98ZoRyM6dRKLtZ3C4bEZbc",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:20.447788+00:00"
+      "completed_at_utc": "2026-08-27T19:03:05.552401+00:00"
     },
     {
       "csv_row": 108,
       "product_id": "prod_V8szxN4qvZQyrJ",
       "source_csv_price_id": "price_1U8bDrRyM6dRKLtZ4BGKfDgq",
-      "source_current_price_id": "price_1U90U2RyM6dRKLtZNtqNKB0D",
+      "source_current_price_id": "price_1U95SnRyM6dRKLtZU9foiznF",
       "mofu_sku": "MH-LIF-GEN-002",
       "product_name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
       "cost_cny": "25.5",
@@ -1914,16 +1914,16 @@
       "old_cents": 5290,
       "new_cents": 5490,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dNRyM6dRKLtZ7qbOapPj",
+      "result_price_id": "price_1U98ZqRyM6dRKLtZGAHX2lMB",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:21.635333+00:00"
+      "completed_at_utc": "2026-08-27T19:03:06.645417+00:00"
     },
     {
       "csv_row": 109,
       "product_id": "prod_V8szxN4qvZQyrJ",
       "source_csv_price_id": "price_1U8bDrRyM6dRKLtZFJenWOBn",
-      "source_current_price_id": "price_1U90U3RyM6dRKLtZgTJWL2qr",
+      "source_current_price_id": "price_1U95SmRyM6dRKLtZRMbj01Nk",
       "mofu_sku": "MH-LIF-GEN-002",
       "product_name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
       "cost_cny": "25.5",
@@ -1932,16 +1932,16 @@
       "old_cents": 5290,
       "new_cents": 5490,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dORyM6dRKLtZbeqCNpsb",
+      "result_price_id": "price_1U98ZrRyM6dRKLtZfbm5ktUC",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:23.096772+00:00"
+      "completed_at_utc": "2026-08-27T19:03:08.178297+00:00"
     },
     {
       "csv_row": 110,
       "product_id": "prod_V8szxN4qvZQyrJ",
       "source_csv_price_id": "price_1U8bDrRyM6dRKLtZvZK2osMh",
-      "source_current_price_id": "price_1U90U4RyM6dRKLtZugqWBBh3",
+      "source_current_price_id": "price_1U95SmRyM6dRKLtZH8yK35Xa",
       "mofu_sku": "MH-LIF-GEN-002",
       "product_name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
       "cost_cny": "25.5",
@@ -1950,16 +1950,16 @@
       "old_cents": 5290,
       "new_cents": 5490,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dPRyM6dRKLtZFMyHGFKW",
+      "result_price_id": "price_1U98ZsRyM6dRKLtZlwKi3Oqi",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:24.233089+00:00"
+      "completed_at_utc": "2026-08-27T19:03:09.377777+00:00"
     },
     {
       "csv_row": 111,
       "product_id": "prod_V8szxN4qvZQyrJ",
       "source_csv_price_id": "price_1U8bDsRyM6dRKLtZjeQdGEbD",
-      "source_current_price_id": "price_1U90U5RyM6dRKLtZcoofTFNx",
+      "source_current_price_id": "price_1U95SmRyM6dRKLtZAcEE6fHR",
       "mofu_sku": "MH-LIF-GEN-002",
       "product_name": "貓耳斜口高腳陶瓷食盤 12cm｜Cat Ear Raised Slanted Ceramic Bowl 12cm",
       "cost_cny": "25.5",
@@ -1968,16 +1968,16 @@
       "old_cents": 5290,
       "new_cents": 5490,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dQRyM6dRKLtZjgBAqSzt",
+      "result_price_id": "price_1U98ZtRyM6dRKLtZg0q7RMnL",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:25.326400+00:00"
+      "completed_at_utc": "2026-08-27T19:03:10.516303+00:00"
     },
     {
       "csv_row": 112,
       "product_id": "prod_V8t03LiP3rgoHN",
       "source_csv_price_id": "price_1U8bE3RyM6dRKLtZ2dyFDhQx",
-      "source_current_price_id": "price_1U90U6RyM6dRKLtZlkpYO8WC",
+      "source_current_price_id": "price_1U95SjRyM6dRKLtZ3GpOqZEy",
       "mofu_sku": "MH-LIF-GEN-003",
       "product_name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
       "cost_cny": "27.94",
@@ -1986,16 +1986,16 @@
       "old_cents": 5790,
       "new_cents": 5990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dRRyM6dRKLtZQmvKDs8R",
+      "result_price_id": "price_1U98ZvRyM6dRKLtZzQWhmAsL",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:26.444716+00:00"
+      "completed_at_utc": "2026-08-27T19:03:11.632168+00:00"
     },
     {
       "csv_row": 113,
       "product_id": "prod_V8t03LiP3rgoHN",
       "source_csv_price_id": "price_1U8bE3RyM6dRKLtZ6NUu82ih",
-      "source_current_price_id": "price_1U90U7RyM6dRKLtZKEcxXS2u",
+      "source_current_price_id": "price_1U95SjRyM6dRKLtZyP6X6BHS",
       "mofu_sku": "MH-LIF-GEN-003",
       "product_name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
       "cost_cny": "27.94",
@@ -2004,16 +2004,16 @@
       "old_cents": 5790,
       "new_cents": 5990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dTRyM6dRKLtZqFfRycYk",
+      "result_price_id": "price_1U98ZwRyM6dRKLtZIH1C9qdw",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:27.848851+00:00"
+      "completed_at_utc": "2026-08-27T19:03:13.159699+00:00"
     },
     {
       "csv_row": 114,
       "product_id": "prod_V8t03LiP3rgoHN",
       "source_csv_price_id": "price_1U8bE3RyM6dRKLtZoo1SG8fs",
-      "source_current_price_id": "price_1U90U8RyM6dRKLtZFz5GTfrD",
+      "source_current_price_id": "price_1U95SiRyM6dRKLtZQEdJmu8Q",
       "mofu_sku": "MH-LIF-GEN-003",
       "product_name": "貓臉斜口高腳陶瓷食盤 350ml｜Cat Face Raised Slanted Ceramic Bowl 350ml",
       "cost_cny": "27.94",
@@ -2022,16 +2022,16 @@
       "old_cents": 5790,
       "new_cents": 5990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dURyM6dRKLtZ2CCTIv9d",
+      "result_price_id": "price_1U98ZxRyM6dRKLtZWJ0g67SJ",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:29.020956+00:00"
+      "completed_at_utc": "2026-08-27T19:03:14.399343+00:00"
     },
     {
       "csv_row": 115,
       "product_id": "prod_V8szss31Rm8tiJ",
       "source_csv_price_id": "price_1U8bDzRyM6dRKLtZ4X3eofhW",
-      "source_current_price_id": "price_1U90U0RyM6dRKLtZybv7SNIu",
+      "source_current_price_id": "price_1U95SkRyM6dRKLtZMxLhQoJN",
       "mofu_sku": "MH-LIF-GEN-004",
       "product_name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
       "cost_cny": "18.34",
@@ -2040,16 +2040,16 @@
       "old_cents": 3790,
       "new_cents": 3990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dVRyM6dRKLtZDYHV9K1L",
+      "result_price_id": "price_1U98ZzRyM6dRKLtZfIerTFwO",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:30.444376+00:00"
+      "completed_at_utc": "2026-08-27T19:03:15.900778+00:00"
     },
     {
       "csv_row": 116,
       "product_id": "prod_V8szss31Rm8tiJ",
       "source_csv_price_id": "price_1U8bE0RyM6dRKLtZEhY45gCA",
-      "source_current_price_id": "price_1U90U1RyM6dRKLtZttjg64hz",
+      "source_current_price_id": "price_1U95SkRyM6dRKLtZyElW9mKI",
       "mofu_sku": "MH-LIF-GEN-004",
       "product_name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
       "cost_cny": "18.34",
@@ -2058,16 +2058,16 @@
       "old_cents": 3790,
       "new_cents": 3990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dXRyM6dRKLtZ14K7JlnG",
+      "result_price_id": "price_1U98a0RyM6dRKLtZ0ZvBhJIe",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:31.623071+00:00"
+      "completed_at_utc": "2026-08-27T19:03:17.128781+00:00"
     },
     {
       "csv_row": 117,
       "product_id": "prod_V8szss31Rm8tiJ",
       "source_csv_price_id": "price_1U8bE0RyM6dRKLtZMRGdUPd6",
-      "source_current_price_id": "price_1U90U2RyM6dRKLtZDgAtF958",
+      "source_current_price_id": "price_1U95SjRyM6dRKLtZIjI79y1R",
       "mofu_sku": "MH-LIF-GEN-004",
       "product_name": "高腳平口陶瓷貓咪食盤 250ml｜Raised Flat-Rim Ceramic Cat Bowl 250ml",
       "cost_cny": "18.34",
@@ -2076,16 +2076,16 @@
       "old_cents": 3790,
       "new_cents": 3990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dYRyM6dRKLtZJLSh6MXi",
+      "result_price_id": "price_1U98a1RyM6dRKLtZpqIw4GDF",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:32.751045+00:00"
+      "completed_at_utc": "2026-08-27T19:03:18.302255+00:00"
     },
     {
       "csv_row": 118,
       "product_id": "prod_V8t0eKeqlC0GzI",
       "source_csv_price_id": "price_1U8bE6RyM6dRKLtZKBGrzFqk",
-      "source_current_price_id": "price_1U90U8RyM6dRKLtZYP0Mu7cQ",
+      "source_current_price_id": "price_1U95SiRyM6dRKLtZ2EyYIqLC",
       "mofu_sku": "MH-LIF-GEN-005",
       "product_name": "深藍貓臉高腳陶瓷食盤 M｜Navy Cat Face Raised Ceramic Bowl M",
       "cost_cny": "21.9",
@@ -2094,16 +2094,16 @@
       "old_cents": 4590,
       "new_cents": 4690,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dZRyM6dRKLtZKbrQLfP4",
+      "result_price_id": "price_1U98a2RyM6dRKLtZrWJuvWej",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:34.166776+00:00"
+      "completed_at_utc": "2026-08-27T19:03:19.930276+00:00"
     },
     {
       "csv_row": 119,
       "product_id": "prod_V8szzgASg2ZnbO",
       "source_csv_price_id": "price_1U8bDxRyM6dRKLtZBY1GwTXp",
-      "source_current_price_id": "price_1U90U5RyM6dRKLtZrPuttxOn",
+      "source_current_price_id": "price_1U95SkRyM6dRKLtZyXhiqJuh",
       "mofu_sku": "MH-LIF-GEN-006",
       "product_name": "白貓海浪紋斜口高腳陶瓷食盤 M｜White Cat Wave Pattern Raised Slanted Ceramic Bowl M",
       "cost_cny": "27.94",
@@ -2112,16 +2112,16 @@
       "old_cents": 5790,
       "new_cents": 5990,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92daRyM6dRKLtZv4YTAM0p",
+      "result_price_id": "price_1U98a4RyM6dRKLtZckhBFtU6",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:35.591899+00:00"
+      "completed_at_utc": "2026-08-27T19:03:21.416168+00:00"
     },
     {
       "csv_row": 120,
       "product_id": "prod_V8uIOVwsFqgPTV",
       "source_csv_price_id": "price_1U8cU3RyM6dRKLtZBkHsqyun",
-      "source_current_price_id": "price_1U90UMRyM6dRKLtZ3rSIKzH0",
+      "source_current_price_id": "price_1U95SbRyM6dRKLtZYBex0Yxb",
       "mofu_sku": "MH-LIF-ST-001",
       "product_name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
       "cost_cny": "96.0",
@@ -2130,16 +2130,16 @@
       "old_cents": 19790,
       "new_cents": 20390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92dcRyM6dRKLtZXuj6xFow",
+      "result_price_id": "price_1U98a6RyM6dRKLtZruKTBEiS",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:36.698743+00:00"
+      "completed_at_utc": "2026-08-27T19:03:22.538195+00:00"
     },
     {
       "csv_row": 121,
       "product_id": "prod_V8uIOVwsFqgPTV",
       "source_csv_price_id": "price_1U8cU3RyM6dRKLtZTKnfNwxt",
-      "source_current_price_id": "price_1U90UNRyM6dRKLtZbyJ8ASWL",
+      "source_current_price_id": "price_1U95SbRyM6dRKLtZJ04KeJoA",
       "mofu_sku": "MH-LIF-ST-001",
       "product_name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
       "cost_cny": "96.0",
@@ -2148,16 +2148,16 @@
       "old_cents": 19790,
       "new_cents": 20390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92ddRyM6dRKLtZd3ZiaYxM",
+      "result_price_id": "price_1U98a7RyM6dRKLtZzm5frgsp",
       "source_price_deactivated": true,
       "default_price_switched": false,
-      "completed_at_utc": "2026-08-27T12:42:37.864951+00:00"
+      "completed_at_utc": "2026-08-27T19:03:23.730312+00:00"
     },
     {
       "csv_row": 122,
       "product_id": "prod_V8uIOVwsFqgPTV",
       "source_csv_price_id": "price_1U8cU3RyM6dRKLtZYlkAeABl",
-      "source_current_price_id": "price_1U90UORyM6dRKLtZucjCVu2p",
+      "source_current_price_id": "price_1U95SbRyM6dRKLtZPuAfVAyc",
       "mofu_sku": "MH-LIF-ST-001",
       "product_name": "Nyantomo 清潔貓廁所 脫臭抗菌木質貓砂 4.4L｜Nyantomo Deodorising Antibacterial Wood Cat Litter 4.4L",
       "cost_cny": "96.0",
@@ -2166,14 +2166,14 @@
       "old_cents": 19790,
       "new_cents": 20390,
       "status": "replacement_price_created",
-      "result_price_id": "price_1U92deRyM6dRKLtZnha0FVzX",
+      "result_price_id": "price_1U98a8RyM6dRKLtZQY87lty8",
       "source_price_deactivated": true,
       "default_price_switched": true,
-      "completed_at_utc": "2026-08-27T12:42:39.294718+00:00"
+      "completed_at_utc": "2026-08-27T19:03:25.245164+00:00"
     }
   ],
-  "preflight_passed_at_utc": "2026-08-27T12:39:49.392824+00:00",
-  "completed_at_utc": "2026-08-27T12:42:39.297554+00:00",
+  "preflight_passed_at_utc": "2026-08-27T19:00:31.881964+00:00",
+  "completed_at_utc": "2026-08-27T19:03:25.247960+00:00",
   "status_counts": {
     "replacement_price_created": 116,
     "updated_metadata_only": 5
