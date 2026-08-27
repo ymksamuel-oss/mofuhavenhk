@@ -39,6 +39,8 @@ def main() -> None:
     recalculable = 0
     changing = 0
     missing_cost = 0
+    recalculable_product_ids: set[str] = set()
+    missing_cost_product_ids: set[str] = set()
 
     for index, row in enumerate(records, start=1):
         if not isinstance(row, dict):
@@ -59,6 +61,7 @@ def main() -> None:
         proposed_text = str(row.get("proposed_hkd", ""))
         if status in {"recalculable_preview_only", "no_change"}:
             recalculable += 1
+            recalculable_product_ids.add(product_id)
             try:
                 cost = Decimal(cost_text)
                 current = Decimal(str(row.get("current_hkd", "")))
@@ -83,6 +86,7 @@ def main() -> None:
                     errors.append(f"row {index}: changing record has zero delta")
         elif status == "awaiting_cny_cost":
             missing_cost += 1
+            missing_cost_product_ids.add(product_id)
             if cost_text or proposed_text or str(row.get("price_change_hkd", "")):
                 errors.append(f"row {index}: missing-cost record contains calculated pricing")
         else:
@@ -108,8 +112,10 @@ def main() -> None:
         "unique_product_count_in_price_scope": len(product_ids),
         "unique_price_count": len(price_ids),
         "recalculable_price_count": recalculable,
+        "recalculable_product_count": len(recalculable_product_ids),
         "changing_price_count": changing,
         "awaiting_cny_cost_price_count": missing_cost,
+        "awaiting_cny_cost_product_count": len(missing_cost_product_ids),
         "passed": not errors,
         "errors": errors,
     }
