@@ -1,0 +1,45 @@
+{
+  "generated_at_utc": "2026-08-27T00:54:29.849Z",
+  "stripe_active_product_count": 226,
+  "public_catalog_product_count": 224,
+  "unique_stripe_active_product_count": 226,
+  "unique_public_catalog_product_count": 224,
+  "stripe_duplicate_ids": [],
+  "public_catalog_duplicate_ids": [],
+  "stripe_only_products": [
+    {
+      "product_id": "prod_V90y14gfPJNkP3",
+      "name": "CIAO｜11歲以上鰹魚白肉貓罐頭｜單罐",
+      "active": true,
+      "created": 1787758866,
+      "updated": 1787781479,
+      "default_price": "price_1U8iwpRyM6dRKLtZc7uPsPIp",
+      "mofu_import_key": "ciao-inaba-cans-2026::cic-19",
+      "category": "cats",
+      "category_zh": "貓咪商品",
+      "subcategory": "貓罐罐",
+      "show_when_out_of_stock": "false",
+      "in_stock": "false",
+      "availability": "暫時缺貨",
+      "image_pending": "false"
+    },
+    {
+      "product_id": "prod_V90yHSNJqbGEZF",
+      "name": "CIAO とろみ｜14歲以上鮪魚扇貝奶油濃湯貓罐頭｜單罐",
+      "active": true,
+      "created": 1787758856,
+      "updated": 1787781479,
+      "default_price": "price_1U8iwfRyM6dRKLtZujEk5TUK",
+      "mofu_import_key": "ciao-inaba-cans-2026::cic-10",
+      "category": "cats",
+      "category_zh": "貓咪商品",
+      "subcategory": "貓罐罐",
+      "show_when_out_of_stock": "false",
+      "in_stock": "false",
+      "availability": "暫時缺貨",
+      "image_pending": "false"
+    }
+  ],
+  "public_only_products": [],
+  "common_product_count": 224
+}
