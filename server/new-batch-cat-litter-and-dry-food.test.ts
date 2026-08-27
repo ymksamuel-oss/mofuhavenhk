@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 
-const root = "/home/ubuntu/mofuhavenhk-github";
+const root = process.cwd();
 const mapping = JSON.parse(
   fs.readFileSync(path.join(root, "new_batch_cat_litter_and_dry_food_mapping.json"), "utf8"),
 ) as {

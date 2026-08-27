@@ -13,6 +13,8 @@ import {
   isStripeConfigured,
   toStripeAmountHkd,
 } from "@/lib/stripe";
+import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
+import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,6 +28,18 @@ type Body = {
   lines?: unknown;
   /** Preferred checkout method — stored in metadata for WhatsApp labels. */
   paymentMethod?: unknown;
+  shippingContact?: unknown;
+};
+
+type ShippingContactPayload = {
+  name?: unknown;
+  email?: unknown;
+  phone?: unknown;
+  phoneCountryCode?: unknown;
+  address?: unknown;
+  addressLine2?: unknown;
+  district?: unknown;
+  sfStationCode?: unknown;
 };
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -38,6 +52,14 @@ const PAYMENT_LABELS: Record<string, string> = {
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function cleanMetadataValue(value: unknown, maxLength = 500): string {
+  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
+
+function getShippingContact(value: unknown): ShippingContactPayload {
+  return value && typeof value === "object" ? (value as ShippingContactPayload) : {};
 }
 
 /**
@@ -105,6 +127,20 @@ export async function POST(request: Request) {
   const customerName = isNonEmptyString(body.customerName)
     ? body.customerName.trim().slice(0, 100)
     : "";
+  const contact = getShippingContact(body.shippingContact);
+  const customerEmail = normalizeEmailAddress(contact.email);
+  if (!isValidEmailAddress(customerEmail)) {
+    return NextResponse.json({ ok: false, error: "receipt_email_required" }, { status: 400 });
+  }
+  let receiptMetadata: Record<string, string>;
+  try {
+    receiptMetadata = receiptLineMetadata(items);
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: "receipt_line_items_invalid", detail: error instanceof Error ? error.message : String(error) },
+      { status: 400 },
+    );
+  }
   const preferredMethod = isNonEmptyString(body.paymentMethod)
     ? body.paymentMethod.trim().toLowerCase()
     : "";
@@ -118,7 +154,8 @@ export async function POST(request: Request) {
   const paymentLabel =
     PAYMENT_LABELS[preferredMethod] || "Stripe";
   const subtotal = calcSubtotal(items);
-  const total = subtotal + getShippingCost(subtotal, items.length > 0);
+  const shipping = getShippingCost(subtotal, items.length > 0);
+  const total = subtotal + shipping;
   const amount = toStripeAmountHkd(total);
 
   if (!Number.isFinite(amount) || amount < 50) {
@@ -131,6 +168,11 @@ export async function POST(request: Request) {
   try {
     const stripe = getStripe();
     const paymentMethodConfiguration = getStripePaymentMethodConfiguration();
+    const customer = await stripe.customers.create({
+      email: customerEmail,
+      name: customerName || cleanMetadataValue(contact.name, 100) || undefined,
+      description: `Mofu Haven customer for order ${orderNumber}`,
+    }, { idempotencyKey: `mofu-receipt-customer-${orderNumber}` });
     const intent = await stripe.paymentIntents.create({
       amount,
       currency: "hkd",
@@ -145,15 +187,27 @@ export async function POST(request: Request) {
       // enabled by Stripe for this account/configuration, remains Dashboard-driven.
       excluded_payment_method_types: ["alipay"],
       description: `Mofu Haven order ${orderNumber}`,
+      customer: customer.id,
       metadata: {
         orderNumber,
         customerName,
         category: category ?? "",
         site: "mofuhavenhk.com",
         whatsapp_notified: "false",
+        receipt_email_sent: "false",
         paymentMethod: preferredMethod || "auto",
         paymentLabel,
-        lineItems: items.map((item) => `${item.id}x${item.qty}`).join(","),
+        shippingName: cleanMetadataValue(contact.name, 100),
+        shippingPhone: `${cleanMetadataValue(contact.phoneCountryCode, 8)} ${cleanMetadataValue(contact.phone, 32)}`.trim(),
+        shippingAddress: cleanMetadataValue(contact.address, 300),
+        shippingAddressLine2: cleanMetadataValue(contact.addressLine2, 300),
+        shippingDistrict: cleanMetadataValue(contact.district, 100),
+        shippingSfStationCode: cleanMetadataValue(contact.sfStationCode, 32),
+        subtotalHkd: subtotal.toFixed(2),
+        shippingHkd: shipping.toFixed(2),
+        totalHkd: total.toFixed(2),
+        lineItems: items.map((item) => `${item.id}:${item.stripePriceId ?? "dynamic"}x${item.qty}`).join(",").slice(0, 500),
+        ...receiptMetadata,
       },
     });
 

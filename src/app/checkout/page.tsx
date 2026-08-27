@@ -34,6 +34,7 @@ import { useCart } from "@/lib/shop/cart";
 import { saveReceipt } from "@/lib/receipt";
 import { formatMoney } from "@/lib/i18n/translations";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
+import { isValidEmailAddress } from "@/lib/emailAddress";
 
 type PayPhase =
   | "idle"
@@ -41,6 +42,7 @@ type PayPhase =
   | "ready"
   | "completing"
   | "paid"
+  | "paid_receipt_pending"
   | "paid_notify_failed"
   | "stripe_missing"
   | "error";
@@ -110,6 +112,7 @@ function CheckoutContent() {
     if (cart.lines.length > 0) return;
     if (
       phase === "paid" ||
+      phase === "paid_receipt_pending" ||
       phase === "paid_notify_failed" ||
       phase === "completing"
     ) {
@@ -164,6 +167,9 @@ function CheckoutContent() {
         ok: boolean;
         notified?: boolean;
         alreadyNotified?: boolean;
+        receiptSent?: boolean;
+        alreadyReceiptSent?: boolean;
+        processingStage?: "merchant_notification" | "customer_receipt";
         orderNumber?: string;
         paymentLabel?: string;
       };
@@ -203,8 +209,12 @@ function CheckoutContent() {
       cart.clear();
       setItems([]);
 
-      if (data.notified || data.alreadyNotified) {
+      const merchantNotified = Boolean(data.notified || data.alreadyNotified);
+      const receiptDelivered = Boolean(data.receiptSent || data.alreadyReceiptSent);
+      if (merchantNotified && receiptDelivered) {
         setPhase("paid");
+      } else if (merchantNotified && data.processingStage === "customer_receipt") {
+        setPhase("paid_receipt_pending");
       } else {
         setPhase("paid_notify_failed");
       }
@@ -298,7 +308,9 @@ function CheckoutContent() {
   const validateShippingContact = useCallback(() => {
     const firstInvalid = !shippingContact.name.trim()
       ? "shipping-name"
-      : getPhoneValidationError(
+      : !isValidEmailAddress(shippingContact.email)
+        ? "receipt-email"
+        : getPhoneValidationError(
             shippingContact.phone,
             shippingContact.phoneCountryCode,
             locale,
@@ -371,6 +383,7 @@ function CheckoutContent() {
                 locale,
                 paymentMethod: stripePaymentMethod,
                 customerName: shippingContact.name.trim(),
+                shippingContact,
                 lines: items.map((item) => ({ id: item.id, qty: item.qty, priceId: item.stripePriceId })),
               },
         ),
@@ -469,6 +482,7 @@ function CheckoutContent() {
     items.length > 0 &&
     !showStripeForm &&
     phase !== "paid" &&
+    phase !== "paid_receipt_pending" &&
     phase !== "paid_notify_failed" &&
     phase !== "stripe_missing" &&
     phase !== "preparing";
@@ -531,6 +545,7 @@ function CheckoutContent() {
 
           {!showStripeForm &&
           phase !== "paid" &&
+          phase !== "paid_receipt_pending" &&
           phase !== "paid_notify_failed" &&
           phase !== "stripe_missing" &&
           phase !== "preparing" ? (
@@ -565,6 +580,21 @@ function CheckoutContent() {
             <div className="space-y-3">
               <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
                 {t("stripePaidSuccess")}
+              </p>
+              {receiptHref ? (
+                <Link
+                  href={receiptHref}
+                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                >
+                  {t("receiptViewCta")}
+                </Link>
+              ) : null}
+            </div>
+          ) : null}
+          {phase === "paid_receipt_pending" ? (
+            <div className="space-y-3">
+              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
+                {t("stripePaidReceiptPending")}
               </p>
               {receiptHref ? (
                 <Link

@@ -3,6 +3,7 @@
 import type { InputHTMLAttributes } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { HK_DISTRICTS } from "@/lib/hkDistricts";
+import { emailValidationMessage, isValidEmailAddress } from "@/lib/emailAddress";
 
 export { HK_DISTRICTS, getDistrictLabel } from "@/lib/hkDistricts";
 export type { HkDistrict } from "@/lib/hkDistricts";
@@ -11,6 +12,8 @@ export type PhoneCountryCode = "+852" | "+853" | "+86";
 
 export type ShippingContact = {
   name: string;
+  /** Required for the post-payment electronic receipt. */
+  email: string;
   /** Local phone digits only (no country code). */
   phone: string;
   phoneCountryCode: PhoneCountryCode;
@@ -102,6 +105,7 @@ function Field({
 
 export const EMPTY_SHIPPING_CONTACT: ShippingContact = {
   name: "",
+  email: "",
   phone: "",
   phoneCountryCode: "+852",
   address: "",
@@ -164,6 +168,7 @@ export function formatPhoneForDisplay(contact: ShippingContact): string {
 export function isShippingContactComplete(contact: ShippingContact): boolean {
   return Boolean(
     contact.name.trim() &&
+      isValidEmailAddress(contact.email) &&
       contact.address.trim() &&
       contact.district.trim() &&
       !getPhoneValidationError(
@@ -226,6 +231,25 @@ export function ShippingContactForm({
           error={
             showErrors && !value.name.trim()
               ? t("customerNameRequired")
+              : undefined
+          }
+        />
+
+        <Field
+          id="receipt-email"
+          label={t("receiptEmailLabel")}
+          autoComplete="email"
+          type="email"
+          inputMode="email"
+          value={value.email}
+          onChange={(email) => patch({ email })}
+          placeholder={t("receiptEmailPlaceholder")}
+          disabled={disabled}
+          required
+          maxLength={254}
+          error={
+            (showErrors || value.email.trim().length > 0) && !isValidEmailAddress(value.email)
+              ? emailValidationMessage(locale)
               : undefined
           }
         />

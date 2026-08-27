@@ -13,6 +13,8 @@ import {
   isStripeConfigured,
   toStripeAmountHkd,
 } from "@/lib/stripe";
+import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
+import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,6 +32,7 @@ type Body = {
 
 type ShippingContactPayload = {
   name?: unknown;
+  email?: unknown;
   phone?: unknown;
   phoneCountryCode?: unknown;
   address?: unknown;
@@ -188,6 +191,19 @@ export async function POST(request: Request) {
     ? body.customerName.trim().slice(0, 100)
     : "";
   const contact = getShippingContact(body.shippingContact);
+  const customerEmail = normalizeEmailAddress(contact.email);
+  if (!isValidEmailAddress(customerEmail)) {
+    return NextResponse.json({ ok: false, error: "receipt_email_required" }, { status: 400 });
+  }
+  let receiptMetadata: Record<string, string>;
+  try {
+    receiptMetadata = receiptLineMetadata(items);
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: "receipt_line_items_invalid", detail: error instanceof Error ? error.message : String(error) },
+      { status: 400 },
+    );
+  }
   const subtotal = calcSubtotal(items);
   const shipping = getShippingCost(subtotal, items.length > 0);
   const total = subtotal + shipping;
@@ -199,6 +215,8 @@ export async function POST(request: Request) {
     customerName,
     preferredPaymentMethod: preferredMethod,
     paymentLabel,
+    whatsapp_notified: "false",
+    receipt_email_sent: "false",
     locale: cleanMetadataValue(body.locale, 12),
     shippingName: cleanMetadataValue(contact.name, 100),
     shippingPhone: `${cleanMetadataValue(contact.phoneCountryCode, 8)} ${cleanMetadataValue(contact.phone, 32)}`.trim(),
@@ -210,6 +228,7 @@ export async function POST(request: Request) {
     shippingHkd: shipping.toFixed(2),
     totalHkd: total.toFixed(2),
     lineItems: items.map((item) => `${item.id}:${item.stripePriceId ?? "dynamic"}x${item.qty}`).join(",").slice(0, 500),
+    ...receiptMetadata,
     site: "mofuhavenhk.com",
   };
 
@@ -275,6 +294,7 @@ export async function POST(request: Request) {
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?checkout=cancelled&order=${encodeURIComponent(orderNumber)}`,
       client_reference_id: orderNumber,
+      customer_email: customerEmail,
       customer_creation: "always",
       phone_number_collection: { enabled: true },
       billing_address_collection: "auto",

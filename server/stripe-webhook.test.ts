@@ -23,19 +23,23 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(route).toContain('"checkout.session.async_payment_succeeded"');
     expect(route).toContain('"payment_intent.succeeded"');
     expect(route).toContain("checkout.sessions.retrieve");
-    expect(route).toContain('expand: ["payment_intent.payment_method"]');
+    expect(route).toContain('expand: ["payment_intent.payment_method", "payment_intent.customer"]');
+    expect(route).toContain('expand: ["payment_method", "customer"]');
     expect(route).toContain('{ status: 503 }');
   });
 
-  it("keeps notification delivery in one idempotent server-side service", () => {
+  it("keeps merchant notification and customer receipt delivery in one idempotent server-side process", () => {
     const helper = source("src/lib/stripeOrderNotification.ts");
+    const processing = source("src/lib/stripePaidOrderProcessing.ts");
     const completeOrder = source("src/app/api/stripe/complete-order/route.ts");
 
     expect(helper).toContain('metadata.whatsapp_notified === "true"');
     expect(helper).toContain("sendWhatsAppNotification(message)");
     expect(helper).toContain("mofu-whatsapp-notify-");
     expect(helper).toContain('whatsapp_notified: "true"');
-    expect(completeOrder).toContain("notifyPaidPaymentIntent");
+    expect(processing).toContain("notifyPaidPaymentIntent");
+    expect(processing).toContain("sendPaidOrderReceipt");
+    expect(completeOrder).toContain("processPaidOrder");
     expect(completeOrder).toContain('source: "success_page"');
   });
 
@@ -86,5 +90,7 @@ describe("Stripe webhook merchant notification contract", () => {
     expect(env).toContain("STRIPE_WEBHOOK_SECRET=");
     expect(env).toContain("WHATSAPP_PHONE=852XXXXXXXX");
     expect(env).toContain("WHATSAPP_API_KEY=");
+    expect(env).toContain("RESEND_API_KEY=re_");
+    expect(env).toContain("RECEIPT_FROM_EMAIL=Mofu Haven");
   });
 });

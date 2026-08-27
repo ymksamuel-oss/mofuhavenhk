@@ -109,7 +109,7 @@ export const translations = {
     payAlipayHk: "AlipayHK（香港支付寶）",
     placeOrder: "確認付款",
     secureNote:
-      "付款經 Stripe 加密處理，系統成功後會自動經 WhatsApp 通知店主。",
+      "付款經 Stripe 加密處理；成功付款後會自動經 WhatsApp 通知店主，並寄送電子收據至你填寫的電郵地址。",
     stripeMethodsPrimary: "付款由 Stripe 安全處理。",
     stripeMethodsEligibility:
       "Google Pay、PayMe 及 AlipayHK 是否顯示，取決於付款組態、瀏覽器、裝置、地區及 HKD 資格；內地版 Alipay 不會提供。",
@@ -126,13 +126,15 @@ export const translations = {
     checkoutSessionPreparing: "正在開啟 Stripe 安全結帳頁…",
     checkoutSessionCancelled: "付款已取消，您可以返回重新選擇付款方式。",
     checkoutSessionSuccessTitle: "付款成功！",
-    checkoutSessionSuccessBody: "Stripe 已確認付款，系統正在更新訂單及通知店主。",
+    checkoutSessionSuccessBody: "Stripe 已確認付款，系統正在更新訂單、通知店主，並將電子收據寄往你結帳時提供的電郵地址。",
     checkoutSessionFailed: "暫時未能確認付款，請返回結帳頁或聯絡店主。",
     stripePaying: "正在確認付款…",
     stripePayFailed: "付款未能完成，請再試一次或改用其他付款方式。",
     stripeNotConfigured:
       "尚未設定 Stripe（請於 Vercel 填寫 STRIPE_PUBLISHABLE_KEY 與 STRIPE_SECRET_KEY）。",
-    stripePaidSuccess: "付款成功！訂單已成立，並已自動 WhatsApp 通知店主。",
+    stripePaidSuccess: "付款成功！訂單已成立，店主已收到 WhatsApp 通知，電子收據已寄出。",
+    stripePaidReceiptPending:
+      "付款成功，店主已收到訂單通知；電子收據暫未送達，系統會安全重試。",
     stripePaidNotifyFailed:
       "付款成功，但 WhatsApp 通知未能送達，請用下方按鈕手動通知店主。",
     receiptViewCta: "查看漂亮收據",
@@ -167,7 +169,9 @@ export const translations = {
     whatsappTotalsHeading: "金額摘要",
     whatsappContactHeading: "收件資料",
     shippingContactTitle: "收件資料",
-    shippingContactHint: "支援手機一鍵自動填寫；資料會一併帶入訂單通知。",
+    shippingContactHint: "支援手機一鍵自動填寫；資料會一併帶入訂單通知及付款電子收據。",
+    receiptEmailLabel: "電子收據電郵地址",
+    receiptEmailPlaceholder: "例如 hello@example.com",
     customerPhoneLabel: "聯絡電話",
     customerPhonePlaceholder: "例如 91234567",
     customerPhonePlaceholderHk: "8 位香港電話，例如 91234567",
@@ -186,7 +190,7 @@ export const translations = {
     sfStationLabel: "順豐站／智能櫃代碼（選填）",
     sfStationPlaceholder: "例如 FRT123 或智能櫃代碼",
     sfStationHint: "如欲寄往順豐站或智能櫃，可填寫站點／櫃位代碼，方便店主安排寄送。",
-    shippingContactRequired: "請填寫收件人姓名、有效香港電話、地區同送貨地址。",
+    shippingContactRequired: "請填寫收件人姓名、有效電郵、有效香港電話、地區同送貨地址。",
     categoryGridEyebrow: "精選分類",
     categoryGridTitle: "寵物分類導覽",
     categoryGridSubtitle: "揀選心水分類，即刻探索啱心水嘅寵物好物！",
@@ -403,7 +407,7 @@ export const translations = {
       "若商品有瑕疵或寄送問題，請於收貨後盡快透過 WhatsApp 或電郵聯絡我們，我們會盡力協助處理。完整退換貨條款即將上線。",
     termsPageTitle: "私隱政策與服務條款",
     termsPageBody:
-      "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物與客戶服務。完整私隱政策與服務條款文件即將發佈。",
+      "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物、成功付款確認、發送電子收據及客戶服務。付款由 Stripe 處理；電子收據會由受控電郵服務寄送至你在結帳時提供的地址。完整私隱政策與服務條款文件即將發佈。",
     explorePetsWorld: "探索寵物世界",
     exploreAboutDog: "關於犬",
     exploreAboutCat: "關於貓",
@@ -624,7 +628,7 @@ export const translations = {
     payAlipayHk: "AlipayHK",
     placeOrder: "Pay now",
     secureNote:
-      "Payments are encrypted by Stripe; the shop is notified on WhatsApp automatically after success.",
+      "Payments are encrypted by Stripe; after payment succeeds, the shop is notified on WhatsApp and a receipt is sent to your email address.",
     stripeMethodsPrimary: "Payments are securely handled by Stripe.",
     stripeMethodsEligibility:
       "Google Pay, PayMe and AlipayHK availability depends on the payment configuration, browser, device, country and HKD eligibility; Mainland Alipay is not offered.",
@@ -641,13 +645,15 @@ export const translations = {
     checkoutSessionPreparing: "Opening Stripe secure checkout…",
     checkoutSessionCancelled: "Payment was cancelled. You can return and choose another method.",
     checkoutSessionSuccessTitle: "Payment successful!",
-    checkoutSessionSuccessBody: "Stripe confirmed the payment. We’re updating the order and notifying the shop.",
+    checkoutSessionSuccessBody: "Stripe confirmed the payment. We’re updating the order, notifying the shop, and sending your electronic receipt to the email address provided at checkout.",
     checkoutSessionFailed: "We could not confirm this payment yet. Please return to checkout or contact the shop.",
     stripePaying: "Confirming payment…",
     stripePayFailed: "Payment could not be completed. Please try again or use another method.",
     stripeNotConfigured:
       "Stripe is not configured yet. Add STRIPE_PUBLISHABLE_KEY and STRIPE_SECRET_KEY in Vercel.",
-    stripePaidSuccess: "Payment successful! Order placed and the shop was notified on WhatsApp.",
+    stripePaidSuccess: "Payment successful! Your order is confirmed, the shop was notified on WhatsApp, and your receipt has been sent.",
+    stripePaidReceiptPending:
+      "Payment succeeded and the shop received the order notification; your electronic receipt is pending and will be retried safely.",
     stripePaidNotifyFailed:
       "Payment succeeded, but WhatsApp notify failed — please use the manual button below.",
     receiptViewCta: "View receipt",
@@ -682,7 +688,9 @@ export const translations = {
     whatsappTotalsHeading: "Totals",
     whatsappContactHeading: "Delivery details",
     shippingContactTitle: "Delivery details",
-    shippingContactHint: "Supports one-tap browser autofill; details are included in order notify.",
+    shippingContactHint: "Supports one-tap browser autofill; details are included in the order notification and payment receipt.",
+    receiptEmailLabel: "Receipt email address",
+    receiptEmailPlaceholder: "e.g. hello@example.com",
     customerPhoneLabel: "Phone",
     customerPhonePlaceholder: "e.g. 91234567",
     customerPhonePlaceholderHk: "8-digit HK number, e.g. 91234567",
@@ -701,7 +709,7 @@ export const translations = {
     sfStationLabel: "SF station / locker code (optional)",
     sfStationPlaceholder: "e.g. FRT123 or locker code",
     sfStationHint: "If shipping to an SF station or locker, add the site code to help the shop arrange delivery.",
-    shippingContactRequired: "Please enter name, a valid HK phone, district, and shipping address.",
+    shippingContactRequired: "Please enter name, a valid email, a valid HK phone, district, and shipping address.",
     categoryGridEyebrow: "Curated Categories",
     categoryGridTitle: "Shop by Category",
     categoryGridSubtitle: "Pick a category to explore pet picks made for your furry friend.",
@@ -918,7 +926,7 @@ export const translations = {
       "If an item arrives damaged or incorrect, contact us on WhatsApp or email soon after delivery and we’ll help. Full policy coming soon.",
     termsPageTitle: "Privacy & Terms",
     termsPageBody:
-      "We respect your privacy and only use order and contact details to fulfil purchases and support. Full privacy and terms documents are coming soon.",
+      "We respect your privacy and only use order and contact details to fulfil purchases, confirm successful payment, send electronic receipts, and provide support. Payments are processed by Stripe; receipts are sent by a controlled email service to the address you provide at checkout. Full privacy and terms documents are coming soon.",
     explorePetsWorld: "Explore Pet World",
     exploreAboutDog: "About Dogs",
     exploreAboutCat: "About Cats",

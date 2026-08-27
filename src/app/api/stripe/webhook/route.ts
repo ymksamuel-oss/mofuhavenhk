@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { notifyPaidPaymentIntent } from "@/lib/stripeOrderNotification";
+import { processPaidOrder } from "@/lib/stripePaidOrderProcessing";
 import { getStripe, getStripeSecretKey } from "@/lib/stripe";
 import { readServerEnv } from "@/lib/serverEnv";
 
@@ -73,6 +73,7 @@ export async function POST(request: Request) {
     const stripe = getStripe();
     let paymentIntent: Stripe.PaymentIntent;
     let sessionMetadata: Stripe.Metadata | undefined;
+    let sessionCustomerEmail: string | null | undefined;
 
     if (
       event.type === "checkout.session.completed" ||
@@ -80,10 +81,11 @@ export async function POST(request: Request) {
     ) {
       const eventSession = event.data.object as Stripe.Checkout.Session;
       const session = await stripe.checkout.sessions.retrieve(eventSession.id, {
-        expand: ["payment_intent.payment_method"],
+        expand: ["payment_intent.payment_method", "payment_intent.customer"],
       });
 
       sessionMetadata = session.metadata ?? undefined;
+      sessionCustomerEmail = session.customer_details?.email ?? session.customer_email;
       if (!session.payment_intent) {
         console.log("[stripe-webhook] Checkout has no PaymentIntent yet", {
           eventId: event.id,
@@ -99,7 +101,7 @@ export async function POST(request: Request) {
       if (typeof session.payment_intent === "string") {
         paymentIntent = await stripe.paymentIntents.retrieve(
           session.payment_intent,
-          { expand: ["payment_method"] },
+          { expand: ["payment_method", "customer"] },
         );
       } else {
         paymentIntent = session.payment_intent;
@@ -129,7 +131,7 @@ export async function POST(request: Request) {
     } else {
       const eventIntent = event.data.object as Stripe.PaymentIntent;
       paymentIntent = await stripe.paymentIntents.retrieve(eventIntent.id, {
-        expand: ["payment_method"],
+        expand: ["payment_method", "customer"],
       });
       if (paymentIntent.status !== "succeeded") {
         return NextResponse.json({
@@ -140,10 +142,11 @@ export async function POST(request: Request) {
       }
     }
 
-    const result = await notifyPaidPaymentIntent({
+    const result = await processPaidOrder({
       stripe,
       paymentIntent,
       sessionMetadata,
+      customerEmail: sessionCustomerEmail,
       source: event.type as
         | "checkout.session.completed"
         | "checkout.session.async_payment_succeeded"
@@ -154,7 +157,7 @@ export async function POST(request: Request) {
       console.error("[stripe-webhook] order notification was not completed", {
         eventId: event.id,
         paymentIntentId: paymentIntent.id,
-        status: result.status,
+        stage: result.stage,
         error: result.error,
       });
       return NextResponse.json(
@@ -171,10 +174,12 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       received: true,
-      notified: result.status === "sent",
-      alreadyNotified: result.status === "already_notified",
+      notified: result.notificationStatus === "sent",
+      alreadyNotified: result.notificationStatus === "already_notified",
+      receiptSent: result.receiptStatus === "sent",
+      alreadyReceiptSent: result.receiptStatus === "already_sent",
       orderNumber: result.orderNumber,
-      provider: result.provider,
+      notificationProvider: result.notificationProvider,
     });
   } catch (error) {
     console.error("[stripe-webhook] handler failed", {

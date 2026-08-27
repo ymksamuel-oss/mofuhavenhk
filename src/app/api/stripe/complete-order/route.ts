@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { notifyPaidPaymentIntent } from "@/lib/stripeOrderNotification";
+import { processPaidOrder } from "@/lib/stripePaidOrderProcessing";
 import {
   getStripe,
   isStripeConfigured,
@@ -61,10 +61,11 @@ export async function POST(request: Request) {
     const stripe = getStripe();
     let intent: Stripe.PaymentIntent;
     let sessionMetadata: Stripe.Metadata | undefined;
+    let sessionCustomerEmail: string | null | undefined;
 
     if (checkoutSessionId) {
       const session = await stripe.checkout.sessions.retrieve(checkoutSessionId, {
-        expand: ["payment_intent.payment_method"],
+        expand: ["payment_intent.payment_method", "payment_intent.customer"],
       });
       if (
         session.mode !== "payment" ||
@@ -83,15 +84,16 @@ export async function POST(request: Request) {
         );
       }
       sessionMetadata = session.metadata ?? undefined;
+      sessionCustomerEmail = session.customer_details?.email ?? session.customer_email;
       intent =
         typeof session.payment_intent === "string"
           ? await stripe.paymentIntents.retrieve(session.payment_intent, {
-              expand: ["payment_method"],
+              expand: ["payment_method", "customer"],
             })
           : session.payment_intent;
     } else {
       intent = await stripe.paymentIntents.retrieve(paymentIntentId, {
-        expand: ["payment_method"],
+        expand: ["payment_method", "customer"],
       });
     }
 
@@ -102,10 +104,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await notifyPaidPaymentIntent({
+    const result = await processPaidOrder({
       stripe,
       paymentIntent: intent,
       sessionMetadata,
+      customerEmail: sessionCustomerEmail,
       source: "success_page",
     });
 
@@ -118,7 +121,9 @@ export async function POST(request: Request) {
         paymentLabel: result.paymentLabel,
         total: result.total,
         notified: false,
-        notifyError: result.error,
+        receiptSent: false,
+        processingStage: result.stage,
+        processingError: result.error,
       });
     }
 
@@ -127,9 +132,11 @@ export async function POST(request: Request) {
       orderNumber: result.orderNumber,
       paymentLabel: result.paymentLabel,
       total: result.total,
-      notified: result.status === "sent",
-      alreadyNotified: result.status === "already_notified",
-      provider: result.provider,
+      notified: result.notificationStatus === "sent",
+      alreadyNotified: result.notificationStatus === "already_notified",
+      receiptSent: result.receiptStatus === "sent",
+      alreadyReceiptSent: result.receiptStatus === "already_sent",
+      notificationProvider: result.notificationProvider,
     });
   } catch (error) {
     console.error("[stripe] complete-order failed", {
