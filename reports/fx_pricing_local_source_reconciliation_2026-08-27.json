@@ -1,0 +1,2830 @@
+{
+  "mode": "read_only_local_to_stripe_cost_reconciliation",
+  "generated_at_utc": "2026-08-27T02:26:35.913044+00:00",
+  "no_stripe_writes_performed": true,
+  "source_scope": "Top-level local JSON mapping files with a recognized CNY cost field, including historical source_cost_cny aliases; not an assertion that every historic source file is present in this checkout.",
+  "summary": {
+    "excluded_stripe_product_count": 120,
+    "local_cny_cost_record_count": 179,
+    "match_counts": {
+      "not_found_in_local_cny_cost_mappings": 91,
+      "supplier_sku": 29
+    },
+    "matched_excluded_product_count": 29,
+    "unmatched_excluded_product_count": 91,
+    "local_source_file_counts": {
+      "aim30_and_ginnospoon_mapping.json": 25,
+      "aim30_user_confirmed_costs.json": 5,
+      "batch24_import_mapping.json": 24,
+      "batch24_product_mapping.json": 24,
+      "batch24_stripe_manifest.json": 24,
+      "cat_feeding_bowls_mapping.json": 6,
+      "combo_dogfood_5_import_mapping.json": 6,
+      "combo_dogfood_5_mapping.json": 1,
+      "combo_dogfood_5_stripe_manifest.json": 1,
+      "complete_ytt_chicken_tenders_mapping.json": 1,
+      "ginnospoon_cat_dry_food_mapping.json": 10,
+      "latest_31_product_mapping.json": 23,
+      "new_batch_cat_litter_and_dry_food_mapping.json": 1,
+      "new_ciao_inaba_cans_mapping.json": 28
+    }
+  },
+  "products": [
+    {
+      "product_id": "prod_V8fduDqyGKiazf",
+      "mofu_sku": "MH-CAT-CIAO-029",
+      "product_name": "CIAO 炙烤盛宴｜香烤鰹魚干瑤柱 (高齡貓用)｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-01",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-01",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fd05UFEZNURC",
+      "mofu_sku": "MH-CAT-CIAO-030",
+      "product_name": "CIAO 炙烤盛宴｜香烤扇貝柱 (高齡貓用)｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-02",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-02",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fdpmkax4VOq1",
+      "mofu_sku": "MH-CAT-CIAO-031",
+      "product_name": "CIAO 炙烤盛宴｜扇貝柱正宗高湯｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-03",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-03",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fdnUyX0IymBN",
+      "mofu_sku": "MH-CAT-CIAO-032",
+      "product_name": "CIAO 炙烤盛宴｜烤鰹魚含小銀魚+扇貝柱｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-04",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-04",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fep70tdjHDoG",
+      "mofu_sku": "MH-CAT-CIAO-033",
+      "product_name": "CIAO 炙烤盛宴｜炙烤雞胸肉含蟹肉棒+扇貝柱｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-05",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-05",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feoZ4v72AX1T",
+      "mofu_sku": "MH-CAT-CIAO-034",
+      "product_name": "CIAO 超強乳酸菌｜金槍魚雞肉鰹魚｜40g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-06",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-06",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fe010ZPXAJ1J",
+      "mofu_sku": "MH-CAT-CIAO-035",
+      "product_name": "CIAO 炙烤盛宴｜化毛呵護鰹魚片扇貝柱｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-07",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-07",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fe4RA15lCQZO",
+      "mofu_sku": "MH-CAT-CIAO-036",
+      "product_name": "CIAO 炙烤盛宴｜雞胸肉扇貝柱｜50g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-08",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-08",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feXQdvRNrV4B",
+      "mofu_sku": "MH-CAT-CIAO-037",
+      "product_name": "CIAO 超強乳酸菌｜鮪魚雞肉柴魚片高湯｜40g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-09",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-09",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feeIGBK4DYB1",
+      "mofu_sku": "MH-CAT-CIAO-038",
+      "product_name": "CIAO 超強乳酸菌｜雞肉鰹魚干高湯｜40g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-10",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-10",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fefdYTxUdNva",
+      "mofu_sku": "MH-CAT-CIAO-039",
+      "product_name": "CIAO 炙烤盛宴｜鰹魚干扇貝味 (香烤風味)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-11",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-11",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feNaBEY6Pn28",
+      "mofu_sku": "MH-CAT-CIAO-040",
+      "product_name": "CIAO 炙烤盛宴｜北海道風味扇貝 (香烤風味)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-12",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-12",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fenfKdEjRnr7",
+      "mofu_sku": "MH-CAT-CIAO-041",
+      "product_name": "CIAO 炙烤盛宴｜銀魚扇貝味 (香烤風味)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-13",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-13",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fe3PM27QjYNh",
+      "mofu_sku": "MH-CAT-CIAO-042",
+      "product_name": "CIAO 炙烤盛宴｜正宗高湯味 (香烤風味)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-14",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-14",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fe1kWPFBfcKh",
+      "mofu_sku": "MH-CAT-CIAO-043",
+      "product_name": "CIAO Premium｜6種功能性成分 (鰹魚雞胸肉木魚花)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-15",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-15",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feew2ryjD7ql",
+      "mofu_sku": "MH-CAT-CIAO-044",
+      "product_name": "CIAO Premium｜6種功能性成分 (雞胸肉扇貝味)｜30g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-16",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-16",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feViin1yPowA",
+      "mofu_sku": "MH-CAT-CIAO-045",
+      "product_name": "Vet's Labo｜MediMousse 腸胃呵護慕斯｜95g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-17",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-17",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fexvyuSOogz8",
+      "mofu_sku": "MH-CAT-CIAO-046",
+      "product_name": "Vet's Labo｜MediMousse 健康支持慕斯｜95g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-18",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-18",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8feexDq7xAidn",
+      "mofu_sku": "MH-CAT-CIAO-047",
+      "product_name": "Vet's Labo｜MediMousse 皮膚維護慕斯｜95g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-19",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-19",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8fe6YUsIrEf8Q",
+      "mofu_sku": "MH-CAT-CIAO-048",
+      "product_name": "Vet's Labo｜MediMousse 減肥減脂慕斯｜95g",
+      "mofu_import_key": "ciao-vetslabo-2026::ciaovl-20",
+      "mofu_import_source": "products_20_list.csv",
+      "supplier_sku": "CIAOVL-20",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crHGAsSzl77H",
+      "mofu_sku": "MH-CAT-CMP-001",
+      "product_name": "COMBO Present 男生喜歡的口味 魚味 小包｜COMBO Present Boy-Friendly Fish Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-boy-friendly-fish-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr9iyVmqUz8O",
+      "mofu_sku": "MH-CAT-CMP-002",
+      "product_name": "COMBO Present 潔齒防口臭 混合肉味 小包｜COMBO Present Dental and Breath Care Meat Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-dental-and-breath-care-meat-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crzRJNuOzt2e",
+      "mofu_sku": "MH-CAT-CMP-003",
+      "product_name": "COMBO Present 潔齒防口臭 混合海鮮 小包｜COMBO Present Dental and Breath Care Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-dental-and-breath-care-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crNNIKOTELSy",
+      "mofu_sku": "MH-CAT-CMP-004",
+      "product_name": "COMBO Present 潔齒防口臭 三種口味｜COMBO Present Dental and Breath Care Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-dental-and-breath-care-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crT5vLCe95hY",
+      "mofu_sku": "MH-CAT-CMP-005",
+      "product_name": "COMBO Present 腸道環境維持 海鮮 小包｜COMBO Present Digestive Support Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-digestive-support-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr9ARnvUOKQM",
+      "mofu_sku": "MH-CAT-CMP-006",
+      "product_name": "COMBO Present 腸道環境維持 三種口味｜COMBO Present Digestive Support Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-digestive-support-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr9Jv6Ewv0ui",
+      "mofu_sku": "MH-CAT-CMP-007",
+      "product_name": "COMBO Present 女生喜歡口味 混合海鮮 小包｜COMBO Present Girl-Friendly Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-girl-friendly-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crpeVGxpASKY",
+      "mofu_sku": "MH-CAT-CMP-008",
+      "product_name": "COMBO Present 化毛配方 混合海鮮 小包｜COMBO Present Hairball Care Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-hairball-care-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crrguHp5YAXt",
+      "mofu_sku": "MH-CAT-CMP-009",
+      "product_name": "COMBO Present 免疫力維持 海鮮 小包｜COMBO Present Immune Support Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-immune-support-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr2Q8hiWwniV",
+      "mofu_sku": "MH-CAT-CMP-010",
+      "product_name": "COMBO Present 免疫力維持 三種口味｜COMBO Present Immune Support Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-immune-support-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8croZ9K3Kppbf",
+      "mofu_sku": "MH-CAT-CMP-011",
+      "product_name": "COMBO Present 室內貓化毛 三種口味｜COMBO Present Indoor Cat Hairball Care Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-indoor-cat-hairball-care-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crhpakrZfoXD",
+      "mofu_sku": "MH-CAT-CMP-012",
+      "product_name": "COMBO Present 室內貓 金槍魚 小包｜COMBO Present Indoor Cat Tuna Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-indoor-cat-tuna-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crtmrNegpX6C",
+      "mofu_sku": "MH-CAT-CMP-013",
+      "product_name": "COMBO Present 維護腎臟 混合肉味 小包｜COMBO Present Kidney Health Support Meat Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-kidney-health-support-meat-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crvbMiPxxJvt",
+      "mofu_sku": "MH-CAT-CMP-014",
+      "product_name": "COMBO Present 維護腎臟 混合海鮮 小包｜COMBO Present Kidney Health Support Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-kidney-health-support-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crErEJilA30r",
+      "mofu_sku": "MH-CAT-CMP-015",
+      "product_name": "COMBO Present 維護腎臟配方 三種口味｜COMBO Present Kidney Health Support Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-kidney-health-support-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crzn01d7SXcg",
+      "mofu_sku": "MH-CAT-CMP-016",
+      "product_name": "COMBO Present 低脂絕育貓 混合海鮮 小包｜COMBO Present Low-Fat Neutered Cat Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-low-fat-neutered-cat-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr8kOWyjP3g1",
+      "mofu_sku": "MH-CAT-CMP-017",
+      "product_name": "COMBO Present 維護泌尿 混合海鮮 小包｜COMBO Present Urinary Health Support Seafood Mini Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-urinary-health-support-seafood-mini-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8crKsH08GDJxM",
+      "mofu_sku": "MH-CAT-CMP-018",
+      "product_name": "COMBO Present 維護泌尿配方 三種口味｜COMBO Present Urinary Health Support Three-Flavour Variety Pack",
+      "mofu_import_key": "snack-order-2026::combo-present-urinary-health-support-three-flavour-variety-pack",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8lAOpvuncOCZM",
+      "mofu_sku": "MH-CAT-COMBO-001",
+      "product_name": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g｜COMBO Luxury Gourmet Four Flavours with Aged Bonito Dry Cat Food 600g",
+      "mofu_import_key": "batch24-2026::b24-10",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-10",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1611",
+          "source_supplier_sku": "B24-10",
+          "source_name_zh": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1611",
+          "source_supplier_sku": "B24-10",
+          "source_name_zh": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-10",
+          "source_name_zh": "COMBO 貓咪奢華美食四重滋味熟成鰹魚乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAeH2hqPlna6",
+      "mofu_sku": "MH-CAT-COMBO-002",
+      "product_name": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g｜COMBO Luxury Gourmet Blend with Salmon Chips & Bonito Flakes Dry Cat Food 700g",
+      "mofu_import_key": "batch24-2026::b24-11",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-11",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1612",
+          "source_supplier_sku": "B24-11",
+          "source_name_zh": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1612",
+          "source_supplier_sku": "B24-11",
+          "source_name_zh": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-11",
+          "source_name_zh": "COMBO 貓咪奢華美食拼配鮭魚脆片鰹魚節乾糧 700g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAWevxk3Za0C",
+      "mofu_sku": "MH-CAT-COMBO-003",
+      "product_name": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g｜COMBO Weight-Concern Cat Tuna Dry Food with Bonito Flakes 600g",
+      "mofu_import_key": "batch24-2026::b24-12",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-12",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1613",
+          "source_supplier_sku": "B24-12",
+          "source_name_zh": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "batch24-img_1613",
+          "source_supplier_sku": "B24-12",
+          "source_name_zh": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "89.6",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-12",
+          "source_name_zh": "COMBO 體重關注貓用鮪魚鰹魚節乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAUga8Mwc3d0",
+      "mofu_sku": "MH-CAT-GNSP-001",
+      "product_name": "銀之匙 濃湯仕立鮪魚貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna Cat Can 70g",
+      "mofu_import_key": "batch24-2026::b24-20",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-20",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1621",
+          "source_supplier_sku": "B24-20",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1621",
+          "source_supplier_sku": "B24-20",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-20",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAjMRJn8PScz",
+      "mofu_sku": "MH-CAT-GNSP-002",
+      "product_name": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "mofu_import_key": "batch24-2026::b24-21",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-21",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1622",
+          "source_supplier_sku": "B24-21",
+          "source_name_zh": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1622",
+          "source_supplier_sku": "B24-21",
+          "source_name_zh": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-21",
+          "source_name_zh": "銀之匙 鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lATH0SDiLKBx",
+      "mofu_sku": "MH-CAT-GNSP-003",
+      "product_name": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g｜Gin no Spoon Thick Gravy Tuna, Bonito & Chicken Breast Cat Can 70g",
+      "mofu_import_key": "batch24-2026::b24-22",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-22",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1623",
+          "source_supplier_sku": "B24-22",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1623",
+          "source_supplier_sku": "B24-22",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-22",
+          "source_name_zh": "銀之匙 濃湯仕立鮪魚鰹魚雞胸肉貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAGdiamaGSwC",
+      "mofu_sku": "MH-CAT-GNSP-004",
+      "product_name": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Shirasu Cat Can 70g",
+      "mofu_import_key": "batch24-2026::b24-23",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-23",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1624",
+          "source_supplier_sku": "B24-23",
+          "source_name_zh": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1624",
+          "source_supplier_sku": "B24-23",
+          "source_name_zh": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-23",
+          "source_name_zh": "銀之匙 魚肉雞胸肉吻仔魚貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lATUvYyTfiyk",
+      "mofu_sku": "MH-CAT-GNSP-005",
+      "product_name": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g｜Gin no Spoon Fish, Chicken Breast & Bonito Flakes Cat Can 70g",
+      "mofu_import_key": "batch24-2026::b24-24",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-24",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1625",
+          "source_supplier_sku": "B24-24",
+          "source_name_zh": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "batch24-img_1625",
+          "source_supplier_sku": "B24-24",
+          "source_name_zh": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "9.3",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-24",
+          "source_name_zh": "銀之匙 魚肉雞胸肉鰹魚節貓罐頭 70g",
+          "source_name": "",
+          "source_retail_hkd": "19.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8W0oLt83VbMEB",
+      "mofu_sku": "MH-CAT-MCK-001",
+      "product_name": "三文魚 17g (預定)",
+      "mofu_import_key": "三文魚 17g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0n6wDbyKpya",
+      "mofu_sku": "MH-CAT-MCK-002",
+      "product_name": "圓粒雞里脊 18g (現貨 / 賞味 28.01)",
+      "mofu_import_key": "圓粒雞里脊 18g (現貨 / 賞味 28.01)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0BWVdW0bKlr",
+      "mofu_sku": "MH-CAT-MCK-003",
+      "product_name": "扇貝 11g (現貨 / 27.01.15)",
+      "mofu_import_key": "扇貝 11g (現貨 / 27.01.15)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0eQFDHSCPxC",
+      "mofu_sku": "MH-CAT-MCK-004",
+      "product_name": "牛大腿肉 17g (現貨 / 2027.12.01)",
+      "mofu_import_key": "牛大腿肉 17g (現貨 / 2027.12.01)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0xHzc6tqf3B",
+      "mofu_sku": "MH-CAT-MCK-005",
+      "product_name": "胡瓜魚凍干 10g (預定)",
+      "mofu_import_key": "胡瓜魚凍干 10g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0fChA9h4VNq",
+      "mofu_sku": "MH-CAT-MCK-006",
+      "product_name": "虹鱒魚 15g (現貨 / 賞味 27.5)",
+      "mofu_import_key": "虹鱒魚 15g (現貨 / 賞味 27.5)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0DDhtV271xl",
+      "mofu_sku": "MH-CAT-MCK-007",
+      "product_name": "豬大腿肉 20g (預定)",
+      "mofu_import_key": "豬大腿肉 20g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0LKmYo2bfxf",
+      "mofu_sku": "MH-CAT-MCK-008",
+      "product_name": "豬心 25g (預定 (缺貨))",
+      "mofu_import_key": "豬心 25g (預定 (缺貨))",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0mdB77ZJc5M",
+      "mofu_sku": "MH-CAT-MCK-009",
+      "product_name": "金槍魚 14g (預定)",
+      "mofu_import_key": "金槍魚 14g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W073h3MHqGhr",
+      "mofu_sku": "MH-CAT-MCK-010",
+      "product_name": "銀魚 10g (預定)",
+      "mofu_import_key": "銀魚 10g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8VzG9Cs8B2Rjb",
+      "mofu_sku": "MH-CAT-MCK-011",
+      "product_name": "雞胸肉 150g (現貨 / 賞味 27.10)",
+      "mofu_import_key": "雞胸肉 150g (現貨 / 賞味 27.10)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8VzTooOH64y65",
+      "mofu_sku": "MH-CAT-MCK-012",
+      "product_name": "雞胸肉 30g (現貨 / 賞味 28.01)",
+      "mofu_import_key": "雞胸肉 30g (現貨 / 賞味 28.01)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W07sgetW5UqK",
+      "mofu_sku": "MH-CAT-MCK-013",
+      "product_name": "雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17)",
+      "mofu_import_key": "雞胸肉碎沫凍干粉拌飯 (現貨 / 2027.11.17)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0oMeIOyFLhp",
+      "mofu_sku": "MH-CAT-MCK-014",
+      "product_name": "雞胸肉雞肝凍干 120g (現貨 / 27.07)",
+      "mofu_import_key": "雞胸肉雞肝凍干 120g (現貨 / 27.07)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8VzYLI6mgAR3P",
+      "mofu_sku": "MH-CAT-MCK-015",
+      "product_name": "雞胸肉雞肝凍干 18g (預定)",
+      "mofu_import_key": "雞胸肉雞肝凍干 18g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W06fowHsMOSF",
+      "mofu_sku": "MH-CAT-MCK-016",
+      "product_name": "雞胸肉雞肫凍干 120g (現貨 / 2027.04.03)",
+      "mofu_import_key": "雞胸肉雞肫凍干 120g (現貨 / 2027.04.03)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W072ieTWyOZ7",
+      "mofu_sku": "MH-CAT-MCK-017",
+      "product_name": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "mofu_import_key": "雞胸肉雞肫凍干 18g (現貨 / 2027.04.25)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8Vz4r6kx51OK2",
+      "mofu_sku": "MH-CAT-MCK-018",
+      "product_name": "雞里脊 150g (現貨 / 2027.11.30)",
+      "mofu_import_key": "雞里脊 150g (現貨 / 2027.11.30)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8VzICRXhFqVtH",
+      "mofu_sku": "MH-CAT-MCK-019",
+      "product_name": "雞里脊 30g (預定)",
+      "mofu_import_key": "雞里脊 30g (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0OgEY0HBtlD",
+      "mofu_sku": "MH-CAT-MCK-020",
+      "product_name": "雞里脊碎沫凍干粉拌飯 (預定)",
+      "mofu_import_key": "雞里脊碎沫凍干粉拌飯 (預定)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8lActmdKRF9Nz",
+      "mofu_sku": "MH-DOG-COMBO-001",
+      "product_name": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g｜COMBO Pure Tender Chicken Breast Cubes Dog Treat 50g",
+      "mofu_import_key": "batch24-2026::b24-05",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-05",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1606",
+          "source_supplier_sku": "B24-05",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1606",
+          "source_supplier_sku": "B24-05",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-05",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAyjALw49Mz2",
+      "mofu_sku": "MH-DOG-COMBO-002",
+      "product_name": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g｜COMBO Pure Tender Chicken Breast Strips Dog Treat 50g",
+      "mofu_import_key": "batch24-2026::b24-06",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-06",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1607",
+          "source_supplier_sku": "B24-06",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1607",
+          "source_supplier_sku": "B24-06",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-06",
+          "source_name_zh": "COMBO Pure 香嫩雞胸肉絲狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA3nhXSFdHkU",
+      "mofu_sku": "MH-DOG-COMBO-003",
+      "product_name": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g｜COMBO Pure Basil-Scented Chicken Cubes Dog Treat 50g",
+      "mofu_import_key": "batch24-2026::b24-07",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-07",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1608",
+          "source_supplier_sku": "B24-07",
+          "source_name_zh": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1608",
+          "source_supplier_sku": "B24-07",
+          "source_name_zh": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-07",
+          "source_name_zh": "COMBO Pure 羅勒香雞肉切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA4N42hxS8dk",
+      "mofu_sku": "MH-DOG-COMBO-004",
+      "product_name": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g｜COMBO Pure Chicken & Cartilage Cubes Dog Treat 50g",
+      "mofu_import_key": "batch24-2026::b24-08",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-08",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1609",
+          "source_supplier_sku": "B24-08",
+          "source_name_zh": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1609",
+          "source_supplier_sku": "B24-08",
+          "source_name_zh": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-08",
+          "source_name_zh": "COMBO Pure 雞肉軟骨切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA7fjOQvodwx",
+      "mofu_sku": "MH-DOG-COMBO-005",
+      "product_name": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g｜COMBO Pure Chicken Breast & Three Vegetable Cubes Dog Treat 50g",
+      "mofu_import_key": "batch24-2026::b24-09",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-09",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1610",
+          "source_supplier_sku": "B24-09",
+          "source_name_zh": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "batch24-img_1610",
+          "source_supplier_sku": "B24-09",
+          "source_name_zh": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "31.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-09",
+          "source_name_zh": "COMBO Pure 雞胸肉三種蔬菜切塊狗狗小食 50g",
+          "source_name": "",
+          "source_retail_hkd": "69.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA8TrpHKZ0AE",
+      "mofu_sku": "MH-DOG-COMBO-006",
+      "product_name": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_import_key": "batch24-2026::b24-13",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-13",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1614",
+          "source_supplier_sku": "B24-13",
+          "source_name_zh": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1614",
+          "source_supplier_sku": "B24-13",
+          "source_name_zh": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-13",
+          "source_name_zh": "COMBO Pure 日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAFkM1R1Q06Q",
+      "mofu_sku": "MH-DOG-COMBO-007",
+      "product_name": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g｜COMBO Pure Vegetable & Selected Cheese Dry Dog Food 600g",
+      "mofu_import_key": "batch24-2026::b24-14",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-14",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1615",
+          "source_supplier_sku": "B24-14",
+          "source_name_zh": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1615",
+          "source_supplier_sku": "B24-14",
+          "source_name_zh": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-14",
+          "source_name_zh": "COMBO Pure 蔬菜嚴選芝士狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA3mO6fUVnGr",
+      "mofu_sku": "MH-DOG-COMBO-008",
+      "product_name": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g｜COMBO Pure Selected Cheese & Japanese Chicken Dry Dog Food 600g",
+      "mofu_import_key": "batch24-2026::b24-15",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-15",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1616",
+          "source_supplier_sku": "B24-15",
+          "source_name_zh": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1616",
+          "source_supplier_sku": "B24-15",
+          "source_name_zh": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-15",
+          "source_name_zh": "COMBO Pure 嚴選芝士日本產雞肉狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lArvqiVc3AMr",
+      "mofu_sku": "MH-DOG-COMBO-009",
+      "product_name": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Extra-Small Kibble Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_import_key": "batch24-2026::b24-16",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-16",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1617",
+          "source_supplier_sku": "B24-16",
+          "source_name_zh": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1617",
+          "source_supplier_sku": "B24-16",
+          "source_name_zh": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-16",
+          "source_name_zh": "COMBO Pure 超小粒日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAGBIlndcl9U",
+      "mofu_sku": "MH-DOG-COMBO-010",
+      "product_name": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g｜COMBO Pure Low-Fat Japanese Chicken & Vegetable Dry Dog Food 600g",
+      "mofu_import_key": "batch24-2026::b24-17",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-17",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1618",
+          "source_supplier_sku": "B24-17",
+          "source_name_zh": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1618",
+          "source_supplier_sku": "B24-17",
+          "source_name_zh": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-17",
+          "source_name_zh": "COMBO Pure 低脂日本產雞肉蔬菜狗狗乾糧 600g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAaOLN6jDE2s",
+      "mofu_sku": "MH-DOG-COMBO-011",
+      "product_name": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g｜COMBO Pure Freeze-Dried Topping Japanese Chicken & Vegetable Dry Dog Food 540g",
+      "mofu_import_key": "batch24-2026::b24-18",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-18",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1619",
+          "source_supplier_sku": "B24-18",
+          "source_name_zh": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1619",
+          "source_supplier_sku": "B24-18",
+          "source_name_zh": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-18",
+          "source_name_zh": "COMBO Pure 凍乾配料日本產雞肉蔬菜狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lA3QuLuCwOig",
+      "mofu_sku": "MH-DOG-COMBO-012",
+      "product_name": "COMBO Pure 魚肉米狗狗乾糧 540g｜COMBO Pure Fish & Rice Dry Dog Food 540g",
+      "mofu_import_key": "batch24-2026::b24-19",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-19",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1620",
+          "source_supplier_sku": "B24-19",
+          "source_name_zh": "COMBO Pure 魚肉米狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "batch24-img_1620",
+          "source_supplier_sku": "B24-19",
+          "source_name_zh": "COMBO Pure 魚肉米狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "87.0",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-19",
+          "source_name_zh": "COMBO Pure 魚肉米狗狗乾糧 540g",
+          "source_name": "",
+          "source_retail_hkd": "189.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8kNDRrV7QQWc8",
+      "mofu_sku": "MH-DOG-COMBO-013",
+      "product_name": "COMBO 捲心菜牛肉狗狗乾糧 720g｜COMBO Cabbage & Beef Dry Dog Food 720g",
+      "mofu_import_key": "combo-dogfood-720g-2026::combo-dogfood-720g-cabbage-beef",
+      "mofu_import_source": "user-confirmed-combo-dogfood-5",
+      "supplier_sku": "COMBO-DOG-720-03",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "combo_dogfood_5_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "114",
+          "source_import_key": "combo-dogfood-720g-cabbage-beef",
+          "source_supplier_sku": "COMBO-DOG-720-03",
+          "source_name_zh": "COMBO 捲心菜牛肉狗狗乾糧 720g",
+          "source_name": "",
+          "source_retail_hkd": "249.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8kNSV91CKgxb8",
+      "mofu_sku": "MH-DOG-COMBO-014",
+      "product_name": "COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g｜COMBO Beef, Dried Small Fish, Cheese & Vegetable Blend Dry Dog Food 720g",
+      "mofu_import_key": "combo-dogfood-720g-2026::combo-dogfood-720g-chicken-beef-small-fish",
+      "mofu_import_source": "user-confirmed-combo-dogfood-5",
+      "supplier_sku": "COMBO-DOG-720-01",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "combo_dogfood_5_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "114",
+          "source_import_key": "combo-dogfood-720g-chicken-beef-small-fish",
+          "source_supplier_sku": "COMBO-DOG-720-01",
+          "source_name_zh": "COMBO 牛肉小魚乾芝士蔬菜狗狗乾糧 720g",
+          "source_name": "",
+          "source_retail_hkd": "249.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8kNDHKt8kCFkT",
+      "mofu_sku": "MH-DOG-COMBO-015",
+      "product_name": "COMBO 馬蘇里拉芝士角切狗狗乾糧 720g｜COMBO Mozzarella Cheese Cubes Dry Dog Food 720g",
+      "mofu_import_key": "combo-dogfood-720g-2026::combo-dogfood-720g-chicken-cheese",
+      "mofu_import_source": "user-confirmed-combo-dogfood-5",
+      "supplier_sku": "COMBO-DOG-720-02",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "combo_dogfood_5_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "114",
+          "source_import_key": "combo-dogfood-720g-chicken-cheese",
+          "source_supplier_sku": "COMBO-DOG-720-02",
+          "source_name_zh": "COMBO 馬蘇里拉芝士角切狗狗乾糧 720g",
+          "source_name": "",
+          "source_retail_hkd": "249.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8kNXGrzdUVGWS",
+      "mofu_sku": "MH-DOG-COMBO-016",
+      "product_name": "COMBO 低脂小魚乾雞肉狗狗乾糧 720g｜COMBO Low-Fat Dried Small Fish & Chicken Dry Dog Food 720g",
+      "mofu_import_key": "combo-dogfood-720g-2026::combo-dogfood-720g-low-fat-chicken-vegetables-small-fish",
+      "mofu_import_source": "user-confirmed-combo-dogfood-5",
+      "supplier_sku": "COMBO-DOG-720-04",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "combo_dogfood_5_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "114",
+          "source_import_key": "combo-dogfood-720g-low-fat-chicken-vegetables-small-fish",
+          "source_supplier_sku": "COMBO-DOG-720-04",
+          "source_name_zh": "COMBO 低脂小魚乾雞肉狗狗乾糧 720g",
+          "source_name": "",
+          "source_retail_hkd": "249.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8kNg5nRdCoND1",
+      "mofu_sku": "MH-DOG-COMBO-017",
+      "product_name": "COMBO 低脂 7歲以上狗狗乾糧 720g｜COMBO Low-Fat Senior Dry Dog Food 720g",
+      "mofu_import_key": "combo-dogfood-720g-2026::combo-dogfood-720g-low-fat-senior-chicken-vegetables",
+      "mofu_import_source": "user-confirmed-combo-dogfood-5",
+      "supplier_sku": "COMBO-DOG-720-05",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "combo_dogfood_5_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "114",
+          "source_import_key": "combo-dogfood-720g-low-fat-senior-chicken-vegetables",
+          "source_supplier_sku": "COMBO-DOG-720-05",
+          "source_name_zh": "COMBO 低脂 7歲以上狗狗乾糧 720g",
+          "source_name": "",
+          "source_retail_hkd": "249.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8e1g0toA5TEk7",
+      "mofu_sku": "MH-DOG-DBF-001",
+      "product_name": "d.b.f 雞肉軟骨｜d.b.f Chicken Breast & Cartilage Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-01",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-01",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1ExxiCmg67D",
+      "mofu_sku": "MH-DOG-DBF-002",
+      "product_name": "d.b.f 雞胸肉&奶酪｜d.b.f Chicken Breast & Cheese Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-02",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-02",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1MyE7x9BZDl",
+      "mofu_sku": "MH-DOG-DBF-003",
+      "product_name": "d.b.f 雞胸肉濃湯｜d.b.f Chicken Breast in Soup Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-03",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-03",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1qzONSyt8ru",
+      "mofu_sku": "MH-DOG-DBF-004",
+      "product_name": "d.b.f 雞肉&芝士｜d.b.f Chicken & Cheese Adult Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-04",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-04",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1XhfhroMZtV",
+      "mofu_sku": "MH-DOG-DBF-005",
+      "product_name": "d.b.f 雞肉&蔬菜｜d.b.f Chicken & Vegetables Adult Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-05",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-05",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1nNRuozpeTU",
+      "mofu_sku": "MH-DOG-DBF-006",
+      "product_name": "d.b.f 牛肉&軟骨｜d.b.f Beef & Cartilage Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-06",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-06",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1Jgdnr9v8HM",
+      "mofu_sku": "MH-DOG-DBF-007",
+      "product_name": "d.b.f 牛肉糜｜d.b.f Beef Mince Dog Can 65g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-07",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-07",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e143elQIOfMM",
+      "mofu_sku": "MH-DOG-DBF-008",
+      "product_name": "d.b.f 雞肉&紅薯小粒｜d.b.f Chicken & Sweet Potato Adult Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-08",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-08",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1Y4NZgoH3mG",
+      "mofu_sku": "MH-DOG-DBF-009",
+      "product_name": "d.b.f 雞肉雞胗濃湯｜d.b.f Chicken Breast & Gizzard Soup Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-09",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-09",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1qdj8efQTs9",
+      "mofu_sku": "MH-DOG-DBF-010",
+      "product_name": "d.b.f 雞肉糜｜d.b.f Chicken Mince Dog Can 65g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-10",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-10",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e1EgYIqCWkcb",
+      "mofu_sku": "MH-DOG-DBF-011",
+      "product_name": "d.b.f 成犬之食事 雞肉軟骨｜d.b.f Adult Dog Meal Chicken & Cartilage 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-11",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-11",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2wynYC6XsBo",
+      "mofu_sku": "MH-DOG-DBF-012",
+      "product_name": "d.b.f 成犬之食事 雞肉紅薯｜d.b.f Adult Dog Meal Chicken & Sweet Potato 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-12",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-12",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2eck5fdwDtP",
+      "mofu_sku": "MH-DOG-DBF-013",
+      "product_name": "d.b.f 成犬之食事 雞肉蔬菜｜d.b.f Adult Dog Meal Chicken & Vegetables 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-13",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-13",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2hvyqfhk59B",
+      "mofu_sku": "MH-DOG-DBF-014",
+      "product_name": "d.b.f 高齡犬之食事 雞肉紅薯 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Sweet Potato 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-14",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-14",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2hyOUdfOwnM",
+      "mofu_sku": "MH-DOG-DBF-015",
+      "product_name": "d.b.f 牛肉紅薯｜d.b.f Beef & Sweet Potato Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-15",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-15",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e22XlcOMIRus",
+      "mofu_sku": "MH-DOG-DBF-016",
+      "product_name": "d.b.f 高齡犬之食事 雞肉 (7歲及以上)｜d.b.f Senior Dog Meal Chicken 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-16",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-16",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2oW8u6WCtg5",
+      "mofu_sku": "MH-DOG-DBF-017",
+      "product_name": "d.b.f 高齡犬之食事 雞肉蔬菜 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Vegetables 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-17",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-17",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2MnRWL8I3ON",
+      "mofu_sku": "MH-DOG-DBF-018",
+      "product_name": "d.b.f 成犬之食事 雞肉｜d.b.f Adult Dog Meal Chicken 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-18",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-18",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2EKKmnHUR8w",
+      "mofu_sku": "MH-DOG-DBF-019",
+      "product_name": "d.b.f 牛肉奶酪｜d.b.f Beef & Cheese Dog Can 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-19",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-19",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2NVxYYDt7TI",
+      "mofu_sku": "MH-DOG-DBF-020",
+      "product_name": "d.b.f 高齡犬之食事 雞肉軟骨 (7歲及以上)｜d.b.f Senior Dog Meal Chicken & Cartilage 85g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-20",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-20",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2HgqFtfTeZ3",
+      "mofu_sku": "MH-DOG-DBF-021",
+      "product_name": "d.b.f 雞胸肉糜 (脂肪含量更少 0.5% 以上)｜d.b.f Chicken Breast Mince Low-fat Dog Can 65g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-21",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-21",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2yXi5ewIEg5",
+      "mofu_sku": "MH-DOG-DBF-022",
+      "product_name": "d.b.f 雞肉&雞胸肉糜蔬菜｜d.b.f Chicken & Chicken Breast Mince with Vegetables 150g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-22",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-22",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8e2NpxQsXvHOA",
+      "mofu_sku": "MH-DOG-DBF-023",
+      "product_name": "d.b.f 雞肉&雞胸肉糜紅薯｜d.b.f Chicken & Chicken Breast Mince with Sweet Potato 150g",
+      "mofu_import_key": "dbf-dog-cans-2026::dbf-23",
+      "mofu_import_source": "dbf_dog_cans_23_items(1).xlsx",
+      "supplier_sku": "DBF-23",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cru9Bp0V6puG",
+      "mofu_sku": "MH-DOG-DGM-001",
+      "product_name": "DoggyMan 爆漿夾心卷（雞肝）｜DoggyMan Creamy Chicken Liver Roll Treats",
+      "mofu_import_key": "snack-order-2026::doggyman-creamy-chicken-liver-roll-treats",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8cr46ftMdO2E3",
+      "mofu_sku": "MH-DOG-DGM-002",
+      "product_name": "DoggyMan 爆漿夾心卷（雞肉）｜DoggyMan Creamy Chicken Roll Treats",
+      "mofu_import_key": "snack-order-2026::doggyman-creamy-chicken-roll-treats",
+      "mofu_import_source": "MofuHaven_Order_For_Boss.md",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8Zo9dzijaQ39p",
+      "mofu_sku": "MH-DOG-IRIS-001",
+      "product_name": "牛肉口味罐頭（Beef）",
+      "mofu_import_key": "onecared-can::beef",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZodBXbffvz6o",
+      "mofu_sku": "MH-DOG-IRIS-002",
+      "product_name": "雞肝口味罐頭（Chicken Liver）",
+      "mofu_import_key": "onecared-can::chicken-liver",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZpDXl9RWMDbc",
+      "mofu_sku": "MH-DOG-IRIS-003",
+      "product_name": "雞肉口味罐頭（Chicken）",
+      "mofu_import_key": "onecared-can::chicken",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZoNtJinLFNNG",
+      "mofu_sku": "MH-DOG-IRIS-004",
+      "product_name": "新款 2個口味拼罐頭（New 2-Flavor Mix）",
+      "mofu_import_key": "onecared-can::new-2-flavor-mix",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZoJ2fwrBOiHL",
+      "mofu_sku": "MH-DOG-IRIS-005",
+      "product_name": "新款牛肉米飯罐頭（New Beef & Rice）",
+      "mofu_import_key": "onecared-can::new-beef-and-rice",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZorEO6daplRl",
+      "mofu_sku": "MH-DOG-IRIS-006",
+      "product_name": "新款牛肉蔬菜罐頭（New Beef & Vegetables）",
+      "mofu_import_key": "onecared-can::new-beef-and-vegetables",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8ZpWi2bc00Aty",
+      "mofu_sku": "MH-DOG-IRIS-007",
+      "product_name": "白身魚口味罐頭（White Fish）",
+      "mofu_import_key": "onecared-can::white-fish",
+      "mofu_import_source": "MofuHaven_7_Flavors_Tiered_Pricing.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8W0gp0Oink4Cg",
+      "mofu_sku": "MH-DOG-MCK-001",
+      "product_name": "雞里脊 150g (犬用) (現貨 / 2027.11.11)",
+      "mofu_import_key": "雞里脊 150g (犬用) (現貨 / 2027.11.11)",
+      "mofu_import_source": "pet_products_clean_retail_only.csv",
+      "supplier_sku": "",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "not_found_in_local_cny_cost_mappings",
+      "local_cost_records": []
+    },
+    {
+      "product_id": "prod_V8lAPSEzKs8rpv",
+      "mofu_sku": "MH-DOG-PTL-001",
+      "product_name": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast, Vegetable & Beef-Style Jelly Pouches 25g×4",
+      "mofu_import_key": "batch24-2026::b24-01",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-01",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1602",
+          "source_supplier_sku": "B24-01",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1602",
+          "source_supplier_sku": "B24-01",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-01",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉蔬菜牛肉風味果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAt5mJJ5YOb7",
+      "mofu_sku": "MH-DOG-PTL-002",
+      "product_name": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4｜PETLINE Gochisou Time Chicken Breast & Cheese Jelly Pouches 25g×4",
+      "mofu_import_key": "batch24-2026::b24-02",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-02",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1603",
+          "source_supplier_sku": "B24-02",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1603",
+          "source_supplier_sku": "B24-02",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-02",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉芝士果凍包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAXdhHafIDnG",
+      "mofu_sku": "MH-DOG-PTL-003",
+      "product_name": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4｜PETLINE Gochisou Time Chicken Breast Milk-Stew with Cheese Pouches 25g×4",
+      "mofu_import_key": "batch24-2026::b24-03",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-03",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1604",
+          "source_supplier_sku": "B24-03",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1604",
+          "source_supplier_sku": "B24-03",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-03",
+          "source_name_zh": "PETLINE 盛宴時光 雞胸肉牛奶燉芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    },
+    {
+      "product_id": "prod_V8lAMmluHgtE1f",
+      "mofu_sku": "MH-DOG-PTL-004",
+      "product_name": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4｜PETLINE Gochisou Time Chicken Paste Milk Jelly with Cheese Pouches 25g×4",
+      "mofu_import_key": "batch24-2026::b24-04",
+      "mofu_import_source": "batch24_product_mapping.json",
+      "supplier_sku": "B24-04",
+      "exclusion_reasons": [
+        "cost_cny_not_found_in_supported_product_or_active_price_fields",
+        "target_margin_not_found_or_invalid_in_supported_product_metadata",
+        "cny_to_hkd_not_found_or_invalid_in_supported_product_metadata",
+        "upward_90_rounding_not_found_or_unsupported_in_product_metadata"
+      ],
+      "local_match_type": "supplier_sku",
+      "local_cost_records": [
+        {
+          "source_file": "batch24_import_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1605",
+          "source_supplier_sku": "B24-04",
+          "source_name_zh": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_product_mapping.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "batch24-img_1605",
+          "source_supplier_sku": "B24-04",
+          "source_name_zh": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        },
+        {
+          "source_file": "batch24_stripe_manifest.json",
+          "source_cost_field": "source_cost_cny",
+          "source_cost_cny": "19.7",
+          "source_import_key": "",
+          "source_supplier_sku": "B24-04",
+          "source_name_zh": "PETLINE 盛宴時光 雞肉泥牛奶果凍芝士包 25g×4",
+          "source_name": "",
+          "source_retail_hkd": "49.9",
+          "source_pricing_rule": {}
+        }
+      ]
+    }
+  ]
+}
