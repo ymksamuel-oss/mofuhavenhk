@@ -1,0 +1,25 @@
+{
+  "scope": "13 uploaded candidate product screenshots; no Stripe writes and no image edits performed",
+  "result": "all_13_already_listed",
+  "summary": {
+    "submitted_candidate_images": 13,
+    "already_listed": 13,
+    "new_products_to_create": 0,
+    "image_edits_required": 0
+  },
+  "candidates": [
+    {"image":"IMG_1648.jpg","caption":"自在如風","supplier_cost_cny":"25.50","observed_spec":"貓耳斜口高腳碗；直徑約12cm，前高約9.5cm、後高約12cm","status":"duplicate_variant","existing_product_id":"prod_V8szxN4qvZQyrJ","existing_product":"貓耳斜口高腳陶瓷食盤 12cm","existing_variant":"自在如風（藍色插畫）"},
+    {"image":"IMG_1649.jpg","caption":"柿柿如意","supplier_cost_cny":"25.50","observed_spec":"貓耳斜口高腳碗；直徑約12cm，前高約9.5cm、後高約12cm","status":"duplicate_variant","existing_product_id":"prod_V8szxN4qvZQyrJ","existing_product":"貓耳斜口高腳陶瓷食盤 12cm","existing_variant":"柿柿如意（綠色插畫）"},
+    {"image":"IMG_1650.jpg","caption":"藍胖胖","supplier_cost_cny":"25.50","observed_spec":"貓耳斜口高腳碗；直徑約12cm，前高約9.5cm、後高約12cm","status":"duplicate_variant","existing_product_id":"prod_V8szxN4qvZQyrJ","existing_product":"貓耳斜口高腳陶瓷食盤 12cm","existing_variant":"藍胖胖"},
+    {"image":"IMG_1651.jpg","caption":"綠胖胖","supplier_cost_cny":"25.50","observed_spec":"貓耳斜口高腳碗；直徑約12cm，前高約9.5cm、後高約12cm","status":"duplicate_variant","existing_product_id":"prod_V8szxN4qvZQyrJ","existing_product":"貓耳斜口高腳陶瓷食盤 12cm","existing_variant":"綠胖胖"},
+    {"image":"IMG_1652.jpg","caption":"斜口高腳碗藍貓 M-中型","supplier_cost_cny":"30.95","observed_spec":"闊約15cm，前高約7.8cm、後高約10cm、底徑約12.6cm","status":"duplicate_product","existing_product_id":"prod_V8szJB1xzy0Hkm","existing_product":"藍貓圖案斜口高腳陶瓷食盤 M","existing_variant":"藍貓圖案 M"},
+    {"image":"IMG_1653.jpg","caption":"斜口高腳碗白貓 M-中型","supplier_cost_cny":"27.94","observed_spec":"闊約15.2cm，高約8.8cm、底徑約12.4cm","status":"duplicate_product","existing_product_id":"prod_V8szzgASg2ZnbO","existing_product":"白貓海浪紋斜口高腳陶瓷食盤 M","existing_variant":"白貓海浪紋 M"},
+    {"image":"IMG_1654.jpg","caption":"高腳平口貓碗 魚 M-中型","supplier_cost_cny":"18.34","observed_spec":"直徑約12.4cm、高約11.2cm、容量約250ml","status":"duplicate_variant","existing_product_id":"prod_V8szss31Rm8tiJ","existing_product":"高腳平口陶瓷貓咪食盤 250ml","existing_variant":"魚圖案"},
+    {"image":"IMG_1655.jpg","caption":"高腳平口貓碗 綠葉 M-中型","supplier_cost_cny":"18.34","observed_spec":"直徑約12.4cm、高約11.2cm、容量約250ml","status":"duplicate_variant","existing_product_id":"prod_V8szss31Rm8tiJ","existing_product":"高腳平口陶瓷貓咪食盤 250ml","existing_variant":"綠葉圖案"},
+    {"image":"IMG_1656.jpg","caption":"高腳平口貓碗 羽毛 M-中型","supplier_cost_cny":"18.34","observed_spec":"直徑約12.4cm、高約11.2cm、容量約250ml","status":"duplicate_variant","existing_product_id":"prod_V8szss31Rm8tiJ","existing_product":"高腳平口陶瓷貓咪食盤 250ml","existing_variant":"羽毛圖案"},
+    {"image":"IMG_1657.jpg","caption":"高腳斜口貓臉碗 白 M-中型","supplier_cost_cny":"27.94","observed_spec":"闊約14.6cm、高約10.2cm、容量約350ml","status":"duplicate_variant","existing_product_id":"prod_V8t03LiP3rgoHN","existing_product":"貓臉斜口高腳陶瓷食盤 350ml","existing_variant":"白色"},
+    {"image":"IMG_1658.jpg","caption":"高腳斜口貓臉碗 橙 M-中型","supplier_cost_cny":"27.94","observed_spec":"闊約14.6cm、高約10.2cm、容量約350ml","status":"duplicate_variant","existing_product_id":"prod_V8t03LiP3rgoHN","existing_product":"貓臉斜口高腳陶瓷食盤 350ml","existing_variant":"橘色"},
+    {"image":"IMG_1659.jpg","caption":"高腳斜口貓臉碗 藍 M-中型","supplier_cost_cny":"27.94","observed_spec":"闊約14.6cm、高約10.2cm、容量約350ml","status":"duplicate_variant","existing_product_id":"prod_V8t03LiP3rgoHN","existing_product":"貓臉斜口高腳陶瓷食盤 350ml","existing_variant":"藍色"},
+    {"image":"IMG_1660.jpg","caption":"深藍貓臉高腳碗 M-中型","supplier_cost_cny":"21.90","observed_spec":"直徑約11.6cm、高約10cm","status":"duplicate_product","existing_product_id":"prod_V8t0eKeqlC0GzI","existing_product":"深藍貓臉高腳陶瓷食盤 M","existing_variant":"深藍色 M"}
+  ]
+}
