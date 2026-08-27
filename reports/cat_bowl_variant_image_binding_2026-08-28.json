@@ -1,0 +1,63 @@
+{
+  "updated_at_utc": "2026-08-27T21:03:29.040926+00:00",
+  "operation": "bind_variant_images_only_no_price_or_cost_change",
+  "record_count": 8,
+  "records": [
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "price_id": "price_1U99w5RyM6dRKLtZkqEQbPVg",
+      "variant_label_zh": "自在如風（藍色插畫）",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-ear-zizai-rufeng.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-ear-zizai-rufeng.png"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "price_id": "price_1U99w7RyM6dRKLtZqF1I2hH0",
+      "variant_label_zh": "柿柿如意（綠色插畫）",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-ear-persimmon-ruiyi.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-ear-persimmon-ruiyi.png"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "price_id": "price_1U99w5RyM6dRKLtZUujifaPh",
+      "variant_label_zh": "藍胖胖",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-ear-blue-chubby.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-ear-blue-chubby.png"
+    },
+    {
+      "product_id": "prod_V8szxN4qvZQyrJ",
+      "price_id": "price_1U99w8RyM6dRKLtZDZoJH8JB",
+      "variant_label_zh": "綠胖胖",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-ear-green-chubby.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-ear-green-chubby.png"
+    },
+    {
+      "product_id": "prod_V8szss31Rm8tiJ",
+      "price_id": "price_1U99wDRyM6dRKLtZBvFGIYIK",
+      "variant_label_zh": "綠葉圖案",
+      "variant_image_url": "/images/product-variants/cat-bowls/raised-flat-green-leaf.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/raised-flat-green-leaf.png"
+    },
+    {
+      "product_id": "prod_V8szss31Rm8tiJ",
+      "price_id": "price_1U99wERyM6dRKLtZaTV4AdpI",
+      "variant_label_zh": "羽毛圖案",
+      "variant_image_url": "/images/product-variants/cat-bowls/raised-flat-feather.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/raised-flat-feather.png"
+    },
+    {
+      "product_id": "prod_V8t03LiP3rgoHN",
+      "price_id": "price_1U99wBRyM6dRKLtZyHn73xZE",
+      "variant_label_zh": "橘色",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-face-slanted-orange.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-face-slanted-orange.png"
+    },
+    {
+      "product_id": "prod_V8t03LiP3rgoHN",
+      "price_id": "price_1U99w9RyM6dRKLtZQBYgA6kz",
+      "variant_label_zh": "藍色",
+      "variant_image_url": "/images/product-variants/cat-bowls/cat-face-slanted-blue.png",
+      "verified_metadata_value": "/images/product-variants/cat-bowls/cat-face-slanted-blue.png"
+    }
+  ]
+}

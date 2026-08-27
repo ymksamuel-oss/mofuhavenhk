@@ -329,6 +329,9 @@ function productVariantsFromPrices(
           zh: price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`),
           en: price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`),
         },
+        ...(price.metadata.variant_image_url?.trim()
+          ? { image: price.metadata.variant_image_url.trim() }
+          : {}),
         ...(Number.isFinite(perCan) && perCan > 0
           ? {
               unitLabel: {

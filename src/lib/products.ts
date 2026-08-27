@@ -165,6 +165,8 @@ export type ProductVariant = {
   priceId: string;
   price: number;
   label: { zh: string; en: string };
+  /** Optional product image shown when this specific variant is selected. */
+  image?: string;
   /** Optional per-can reference shown only for pack-size variants. */
   unitLabel?: { zh: string; en: string };
   originalPrice?: number;

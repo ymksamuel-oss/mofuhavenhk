@@ -121,9 +121,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
         <div className="relative w-full">
           <ProductGallery
-            key={selectedProduct.id}
-            images={selectedProduct.images}
-            fallbackImage={selectedProduct.image}
+            key={`${selectedProduct.id}-${selectedPriceId}`}
+            images={selectedOption?.image ? [selectedOption.image] : selectedProduct.images}
+            fallbackImage={selectedOption?.image ?? selectedProduct.image}
             alt={selectedProduct.name[locale]}
             priority
           />
