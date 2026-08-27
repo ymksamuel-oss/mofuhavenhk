@@ -1,0 +1,19 @@
+{
+  "mode": "apply",
+  "input_rule": "owner fixed cost_cny=11.70 and proposed_hkd=22.90 only; no FX/formula/rounding/automation",
+  "product_id": "prod_V8fduDqyGKiazf",
+  "source_price_id": "price_1U91tuRyM6dRKLtZ6qsNXQeF",
+  "owner_cost_cny": "11.70",
+  "owner_price_hkd": "22.90",
+  "started_at_utc": "2026-08-27T13:09:11.998030+00:00",
+  "preflight_passed_at_utc": "2026-08-27T13:09:12.503975+00:00",
+  "source_hkd": "17.90",
+  "replacement_price_id": "price_1U933MRyM6dRKLtZPQyUhqZa",
+  "replacement_hkd": "22.90",
+  "source_price_deactivated": true,
+  "default_price_switched": true,
+  "cost_cny_written": true,
+  "implied_baseline_removed": true,
+  "status": "updated",
+  "completed_at_utc": "2026-08-27T13:09:13.470831+00:00"
+}
