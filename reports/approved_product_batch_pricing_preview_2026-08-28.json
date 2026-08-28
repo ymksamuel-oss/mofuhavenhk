@@ -1,0 +1,479 @@
+{
+  "generated_from": "approved_product_batch_2026-08-28.json",
+  "policy_version": "mofu-cny-hkd-multiplier-v1",
+  "cny_to_hkd": "1.1654",
+  "retail_multiplier": "1.76",
+  "rounding": "upward .90",
+  "product_count": 15,
+  "variant_count": 24,
+  "products": [
+    {
+      "import_key": "plush-cat-cushion-2026",
+      "name_zh": "貓咪造型毛絨玩具",
+      "name_en": "Plush Cat-Shaped Pet Toy",
+      "description_zh": "貓咪造型毛絨用品；款式以圖片所示為準。",
+      "description_en": "A plush cat-shaped pet item; the exact style is shown in the selected image.",
+      "category": "cats",
+      "subcategory": "貓咪玩具及攀爬設施",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "tabby-flower-cat",
+          "label_zh": "小花貓款",
+          "label_en": "Tabby Flower Cat",
+          "cost_cny": "23.80",
+          "source": "IMG_1842.jpg",
+          "unrounded_retail_hkd": "48.82",
+          "retail_hkd": "48.90",
+          "retail_hkd_minor": 4890,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "tabby-tiger-cat",
+          "label_zh": "虎斑貓款",
+          "label_en": "Tabby Tiger Cat",
+          "cost_cny": "23.80",
+          "source": "IMG_1843.jpg",
+          "unrounded_retail_hkd": "48.82",
+          "retail_hkd": "48.90",
+          "retail_hkd_minor": 4890,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "siamese-cat",
+          "label_zh": "暹羅貓款",
+          "label_en": "Siamese Cat",
+          "cost_cny": "23.80",
+          "source": "IMG_1844.jpg",
+          "unrounded_retail_hkd": "48.82",
+          "retail_hkd": "48.90",
+          "retail_hkd_minor": 4890,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "rectangular-premium-pet-bed-2026",
+      "name_zh": "高級長方形寵物床",
+      "name_en": "Premium Rectangular Pet Bed",
+      "description_zh": "長方形寵物床，M 尺寸 50 × 40 cm；適合 5 斤內寵物。",
+      "description_en": "A rectangular pet bed in M size, 50 × 40 cm; suitable for pets up to 5 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "grey-m",
+          "label_zh": "高級灰｜M",
+          "label_en": "Premium Grey | M",
+          "cost_cny": "118.00",
+          "source": "IMG_1845.jpg",
+          "unrounded_retail_hkd": "242.03",
+          "retail_hkd": "242.90",
+          "retail_hkd_minor": 24290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "khaki-m",
+          "label_zh": "卡其色｜M",
+          "label_en": "Khaki | M",
+          "cost_cny": "118.00",
+          "source": "IMG_1846.jpg",
+          "unrounded_retail_hkd": "242.03",
+          "retail_hkd": "242.90",
+          "retail_hkd_minor": 24290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "light-green-m",
+          "label_zh": "簡約綠｜M",
+          "label_en": "Minimal Green | M",
+          "cost_cny": "118.00",
+          "source": "IMG_1847.jpg",
+          "unrounded_retail_hkd": "242.03",
+          "retail_hkd": "242.90",
+          "retail_hkd_minor": 24290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "summer-cooling-mat-set-2026",
+      "name_zh": "夏季涼席寵物床套裝",
+      "name_en": "Summer Cooling Mat Pet Bed Set",
+      "description_zh": "寵物床連夏季涼席墊，M 尺寸 50 × 40 cm；適合 5 斤內寵物。",
+      "description_en": "A pet bed with a summer cooling mat, M size 50 × 40 cm; suitable for pets up to 5 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "grey-cooling-m",
+          "label_zh": "灰色＋涼席墊｜M",
+          "label_en": "Grey + Cooling Mat | M",
+          "cost_cny": "128.00",
+          "source": "IMG_1848.jpg",
+          "unrounded_retail_hkd": "262.54",
+          "retail_hkd": "262.90",
+          "retail_hkd_minor": 26290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "khaki-cooling-m",
+          "label_zh": "卡其色＋涼席墊｜M",
+          "label_en": "Khaki + Cooling Mat | M",
+          "cost_cny": "128.00",
+          "source": "IMG_1849.jpg",
+          "unrounded_retail_hkd": "262.54",
+          "retail_hkd": "262.90",
+          "retail_hkd_minor": 26290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "green-cooling-m",
+          "label_zh": "綠色＋涼席墊｜M",
+          "label_en": "Green + Cooling Mat | M",
+          "cost_cny": "128.00",
+          "source": "IMG_1850.jpg",
+          "unrounded_retail_hkd": "262.54",
+          "retail_hkd": "262.90",
+          "retail_hkd_minor": 26290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "leather-runway-bed-2026",
+      "name_zh": "皮革款跑道窩",
+      "name_en": "Leather-Style Runway Pet Bed",
+      "description_zh": "橢圓跑道造型寵物床，M 尺寸 50 × 40 cm；其他尺寸價格未核實。",
+      "description_en": "An oval runway-style pet bed in M size, 50 × 40 cm; prices for other sizes were not verified.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "khaki-runway-m",
+          "label_zh": "卡其色跑道窩｜M",
+          "label_en": "Khaki Runway Bed | M",
+          "cost_cny": "128.00",
+          "source": "IMG_1851.jpg",
+          "unrounded_retail_hkd": "262.54",
+          "retail_hkd": "262.90",
+          "retail_hkd_minor": 26290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "grey-runway-m",
+          "label_zh": "灰色跑道窩｜M",
+          "label_en": "Grey Runway Bed | M",
+          "cost_cny": "128.00",
+          "source": "IMG_1852.jpg",
+          "unrounded_retail_hkd": "262.54",
+          "retail_hkd": "262.90",
+          "retail_hkd_minor": 26290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "kaishan-backrest-bed-2026",
+      "name_zh": "靠山窩寵物床",
+      "name_en": "Kaishan Backrest Pet Bed",
+      "description_zh": "帶靠背及貓耳輪廓的寵物床，M 尺寸 50 × 40 × 23 cm；適合 5 斤內寵物。",
+      "description_en": "A backrest pet bed with cat-ear contours, M size 50 × 40 × 23 cm; suitable for pets up to 5 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "brown-green-m",
+          "label_zh": "棕綠色｜M",
+          "label_en": "Brown Green | M",
+          "cost_cny": "138.00",
+          "source": "IMG_1853.jpg",
+          "unrounded_retail_hkd": "283.05",
+          "retail_hkd": "283.90",
+          "retail_hkd_minor": 28390,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "grey-green-m",
+          "label_zh": "灰綠色｜M",
+          "label_en": "Grey Green | M",
+          "cost_cny": "138.00",
+          "source": "IMG_1854.jpg",
+          "unrounded_retail_hkd": "283.05",
+          "retail_hkd": "283.90",
+          "retail_hkd_minor": 28390,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        },
+        {
+          "key": "yellow-green-m",
+          "label_zh": "黃綠色｜M",
+          "label_en": "Yellow Green | M",
+          "cost_cny": "138.00",
+          "source": "IMG_1855.jpg",
+          "unrounded_retail_hkd": "283.05",
+          "retail_hkd": "283.90",
+          "retail_hkd_minor": 28390,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "green-cat-ear-woven-bed-2026",
+      "name_zh": "綠色貓耳藤編窩",
+      "name_en": "Green Woven Cat-Ear Bed",
+      "description_zh": "植物纖維編織貓耳窩，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A plant-fiber woven cat-ear bed, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "green-s",
+          "label_zh": "綠色｜S",
+          "label_en": "Green | S",
+          "cost_cny": "14.62",
+          "source": "IMG_1856.jpg",
+          "unrounded_retail_hkd": "29.99",
+          "retail_hkd": "30.90",
+          "retail_hkd_minor": 3090,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "coarse-hemp-cat-ear-ball-bed-2026",
+      "name_zh": "粗麻藤席貓耳窩連白色玩具球",
+      "name_en": "Coarse Hemp Cat-Ear Bed with White Toy Ball",
+      "description_zh": "附白色玩具球的貓耳藤編窩，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A woven cat-ear bed with a white toy ball, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "white-ball-s",
+          "label_zh": "白色玩具球｜S",
+          "label_en": "White Toy Ball | S",
+          "cost_cny": "20.99",
+          "source": "IMG_1857.jpg",
+          "unrounded_retail_hkd": "43.05",
+          "retail_hkd": "43.90",
+          "retail_hkd_minor": 4390,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "white-coffee-double-ear-cushion-bed-2026",
+      "name_zh": "白咖色雙耳貓窩連奶白軟墊",
+      "name_en": "White-Coffee Double-Ear Cat Bed with Cream Cushion",
+      "description_zh": "白咖色雙耳藤編窩連奶白棉墊及抱枕，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A white-coffee woven double-ear cat bed with cream cushion and bolster, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "white-coffee-cream-s",
+          "label_zh": "白咖色＋奶白軟墊｜S",
+          "label_en": "White-Coffee + Cream Cushion | S",
+          "cost_cny": "27.70",
+          "source": "IMG_1862.jpg",
+          "unrounded_retail_hkd": "56.82",
+          "retail_hkd": "56.90",
+          "retail_hkd_minor": 5690,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "cream-cushion-toy-cat-ear-bed-2026",
+      "name_zh": "貓耳藤編窩連奶白睡墊及玩具球",
+      "name_en": "Woven Cat-Ear Bed with Cream Cushion and Toy Ball",
+      "description_zh": "附奶白睡墊及玩具球的貓耳藤編窩，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A woven cat-ear bed with cream cushion and toy ball, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "cream-cushion-ball-s",
+          "label_zh": "奶白睡墊＋玩具球｜S",
+          "label_en": "Cream Cushion + Toy Ball | S",
+          "cost_cny": "25.48",
+          "source": "IMG_1864.jpg",
+          "unrounded_retail_hkd": "52.26",
+          "retail_hkd": "52.90",
+          "retail_hkd_minor": 5290,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "woven-cat-bed-mat-2026",
+      "name_zh": "藤編貓窩連圓形地墊",
+      "name_en": "Woven Cat Bed with Round Floor Mat",
+      "description_zh": "天然藤編貓耳窩連圓形地墊，S 尺寸窩直徑 35 cm、高 13 cm，地墊直徑 40 cm；適合 7 斤內貓咪。",
+      "description_en": "A natural woven cat-ear bed with round floor mat, S bed 35 cm diameter × 13 cm high and 40 cm mat; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "round-mat-s",
+          "label_zh": "圓形地墊｜S",
+          "label_en": "Round Floor Mat | S",
+          "cost_cny": "48.20",
+          "source": "IMG_1869.jpg",
+          "unrounded_retail_hkd": "98.86",
+          "retail_hkd": "98.90",
+          "retail_hkd_minor": 9890,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "cream-cushion-bolster-cat-ear-bed-2026",
+      "name_zh": "藤編貓耳窩連奶白棉墊及抱枕",
+      "name_en": "Woven Cat-Ear Bed with Cream Cushion and Bolster",
+      "description_zh": "天然藤編貓耳窩連奶白棉墊及抱枕，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A natural woven cat-ear bed with cream cushion and bolster, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "cream-bolster-s",
+          "label_zh": "奶白棉墊＋抱枕｜S",
+          "label_en": "Cream Cushion + Bolster | S",
+          "cost_cny": "27.59",
+          "source": "IMG_1870.jpg",
+          "unrounded_retail_hkd": "56.59",
+          "retail_hkd": "56.90",
+          "retail_hkd_minor": 5690,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "blue-cushion-cat-ear-bed-2026",
+      "name_zh": "藤編貓耳窩連和風藍柄墊",
+      "name_en": "Woven Cat-Ear Bed with Blue Japanese-Style Cushion",
+      "description_zh": "天然藤編貓耳窩連和風藍柄墊，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A natural woven cat-ear bed with blue Japanese-style cushion, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "blue-cushion-s",
+          "label_zh": "和風藍柄墊｜S",
+          "label_en": "Blue Japanese-Style Cushion | S",
+          "cost_cny": "24.26",
+          "source": "IMG_1872.jpg",
+          "unrounded_retail_hkd": "49.76",
+          "retail_hkd": "49.90",
+          "retail_hkd_minor": 4990,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "blue-cushion-cooling-mat-cat-ear-bed-2026",
+      "name_zh": "藤編貓耳窩連和風藍柄墊及涼席",
+      "name_en": "Woven Cat-Ear Bed with Blue Cushion and Cooling Mat",
+      "description_zh": "附和風藍柄墊及涼席的藤編貓耳窩，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A woven cat-ear bed with blue cushion and cooling mat, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "blue-cushion-cooling-s",
+          "label_zh": "和風藍柄墊＋涼席｜S",
+          "label_en": "Blue Cushion + Cooling Mat | S",
+          "cost_cny": "27.59",
+          "source": "IMG_1874.jpg",
+          "unrounded_retail_hkd": "56.59",
+          "retail_hkd": "56.90",
+          "retail_hkd_minor": 5690,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "double-ear-warm-mat-cat-bed-2026",
+      "name_zh": "精編蒲草雙耳貓窩連和風保暖墊",
+      "name_en": "Double-Ear Woven Cat Bed with Japanese-Style Warm Mat",
+      "description_zh": "精編蒲草雙耳貓窩連和風保暖墊，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A double-ear woven cat bed with Japanese-style warm mat, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "warm-mat-s",
+          "label_zh": "和風保暖墊｜S",
+          "label_en": "Japanese-Style Warm Mat | S",
+          "cost_cny": "16.58",
+          "source": "IMG_1876.jpg",
+          "unrounded_retail_hkd": "34.01",
+          "retail_hkd": "34.90",
+          "retail_hkd_minor": 3490,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    },
+    {
+      "import_key": "double-ear-warm-cooling-mat-cat-bed-2026",
+      "name_zh": "精編蒲草雙耳貓窩連保暖墊及涼席",
+      "name_en": "Double-Ear Woven Cat Bed with Warm Mat and Cooling Mat",
+      "description_zh": "精編蒲草雙耳貓窩連和風保暖墊及涼席，S 尺寸直徑 35 cm、高 13 cm；適合 7 斤內貓咪。",
+      "description_en": "A double-ear woven cat bed with warm mat and cooling mat, S size 35 cm diameter × 13 cm high; suitable for cats up to 7 jin.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "warm-cooling-mat-s",
+          "label_zh": "保暖墊＋涼席｜S",
+          "label_en": "Warm Mat + Cooling Mat | S",
+          "cost_cny": "17.24",
+          "source": "IMG_1877.jpg",
+          "unrounded_retail_hkd": "35.36",
+          "retail_hkd": "35.90",
+          "retail_hkd_minor": 3590,
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_status": "original_screenshot_pending_clean_ivory"
+        }
+      ]
+    }
+  ]
+}
