@@ -110,7 +110,14 @@ function CheckoutContent() {
     // defaults or wipe the paid / notify-failed success state.
     if (!cart.ready) return;
     if (cart.lines.length > 0) return;
+    // Once payment preparation has started, never refill the category defaults
+    // or clear the PaymentIntent while the async request / Elements form is
+    // settling. Otherwise the button can appear to do nothing because the
+    // freshly-created clientSecret is immediately discarded on phase change.
     if (
+      phase === "preparing" ||
+      phase === "ready" ||
+      phase === "error" ||
       phase === "paid" ||
       phase === "paid_receipt_pending" ||
       phase === "paid_notify_failed" ||

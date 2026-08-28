@@ -116,6 +116,16 @@
 - [x] 建立 1:1 米白 `#F7F1E6`、無簡體中文、無尺寸線、無價格字樣及無拼圖背景的產品圖片（香波使用米白清理圖；碗具／床窩以獨立裁切暫用圖上架，待額度重設後再清理）
 - [x] 按 `ceil_to_.90(CNY × 1.1654 × 1.76)` 計算 HKD 零售價並保存定價報告
 - [x] 在 live Stripe 建立 Products／Prices，寫入穩定變體鍵及獨立圖片映射（18 款產品／30 個 Price，manifest 無漏記）
-- [ ] 提交批次資料至 GitHub main，確認 Vercel production deployment
-- [ ] 驗證新產品頁、價格、變體選擇及主圖切換
+- [x] 提交批次資料至 GitHub main，確認 Vercel production deployment（commit `7a866866b7e9fae90af9b4d41d8b151921eabd4b`；deployment READY）
+- [x] 驗證新產品頁、價格、變體選擇及主圖切換（陶瓷貓耳單碗 8 變體切換、貓咪窩及 LION 香波頁面已核對）
 - [x] 整理未能可靠辨認或待日後清理的項目
+
+## 付款成功 Email 測試（2026-08-28）
+- [ ] 檢查 production checkout、Stripe webhook／付款成功通知及收件地址設定
+- [ ] 經用戶確認後，以 live Stripe 完成一次低價產品實際付款測試
+- [ ] 核對 `ymksamuel@gmail.com` 是否收到付款成功／訂單 email
+- [ ] 建立退款並核對退款狀態，記錄 PaymentIntent／退款識別資料
+- [ ] 整理測試結果及如有需要的修正建議
+- [ ] 定位並修正 Visa／Mastercard checkout 按鈕無反應及 Stripe Elements 未顯示問題
+- [ ] 執行測試與 production build，推送修正至 GitHub main 並確認 Vercel READY
+- [ ] 重新驗證付款流程後才進行 live 付款、email 核對及退款
