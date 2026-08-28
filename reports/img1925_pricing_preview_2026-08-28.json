@@ -1,0 +1,327 @@
+{
+  "generated_from": "img1925_candidate_products_2026-08-28.json",
+  "policy_version": "mofu-cny-hkd-multiplier-v1",
+  "currency": "hkd",
+  "cny_to_hkd": "1.1654",
+  "retail_multiplier": "1.76",
+  "rounding": "upward .90",
+  "product_count": 9,
+  "variant_count": 12,
+  "products": [
+    {
+      "import_key": "cream-low-profile-pet-bowl-40cm-2026",
+      "name_zh": "奶白色低身寵物食物碗｜40 cm",
+      "name_en": "Cream Low-Profile Pet Bowl | 40 cm",
+      "description_zh": "奶白色低身圓形寵物食物碗，約 40 cm 款；實際尺寸以商品圖為準。",
+      "description_en": "A cream low-profile round pet bowl, approximately 40 cm; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "寵物食物碗及餐具",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "cream-40cm",
+          "label_zh": "奶白色｜40 cm",
+          "label_en": "Cream | 40 cm",
+          "cost_cny": "16.00",
+          "source_panel": "row-1-col-1",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "unrounded_retail_hkd": "32.82",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SbUPDqWBuKeORnlQ.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SbUPDqWBuKeORnlQ.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "charcoal-low-profile-pet-bowl-40cm-2026",
+      "name_zh": "炭灰色低身寵物食物碗｜40 cm",
+      "name_en": "Charcoal Low-Profile Pet Bowl | 40 cm",
+      "description_zh": "炭灰色低身圓形寵物食物碗，約 40 cm 款；實際尺寸以商品圖為準。",
+      "description_en": "A charcoal low-profile round pet bowl, approximately 40 cm; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "寵物食物碗及餐具",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "charcoal-40cm",
+          "label_zh": "炭灰色｜40 cm",
+          "label_en": "Charcoal | 40 cm",
+          "cost_cny": "112.00",
+          "source_panel": "row-1-col-2",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "229.90",
+          "retail_hkd_minor": 22990,
+          "unrounded_retail_hkd": "229.72",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nzjpoIvXXJsIRiQv.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nzjpoIvXXJsIRiQv.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "blush-pink-pet-bed-40cm-2026",
+      "name_zh": "豆沙粉低身寵物食物碗｜40 cm",
+      "name_en": "Blush Pink Low-Profile Pet Bowl | 40 cm",
+      "description_zh": "豆沙粉低身圓形寵物食物碗，約 40 cm 款；實際尺寸以商品圖為準。",
+      "description_en": "A blush pink low-profile round pet bowl, approximately 40 cm; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "寵物食物碗及餐具",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "blush-pink-40cm",
+          "label_zh": "豆沙粉｜40 cm",
+          "label_en": "Blush Pink | 40 cm",
+          "cost_cny": "17.24",
+          "source_panel": "row-1-col-3",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "35.90",
+          "retail_hkd_minor": 3590,
+          "unrounded_retail_hkd": "35.36",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GsWdwbEKqUTZALDJ.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GsWdwbEKqUTZALDJ.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "green-round-pet-bed-50cm-2026",
+      "name_zh": "森林綠低身寵物食物碗｜50 cm",
+      "name_en": "Forest Green Low-Profile Pet Bowl | 50 cm",
+      "description_zh": "森林綠低身圓形寵物食物碗，約 50 cm 款；實際尺寸以商品圖為準。",
+      "description_en": "A forest green low-profile round pet bowl, approximately 50 cm; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "寵物食物碗及餐具",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "forest-green-50cm",
+          "label_zh": "森林綠｜50 cm",
+          "label_en": "Forest Green | 50 cm",
+          "cost_cny": "83.70",
+          "source_panel": "row-1-col-4",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sjsMEJvIZrEELzlH.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sjsMEJvIZrEELzlH.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "green-round-pet-bed-40cm-2026",
+      "name_zh": "鼠尾草綠低身寵物食物碗｜40 cm",
+      "name_en": "Sage Green Low-Profile Pet Bowl | 40 cm",
+      "description_zh": "鼠尾草綠低身圓形寵物食物碗，約 40 cm 款；實際尺寸以商品圖為準。",
+      "description_en": "A sage green low-profile round pet bowl, approximately 40 cm; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "寵物食物碗及餐具",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "sage-green-40cm",
+          "label_zh": "鼠尾草綠｜40 cm",
+          "label_en": "Sage Green | 40 cm",
+          "cost_cny": "86.00",
+          "source_panel": "row-2-col-1",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "176.90",
+          "retail_hkd_minor": 17690,
+          "unrounded_retail_hkd": "176.39",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NKXcMZlsTlCOVjoJ.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NKXcMZlsTlCOVjoJ.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "wooden-cat-tower-toy-ball-2026",
+      "name_zh": "木製多層貓咪遊樂架連玩具球",
+      "name_en": "Wooden Multi-Level Cat Tower with Toy Ball",
+      "description_zh": "木製多層貓咪遊樂架連玩具球，附多個休息及躲藏空間；尺寸以商品圖標示為準。",
+      "description_en": "A wooden multi-level cat tower with a toy ball and multiple resting and hideaway spaces; dimensions are as shown in the product image.",
+      "category": "cats",
+      "subcategory": "貓抓板及遊樂架",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "wooden-tower-standard",
+          "label_zh": "木製遊樂架｜標準款",
+          "label_en": "Wooden Tower | Standard",
+          "cost_cny": "48.70",
+          "source_panel": "row-2-col-4",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "99.90",
+          "retail_hkd_minor": 9990,
+          "unrounded_retail_hkd": "99.89",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GnAjDYAYYfRldQZr.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GnAjDYAYYfRldQZr.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "blush-pink-round-pet-bed-2026",
+      "name_zh": "豆沙粉圓形寵物窩｜大尺寸",
+      "name_en": "Blush Pink Round Pet Bed | Large",
+      "description_zh": "豆沙粉圓形寵物窩，大尺寸款；實際尺寸以商品圖為準。",
+      "description_en": "A blush pink round pet bed in a large size; see the product image for the stated dimensions.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "blush-pink-large",
+          "label_zh": "豆沙粉｜大尺寸",
+          "label_en": "Blush Pink | Large",
+          "cost_cny": "83.70",
+          "source_panel": "row-3-col-1",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BbbIszrkuiLQLFfi.png",
+          "image_status": "clean_ivory_generated"
+        },
+        {
+          "key": "grey-large",
+          "label_zh": "灰色｜大尺寸",
+          "label_en": "Grey | Large",
+          "cost_cny": "83.70",
+          "source_panel": "row-3-col-2",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wdMiLssQfDRBkEVo.png",
+          "image_status": "clean_ivory_generated"
+        },
+        {
+          "key": "light-green-large",
+          "label_zh": "淺綠色｜大尺寸",
+          "label_en": "Light Green | Large",
+          "cost_cny": "83.70",
+          "source_panel": "row-3-col-3",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CTAxrQlJFsWBkroh.png",
+          "image_status": "clean_ivory_generated"
+        },
+        {
+          "key": "dark-green-large",
+          "label_zh": "深綠色｜大尺寸",
+          "label_en": "Dark Green | Large",
+          "cost_cny": "83.70",
+          "source_panel": "row-3-col-4",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/EfkDvFrSaVpbsqEa.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BbbIszrkuiLQLFfi.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wdMiLssQfDRBkEVo.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CTAxrQlJFsWBkroh.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/EfkDvFrSaVpbsqEa.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "woven-oval-cat-bed-cream-cushion-2026",
+      "name_zh": "藤編橢圓貓窩連奶白軟墊",
+      "name_en": "Woven Oval Cat Bed with Cream Cushion",
+      "description_zh": "天然藤編橢圓貓窩連奶白軟墊，尺寸以商品圖標示為準。",
+      "description_en": "A natural woven oval cat bed with a cream cushion; dimensions are as shown in the product image.",
+      "category": "cats",
+      "subcategory": "貓咪床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "woven-oval-cream-standard",
+          "label_zh": "奶白軟墊｜標準款",
+          "label_en": "Cream Cushion | Standard",
+          "cost_cny": "16.58",
+          "source_panel": "row-3-col-5",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "34.90",
+          "retail_hkd_minor": 3490,
+          "unrounded_retail_hkd": "34.01",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vfnXlxchqlbJGOAQ.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vfnXlxchqlbJGOAQ.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    },
+    {
+      "import_key": "beige-low-profile-pet-bed-95x80-2026",
+      "name_zh": "米色低身寵物床｜95 × 80 cm",
+      "name_en": "Beige Low-Profile Pet Bed | 95 × 80 cm",
+      "description_zh": "米 beige 低身寵物床，約 95 × 80 cm；高度以商品圖標示為準。",
+      "description_en": "A beige low-profile pet bed, approximately 95 × 80 cm; height is as shown in the product image.",
+      "category": "pets",
+      "subcategory": "寵物床墊及睡窩",
+      "variant_mode": "option",
+      "variants": [
+        {
+          "key": "beige-95x80",
+          "label_zh": "米色｜95 × 80 cm",
+          "label_en": "Beige | 95 × 80 cm",
+          "cost_cny": "83.70",
+          "source_panel": "row-3-col-6",
+          "source": "IMG_1925.JPG",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "unrounded_retail_hkd": "171.68",
+          "pricing_rule": "ceil_to_.90(cost_cny × 1.1654 × 1.76)",
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PqdMxifcsVYmfyFB.png",
+          "image_status": "clean_ivory_generated"
+        }
+      ],
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PqdMxifcsVYmfyFB.png"
+      ],
+      "image_processing_status": "clean_ivory_generated"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "price_id": "price_1U9EHsRyM6dRKLtZ4zcoHhWv",
+    "product_id": "prod_V9XMYpJH6daZiC",
+    "active": true,
+    "currency": "hkd",
+    "unit_amount": 17190,
+    "nickname": null,
+    "variant_key": "blush-pink-large",
+    "variant_label_zh": "豆沙粉｜大尺寸",
+    "variant_label_en": "Blush Pink | Large",
+    "variant_image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BbbIszrkuiLQLFfi.png",
+    "retail_hkd": "171.90",
+    "cost_cny": "83.70"
+  },
+  {
+    "price_id": "price_1U9EJARyM6dRKLtZMRI3iAWV",
+    "product_id": "prod_V9XMYpJH6daZiC",
+    "active": true,
+    "currency": "hkd",
+    "unit_amount": 17190,
+    "nickname": "Dark Green | Large",
+    "variant_key": "dark-green-large",
+    "variant_label_zh": "深綠色｜大尺寸",
+    "variant_label_en": "Dark Green | Large",
+    "variant_image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/EfkDvFrSaVpbsqEa.png",
+    "retail_hkd": "171.90",
+    "cost_cny": "83.70"
+  },
+  {
+    "price_id": "price_1U9EIfRyM6dRKLtZ4gv1CKEc",
+    "product_id": "prod_V9XMYpJH6daZiC",
+    "active": true,
+    "currency": "hkd",
+    "unit_amount": 17190,
+    "nickname": "Grey | Large",
+    "variant_key": "grey-large",
+    "variant_label_zh": "灰色｜大尺寸",
+    "variant_label_en": "Grey | Large",
+    "variant_image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wdMiLssQfDRBkEVo.png",
+    "retail_hkd": "171.90",
+    "cost_cny": "83.70"
+  },
+  {
+    "price_id": "price_1U9EIxRyM6dRKLtZIEJqYica",
+    "product_id": "prod_V9XMYpJH6daZiC",
+    "active": true,
+    "currency": "hkd",
+    "unit_amount": 17190,
+    "nickname": "Light Green | Large",
+    "variant_key": "light-green-large",
+    "variant_label_zh": "淺綠色｜大尺寸",
+    "variant_label_en": "Light Green | Large",
+    "variant_image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CTAxrQlJFsWBkroh.png",
+    "retail_hkd": "171.90",
+    "cost_cny": "83.70"
+  }
+]

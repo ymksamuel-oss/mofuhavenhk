@@ -1,0 +1,271 @@
+{
+  "source": "img1925_approved_product_batch_2026-08-28.json",
+  "product_count": 9,
+  "variant_count": 12,
+  "products": [
+    {
+      "import_key": "cream-low-profile-pet-bowl-40cm-2026",
+      "name_zh": "奶白色低身寵物食物碗｜40 cm",
+      "name_en": "Cream Low-Profile Pet Bowl | 40 cm",
+      "product_id": "prod_V9XJNBHag3SXHi",
+      "default_price_id": "price_1U9EEzRyM6dRKLtZ0X0rroVL",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SbUPDqWBuKeORnlQ.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "cream-40cm",
+          "label_zh": "奶白色｜40 cm",
+          "label_en": "Cream | 40 cm",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "product_id": "prod_V9XJNBHag3SXHi",
+          "price_id": "price_1U9EEzRyM6dRKLtZ0X0rroVL",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SbUPDqWBuKeORnlQ.png"
+        }
+      ]
+    },
+    {
+      "import_key": "charcoal-low-profile-pet-bowl-40cm-2026",
+      "name_zh": "炭灰色低身寵物食物碗｜40 cm",
+      "name_en": "Charcoal Low-Profile Pet Bowl | 40 cm",
+      "product_id": "prod_V9XJS8JJ3LzHCc",
+      "default_price_id": "price_1U9EFERyM6dRKLtZav180CqA",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nzjpoIvXXJsIRiQv.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "charcoal-40cm",
+          "label_zh": "炭灰色｜40 cm",
+          "label_en": "Charcoal | 40 cm",
+          "cost_cny": "112.00",
+          "retail_hkd": "229.90",
+          "retail_hkd_minor": 22990,
+          "product_id": "prod_V9XJS8JJ3LzHCc",
+          "price_id": "price_1U9EFERyM6dRKLtZav180CqA",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nzjpoIvXXJsIRiQv.png"
+        }
+      ]
+    },
+    {
+      "import_key": "blush-pink-pet-bed-40cm-2026",
+      "name_zh": "豆沙粉低身寵物食物碗｜40 cm",
+      "name_en": "Blush Pink Low-Profile Pet Bowl | 40 cm",
+      "product_id": "prod_V9XKWV0YMzMP11",
+      "default_price_id": "price_1U9EFlRyM6dRKLtZcLAii6Ge",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GsWdwbEKqUTZALDJ.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "blush-pink-40cm",
+          "label_zh": "豆沙粉｜40 cm",
+          "label_en": "Blush Pink | 40 cm",
+          "cost_cny": "17.24",
+          "retail_hkd": "35.90",
+          "retail_hkd_minor": 3590,
+          "product_id": "prod_V9XKWV0YMzMP11",
+          "price_id": "price_1U9EFlRyM6dRKLtZcLAii6Ge",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GsWdwbEKqUTZALDJ.png"
+        }
+      ]
+    },
+    {
+      "import_key": "green-round-pet-bed-50cm-2026",
+      "name_zh": "森林綠低身寵物食物碗｜50 cm",
+      "name_en": "Forest Green Low-Profile Pet Bowl | 50 cm",
+      "product_id": "prod_V9XLF2IkyjkTxo",
+      "default_price_id": "price_1U9EGxRyM6dRKLtZx16Ra03n",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sjsMEJvIZrEELzlH.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "forest-green-50cm",
+          "label_zh": "森林綠｜50 cm",
+          "label_en": "Forest Green | 50 cm",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XLF2IkyjkTxo",
+          "price_id": "price_1U9EGxRyM6dRKLtZx16Ra03n",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sjsMEJvIZrEELzlH.png"
+        }
+      ]
+    },
+    {
+      "import_key": "green-round-pet-bed-40cm-2026",
+      "name_zh": "鼠尾草綠低身寵物食物碗｜40 cm",
+      "name_en": "Sage Green Low-Profile Pet Bowl | 40 cm",
+      "product_id": "prod_V9XLwj1ZW8RZh2",
+      "default_price_id": "price_1U9EHGRyM6dRKLtZ7N3t6cf1",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NKXcMZlsTlCOVjoJ.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "sage-green-40cm",
+          "label_zh": "鼠尾草綠｜40 cm",
+          "label_en": "Sage Green | 40 cm",
+          "cost_cny": "86.00",
+          "retail_hkd": "176.90",
+          "retail_hkd_minor": 17690,
+          "product_id": "prod_V9XLwj1ZW8RZh2",
+          "price_id": "price_1U9EHGRyM6dRKLtZ7N3t6cf1",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NKXcMZlsTlCOVjoJ.png"
+        }
+      ]
+    },
+    {
+      "import_key": "wooden-cat-tower-toy-ball-2026",
+      "name_zh": "木製多層貓咪遊樂架連玩具球",
+      "name_en": "Wooden Multi-Level Cat Tower with Toy Ball",
+      "product_id": "prod_V9XMRVI9UxKWC7",
+      "default_price_id": "price_1U9EHbRyM6dRKLtZkGg0ymtz",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GnAjDYAYYfRldQZr.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "wooden-tower-standard",
+          "label_zh": "木製遊樂架｜標準款",
+          "label_en": "Wooden Tower | Standard",
+          "cost_cny": "48.70",
+          "retail_hkd": "99.90",
+          "retail_hkd_minor": 9990,
+          "product_id": "prod_V9XMRVI9UxKWC7",
+          "price_id": "price_1U9EHbRyM6dRKLtZkGg0ymtz",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/GnAjDYAYYfRldQZr.png"
+        }
+      ]
+    },
+    {
+      "import_key": "blush-pink-round-pet-bed-2026",
+      "name_zh": "豆沙粉圓形寵物窩｜大尺寸",
+      "name_en": "Blush Pink Round Pet Bed | Large",
+      "product_id": "prod_V9XMYpJH6daZiC",
+      "default_price_id": "price_1U9EHsRyM6dRKLtZ4zcoHhWv",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BbbIszrkuiLQLFfi.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wdMiLssQfDRBkEVo.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CTAxrQlJFsWBkroh.png",
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/EfkDvFrSaVpbsqEa.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "blush-pink-large",
+          "label_zh": "豆沙粉｜大尺寸",
+          "label_en": "Blush Pink | Large",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XMYpJH6daZiC",
+          "price_id": "price_1U9EHsRyM6dRKLtZ4zcoHhWv",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BbbIszrkuiLQLFfi.png"
+        },
+        {
+          "variant_key": "grey-large",
+          "label_zh": "灰色｜大尺寸",
+          "label_en": "Grey | Large",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XMYpJH6daZiC",
+          "price_id": "price_1U9EIfRyM6dRKLtZ4gv1CKEc",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wdMiLssQfDRBkEVo.png"
+        },
+        {
+          "variant_key": "light-green-large",
+          "label_zh": "淺綠色｜大尺寸",
+          "label_en": "Light Green | Large",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XMYpJH6daZiC",
+          "price_id": "price_1U9EIxRyM6dRKLtZIEJqYica",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CTAxrQlJFsWBkroh.png"
+        },
+        {
+          "variant_key": "dark-green-large",
+          "label_zh": "深綠色｜大尺寸",
+          "label_en": "Dark Green | Large",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XMYpJH6daZiC",
+          "price_id": "price_1U9EJARyM6dRKLtZMRI3iAWV",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/EfkDvFrSaVpbsqEa.png"
+        }
+      ]
+    },
+    {
+      "import_key": "woven-oval-cat-bed-cream-cushion-2026",
+      "name_zh": "藤編橢圓貓窩連奶白軟墊",
+      "name_en": "Woven Oval Cat Bed with Cream Cushion",
+      "product_id": "prod_V9XMfnlvkKvPPA",
+      "default_price_id": "price_1U9EIBRyM6dRKLtZg90HHf6s",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vfnXlxchqlbJGOAQ.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "woven-oval-cream-standard",
+          "label_zh": "奶白軟墊｜標準款",
+          "label_en": "Cream Cushion | Standard",
+          "cost_cny": "16.58",
+          "retail_hkd": "34.90",
+          "retail_hkd_minor": 3490,
+          "product_id": "prod_V9XMfnlvkKvPPA",
+          "price_id": "price_1U9EIBRyM6dRKLtZg90HHf6s",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vfnXlxchqlbJGOAQ.png"
+        }
+      ]
+    },
+    {
+      "import_key": "beige-low-profile-pet-bed-95x80-2026",
+      "name_zh": "米色低身寵物床｜95 × 80 cm",
+      "name_en": "Beige Low-Profile Pet Bed | 95 × 80 cm",
+      "product_id": "prod_V9XNtfzyTSKGGw",
+      "default_price_id": "price_1U9EIORyM6dRKLtZSTdme5SG",
+      "active": true,
+      "images": [
+        "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PqdMxifcsVYmfyFB.png"
+      ],
+      "variants": [
+        {
+          "variant_key": "beige-95x80",
+          "label_zh": "米色｜95 × 80 cm",
+          "label_en": "Beige | 95 × 80 cm",
+          "cost_cny": "83.70",
+          "retail_hkd": "171.90",
+          "retail_hkd_minor": 17190,
+          "product_id": "prod_V9XNtfzyTSKGGw",
+          "price_id": "price_1U9EIORyM6dRKLtZSTdme5SG",
+          "active": true,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PqdMxifcsVYmfyFB.png"
+        }
+      ]
+    }
+  ]
+}
