@@ -1,0 +1,60 @@
+=== /home/ubuntu/upload/IMG_1927.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1927.JPG",
+  "pixel_width": 704,
+  "pixel_height": 1524,
+  "aspect_ratio": "176:381",
+  "aspect_ratio_decimal_width_over_height": 0.461942,
+  "orientation": "portrait",
+  "tiled": false
+}
+=== /home/ubuntu/upload/IMG_1928.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1928.JPG",
+  "pixel_width": 704,
+  "pixel_height": 1524,
+  "aspect_ratio": "176:381",
+  "aspect_ratio_decimal_width_over_height": 0.461942,
+  "orientation": "portrait",
+  "tiled": false
+}
+=== /home/ubuntu/upload/IMG_1929.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1929.JPG",
+  "pixel_width": 1376,
+  "pixel_height": 768,
+  "aspect_ratio": "43:24",
+  "aspect_ratio_decimal_width_over_height": 1.791667,
+  "orientation": "landscape",
+  "tiled": false
+}
+=== /home/ubuntu/upload/IMG_1930.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1930.JPG",
+  "pixel_width": 704,
+  "pixel_height": 1524,
+  "aspect_ratio": "176:381",
+  "aspect_ratio_decimal_width_over_height": 0.461942,
+  "orientation": "portrait",
+  "tiled": false
+}
+=== /home/ubuntu/upload/IMG_1931.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1931.JPG",
+  "pixel_width": 704,
+  "pixel_height": 1524,
+  "aspect_ratio": "176:381",
+  "aspect_ratio_decimal_width_over_height": 0.461942,
+  "orientation": "portrait",
+  "tiled": false
+}
+=== /home/ubuntu/upload/IMG_1932.JPG ===
+{
+  "source": "/home/ubuntu/upload/IMG_1932.JPG",
+  "pixel_width": 704,
+  "pixel_height": 1524,
+  "aspect_ratio": "176:381",
+  "aspect_ratio_decimal_width_over_height": 0.461942,
+  "orientation": "portrait",
+  "tiled": false
+}

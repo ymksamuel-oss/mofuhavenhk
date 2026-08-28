@@ -1,0 +1,577 @@
+{
+  "generated_at": "2026-08-28",
+  "pricing_policy": "mofu-cny-hkd-multiplier-v1",
+  "source_image_set": [
+    "IMG_1926.JPG",
+    "IMG_1927.JPG",
+    "IMG_1928.JPG",
+    "IMG_1929.JPG",
+    "IMG_1930.JPG",
+    "IMG_1931.JPG",
+    "IMG_1932.JPG"
+  ],
+  "product_count": 18,
+  "variant_count": 30,
+  "created_record_count": 30,
+  "missing_ids": [],
+  "products": [
+    {
+      "import_key": "lion-anti-flea-shampoo-550ml-2026-08-28",
+      "product_id": "prod_V9XseWiHEUO6uJ",
+      "name_zh": "LION 祛蟲止癢寵物香波｜550 ml",
+      "name_en": "LION Anti-Flea & Itch Pet Shampoo | 550 ml",
+      "product_type": "pet shampoo",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "anti-flea-itch-550ml",
+          "label_zh": "祛蟲止癢｜550 ml 正裝",
+          "label_en": "Anti-flea & itch | 550 ml full size",
+          "cost_cny": "40.30",
+          "retail_hkd": "82.90",
+          "retail_hkd_minor": 8290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xSqrTrlZAFfjcVpW.JPG",
+          "image_status": "original_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9XseWiHEUO6uJ",
+          "price_id": "price_1U9En2RyM6dRKLtZip1W7P2h"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-gentle-smooth-shampoo-550ml-2026-08-28",
+      "product_id": "prod_V9Xt1MJfVGjTW6",
+      "name_zh": "LION 低刺激柔順寵物香波｜550 ml",
+      "name_en": "LION Gentle & Smooth Pet Shampoo | 550 ml",
+      "product_type": "pet shampoo",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "gentle-smooth-550ml",
+          "label_zh": "低刺激柔順｜550 ml 正裝",
+          "label_en": "Gentle & smooth | 550 ml full size",
+          "cost_cny": "40.30",
+          "retail_hkd": "82.90",
+          "retail_hkd_minor": 8290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/UVPKOlfAePRIweqw.png",
+          "image_status": "clean_ivory_generated",
+          "product_id": "prod_V9Xt1MJfVGjTW6",
+          "price_id": "price_1U9Eo6RyM6dRKLtZPz2IRENx"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-gentle-smooth-refill-400ml-2026-08-28",
+      "product_id": "prod_V9XuhGJ1oV2wEs",
+      "name_zh": "LION 低刺激柔順寵物香波補充裝｜400 ml",
+      "name_en": "LION Gentle & Smooth Pet Shampoo Refill | 400 ml",
+      "product_type": "pet shampoo refill",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "gentle-smooth-refill-400ml",
+          "label_zh": "補充裝｜400 ml",
+          "label_en": "Refill | 400 ml",
+          "cost_cny": "24.50",
+          "retail_hkd": "50.90",
+          "retail_hkd_minor": 5090,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gWoAqvMZFSRnZdlM.png",
+          "image_status": "clean_ivory_generated",
+          "product_id": "prod_V9XuhGJ1oV2wEs",
+          "price_id": "price_1U9EoSRyM6dRKLtZ4ciEM3wA"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-gentle-smooth-combo-550-400ml-2026-08-28",
+      "product_id": "prod_V9XuQUfHIAZp2T",
+      "name_zh": "LION 低刺激柔順寵物香波套裝｜550 ml＋400 ml",
+      "name_en": "LION Gentle & Smooth Pet Shampoo Set | 550 ml + 400 ml",
+      "product_type": "pet shampoo set",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "gentle-smooth-combo-550-400ml",
+          "label_zh": "正裝＋補充裝｜550 ml＋400 ml",
+          "label_en": "Full size + refill | 550 ml + 400 ml",
+          "cost_cny": "64.90",
+          "retail_hkd": "133.90",
+          "retail_hkd_minor": 13390,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xSqrTrlZAFfjcVpW.JPG",
+          "image_status": "original_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9XuQUfHIAZp2T",
+          "price_id": "price_1U9EouRyM6dRKLtZHVXjmtRK"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-deodorizing-skin-shampoo-550ml-2026-08-28",
+      "product_id": "prod_V9XvgnJs4Ya0kk",
+      "name_zh": "LION 消臭護膚寵物香波｜550 ml",
+      "name_en": "LION Deodorizing & Skin-Care Pet Shampoo | 550 ml",
+      "product_type": "pet shampoo",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "deodorizing-skin-550ml",
+          "label_zh": "消臭護膚｜550 ml",
+          "label_en": "Deodorizing & skin care | 550 ml",
+          "cost_cny": "40.30",
+          "retail_hkd": "82.90",
+          "retail_hkd_minor": 8290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PLvroQwuSPzTyBgJ.png",
+          "image_status": "clean_ivory_generated",
+          "product_id": "prod_V9XvgnJs4Ya0kk",
+          "price_id": "price_1U9EpFRyM6dRKLtZUORE95Mu"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-puppy-kitten-baby-shampoo-230ml-2026-08-28",
+      "product_id": "prod_V9Xv2pYNsd5zQw",
+      "name_zh": "LION 幼犬幼貓嬰兒香型香波｜230 ml",
+      "name_en": "LION Puppy & Kitten Baby-Fragrance Shampoo | 230 ml",
+      "product_type": "pet shampoo",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "puppy-kitten-230ml",
+          "label_zh": "幼犬幼貓｜230 ml",
+          "label_en": "Puppy & kitten | 230 ml",
+          "cost_cny": "29.80",
+          "retail_hkd": "61.90",
+          "retail_hkd_minor": 6190,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SgUmHwqJyfBAoZPX.png",
+          "image_status": "clean_ivory_generated",
+          "product_id": "prod_V9Xv2pYNsd5zQw",
+          "price_id": "price_1U9EpYRyM6dRKLtZ5u3VF5lF"
+        }
+      ]
+    },
+    {
+      "import_key": "lion-cat-gentle-shampoo-330ml-2026-08-28",
+      "product_id": "prod_V9Xvz9aUGYF2Jx",
+      "name_zh": "LION 全貓適用柔順香波｜330 ml",
+      "name_en": "LION Gentle & Smooth Cat Shampoo | 330 ml",
+      "product_type": "cat shampoo",
+      "category": "lifestyle",
+      "subcategory": "清潔除臭及護理",
+      "variants": [
+        {
+          "variant_key": "cat-gentle-330ml",
+          "label_zh": "全貓適用｜330 ml",
+          "label_en": "For cats | 330 ml",
+          "cost_cny": "35.10",
+          "retail_hkd": "72.90",
+          "retail_hkd_minor": 7290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/byuKKyjjmJrdHHvL.png",
+          "image_status": "clean_ivory_generated",
+          "product_id": "prod_V9Xvz9aUGYF2Jx",
+          "price_id": "price_1U9EpuRyM6dRKLtZAQ9gIpF6"
+        }
+      ]
+    },
+    {
+      "import_key": "ceramic-double-bowl-wood-rack-set-m-2026-08-28",
+      "product_id": "prod_V9Xw0AYwwqb21G",
+      "name_zh": "M 中型陶瓷雙碗木架套裝",
+      "name_en": "M-Medium Ceramic Double-Bowl Wood-Stand Set",
+      "product_type": "ceramic double bowl with wood stand",
+      "category": "lifestyle",
+      "subcategory": "食具及餵食",
+      "variants": [
+        {
+          "variant_key": "double-rack-black-white",
+          "label_zh": "黑白款｜爪印／魚骨圖案",
+          "label_en": "Black & white | paw / fish-bone graphic",
+          "cost_cny": "42.20",
+          "retail_hkd": "86.90",
+          "retail_hkd_minor": 8690,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gYZeEkTDjcnkoLjI.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Xw0AYwwqb21G",
+          "price_id": "price_1U9EqQRyM6dRKLtZsf8PhXij"
+        },
+        {
+          "variant_key": "double-rack-yellow-pink",
+          "label_zh": "粉黃款｜魚骨／爪印圖案",
+          "label_en": "Yellow & pink | fish-bone / paw graphic",
+          "cost_cny": "42.20",
+          "retail_hkd": "86.90",
+          "retail_hkd_minor": 8690,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ACOMZDmUjuVHmyVe.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Xw0AYwwqb21G",
+          "price_id": "price_1U9EqiRyM6dRKLtZfMDOBZyM"
+        }
+      ]
+    },
+    {
+      "import_key": "ceramic-single-bowl-wood-stand-m-2026-08-28",
+      "product_id": "prod_V9Xwc2e0gr0VSb",
+      "name_zh": "M 中型陶瓷單碗連木架",
+      "name_en": "M-Medium Ceramic Single Bowl with Wood Stand",
+      "product_type": "ceramic single bowl with wood stand",
+      "category": "lifestyle",
+      "subcategory": "食具及餵食",
+      "variants": [
+        {
+          "variant_key": "stand-bowl-black",
+          "label_zh": "黑色｜單碗連木架",
+          "label_en": "Black | single bowl with stand",
+          "cost_cny": "22.80",
+          "retail_hkd": "46.90",
+          "retail_hkd_minor": 4690,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CrIRDVoVwuiGhtbG.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Xwc2e0gr0VSb",
+          "price_id": "price_1U9Er4RyM6dRKLtZZ69vtiPw"
+        },
+        {
+          "variant_key": "stand-bowl-white",
+          "label_zh": "白色｜單碗連木架",
+          "label_en": "White | single bowl with stand",
+          "cost_cny": "22.80",
+          "retail_hkd": "46.90",
+          "retail_hkd_minor": 4690,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/HHjGwabQTxdairyp.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Xwc2e0gr0VSb",
+          "price_id": "price_1U9ErRRyM6dRKLtZH43P78nI"
+        },
+        {
+          "variant_key": "stand-bowl-pink",
+          "label_zh": "粉色｜單碗連木架",
+          "label_en": "Pink | single bowl with stand",
+          "cost_cny": "22.80",
+          "retail_hkd": "46.90",
+          "retail_hkd_minor": 4690,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nHTYfntIvqltYkqO.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Xwc2e0gr0VSb",
+          "price_id": "price_1U9ErmRyM6dRKLtZuEWj2mSo"
+        }
+      ]
+    },
+    {
+      "import_key": "ceramic-single-cat-bowl-m-2026-08-28",
+      "product_id": "prod_V9Y1mdqJPWonSc",
+      "name_zh": "M 中型陶瓷貓耳單碗",
+      "name_en": "M-Medium Ceramic Cat-Ear Single Bowl",
+      "product_type": "ceramic cat bowl",
+      "category": "lifestyle",
+      "subcategory": "食具及餵食",
+      "variants": [
+        {
+          "variant_key": "ceramic-black-paw",
+          "label_zh": "黑色｜爪印圖案",
+          "label_en": "Black | paw graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ulDCcWStaYtfHUkm.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9EvSRyM6dRKLtZ17avBTDi"
+        },
+        {
+          "variant_key": "ceramic-white-paw",
+          "label_zh": "白色｜爪印圖案",
+          "label_en": "White | paw graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/zjekSNiNurPfdmTH.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9EvkRyM6dRKLtZB32Og160"
+        },
+        {
+          "variant_key": "ceramic-black-fish",
+          "label_zh": "黑色｜魚骨圖案",
+          "label_en": "Black | fish-bone graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/aaESVCddFjmJjcLV.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9EwDRyM6dRKLtZT59tNMqz"
+        },
+        {
+          "variant_key": "ceramic-white-fish",
+          "label_zh": "白色｜魚骨圖案",
+          "label_en": "White | fish-bone graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xRAuJsbYtQSpanog.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9EwYRyM6dRKLtZrsiJFwhs"
+        },
+        {
+          "variant_key": "ceramic-pink-paw",
+          "label_zh": "粉色｜爪印圖案",
+          "label_en": "Pink | paw graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/zNNMnlzVKsGaugQK.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9EwvRyM6dRKLtZPe0Lke8F"
+        },
+        {
+          "variant_key": "ceramic-pink-fish",
+          "label_zh": "粉色｜魚骨圖案",
+          "label_en": "Pink | fish-bone graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vsIugvvhYKqEnGRk.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9ExERyM6dRKLtZeihrAIJN"
+        },
+        {
+          "variant_key": "ceramic-yellow-paw",
+          "label_zh": "奶黃色｜爪印圖案",
+          "label_en": "Pale yellow | paw graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/WAlIgzyLyNtTCeQD.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9ExZRyM6dRKLtZXeu79MmV"
+        },
+        {
+          "variant_key": "ceramic-yellow-fish",
+          "label_zh": "奶黃色｜魚骨圖案",
+          "label_en": "Pale yellow | fish-bone graphic",
+          "cost_cny": "16.00",
+          "retail_hkd": "32.90",
+          "retail_hkd_minor": 3290,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BTUyVWGdWnjhNVkI.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y1mdqJPWonSc",
+          "price_id": "price_1U9ExwRyM6dRKLtZRd39M6L6"
+        }
+      ]
+    },
+    {
+      "import_key": "ceramic-cat-bowl-pair-m-2026-08-28",
+      "product_id": "prod_V9Y4JpAQ1jvAt6",
+      "name_zh": "M 中型陶瓷貓耳雙碗成對",
+      "name_en": "M-Medium Ceramic Cat-Ear Bowl Pair",
+      "product_type": "ceramic cat bowl pair",
+      "category": "lifestyle",
+      "subcategory": "食具及餵食",
+      "variants": [
+        {
+          "variant_key": "bowl-pair-black",
+          "label_zh": "黑色｜雙碗成對",
+          "label_en": "Black | pair of bowls",
+          "cost_cny": "32.00",
+          "retail_hkd": "65.90",
+          "retail_hkd_minor": 6590,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sWUpGvDbFyPrnBEy.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y4JpAQ1jvAt6",
+          "price_id": "price_1U9EyHRyM6dRKLtZyjVFLraI"
+        },
+        {
+          "variant_key": "bowl-pair-pink",
+          "label_zh": "粉色｜雙碗成對",
+          "label_en": "Pink | pair of bowls",
+          "cost_cny": "32.00",
+          "retail_hkd": "65.90",
+          "retail_hkd_minor": 6590,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BmMLpTpOeWXFERzo.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y4JpAQ1jvAt6",
+          "price_id": "price_1U9EybRyM6dRKLtZq04neiOP"
+        }
+      ]
+    },
+    {
+      "import_key": "woven-cat-bed-blue-mat-cooling-35cm-2026-08-28",
+      "product_id": "prod_V9Y5RhMSTE4GLo",
+      "name_zh": "藤編貓窩連藍墊及涼席｜直徑 35 cm",
+      "name_en": "Woven Cat Bed with Blue Mat and Cooling Mat | 35 cm",
+      "product_type": "woven cat bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "woven-blue-mat-cooling-35cm",
+          "label_zh": "藍墊＋涼席｜直徑 35 cm",
+          "label_en": "Blue mat + cooling mat | 35 cm",
+          "cost_cny": "17.30",
+          "retail_hkd": "35.90",
+          "retail_hkd_minor": 3590,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/XOrqcZczgzJtqEKO.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y5RhMSTE4GLo",
+          "price_id": "price_1U9Ez0RyM6dRKLtZqB3U0MCv"
+        }
+      ]
+    },
+    {
+      "import_key": "woven-cat-bed-blue-cushion-cooling-35cm-2026-08-28",
+      "product_id": "prod_V9Y5QKY3xx8Bzq",
+      "name_zh": "藤編貓窩連藍墊／靠枕及涼席｜直徑 35 cm",
+      "name_en": "Woven Cat Bed with Blue Cushion and Cooling Mat | 35 cm",
+      "product_type": "woven cat bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "woven-blue-cushion-cooling-35cm",
+          "label_zh": "藍墊／靠枕＋涼席｜直徑 35 cm",
+          "label_en": "Blue cushion + cooling mat | 35 cm",
+          "cost_cny": "19.10",
+          "retail_hkd": "39.90",
+          "retail_hkd_minor": 3990,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/DkfJHAjfTACTYHDv.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y5QKY3xx8Bzq",
+          "price_id": "price_1U9EzMRyM6dRKLtZZEzIwAOo"
+        }
+      ]
+    },
+    {
+      "import_key": "woven-cat-bed-empty-cooling-35cm-2026-08-28",
+      "product_id": "prod_V9Y5nO6vxFvP1n",
+      "name_zh": "藤編貓窩空窩連白墊及涼席｜直徑 35 cm",
+      "name_en": "Woven Empty Cat Bed with White Cushion and Cooling Mat | 35 cm",
+      "product_type": "woven cat bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "woven-empty-white-cushion-cooling-35cm",
+          "label_zh": "空窩＋白墊／靠枕＋涼席｜直徑 35 cm",
+          "label_en": "Empty bed + white cushion + cooling mat | 35 cm",
+          "cost_cny": "19.10",
+          "retail_hkd": "39.90",
+          "retail_hkd_minor": 3990,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/uvjBvwfdHYiJgZGr.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y5nO6vxFvP1n",
+          "price_id": "price_1U9EzlRyM6dRKLtZdIEExHRY"
+        }
+      ]
+    },
+    {
+      "import_key": "cat-house-bed-cushion-cooling-2026-08-28",
+      "product_id": "prod_V9Y6etOV7fllCK",
+      "name_zh": "貓屋連白墊及涼席｜小號",
+      "name_en": "Small Cat House with White Cushion and Cooling Mat",
+      "product_type": "cat house bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "cat-house-white-cushion-cooling-small",
+          "label_zh": "白墊＋涼席｜小號",
+          "label_en": "White cushion + cooling mat | Small",
+          "cost_cny": "112.00",
+          "retail_hkd": "229.90",
+          "retail_hkd_minor": 22990,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/dPebVPzYGoriugWR.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y6etOV7fllCK",
+          "price_id": "price_1U9F0XRyM6dRKLtZqan5umVl"
+        }
+      ]
+    },
+    {
+      "import_key": "small-medium-dog-bed-48x57-2026-08-28",
+      "product_id": "prod_V9Y7NFcWJmCnr8",
+      "name_zh": "中小型犬床｜48 × 57 cm",
+      "name_en": "Small-to-Medium Dog Bed | 48 × 57 cm",
+      "product_type": "dog bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "dog-bed-pink-48x57",
+          "label_zh": "粉色｜48 × 57 cm",
+          "label_en": "Pink | 48 × 57 cm",
+          "cost_cny": "48.95",
+          "retail_hkd": "100.90",
+          "retail_hkd_minor": 10090,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/IXTWyIUBIAqbzUaP.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y7NFcWJmCnr8",
+          "price_id": "price_1U9F0uRyM6dRKLtZqtxHmpex"
+        },
+        {
+          "variant_key": "dog-bed-blue-48x57",
+          "label_zh": "藍色｜48 × 57 cm",
+          "label_en": "Blue | 48 × 57 cm",
+          "cost_cny": "48.95",
+          "retail_hkd": "100.90",
+          "retail_hkd_minor": 10090,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/fDJQxEbfrJHZuUqK.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y7NFcWJmCnr8",
+          "price_id": "price_1U9F1FRyM6dRKLtZHzmhgSl8"
+        }
+      ]
+    },
+    {
+      "import_key": "blue-large-ear-dog-round-bed-s-2026-08-28",
+      "product_id": "prod_V9Y7mq2b3zVzul",
+      "name_zh": "藍色大耳狗圓窩｜S",
+      "name_en": "Blue Large-Ear Dog Round Bed | S",
+      "product_type": "dog bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "blue-large-ear-round-s",
+          "label_zh": "藍色｜S 號",
+          "label_en": "Blue | Size S",
+          "cost_cny": "73.29",
+          "retail_hkd": "150.90",
+          "retail_hkd_minor": 15090,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/quXAqOsqMzgqSiTD.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y7mq2b3zVzul",
+          "price_id": "price_1U9F1eRyM6dRKLtZUb2iYfMo"
+        }
+      ]
+    },
+    {
+      "import_key": "pink-large-dog-bed-75x65-2026-08-28",
+      "product_id": "prod_V9Y8y9TIgSPDXh",
+      "name_zh": "粉色大型犬床｜75 × 65 cm",
+      "name_en": "Pink Large Dog Bed | 75 × 65 cm",
+      "product_type": "dog bed",
+      "category": "lifestyle",
+      "subcategory": "睡窩及家居",
+      "variants": [
+        {
+          "variant_key": "pink-large-dog-bed-75x65",
+          "label_zh": "粉色｜75 × 65 cm",
+          "label_en": "Pink | 75 × 65 cm",
+          "cost_cny": "65.74",
+          "retail_hkd": "134.90",
+          "retail_hkd_minor": 13490,
+          "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/YIybAKjtZCzPaNqk.png",
+          "image_status": "original_cropped_screenshot_pending_clean_ivory",
+          "product_id": "prod_V9Y8y9TIgSPDXh",
+          "price_id": "price_1U9F1zRyM6dRKLtZ0T5Yt9lZ"
+        }
+      ]
+    }
+  ]
+}

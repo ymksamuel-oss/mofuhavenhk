@@ -1,0 +1,195 @@
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_rack_black_white.png (size: 132714 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/rGhDJazCfGaCOMVn.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_rack_yellow_pink.png (size: 126148 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ACOMZDmUjuVHmyVe.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_black.png (size: 93679 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CrIRDVoVwuiGhtbG.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_pink.png (size: 110828 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nHTYfntIvqltYkqO.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_pink_lower.png (size: 94572 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/bPYBzEzIYOtuxFsi.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_black.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_black.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink_lower.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink_lower.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_white.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_white.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_yellow.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_yellow.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_paw.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_paw.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_fish.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_fish.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_fish.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/double_bowl_black_pair.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/double_bowl_black_pair.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/pink_bowl_pair.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/pink_bowl_pair.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_paw.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_fish.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_mat_chopsticks.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_mat_chopsticks.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_cushion.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_cushion.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_empty.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_empty.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/white_cat_house_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/white_cat_house_bed.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/pink_small_medium_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/pink_small_medium_dog_bed.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/blue_small_medium_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/blue_small_medium_dog_bed.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/blue_large_ear_dog_round_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/blue_large_ear_dog_round_bed.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1926/pink_large_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/pink_large_dog_bed.png
+
+========== Upload Summary ==========
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_rack_black_white.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/rGhDJazCfGaCOMVn.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_rack_yellow_pink.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ACOMZDmUjuVHmyVe.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_black.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/CrIRDVoVwuiGhtbG.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_pink.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/nHTYfntIvqltYkqO.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1927/single_bowl_rack_pink_lower.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/bPYBzEzIYOtuxFsi.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_black.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_black.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink_lower.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/single_bowl_rack_pink_lower.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_white.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_white.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_yellow.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/double_bowl_rack_yellow.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_paw.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_paw.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_black_fish.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_white_fish.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_fish.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/double_bowl_black_pair.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/double_bowl_black_pair.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/pink_bowl_pair.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/pink_bowl_pair.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_paw.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_fish.png: file does not exist: /home/ubuntu/webdev-static-assets/img1928/ceramic_single_yellow_fish.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_mat_chopsticks.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_mat_chopsticks.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_cushion.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_blue_cushion.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_empty.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/woven_cat_bed_empty.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/white_cat_house_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/white_cat_house_bed.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/pink_small_medium_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/pink_small_medium_dog_bed.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/blue_small_medium_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/blue_small_medium_dog_bed.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/blue_large_ear_dog_round_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/blue_large_ear_dog_round_bed.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1926/pink_large_dog_bed.png: file does not exist: /home/ubuntu/webdev-static-assets/img1926/pink_large_dog_bed.png
+=====================================
+Total: 28, Success: 5, Failed: 23
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_black.png (size: 63274 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/HHjGwabQTxdairyp.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_pink.png (size: 57594 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/iFwjhNjyERGHHWtS.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_pink_lower.png (size: 55224 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NyTGhoENDIpPWJGD.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/double_bowl_rack_white.png (size: 151789 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wQMnVIVYxDcvAAzk.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/double_bowl_rack_yellow.png (size: 144565 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/KCgNZHAJJrUHQIzs.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_black_paw.png (size: 145350 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ulDCcWStaYtfHUkm.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_white_paw.png (size: 115375 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/zjekSNiNurPfdmTH.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_black_fish.png (size: 130242 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/aaESVCddFjmJjcLV.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_white_fish.png (size: 109764 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xRAuJsbYtQSpanog.png
+[FAILED] /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_pink_fish.png (size: 107 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vsIugvvhYKqEnGRk.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_black_pair.png (size: 128792 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sWUpGvDbFyPrnBEy.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/pink_bowl_pair.png (size: 112 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BmMLpTpOeWXFERzo.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/ceramic_single_yellow_paw.png (size: 100108 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/WAlIgzyLyNtTCeQD.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/ceramic_single_yellow_fish.png (size: 112361 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BTUyVWGdWnjhNVkI.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_blue_mat_chopsticks.png (size: 153625 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/XOrqcZczgzJtqEKO.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_blue_cushion.png (size: 150545 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/DkfJHAjfTACTYHDv.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_empty.png (size: 144362 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/uvjBvwfdHYiJgZGr.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/white_cat_house_bed.png (size: 99955 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/dPebVPzYGoriugWR.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/pink_small_medium_dog_bed.png (size: 174409 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/IXTWyIUBIAqbzUaP.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/blue_small_medium_dog_bed.png (size: 184854 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/fDJQxEbfrJHZuUqK.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/blue_large_ear_dog_round_bed.png (size: 205657 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/quXAqOsqMzgqSiTD.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/pink_large_dog_bed.png (size: 145325 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/YIybAKjtZCzPaNqk.png
+
+========== Upload Summary ==========
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_black.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/HHjGwabQTxdairyp.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_pink.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/iFwjhNjyERGHHWtS.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/single_bowl_rack_pink_lower.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/NyTGhoENDIpPWJGD.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/double_bowl_rack_white.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/wQMnVIVYxDcvAAzk.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/double_bowl_rack_yellow.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/KCgNZHAJJrUHQIzs.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_black_paw.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/ulDCcWStaYtfHUkm.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_white_paw.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/zjekSNiNurPfdmTH.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_black_fish.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/aaESVCddFjmJjcLV.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_white_fish.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xRAuJsbYtQSpanog.png
+[FAILED]  /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png: file does not exist: /home/ubuntu/webdev-static-assets/img1929/single_bowl_pink_paw.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_pink_fish.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/vsIugvvhYKqEnGRk.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/double_bowl_black_pair.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sWUpGvDbFyPrnBEy.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/pink_bowl_pair.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BmMLpTpOeWXFERzo.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/ceramic_single_yellow_paw.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/WAlIgzyLyNtTCeQD.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1928/ceramic_single_yellow_fish.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/BTUyVWGdWnjhNVkI.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_blue_mat_chopsticks.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/XOrqcZczgzJtqEKO.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_blue_cushion.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/DkfJHAjfTACTYHDv.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/woven_cat_bed_empty.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/uvjBvwfdHYiJgZGr.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/white_cat_house_bed.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/dPebVPzYGoriugWR.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/pink_small_medium_dog_bed.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/IXTWyIUBIAqbzUaP.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/blue_small_medium_dog_bed.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/fDJQxEbfrJHZuUqK.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/blue_large_ear_dog_round_bed.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/quXAqOsqMzgqSiTD.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1926/pink_large_dog_bed.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/YIybAKjtZCzPaNqk.png
+=====================================
+Total: 23, Success: 22, Failed: 1
+Uploading file: /home/ubuntu/webdev-static-assets/img1927_1932_refs/IMG_1929/single_bowl_pink_paw.png (size: 89 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/zNNMnlzVKsGaugQK.png

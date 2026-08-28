@@ -1,0 +1,4 @@
+Uploading file: /home/ubuntu/upload/IMG_1926.JPG (size: 238442 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/fpnzlspHxJgHDZEN.JPG

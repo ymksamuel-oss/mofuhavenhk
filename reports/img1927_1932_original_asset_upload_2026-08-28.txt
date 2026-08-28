@@ -1,0 +1,34 @@
+Uploading file: /home/ubuntu/upload/IMG_1927.JPG (size: 183061 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gYZeEkTDjcnkoLjI.JPG
+Uploading file: /home/ubuntu/upload/IMG_1928.JPG (size: 183764 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/rsgqnelBNlqbiFjA.JPG
+Uploading file: /home/ubuntu/upload/IMG_1929.JPG (size: 251662 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xaEXMlZbcBOZnaCO.JPG
+Uploading file: /home/ubuntu/upload/IMG_1930.JPG (size: 202294 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/UwnLzxccDufJKmco.JPG
+Uploading file: /home/ubuntu/upload/IMG_1931.JPG (size: 253357 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/QNhzyKPcLXDecIXJ.JPG
+Uploading file: /home/ubuntu/upload/IMG_1932.JPG (size: 251951 bytes)
+Upload timeout: 2m0s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xSqrTrlZAFfjcVpW.JPG
+
+========== Upload Summary ==========
+[SUCCESS] /home/ubuntu/upload/IMG_1927.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gYZeEkTDjcnkoLjI.JPG
+[SUCCESS] /home/ubuntu/upload/IMG_1928.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/rsgqnelBNlqbiFjA.JPG
+[SUCCESS] /home/ubuntu/upload/IMG_1929.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xaEXMlZbcBOZnaCO.JPG
+[SUCCESS] /home/ubuntu/upload/IMG_1930.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/UwnLzxccDufJKmco.JPG
+[SUCCESS] /home/ubuntu/upload/IMG_1931.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/QNhzyKPcLXDecIXJ.JPG
+[SUCCESS] /home/ubuntu/upload/IMG_1932.JPG -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/xSqrTrlZAFfjcVpW.JPG
+=====================================
+Total: 6, Success: 6, Failed: 0

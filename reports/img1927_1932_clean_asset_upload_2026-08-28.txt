@@ -1,0 +1,39 @@
+Uploading file: /home/ubuntu/webdev-static-assets/img1932-lion-anti-flea-550ml.png (size: 2513390 bytes)
+Upload timeout: 2m20s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/YUzPCNVZeSncWrXH.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1932-lion-smooth-550ml.png (size: 3029820 bytes)
+Upload timeout: 2m20s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/UVPKOlfAePRIweqw.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1932-lion-smooth-refill-400ml.png (size: 3877210 bytes)
+Upload timeout: 2m30s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gWoAqvMZFSRnZdlM.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1932-lion-smooth-combo-550ml-400ml.png (size: 2821764 bytes)
+Upload timeout: 2m20s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/oBUnBZPvMkKVhuZo.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1931-lion-deodorizing-skin-550ml.png (size: 3591699 bytes)
+Upload timeout: 2m30s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PLvroQwuSPzTyBgJ.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1931-lion-puppy-kitten-230ml.png (size: 2317024 bytes)
+Upload timeout: 2m20s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SgUmHwqJyfBAoZPX.png
+Uploading file: /home/ubuntu/webdev-static-assets/img1931-lion-cat-smooth-330ml.png (size: 2299157 bytes)
+Upload timeout: 2m20s
+File uploaded successfully!
+CDN URL: https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/byuKKyjjmJrdHHvL.png
+
+========== Upload Summary ==========
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1932-lion-anti-flea-550ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/YUzPCNVZeSncWrXH.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1932-lion-smooth-550ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/UVPKOlfAePRIweqw.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1932-lion-smooth-refill-400ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/gWoAqvMZFSRnZdlM.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1932-lion-smooth-combo-550ml-400ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/oBUnBZPvMkKVhuZo.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1931-lion-deodorizing-skin-550ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/PLvroQwuSPzTyBgJ.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1931-lion-puppy-kitten-230ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/SgUmHwqJyfBAoZPX.png
+[SUCCESS] /home/ubuntu/webdev-static-assets/img1931-lion-cat-smooth-330ml.png -> https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/byuKKyjjmJrdHHvL.png
+=====================================
+Total: 7, Success: 7, Failed: 0
