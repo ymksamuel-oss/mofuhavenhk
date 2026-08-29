@@ -129,3 +129,10 @@
 - [ ] 定位並修正 Visa／Mastercard checkout 按鈕無反應及 Stripe Elements 未顯示問題
 - [ ] 執行測試與 production build，推送修正至 GitHub main 並確認 Vercel READY
 - [ ] 重新驗證付款流程後才進行 live 付款、email 核對及退款
+
+## 商品頁官方 FAQ 嵌入（2026-08-29）
+- [ ] 檢查商品詳情頁底部現有模組與共用樣式
+- [ ] 加入官方 FAQ Q&A 區塊並保持響應式版面
+- [ ] 執行 lint、typecheck、測試及 production build
+- [ ] 開啟商品頁預覽並核對 FAQ 顯示在最下方
+- [ ] 保存可回復版本並交付預覽連結

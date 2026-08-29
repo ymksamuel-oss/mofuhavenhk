@@ -6,6 +6,7 @@ import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductImage } from "@/components/product/ProductImage";
 import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
@@ -466,6 +467,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       <FAQAccordion />
+      <ProductFAQ />
 
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
         <div className="mx-auto flex w-full max-w-5xl items-end gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] pt-3">
