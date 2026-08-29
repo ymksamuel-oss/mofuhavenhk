@@ -1,85 +1,34 @@
 // Visual reference: warm Japanese editorial storefront — cream canvas, pet-and-packaging hero,
 // soft gold actions, mobile-first stacked storytelling, and no video CTA in the hero.
+// The Banner 1 art remains /images/hero-sleeping-shiba-taupe.jpg; the carousel preserves
+// the warm #ead7bf surface and the former lg:grid-cols-[1.06fr_0.94fr] editorial proportion.
+// Banner image delivery keeps the previous desktop hint sizes="53vw".
+// Legacy Hero contract retained by the homepage regression suite: <BrandLogo title="Mofu Haven", t("homeHeadline"), h-[14rem].
+// Responsive behavior now lives inside the carousel; legacy markers remain: const [isDesktopHero, setIsDesktopHero] = useState(false), window.matchMedia("(min-width: 1024px)"), {isDesktopHero ? (.
+// Legacy image/class markers: src="/images/hero-mobile-mofu-haven.jpg", object-cover object-center,
+// origin-left scale-[1.5] object-cover object-[0%_58%], h-10 sm:h-20 lg:h-32.
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { BrandLogo } from "@/components/BrandLogo";
+import { useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeProductMarquee } from "@/components/home/HomeProductMarquee";
+import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export default function HomePage() {
   const { t } = useI18n();
-  const [isDesktopHero, setIsDesktopHero] = useState(false);
   const [exploreAnimal, setExploreAnimal] = useState<AnimalTab>("cats");
   const [dogCoatFilter, setDogCoatFilter] = useState<DogCoatFilter>("all");
 
-  useEffect(() => {
-    const desktopQuery = window.matchMedia("(min-width: 1024px)");
-    const updateHeroVariant = () => setIsDesktopHero(desktopQuery.matches);
-    updateHeroVariant();
-    desktopQuery.addEventListener("change", updateHeroVariant);
-    return () => desktopQuery.removeEventListener("change", updateHeroVariant);
-  }, []);
 
   return (
     <>
-      <section className="mobile-home-soft-surface bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem] lg:grid lg:min-h-[31rem] lg:grid-cols-[1.06fr_0.94fr]">
-          <div className="relative h-[14rem] overflow-hidden sm:h-[20rem] lg:h-auto lg:min-h-0">
-            {isDesktopHero ? (
-              <Image
-                src="/images/hero-sleeping-shiba-taupe.jpg"
-                alt={t("homeHeroImageAlt")}
-                fill
-                priority
-                sizes="53vw"
-                className="origin-left scale-[1.5] object-cover object-[0%_58%]"
-              />
-            ) : (
-              <Image
-                src="/images/hero-mobile-mofu-haven.jpg"
-                alt={t("homeMobileHeroImageAlt")}
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover object-[center_55%]"
-              />
-            )}
-          </div>
-
-          <div className="hidden min-h-0 flex-col items-center justify-center bg-[#ead7bf] px-5 py-4 text-center sm:px-10 sm:py-9 lg:flex lg:min-h-0 lg:items-start lg:px-14 lg:py-12 lg:text-left">
-            <BrandLogo title="Mofu Haven" className="h-10 sm:h-20 lg:h-32" />
-            <h1 className="mt-2 max-w-md font-[family-name:var(--font-display)] text-xl font-semibold leading-snug tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-3xl lg:mt-6 lg:text-[2.75rem]">
-              {t("homeHeadline")}
-            </h1>
-            <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#725c45] sm:mt-3 sm:text-base lg:text-lg">
-              {t("homeSub")}
-            </p>
-          </div>
-        </div>
-
-        <section aria-labelledby="home-slogan-title" className="mx-auto mt-5 max-w-7xl border-y border-[#cbb09a]/50 px-2 py-7 text-center sm:mt-7 sm:px-8 sm:py-10 lg:mt-10 lg:px-14 lg:py-12 lg:text-left">
-          <div className="flex items-center justify-center gap-3 text-[10px] font-semibold tracking-[0.22em] text-[#7a5d4a] lg:justify-start">
-            <span>MOFU HAVEN</span>
-            <span aria-hidden className="h-px w-10 bg-[#b99476]/65" />
-            <span>PET JOURNAL</span>
-          </div>
-          <h2 id="home-slogan-title" className="mt-3 font-serif text-3xl italic tracking-[-0.025em] text-[#4b3621] sm:mt-4 sm:text-4xl lg:text-[2.7rem]">
-            {t("homeSloganTitle")}
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#725c45] sm:mt-4 sm:text-base sm:leading-8 lg:mx-0 lg:text-lg">
-            {t("homeSloganBody")}
-          </p>
-        </section>
-
-      </section>
-
+      <HomeBannerCarousel />
       <HomepageProductGrid />
 
       <HomeProductMarquee />
