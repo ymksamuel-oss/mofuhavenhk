@@ -21,3 +21,7 @@
 ## Notes
 
 The three images show the same bowl shape and series, with different printed patterns, so they were correctly grouped as one product with three selectable pattern variants. The first local script attempt did not write to Stripe because the expected environment variable was unavailable; the final live sync was completed through the authorized Stripe connector.
+
+## Production catalog verification
+
+The production product page `https://www.mofuhavenhk.com/product/prod_VAEW6CWhv8mNOy` loaded successfully. The page showed all three selectable variants at HK$69.90: 老鼠音符圖案, 熊仔曲奇圖案, and 彩虹雨天圖案. Selecting 熊仔曲奇圖案 updated the main image source to the corresponding CDN image. Browser resource inspection confirmed the main image loaded at natural size 640×640 and all three variant thumbnails loaded at 48×48; no image load failure was observed.

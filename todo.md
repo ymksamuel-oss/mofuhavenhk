@@ -147,9 +147,9 @@
 - [ ] 使用者確認後才合併 main／確認 Production 上線
 
 ## 新增產品 ZIP：3 款同系列（CNY 34／2026-08-30）
-- [ ] 解壓及盤點 ZIP 內 3 款產品圖片／名稱／款式資料
-- [ ] 按既定公式計算 CNY 34 的 HKD 零售價並確認三款是否獨立產品或變體
-- [ ] 清理圖片：移除簡體中文、使用米白 `#F7F1E6` 背景，或標記待日後清理
-- [ ] 建立 SKU、Stripe metadata、產品及價格資料
-- [ ] 同步至 Stripe live 及網站 product catalog
-- [ ] 驗證三款產品頁、價格、圖片及變體選擇後交付結果
+- [x] 解壓及盤點 ZIP 內 3 款產品圖片／名稱／款式資料
+- [x] 按既定公式計算 CNY 34 的 HKD 零售價並確認三款是否獨立產品或變體（同一產品、3 個圖案變體；HK$69.90）
+- [x] 清理圖片：移除簡體中文、使用米白 `#F7F1E6` 背景，或標記待日後清理（3 張已清理）
+- [x] 建立 SKU、Stripe metadata、產品及價格資料（Product `prod_VAEW6CWhv8mNOy`；3 個 Price）
+- [x] 同步至 Stripe live 及網站 product catalog
+- [x] 驗證三款產品頁、價格、圖片及變體選擇後交付結果（production 頁面及三個主圖映射已核對）
