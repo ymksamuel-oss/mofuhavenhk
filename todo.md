@@ -131,8 +131,8 @@
 - [ ] 重新驗證付款流程後才進行 live 付款、email 核對及退款
 
 ## 商品頁官方 FAQ 嵌入（2026-08-29）
-- [ ] 檢查商品詳情頁底部現有模組與共用樣式
-- [ ] 加入官方 FAQ Q&A 區塊並保持響應式版面
-- [ ] 執行 lint、typecheck、測試及 production build
-- [ ] 開啟商品頁預覽並核對 FAQ 顯示在最下方
-- [ ] 保存可回復版本並交付預覽連結
+- [x] 檢查商品詳情頁底部現有模組與共用樣式
+- [x] 加入官方 FAQ Q&A 區塊並保持響應式版面
+- [x] 執行 typecheck、Vitest 及 production build（19 files／91 tests 通過；build 成功）
+- [x] 開啟商品頁預覽並核對 FAQ 顯示在最下方（Vercel deployment READY）
+- [x] 保存可回復版本並交付預覽連結（commit `73a22ff0b2e4217972bbc9f4cc1f640e30c6b8a9`；deployment `dpl_AmKj9ZUY846t71hatwcjenKZ5Hdw`）
