@@ -129,3 +129,12 @@
 - [ ] 定位並修正 Visa／Mastercard checkout 按鈕無反應及 Stripe Elements 未顯示問題
 - [ ] 執行測試與 production build，推送修正至 GitHub main 並確認 Vercel READY
 - [ ] 重新驗證付款流程後才進行 live 付款、email 核對及退款
+
+## 首頁 Banner Carousel（2026-08-29）
+- [x] 盤點首頁 Hero 結構及可重用圖片資源
+- [x] 加入最多 4 張 Banner 設定、標題、副標題及 CTA
+- [x] 實作每 4 秒自動播放、左右箭頭及底部指示點
+- [x] 驗證手機／桌面響應式結構、鍵盤焦點、暫停及無障礙標籤（本地互動核對 Banner 2、Dots、transform 及 aria-selected）
+- [x] 執行 Vitest 及 production build（19 files／91 tests 通過；Next.js production build 成功；既有 `stripe.ts` SDK API version TypeScript baseline error 未由本次修改引入）
+- [x] 提交 GitHub feature branch 並建立 Vercel Preview（commit `a7fdae424691cb888921c58f99e516b37250f317`；deployment `dpl_GMaTdA2uxeTSFN9bBp2Ff8T3X7kB` READY）
+- [ ] 正式 production 上線（待 Vercel Publish／合併 main 前由使用者確認）
