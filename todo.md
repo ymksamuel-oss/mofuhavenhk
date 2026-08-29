@@ -159,4 +159,4 @@
 - [x] 核對 Stripe Product `prod_VAFniUtMCrysZl` 的主圖及 6 張 gallery URL
 - [x] 確認 `next.config.js`／Next config 已授權兩個 Blob image hostname（已更新 `next.config.ts`）
 - [x] 執行 URL HTTP 200、Image hostname 設定及 production build checks（6 張均 HTTP 200；Vitest 19／91 通過；tsc 通過；不開啟 Browser Preview）
-- [ ] 提交修正至 GitHub main 並確認 Production deployment
+- [x] 提交修正至 GitHub main 並確認 Production deployment（commit `6ba053a4`；deployment `dpl_6xq2iom1UVxpDBF2QuKn5LywyBd6` READY；deployment URL HTTP 200）
