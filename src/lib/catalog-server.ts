@@ -3,6 +3,8 @@ import "server-only";
 import Stripe from "stripe";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
+import { RECENT_FALLBACK_PRODUCTS } from "@/lib/catalog-recent-fallback";
 import {
   CAT_SNACK_SERIES,
   categorySlugFromMetadata,
@@ -29,9 +31,27 @@ import { resolveProductVariantImage } from "./product-variant-images";
 
 export type CatalogSnapshot = {
   products: Product[];
-  source: "stripe";
+  source: "stripe" | "fallback";
   matchedRecords: number;
 };
+
+/**
+ * Git-backed catalog used when Stripe is unavailable or returns no usable
+ * products. Checkout remains server-authoritative and re-validates prices.
+ */
+const FALLBACK_PRODUCTS: Product[] = VERIFIED_FALLBACK_PRODUCTS;
+
+function fallbackCatalogSnapshot(): CatalogSnapshot {
+  const products = uniqueProductsById([
+    ...FALLBACK_PRODUCTS,
+    ...RECENT_FALLBACK_PRODUCTS,
+  ]);
+  return {
+    products,
+    source: "fallback",
+    matchedRecords: products.length,
+  };
+}
 
 /** Internal marker handled by ProductImage as a CSS-only missing-image state. */
 const CATALOG_IMAGE_FALLBACK = "catalog-placeholder";
@@ -505,6 +525,9 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
       .filter(isStorefrontReadyProduct),
   ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
+  if (products.length === 0) {
+    throw new Error("Stripe catalog has no active HKD products");
+  }
   return { products, source: "stripe", matchedRecords: products.length };
 }
 
@@ -574,7 +597,10 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
   } catch (error) {
-    console.error("Storefront Stripe catalog fetch failed", stripeErrorDetails(error));
-    return { products: [], source: "stripe", matchedRecords: 0 };
+    console.error(
+      "Storefront Stripe catalog fetch failed; using verified fallback catalog",
+      stripeErrorDetails(error),
+    );
+    return fallbackCatalogSnapshot();
   }
 }
