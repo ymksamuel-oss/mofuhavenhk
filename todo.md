@@ -154,3 +154,9 @@
 - [x] Vitest 19 files／91 tests 通過；TypeScript 通過
 - [x] Next／GitHub production build：本地 Next 16.3.3 仍有既有 `/_global-error` prerender 的 React `useContext` null 環境錯誤；GitHub `build` check 已成功
 - [x] 提交變更至 GitHub main，確認 Vercel Production 回應 HTTP 200 並顯示新商品、HK$56.90 及 IMG_1465.JPG–IMG_1470.JPG
+
+## 保暖花朵寵物窩圖片 URL 修正（2026-08-30）
+- [x] 核對 Stripe Product `prod_VAFniUtMCrysZl` 的主圖及 6 張 gallery URL
+- [x] 確認 `next.config.js`／Next config 已授權兩個 Blob image hostname（已更新 `next.config.ts`）
+- [x] 執行 URL HTTP 200、Image hostname 設定及 production build checks（6 張均 HTTP 200；Vitest 19／91 通過；tsc 通過；不開啟 Browser Preview）
+- [ ] 提交修正至 GitHub main 並確認 Production deployment
