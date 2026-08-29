@@ -1,0 +1,55 @@
+{
+  "pricing_basis": {
+    "currency_cost": "CNY",
+    "cost_cny": 34.0,
+    "cny_to_hkd": 1.1654,
+    "target_product_margin": 0.45,
+    "upward_price_ending": ".90",
+    "source_shipping_hkd": 0,
+    "unrounded_retail_hkd": 69.737536,
+    "retail_hkd": 69.9,
+    "pricing_rule": "ceil((CNY cost × 1.1654 × 1.76) - 0.90) + 0.90"
+  },
+  "category": {
+    "category_slug": "lifestyle",
+    "subcategory": "食具及餵食",
+    "pet_type": "cats"
+  },
+  "products": [
+    {
+      "import_key": "ceramic-pet-bowl-illustration-series-20260830",
+      "sku": "mofu-ceramic-pet-bowl-illustration-series",
+      "name_zh": "趣味插畫陶瓷寵物食碗系列",
+      "name_en": "Illustrated Ceramic Pet Bowl Series",
+      "description_zh": "米白釉面陶瓷寵物食碗，同系列提供三款趣味插畫圖案；請按毛孩需要及實際尺寸選擇。",
+      "description_en": "An ivory glazed ceramic pet bowl series with three playful illustrated patterns; choose according to your pet's needs and the actual product dimensions.",
+      "cost_cny": 34.0,
+      "base_price_hkd": 69.737536,
+      "retail_hkd": 69.9,
+      "source_image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/mOSJOXIskfjwFxxj.png",
+      "variants": [
+        {
+          "key": "illustration-mice-music",
+          "sku": "mofu-ceramic-pet-bowl-illustration-mice-music",
+          "label_zh": "老鼠音符圖案",
+          "label_en": "Mice and music pattern",
+          "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/mOSJOXIskfjwFxxj.png"
+        },
+        {
+          "key": "illustration-bears-cookies",
+          "sku": "mofu-ceramic-pet-bowl-illustration-bears-cookies",
+          "label_zh": "熊仔曲奇圖案",
+          "label_en": "Bears and cookies pattern",
+          "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/DUEywcisTYtzYDVy.png"
+        },
+        {
+          "key": "illustration-rainbow-raincoat",
+          "sku": "mofu-ceramic-pet-bowl-illustration-rainbow-raincoat",
+          "label_zh": "彩虹雨天圖案",
+          "label_en": "Rainbow rainy-day pattern",
+          "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sbWSNilbcnJFnQkO.png"
+        }
+      ]
+    }
+  ]
+}

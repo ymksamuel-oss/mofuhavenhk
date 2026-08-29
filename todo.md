@@ -145,3 +145,11 @@
 - [ ] 驗證桌面及手機 Preview 的圖片清晰度、裁切、箭頭、Dots 及 autoplay
 - [ ] 提交清晰度修正版並建立 READY Vercel Preview
 - [ ] 使用者確認後才合併 main／確認 Production 上線
+
+## 新增產品 ZIP：3 款同系列（CNY 34／2026-08-30）
+- [ ] 解壓及盤點 ZIP 內 3 款產品圖片／名稱／款式資料
+- [ ] 按既定公式計算 CNY 34 的 HKD 零售價並確認三款是否獨立產品或變體
+- [ ] 清理圖片：移除簡體中文、使用米白 `#F7F1E6` 背景，或標記待日後清理
+- [ ] 建立 SKU、Stripe metadata、產品及價格資料
+- [ ] 同步至 Stripe live 及網站 product catalog
+- [ ] 驗證三款產品頁、價格、圖片及變體選擇後交付結果

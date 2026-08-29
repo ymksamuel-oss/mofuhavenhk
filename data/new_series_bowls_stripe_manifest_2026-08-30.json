@@ -1,0 +1,52 @@
+{
+  "source": "new_series_bowls_mapping_2026-08-30.json",
+  "livemode": true,
+  "stripe_account": "acct_1TxSYXRyM6dRKLtZ",
+  "product_count": 1,
+  "variant_count": 3,
+  "product": {
+    "import_key": "ceramic-pet-bowl-illustration-series-20260830",
+    "sku": "mofu-ceramic-pet-bowl-illustration-series",
+    "name_zh": "趣味插畫陶瓷寵物食碗系列",
+    "name_en": "Illustrated Ceramic Pet Bowl Series",
+    "stripe_product_id": "prod_VAEW6CWhv8mNOy",
+    "default_price_id": "price_1U9u3oRyM6dRKLtZ8OADS69r",
+    "product_action": "created",
+    "cost_cny": 34.0,
+    "retail_hkd": 69.9,
+    "pricing_rule": "ceil((CNY cost × 1.1654 × 1.76) - 0.90) + 0.90",
+    "image_processing_status": "cleaned_no_simplified_chinese_ivory_F7F1E6",
+    "variants": [
+      {
+        "variant_key": "illustration-mice-music",
+        "sku": "mofu-ceramic-pet-bowl-illustration-mice-music",
+        "label_zh": "老鼠音符圖案",
+        "label_en": "Mice and music pattern",
+        "stripe_price_id": "price_1U9u3oRyM6dRKLtZ8OADS69r",
+        "unit_amount_hkd_minor": 6990,
+        "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/mOSJOXIskfjwFxxj.png",
+        "price_action": "created"
+      },
+      {
+        "variant_key": "illustration-bears-cookies",
+        "sku": "mofu-ceramic-pet-bowl-illustration-bears-cookies",
+        "label_zh": "熊仔曲奇圖案",
+        "label_en": "Bears and cookies pattern",
+        "stripe_price_id": "price_1U9u42RyM6dRKLtZ2xmrOxwf",
+        "unit_amount_hkd_minor": 6990,
+        "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/DUEywcisTYtzYDVy.png",
+        "price_action": "created"
+      },
+      {
+        "variant_key": "illustration-rainbow-raincoat",
+        "sku": "mofu-ceramic-pet-bowl-illustration-rainbow-raincoat",
+        "label_zh": "彩虹雨天圖案",
+        "label_en": "Rainbow rainy-day pattern",
+        "stripe_price_id": "price_1U9u4ERyM6dRKLtZIB68KYCR",
+        "unit_amount_hkd_minor": 6990,
+        "image_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663882010321/sbWSNilbcnJFnQkO.png",
+        "price_action": "created"
+      }
+    ]
+  }
+}
