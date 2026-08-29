@@ -402,7 +402,7 @@ function stripeProductToCatalogProduct(
     : priceRecords.find((record) => record.id === defaultPriceId) ?? priceRecords[0];
   const images = Array.from(
     new Set((product.images ?? []).filter(isUsableCatalogImage)),
-  ).slice(0, 5);
+  ).slice(0, 8);
   const image = images[0] ?? CATALOG_IMAGE_FALLBACK;
   const id = product.id;
   if (priceRecord === undefined) {

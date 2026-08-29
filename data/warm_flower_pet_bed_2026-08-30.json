@@ -1,0 +1,31 @@
+{
+  "catalog_id": "mofu-warm-flower-pet-bed-green-45cm-20260830",
+  "stripe_product_id": "prod_VAFniUtMCrysZl",
+  "stripe_price_id": "price_1U9vIGRyM6dRKLtZb0QAYDAm",
+  "livemode": true,
+  "name_zh": "保暖花朵寵物窩（綠色 45cm）",
+  "name_en": "Warm Flower Pet Bed (Green 45cm)",
+  "sku": "MOFU-BED-FLOWER-GREEN-45CM",
+  "category": "lifestyle",
+  "subcategory": "睡窩及家居",
+  "cost_cny": 27.0,
+  "pricing_formula": "ceil_to_.90(CNY × 1.1654 × 1.76)",
+  "calculated_hkd": 55.379808,
+  "retail_hkd": 56.9,
+  "recommended_pet_weight": "5kg 內",
+  "size": "直徑 45cm",
+  "images": [
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1465.JPG",
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1466.JPG",
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1467.JPG",
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1468.JPG",
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1469.JPG",
+    "https://izqhlo06ahamwwho.public.blob.vercel-storage.com/%E8%B2%93%E7%AA%A9/IMG_1470.JPG"
+  ],
+  "blob_verification": {
+    "status": "verified",
+    "http_status": 200,
+    "content_type": "image/jpeg",
+    "verified_files": ["IMG_1465.JPG", "IMG_1466.JPG", "IMG_1467.JPG", "IMG_1468.JPG", "IMG_1469.JPG", "IMG_1470.JPG"]
+  }
+}

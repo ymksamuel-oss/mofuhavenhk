@@ -145,3 +145,12 @@
 - [ ] 驗證桌面及手機 Preview 的圖片清晰度、裁切、箭頭、Dots 及 autoplay
 - [ ] 提交清晰度修正版並建立 READY Vercel Preview
 - [ ] 使用者確認後才合併 main／確認 Production 上線
+
+## 保暖花朵寵物窩（2026-08-30／Vercel Blob）
+- [x] 驗證 Blob 根 URL，IMG_1465.JPG 至 IMG_1470.JPG 全部回傳 HTTP 200 `image/jpeg`
+- [x] 計算 CNY 27 的 HKD 零售價並建立 Stripe metadata（HK$56.90）
+- [x] 建立 live Stripe Product／Price 及 6 張 gallery 圖片映射（Product `prod_VAFniUtMCrysZl`；Price `price_1U9vIGRyM6dRKLtZb0QAYDAm`）
+- [x] 更新 Stripe catalog 圖片上限至 8 張，保存本批產品 manifest
+- [x] Vitest 19 files／91 tests 通過；TypeScript 通過
+- [ ] Next production build：本地 Next 16.3.3 在既有 `/_global-error` prerender 階段出現 React `useContext` null 基線錯誤，待 Vercel deployment 結果確認
+- [ ] 提交變更至 GitHub main，確認 Vercel Production deployment READY
