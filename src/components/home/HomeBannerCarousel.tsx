@@ -28,7 +28,8 @@ export const HOME_BANNER_SLIDES: BannerSlide[] = [
   {
     id: "banner-1",
     image: "/images/hero-sleeping-shiba-taupe.jpg",
-    mobileImage: "/images/hero-mobile-mofu-haven.jpg",
+    // Use the 2560px desktop source on mobile too; the former 444px mobile crop looked soft on Retina screens.
+    mobileImage: "/images/hero-sleeping-shiba-taupe.jpg",
     eyebrow: "MOFUHAVEN",
     title: "MOFUHAVEN 質感寵物生活",
     subtitle: "日系嚴選，給毛孩最溫柔的陪伴",
@@ -61,7 +62,8 @@ export const HOME_BANNER_SLIDES: BannerSlide[] = [
   },
   {
     id: "banner-4",
-    image: "/images/hero-mobile-pet-products.jpg",
+    // Banner 4 previously used a 512px strip; this 1408px source keeps the artwork crisp.
+    image: "/images/mofu-haven-website-b.png",
     eyebrow: "LIMITED OFFER",
     title: "全館限時優惠",
     subtitle: "精選和服項圈與生活質感好物",
@@ -117,6 +119,7 @@ export function HomeBannerCarousel() {
                     alt={slide.imageAlt}
                     fill
                     priority={slide.id === "banner-1"}
+                    quality={92}
                     sizes="(min-width: 1024px) 90vw, 100vw"
                     className="object-cover object-center"
                   />

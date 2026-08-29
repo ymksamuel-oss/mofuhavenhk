@@ -138,3 +138,10 @@
 - [x] 執行 Vitest 及 production build（19 files／91 tests 通過；Next.js production build 成功；既有 `stripe.ts` SDK API version TypeScript baseline error 未由本次修改引入）
 - [x] 提交 GitHub feature branch 並建立 Vercel Preview（commit `a7fdae424691cb888921c58f99e516b37250f317`；deployment `dpl_GMaTdA2uxeTSFN9bBp2Ff8T3X7kB` READY）
 - [ ] 正式 production 上線（待 Vercel Publish／合併 main 前由使用者確認）
+
+## Banner 清晰度修正（2026-08-29）
+- [ ] 分析 Banner 原圖解析度、Next Image 輸出尺寸及 object-cover 裁切原因
+- [ ] 以較高解析度／合適 responsive sizes 修正 Banner 圖片清晰度
+- [ ] 驗證桌面及手機 Preview 的圖片清晰度、裁切、箭頭、Dots 及 autoplay
+- [ ] 提交清晰度修正版並建立 READY Vercel Preview
+- [ ] 使用者確認後才合併 main／確認 Production 上線
