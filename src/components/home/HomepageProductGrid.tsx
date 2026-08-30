@@ -1,23 +1,17 @@
-"use client";
-
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { HOME_FEATURED_PRODUCT_IDS, ProductStatusBadges } from "@/components/product/ProductStatusBadges";
-import { useCatalog } from "@/lib/catalog-context";
-import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, productHref } from "@/lib/products";
+import { getProductsByCategory, productHref, type Product } from "@/lib/products";
 
-/**
- * Homepage storefront section backed by the live catalog supplied by the
- * server-side Stripe adapter. The homepage presents a focused 12-product selection;
- * the full active catalog remains available from the Shop page.
- */
-export function HomepageProductGrid() {
-  const { locale, t } = useI18n();
-  const { products: catalogProducts } = useCatalog();
+type HomepageProductGridProps = {
+  products: Product[];
+};
+
+/** Server-rendered homepage product section. Products are assembled by the page from Supabase. */
+export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
   const products = getProductsByCategory(null, catalogProducts)
     .sort((left, right) => {
       const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
@@ -43,27 +37,23 @@ export function HomepageProductGrid() {
               id="homepage-products-title"
               className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl"
             >
-              {t("homepagePicksTitle")}
+              今期人氣寵物好物
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">
-              {t("homepagePicksSub")}
+              由 Mofu Haven 精選的貓咪、狗狗及日系寵物用品，直接由現時產品目錄載入。
             </p>
           </div>
         </div>
 
         {products.length === 0 ? (
           <div className="rounded-2xl border border-[color:var(--line)] bg-white px-5 py-8 text-center shadow-[0_14px_30px_-26px_rgba(43,38,35,0.28)]">
-            <p className="text-sm font-semibold text-[color:var(--ink)]">
-              {t("catalogUpdating")}
-            </p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">
-              {t("catalogUpdatingHint")}
-            </p>
+            <p className="text-sm font-semibold text-[color:var(--ink)]">暫時沒有可顯示的產品</p>
+            <p className="mt-2 text-sm text-[color:var(--muted)]">請稍後再試，或到商品目錄查看全部產品。</p>
             <CategoryNavLink
               href="/menu"
               className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
             >
-              {t("goToCatalog")}
+              查看商品目錄
             </CategoryNavLink>
           </div>
         ) : (
@@ -80,12 +70,12 @@ export function HomepageProductGrid() {
                 >
                   <CategoryNavLink
                     href={href}
-                    aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
+                    aria-label={`查看商品: ${product.name.zh}`}
                     className="relative block aspect-square overflow-hidden bg-[color:var(--accent-soft)]"
                   >
                     <ProductImage
                       src={product.image}
-                      alt={product.name[locale]}
+                      alt={product.name.zh}
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />
@@ -101,20 +91,18 @@ export function HomepageProductGrid() {
                       href={href}
                       className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {product.name[locale]}
+                      {product.name.zh}
                     </CategoryNavLink>
-                    {product.description ? (
-                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">
-                        {product.description[locale]}
-                      </p>
+                    {product.description?.zh ? (
+                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{product.description.zh}</p>
                     ) : null}
                     <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
                       <p className="text-lg font-extrabold tabular-nums text-[color:var(--accent)]">
-                        {formatMoney(product.price, locale)}
+                        {formatMoney(product.price, "zh")}
                       </p>
                       {product.originalPrice ? (
                         <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                          {formatMoney(product.originalPrice, locale)}
+                          {formatMoney(product.originalPrice, "zh")}
                         </p>
                       ) : null}
                     </div>
@@ -131,7 +119,6 @@ export function HomepageProductGrid() {
             })}
           </ul>
         )}
-
       </div>
     </section>
   );
