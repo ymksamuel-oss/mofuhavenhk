@@ -220,7 +220,8 @@ describe("calm warm editorial UI contract", () => {
     expect(catalogServer).not.toContain("SMALL_PET_DEMO_PRODUCTS");
     expect(productsSource).toContain("QUARANTINED_PRODUCT_IDS");
     expect(productsSource).toContain("isStorefrontReadyProduct");
-    expect(catalogServer).toContain(".filter(isStorefrontReadyProduct)");
+    expect(catalogServer).not.toContain(".filter(isStorefrontReadyProduct)");
+    expect(source("src/components/menu/ProductCatalog.tsx")).toContain("return matchingProducts;");
     expect(translations).toContain('allProducts: "全部產品"');
     expect(translations).toContain('allProducts: "All Products"');
     expect(translations).toContain('catSnackSeriesHairball: "Hairball-care formula"');

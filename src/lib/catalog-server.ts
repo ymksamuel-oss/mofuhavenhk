@@ -550,8 +550,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts
       .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
-      .filter((product): product is Product => product !== null)
-      .filter(isStorefrontReadyProduct),
+      .filter((product): product is Product => product !== null),
   ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
   if (products.length === 0) {

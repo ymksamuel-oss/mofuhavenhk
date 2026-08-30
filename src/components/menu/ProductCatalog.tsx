@@ -17,7 +17,6 @@ import {
   getSmallPetProductsBySubcategory,
   getProductSubcategoryLabelKey,
   getProductsByCategory,
-  isStorefrontReadyProduct,
   type CatLifeStage,
   type CatSubcategory,
   type DogSubcategory,
@@ -114,7 +113,7 @@ export function ProductCatalog({
                   catalogProducts,
                 )
               : getProductsByCategory(categorySlug, catalogProducts);
-    return matchingProducts.filter(isStorefrontReadyProduct);
+    return matchingProducts;
   }, [categorySlug, catalogProducts, selectedCatLifeStage, selectedSnackSeries, selectedSubcategory]);
 
   const lifeStageLabelKey = selectedCatLifeStage
