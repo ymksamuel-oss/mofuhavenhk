@@ -623,13 +623,32 @@ export async function getCatalogDiagnostics() {
 
 async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
   const supabase = getSupabasePublic() || getSupabaseAdmin();
-  if (!supabase) return null;
-  const [categoryResult, productResult] = await Promise.all([
-    supabase.from("categories").select("id,slug"),
-    supabase.from("products").select("*").order("created_at", { ascending: false }),
-  ]);
-  if (categoryResult.error || productResult.error || !productResult.data?.length) return null;
-  const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
+  if (!supabase) {
+    console.warn("[catalog] Supabase is not configured; using fallback catalog");
+    return null;
+  }
+
+  try {
+    const [categoryResult, productResult] = await Promise.all([
+      supabase.from("categories").select("id,slug"),
+      supabase.from("products").select("*").order("created_at", { ascending: false }),
+    ]);
+    if (categoryResult.error || productResult.error) {
+      console.error("[catalog] Supabase product query returned an error", {
+        categoryError: categoryResult.error?.message,
+        categoryCode: categoryResult.error?.code,
+        productError: productResult.error?.message,
+        productCode: productResult.error?.code,
+      });
+      return null;
+    }
+    if (!productResult.data?.length) {
+      console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
+        categories: categoryResult.data?.length ?? 0,
+      });
+      return null;
+    }
+    const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
   const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null }) => {
     const images = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && value.length > 0) : [];
     const categorySlug = categorySlugs.get(row.category_id) || "lifestyle";
@@ -650,7 +669,15 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       icon: iconForCategory(categorySlug),
     } satisfies Product;
   }).filter((product) => product.price >= 0);
-  return { products, source: "supabase", matchedRecords: products.length };
+    return { products, source: "supabase", matchedRecords: products.length };
+  } catch (error) {
+    console.error("[catalog] Supabase product fetch threw after retry handling", {
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+    return null;
+  }
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
