@@ -8,7 +8,7 @@ import { HOME_FEATURED_PRODUCT_IDS, ProductStatusBadges } from "@/components/pro
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, isStorefrontReadyProduct, productHref } from "@/lib/products";
+import { getProductsByCategory, productHref } from "@/lib/products";
 
 /**
  * Homepage storefront section backed by the live catalog supplied by the
@@ -19,7 +19,6 @@ export function HomepageProductGrid() {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
   const products = getProductsByCategory(null, catalogProducts)
-    .filter(isStorefrontReadyProduct)
     .sort((left, right) => {
       const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
       const rightRank = HOME_FEATURED_PRODUCT_IDS.indexOf(right.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
