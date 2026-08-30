@@ -2,7 +2,8 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
-import { HOME_FEATURED_PRODUCT_IDS, ProductStatusBadges } from "@/components/product/ProductStatusBadges";
+import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
+import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, type Product } from "@/lib/products";
 
