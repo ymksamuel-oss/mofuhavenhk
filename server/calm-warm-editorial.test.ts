@@ -455,7 +455,8 @@ describe("calm warm editorial UI contract", () => {
     expect(gallery).toContain("onTouchStart={onTouchStart}");
     expect(gallery).toContain('aria-label={t("productGalleryPrevious")}');
     expect(gallery).toContain('aria-label={t("productGalleryNext")}');
-    expect(catalog).toContain("new Set((product.images ?? []).filter(isUsableCatalogImage))");
+    expect(catalog).toContain("imageUrlsFromMetadata(metadata)");
+    expect(catalog).toContain("LOCAL_CATALOG_IMAGE_FALLBACKS[product.id]");
     expect(catalog).toContain("...(images.length > 0 ? { images } : {})");
     expect(productType).toContain("images?: string[]");
   });

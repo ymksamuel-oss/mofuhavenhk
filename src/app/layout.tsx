@@ -11,6 +11,7 @@ import type { Product } from "@/lib/products";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mofuhavenhk.com"),

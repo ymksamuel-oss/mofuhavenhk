@@ -1,10 +1,12 @@
 import "server-only";
 
 import Stripe from "stripe";
+import { unstable_noStore as noStore } from "next/cache";
 
 import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
 import { RECENT_FALLBACK_PRODUCTS } from "@/lib/catalog-recent-fallback";
+import { LOCAL_CATALOG_IMAGE_FALLBACKS } from "@/lib/catalog-image-fallback";
 import {
   CAT_SNACK_SERIES,
   categorySlugFromMetadata,
@@ -57,6 +59,7 @@ function fallbackCatalogSnapshot(): CatalogSnapshot {
 const CATALOG_IMAGE_FALLBACK = "catalog-placeholder";
 const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
 const FREEZE_DRY_TEXT_MARK = /冷凍脫水|冷冻脱水|凍乾|凍干|freeze[\s-]?dried|freeze[\s-]?dry/i;
+const IMAGE_METADATA_KEY = /(^|[_.-])images?($|[_.-])|image[_-]?(url|urls|cdn)|source[_-]?image/i;
 
 /**
  * The previous storefront's product asset route now responds with an HTML 404
@@ -75,6 +78,34 @@ function isUsableCatalogImage(value: string | undefined): value is string {
 
 function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
+}
+
+function imageUrlsFromMetadata(metadata: Readonly<Record<string, string>>): string[] {
+  const urls: string[] = [];
+  for (const [key, rawValue] of Object.entries(metadata)) {
+    if (!IMAGE_METADATA_KEY.test(key) || !rawValue?.trim()) continue;
+    const values: unknown[] = [rawValue];
+    try {
+      values.push(JSON.parse(rawValue));
+    } catch {
+      // Metadata may be a comma/newline/pipe-delimited URL list.
+    }
+    for (const value of values.flatMap((item) => Array.isArray(item) ? item : [item])) {
+      if (typeof value !== "string") continue;
+      for (const candidate of value.split(/[\r\n,|;]+/)) {
+        if (isUsableCatalogImage(candidate.trim())) urls.push(candidate.trim());
+      }
+    }
+  }
+  return urls;
+}
+
+function catalogImageUrls(product: Stripe.Product, metadata: Readonly<Record<string, string>>): string[] {
+  return Array.from(new Set([
+    ...imageUrlsFromMetadata(metadata),
+    ...(product.images ?? []),
+    ...(LOCAL_CATALOG_IMAGE_FALLBACKS[product.id] ?? []),
+  ].filter(isUsableCatalogImage))).slice(0, 8);
 }
 
 function marketReferencePriceFromMetadata(
@@ -289,20 +320,20 @@ async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> 
   const products: Stripe.Product[] = [];
   let startingAfter: string | undefined;
 
-  do {
+  while (true) {
     const page = await stripe.products.list({
       active: true,
       limit: 100,
       ...(startingAfter ? { starting_after: startingAfter } : {}),
     });
     products.push(...page.data);
-    startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
-    if (page.has_more && !startingAfter) {
-      throw new Error("Stripe products pagination returned has_more without a cursor");
+    if (!page.has_more) return products;
+    const nextCursor = page.data.at(-1)?.id;
+    if (!nextCursor || nextCursor === startingAfter) {
+      throw new Error("Stripe products pagination returned has_more without a new cursor");
     }
-  } while (startingAfter);
-
-  return products;
+    startingAfter = nextCursor;
+  }
 }
 
 type StripePriceRecord = {
@@ -380,7 +411,7 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, Strip
   const pricesByProductId = new Map<string, StripePriceRecord[]>();
   let startingAfter: string | undefined;
 
-  do {
+  while (true) {
     const page = await stripe.prices.list({
       active: true,
       currency: "hkd",
@@ -398,13 +429,13 @@ async function listAllActiveHkdPrices(stripe: Stripe): Promise<Map<string, Strip
       });
       pricesByProductId.set(productId, records);
     }
-    startingAfter = page.has_more ? page.data.at(-1)?.id : undefined;
-    if (page.has_more && !startingAfter) {
-      throw new Error("Stripe prices pagination returned has_more without a cursor");
+    if (!page.has_more) return pricesByProductId;
+    const nextCursor = page.data.at(-1)?.id;
+    if (!nextCursor || nextCursor === startingAfter) {
+      throw new Error("Stripe prices pagination returned has_more without a new cursor");
     }
-  } while (startingAfter);
-
-  return pricesByProductId;
+    startingAfter = nextCursor;
+  }
 }
 
 function stripeProductToCatalogProduct(
@@ -420,9 +451,7 @@ function stripeProductToCatalogProduct(
   const priceRecord = variants?.length
     ? priceRecords.find((record) => record.id === variants[0].priceId)
     : priceRecords.find((record) => record.id === defaultPriceId) ?? priceRecords[0];
-  const images = Array.from(
-    new Set((product.images ?? []).filter(isUsableCatalogImage)),
-  ).slice(0, 8);
+  const images = catalogImageUrls(product, metadata);
   const image = images[0] ?? CATALOG_IMAGE_FALLBACK;
   const id = product.id;
   if (priceRecord === undefined) {
@@ -593,6 +622,7 @@ export async function getCatalogDiagnostics() {
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
+  noStore();
   try {
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
