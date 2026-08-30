@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabasePublic } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -50,9 +51,17 @@ export async function GET() {
       console.warn("[store-api] Optional storefront query returned errors; serving products/categories", { optionalQueryErrors });
     }
 
+    const stripeImages = await getStripeImagesForSupabaseRows(products.data || []);
+    const enrichedProducts = (products.data || []).map((row) => {
+      const dbImages = Array.isArray(row.images) ? row.images : [];
+      if (dbImages.length > 0) return row;
+      const fallbackImages = stripeImages.get(row.source_product_id ?? "") ?? [];
+      return fallbackImages.length > 0 ? { ...row, images: fallbackImages } : row;
+    });
     console.info("[store-api] Supabase data fetched", {
       categories: categories.data?.length ?? 0,
-      products: products.data?.length ?? 0,
+      products: enrichedProducts.length,
+      productsWithImages: enrichedProducts.filter((row) => Array.isArray(row.images) && row.images.length > 0).length,
       banners: banners.error ? 0 : banners.data?.length ?? 0,
       settings: settings.error ? 0 : settings.data?.length ?? 0,
     });
@@ -60,7 +69,7 @@ export async function GET() {
       configured: true,
       degraded: optionalQueryErrors.length > 0,
       categories: categories.data || [],
-      products: products.data || [],
+      products: enrichedProducts,
       banners: banners.error ? [] : banners.data || [],
       settings: Object.fromEntries((settings.error ? [] : settings.data || []).map((item) => [item.key, item.value])),
     }, { headers: { "Cache-Control": "no-store" } });

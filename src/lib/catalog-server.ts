@@ -120,7 +120,7 @@ type SupabaseProductImageRow = {
  * have left `images` empty while the linked Stripe Product still has images.
  * Enrich only those rows, and degrade to the DB value if Stripe is unavailable.
  */
-async function stripeImagesForSupabaseRows(rows: SupabaseProductImageRow[]): Promise<Map<string, string[]>> {
+export async function getStripeImagesForSupabaseRows(rows: SupabaseProductImageRow[]): Promise<Map<string, string[]>> {
   const missingSourceIds = new Set(
     rows
       .filter((row) => !Array.isArray(row.images) || row.images.length === 0)
@@ -687,7 +687,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       return null;
     }
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
-    const stripeImages = await stripeImagesForSupabaseRows(productResult.data || []);
+    const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
     const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; source_product_id?: string | null }) => {
     const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
