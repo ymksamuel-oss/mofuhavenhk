@@ -79,9 +79,29 @@ const AUTO_PLAY_MS = 4000;
 export function HomeBannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [slides, setSlides] = useState<BannerSlide[]>(HOME_BANNER_SLIDES);
+  useEffect(() => {
+    fetch("/api/store", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((payload) => {
+        if (!payload?.banners?.length) return;
+        setSlides(payload.banners.map((banner: { id: string; image_url: string; link?: string; title?: string }) => ({
+          id: banner.id,
+          image: banner.image_url,
+          eyebrow: "MOFU HAVEN",
+          title: banner.title || "Mofu Haven 質感寵物生活",
+          subtitle: "日系嚴選，給毛孩最溫柔的陪伴",
+          cta: "立即選購",
+          href: banner.link || "/menu",
+          imageAlt: banner.title || "Mofu Haven Banner",
+          tone: "dark" as const,
+        })));
+      })
+      .catch(() => undefined);
+  }, []);
 
   const goTo = (index: number) => {
-    setActiveIndex((index + HOME_BANNER_SLIDES.length) % HOME_BANNER_SLIDES.length);
+    setActiveIndex((index + slides.length) % slides.length);
   };
 
   const goNext = () => goTo(activeIndex + 1);
@@ -91,7 +111,7 @@ export function HomeBannerCarousel() {
     if (isPaused) return undefined;
     const timer = window.setInterval(goNext, AUTO_PLAY_MS);
     return () => window.clearInterval(timer);
-  }, [activeIndex, isPaused]);
+  }, [activeIndex, isPaused, slides.length]);
 
   return (
     <section
@@ -110,7 +130,7 @@ export function HomeBannerCarousel() {
             className="flex h-full w-full transition-transform duration-700 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            {HOME_BANNER_SLIDES.map((slide) => (
+            {slides.map((slide) => (
               <article key={slide.id} className="relative h-full min-w-full overflow-hidden">
                 <picture>
                   {slide.mobileImage ? <source media="(max-width: 639px)" srcSet={slide.mobileImage} /> : null}
@@ -178,7 +198,7 @@ export function HomeBannerCarousel() {
           </button>
 
           <div className="absolute bottom-5 left-6 flex items-center gap-2 sm:left-12 lg:left-16" role="tablist" aria-label="Banner 選擇">
-            {HOME_BANNER_SLIDES.map((slide, index) => (
+            {slides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"

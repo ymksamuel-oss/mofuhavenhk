@@ -58,9 +58,13 @@ function CheckoutContent() {
     getOrderItems(category, products),
   );
   const [hydratedFromCart, setHydratedFromCart] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | null>(null);
+  const [couponError, setCouponError] = useState("");
   const subtotalHkd = calcSubtotal(items);
-  const shippingHkd = getShippingCost(subtotalHkd, items.length > 0);
-  const amountHkd = items.length > 0 ? subtotalHkd + shippingHkd : 0;
+  const discountHkd = appliedCoupon?.discountAmount || 0;
+  const shippingHkd = getShippingCost(Math.max(0, subtotalHkd - discountHkd), items.length > 0);
+  const amountHkd = items.length > 0 ? Math.max(0, subtotalHkd - discountHkd) + shippingHkd : 0;
 
   // Keep the familiar Apple Pay default; Google Pay and PayMe use the
   // hosted Checkout hand-off branch below.
@@ -290,6 +294,15 @@ function CheckoutContent() {
     }
   };
 
+  const applyCoupon = useCallback(async () => {
+    setCouponError(""); setAppliedCoupon(null);
+    if (!couponCode.trim()) return;
+    const response = await fetch("/api/coupons/validate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: couponCode, subtotal: subtotalHkd }) });
+    const result = await response.json();
+    if (!response.ok || !result.valid) { setCouponError("優惠碼無效或已停用。"); return; }
+    setAppliedCoupon({ code: result.code, discountAmount: Number(result.discountAmount || 0) }); setCouponCode(result.code);
+    setClientSecret(null); setPhase("idle");
+  }, [couponCode, subtotalHkd]);
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -380,6 +393,7 @@ function CheckoutContent() {
                 orderNumber: number,
                 locale,
                 paymentMethod: stripePaymentMethod,
+                couponCode,
                 customerName: shippingContact.name.trim(),
                 shippingContact,
                 lines: items.map((item) => ({ id: item.id, qty: item.qty, priceId: item.stripePriceId })),
@@ -389,6 +403,7 @@ function CheckoutContent() {
                 orderNumber: number,
                 locale,
                 paymentMethod: stripePaymentMethod,
+                couponCode,
                 customerName: shippingContact.name.trim(),
                 shippingContact,
                 lines: items.map((item) => ({ id: item.id, qty: item.qty, priceId: item.stripePriceId })),
@@ -464,6 +479,7 @@ function CheckoutContent() {
   }, [
     category,
     items,
+    couponCode,
     locale,
     orderNumber,
     phase,
@@ -531,6 +547,12 @@ function CheckoutContent() {
             onRemoveItem={handleRemoveItem}
             qtyDisabled={qtyLocked}
           />
+          <div className="rounded-2xl border border-[color:var(--line)] bg-white/70 p-4">
+            <label className="block text-sm font-semibold text-[color:var(--ink)]">優惠碼</label>
+            <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder="例如 SUMMER10" className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">套用</button></div>
+            {appliedCoupon ? <p className="mt-2 text-xs text-emerald-700">已套用 {appliedCoupon.code}，節省 HK${appliedCoupon.discountAmount.toFixed(2)}</p> : null}
+            {couponError ? <p className="mt-2 text-xs text-amber-700">{couponError}</p> : null}
+          </div>
 
           {phase === "stripe_missing" ? (
             <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">

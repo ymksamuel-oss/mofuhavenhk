@@ -30,10 +30,11 @@ import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translat
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { resolveProductVariantImage } from "./product-variant-images";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 export type CatalogSnapshot = {
   products: Product[];
-  source: "stripe" | "fallback";
+  source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
 
@@ -620,9 +621,43 @@ export async function getCatalogDiagnostics() {
   }
 }
 
+async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+  const [categoryResult, productResult] = await Promise.all([
+    supabase.from("categories").select("id,slug"),
+    supabase.from("products").select("*").order("created_at", { ascending: false }),
+  ]);
+  if (categoryResult.error || productResult.error || !productResult.data?.length) return null;
+  const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
+  const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null }) => {
+    const images = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && value.length > 0) : [];
+    const categorySlug = categorySlugs.get(row.category_id) || "lifestyle";
+    const name = String(row.name || "未命名產品");
+    return {
+      id: String(row.id),
+      createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
+      categorySlug,
+      image: images[0] || CATALOG_IMAGE_FALLBACK,
+      ...(images.length ? { images } : {}),
+      name: { zh: name, en: name },
+      price: Number(row.price || 0),
+      ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
+      inStock: Number(row.stock || 0) > 0,
+      description: row.description ? { zh: String(row.description), en: String(row.description) } : undefined,
+      metadata: {},
+      tags: [categorySlug],
+      icon: iconForCategory(categorySlug),
+    } satisfies Product;
+  }).filter((product) => product.price >= 0);
+  return { products, source: "supabase", matchedRecords: products.length };
+}
+
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   noStore();
   try {
+    const managedCatalog = await fetchCatalogFromSupabase();
+    if (managedCatalog) return managedCatalog;
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
   } catch (error) {

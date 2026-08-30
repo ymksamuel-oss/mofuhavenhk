@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { readServerEnv } from "@/lib/serverEnv";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 /** HKD uses two decimal places → Stripe amount in cents. */
 export function toStripeAmountHkd(totalHkd: number): number {
@@ -56,6 +57,25 @@ export function getStripePaymentMethodConfiguration(): string | null {
     : null;
 }
 
+export async function getRuntimeStripeSetting(key: string): Promise<string> {
+  const fallback = key === "stripe_publishable_key" ? getStripePublishableKey() : getStripeSecretKey();
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return fallback;
+  const { data } = await supabase.from("store_settings").select("value").eq("key", key).maybeSingle();
+  return typeof data?.value === "string" && data.value.trim() ? data.value.trim() : fallback;
+}
+
+export async function isRuntimeStripeConfigured() {
+  const [secret, publishable] = await Promise.all([getRuntimeStripeSetting("stripe_secret_key"), getRuntimeStripeSetting("stripe_publishable_key")]);
+  return Boolean(secret && publishable);
+}
+
+export async function getRuntimeStripe(): Promise<Stripe> {
+  const key = await getRuntimeStripeSetting("stripe_secret_key");
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
+  return new Stripe(key, { apiVersion: "2026-07-29.dahlia", typescript: true });
+}
+
 let stripeSingleton: Stripe | null = null;
 
 export function getStripe(): Stripe {
@@ -65,7 +85,7 @@ export function getStripe(): Stripe {
   }
   if (!stripeSingleton) {
     stripeSingleton = new Stripe(key, {
-      apiVersion: "2026-08-26.dahlia",
+      apiVersion: "2026-07-29.dahlia",
       typescript: true,
     });
   }

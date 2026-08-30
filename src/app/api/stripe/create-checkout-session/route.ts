@@ -8,13 +8,14 @@ import {
   getShippingCost,
 } from "@/lib/order";
 import {
-  getStripe,
+  getRuntimeStripe,
   getStripePaymentMethodConfiguration,
-  isStripeConfigured,
+  isRuntimeStripeConfigured,
   toStripeAmountHkd,
 } from "@/lib/stripe";
 import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
+import { resolveCoupon } from "@/lib/coupon";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,6 +29,7 @@ type Body = {
   paymentMethod?: unknown;
   shippingContact?: unknown;
   lines?: unknown;
+  couponCode?: unknown;
 };
 
 type ShippingContactPayload = {
@@ -124,7 +126,7 @@ function absoluteImageUrl(image: string, origin: string): string | null {
  * unsupported `payme` or `alipayhk` API enum is sent.
  */
 export async function POST(request: Request) {
-  if (!isStripeConfigured()) {
+  if (!(await isRuntimeStripeConfigured())) {
     return NextResponse.json(
       {
         ok: false,
@@ -205,8 +207,9 @@ export async function POST(request: Request) {
     );
   }
   const subtotal = calcSubtotal(items);
-  const shipping = getShippingCost(subtotal, items.length > 0);
-  const total = subtotal + shipping;
+  const coupon = await resolveCoupon(body.couponCode, subtotal);
+  const shipping = getShippingCost(subtotal - coupon.discount, items.length > 0);
+  const total = Math.max(0, subtotal - coupon.discount + shipping);
   const amount = toStripeAmountHkd(total);
   const origin = getSafeCheckoutOrigin(request);
   const paymentLabel = checkoutPaymentLabel(preferredMethod);
@@ -227,6 +230,8 @@ export async function POST(request: Request) {
     subtotalHkd: subtotal.toFixed(2),
     shippingHkd: shipping.toFixed(2),
     totalHkd: total.toFixed(2),
+    couponCode: coupon.code,
+    couponDiscountHkd: coupon.discount.toFixed(2),
     lineItems: items.map((item) => `${item.id}:${item.stripePriceId ?? "dynamic"}x${item.qty}`).join(",").slice(0, 500),
     ...receiptMetadata,
     site: "mofuhavenhk.com",
@@ -237,7 +242,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const stripe = getStripe();
+    const stripe = await getRuntimeStripe();
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: items.map((item) =>

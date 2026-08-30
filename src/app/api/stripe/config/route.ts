@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import {
-  getStripePublishableKey,
-  isStripeConfigured,
+  getRuntimeStripeSetting,
+  isRuntimeStripeConfigured,
 } from "@/lib/stripe";
 
 export const runtime = "nodejs";
@@ -12,10 +12,10 @@ export const dynamic = "force-dynamic";
  * Returns the publishable key for Stripe.js (never the secret key).
  */
 export async function GET() {
-  const publishableKey = getStripePublishableKey();
+  const publishableKey = await getRuntimeStripeSetting("stripe_publishable_key");
   return NextResponse.json({
     ok: true,
-    configured: isStripeConfigured(),
+    configured: await isRuntimeStripeConfigured(),
     publishableKey: publishableKey || null,
   });
 }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSupabaseAdmin } from "@/lib/supabase";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import {
   buildOrderItemsFromLines,
@@ -8,13 +9,14 @@ import {
   getShippingCost,
 } from "@/lib/order";
 import {
-  getStripe,
   getStripePaymentMethodConfiguration,
-  isStripeConfigured,
+  isRuntimeStripeConfigured,
+  getRuntimeStripe,
   toStripeAmountHkd,
 } from "@/lib/stripe";
 import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
+import { resolveCoupon } from "@/lib/coupon";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,6 +31,7 @@ type Body = {
   /** Preferred checkout method — stored in metadata for WhatsApp labels. */
   paymentMethod?: unknown;
   shippingContact?: unknown;
+  couponCode?: unknown;
 };
 
 type ShippingContactPayload = {
@@ -69,7 +72,7 @@ function getShippingContact(value: unknown): ShippingContactPayload {
  * Customer name is optional here — collected in the Stripe pay form.
  */
 export async function POST(request: Request) {
-  if (!isStripeConfigured()) {
+  if (!(await isRuntimeStripeConfigured())) {
     return NextResponse.json(
       {
         ok: false,
@@ -154,8 +157,9 @@ export async function POST(request: Request) {
   const paymentLabel =
     PAYMENT_LABELS[preferredMethod] || "Stripe";
   const subtotal = calcSubtotal(items);
-  const shipping = getShippingCost(subtotal, items.length > 0);
-  const total = subtotal + shipping;
+  const coupon = await resolveCoupon(body.couponCode, subtotal);
+  const shipping = getShippingCost(subtotal - coupon.discount, items.length > 0);
+  const total = Math.max(0, subtotal - coupon.discount + shipping);
   const amount = toStripeAmountHkd(total);
 
   if (!Number.isFinite(amount) || amount < 50) {
@@ -166,7 +170,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const stripe = getStripe();
+    const stripe = await getRuntimeStripe();
     const paymentMethodConfiguration = getStripePaymentMethodConfiguration();
     const customer = await stripe.customers.create({
       email: customerEmail,
@@ -206,11 +210,25 @@ export async function POST(request: Request) {
         subtotalHkd: subtotal.toFixed(2),
         shippingHkd: shipping.toFixed(2),
         totalHkd: total.toFixed(2),
+        couponCode: coupon.code,
+        couponDiscountHkd: coupon.discount.toFixed(2),
         lineItems: items.map((item) => `${item.id}:${item.stripePriceId ?? "dynamic"}x${item.qty}`).join(",").slice(0, 500),
         ...receiptMetadata,
       },
     });
 
+    const supabase = getSupabaseAdmin();
+    if (supabase) {
+      const { error: orderError } = await supabase.from("orders").insert({
+        customer_info: { ...contact, name: customerName, email: customerEmail },
+        items: items.map((item) => ({ id: item.id, name: item.name, qty: item.qty, price: item.unit, priceId: item.stripePriceId || null })),
+        total,
+        status: "pending",
+        payment_intent_id: intent.id,
+        order_number: orderNumber,
+      });
+      if (orderError) console.warn("[orders] unable to persist pending order", orderError.message);
+    }
     if (!intent.client_secret) {
       return NextResponse.json(
         { ok: false, error: "missing_client_secret" },
