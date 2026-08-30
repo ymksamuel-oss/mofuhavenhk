@@ -3,7 +3,7 @@ import "server-only";
 import Stripe from "stripe";
 import { unstable_noStore as noStore } from "next/cache";
 
-import { CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
 import { RECENT_FALLBACK_PRODUCTS } from "@/lib/catalog-recent-fallback";
 import { LOCAL_CATALOG_IMAGE_FALLBACKS } from "@/lib/catalog-image-fallback";
@@ -18,6 +18,7 @@ import {
   type ProductSubcategory,
   type ProductVariant,
   isStorefrontReadyProduct,
+  categorySlugFromMofuSku,
   uniqueProductsById,
 } from "@/lib/products";
 import {
@@ -128,6 +129,8 @@ function marketReferenceAsOfFromMetadata(
 
 function categoryFromProduct(product: Stripe.Product): string {
   const metadata = productMetadata(product);
+  const skuCategory = categorySlugFromMofuSku(metadata.mofu_sku);
+  if (skuCategory) return skuCategory;
   const metadataCategory =
     metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
   const metadataText = normalizeProductClassificationText(Object.values(metadata).join(" "));
@@ -649,9 +652,9 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       return null;
     }
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
-  const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null }) => {
+  const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null }) => {
     const images = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && value.length > 0) : [];
-    const categorySlug = categorySlugs.get(row.category_id) || "lifestyle";
+    const categorySlug = categorySlugFromMofuSku(row.mofu_sku ?? undefined) ?? canonicalCategorySlug(categorySlugs.get(row.category_id)) ?? "lifestyle";
     const name = String(row.name || "未命名產品");
     return {
       id: String(row.id),
@@ -664,8 +667,11 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
       inStock: Number(row.stock || 0) > 0,
       description: row.description ? { zh: String(row.description), en: String(row.description) } : undefined,
-      metadata: {},
-      tags: [categorySlug],
+      metadata: {
+        category: categorySlug,
+        ...(row.mofu_sku ? { mofu_sku: String(row.mofu_sku) } : {}),
+      },
+      tags: [categorySlug, ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
       icon: iconForCategory(categorySlug),
     } satisfies Product;
   }).filter((product) => product.price >= 0);

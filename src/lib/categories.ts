@@ -46,29 +46,46 @@ export const CATEGORIES: Category[] = [
   { slug: "outdoor", labelKey: "categoryOutdoor", icon: "bag" },
 ];
 
-export function getCategoryLabelKey(slug: string | null): CategoryLabelKey | null {
+const CATEGORY_SLUG_ALIASES: Record<string, string> = {
+  cat: "cats",
+  cats: "cats",
+  dog: "dogs",
+  dogs: "dogs",
+};
+
+/** Convert legacy singular pet routes and database values to the canonical slugs. */
+export function canonicalCategorySlug(slug: string | null | undefined): string | null {
   if (!slug) return null;
-  return CATEGORIES.find((category) => category.slug === slug)?.labelKey ?? null;
+  const normalized = slug.trim().toLowerCase();
+  return CATEGORY_SLUG_ALIASES[normalized] ?? normalized;
+}
+
+export function getCategoryLabelKey(slug: string | null): CategoryLabelKey | null {
+  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!canonicalSlug) return null;
+  return CATEGORIES.find((category) => category.slug === canonicalSlug)?.labelKey ?? null;
 }
 
 export function getCategoryBySlug(slug: string | null | undefined): Category | null {
-  if (!slug) return null;
-  return CATEGORIES.find((category) => category.slug === slug) ?? null;
+  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!canonicalSlug) return null;
+  return CATEGORIES.find((category) => category.slug === canonicalSlug) ?? null;
 }
 
 export function isCategorySlug(slug: string): boolean {
-  return CATEGORIES.some((category) => category.slug === slug);
+  return Boolean(getCategoryBySlug(slug));
 }
 
 /** Canonical path for a category landing page. */
 export function categoryHref(slug: string): string {
-  return `/categories/${slug}`;
+  return `/categories/${canonicalCategorySlug(slug) ?? slug}`;
 }
 
 /** Canonical path for a category subcategory (e.g. `/categories/dogs/snacks`). */
 export function categorySubHref(slug: string, subSlug: string | null | undefined): string {
-  if (!subSlug) return categoryHref(slug);
-  return `/categories/${slug}/${subSlug}`;
+  const canonicalSlug = canonicalCategorySlug(slug) ?? slug;
+  if (!subSlug) return categoryHref(canonicalSlug);
+  return `/categories/${canonicalSlug}/${subSlug}`;
 }
 
 /** Cat-snacks zone URL, optionally filtered to a series query (`?series=natural`). */

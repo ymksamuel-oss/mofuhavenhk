@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
-import { canonicalCategorySlug, CATEGORIES, isCategorySlug } from "@/lib/categories";
+import { canonicalCategorySlug, isCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
 type CategoryPageProps = {
@@ -10,7 +10,7 @@ type CategoryPageProps = {
 };
 
 export function generateStaticParams() {
-  return CATEGORIES.map(({ slug }) => ({ slug }));
+  return ["cat", "cats", "dog", "dogs"].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -22,20 +22,17 @@ export async function generateMetadata({
   if (!isCategorySlug(slug)) return { robots: { index: false, follow: false } };
   const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
   return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
-    categorySlug: slug,
+    categorySlug: canonicalCategorySlug(slug) ?? slug,
   });
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  if (!isCategorySlug(slug)) {
-    notFound();
-  }
-  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!isCategorySlug(slug)) notFound();
 
   return (
     <ProductCatalog
-      categorySlug={canonicalSlug}
+      categorySlug={canonicalCategorySlug(slug)}
       subcategory={null}
       showProductSearch
     />

@@ -1,5 +1,6 @@
 import type { CategoryIconName } from "@/lib/categories";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { canonicalCategorySlug } from "./categories";
 import { normalizeProductClassificationText } from "./product-classification-text";
 
 /**
@@ -694,12 +695,20 @@ const SUBCATEGORY_PARENT_BY_METADATA: Record<
   "收納及日常配件": { parent: "lifestyle", subcategory: "收納及日常配件" },
 };
 
+/** Classify an Mofu SKU by its required pet-family prefix. */
+export function categorySlugFromMofuSku(mofuSku: string | undefined): "cats" | "dogs" | null {
+  const value = mofuSku?.trim().toUpperCase();
+  if (!value) return null;
+  if (value.includes("MH-CAT")) return "cats";
+  if (value.includes("MH-DOG")) return "dogs";
+  return null;
+}
+
 export function categorySlugFromMetadata(category: string | undefined): string | null {
   const value = normalizeProductClassificationText(category?.trim());
   if (!value) return null;
   return (
-    CATEGORY_SLUG_BY_METADATA[value.toLowerCase()] ??
-    SUBCATEGORY_PARENT_BY_METADATA[value]?.parent ??
+    canonicalCategorySlug(CATEGORY_SLUG_BY_METADATA[value.toLowerCase()] ?? SUBCATEGORY_PARENT_BY_METADATA[value]?.parent) ??
     null
   );
 }
@@ -742,7 +751,12 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
-  return categorySlugFromMetadata(product.metadata?.category) ?? product.categorySlug;
+  return (
+    categorySlugFromMofuSku(product.metadata?.mofu_sku) ??
+    categorySlugFromMetadata(product.metadata?.category) ??
+    canonicalCategorySlug(product.categorySlug) ??
+    product.categorySlug
+  );
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {
@@ -754,8 +768,9 @@ export function getProductsByCategory(
   products: readonly Product[] = [],
 ): Product[] {
   const uniqueProducts = uniqueProductsById(products);
-  if (!slug) return uniqueProducts;
-  return uniqueProducts.filter((product) => productCategorySlug(product) === slug);
+  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!canonicalSlug) return uniqueProducts;
+  return uniqueProducts.filter((product) => productCategorySlug(product) === canonicalSlug);
 }
 
 export function getCatProductsBySubcategory(
