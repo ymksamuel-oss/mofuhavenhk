@@ -73,7 +73,7 @@ export async function isRuntimeStripeConfigured() {
 export async function getRuntimeStripe(): Promise<Stripe> {
   const key = await getRuntimeStripeSetting("stripe_secret_key");
   if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
-  return new Stripe(key, { apiVersion: "2026-07-29.dahlia", typescript: true });
+  return new Stripe(key, { apiVersion: "2026-08-26.dahlia", typescript: true });
 }
 
 let stripeSingleton: Stripe | null = null;
@@ -85,7 +85,7 @@ export function getStripe(): Stripe {
   }
   if (!stripeSingleton) {
     stripeSingleton = new Stripe(key, {
-      apiVersion: "2026-07-29.dahlia",
+      apiVersion: "2026-08-26.dahlia",
       typescript: true,
     });
   }

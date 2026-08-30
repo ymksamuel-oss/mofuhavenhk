@@ -110,6 +110,41 @@ function catalogImageUrls(product: Stripe.Product, metadata: Readonly<Record<str
   ].filter(isUsableCatalogImage))).slice(0, 8);
 }
 
+type SupabaseProductImageRow = {
+  images?: unknown;
+  source_product_id?: string | null;
+};
+
+/**
+ * Supabase is the source of truth for product rows, but older sync runs may
+ * have left `images` empty while the linked Stripe Product still has images.
+ * Enrich only those rows, and degrade to the DB value if Stripe is unavailable.
+ */
+async function stripeImagesForSupabaseRows(rows: SupabaseProductImageRow[]): Promise<Map<string, string[]>> {
+  const missingSourceIds = new Set(
+    rows
+      .filter((row) => !Array.isArray(row.images) || row.images.length === 0)
+      .map((row) => row.source_product_id)
+      .filter((id): id is string => Boolean(id)),
+  );
+  if (!missingSourceIds.size || !getStripeSecretKey()) return new Map();
+
+  try {
+    const stripeProducts = await listAllActiveProducts(getStripe());
+    return new Map(
+      stripeProducts
+        .filter((product) => missingSourceIds.has(product.id))
+        .map((product) => [product.id, catalogImageUrls(product, productMetadata(product))]),
+    );
+  } catch (error) {
+    console.warn("[catalog] Stripe image enrichment unavailable; keeping Supabase image fields", {
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+    return new Map();
+  }
+}
+
 function marketReferencePriceFromMetadata(
   metadata: Readonly<Record<string, string>>,
   currentPrice: number,
@@ -652,8 +687,10 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       return null;
     }
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
-  const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null }) => {
-    const images = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && value.length > 0) : [];
+    const stripeImages = await stripeImagesForSupabaseRows(productResult.data || []);
+    const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; source_product_id?: string | null }) => {
+    const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
+    const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
     const categorySlug = categorySlugFromMofuSku(row.mofu_sku ?? undefined) ?? canonicalCategorySlug(categorySlugs.get(row.category_id)) ?? "lifestyle";
     const name = String(row.name || "未命名產品");
     return {

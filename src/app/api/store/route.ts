@@ -33,30 +33,36 @@ export async function GET() {
       supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key"]),
     ]);
 
-    const queryErrors = [categories, products, banners, settings]
+    const requiredQueryErrors = [categories, products]
       .filter((result) => result.error)
       .map((result) => ({ code: result.error?.code, message: result.error?.message }));
-    if (queryErrors.length) {
-      console.error("[store-api] Supabase REST query returned errors", { queryErrors });
+    const optionalQueryErrors = [banners, settings]
+      .filter((result) => result.error)
+      .map((result) => ({ code: result.error?.code, message: result.error?.message }));
+    if (requiredQueryErrors.length) {
+      console.error("[store-api] Required Supabase product/category query returned errors", { requiredQueryErrors, optionalQueryErrors });
       return NextResponse.json({ ...EMPTY_STORE_RESPONSE, configured: true }, {
         status: 200,
         headers: { "Cache-Control": "no-store" },
       });
     }
+    if (optionalQueryErrors.length) {
+      console.warn("[store-api] Optional storefront query returned errors; serving products/categories", { optionalQueryErrors });
+    }
 
     console.info("[store-api] Supabase data fetched", {
       categories: categories.data?.length ?? 0,
       products: products.data?.length ?? 0,
-      banners: banners.data?.length ?? 0,
-      settings: settings.data?.length ?? 0,
+      banners: banners.error ? 0 : banners.data?.length ?? 0,
+      settings: settings.error ? 0 : settings.data?.length ?? 0,
     });
     return NextResponse.json({
       configured: true,
-      degraded: false,
+      degraded: optionalQueryErrors.length > 0,
       categories: categories.data || [],
       products: products.data || [],
-      banners: banners.data || [],
-      settings: Object.fromEntries((settings.data || []).map((item) => [item.key, item.value])),
+      banners: banners.error ? [] : banners.data || [],
+      settings: Object.fromEntries((settings.error ? [] : settings.data || []).map((item) => [item.key, item.value])),
     }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("[store-api] Supabase REST request failed; returning empty store response", {
