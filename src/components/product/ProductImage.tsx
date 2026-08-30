@@ -49,6 +49,19 @@ export function ProductImage({
     );
   }
 
+  const isSupabaseStorageImage = src.includes(".supabase.co/storage/v1/object/public/");
+  if (isSupabaseStorageImage) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className={`absolute inset-0 h-full w-full ${className ?? ""}`}
+        loading={priority ? "eager" : "lazy"}
+        onError={useFallback}
+      />
+    );
+  }
+
   return (
     <Image
       src={src}
