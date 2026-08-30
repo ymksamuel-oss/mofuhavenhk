@@ -30,7 +30,7 @@ import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translat
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { resolveProductVariantImage } from "./product-variant-images";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -622,7 +622,7 @@ export async function getCatalogDiagnostics() {
 }
 
 async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
-  const supabase = getSupabaseAdmin();
+  const supabase = getSupabasePublic() || getSupabaseAdmin();
   if (!supabase) return null;
   const [categoryResult, productResult] = await Promise.all([
     supabase.from("categories").select("id,slug"),
