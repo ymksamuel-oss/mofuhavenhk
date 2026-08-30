@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
+import { getActiveStripeProductIds, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabasePublic } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,13 @@ export async function GET() {
 
     const [categories, products, banners, settings] = await Promise.all([
       supabase.from("categories").select("*").order("sort_order", { ascending: true }),
-      supabase.from("products").select("*").order("created_at", { ascending: false }),
+      supabase
+        .from("products")
+        .select("*")
+        .eq("is_published", true)
+        .eq("status", "published")
+        .gt("stock", 0)
+        .order("created_at", { ascending: false }),
       supabase.from("banners").select("*").order("sort_order", { ascending: true }),
       supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key"]),
     ]);
@@ -51,8 +57,12 @@ export async function GET() {
       console.warn("[store-api] Optional storefront query returned errors; serving products/categories", { optionalQueryErrors });
     }
 
-    const stripeImages = await getStripeImagesForSupabaseRows(products.data || []);
-    const enrichedProducts = (products.data || []).map((row) => {
+    const activeStripeProductIds = await getActiveStripeProductIds();
+    const activeProducts = (products.data || []).filter((row) =>
+      !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id),
+    );
+    const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
+    const enrichedProducts = activeProducts.map((row) => {
       const dbImages = Array.isArray(row.images) ? row.images : [];
       if (dbImages.length > 0) return row;
       const fallbackImages = stripeImages.get(row.source_product_id ?? "") ?? [];

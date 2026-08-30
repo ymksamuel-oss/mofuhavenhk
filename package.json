@@ -11,7 +11,8 @@
     "validate:products": "tsc -p tsconfig.validate.json && node scripts/run-product-validation.cjs",
     "sync:stripe": "tsx scripts/syncStripe.ts",
     "sync:stripe-images": "tsx scripts/sync-stripe-images.ts",
-    "sync:category-images": "tsx scripts/syncCategoryImages.ts"
+    "sync:category-images": "tsx scripts/syncCategoryImages.ts",
+    "repair:categories": "tsx scripts/repairSupabaseProductCategories.ts"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.8.0",

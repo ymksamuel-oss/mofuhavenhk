@@ -120,6 +120,20 @@ type SupabaseProductImageRow = {
  * have left `images` empty while the linked Stripe Product still has images.
  * Enrich only those rows, and degrade to the DB value if Stripe is unavailable.
  */
+export async function getActiveStripeProductIds(): Promise<Set<string> | null> {
+  if (!getStripeSecretKey()) return null;
+  try {
+    const products = await listAllActiveProducts(getStripe());
+    return new Set(products.map((product) => product.id));
+  } catch (error) {
+    console.warn("[catalog] Stripe active product verification unavailable; keeping database publication state", {
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+    return null;
+  }
+}
+
 export async function getStripeImagesForSupabaseRows(rows: SupabaseProductImageRow[]): Promise<Map<string, string[]>> {
   const missingSourceIds = new Set(
     rows
@@ -669,7 +683,13 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
   try {
     const [categoryResult, productResult] = await Promise.all([
       supabase.from("categories").select("id,slug"),
-      supabase.from("products").select("*").order("created_at", { ascending: false }),
+      supabase
+        .from("products")
+        .select("*")
+        .eq("is_published", true)
+        .eq("status", "published")
+        .gt("stock", 0)
+        .order("created_at", { ascending: false }),
     ]);
     if (categoryResult.error || productResult.error) {
       console.error("[catalog] Supabase product query returned an error", {
@@ -688,7 +708,10 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     }
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
-    const products = productResult.data.map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; source_product_id?: string | null }) => {
+    const activeStripeProductIds = await getActiveStripeProductIds();
+    const products = productResult.data
+      .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
+      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; source_product_id?: string | null }) => {
     const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
     const categorySlug = categorySlugFromMofuSku(row.mofu_sku ?? undefined) ?? canonicalCategorySlug(categorySlugs.get(row.category_id)) ?? "lifestyle";
@@ -711,7 +734,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       tags: [categorySlug, ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
       icon: iconForCategory(categorySlug),
     } satisfies Product;
-  }).filter((product) => product.price >= 0);
+      }).filter((product) => product.price >= 0);
     return { products, source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
