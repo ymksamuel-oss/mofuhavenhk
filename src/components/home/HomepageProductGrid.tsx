@@ -12,6 +12,12 @@ type HomepageProductGridProps = {
 
 /** Server-rendered homepage product section. Products are assembled by the page from Supabase. */
 export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
+  console.log("[homepage-product-grid] SSR products", catalogProducts);
+  if (catalogProducts.length === 0) {
+    console.error("[homepage-product-grid] SSR products is empty", {
+      error: "No products were returned by getCatalogSnapshot",
+    });
+  }
   const products = getProductsByCategory(null, catalogProducts)
     .sort((left, right) => {
       const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
