@@ -1,12 +1,26 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword, verifyAdminToken } from "@/lib/admin-auth";
+import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
+const MAX_PRODUCT_IMAGES = 8;
+
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
+function normalizeProductImages(value: unknown): string[] {
+  const values = Array.isArray(value) ? value : [value];
+  return Array.from(
+    new Set(
+      values
+        .flatMap((item) => (typeof item === "string" ? item.split(/[\r\n,|;]+/) : []))
+        .map((item) => item.trim())
+        .filter(Boolean),
+    ),
+  ).slice(0, MAX_PRODUCT_IMAGES);
+}
 
 export async function GET(request: Request) {
   const table = new URL(request.url).searchParams.get("table") || "";
@@ -18,7 +32,18 @@ export async function GET(request: Request) {
   if (table === "orders" || table === "products") query = query.order("created_at", { ascending: false });
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ data: (data || []).map((row) => cleanRow(table, row)) });
+
+  let rows = data || [];
+  if (table === "products") {
+    const stripeImages = await getStripeImagesForSupabaseRows(rows);
+    rows = rows.map((row) => {
+      if (Array.isArray(row.images) && row.images.length > 0) return row;
+      const fallbackImages = stripeImages.get(String(row.source_product_id || "")) || [];
+      return fallbackImages.length > 0 ? { ...row, images: fallbackImages } : row;
+    });
+  }
+
+  return NextResponse.json({ data: rows.map((row) => cleanRow(table, row)) });
 }
 
 export async function POST(request: Request) {
@@ -32,6 +57,7 @@ export async function POST(request: Request) {
   const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
+  if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
@@ -50,6 +76,7 @@ export async function PATCH(request: Request) {
   if (!tables.has(table) || (!id && !(table === "store_settings" && key))) return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}), ...(table === "store_settings" ? { updated_at: new Date().toISOString() } : {}) }; delete payload.id; delete payload.created_at;
+  if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 }); return NextResponse.json({ data });

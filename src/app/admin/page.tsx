@@ -9,6 +9,28 @@ type Row = Record<string, any>;
 type Tab = "products" | "categories" | "banners" | "coupons" | "orders" | "store_settings";
 
 const PAGE_SIZE = 20;
+const MAX_PRODUCT_IMAGES = 8;
+
+function parseImageUrls(value: unknown): string[] {
+  const values = Array.isArray(value) ? value : [value];
+  return Array.from(
+    new Set(
+      values
+        .flatMap((item) => (typeof item === "string" ? item.split(/[\r\n,|;]+/) : []))
+        .map((item) => item.trim())
+        .filter(Boolean),
+    ),
+  ).slice(0, MAX_PRODUCT_IMAGES);
+}
+
+function getProductImageUrls(row: Row): string[] {
+  for (const value of [row.images, row.image, row.image_url]) {
+    const urls = parseImageUrls(value);
+    if (urls.length) return urls;
+  }
+  return [];
+}
+
 const tabs: { id: Tab; label: string }[] = [
   { id: "products", label: "產品管理" },
   { id: "categories", label: "分類卡片" },
@@ -157,8 +179,8 @@ export default function AdminPage() {
       const normalized = { ...form };
       const replaceExisting = tab === "banners" && !form.id && normalized.replace_existing !== false;
       delete normalized.replace_existing;
-      if (tab === "products" && typeof normalized.images === "string") {
-        normalized.images = normalized.images.split(/\n|,/).map((item: string) => item.trim()).filter(Boolean);
+      if (tab === "products") {
+        normalized.images = parseImageUrls(normalized.images);
       }
       if (form.id) {
         await call("PATCH", { table: tab, id: form.id, row: normalized });
@@ -263,29 +285,43 @@ export default function AdminPage() {
           ) : (
             <>
               <div className="space-y-3">
-                {visibleRows.map((row) => (
-                  <div key={row.id || row.key} className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                      <div className="min-w-0">
-                        <p className="font-semibold">{tab === "products" ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
-                        <p className="mt-1 truncate text-sm text-[#8b7c70]">
-                          {tab === "products"
-                            ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
-                            : tab === "orders"
-                              ? `${row.total ?? 0} · ${row.created_at || ""}`
-                              : tab === "store_settings"
-                                ? (String(row.value).length > 20 ? "••••••••" : row.value)
-                                : row.image_url || row.slug || row.discount_type || ""}
-                        </p>
-                        {tab === "products" && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
-                      </div>
-                      <div className="flex shrink-0 gap-2">
-                        <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
-                        {tab !== "orders" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
+                {visibleRows.map((row) => {
+                  const thumbnailUrl = tab === "products" ? getProductImageUrls(row)[0] : undefined;
+                  return (
+                    <div key={row.id || row.key} className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
+                      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                        <div className="flex min-w-0 items-center gap-4">
+                          {tab === "products" && (
+                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
+                              {thumbnailUrl ? (
+                                <img src={thumbnailUrl} alt={`${row.name || "產品"}縮圖`} className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} />
+                              ) : (
+                                <div className="flex h-full items-center justify-center px-1 text-center text-[10px] leading-4 text-[#a89587]">無圖片</div>
+                              )}
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <p className="font-semibold">{tab === "products" ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
+                            <p className="mt-1 truncate text-sm text-[#8b7c70]">
+                              {tab === "products"
+                                ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
+                                : tab === "orders"
+                                  ? `${row.total ?? 0} · ${row.created_at || ""}`
+                                  : tab === "store_settings"
+                                    ? (String(row.value).length > 20 ? "••••••••" : row.value)
+                                    : row.image_url || row.slug || row.discount_type || ""}
+                            </p>
+                            {tab === "products" && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
+                          </div>
+                        </div>
+                        <div className="flex shrink-0 gap-2">
+                          <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                          {tab !== "orders" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {tab === "products" && filteredProductRows.length > 0 && productPageCount > 1 && (
@@ -306,23 +342,36 @@ export default function AdminPage() {
 
 function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab; form: Row; setForm: (r: Row) => void; categories: Row[]; onSave: () => void; onCancel: () => void }) {
   const [uploading, setUploading] = useState(false);
+  const [uploadNotice, setUploadNotice] = useState("");
 
   async function uploadFiles(event: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files || []);
+    event.target.value = "";
     if (!files.length) return;
+
+    const current = parseImageUrls(form.images);
+    const remaining = MAX_PRODUCT_IMAGES - current.length;
+    if (remaining <= 0) {
+      setUploadNotice(`產品最多只能設定 ${MAX_PRODUCT_IMAGES} 張圖片，請先移除現有圖片。`);
+      return;
+    }
+
+    const selectedFiles = files.slice(0, remaining);
+    setUploadNotice(files.length > remaining ? `已達上限，只會上傳前 ${remaining} 張圖片。` : "");
     setUploading(true);
     try {
       const urls: string[] = [];
-      for (const file of files) {
+      for (const file of selectedFiles) {
         const data = new FormData();
         data.append("file", file);
         const response = await fetch("/api/admin/upload", { method: "POST", body: data });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "上傳失敗");
-        urls.push(result.url);
+        if (typeof result.url === "string" && result.url.trim()) urls.push(result.url.trim());
       }
-      const current = Array.isArray(form.images) ? form.images : String(form.images || "").split(/\n|,/).filter(Boolean);
-      setForm({ ...form, images: [...current, ...urls] });
+      setForm({ ...form, images: parseImageUrls([...current, ...urls]) });
+    } catch (error) {
+      setUploadNotice(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploading(false);
     }
@@ -330,7 +379,9 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
 
   async function uploadSingle(event: React.ChangeEvent<HTMLInputElement>, key: string) {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
+    setUploadNotice("");
     setUploading(true);
     try {
       const data = new FormData();
@@ -339,10 +390,19 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "上傳失敗");
       setForm({ ...form, [key]: result.url });
+    } catch (error) {
+      setUploadNotice(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploading(false);
     }
   }
+
+  function removeProductImage(index: number) {
+    const urls = parseImageUrls(form.images).filter((_, urlIndex) => urlIndex !== index);
+    setForm({ ...form, images: urls });
+  }
+
+  const productImages = parseImageUrls(form.images);
 
   const field = (key: string, label: string, type = "text") => (
     <label className="block text-sm">
@@ -355,7 +415,53 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
       {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">預設會覆蓋現有 Banner，避免舊圖殘留。如要建立多張 slider，請取消勾選「覆蓋現有 Banner」，再儲存新 Banner。</div>}
       <div className="grid gap-4 md:grid-cols-2">
-        {tab === "products" && <>{field("name", "產品名稱")}{field("mofu_sku", "Mofu SKU")}{field("price", "售價", "number")}{field("original_price", "原價", "number")}{field("stock", "庫存", "number")}{field("images", "圖片 URL（每行一個）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳圖片</span><input type="file" accept="image/*" multiple onChange={uploadFiles} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}</label>{field("description", "產品描述")}{field("seo_title", "SEO 標題")}{field("seo_description", "SEO 描述")}<label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label><label className="block text-sm"><span className="mb-1 block font-medium">產品狀態</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（上架）</option><option value="draft">draft（草稿）</option><option value="archived">archived（歸檔）</option></select></label><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />已發布到前台</label></>}
+        {tab === "products" && <>
+          {field("name", "產品名稱")}
+          {field("mofu_sku", "Mofu SKU")}
+          {field("price", "售價", "number")}
+          {field("original_price", "原價", "number")}
+          {field("stock", "庫存", "number")}
+          <div className="md:col-span-2">
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium">圖片 URL（最多 {MAX_PRODUCT_IMAGES} 張，每行一個）</span>
+              <textarea
+                rows={4}
+                value={Array.isArray(form.images) ? form.images.join("\n") : String(form.images || "")}
+                onChange={(event) => setForm({ ...form, images: event.target.value })}
+                placeholder="可貼上圖片網址，每行一個"
+                className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]"
+              />
+            </label>
+            <div className="mt-2 flex items-center justify-between gap-3 text-xs text-[#8b7c70]">
+              <span>已設定 {productImages.length} / {MAX_PRODUCT_IMAGES} 張</span>
+              <span>上傳後網址會自動填入上方欄位</span>
+            </div>
+            {productImages.length > 0 && (
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {productImages.map((url, index) => (
+                  <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
+                    <img src={url} alt={`產品圖片 ${index + 1}`} className="aspect-square w-full object-cover" loading="lazy" />
+                    <button type="button" onClick={() => removeProductImage(index)} className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-2 py-1 text-xs text-red-600 shadow-sm transition hover:bg-white">移除</button>
+                    <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">圖片 {index + 1}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <label className="block text-sm md:col-span-2">
+            <span className="mb-1 block font-medium">上傳產品圖片</span>
+            <span className="mb-2 block text-xs text-[#8b7c70]">可一次選擇多張圖片，或稍後重複上載；最多 {MAX_PRODUCT_IMAGES} 張，每張上限 8 MB。</span>
+            <input type="file" accept="image/*" multiple onChange={uploadFiles} disabled={uploading || productImages.length >= MAX_PRODUCT_IMAGES} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50" />
+            {uploading && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}
+            {uploadNotice && <span className="mt-1 block text-xs text-[#a36b42]">{uploadNotice}</span>}
+          </label>
+          {field("description", "產品描述")}
+          {field("seo_title", "SEO 標題")}
+          {field("seo_description", "SEO 描述")}
+          <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
+          <label className="block text-sm"><span className="mb-1 block font-medium">產品狀態</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（上架）</option><option value="draft">draft（草稿）</option><option value="archived">archived（歸檔）</option></select></label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />已發布到前台</label>
+        </>}
         {tab === "categories" && <>{field("name", "分類名稱")}{field("slug", "Slug")}{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
         {tab === "banners" && <>{field("image_url", "圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing !== false} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（取消勾選即可加入 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
