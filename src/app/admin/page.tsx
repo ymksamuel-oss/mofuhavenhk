@@ -32,7 +32,7 @@ async function call(method: string, body?: Row, table?: string) {
 function defaultRow(tab: Tab): Row {
   if (tab === "products") return { name: "", price: 0, original_price: "", stock: 0, description: "", images: [], category_id: "", seo_title: "", seo_description: "" };
   if (tab === "categories") return { name: "", slug: "", image_url: "", sort_order: 0 };
-  if (tab === "banners") return { image_url: "", link: "", title: "", sort_order: 0 };
+  if (tab === "banners") return { image_url: "", link: "", title: "", sort_order: 0, replace_existing: true };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
 }
@@ -155,13 +155,15 @@ export default function AdminPage() {
     if (!form) return;
     try {
       const normalized = { ...form };
+      const replaceExisting = tab === "banners" && !form.id && normalized.replace_existing !== false;
+      delete normalized.replace_existing;
       if (tab === "products" && typeof normalized.images === "string") {
         normalized.images = normalized.images.split(/\n|,/).map((item: string) => item.trim()).filter(Boolean);
       }
       if (form.id) {
         await call("PATCH", { table: tab, id: form.id, row: normalized });
       } else {
-        await call("POST", { table: tab, row: normalized });
+        await call("POST", { table: tab, row: normalized, ...(tab === "banners" ? { replaceExisting } : {}) });
       }
       setForm(null);
       await load();
@@ -351,11 +353,11 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
 
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
-      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">新增 Banner 並儲存時，系統會自動覆蓋並清除現有 Banner，確保前端只顯示最新設定。</div>}
+      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">預設會覆蓋現有 Banner，避免舊圖殘留。如要建立多張 slider，請取消勾選「覆蓋現有 Banner」，再儲存新 Banner。</div>}
       <div className="grid gap-4 md:grid-cols-2">
         {tab === "products" && <>{field("name", "產品名稱")}{field("price", "售價", "number")}{field("original_price", "原價", "number")}{field("stock", "庫存", "number")}{field("images", "圖片 URL（每行一個）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳圖片</span><input type="file" accept="image/*" multiple onChange={uploadFiles} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}</label>{field("description", "產品描述")}{field("seo_title", "SEO 標題")}{field("seo_description", "SEO 描述")}<label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label></>}
         {tab === "categories" && <>{field("name", "分類名稱")}{field("slug", "Slug")}{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
-        {tab === "banners" && <>{field("image_url", "圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}</>}
+        {tab === "banners" && <>{field("image_url", "圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing !== false} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（取消勾選即可加入 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
         {tab === "store_settings" && <>{field("key", "設定 Key")}{field("value", "設定值（Secret Key 儲存後會遮罩）")}</>}
         {tab === "orders" && <p className="text-sm">顧客資料：{JSON.stringify(form.customer_info || {})}<br />商品：{JSON.stringify(form.items || [])}<br />狀態：{form.status}</p>}

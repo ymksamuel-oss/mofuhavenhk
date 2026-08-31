@@ -751,10 +751,13 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
+  // An explicit category assigned in the database must win over a SKU heuristic.
+  // SKU classification remains the fallback for Stripe/fallback products without a
+  // persisted category relation.
   return (
-    categorySlugFromMofuSku(product.metadata?.mofu_sku) ??
-    categorySlugFromMetadata(product.metadata?.category) ??
     canonicalCategorySlug(product.categorySlug) ??
+    categorySlugFromMetadata(product.metadata?.category) ??
+    categorySlugFromMofuSku(product.metadata?.mofu_sku) ??
     product.categorySlug
   );
 }
@@ -770,7 +773,15 @@ export function getProductsByCategory(
   const uniqueProducts = uniqueProductsById(products);
   const canonicalSlug = canonicalCategorySlug(slug);
   if (!canonicalSlug) return uniqueProducts;
-  return uniqueProducts.filter((product) => productCategorySlug(product) === canonicalSlug);
+  return uniqueProducts.filter((product) => {
+    const assignedSlug = productCategorySlug(product);
+    if (assignedSlug === canonicalSlug) return true;
+    // Parent collections include products assigned to custom child categories.
+    if (canonicalSlug === "cats" || canonicalSlug === "dogs") {
+      return categorySlugFromMofuSku(product.metadata?.mofu_sku) === canonicalSlug;
+    }
+    return false;
+  });
 }
 
 export function getCatProductsBySubcategory(

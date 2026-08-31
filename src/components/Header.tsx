@@ -15,9 +15,16 @@ import {
   type CategoryMenuGroup,
 } from "@/components/CategoryDropdown";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
+import { CATEGORIES } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
+
+type LiveCategory = {
+  id: string;
+  slug: string;
+  name: string;
+};
 
 function navLinkClassName(active: boolean) {
   return `relative truncate py-0.5 transition-colors ${
@@ -96,6 +103,8 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<CategoryMenuGroup | null>(null);
   const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<CategoryMenuGroup | null>(null);
+  const [liveCategoryOpen, setLiveCategoryOpen] = useState(false);
+  const [liveCategories, setLiveCategories] = useState<LiveCategory[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
@@ -122,9 +131,28 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/store", { cache: "no-store", signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((payload) => {
+        const categories = Array.isArray(payload?.categories) ? payload.categories : [];
+        const fixedCategorySlugs = new Set(CATEGORIES.map((category) => category.slug));
+        setLiveCategories(
+          categories
+            .filter((item: { id?: string; slug?: string; name?: string }) => item.id && item.slug && item.name && !fixedCategorySlugs.has(String(item.slug).toLocaleLowerCase()))
+            .map((item: { id: string; slug: string; name: string }) => ({ id: String(item.id), slug: item.slug, name: item.name })),
+        );
+      })
+      .catch(() => undefined);
+
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     setMenuOpen(false);
     setMobileCategoryOpen(null);
     setDesktopCategoryOpen(null);
+    setLiveCategoryOpen(false);
     setCartOpen(false);
   }, [pathname]);
 
@@ -134,15 +162,19 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!desktopCategoryOpen) return;
+    if (!desktopCategoryOpen && !liveCategoryOpen) return;
 
     const closeWhenOutside = (event: PointerEvent) => {
       if (!desktopCategoryRef.current?.contains(event.target as Node)) {
         setDesktopCategoryOpen(null);
+        setLiveCategoryOpen(false);
       }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDesktopCategoryOpen(null);
+      if (event.key === "Escape") {
+        setDesktopCategoryOpen(null);
+        setLiveCategoryOpen(false);
+      }
     };
 
     window.addEventListener("pointerdown", closeWhenOutside);
@@ -151,7 +183,7 @@ export function Header() {
       window.removeEventListener("pointerdown", closeWhenOutside);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [desktopCategoryOpen]);
+  }, [desktopCategoryOpen, liveCategoryOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -290,6 +322,29 @@ export function Header() {
                     </li>
                   );
                 })}
+                {liveCategories.length > 0 ? (
+                  <li className="block w-full border-t border-[color:var(--line)] pt-3">
+                    <p className="px-4 pb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--muted)]">
+                      {locale === "en" ? "More categories" : "更多分類"}
+                    </p>
+                    <div className="grid gap-1">
+                      {liveCategories.map((category) => (
+                        <Link
+                          key={category.id}
+                          href={`/categories/${category.slug}`}
+                          className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
+                            pathname.startsWith(`/categories/${category.slug}`)
+                              ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                              : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
+                          }`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {category.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </li>
+                ) : null}
                 {mobileNavItems.slice(1).map((item) => (
                   <li key={item.href} className="block w-full">
                     <Link
@@ -346,7 +401,10 @@ export function Header() {
                 <div
                   key={group}
                   className="relative -mb-3 pb-3"
-                  onMouseEnter={() => setDesktopCategoryOpen(group)}
+                  onMouseEnter={() => {
+                    setLiveCategoryOpen(false);
+                    setDesktopCategoryOpen(group);
+                  }}
                 >
                   <button
                     type="button"
@@ -356,10 +414,17 @@ export function Header() {
                     aria-controls={panelId}
                     onPointerDown={(event) => {
                       event.stopPropagation();
+                      setLiveCategoryOpen(false);
                       setDesktopCategoryOpen(group);
                     }}
-                    onClick={() => setDesktopCategoryOpen(group)}
-                    onFocus={() => setDesktopCategoryOpen(group)}
+                    onClick={() => {
+                      setLiveCategoryOpen(false);
+                      setDesktopCategoryOpen(group);
+                    }}
+                    onFocus={() => {
+                      setLiveCategoryOpen(false);
+                      setDesktopCategoryOpen(group);
+                    }}
                   >
                     {label}
                     <CaretIcon open={isOpen} />
@@ -376,6 +441,50 @@ export function Header() {
                 </div>
               );
             })}
+            {liveCategories.length > 0 ? (
+              <div
+                className="relative -mb-3 pb-3"
+                onMouseEnter={() => {
+                  setDesktopCategoryOpen(null);
+                  setLiveCategoryOpen(true);
+                }}
+              >
+                <button
+                  type="button"
+                  className={`${navLinkClassName(liveCategoryOpen || liveCategories.some((category) => pathname.startsWith(`/categories/${category.slug}`)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
+                  aria-haspopup="menu"
+                  aria-expanded={liveCategoryOpen}
+                  aria-controls={`${desktopCategoriesId}-live`}
+                  onPointerDown={(event) => {
+                    event.stopPropagation();
+                    setDesktopCategoryOpen(null);
+                    setLiveCategoryOpen(true);
+                  }}
+                  onClick={() => setLiveCategoryOpen((open) => !open)}
+                  onFocus={() => setLiveCategoryOpen(true)}
+                >
+                  {locale === "en" ? "More categories" : "更多分類"}
+                  <CaretIcon open={liveCategoryOpen} />
+                </button>
+                {liveCategoryOpen ? (
+                  <div id={`${desktopCategoriesId}-live`} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
+                    <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                      {liveCategories.map((category) => (
+                        <Link
+                          key={category.id}
+                          href={`/categories/${category.slug}`}
+                          role="menuitem"
+                          className={`${navLinkClassName(pathname.startsWith(`/categories/${category.slug}`))} rounded-xl px-3 py-2 text-sm hover:bg-[#f1ded1]`}
+                          onClick={() => setLiveCategoryOpen(false)}
+                        >
+                          {category.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
             <Link href="/checkout" className={navLinkClassName(pathname === "/checkout")}>
               {t("navCheckout")}
             </Link>

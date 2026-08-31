@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
-import { canonicalCategorySlug, CATEGORIES, isCategorySlug } from "@/lib/categories";
+import { canonicalCategorySlug, CATEGORIES } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
 type CategoryPageProps = {
@@ -19,19 +19,20 @@ export async function generateMetadata({
 }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
   const query = await searchParams;
-  if (!isCategorySlug(slug)) return { robots: { index: false, follow: false } };
+  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!canonicalSlug) return { robots: { index: false, follow: false } };
   const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
   return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
-    categorySlug: slug,
+    categorySlug: canonicalSlug,
   });
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  if (!isCategorySlug(slug)) {
+  const canonicalSlug = canonicalCategorySlug(slug);
+  if (!canonicalSlug) {
     notFound();
   }
-  const canonicalSlug = canonicalCategorySlug(slug);
 
   return (
     <ProductCatalog

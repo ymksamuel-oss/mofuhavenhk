@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { canonicalCategorySlug } from "@/lib/categories";
 import { getActiveStripeProductIds, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabasePublic } from "@/lib/supabase";
 
@@ -12,6 +13,27 @@ const EMPTY_STORE_RESPONSE = {
   banners: [],
   settings: {},
 };
+
+function categorySlugFromName(name: unknown): string | null {
+  const value = String(name ?? "").trim().toLocaleLowerCase();
+  if (!value) return null;
+  if (value.includes("貓罐") || value.includes("猫罐") || value.includes("cat can") || value.includes("wet food")) return "cat-cans";
+  if (value.includes("乾糧") || value.includes("干粮") || value.includes("dry food")) return "dry-food";
+  return null;
+}
+
+function normalizeCategories(rows: Array<Record<string, unknown>>): Array<Record<string, unknown>> {
+  const bySlug = new Map<string, Record<string, unknown>>();
+  for (const row of rows) {
+    const slug = canonicalCategorySlug(String(row.slug ?? "").trim()) || categorySlugFromName(row.name);
+    if (!slug || !row.id || !row.name) continue;
+    const normalized = { ...row, slug };
+    const existing = bySlug.get(slug);
+    // Prefer an exact canonical row; otherwise keep the first stable record.
+    if (!existing || String(row.slug ?? "").trim().toLocaleLowerCase() === slug) bySlug.set(slug, normalized);
+  }
+  return Array.from(bySlug.values()).sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0));
+}
 
 export async function GET() {
   try {
@@ -36,9 +58,10 @@ export async function GET() {
         .eq("status", "published")
         .gt("stock", 0)
         .order("created_at", { ascending: false }),
-      // Banner is a single active setting: return only the newest record so legacy rows
-      // can never be rendered together while an older database row is being cleaned up.
-      supabase.from("banners").select("*").order("created_at", { ascending: false }).limit(1),
+      // The active Banner set may contain multiple ordered slides. The carousel renders
+      // one active slide at a time, while Admin controls whether a new upload replaces
+      // the set or is appended to it.
+      supabase.from("banners").select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false }),
       supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key"]),
     ]);
 
@@ -80,7 +103,7 @@ export async function GET() {
     return NextResponse.json({
       configured: true,
       degraded: optionalQueryErrors.length > 0,
-      categories: categories.data || [],
+      categories: normalizeCategories((categories.data || []) as Array<Record<string, unknown>>),
       products: enrichedProducts,
       banners: banners.error ? [] : banners.data || [],
       settings: Object.fromEntries((settings.error ? [] : settings.data || []).map((item) => [item.key, item.value])),

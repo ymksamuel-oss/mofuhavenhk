@@ -35,9 +35,8 @@ export async function POST(request: Request) {
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
-  // Banner 輪播採用「最新設定覆蓋」模式：儲存新 Banner 後清除所有舊記錄，
-  // 確保前端只會收到一組最新 Banner，不會因歷次上載而重複輪播。
-  if (table === "banners" && data?.id) {
+  // Banner 新增預設採用覆蓋模式；管理員可明確選擇保留舊記錄，建立多張 slider。
+  if (table === "banners" && data?.id && body.replaceExisting !== false) {
     const { error: cleanupError } = await supabase.from("banners").delete().neq("id", data.id);
     if (cleanupError) return NextResponse.json({ error: `新 Banner 已儲存，但清除舊 Banner 失敗：${cleanupError.message}` }, { status: 500 });
   }
