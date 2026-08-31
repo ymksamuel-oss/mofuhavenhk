@@ -7,7 +7,11 @@ import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
+import {
+  getProductsByCategory,
+  isStorefrontReadyProduct,
+  type Product,
+} from "@/lib/products";
 import styles from "./HomeProductMarquee.module.css";
 
 type ProductRowProps = {
@@ -263,11 +267,11 @@ export function HomeProductMarquee() {
     [catalogProducts],
   );
   const catProducts = useMemo(() => {
-    const products = activeProducts.filter((product) => product.categorySlug === "cats");
+    const products = getProductsByCategory("cats", activeProducts);
     return (carouselSeed === 0 ? products : shuffledProducts(products)).slice(0, 8);
   }, [activeProducts, carouselSeed]);
   const dogProducts = useMemo(() => {
-    const products = activeProducts.filter((product) => product.categorySlug === "dogs");
+    const products = getProductsByCategory("dogs", activeProducts);
     return (carouselSeed === 0 ? products : shuffledProducts(products)).slice(0, 8);
   }, [activeProducts, carouselSeed]);
 

@@ -8,7 +8,14 @@ create table if not exists public.products (
   id uuid primary key default gen_random_uuid(), name text not null, price numeric(12,2) not null default 0,
   original_price numeric(12,2), stock integer not null default 0, description text, images jsonb not null default '[]'::jsonb,
   category_id uuid references public.categories(id) on delete set null, seo_title text, seo_description text,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  is_published boolean not null default true,
+  mofu_sku text,
+  brand text,
+  current_hkd numeric(12,2),
+  status text not null default 'published',
+  source_product_id text,
+  source_price_id text
 );
 create table if not exists public.banners (
   id uuid primary key default gen_random_uuid(), image_url text not null, link text, title text,
@@ -31,6 +38,7 @@ create table if not exists public.store_settings (
 
 create index if not exists products_category_id_idx on public.products(category_id);
 create index if not exists products_created_at_idx on public.products(created_at desc);
+create index if not exists products_storefront_status_idx on public.products(status, is_published, stock);
 create index if not exists orders_created_at_idx on public.orders(created_at desc);
 create unique index if not exists orders_order_number_idx on public.orders(order_number) where order_number is not null;
 create index if not exists orders_payment_intent_idx on public.orders(payment_intent_id) where payment_intent_id is not null;

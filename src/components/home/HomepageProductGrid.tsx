@@ -5,7 +5,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getProductsByCategory, productHref, type Product } from "@/lib/products";
+import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
 type HomepageProductGridProps = {
   products: Product[];
@@ -20,6 +20,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
     });
   }
   const products = getProductsByCategory(null, catalogProducts)
+    .filter(isStorefrontReadyProduct)
     .sort((left, right) => {
       const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
       const rightRank = HOME_FEATURED_PRODUCT_IDS.indexOf(right.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);

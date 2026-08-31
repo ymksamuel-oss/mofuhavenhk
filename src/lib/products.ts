@@ -762,8 +762,36 @@ function productCategorySlug(product: Product): string {
   );
 }
 
+function inferredPetParentCategory(product: Product): "cats" | "dogs" | null {
+  const skuCategory = categorySlugFromMofuSku(product.metadata?.mofu_sku);
+  if (skuCategory === "cats" || skuCategory === "dogs") return skuCategory;
+
+  const classificationText = normalizeProductClassificationText([
+    product.name.zh,
+    product.name.en,
+    product.description?.zh,
+    product.description?.en,
+    ...(product.tags ?? []),
+    ...Object.values(product.metadata ?? {}),
+  ].filter(Boolean).join(" "));
+  const isCat = /貓|猫|cat|feline/i.test(classificationText);
+  const isDog = /狗|犬|dog|canine/i.test(classificationText);
+  if (isCat && !isDog) return "cats";
+  if (isDog && !isCat) return "dogs";
+  return null;
+}
+
 function productSubcategory(product: Product): ProductSubcategory | undefined {
-  return subcategoryFromMetadata(product.metadata?.category) ?? product.subcategory;
+  const explicit = subcategoryFromMetadata(product.metadata?.category) ?? product.subcategory;
+  if (explicit) return explicit;
+
+  const categorySlug = canonicalCategorySlug(product.categorySlug);
+  if (categorySlug === "dry-food") {
+    const parent = inferredPetParentCategory(product);
+    return parent === "cats" ? "貓乾糧" : parent === "dogs" ? "狗狗乾糧" : undefined;
+  }
+  if (categorySlug === "cat-cans") return "貓罐罐";
+  return undefined;
 }
 
 export function getProductsByCategory(
@@ -778,7 +806,7 @@ export function getProductsByCategory(
     if (assignedSlug === canonicalSlug) return true;
     // Parent collections include products assigned to custom child categories.
     if (canonicalSlug === "cats" || canonicalSlug === "dogs") {
-      return categorySlugFromMofuSku(product.metadata?.mofu_sku) === canonicalSlug;
+      return inferredPetParentCategory(product) === canonicalSlug;
     }
     return false;
   });

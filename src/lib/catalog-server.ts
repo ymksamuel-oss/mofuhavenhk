@@ -31,7 +31,7 @@ import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translat
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { resolveProductVariantImage } from "./product-variant-images";
-import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
+import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -752,13 +752,21 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
     if (managedCatalog) return managedCatalog;
+    // Once Supabase is configured, never leak the old Git-backed catalog when a
+    // managed query fails; that could expose archived products outside Admin control.
+    if (isSupabaseConfigured()) {
+      return { products: [], source: "supabase", matchedRecords: 0 };
+    }
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
   } catch (error) {
     console.error(
-      "Storefront Stripe catalog fetch failed; using verified fallback catalog",
+      "Storefront catalog fetch failed",
       stripeErrorDetails(error),
     );
+    if (isSupabaseConfigured()) {
+      return { products: [], source: "supabase", matchedRecords: 0 };
+    }
     return fallbackCatalogSnapshot();
   }
 }
