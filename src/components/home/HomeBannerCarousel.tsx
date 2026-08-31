@@ -106,6 +106,7 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
 export function HomeBannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
   const [slides, setSlides] = useState<BannerSlide[]>(HOME_BANNER_SLIDES);
 
   useEffect(() => {
@@ -131,15 +132,21 @@ export function HomeBannerCarousel() {
   const goTo = useCallback((index: number) => {
     setActiveIndex((currentIndex) => {
       const nextIndex = Number.isFinite(index) ? index : currentIndex;
+      if (nextIndex !== currentIndex) {
+        const isForward = (nextIndex - currentIndex + slides.length) % slides.length <= slides.length / 2;
+        setSlideDirection(isForward ? "next" : "previous");
+      }
       return (nextIndex + slides.length) % slides.length;
     });
   }, [slides.length]);
 
   const goNext = useCallback(() => {
+    setSlideDirection("next");
     setActiveIndex((currentIndex) => (currentIndex + 1) % slides.length);
   }, [slides.length]);
 
   const goPrevious = useCallback(() => {
+    setSlideDirection("previous");
     setActiveIndex((currentIndex) => (currentIndex - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
@@ -150,6 +157,7 @@ export function HomeBannerCarousel() {
   }, [goNext, isPaused, slides.length]);
 
   const activeSlide = slides[activeIndex] || slides[0];
+  const slideAnimationClass = slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous";
   if (!activeSlide) return null;
 
   return (
@@ -166,7 +174,7 @@ export function HomeBannerCarousel() {
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem]">
         <div className="relative aspect-[4/5] min-h-[30rem] sm:aspect-[16/9] sm:min-h-0 lg:aspect-[2.15/1]">
           {/* Render one active article instead of a translated stack, so old/new artwork can never overlap. */}
-          <article key={activeSlide.id} className="absolute inset-0 overflow-hidden motion-safe:animate-[banner-fade-in_240ms_ease-out]">
+          <article key={activeSlide.id} aria-live="polite" className={`absolute inset-0 overflow-hidden ${slideAnimationClass}`}>
             <picture>
               {activeSlide.mobileImage ? <source media="(max-width: 639px)" srcSet={activeSlide.mobileImage} /> : null}
               <Image
@@ -227,6 +235,7 @@ export function HomeBannerCarousel() {
           <button
             type="button"
             aria-label="上一張 Banner"
+            disabled={slides.length <= 1}
             onClick={goPrevious}
             className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:h-11 sm:w-11"
           >
@@ -235,6 +244,7 @@ export function HomeBannerCarousel() {
           <button
             type="button"
             aria-label="下一張 Banner"
+            disabled={slides.length <= 1}
             onClick={goNext}
             className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:h-11 sm:w-11"
           >
