@@ -751,47 +751,17 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 }
 
 function productCategorySlug(product: Product): string {
-  // An explicit category assigned in the database must win over a SKU heuristic.
-  // SKU classification remains the fallback for Stripe/fallback products without a
-  // persisted category relation.
-  return (
-    canonicalCategorySlug(product.categorySlug) ??
-    categorySlugFromMetadata(product.metadata?.category) ??
-    categorySlugFromMofuSku(product.metadata?.mofu_sku) ??
-    product.categorySlug
-  );
-}
-
-function inferredPetParentCategory(product: Product): "cats" | "dogs" | null {
-  const skuCategory = categorySlugFromMofuSku(product.metadata?.mofu_sku);
-  if (skuCategory === "cats" || skuCategory === "dogs") return skuCategory;
-
-  const classificationText = normalizeProductClassificationText([
-    product.name.zh,
-    product.name.en,
-    product.description?.zh,
-    product.description?.en,
-    ...(product.tags ?? []),
-    ...Object.values(product.metadata ?? {}),
-  ].filter(Boolean).join(" "));
-  const isCat = /貓|猫|cat|feline/i.test(classificationText);
-  const isDog = /狗|犬|dog|canine/i.test(classificationText);
-  if (isCat && !isDog) return "cats";
-  if (isDog && !isCat) return "dogs";
-  return null;
+  // The category relation persisted by Admin (category_id → categorySlug) is the
+  // ONLY authoritative assignment. Never re-classify a managed product from its
+  // name, description, tags or SKU wording: whatever category Admin picks is
+  // exactly where the product appears, and nowhere else.
+  return canonicalCategorySlug(product.categorySlug) ?? product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {
-  const explicit = subcategoryFromMetadata(product.metadata?.category) ?? product.subcategory;
-  if (explicit) return explicit;
-
-  const categorySlug = canonicalCategorySlug(product.categorySlug);
-  if (categorySlug === "dry-food") {
-    const parent = inferredPetParentCategory(product);
-    return parent === "cats" ? "貓乾糧" : parent === "dogs" ? "狗狗乾糧" : undefined;
-  }
-  if (categorySlug === "cat-cans") return "貓罐罐";
-  return undefined;
+  // Subcategory grouping stays strictly metadata/explicit-field driven; no
+  // name/SKU keyword guessing is applied on top of the database assignment.
+  return subcategoryFromMetadata(product.metadata?.category) ?? product.subcategory;
 }
 
 export function getProductsByCategory(
@@ -801,15 +771,9 @@ export function getProductsByCategory(
   const uniqueProducts = uniqueProductsById(products);
   const canonicalSlug = canonicalCategorySlug(slug);
   if (!canonicalSlug) return uniqueProducts;
-  return uniqueProducts.filter((product) => {
-    const assignedSlug = productCategorySlug(product);
-    if (assignedSlug === canonicalSlug) return true;
-    // Parent collections include products assigned to custom child categories.
-    if (canonicalSlug === "cats" || canonicalSlug === "dogs") {
-      return inferredPetParentCategory(product) === canonicalSlug;
-    }
-    return false;
-  });
+  // Strict foreign-key filtering: a product appears in a category only when its
+  // persisted category relation resolves to that slug. No fuzzy name/SKU matching.
+  return uniqueProducts.filter((product) => productCategorySlug(product) === canonicalSlug);
 }
 
 export function getCatProductsBySubcategory(
