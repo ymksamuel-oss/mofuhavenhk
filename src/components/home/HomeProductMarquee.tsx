@@ -10,6 +10,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import {
   getProductsByCategory,
   isStorefrontReadyProduct,
+  productHref,
   type Product,
 } from "@/lib/products";
 import styles from "./HomeProductMarquee.module.css";
