@@ -25,6 +25,8 @@ type DatabaseCategory = {
   name: string;
 };
 
+const DIRECT_CATEGORY_GROUPS = new Set<CategoryMenuGroup>(["cats", "dogs", "lifestyle"]);
+
 function navLinkClassName(active: boolean) {
   return `relative truncate py-0.5 transition-colors ${
     active
@@ -316,11 +318,29 @@ export function Header() {
                   </li>
                 ))}
                 {HEADER_MENU_GROUPS.map((group) => {
-                  const isOpen = mobileCategoryOpen === group;
                   const isActive = isMenuGroupActive(group);
                   const label = t(HEADER_MENU_LABEL_KEY[group]);
-                  const panelId = `${mobileCategoriesId}-${group}`;
 
+                  if (DIRECT_CATEGORY_GROUPS.has(group)) {
+                    return (
+                      <li key={group} className="block w-full">
+                        <Link
+                          href={`/categories/${group}`}
+                          className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
+                            isActive
+                              ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                              : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
+                          }`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {label}
+                        </Link>
+                      </li>
+                    );
+                  }
+
+                  const isOpen = mobileCategoryOpen === group;
+                  const panelId = `${mobileCategoriesId}-${group}`;
                   return (
                     <li key={group} className="block w-full">
                       <button
@@ -422,11 +442,19 @@ export function Header() {
               {t("navHome")}
             </Link>
             {HEADER_MENU_GROUPS.map((group) => {
-              const isOpen = desktopCategoryOpen === group;
               const isActive = isMenuGroupActive(group);
               const label = t(HEADER_MENU_LABEL_KEY[group]);
-              const panelId = `${desktopCategoriesId}-${group}`;
 
+              if (DIRECT_CATEGORY_GROUPS.has(group)) {
+                return (
+                  <Link key={group} href={`/categories/${group}`} className={navLinkClassName(isActive)}>
+                    {label}
+                  </Link>
+                );
+              }
+
+              const isOpen = desktopCategoryOpen === group;
+              const panelId = `${desktopCategoriesId}-${group}`;
               return (
                 <div
                   key={group}
