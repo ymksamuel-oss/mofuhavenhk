@@ -36,7 +36,9 @@ export async function GET() {
         .eq("status", "published")
         .gt("stock", 0)
         .order("created_at", { ascending: false }),
-      supabase.from("banners").select("*").order("sort_order", { ascending: true }),
+      // Banner is a single active setting: return only the newest record so legacy rows
+      // can never be rendered together while an older database row is being cleaned up.
+      supabase.from("banners").select("*").order("created_at", { ascending: false }).limit(1),
       supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key"]),
     ]);
 
