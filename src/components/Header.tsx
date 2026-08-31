@@ -15,12 +15,11 @@ import {
   type CategoryMenuGroup,
 } from "@/components/CategoryDropdown";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
-import { CATEGORIES } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
-type LiveCategory = {
+type DatabaseCategory = {
   id: string;
   slug: string;
   name: string;
@@ -104,7 +103,7 @@ export function Header() {
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<CategoryMenuGroup | null>(null);
   const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<CategoryMenuGroup | null>(null);
   const [liveCategoryOpen, setLiveCategoryOpen] = useState(false);
-  const [liveCategories, setLiveCategories] = useState<LiveCategory[]>([]);
+  const [databaseCategories, setDatabaseCategories] = useState<DatabaseCategory[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
@@ -132,20 +131,51 @@ export function Header() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/store", { cache: "no-store", signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((payload) => {
-        const categories = Array.isArray(payload?.categories) ? payload.categories : [];
-        const fixedCategorySlugs = new Set(CATEGORIES.map((category) => category.slug));
-        setLiveCategories(
-          categories
-            .filter((item: { id?: string; slug?: string; name?: string }) => item.id && item.slug && item.name && !fixedCategorySlugs.has(String(item.slug).toLocaleLowerCase()))
-            .map((item: { id: string; slug: string; name: string }) => ({ id: String(item.id), slug: item.slug, name: item.name })),
-        );
-      })
-      .catch(() => undefined);
 
-    return () => controller.abort();
+    const loadDatabaseCategories = async () => {
+      try {
+        const response = await fetch("/api/store", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error(`分類資料載入失敗：${response.status}`);
+        const payload = await response.json();
+        const categories = Array.isArray(payload?.categories) ? payload.categories : [];
+        const seenSlugs = new Set<string>();
+        const nextCategories = categories
+          .filter((item: { id?: string; slug?: string; name?: string }) => {
+            const slug = String(item.slug || "").trim().toLocaleLowerCase();
+            const isValid = Boolean(item.id && slug && item.name) && !seenSlugs.has(slug);
+            if (isValid) seenSlugs.add(slug);
+            return isValid;
+          })
+          .map((item: { id: string; slug: string; name: string }) => ({
+            id: String(item.id),
+            slug: item.slug.trim(),
+            name: item.name.trim(),
+          }));
+        setDatabaseCategories(nextCategories);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        // Keep the static navigation usable when the public catalog API is temporarily unavailable.
+        console.warn("[header] Unable to refresh database categories", error);
+      }
+    };
+
+    loadDatabaseCategories();
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === "visible") loadDatabaseCategories();
+    };
+    const refreshInterval = window.setInterval(loadDatabaseCategories, 30_000);
+    window.addEventListener("focus", refreshWhenVisible);
+    document.addEventListener("visibilitychange", refreshWhenVisible);
+
+    return () => {
+      controller.abort();
+      window.clearInterval(refreshInterval);
+      window.removeEventListener("focus", refreshWhenVisible);
+      document.removeEventListener("visibilitychange", refreshWhenVisible);
+    };
   }, []);
 
   useEffect(() => {
@@ -322,13 +352,13 @@ export function Header() {
                     </li>
                   );
                 })}
-                {liveCategories.length > 0 ? (
+                {databaseCategories.length > 0 ? (
                   <li className="block w-full border-t border-[color:var(--line)] pt-3">
                     <p className="px-4 pb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--muted)]">
                       {locale === "en" ? "More categories" : "更多分類"}
                     </p>
                     <div className="grid gap-1">
-                      {liveCategories.map((category) => (
+                      {databaseCategories.map((category) => (
                         <Link
                           key={category.id}
                           href={`/categories/${category.slug}`}
@@ -441,7 +471,7 @@ export function Header() {
                 </div>
               );
             })}
-            {liveCategories.length > 0 ? (
+            {databaseCategories.length > 0 ? (
               <div
                 className="relative -mb-3 pb-3"
                 onMouseEnter={() => {
@@ -451,7 +481,7 @@ export function Header() {
               >
                 <button
                   type="button"
-                  className={`${navLinkClassName(liveCategoryOpen || liveCategories.some((category) => pathname.startsWith(`/categories/${category.slug}`)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
+                  className={`${navLinkClassName(liveCategoryOpen || databaseCategories.some((category) => pathname.startsWith(`/categories/${category.slug}`)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
                   aria-haspopup="menu"
                   aria-expanded={liveCategoryOpen}
                   aria-controls={`${desktopCategoriesId}-live`}
@@ -469,7 +499,7 @@ export function Header() {
                 {liveCategoryOpen ? (
                   <div id={`${desktopCategoriesId}-live`} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
                     <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                      {liveCategories.map((category) => (
+                      {databaseCategories.map((category) => (
                         <Link
                           key={category.id}
                           href={`/categories/${category.slug}`}
