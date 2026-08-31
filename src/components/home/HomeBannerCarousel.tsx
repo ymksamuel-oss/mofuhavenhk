@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 
 type BannerSlide = {
@@ -73,6 +73,7 @@ const AUTO_PLAY_MS = 4000;
 type StoreBanner = {
   id?: string | number;
   image_url?: string | null;
+  mobile_image_url?: string | null;
   link?: string | null;
   title?: string | null;
 };
@@ -83,9 +84,12 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
     .filter((banner) => typeof banner.image_url === "string" && banner.image_url.trim().length > 0)
     .map((banner, index) => {
       const image = banner.image_url!.trim();
+      const mobileImage = typeof banner.mobile_image_url === "string" ? banner.mobile_image_url.trim() : "";
       return {
         id: String(banner.id || `managed-banner-${index}`),
         image,
+        // Prefer the dedicated mobile artwork; fall back to the desktop image when absent.
+        mobileImage: mobileImage || image,
         eyebrow: "MOFU HAVEN",
         title: banner.title?.trim() || "Mofu Haven 質感寵物生活",
         subtitle: "",
@@ -97,8 +101,9 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
       };
     })
     .filter((banner) => {
-      if (seenImages.has(banner.image)) return false;
-      seenImages.add(banner.image);
+      const dedupeKey = `${banner.image}|${banner.mobileImage || ""}`;
+      if (seenImages.has(dedupeKey)) return false;
+      seenImages.add(dedupeKey);
       return true;
     });
 }
@@ -107,6 +112,8 @@ export function HomeBannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
   const [slides, setSlides] = useState<BannerSlide[]>(HOME_BANNER_SLIDES);
+  const autoplayTimer = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -149,14 +156,53 @@ export function HomeBannerCarousel() {
     setActiveIndex((currentIndex) => (currentIndex - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
-  useEffect(() => {
-    if (slides.length <= 1) return undefined;
-
-    // Keep autoplay independent from pointer/focus state so the carousel cannot
-    // get stuck after a user clicks a control or the pointer enters the hero.
-    const timer = window.setInterval(goNext, AUTO_PLAY_MS);
-    return () => window.clearInterval(timer);
+  const restartAutoplay = useCallback(() => {
+    if (autoplayTimer.current !== null) {
+      window.clearInterval(autoplayTimer.current);
+      autoplayTimer.current = null;
+    }
+    if (slides.length <= 1) return;
+    autoplayTimer.current = window.setInterval(goNext, AUTO_PLAY_MS);
   }, [goNext, slides.length]);
+
+  useEffect(() => {
+    restartAutoplay();
+    return () => {
+      if (autoplayTimer.current !== null) {
+        window.clearInterval(autoplayTimer.current);
+        autoplayTimer.current = null;
+      }
+    };
+  }, [restartAutoplay]);
+
+  const handleManualPrevious = useCallback(() => {
+    goPrevious();
+    restartAutoplay();
+  }, [goPrevious, restartAutoplay]);
+
+  const handleManualNext = useCallback(() => {
+    goNext();
+    restartAutoplay();
+  }, [goNext, restartAutoplay]);
+
+  const handleDotSelect = useCallback((index: number) => {
+    goTo(index);
+    restartAutoplay();
+  }, [goTo, restartAutoplay]);
+
+  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  }, []);
+
+  const handleTouchEnd = useCallback((event: React.TouchEvent<HTMLElement>) => {
+    if (touchStartX.current === null) return;
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX.current;
+    const deltaX = endX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(deltaX) < 40) return;
+    if (deltaX < 0) handleManualNext();
+    else handleManualPrevious();
+  }, [handleManualNext, handleManualPrevious]);
 
   const activeSlide = slides[activeIndex] || slides[0];
   const slideAnimationClass = slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous";
@@ -165,10 +211,14 @@ export function HomeBannerCarousel() {
   return (
     <section
       aria-label="Mofu Haven Banner Slider"
-      className="mobile-home-soft-surface relative isolate z-0 bg-[color:var(--background)] px-4 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-8 lg:px-12 lg:pb-10 lg:pt-10"
+      className="mobile-home-soft-surface relative isolate z-0 scroll-mt-14 bg-[color:var(--background)] px-4 pb-4 pt-4 sm:scroll-mt-16 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10 lg:pt-8"
     >
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem]">
-        <div className="relative aspect-[4/5] min-h-[30rem] sm:aspect-[16/9] sm:min-h-0 lg:aspect-[2.15/1]">
+        <div
+          className="relative aspect-[4/5] min-h-[26rem] touch-pan-y sm:aspect-[16/9] sm:min-h-0 lg:aspect-[2.15/1]"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Render one active article instead of a translated stack, so old/new artwork can never overlap. */}
           <article key={activeSlide.id} aria-live="polite" className={`absolute inset-0 overflow-hidden ${slideAnimationClass}`}>
             <picture>
@@ -235,7 +285,7 @@ export function HomeBannerCarousel() {
               type="button"
               aria-label="上一張 Banner"
               disabled={slides.length <= 1}
-              onClick={goPrevious}
+              onClick={handleManualPrevious}
               className="pointer-events-auto absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:left-5 sm:h-11 sm:w-11"
             >
               <span aria-hidden>‹</span>
@@ -244,14 +294,14 @@ export function HomeBannerCarousel() {
               type="button"
               aria-label="下一張 Banner"
               disabled={slides.length <= 1}
-              onClick={goNext}
+              onClick={handleManualNext}
               className="pointer-events-auto absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:right-5 sm:h-11 sm:w-11"
             >
               <span aria-hidden>›</span>
             </button>
 
             {slides.length > 1 && (
-              <div className="pointer-events-auto absolute bottom-5 left-6 flex items-center gap-2 sm:left-12 lg:left-16" role="tablist" aria-label="Banner 選擇">
+              <div className="pointer-events-auto absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label="Banner 選擇">
                 {slides.map((slide, index) => (
                   <button
                     key={slide.id}
@@ -259,7 +309,7 @@ export function HomeBannerCarousel() {
                     role="tab"
                     aria-label={`切換至 Banner ${index + 1}`}
                     aria-selected={activeIndex === index}
-                    onClick={() => goTo(index)}
+                    onClick={() => handleDotSelect(index)}
                     className={`h-2.5 rounded-full border border-white/80 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                       activeIndex === index ? "w-8 bg-white" : "w-2.5 bg-white/45 hover:bg-white/80"
                     }`}

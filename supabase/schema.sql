@@ -18,9 +18,13 @@ create table if not exists public.products (
   source_price_id text
 );
 create table if not exists public.banners (
-  id uuid primary key default gen_random_uuid(), image_url text not null, link text, title text,
+  id uuid primary key default gen_random_uuid(), image_url text not null, mobile_image_url text, link text, title text,
   sort_order integer not null default 0, created_at timestamptz not null default now()
 );
+
+-- Existing databases pick up the optional mobile Banner column via the migration below.
+alter table public.banners
+  add column if not exists mobile_image_url text;
 create table if not exists public.coupons (
   id uuid primary key default gen_random_uuid(), code text not null unique, discount_amount numeric(12,2) not null default 0,
   discount_type text not null default 'fixed' check (discount_type in ('fixed','percentage')), active boolean not null default true,
