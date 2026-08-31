@@ -105,7 +105,6 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
 
 export function HomeBannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
   const [slides, setSlides] = useState<BannerSlide[]>(HOME_BANNER_SLIDES);
 
@@ -151,10 +150,13 @@ export function HomeBannerCarousel() {
   }, [slides.length]);
 
   useEffect(() => {
-    if (isPaused || slides.length <= 1) return undefined;
+    if (slides.length <= 1) return undefined;
+
+    // Keep autoplay independent from pointer/focus state so the carousel cannot
+    // get stuck after a user clicks a control or the pointer enters the hero.
     const timer = window.setInterval(goNext, AUTO_PLAY_MS);
     return () => window.clearInterval(timer);
-  }, [goNext, isPaused, slides.length]);
+  }, [goNext, slides.length]);
 
   const activeSlide = slides[activeIndex] || slides[0];
   const slideAnimationClass = slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous";
@@ -163,13 +165,7 @@ export function HomeBannerCarousel() {
   return (
     <section
       aria-label="Mofu Haven Banner Slider"
-      className="mobile-home-soft-surface bg-[color:var(--background)] px-4 pb-4 pt-3 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsPaused(false);
-      }}
+      className="mobile-home-soft-surface relative isolate z-0 bg-[color:var(--background)] px-4 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-8 lg:px-12 lg:pb-10 lg:pt-10"
     >
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem]">
         <div className="relative aspect-[4/5] min-h-[30rem] sm:aspect-[16/9] sm:min-h-0 lg:aspect-[2.15/1]">
@@ -232,42 +228,46 @@ export function HomeBannerCarousel() {
             )}
           </article>
 
-          <button
-            type="button"
-            aria-label="上一張 Banner"
-            disabled={slides.length <= 1}
-            onClick={goPrevious}
-            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:h-11 sm:w-11"
-          >
-            <span aria-hidden>‹</span>
-          </button>
-          <button
-            type="button"
-            aria-label="下一張 Banner"
-            disabled={slides.length <= 1}
-            onClick={goNext}
-            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:h-11 sm:w-11"
-          >
-            <span aria-hidden>›</span>
-          </button>
+          {/* Keep the full-slide CTA below a dedicated controls layer so it can
+              never intercept arrow or dot clicks, including on managed banners. */}
+          <div className="pointer-events-none absolute inset-0 z-30">
+            <button
+              type="button"
+              aria-label="上一張 Banner"
+              disabled={slides.length <= 1}
+              onClick={goPrevious}
+              className="pointer-events-auto absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:left-5 sm:h-11 sm:w-11"
+            >
+              <span aria-hidden>‹</span>
+            </button>
+            <button
+              type="button"
+              aria-label="下一張 Banner"
+              disabled={slides.length <= 1}
+              onClick={goNext}
+              className="pointer-events-auto absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:right-5 sm:h-11 sm:w-11"
+            >
+              <span aria-hidden>›</span>
+            </button>
 
-          {slides.length > 1 && (
-            <div className="absolute bottom-5 left-6 z-20 flex items-center gap-2 sm:left-12 lg:left-16" role="tablist" aria-label="Banner 選擇">
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  role="tab"
-                  aria-label={`切換至 Banner ${index + 1}`}
-                  aria-selected={activeIndex === index}
-                  onClick={() => goTo(index)}
-                  className={`h-2.5 rounded-full border border-white/80 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-                    activeIndex === index ? "w-8 bg-white" : "w-2.5 bg-white/45 hover:bg-white/80"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+            {slides.length > 1 && (
+              <div className="pointer-events-auto absolute bottom-5 left-6 flex items-center gap-2 sm:left-12 lg:left-16" role="tablist" aria-label="Banner 選擇">
+                {slides.map((slide, index) => (
+                  <button
+                    key={slide.id}
+                    type="button"
+                    role="tab"
+                    aria-label={`切換至 Banner ${index + 1}`}
+                    aria-selected={activeIndex === index}
+                    onClick={() => goTo(index)}
+                    className={`h-2.5 rounded-full border border-white/80 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                      activeIndex === index ? "w-8 bg-white" : "w-2.5 bg-white/45 hover:bg-white/80"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>
