@@ -33,7 +33,16 @@ export async function POST(request: Request) {
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
   const { data, error } = await supabase.from(table).insert(payload).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 }); return NextResponse.json({ data });
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+  // Banner 輪播採用「最新設定覆蓋」模式：儲存新 Banner 後清除所有舊記錄，
+  // 確保前端只會收到一組最新 Banner，不會因歷次上載而重複輪播。
+  if (table === "banners" && data?.id) {
+    const { error: cleanupError } = await supabase.from("banners").delete().neq("id", data.id);
+    if (cleanupError) return NextResponse.json({ error: `新 Banner 已儲存，但清除舊 Banner 失敗：${cleanupError.message}` }, { status: 500 });
+  }
+
+  return NextResponse.json({ data });
 }
 
 export async function PATCH(request: Request) {
