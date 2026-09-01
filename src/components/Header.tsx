@@ -87,6 +87,9 @@ function MenuIcon({ open }: { open: boolean }) {
 export function Header() {
   const { locale, setLocale, t } = useI18n();
   const { categories: databaseCategories } = useCatalog();
+  // Navbar intentionally renders database roots only; descendants are available
+  // exclusively from each root's dropdown.
+  const topLevelCategories = databaseCategories.filter((category) => !category.parent_id);
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
@@ -245,7 +248,7 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
-                {databaseCategories.map((category) => {
+                {topLevelCategories.map((category) => {
                   const isOpen = mobileCategoryOpen === category.id;
                   const panelId = `${mobileCategoriesId}-${category.id}`;
                   const hasChildren = category.children.length > 0;
@@ -321,7 +324,7 @@ export function Header() {
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
             </Link>
-            {databaseCategories.map((category) => {
+            {topLevelCategories.map((category) => {
               const hasChildren = category.children.length > 0;
               const isOpen = desktopCategoryOpen === category.id;
               const panelId = `${desktopCategoriesId}-${category.id}`;
