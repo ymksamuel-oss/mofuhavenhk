@@ -92,6 +92,48 @@ function getProductSearchText(row: Row, categories: Row[]): string {
   return [...fields.map((field) => stringifySearchValue(row[field])), categoryName || ""].join(" ").toLocaleLowerCase();
 }
 
+type CategoryGroup = {
+  root: Row;
+  entries: Array<{ category: Row; depth: number }>;
+};
+
+function categoryGroups(categories: Row[], excludedId = ""): CategoryGroup[] {
+  const ids = new Set(categories.map((category) => String(category.id)));
+  const childrenByParent = new Map<string, Row[]>();
+  const roots: Row[] = [];
+
+  categories.forEach((category) => {
+    const id = String(category.id);
+    const parentId = category.parent_id ? String(category.parent_id) : "";
+    if (!parentId || !ids.has(parentId) || parentId === id) {
+      roots.push(category);
+      return;
+    }
+    const children = childrenByParent.get(parentId) || [];
+    children.push(category);
+    childrenByParent.set(parentId, children);
+  });
+
+  const groups: CategoryGroup[] = [];
+  roots.forEach((root) => {
+    const entries: CategoryGroup["entries"] = [];
+    const visit = (category: Row, depth: number, seen: Set<string>) => {
+      const id = String(category.id);
+      if (seen.has(id) || id === excludedId) return;
+      const nextSeen = new Set(seen).add(id);
+      entries.push({ category, depth });
+      (childrenByParent.get(id) || []).forEach((child) => visit(child, depth + 1, nextSeen));
+    };
+    visit(root, 0, new Set());
+    if (entries.length > 0) groups.push({ root, entries });
+  });
+  return groups;
+}
+
+function categoryOptionLabel(name: unknown, depth: number): string {
+  return `${depth > 0 ? `${"　".repeat(depth)}↳ ` : ""}${String(name || "")}`;
+}
+
 function getPageNumbers(current: number, total: number): (number | "ellipsis")[] {
   if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1);
   const pages = new Set<number>([1, total, current, current - 1, current + 1]);
@@ -272,7 +314,15 @@ export default function AdminPage() {
                   <span className="sr-only">按分類篩選</span>
                   <select value={productCategory} onChange={(event) => setProductCategory(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] px-3 py-3 text-sm outline-none transition focus:border-[#a36b42]">
                     <option value="all">全部分類</option>
-                    {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
+                    {categoryGroups(categories).map(({ root, entries }) => (
+                      <optgroup key={root.id} label={root.name}>
+                        {entries.map(({ category, depth }) => (
+                          <option key={category.id} value={category.id}>
+                            {depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
                   </select>
                 </label>
               </div>
@@ -467,11 +517,11 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
           {field("description", "產品描述")}
           {field("seo_title", "SEO 標題")}
           {field("seo_description", "SEO 描述")}
-          <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
+          <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categoryGroups(categories).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}</option>)}</optgroup>)}</select></label>
           <label className="block text-sm"><span className="mb-1 block font-medium">產品狀態</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（上架）</option><option value="draft">draft（草稿）</option><option value="archived">archived（歸檔）</option></select></label>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />已發布到前台</label>
         </>}
-        {tab === "categories" && <>{field("name", "分類名稱")}{field("slug", "Slug")}<label className="block text-sm"><span className="mb-1 block font-medium">父分類</span><select value={form.parent_id || ""} onChange={(event) => setForm({ ...form, parent_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">頂層分類</option>{categories.filter((category) => String(category.id) !== String(form.id || "")).map((category) => <option key={category.id} value={category.id}>{category.parent_id ? `　↳ ${category.name}` : category.name}</option>)}</select></label>{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
+        {tab === "categories" && <>{field("name", "分類名稱")}{field("slug", "Slug")}          <label className="block text-sm"><span className="mb-1 block font-medium">父分類</span><select value={form.parent_id || ""} onChange={(event) => setForm({ ...form, parent_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">頂層分類</option>{categoryGroups(categories, String(form.id || "")).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{categoryOptionLabel(category.name, depth + 1)}</option>)}</optgroup>)}</select></label>{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
         {tab === "banners" && <>{field("image_url", "桌面版圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳桌面版 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("mobile_image_url", "手機版圖片 URL（選填）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳手機版 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">建議直向構圖（約 4:5）；留空時手機會沿用桌面版圖片。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing !== false} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（取消勾選即可加入 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
         {tab === "store_settings" && <>{field("key", "設定 Key")}{field("value", "設定值（Secret Key 儲存後會遮罩）")}</>}

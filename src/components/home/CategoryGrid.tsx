@@ -1,42 +1,41 @@
-"use client";
-
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import {
-  BagIcon,
-  BoneIcon,
-  CatIcon,
-  CleaningIcon,
-  ClockIcon,
-  DogIcon,
-  FireIcon,
-  HealthIcon,
-  ToyIcon,
-} from "@/components/icons/CategoryIcons";
-import { categoryHref, type CategoryIconName } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import type { StoreCategory } from "@/lib/store-categories";
 
-const ICONS: Record<CategoryIconName, typeof CatIcon> = {
-  cat: CatIcon,
-  dog: DogIcon,
-  bone: BoneIcon,
-  health: HealthIcon,
-  cleaning: CleaningIcon,
-  clock: ClockIcon,
-  fire: FireIcon,
-  bag: BagIcon,
-  toy: ToyIcon,
-};
+function renderChildren(parentPath: string, children: StoreCategory[]) {
+  return children.map((child) => {
+    const childPath = `${parentPath}/${child.slug}`;
+    return (
+      <li key={child.id}>
+        <CategoryNavLink
+          href={childPath}
+          className="group flex items-center justify-between rounded-xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm text-[color:var(--muted)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]"
+        >
+          <span>{child.name}</span>
+          <span aria-hidden="true" className="text-[color:var(--accent)] transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </CategoryNavLink>
+        {child.children.length > 0 ? (
+          <ul className="ml-4 mt-2 grid gap-2 border-l border-[color:var(--line)] pl-3">
+            {renderChildren(childPath, child.children)}
+          </ul>
+        ) : null}
+      </li>
+    );
+  });
+}
 
 export function CategoryGrid() {
   const { t } = useI18n();
   const { categories } = useCatalog();
-  const displayCategories = categories;
+  const topLevelCategories = categories.filter((category) => category.parent_id === null);
 
   return (
     <section
       aria-labelledby="category-grid-title"
-      className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16"
+      className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16"
     >
       <div className="mb-8 max-w-2xl">
         <h2
@@ -50,31 +49,33 @@ export function CategoryGrid() {
         </p>
       </div>
 
-      <ul className="grid grid-cols-3 gap-x-3 gap-y-7 sm:gap-x-4 md:grid-cols-9 md:gap-x-2">
-        {displayCategories.map(({ id, slug, name, icon, image_url: imageUrl }) => {
-          const Icon = ICONS[icon ?? "bone"];
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {topLevelCategories.map((category) => {
+          const parentPath = `/categories/${category.slug}`;
           return (
-            <li key={id}>
+            <section
+              key={category.id}
+              className="rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-4 shadow-[0_12px_30px_-24px_rgba(62,42,28,0.5)]"
+              aria-labelledby={`category-${category.id}`}
+            >
               <CategoryNavLink
-                href={categoryHref(slug)}
-                className="group flex flex-col items-center gap-2.5 text-center"
+                href={parentPath}
+                className="group flex items-center justify-between gap-4 rounded-xl px-2 py-2 font-[family-name:var(--font-display)] text-lg font-semibold text-[color:var(--ink)]"
               >
-                <span
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-[color:var(--category-ink)] shadow-[inset_0_2px_3px_rgba(255,255,255,0.35),0_8px_18px_-9px_rgba(92,54,38,0.55)] ring-1 ring-white/40 will-change-transform transition-[transform,box-shadow] duration-[250ms] ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.07] group-hover:shadow-[inset_0_2px_3px_rgba(255,255,255,0.45),0_18px_28px_-10px_rgba(92,54,38,0.68)] group-active:-translate-y-1 group-active:scale-[1.06] group-active:shadow-[inset_0_2px_3px_rgba(255,255,255,0.4),0_14px_24px_-10px_rgba(92,54,38,0.62)] sm:h-20 sm:w-20"
-                  style={{
-                    background: imageUrl ? `url(${imageUrl}) center/cover` : "radial-gradient(circle at 32% 26%, var(--category-bg-light), var(--category-bg))",
-                  }}
-                >
-                  <Icon className="h-8 w-8 transition-transform duration-[250ms] ease-out group-hover:scale-105 group-active:scale-105 sm:h-10 sm:w-10" />
-                </span>
-                <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors duration-[250ms] group-hover:text-[color:var(--accent)] group-active:text-[color:var(--accent)] sm:text-sm">
-                  {name}
+                <span id={`category-${category.id}`}>{category.name}</span>
+                <span aria-hidden="true" className="text-[color:var(--accent)] transition-transform group-hover:translate-x-1">
+                  →
                 </span>
               </CategoryNavLink>
-            </li>
+              {category.children.length > 0 ? (
+                <ul className="mt-2 grid gap-2">
+                  {renderChildren(parentPath, category.children)}
+                </ul>
+              ) : null}
+            </section>
           );
         })}
-      </ul>
+      </div>
     </section>
   );
 }

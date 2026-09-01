@@ -101,13 +101,18 @@ export function CategorySubmenu({ group, compact = false, onNavigate }: Category
   const linkClass = "group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm leading-snug text-[color:var(--muted)] transition-[background-color,color,transform,box-shadow] duration-150 ease-out hover:translate-x-0.5 hover:bg-[#f1ded1] hover:text-[#583827] hover:shadow-[0_8px_16px_-14px_rgba(79,50,33,0.7)] active:scale-[0.98] focus-visible:bg-[#f1ded1] focus-visible:text-[#583827] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]";
 
   return (
-    <div className={panelClass} aria-label={t(HEADER_MENU_LABEL_KEY[group])}>
-      {items.map((item) => (
-        <CategoryNavLink key={item.href} href={item.href} onNavigate={onNavigate} className={linkClass}>
-          <span>{item.label}</span>
-          <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--muted)] opacity-0 transition-all duration-150 group-hover:translate-x-1 group-hover:text-[#583827] group-hover:opacity-100" />
-        </CategoryNavLink>
-      ))}
-    </div>
+    <section className={panelClass} aria-label={t(HEADER_MENU_LABEL_KEY[group])}>
+      <h3 className="border-b border-[color:var(--line)] px-3 pb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--ink)]">
+        {t(HEADER_MENU_LABEL_KEY[group])}
+      </h3>
+      <div className="grid gap-1 pt-1">
+        {items.map((item) => (
+          <CategoryNavLink key={item.href} href={item.href} onNavigate={onNavigate} className={linkClass}>
+            <span>{item.label}</span>
+            <ArrowIcon className="h-3.5 w-3.5 text-[color:var(--muted)] opacity-0 transition-all duration-150 group-hover:translate-x-1 group-hover:text-[#583827] group-hover:opacity-100" />
+          </CategoryNavLink>
+        ))}
+      </div>
+    </section>
   );
 }

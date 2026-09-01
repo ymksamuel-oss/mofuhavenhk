@@ -2,7 +2,7 @@
 // language switching moves off the compact toolbar so the Hero remains visually quiet.
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -82,6 +82,71 @@ function MenuIcon({ open }: { open: boolean }) {
       )}
     </svg>
   );
+}
+
+function categoryRoute(parent: StoreCategory, child?: StoreCategory) {
+  return child
+    ? `/categories/${parent.slug}/${child.slug}`
+    : `/categories/${parent.slug}`;
+}
+
+function renderMobileCategoryChildren(
+  parent: StoreCategory,
+  onNavigate: () => void,
+  basePath = categoryRoute(parent),
+  depth = 0,
+): ReactNode[] {
+  return parent.children.map((child) => {
+    const childPath = `${basePath}/${child.slug}`;
+    return (
+      <div key={child.id} className={depth > 0 ? "border-l border-[color:var(--line)] pl-2" : ""}>
+        <Link
+          href={childPath}
+          className={`block rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] ${depth > 0 ? "pl-3" : ""}`}
+          onClick={onNavigate}
+        >
+          {child.name}
+        </Link>
+        {child.children.length > 0 ? (
+          <div className="ml-3 grid gap-1 border-l border-[color:var(--line)] pl-1">
+            {renderMobileCategoryChildren(child, onNavigate, childPath, depth + 1)}
+          </div>
+        ) : null}
+      </div>
+    );
+  });
+}
+
+function renderDesktopCategoryChildren(
+  parent: StoreCategory,
+  pathname: string,
+  onNavigate: () => void,
+  basePath = categoryRoute(parent),
+  depth = 0,
+): ReactNode[] {
+  return parent.children.map((child) => {
+    const childPath = `${basePath}/${child.slug}`;
+    const hasChildren = child.children.length > 0;
+    const active = pathname === childPath || pathname.startsWith(`${childPath}/`);
+    return (
+      <div key={child.id} className={depth > 0 ? "border-l border-[color:var(--line)] pl-2" : ""}>
+        <Link
+          href={childPath}
+          role="menuitem"
+          className={`group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm transition hover:bg-[#f1ded1] hover:text-[#583827] ${active ? "font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)]"} ${hasChildren ? "font-medium" : ""}`}
+          onClick={onNavigate}
+        >
+          <span>{child.name}</span>
+          {hasChildren ? <CaretIcon /> : null}
+        </Link>
+        {hasChildren ? (
+          <div className="ml-3 grid gap-1 border-l border-[color:var(--line)] pl-1">
+            {renderDesktopCategoryChildren(child, pathname, onNavigate, childPath, depth + 1)}
+          </div>
+        ) : null}
+      </div>
+    );
+  });
 }
 
 export function Header() {
@@ -268,11 +333,9 @@ export function Header() {
                       </div>
                       {isOpen ? (
                         <div id={panelId} className="mx-1 mt-2 grid rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">
-                          {category.children.map((child) => (
-                            <Link key={child.id} href={`/categories/${category.slug}/${child.slug}`} className="rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => { setMobileCategoryOpen(null); setMenuOpen(false); }}>
-                              {child.name}
-                            </Link>
-                          ))}
+                          <div className="grid gap-1">
+                            {renderMobileCategoryChildren(category, () => { setMobileCategoryOpen(null); setMenuOpen(false); })}
+                          </div>
                         </div>
                       ) : null}
                     </li>
@@ -356,11 +419,9 @@ export function Header() {
                         <Link href={`/categories/${category.slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--ink)] hover:bg-[#f1ded1]" onClick={() => setDesktopCategoryOpen(null)}>
                           {locale === "en" ? `All ${category.name}` : `全部${category.name}`}
                         </Link>
-                        {category.children.map((child) => (
-                          <Link key={child.id} href={`/categories/${category.slug}/${child.slug}`} role="menuitem" className={`${navLinkClassName(pathname.startsWith(`/categories/${category.slug}/${child.slug}`))} rounded-xl px-3 py-2 text-sm hover:bg-[#f1ded1]`} onClick={() => setDesktopCategoryOpen(null)}>
-                            {child.name}
-                          </Link>
-                        ))}
+                          <div className="grid gap-1">
+                            {renderDesktopCategoryChildren(category, pathname, () => setDesktopCategoryOpen(null))}
+                          </div>
                       </div>
                     </div>
                   ) : null}
