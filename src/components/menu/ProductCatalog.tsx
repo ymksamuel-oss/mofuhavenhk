@@ -214,7 +214,7 @@ export function ProductCatalog({
             );
           })}
           </ul>
-          {isMobile && mobilePageCount > 1 ? (
+          {isMobile ? (
             <nav
               className="mt-6 flex flex-wrap items-center justify-center gap-1.5 lg:hidden"
               aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
@@ -226,7 +226,7 @@ export function ProductCatalog({
                 aria-label={locale === "zh" ? "上一頁" : "Previous page"}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                ←
+                ← 上一頁
               </button>
               {getPageNumbers(mobilePage, mobilePageCount).map((page, index) =>
                 page === "ellipsis" ? (
@@ -256,7 +256,7 @@ export function ProductCatalog({
                 aria-label={locale === "zh" ? "下一頁" : "Next page"}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                →
+                下一頁 →
               </button>
             </nav>
           ) : null}
