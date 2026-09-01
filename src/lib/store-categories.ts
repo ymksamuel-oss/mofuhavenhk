@@ -49,7 +49,13 @@ export function categoryDisplayName(
   t: (key: TranslationKey) => string,
 ): string {
   const key = CATEGORY_TRANSLATION_KEYS[category.slug];
-  return key ? t(key) : category.name;
+  if (key) return t(key);
+  if (t("langEn") !== "EN" || !/[\u3400-\u9fff]/.test(category.name)) return category.name;
+  return category.slug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 const KNOWN_ICONS = new Set<CategoryIconName>([

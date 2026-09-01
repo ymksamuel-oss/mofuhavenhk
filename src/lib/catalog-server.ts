@@ -298,6 +298,13 @@ function firstMetadataValue(
   return undefined;
 }
 
+const CJK_TEXT_RE = /[\u3400-\u9fff]/;
+
+function englishSafeText(value: string | null | undefined, fallback: string): string {
+  const normalized = value?.trim() ?? "";
+  return normalized && !CJK_TEXT_RE.test(normalized) ? normalized : fallback;
+}
+
 function bilingualMetadataValue(
   metadata: Record<string, string>,
   zhKeys: string[],
@@ -307,7 +314,7 @@ function bilingualMetadataValue(
   const zh = firstMetadataValue(metadata, zhKeys) ?? fallback;
   const en = firstMetadataValue(metadata, enKeys) ?? fallback;
   if (!zh && !en) return undefined;
-  return { zh: zh || en, en: en || zh };
+  return { zh: zh || en, en: englishSafeText(en, "") };
 }
 
 function parseBilingualSpecs(
@@ -528,18 +535,37 @@ function stripeProductToCatalogProduct(
     ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
     "",
   );
-  const localizedName = metadataName ?? (generatedTranslation
-    ? { zh: generatedTranslation.name_zh, en: generatedTranslation.name_en }
-    : { zh: product.name ?? "", en: product.name ?? "" });
+  const localizedName = generatedTranslation
+    ? {
+        zh: metadataName?.zh || generatedTranslation.name_zh,
+        en: englishSafeText(metadataName?.en, generatedTranslation.name_en),
+      }
+    : metadataName
+      ? {
+          zh: metadataName.zh,
+          en: englishSafeText(metadataName.en, "Product name unavailable"),
+        }
+      : {
+          zh: product.name ?? "",
+          en: englishSafeText(product.name, "Product name unavailable"),
+        };
   const metadataDescription = bilingualMetadataValue(
     metadata,
     ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
     ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
     "",
   );
-  const localizedDescription = metadataDescription ?? (generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
-    ? { zh: generatedTranslation.description_zh, en: generatedTranslation.description_en }
-    : undefined);
+  const localizedDescription = generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
+    ? {
+        zh: metadataDescription?.zh || generatedTranslation.description_zh,
+        en: englishSafeText(metadataDescription?.en, generatedTranslation.description_en),
+      }
+    : metadataDescription
+      ? {
+          zh: metadataDescription.zh,
+          en: englishSafeText(metadataDescription.en, "Product description coming soon."),
+        }
+      : undefined;
   const localizedTexture = bilingualMetadataValue(
     metadata,
     ["texture_zh", "texture.zh", "mouthfeel_zh", "口感", "口感特點"],
@@ -715,7 +741,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const activeStripeProductIds = await getActiveStripeProductIds();
     const products = productResult.data
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
-      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; source_product_id?: string | null }) => {
+      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null }) => {
     const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
     // Strict foreign-key resolution: the Admin-assigned category_id is the only
@@ -723,7 +749,11 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     // "lifestyle" instead of being guessed from SKU or name wording.
     const databaseCategorySlug = canonicalCategorySlug(categorySlugs.get(row.category_id));
     const categorySlug = databaseCategorySlug ?? "lifestyle";
-    const name = String(row.name || "未命名產品");
+    const translation = GENERATED_PRODUCT_TRANSLATIONS[String(row.source_product_id ?? row.id)];
+    const databaseNameZh = String(row.name_zh || row.name || "未命名產品");
+    const databaseNameEn = englishSafeText(row.name_en, translation?.name_en ?? "Product name unavailable");
+    const databaseDescriptionZh = row.description_zh || row.description;
+    const databaseDescriptionEn = englishSafeText(row.description_en, translation?.description_en ?? "Product description coming soon.");
     return {
       id: String(row.id),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
@@ -731,11 +761,19 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       categorySlug,
       image: images[0] || CATALOG_IMAGE_FALLBACK,
       ...(images.length ? { images } : {}),
-      name: { zh: name, en: name },
+      name: {
+        zh: translation?.name_zh || databaseNameZh,
+        en: databaseNameEn,
+      },
       price: Number(row.price || 0),
       ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
       inStock: Number(row.stock || 0) > 0,
-      description: row.description ? { zh: String(row.description), en: String(row.description) } : undefined,
+      description: databaseDescriptionZh || databaseDescriptionEn
+        ? {
+            zh: String(translation?.description_zh || databaseDescriptionZh || "商品說明稍後更新。"),
+            en: databaseDescriptionEn,
+          }
+        : undefined,
       metadata: {
         category: categorySlug,
         ...(row.mofu_sku ? { mofu_sku: String(row.mofu_sku) } : {}),

@@ -68,9 +68,9 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V4jvHd1BpKpIsD": {
     "name_zh": "MAMACOOK 但馬高原 冷凍脫水雞胸肉・雞肝（貓貓用）18g × 10袋",
-    "name_en": "MAMACOOK 但馬高原 Freeze-Dried Chicken Breast & Liver for Cats — 18g × 10袋",
+    "name_en": "MAMACOOK Tajima Highlands Freeze-Dried Chicken Breast & Liver for Cats — 18g × 10 Bags",
     "description_zh": "日本國產雞原料100%，雞胸肉與雞肝雙重風味一次滿足。凍乾鎖住濃郁肉香與營養，適合愛肝臟鮮味的挑嘴貓。18g × 10袋獨立分裝，日常獎勵剛剛好。",
-    "description_en": "Made with 100% Japanese chicken. Chicken breast and liver combine for dual flavour. Freeze-dried to lock in rich meat aroma and nutrients — great for picky cats that love liver taste. Individually packed as 18g × 10袋, ideal for everyday treats."
+    "description_en": "Made with 100% Japanese chicken. Chicken breast and liver combine for dual flavour. Freeze-dried to lock in rich meat aroma and nutrients — great for picky cats that love liver taste. Individually packed as 18g × 10 bags, ideal for everyday treats."
   },
   "prod_V4jvINGHIuUuv5": {
     "name_zh": "CIAO PURE 無添加糊仔 4條裝 — 雞肉 × 12",
@@ -116,7 +116,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V4jvRB6LUJYQkQ": {
     "name_zh": "CIAO 1兆乳酸菌乾糧 · 三款金槍魚鰹魚味（10袋 × 6盒）",
-    "name_en": "CIAO 1 Trillion Lactic Acid Bacteria Dry Food — 3 Tuna & Bonito Flavours (10袋 × 6盒)",
+    "name_en": "CIAO 1 Trillion Lactic Acid Bacteria Dry Food — 3 Tuna & Bonito Flavours (10 Sachets × 6 Boxes)",
     "description_zh": "金槍魚與鰹魚雙重海洋風味輪替，鮮味層次豐富。含1兆乳酸菌守護腸道，綠茶消臭成分讓開糧時刻更安心。適合喜歡海鮮口味乾糧、又想以口味變化維持食慾的貓家庭——6盒家庭裝一次備足。",
     "description_en": "Alternating tuna and bonito sea flavours for richer umami. Contains 1 trillion lactic acid bacteria to help protect intestinal health, and green-tea deodorising ingredients for more peace of mind at feeding time. Ideal for households that prefer seafood-style dry food and want flavour variety to maintain appetite — 6-box family pack to stock up."
   },
@@ -188,9 +188,9 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V4jvoKju3B8RNm": {
     "name_zh": "MAMACOOK 但馬高原冷凍脫水雞條（貓貓用）30g × 10袋",
-    "name_en": "MAMACOOK Tajima Plateau (但馬高原) Freeze-Dried Chicken Strips for Cats 30g × 10 packs",
+    "name_en": "MAMACOOK Tajima Plateau Freeze-Dried Chicken Strips for Cats 30g × 10 packs",
     "description_zh": "採用兵庫縣但馬高原走地雞，急速冷凍乾燥製成香口雞條。無添加、無防腐劑，100% 純雞肉，鎖住鮮味。適合作為訓練獎勵或日常零食。小包裝 30g × 10 袋，開袋即餵，方便保存。",
-    "description_en": "Made from Hyogo Prefecture’s Tajima Plateau (但馬高原) free-range chicken, quickly frozen and freeze-dried into tasty chicken strips. No additives, no preservatives, 100% pure chicken to lock in flavor. Suitable as training rewards or everyday treats. Small packs: 30g × 10 packs — ready to feed and easy to store."
+    "description_en": "Made from Hyogo Prefecture’s Tajima Plateau free-range chicken, quickly frozen and freeze-dried into tasty chicken strips. No additives, no preservatives, 100% pure chicken to lock in flavor. Suitable as training rewards or everyday treats. Small packs: 30g × 10 packs — ready to feed and easy to store."
   },
   "prod_V4jvofcQN8lADo": {
     "name_zh": "CIAO 1兆個乳酸菌乾糧 · 三款金槍魚味（10袋 × 6盒）",
@@ -218,7 +218,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V4jvyIziyC4uyH": {
     "name_zh": "CIAO 燒鰹魚 — 1歳前食用 × 24袋",
-    "name_en": "CIAO Grilled Bonito Strips for Kittens (1歳前食用) — 24 Pouches",
+    "name_en": "CIAO Grilled Bonito Strips for Kittens (Under 1 Year) — 24 Pouches",
     "description_zh": "適合1歲前幼貓的燒鰹魚條，柔軟易撕、鮮味溫和。24袋裝，適合作為日常獎勵，陪伴幼貓探索期的好奇心。",
     "description_en": "Soft, easy-to-tear grilled bonito strips for kittens under 1 year, with a mild flavour. 24 pouches — ideal as everyday treats to accompany a kitten’s curiosity during its exploratory stage."
   },
@@ -230,9 +230,9 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5Cx1d7Vr10FFP": {
     "name_zh": "MAMACOOK 但馬高原 冷凍脫水西太公魚（貓貓用）10g × 10袋",
-    "name_en": "MAMACOOK Tajima Highlands Freeze-Dehydrated 西太公魚 for Cats — 10g × 10 Bags",
+    "name_en": "MAMACOOK Tajima Highlands Freeze-Dehydrated Japanese Smelt for Cats — 10g × 10 Bags",
     "description_zh": "西太公魚整尾冷凍脫水，小巧香脆、天然海鮮味。適合當趣味獎勵或拌糧提香，讓嗅覺敏銳的貓貓主動靠近。10g × 10袋，日本製，輕便好存放。",
-    "description_en": "Whole freeze-dehydrated 西太公魚 — bite-sized and crunchy with a natural seafood aroma. Ideal as a fun reward or mixed into food to boost scent and attract scent-sensitive cats. 10g × 10 bags. Made in Japan; compact and easy to store."
+    "description_en": "Whole freeze-dehydrated Japanese smelt — bite-sized and crunchy with a natural seafood aroma. Ideal as a fun reward or mixed into food to boost scent and attract scent-sensitive cats. 10g × 10 bags. Made in Japan; compact and easy to store."
   },
   "prod_V5Cx33QBFOgNQQ": {
     "name_zh": "日本國產無添加凍乾雞肝（貓貓用）40g × 8",
@@ -260,7 +260,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxGRsSUSlxd9": {
     "name_zh": "MAMACOOK 但馬高原冷凍脫水無添加豬大腿肉（貓貓用）20g × 10袋",
-    "name_en": "MAMACOOK 但馬高原 Freeze-Dried No-Additives Pork Thigh Cat Treats — 20g × 10 packs",
+    "name_en": "MAMACOOK Tajima Highlands Freeze-Dried No-Additives Pork Thigh Cat Treats — 20g × 10 packs",
     "description_zh": "無添加豬大腿肉凍乾條，純粹豬肉香氣、口感有嚼勁。適合想換換口味、又堅持「乾淨原料」的家庭。20g × 10袋，日本製，日常小食首選。",
     "description_en": "Freeze-dried pork thigh strips with no additives — pure pork aroma and a chewy texture. Great for households wanting a flavour change while keeping clean ingredients. 20g × 10 packs. Made in Japan; an ideal everyday cat snack."
   },
@@ -272,7 +272,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxJSH3zYjvsa": {
     "name_zh": "CIAO 糊仔小食 4條裝 — 金槍魚味（去毛球配方）× 12",
-    "name_en": "CIAO Paste Treats 「糊仔小食」 — Tuna (Hairball Formula), 4-stick Pack × 12",
+    "name_en": "CIAO Paste Treats — Tuna (Hairball Formula), 4-stick Pack × 12",
     "description_zh": "金槍魚味去毛球糊仔，綠茶消臭、質地細滑。與吐毛球配方系列輪替，照顧換季掉毛日子。",
     "description_en": "Tuna-flavour hairball-control paste treats with a smooth texture and green-tea deodorising effect. Rotate with other hairball-formula items to help during seasonal shedding."
   },
@@ -284,7 +284,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxJznP6YgANO": {
     "name_zh": "三星銀匙 海鮮味脆餅（去毛球配方）60g × 6",
-    "name_en": "三星銀匙 Seafood-flavour Hairball-Control Crisps 60g × 6",
+    "name_en": "Samsun Silver Spoon Seafood-flavour Hairball-Control Crisps 60g × 6",
     "description_zh": "海鮮味去毛球脆餅，輕巧 60g × 6，易攜帶好入手。作日常零食同時兼顧毛球護理，適合想試味嘅家庭。",
     "description_en": "Seafood-flavour hairball-control crisps, 60g × 6. Handy everyday treats that help with hairball care — ideal for families wanting to try the flavour."
   },
@@ -314,19 +314,19 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxMftevCDZum": {
     "name_zh": "unicharm 銀匙 貓貓脆餅 — 毛玉配慮 40g×4袋 × 8",
-    "name_en": "unicharm 銀匙 Cat Crunchy Treats — 毛玉配慮 40g×4袋 × 8",
+    "name_en": "unicharm Silver Spoon Cat Crunchy Treats — Hairball Care 40g × 4 Bags × 8",
     "description_zh": "unicharm 銀匙 毛玉配慮 脆餅，日系經典去毛球小食。小袋分裝，方便控制份量；8 組家庭裝，備貨安心。",
-    "description_en": "unicharm 銀匙 毛玉配慮 crunchy cat treats — classic Japanese hairball-care snack. Individually small-packed for easy portion control; 8-set family pack (40g×4袋 × 8)."
+    "description_en": "unicharm Silver Spoon hairball-care crunchy cat treats — a classic Japanese snack. Individually small-packed for easy portion control; 8-set family pack (40g × 4 Bags × 8)."
   },
   "prod_V5CxMvSRjfYowl": {
     "name_zh": "日本森乳貓奶粉 150g × 3",
-    "name_en": "Japan 森乳 Kitten Milk Formula 150g × 3",
+    "name_en": "Japan Mori-Nyu Kitten Milk Formula 150g × 3",
     "description_zh": "日本森乳貓奶粉，適合幼貓作營養補充及過渡餵食。150g × 3，沖調方便，是幼貓成長的後盾。",
-    "description_en": "Japan 森乳 kitten milk formula suitable for nutritional supplementation and transition feeding for kittens. 150g × 3, easy to prepare and helps support growing kittens."
+    "description_en": "Japan Mori-Nyu kitten milk formula suitable for nutritional supplementation and transition feeding for kittens. 150g × 3, easy to prepare and helps support growing kittens."
   },
   "prod_V5CxTXRd1qnSEb": {
     "name_zh": "MAMACOOK 但馬高原 冷凍脫水雞胸肉・雞腎（貓貓用）18g × 10袋",
-    "name_en": "MAMACOOK 但馬高原 Freeze-Dried Chicken Breast & Gizzard for Cats, 18g × 10 packs",
+    "name_en": "MAMACOOK Tajima Highlands Freeze-Dried Chicken Breast & Gizzard for Cats, 18g × 10 packs",
     "description_zh": "日本產雞胸肉搭配雞腎，雙重口感滿足愛咀嚼的貓貓。採用凍乾工藝鎖住鮮味，無多餘添加，適合當獎勵或與乾／濕糧混餵提味。18g × 10 袋，日常備貨剛剛好。",
     "description_en": "Japan-sourced chicken breast paired with chicken gizzard for two textures that satisfy cats who like to chew. Freeze-dried to lock in fresh flavour with no unnecessary additives. Suitable as treats or mixed into dry or wet food to add flavour. 18g × 10 packs."
   },
@@ -344,7 +344,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5Cxd6giKaNuJm": {
     "name_zh": "MAMACOOK 但馬高原冷凍脫水雞粒（貓貓用）18g × 10袋",
-    "name_en": "MAMACOOK 但馬高原 Freeze-dried Chicken Bites for Cats 18g × 10 bags",
+    "name_en": "MAMACOOK Tajima Highlands Freeze-dried Chicken Bites for Cats 18g × 10 bags",
     "description_zh": "一口大小的冷凍脫水雞粒，方便餵食，也可撒於乾糧上提味。日本製，純雞肉風味，適合訓練、外出或日常小食。18g × 10 袋，輕巧易攜。",
     "description_en": "Bite-sized freeze-dried chicken pieces, easy to feed or sprinkle over kibble. Made in Japan with pure chicken flavour. Suitable for training, travel or everyday treats. 18g × 10 bags — compact and portable."
   },
@@ -368,7 +368,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxkX22PchWx8": {
     "name_zh": "但馬高原 - 冷凍脫水雞胸肉及雞冠（狗狗用）18g x 10袋",
-    "name_en": "但馬高原 Freeze-Dried Chicken Breast & Comb Dog Treats 18g x 10 bags (MAMACOOK)",
+    "name_en": "Tajima Highlands Freeze-Dried Chicken Breast & Comb Dog Treats 18g x 10 bags (MAMACOOK)",
     "description_zh": "MAMACOOK 日本原裝狗狗小食。狗狗小食／雞肉系列。每箱 18g x 10袋。",
     "description_en": "MAMACOOK Japanese original dog treats. Chicken series. 18g x 10 bags per box."
   },
@@ -380,7 +380,7 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CxsuPIkEl6gA": {
     "name_zh": "MAMACOOK 但馬高原冷凍日本國產虹鮭魚（貓貓用）15g × 10袋",
-    "name_en": "MAMACOOK 但馬高原 Frozen Japanese Rainbow Salmon Cat Treats 15g × 10 packs",
+    "name_en": "MAMACOOK Tajima Highlands Frozen Japanese Rainbow Salmon Cat Treats 15g × 10 packs",
     "description_zh": "日本國產虹鮭魚凍乾小食，鮮美魚脂香氣一開袋就飄出。高蛋白、低負擔，適合日常輪替海鮮零食。15g × 10 袋獨立包裝，保鮮又好控量。",
     "description_en": "Japanese-made freeze-dried rainbow salmon cat snacks with a fresh fish-oil aroma as soon as the pack is opened. High-protein, low-burden — suitable for daily rotation as a seafood treat. 15g × 10 individually sealed packs for freshness and portion control."
   },
@@ -428,9 +428,9 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5CyTeysjjWgbr": {
     "name_zh": "CIAO 鮮肉杯 - 金槍魚 (11歳起食用) 70g x 6",
-    "name_en": "CIAO Tuna Fresh-Meat Cups for Senior Cats (11歳起食用) — 70g x 6",
+    "name_en": "CIAO Tuna Fresh-Meat Cups for Senior Cats (11+ Years) — 70g x 6",
     "description_zh": "純粹金槍魚鮮肉杯，專為 11歳起食用（11 歲起）的熟齡貓設計。以單一海鮮為主，味道清爽不厚重，適合口味敏感或需簡單配方的年長貓。杯裝易開即食，微溫後香氣更誘人，便於照顧食慾波動的日子。",
-    "description_en": "Pure tuna fresh-meat cup formulated for senior cats (11歳起食用 / 11+ years). Single-seafood, light non-heavy flavour — suitable for sensitive palates or cats needing a simple formula. Cup is easy-open and ready-to-eat; warming enhances the aroma, helpful on days with reduced appetite."
+    "description_en": "Pure tuna fresh-meat cup formulated for senior cats (11+ years). Single-seafood, light non-heavy flavour — suitable for sensitive palates or cats needing a simple formula. Cup is easy-open and ready-to-eat; warming enhances the aroma, helpful on days with reduced appetite."
   },
   "prod_V5CygFVadZAwQS": {
     "name_zh": "CIAO 貓罐罐 — 雞肉、和牛 85g x 6個",
@@ -454,19 +454,19 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
     "name_zh": "三晃商會 小動物維他命C 保健丸 100g x6",
     "name_en": "SANKO Vitamin C Supplement for Small Pets, 100g x6",
     "description_zh": "SANKO（三晃商會）小動物維他命C保健丸，100g（6包組）。",
-    "description_en": "SANKO (三晃商會) Small Pet Vitamin C supplement, 100g per pack, 6-pack."
+    "description_en": "SANKO Small Pet Vitamin C supplement, 100g per pack, 6-pack."
   },
   "prod_V5d9guVmD6qX2f": {
     "name_zh": "SANKO（三晃商會）成年小動物關節護理丸 20g x6",
-    "name_en": "SANKO (三晃商會) Adult Small Pet Joint Care Supplement — 20g, 6-pack",
+    "name_en": "SANKO Adult Small Pet Joint Care Supplement — 20g, 6-pack",
     "description_zh": "SANKO（三晃商會）成年小動物關節護理保健丸，20g x6包組。",
-    "description_en": "SANKO (三晃商會) Adult Small Pet Joint Care Supplement, 20g (6-pack)."
+    "description_en": "SANKO Adult Small Pet Joint Care Supplement, 20g (6-pack)."
   },
   "prod_V5d9kjKbtIOYFV": {
     "name_zh": "SANKO 三晃商會 小動物乳酸菌腸胃保健丸 100g x6",
-    "name_en": "SANKO (三晃商會) Small Pet Probiotic Digestive Health Pellets 100g x6",
+    "name_en": "SANKO Small Pet Probiotic Digestive Health Pellets 100g x6",
     "description_zh": "SANKO 三晃商會 小動物乳酸菌腸胃保健丸 100g (6包組)",
-    "description_en": "SANKO (三晃商會) Small pet probiotic digestive health pellets, 100g (pack of 6)"
+    "description_en": "SANKO Small pet probiotic digestive health pellets, 100g (pack of 6)"
   },
   "prod_V5d9o62GRbGcPV": {
     "name_zh": "Marukan 小動物腸胃調整營養水 10支 x 6包",
@@ -476,9 +476,9 @@ export const GENERATED_PRODUCT_TRANSLATIONS: Record<string, { name_zh: string; n
   },
   "prod_V5d9wKOo4z4u7t": {
     "name_zh": "SANKO 三晃商會 小動物乳酸菌 20g x6包",
-    "name_en": "SANKO (三晃商會) Small Animal 乳酸菌 Probiotic 20g x6 packs",
+    "name_en": "SANKO Small Animal Lactic Acid Bacteria Probiotic 20g x6 packs",
     "description_zh": "SANKO（三晃商會）小動物乳酸菌 20g（6包組）。每包20g，共6包，為小動物用乳酸菌保健品。",
-    "description_en": "SANKO (三晃商會) small animal 乳酸菌 probiotic, 20g (6-pack). Six 20g sachets intended for small animals."
+    "description_en": "SANKO small animal lactic acid bacteria probiotic, 20g (6-pack). Six 20g sachets intended for small animals."
   },
   "prod_V5eK8L4ZqGhhaI": {
     "name_zh": "狗狗小食 — Petio 雞肉+雞肝卷（10條 x 6袋）",
