@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
 type Row = Record<string, any>;
 type Tab = "products" | "categories" | "banners" | "coupons" | "orders" | "store_settings";
@@ -159,6 +159,9 @@ export default function AdminPage() {
   const [productQuery, setProductQuery] = useState("");
   const [productCategory, setProductCategory] = useState("all");
   const [productPage, setProductPage] = useState(1);
+  const [openQuickCategoryProductId, setOpenQuickCategoryProductId] = useState<string | null>(null);
+  const [categorySavingProductId, setCategorySavingProductId] = useState<string | null>(null);
+  const [categoryQuickError, setCategoryQuickError] = useState<string | null>(null);
 
   const load = async (selected = tab) => {
     setLoading(true);
@@ -258,6 +261,30 @@ export default function AdminPage() {
   async function logout() {
     await call("POST", { action: "logout" });
     router.replace("/admin/login");
+  }
+
+  async function updateProductCategory(row: Row, categoryId: string) {
+    if (!row.id) return;
+    const productId = String(row.id);
+    setCategorySavingProductId(productId);
+    setCategoryQuickError(null);
+    try {
+      await call("PATCH", {
+        table: "products",
+        id: row.id,
+        row: { category_id: categoryId || null },
+      });
+      setRows((current) => current.map((item) => (
+        String(item.id) === productId
+          ? { ...item, category_id: categoryId || null }
+          : item
+      )));
+      setOpenQuickCategoryProductId(null);
+    } catch (e: any) {
+      setCategoryQuickError(e.message || "分類更新失敗");
+    } finally {
+      setCategorySavingProductId(null);
+    }
   }
 
   function categoryName(categoryId: unknown) {
@@ -374,7 +401,51 @@ export default function AdminPage() {
                           </div>
                         </div>
                         <div className="flex shrink-0 gap-2">
-                          <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                          {tab === "products" ? (
+                            <div className="relative">
+                              <div className="flex">
+                                <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                                <button
+                                  type="button"
+                                  aria-label={`快速更改 ${row.name || "產品"} 分類`}
+                                  aria-expanded={openQuickCategoryProductId === String(row.id)}
+                                  onClick={() => {
+                                    setCategoryQuickError(null);
+                                    setOpenQuickCategoryProductId((current) => current === String(row.id) ? null : String(row.id));
+                                  }}
+                                  className="rounded-r-lg border border-[#ded5cc] px-2 py-2 text-sm transition hover:bg-[#f6f2eb]"
+                                >
+                                  <ChevronDown className={`h-4 w-4 transition-transform ${openQuickCategoryProductId === String(row.id) ? "rotate-180" : ""}`} />
+                                </button>
+                              </div>
+                              {openQuickCategoryProductId === String(row.id) && (
+                                <div className="absolute right-0 top-full z-20 mt-2 w-72 rounded-xl border border-[#ded5cc] bg-white p-3 text-left shadow-lg">
+                                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#8b7c70]">快速更改分類</p>
+                                  <select
+                                    value={row.category_id || ""}
+                                    disabled={categorySavingProductId === String(row.id)}
+                                    onChange={(event) => updateProductCategory(row, event.target.value)}
+                                    className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 text-sm outline-none transition focus:border-[#a36b42] disabled:cursor-wait disabled:opacity-60"
+                                  >
+                                    <option value="">未分類</option>
+                                    {categoryGroups(categories).map(({ root, entries }) => (
+                                      <optgroup key={root.id} label={root.name}>
+                                        {entries.map(({ category, depth }) => (
+                                          <option key={category.id} value={category.id}>
+                                            {depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}
+                                          </option>
+                                        ))}
+                                      </optgroup>
+                                    ))}
+                                  </select>
+                                  {categorySavingProductId === String(row.id) && <p className="mt-2 text-xs text-[#a36b42]">儲存中…</p>}
+                                  {categoryQuickError && <p className="mt-2 text-xs text-red-600">{categoryQuickError}</p>}
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                          )}
                           {tab !== "orders" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
