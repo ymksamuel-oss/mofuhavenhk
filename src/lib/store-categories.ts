@@ -1,5 +1,7 @@
 import { canonicalCategorySlug, type CategoryIconName } from "@/lib/categories";
 
+import type { TranslationKey } from "./i18n/translations";
+
 export type StoreCategoryRow = {
   id: string;
   name: string;
@@ -17,6 +19,38 @@ export type StoreCategory = StoreCategoryRow & {
 };
 
 const DEFAULT_ICON: CategoryIconName = "bone";
+
+const CATEGORY_TRANSLATION_KEYS: Record<string, TranslationKey> = {
+  cats: "categoryCats",
+  dogs: "categoryDogs",
+  "small-pets": "categorySmallPets",
+  lifestyle: "categoryLifestyle",
+  snacks: "categorySnacks",
+  health: "categoryHealth",
+  cleaning: "categoryCleaning",
+  deals: "categoryDeals",
+  bestsellers: "categoryBestsellers",
+  outdoor: "categoryOutdoor",
+  toys: "categoryToys",
+  "dry-food": "catDirectDryFood",
+  kitten: "catDirectKitten",
+  adult: "catDirectAdult",
+  senior: "catDirectSenior",
+  "wet-cans": "catSubWetCans",
+  "freeze-dried": "catSubFreezeDried",
+  litter: "catSubLitter",
+  "toys-climbing": "catSubToysClimbing",
+  "dog-food": "dogSubFood",
+  "toilet-pads": "dogSubToiletPads",
+};
+
+export function categoryDisplayName(
+  category: StoreCategory,
+  t: (key: TranslationKey) => string,
+): string {
+  const key = CATEGORY_TRANSLATION_KEYS[category.slug];
+  return key ? t(key) : category.name;
+}
 
 const KNOWN_ICONS = new Set<CategoryIconName>([
   "cat", "dog", "bone", "health", "cleaning", "clock", "fire", "bag", "toy",

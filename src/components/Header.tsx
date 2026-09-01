@@ -11,7 +11,7 @@ import { ProductSearch } from "@/components/ProductSearch";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import type { StoreCategory } from "@/lib/store-categories";
+import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
@@ -93,6 +93,7 @@ function categoryRoute(parent: StoreCategory, child?: StoreCategory) {
 function renderMobileCategoryChildren(
   parent: StoreCategory,
   onNavigate: () => void,
+  labelForCategory: (category: StoreCategory) => string,
   basePath = categoryRoute(parent),
   depth = 0,
 ): ReactNode[] {
@@ -105,11 +106,11 @@ function renderMobileCategoryChildren(
           className={`block rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] ${depth > 0 ? "pl-3" : ""}`}
           onClick={onNavigate}
         >
-          {child.name}
+          {labelForCategory(child)}
         </Link>
         {child.children.length > 0 ? (
           <div className="ml-3 grid gap-1 border-l border-[color:var(--line)] pl-1">
-            {renderMobileCategoryChildren(child, onNavigate, childPath, depth + 1)}
+            {renderMobileCategoryChildren(child, onNavigate, labelForCategory, childPath, depth + 1)}
           </div>
         ) : null}
       </div>
@@ -121,6 +122,7 @@ function renderDesktopCategoryChildren(
   parent: StoreCategory,
   pathname: string,
   onNavigate: () => void,
+  labelForCategory: (category: StoreCategory) => string,
   basePath = categoryRoute(parent),
   depth = 0,
 ): ReactNode[] {
@@ -136,12 +138,12 @@ function renderDesktopCategoryChildren(
           className={`group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm transition hover:bg-[#f1ded1] hover:text-[#583827] ${active ? "font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)]"} ${hasChildren ? "font-medium" : ""}`}
           onClick={onNavigate}
         >
-          <span>{child.name}</span>
+          <span>{labelForCategory(child)}</span>
           {hasChildren ? <CaretIcon /> : null}
         </Link>
         {hasChildren ? (
           <div className="ml-3 grid gap-1 border-l border-[color:var(--line)] pl-1">
-            {renderDesktopCategoryChildren(child, pathname, onNavigate, childPath, depth + 1)}
+            {renderDesktopCategoryChildren(child, pathname, onNavigate, labelForCategory, childPath, depth + 1)}
           </div>
         ) : null}
       </div>
@@ -259,6 +261,7 @@ export function Header() {
 
   const isCategoryActive = (category: StoreCategory) =>
     pathname === `/categories/${category.slug}` || pathname.startsWith(`/categories/${category.slug}/`);
+  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, t);
 
   const mobileMenu =
     menuOpen && portalReady
@@ -324,7 +327,7 @@ export function Header() {
                           ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
                           : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
                       }`}>
-                        <Link href={`/categories/${category.slug}`} className="min-w-0 flex-1 py-2.5" onClick={() => setMenuOpen(false)}>{category.name}</Link>
+                        <Link href={`/categories/${category.slug}`} className="min-w-0 flex-1 py-2.5" onClick={() => setMenuOpen(false)}>{localizedCategoryName(category)}</Link>
                         {hasChildren ? (
                           <button type="button" className="flex h-10 w-10 items-center justify-center" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setMobileCategoryOpen((open) => open === category.id ? null : category.id)}>
                             <CaretIcon open={isOpen} />
@@ -334,7 +337,7 @@ export function Header() {
                       {isOpen ? (
                         <div id={panelId} className="mx-1 mt-2 grid rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">
                           <div className="grid gap-1">
-                            {renderMobileCategoryChildren(category, () => { setMobileCategoryOpen(null); setMenuOpen(false); })}
+                            {renderMobileCategoryChildren(category, () => { setMobileCategoryOpen(null); setMenuOpen(false); }, localizedCategoryName)}
                           </div>
                         </div>
                       ) : null}
@@ -382,7 +385,7 @@ export function Header() {
           <nav
             ref={desktopCategoryRef}
             className="ml-2 hidden min-w-0 items-center gap-3 text-[13px] text-[color:var(--muted)] lg:flex xl:gap-4 xl:text-sm"
-            aria-label="Primary"
+            aria-label={t("headerPrimaryNavLabel")}
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
@@ -394,7 +397,7 @@ export function Header() {
               if (!hasChildren) {
                 return (
                   <Link key={category.id} href={`/categories/${category.slug}`} className={navLinkClassName(isCategoryActive(category))}>
-                    {category.name}
+                    {localizedCategoryName(category)}
                   </Link>
                 );
               }
@@ -410,17 +413,17 @@ export function Header() {
                     onClick={() => setDesktopCategoryOpen((open) => open === category.id ? null : category.id)}
                     onFocus={() => setDesktopCategoryOpen(category.id)}
                   >
-                    {category.name}
+                    {localizedCategoryName(category)}
                     <CaretIcon open={isOpen} />
                   </button>
                   {isOpen ? (
                     <div id={panelId} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
                       <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
                         <Link href={`/categories/${category.slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--ink)] hover:bg-[#f1ded1]" onClick={() => setDesktopCategoryOpen(null)}>
-                          {locale === "en" ? `All ${category.name}` : `全部${category.name}`}
+                          {locale === "en" ? `All ${localizedCategoryName(category)}` : `全部${localizedCategoryName(category)}`}
                         </Link>
                           <div className="grid gap-1">
-                            {renderDesktopCategoryChildren(category, pathname, () => setDesktopCategoryOpen(null))}
+                            {renderDesktopCategoryChildren(category, pathname, () => setDesktopCategoryOpen(null), localizedCategoryName)}
                           </div>
                       </div>
                     </div>
@@ -478,7 +481,7 @@ export function Header() {
             <div
               className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11"
               role="group"
-              aria-label="Language"
+              aria-label={t("headerLanguageLabel")}
             >
               <button
                 type="button"

@@ -78,16 +78,16 @@ export function ProductDetail({ product }: ProductDetailProps) {
     return preferred?.trim() || fallback?.trim();
   };
   const detailedInformation = [
-    { label: locale === "zh" ? "品牌" : "Brand", value: selectedProduct.brand || metadataValue("brand", "brand") },
-    { label: locale === "zh" ? "產品類別" : "Product type", value: metadataValue("product_type_zh", "product_type_en") },
-    { label: locale === "zh" ? "成分" : "Ingredients", value: metadataValue("ingredients_zh", "ingredients_en") },
-    { label: locale === "zh" ? "材質" : "Material", value: metadataValue("material_zh", "material_en") },
-    { label: locale === "zh" ? "保證成分分析" : "Guaranteed analysis", value: metadataValue("guaranteed_analysis_zh", "guaranteed_analysis_en") },
-    { label: locale === "zh" ? "能量" : "Energy", value: metadataValue("energy_zh", "energy_en") },
-    { label: locale === "zh" ? "產地" : "Country of origin", value: metadataValue("country_of_origin_zh", "country_of_origin_en") },
-    { label: locale === "zh" ? "餵食／使用方式" : "Feeding / use", value: metadataValue("feeding_zh", "feeding_en") },
-    { label: locale === "zh" ? "保存方式" : "Storage", value: metadataValue("storage_zh", "storage_en") },
-    { label: locale === "zh" ? "清潔／護理" : "Care", value: metadataValue("care_zh", "care_en") },
+    { label: t("productBrandLabel"), value: selectedProduct.brand || metadataValue("brand", "brand") },
+    { label: t("productTypeLabel"), value: metadataValue("product_type_zh", "product_type_en") },
+    { label: t("productIngredientsLabel"), value: metadataValue("ingredients_zh", "ingredients_en") },
+    { label: t("productMaterialLabel"), value: metadataValue("material_zh", "material_en") },
+    { label: t("productGuaranteedAnalysisLabel"), value: metadataValue("guaranteed_analysis_zh", "guaranteed_analysis_en") },
+    { label: t("productEnergyLabel"), value: metadataValue("energy_zh", "energy_en") },
+    { label: t("productOriginLabel"), value: metadataValue("country_of_origin_zh", "country_of_origin_en") },
+    { label: t("productFeedingLabel"), value: metadataValue("feeding_zh", "feeding_en") },
+    { label: t("productStorageLabel"), value: metadataValue("storage_zh", "storage_en") },
+    { label: t("productCareLabel"), value: metadataValue("care_zh", "care_en") },
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
   const officialSourceUrl = metadata.official_source_url?.trim();
   const safeOfficialSourceUrl = officialSourceUrl?.startsWith("https://") ? officialSourceUrl : undefined;
@@ -138,7 +138,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
         <div className="milk-tea-card p-5 sm:p-7">
           <p className="text-sm text-[color:var(--muted)]">
-            {locale === "zh" ? (mofuSku ? "店內貨號" : "商品編號") : (mofuSku ? "Store SKU" : "Product ID")}：{mofuSku ?? selectedProduct.id}
+            {mofuSku ? t("productSkuLabel") : t("productIdLabel")}：{mofuSku ?? selectedProduct.id}
           </p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
             {selectedProduct.name[locale]}
@@ -234,7 +234,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 id="product-information-title"
                 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
               >
-                {locale === "zh" ? "詳細資料" : "Product information"}
+                {t("productInformationTitle")}
               </h2>
               <dl className="mt-3 space-y-3">
                 {detailedInformation.map((item) => (
@@ -253,7 +253,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 id="product-source-title"
                 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
               >
-                {locale === "zh" ? "官方資料來源" : "Official source"}
+                {t("productOfficialSourceTitle")}
               </h2>
               <a
                 href={safeOfficialSourceUrl}
@@ -272,7 +272,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 id="product-notice-title"
                 className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
               >
-                {locale === "zh" ? "選購注意" : "Important notes"}
+                {t("productImportantNotesTitle")}
               </h2>
               {notice ? <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">{notice}</p> : null}
               {verificationNote ? <p className="mt-2 text-xs leading-relaxed text-[color:var(--muted)]">{verificationNote}</p> : null}
@@ -292,7 +292,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   <p className="mt-1 text-xs text-[color:var(--muted)]">{family.label[locale]}</p>
                 </div>
                 <span className="text-[11px] text-[color:var(--muted)]">
-                  {familyChoices.length} {locale === "zh" ? "款可選" : "choices"}
+                  {familyChoices.length} {t("productChoicesSuffix")}
                 </span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={family.selector[locale]}>
