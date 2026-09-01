@@ -320,6 +320,8 @@ export type Product = {
   priceId?: string;
   /** Stripe metadata delivered with the catalog. `category` is the canonical taxonomy key. */
   metadata?: Record<string, string>;
+  /** Database foreign key to `categories.id`; authoritative for managed storefront filtering. */
+  categoryId?: string;
   categorySlug: string;
   subcategory?: ProductSubcategory;
   /** Primary cover image retained for listings, cart and checkout compatibility. */

@@ -12,9 +12,9 @@ import {
   HealthIcon,
   ToyIcon,
 } from "@/components/icons/CategoryIcons";
-import { CATEGORIES, categoryHref, type CategoryIconName, type CategoryLabelKey } from "@/lib/categories";
+import { categoryHref, type CategoryIconName } from "@/lib/categories";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { useEffect, useState } from "react";
 
 const ICONS: Record<CategoryIconName, typeof CatIcon> = {
   cat: CatIcon,
@@ -30,17 +30,8 @@ const ICONS: Record<CategoryIconName, typeof CatIcon> = {
 
 export function CategoryGrid() {
   const { t } = useI18n();
-  const [liveCategories, setLiveCategories] = useState<Array<{ slug: string; labelKey: CategoryLabelKey; icon: CategoryIconName; liveName?: string; imageUrl?: string }> | null>(null);
-  useEffect(() => {
-    fetch("/api/store", { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => {
-      if (!payload?.categories?.length) return;
-      setLiveCategories(payload.categories.map((item: { slug: string; name: string; image_url?: string }) => {
-        const fallback = CATEGORIES.find((category) => category.slug === item.slug) || CATEGORIES[0];
-        return { ...fallback, slug: item.slug, liveName: item.name, imageUrl: item.image_url };
-      }));
-    }).catch(() => undefined);
-  }, []);
-  const displayCategories = liveCategories ?? CATEGORIES.map((category) => ({ ...category, liveName: undefined, imageUrl: undefined }));
+  const { categories } = useCatalog();
+  const displayCategories = categories;
 
   return (
     <section
@@ -60,10 +51,10 @@ export function CategoryGrid() {
       </div>
 
       <ul className="grid grid-cols-3 gap-x-3 gap-y-7 sm:gap-x-4 md:grid-cols-9 md:gap-x-2">
-        {displayCategories.map(({ slug, labelKey, icon, liveName, imageUrl }) => {
-          const Icon = ICONS[icon];
+        {displayCategories.map(({ id, slug, name, icon, image_url: imageUrl }) => {
+          const Icon = ICONS[icon ?? "bone"];
           return (
-            <li key={slug}>
+            <li key={id}>
               <CategoryNavLink
                 href={categoryHref(slug)}
                 className="group flex flex-col items-center gap-2.5 text-center"
@@ -77,7 +68,7 @@ export function CategoryGrid() {
                   <Icon className="h-8 w-8 transition-transform duration-[250ms] ease-out group-hover:scale-105 group-active:scale-105 sm:h-10 sm:w-10" />
                 </span>
                 <span className="text-xs font-medium leading-tight text-[color:var(--ink)] transition-colors duration-[250ms] group-hover:text-[color:var(--accent)] group-active:text-[color:var(--accent)] sm:text-sm">
-                  {liveName || t(labelKey)}
+                  {name}
                 </span>
               </CategoryNavLink>
             </li>

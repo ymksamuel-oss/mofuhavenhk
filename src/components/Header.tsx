@@ -8,24 +8,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
-import {
-  CategorySubmenu,
-  HEADER_MENU_GROUPS,
-  HEADER_MENU_LABEL_KEY,
-  type CategoryMenuGroup,
-} from "@/components/CategoryDropdown";
 import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import type { StoreCategory } from "@/lib/store-categories";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
-
-type DatabaseCategory = {
-  id: string;
-  slug: string;
-  name: string;
-};
-
-const DIRECT_CATEGORY_GROUPS = new Set<CategoryMenuGroup>(["cats", "dogs", "lifestyle"]);
 
 function navLinkClassName(active: boolean) {
   return `relative truncate py-0.5 transition-colors ${
@@ -98,14 +86,13 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const { locale, setLocale, t } = useI18n();
+  const { categories: databaseCategories } = useCatalog();
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileCategoryOpen, setMobileCategoryOpen] = useState<CategoryMenuGroup | null>(null);
-  const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<CategoryMenuGroup | null>(null);
-  const [liveCategoryOpen, setLiveCategoryOpen] = useState(false);
-  const [databaseCategories, setDatabaseCategories] = useState<DatabaseCategory[]>([]);
+  const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
+  const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<string | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
@@ -132,59 +119,9 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    const loadDatabaseCategories = async () => {
-      try {
-        const response = await fetch("/api/store", {
-          cache: "no-store",
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error(`分類資料載入失敗：${response.status}`);
-        const payload = await response.json();
-        const categories = Array.isArray(payload?.categories) ? payload.categories : [];
-        const seenSlugs = new Set<string>();
-        const nextCategories = categories
-          .filter((item: { id?: string; slug?: string; name?: string }) => {
-            const slug = String(item.slug || "").trim().toLocaleLowerCase();
-            const isValid = Boolean(item.id && slug && item.name) && !seenSlugs.has(slug);
-            if (isValid) seenSlugs.add(slug);
-            return isValid;
-          })
-          .map((item: { id: string; slug: string; name: string }) => ({
-            id: String(item.id),
-            slug: item.slug.trim(),
-            name: item.name.trim(),
-          }));
-        setDatabaseCategories(nextCategories);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        // Keep the static navigation usable when the public catalog API is temporarily unavailable.
-        console.warn("[header] Unable to refresh database categories", error);
-      }
-    };
-
-    loadDatabaseCategories();
-    const refreshWhenVisible = () => {
-      if (document.visibilityState === "visible") loadDatabaseCategories();
-    };
-    const refreshInterval = window.setInterval(loadDatabaseCategories, 30_000);
-    window.addEventListener("focus", refreshWhenVisible);
-    document.addEventListener("visibilitychange", refreshWhenVisible);
-
-    return () => {
-      controller.abort();
-      window.clearInterval(refreshInterval);
-      window.removeEventListener("focus", refreshWhenVisible);
-      document.removeEventListener("visibilitychange", refreshWhenVisible);
-    };
-  }, []);
-
-  useEffect(() => {
     setMenuOpen(false);
     setMobileCategoryOpen(null);
     setDesktopCategoryOpen(null);
-    setLiveCategoryOpen(false);
     setCartOpen(false);
   }, [pathname]);
 
@@ -194,18 +131,16 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!desktopCategoryOpen && !liveCategoryOpen) return;
+    if (!desktopCategoryOpen) return;
 
     const closeWhenOutside = (event: PointerEvent) => {
       if (!desktopCategoryRef.current?.contains(event.target as Node)) {
         setDesktopCategoryOpen(null);
-        setLiveCategoryOpen(false);
       }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setDesktopCategoryOpen(null);
-        setLiveCategoryOpen(false);
       }
     };
 
@@ -215,7 +150,7 @@ export function Header() {
       window.removeEventListener("pointerdown", closeWhenOutside);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [desktopCategoryOpen, liveCategoryOpen]);
+  }, [desktopCategoryOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -254,15 +189,8 @@ export function Header() {
     { href: "/checkout", label: t("navCheckout"), active: pathname === "/checkout" },
   ] as const;
 
-  const isMenuGroupActive = (group: CategoryMenuGroup) => {
-    if (group === "cats" || group === "dogs" || group === "small-pets" || group === "lifestyle") {
-      return pathname.startsWith(`/categories/${group}`);
-    }
-    if (group === "explore") {
-      return pathname.startsWith("/cat-breeds") || pathname.startsWith("/dog-breeds");
-    }
-    return pathname === "/shipping-policy" || pathname === "/returns" || pathname === "/terms";
-  };
+  const isCategoryActive = (category: StoreCategory) =>
+    pathname === `/categories/${category.slug}` || pathname.startsWith(`/categories/${category.slug}/`);
 
   const mobileMenu =
     menuOpen && portalReady
@@ -317,84 +245,36 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
-                {HEADER_MENU_GROUPS.map((group) => {
-                  const isActive = isMenuGroupActive(group);
-                  const label = t(HEADER_MENU_LABEL_KEY[group]);
-
-                  if (DIRECT_CATEGORY_GROUPS.has(group)) {
-                    return (
-                      <li key={group} className="block w-full">
-                        <Link
-                          href={`/categories/${group}`}
-                          className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
-                            isActive
-                              ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                              : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
-                          }`}
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {label}
-                        </Link>
-                      </li>
-                    );
-                  }
-
-                  const isOpen = mobileCategoryOpen === group;
-                  const panelId = `${mobileCategoriesId}-${group}`;
+                {databaseCategories.map((category) => {
+                  const isOpen = mobileCategoryOpen === category.id;
+                  const panelId = `${mobileCategoriesId}-${category.id}`;
+                  const hasChildren = category.children.length > 0;
                   return (
-                    <li key={group} className="block w-full">
-                      <button
-                        type="button"
-                        className={`flex min-h-11 w-full touch-manipulation items-center justify-between rounded-xl px-4 py-3.5 text-left text-base font-medium leading-normal transition ${
-                          isActive || isOpen
-                            ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                            : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
-                        }`}
-                        aria-expanded={isOpen}
-                        aria-controls={panelId}
-                        onClick={() => setMobileCategoryOpen((open) => (open === group ? null : group))}
-                      >
-                        <span>{label}</span>
-                        <CaretIcon open={isOpen} />
-                      </button>
+                    <li key={category.id} className="block w-full">
+                      <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${
+                        isCategoryActive(category) || isOpen
+                          ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
+                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
+                      }`}>
+                        <Link href={`/categories/${category.slug}`} className="min-w-0 flex-1 py-2.5" onClick={() => setMenuOpen(false)}>{category.name}</Link>
+                        {hasChildren ? (
+                          <button type="button" className="flex h-10 w-10 items-center justify-center" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setMobileCategoryOpen((open) => open === category.id ? null : category.id)}>
+                            <CaretIcon open={isOpen} />
+                          </button>
+                        ) : null}
+                      </div>
                       {isOpen ? (
-                        <div id={panelId} className="mx-1 mt-2 rounded-2xl border border-[color:var(--line)] bg-white/80 p-3 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)] motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
-                          <CategorySubmenu
-                            group={group}
-                            compact
-                            onNavigate={() => {
-                              setMobileCategoryOpen(null);
-                              setMenuOpen(false);
-                            }}
-                          />
+                        <div id={panelId} className="mx-1 mt-2 grid rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">
+                          {category.children.map((child) => (
+                            <Link key={child.id} href={`/categories/${category.slug}/${child.slug}`} className="rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => { setMobileCategoryOpen(null); setMenuOpen(false); }}>
+                              {child.name}
+                            </Link>
+                          ))}
                         </div>
                       ) : null}
                     </li>
                   );
                 })}
-                {databaseCategories.length > 0 ? (
-                  <li className="block w-full border-t border-[color:var(--line)] pt-3">
-                    <p className="px-4 pb-1 text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--muted)]">
-                      {locale === "en" ? "More categories" : "更多分類"}
-                    </p>
-                    <div className="grid gap-1">
-                      {databaseCategories.map((category) => (
-                        <Link
-                          key={category.id}
-                          href={`/categories/${category.slug}`}
-                          className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
-                            pathname.startsWith(`/categories/${category.slug}`)
-                              ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                              : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
-                          }`}
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {category.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </li>
-                ) : null}
                 {mobileNavItems.slice(1).map((item) => (
                   <li key={item.href} className="block w-full">
                     <Link
@@ -441,108 +321,49 @@ export function Header() {
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
             </Link>
-            {HEADER_MENU_GROUPS.map((group) => {
-              const isActive = isMenuGroupActive(group);
-              const label = t(HEADER_MENU_LABEL_KEY[group]);
-
-              if (DIRECT_CATEGORY_GROUPS.has(group)) {
+            {databaseCategories.map((category) => {
+              const hasChildren = category.children.length > 0;
+              const isOpen = desktopCategoryOpen === category.id;
+              const panelId = `${desktopCategoriesId}-${category.id}`;
+              if (!hasChildren) {
                 return (
-                  <Link key={group} href={`/categories/${group}`} className={navLinkClassName(isActive)}>
-                    {label}
+                  <Link key={category.id} href={`/categories/${category.slug}`} className={navLinkClassName(isCategoryActive(category))}>
+                    {category.name}
                   </Link>
                 );
               }
-
-              const isOpen = desktopCategoryOpen === group;
-              const panelId = `${desktopCategoriesId}-${group}`;
               return (
-                <div
-                  key={group}
-                  className="relative -mb-3 pb-3"
-                  onMouseEnter={() => {
-                    setLiveCategoryOpen(false);
-                    setDesktopCategoryOpen(group);
-                  }}
-                >
+                <div key={category.id} className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopCategoryOpen(category.id)}>
                   <button
                     type="button"
-                    className={`${navLinkClassName(isActive || isOpen)} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
+                    className={`${navLinkClassName(isCategoryActive(category) || isOpen)} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
                     aria-haspopup="menu"
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    onPointerDown={(event) => {
-                      event.stopPropagation();
-                      setLiveCategoryOpen(false);
-                      setDesktopCategoryOpen(group);
-                    }}
-                    onClick={() => {
-                      setLiveCategoryOpen(false);
-                      setDesktopCategoryOpen(group);
-                    }}
-                    onFocus={() => {
-                      setLiveCategoryOpen(false);
-                      setDesktopCategoryOpen(group);
-                    }}
+                    onPointerDown={(event) => { event.stopPropagation(); setDesktopCategoryOpen(category.id); }}
+                    onClick={() => setDesktopCategoryOpen((open) => open === category.id ? null : category.id)}
+                    onFocus={() => setDesktopCategoryOpen(category.id)}
                   >
-                    {label}
+                    {category.name}
                     <CaretIcon open={isOpen} />
                   </button>
                   {isOpen ? (
-                    <div
-                      id={panelId}
-                      role="menu"
-                      className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]"
-                    >
-                      <CategorySubmenu group={group} onNavigate={() => setDesktopCategoryOpen(null)} />
+                    <div id={panelId} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
+                      <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                        <Link href={`/categories/${category.slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--ink)] hover:bg-[#f1ded1]" onClick={() => setDesktopCategoryOpen(null)}>
+                          {locale === "en" ? `All ${category.name}` : `全部${category.name}`}
+                        </Link>
+                        {category.children.map((child) => (
+                          <Link key={child.id} href={`/categories/${category.slug}/${child.slug}`} role="menuitem" className={`${navLinkClassName(pathname.startsWith(`/categories/${category.slug}/${child.slug}`))} rounded-xl px-3 py-2 text-sm hover:bg-[#f1ded1]`} onClick={() => setDesktopCategoryOpen(null)}>
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   ) : null}
                 </div>
               );
             })}
-            {databaseCategories.length > 0 ? (
-              <div
-                className="relative -mb-3 pb-3"
-                onMouseEnter={() => {
-                  setDesktopCategoryOpen(null);
-                  setLiveCategoryOpen(true);
-                }}
-              >
-                <button
-                  type="button"
-                  className={`${navLinkClassName(liveCategoryOpen || databaseCategories.some((category) => pathname.startsWith(`/categories/${category.slug}`)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
-                  aria-haspopup="menu"
-                  aria-expanded={liveCategoryOpen}
-                  aria-controls={`${desktopCategoriesId}-live`}
-                  onPointerDown={(event) => {
-                    event.stopPropagation();
-                    setDesktopCategoryOpen(null);
-                    setLiveCategoryOpen(true);
-                  }}
-                  onClick={() => setLiveCategoryOpen((open) => !open)}
-                  onFocus={() => setLiveCategoryOpen(true)}
-                >
-                  {locale === "en" ? "More categories" : "更多分類"}
-                  <CaretIcon open={liveCategoryOpen} />
-                </button>
-                {liveCategoryOpen ? (
-                  <div id={`${desktopCategoriesId}-live`} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
-                    <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                      {databaseCategories.map((category) => (
-                        <Link
-                          key={category.id}
-                          href={`/categories/${category.slug}`}
-                          role="menuitem"
-                          className={`${navLinkClassName(pathname.startsWith(`/categories/${category.slug}`))} rounded-xl px-3 py-2 text-sm hover:bg-[#f1ded1]`}
-                          onClick={() => setLiveCategoryOpen(false)}
-                        >
-                          {category.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
             <Link href="/checkout" className={navLinkClassName(pathname === "/checkout")}>
               {t("navCheckout")}
             </Link>

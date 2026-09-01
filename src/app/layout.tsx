@@ -8,6 +8,7 @@ import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import type { Product } from "@/lib/products";
+import type { StoreCategory } from "@/lib/store-categories";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -96,11 +97,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   let products: Product[] = [];
+  let categories: StoreCategory[] = [];
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products || [];
+    categories = catalog.categories || [];
   } catch {
     products = [];
+    categories = [];
   }
 
   return (
@@ -110,7 +114,7 @@ export default async function RootLayout({
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
-          <CatalogProvider products={products}>
+          <CatalogProvider products={products} categories={categories}>
             <CartProvider>
               <Header />
               <ShopFlowNav>

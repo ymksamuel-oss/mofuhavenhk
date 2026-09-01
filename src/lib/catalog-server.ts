@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { unstable_noStore as noStore } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
+import { buildCategoryTree, type StoreCategory } from "@/lib/store-categories";
 import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
 import { RECENT_FALLBACK_PRODUCTS } from "@/lib/catalog-recent-fallback";
 import { LOCAL_CATALOG_IMAGE_FALLBACKS } from "@/lib/catalog-image-fallback";
@@ -35,6 +36,7 @@ import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib
 
 export type CatalogSnapshot = {
   products: Product[];
+  categories: StoreCategory[];
   source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
@@ -52,6 +54,7 @@ function fallbackCatalogSnapshot(): CatalogSnapshot {
   ]);
   return {
     products,
+    categories: [],
     source: "fallback",
     matchedRecords: products.length,
   };
@@ -609,7 +612,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
   if (products.length === 0) {
     throw new Error("Stripe catalog has no active HKD products");
   }
-  return { products, source: "stripe", matchedRecords: products.length };
+  return { products, categories: [], source: "stripe", matchedRecords: products.length };
 }
 
 function stripeErrorDetails(error: unknown) {
@@ -682,7 +685,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
 
   try {
     const [categoryResult, productResult] = await Promise.all([
-      supabase.from("categories").select("id,slug"),
+      supabase.from("categories").select("*"),
       supabase
         .from("products")
         .select("*")
@@ -700,11 +703,12 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       });
       return null;
     }
+    const categoryTree = buildCategoryTree(categoryResult.data || []);
     if (!productResult.data?.length) {
       console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
         categories: categoryResult.data?.length ?? 0,
       });
-      return null;
+      return { products: [], categories: categoryTree, source: "supabase", matchedRecords: 0 };
     }
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
@@ -723,6 +727,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     return {
       id: String(row.id),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
+      categoryId: row.category_id ? String(row.category_id) : undefined,
       categorySlug,
       image: images[0] || CATALOG_IMAGE_FALLBACK,
       ...(images.length ? { images } : {}),
@@ -739,7 +744,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       icon: iconForCategory(categorySlug),
     } satisfies Product;
       }).filter((product) => product.price >= 0);
-    return { products, source: "supabase", matchedRecords: products.length };
+    return { products, categories: categoryTree, source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
       errorName: error instanceof Error ? error.name : "unknown",
@@ -758,7 +763,7 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     // Once Supabase is configured, never leak the old Git-backed catalog when a
     // managed query fails; that could expose archived products outside Admin control.
     if (isSupabaseConfigured()) {
-      return { products: [], source: "supabase", matchedRecords: 0 };
+      return { products: [], categories: [], source: "supabase", matchedRecords: 0 };
     }
     // Intentionally uncached: fetch live Stripe catalog data on every request.
     return await fetchCatalogFromStripe();
@@ -768,7 +773,7 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
       stripeErrorDetails(error),
     );
     if (isSupabaseConfigured()) {
-      return { products: [], source: "supabase", matchedRecords: 0 };
+      return { products: [], categories: [], source: "supabase", matchedRecords: 0 };
     }
     return fallbackCatalogSnapshot();
   }

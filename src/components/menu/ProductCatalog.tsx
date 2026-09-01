@@ -5,27 +5,11 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
-import { getCategoryBySlug } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import {
-  getCatProductsByLifeStage,
-  getCatProductsBySubcategory,
-  getDogProductsBySubcategory,
-  getLifestyleProductsBySubcategory,
-  getSmallPetProductsBySubcategory,
-  getProductSubcategoryLabelKey,
-  getProductsByCategory,
-  type CatLifeStage,
-  type CatSubcategory,
-  type DogSubcategory,
-  type LifestyleSubcategory,
-  type SmallPetSubcategory,
-  productHref,
-  resolveCategorySubSlug,
-  resolveCatSnackSeriesSlug,
-} from "@/lib/products";
+import { categoryDescendantIds, findCategoryBySlug } from "@/lib/store-categories";
+import { productHref } from "@/lib/products";
 
 function getProductBadge(product: {
   id: string;
@@ -54,9 +38,9 @@ function getProductBadge(product: {
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
-  /** Ignored legacy route parameters retained for route compatibility. */
+  /** Child category slug for `/categories/[parent]/[child]`. */
   subcategory?: unknown;
-  /** Direct 貓咪商品 life-stage collection: kitten, adult or senior. */
+  /** Retained only for legacy route compatibility; database category_id remains authoritative. */
   catLifeStage?: unknown;
   snackSeries?: unknown;
   /** Show the homepage-style search section on `/categories/...` pages only. */
@@ -75,57 +59,24 @@ export function ProductCatalog({
   snackSeries,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
-  const { products: catalogProducts } = useCatalog();
-  const category = getCategoryBySlug(categorySlug);
-  const selectedSubcategory =
-    typeof subcategory === "string"
-      ? resolveCategorySubSlug(categorySlug ?? "", subcategory)
-      : null;
-  const selectedSnackSeries =
-    typeof snackSeries === "string" ? resolveCatSnackSeriesSlug(snackSeries) : null;
-  const selectedCatLifeStage =
-    catLifeStage === "kitten" || catLifeStage === "adult" || catLifeStage === "senior"
-      ? (catLifeStage as CatLifeStage)
-      : null;
+  const { products: catalogProducts, categories } = useCatalog();
+  const selectedCategory = useMemo(() => {
+    if (!categorySlug) return null;
+    const parent = findCategoryBySlug(categories, categorySlug);
+    if (!parent || typeof subcategory !== "string" || !subcategory.trim()) return parent;
+    return parent.children.find((child) => child.slug === subcategory.trim().toLowerCase()) ?? null;
+  }, [categories, categorySlug, subcategory]);
+  const selectedCategoryIds = useMemo(
+    () => categoryDescendantIds(selectedCategory),
+    [selectedCategory],
+  );
   const products = useMemo(() => {
-    const matchingProducts =
-      categorySlug === "cats" && selectedCatLifeStage
-        ? getCatProductsByLifeStage(selectedCatLifeStage, catalogProducts)
-        : categorySlug === "cats" && selectedSubcategory
-          ? getCatProductsBySubcategory(
-            selectedSubcategory as CatSubcategory,
-            selectedSnackSeries,
-            catalogProducts,
-          )
-          : categorySlug === "dogs" && selectedSubcategory
-          ? getDogProductsBySubcategory(
-              selectedSubcategory as DogSubcategory,
-              catalogProducts,
-            )
-          : categorySlug === "small-pets" && selectedSubcategory
-            ? getSmallPetProductsBySubcategory(
-                selectedSubcategory as SmallPetSubcategory,
-                catalogProducts,
-              )
-            : categorySlug === "lifestyle" && selectedSubcategory
-              ? getLifestyleProductsBySubcategory(
-                  selectedSubcategory as LifestyleSubcategory,
-                  catalogProducts,
-                )
-              : getProductsByCategory(categorySlug, catalogProducts);
-    return matchingProducts;
-  }, [categorySlug, catalogProducts, selectedCatLifeStage, selectedSnackSeries, selectedSubcategory]);
-
-  const lifeStageLabelKey = selectedCatLifeStage
-    ? ({ kitten: "catDirectKitten", adult: "catDirectAdult", senior: "catDirectSenior" } as const)[selectedCatLifeStage]
-    : null;
-  const title = lifeStageLabelKey
-    ? t(lifeStageLabelKey)
-    : selectedSubcategory
-      ? t(getProductSubcategoryLabelKey(selectedSubcategory))
-    : category
-      ? t(category.labelKey)
-      : t("menuTitle");
+    if (!categorySlug) return catalogProducts;
+    return catalogProducts.filter((product) =>
+      Boolean(product.categoryId) && selectedCategoryIds.has(product.categoryId as string),
+    );
+  }, [categorySlug, catalogProducts, selectedCategoryIds]);
+  const title = selectedCategory?.name ?? t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>

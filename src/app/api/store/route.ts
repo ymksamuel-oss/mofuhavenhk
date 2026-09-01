@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { canonicalCategorySlug } from "@/lib/categories";
 import { getActiveStripeProductIds, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
+import { buildCategoryTree, flattenCategoryTree } from "@/lib/store-categories";
 import { getSupabasePublic } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -9,31 +9,12 @@ const EMPTY_STORE_RESPONSE = {
   configured: false,
   degraded: true,
   categories: [],
+  categoryTree: [],
+  categoryList: [],
   products: [],
   banners: [],
   settings: {},
 };
-
-function categorySlugFromName(name: unknown): string | null {
-  const value = String(name ?? "").trim().toLocaleLowerCase();
-  if (!value) return null;
-  if (value.includes("貓罐") || value.includes("猫罐") || value.includes("cat can") || value.includes("wet food")) return "cat-cans";
-  if (value.includes("乾糧") || value.includes("干粮") || value.includes("dry food")) return "dry-food";
-  return null;
-}
-
-function normalizeCategories(rows: Array<Record<string, unknown>>): Array<Record<string, unknown>> {
-  const bySlug = new Map<string, Record<string, unknown>>();
-  for (const row of rows) {
-    const slug = canonicalCategorySlug(String(row.slug ?? "").trim()) || categorySlugFromName(row.name);
-    if (!slug || !row.id || !row.name) continue;
-    const normalized = { ...row, slug };
-    const existing = bySlug.get(slug);
-    // Prefer an exact canonical row; otherwise keep the first stable record.
-    if (!existing || String(row.slug ?? "").trim().toLocaleLowerCase() === slug) bySlug.set(slug, normalized);
-  }
-  return Array.from(bySlug.values()).sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0));
-}
 
 export async function GET() {
   try {
@@ -82,6 +63,8 @@ export async function GET() {
       console.warn("[store-api] Optional storefront query returned errors; serving products/categories", { optionalQueryErrors });
     }
 
+    const categoryTree = buildCategoryTree(categories.data || []);
+    const categoryList = flattenCategoryTree(categoryTree);
     const activeStripeProductIds = await getActiveStripeProductIds();
     const activeProducts = (products.data || []).filter((row) =>
       !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id),
@@ -103,7 +86,10 @@ export async function GET() {
     return NextResponse.json({
       configured: true,
       degraded: optionalQueryErrors.length > 0,
-      categories: normalizeCategories((categories.data || []) as Array<Record<string, unknown>>),
+      // `categories` is the complete tree. `categoryList` supports direct id lookups.
+      categories: categoryTree,
+      categoryTree,
+      categoryList,
       products: enrichedProducts,
       banners: banners.error ? [] : banners.data || [],
       settings: Object.fromEntries((settings.error ? [] : settings.data || []).map((item) => [item.key, item.value])),
