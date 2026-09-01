@@ -6,6 +6,7 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
 import { HomeProductMarquee } from "@/components/home/HomeProductMarquee";
+import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -16,6 +17,7 @@ export function HomeInteractiveSections() {
 
   return (
     <>
+      <CategoryGrid />
       <HomeProductMarquee />
       <section id="brand-story" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
