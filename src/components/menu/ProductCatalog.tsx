@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
@@ -10,6 +10,26 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { categoryDescendantIds, findCategoryBySlug } from "@/lib/store-categories";
 import { productHref } from "@/lib/products";
+
+const MOBILE_PAGE_SIZE = 12;
+
+type PageItem = number | "ellipsis";
+
+function getPageNumbers(current: number, total: number): PageItem[] {
+  const pages = new Set<number>([1, total, current, current - 1, current + 1]);
+  if (current <= 3) [2, 3, 4].forEach((page) => pages.add(page));
+  if (current >= total - 2) [total - 3, total - 2, total - 1].forEach((page) => pages.add(page));
+
+  const sorted = Array.from(pages)
+    .filter((page) => page >= 1 && page <= total)
+    .sort((a, b) => a - b);
+  const result: PageItem[] = [];
+  sorted.forEach((page, index) => {
+    if (index > 0 && page - sorted[index - 1] > 1) result.push("ellipsis");
+    result.push(page);
+  });
+  return result;
+}
 
 function getProductBadge(product: {
   id: string;
@@ -76,6 +96,33 @@ export function ProductCatalog({
       Boolean(product.categoryId) && selectedCategoryIds.has(product.categoryId as string),
     );
   }, [categorySlug, catalogProducts, selectedCategoryIds]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobilePage, setMobilePage] = useState(1);
+  const mobilePageCount = Math.max(1, Math.ceil(products.length / MOBILE_PAGE_SIZE));
+  const visibleProducts = isMobile
+    ? products.slice((mobilePage - 1) * MOBILE_PAGE_SIZE, mobilePage * MOBILE_PAGE_SIZE)
+    : products;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const syncViewport = () => setIsMobile(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  useEffect(() => {
+    setMobilePage((current) => Math.min(current, mobilePageCount));
+  }, [mobilePageCount]);
+
+  useEffect(() => {
+    setMobilePage(1);
+  }, [categorySlug, subcategory]);
+
+  const goToMobilePage = (page: number) => {
+    setMobilePage(page);
+    document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   const title = selectedCategory?.name ?? t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
@@ -83,8 +130,9 @@ export function ProductCatalog({
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (
-        <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-          {products.map((product) => {
+        <>
+          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+          {visibleProducts.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
               : null;
@@ -165,7 +213,54 @@ export function ProductCatalog({
               </li>
             );
           })}
-        </ul>
+          </ul>
+          {isMobile && mobilePageCount > 1 ? (
+            <nav
+              className="mt-6 flex flex-wrap items-center justify-center gap-1.5 sm:hidden"
+              aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
+            >
+              <button
+                type="button"
+                onClick={() => goToMobilePage(Math.max(1, mobilePage - 1))}
+                disabled={mobilePage === 1}
+                aria-label={locale === "zh" ? "上一頁" : "Previous page"}
+                className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                ←
+              </button>
+              {getPageNumbers(mobilePage, mobilePageCount).map((page, index) =>
+                page === "ellipsis" ? (
+                  <span key={`ellipsis-${index}`} className="px-1 text-sm text-[color:var(--muted)]">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => goToMobilePage(page)}
+                    aria-current={page === mobilePage ? "page" : undefined}
+                    className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
+                      page === mobilePage
+                        ? "bg-[color:var(--ink)] text-white"
+                        : "border border-[color:var(--line)] hover:bg-[color:var(--surface)]"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() => goToMobilePage(Math.min(mobilePageCount, mobilePage + 1))}
+                disabled={mobilePage === mobilePageCount}
+                aria-label={locale === "zh" ? "下一頁" : "Next page"}
+                className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                →
+              </button>
+            </nav>
+          ) : null}
+        </>
       )}
     </div>
   );
