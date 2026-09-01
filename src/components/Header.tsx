@@ -86,10 +86,10 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const { locale, setLocale, t } = useI18n();
-  const { categories: databaseCategories } = useCatalog();
-  // Navbar intentionally renders database roots only; descendants are available
-  // exclusively from each root's dropdown.
-  const topLevelCategories = databaseCategories.filter((category) => !category.parent_id);
+  const { categories } = useCatalog();
+  // Only database rows with an empty parent_id are rendered in the bar.
+  // Children remain inside the owning root category dropdown.
+  const topLevelCategories = categories.filter((category) => category.parent_id === null);
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
