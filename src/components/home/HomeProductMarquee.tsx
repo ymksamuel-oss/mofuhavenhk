@@ -5,6 +5,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
+import { findCategoryBySlug, categoryDescendantIds } from "@/lib/store-categories";
 import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 import styles from "./HomeProductMarquee.module.css";
 
@@ -81,10 +82,16 @@ function ProductRow({ label, products, speed }: ProductRowProps) {
  */
 export function HomeProductMarquee() {
   const { locale, t } = useI18n();
-  const { products: catalogProducts } = useCatalog();
+  const { products: catalogProducts, categories } = useCatalog();
   const activeProducts = catalogProducts.filter(isStorefrontReadyProduct);
-  const catProducts = activeProducts.filter((product) => product.categorySlug === "cats").slice(0, 8);
-  const dogProducts = activeProducts.filter((product) => product.categorySlug === "dogs").slice(0, 8);
+  const catCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "cats"));
+  const dogCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "dogs"));
+  const catProducts = activeProducts
+    .filter((product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats")
+    .slice(0, 8);
+  const dogProducts = activeProducts
+    .filter((product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs")
+    .slice(0, 8);
 
   if (catProducts.length === 0 || dogProducts.length === 0) {
     return null;

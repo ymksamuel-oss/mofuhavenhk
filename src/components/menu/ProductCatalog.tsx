@@ -104,7 +104,7 @@ export function ProductCatalog({
     : products;
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
     const syncViewport = () => setIsMobile(mediaQuery.matches);
     syncViewport();
     mediaQuery.addEventListener("change", syncViewport);
@@ -216,7 +216,7 @@ export function ProductCatalog({
           </ul>
           {isMobile && mobilePageCount > 1 ? (
             <nav
-              className="mt-6 flex flex-wrap items-center justify-center gap-1.5 sm:hidden"
+              className="mt-6 flex flex-wrap items-center justify-center gap-1.5 lg:hidden"
               aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
             >
               <button
