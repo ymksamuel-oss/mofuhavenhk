@@ -170,7 +170,7 @@ export function MobileCartDrawer({
                           </p>
                           {item.variantLabel ? (
                             <p className="mt-0.5 text-xs text-[color:var(--muted)]">
-                              {item.variantLabel[locale] || item.variantLabel.zh}
+                              {item.variantLabel[locale] || t("productValueUnavailable")}
                             </p>
                           ) : null}
                         </div>
@@ -228,7 +228,7 @@ export function MobileCartDrawer({
                   <div className="mb-3 flex items-end justify-between gap-3">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
-                        Mofu picks
+                        {t("cartDrawerUpsellEyebrow")}
                       </p>
                       <h3
                         id="cart-upsell-title"

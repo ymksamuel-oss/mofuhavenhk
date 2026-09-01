@@ -26,9 +26,7 @@ export function MarketReferencePrice({
 
   const hint = asOf
     ? t("productMarketReferenceHint").replace("{date}", asOf)
-    : locale === "zh"
-      ? "同規格市場參考"
-      : "Same-spec market reference";
+    : t("productMarketReferenceNeutral");
 
   return (
     <p

@@ -122,7 +122,7 @@ export function ProductQuickView({
               {t("productModalFeaturesTitle")}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-              {product.description[locale] || product.description.zh || product.description.en}
+              {product.description[locale] || t("productDescriptionUnavailable")}
             </p>
           </div>
         ) : null}
@@ -135,7 +135,7 @@ export function ProductQuickView({
                   {t("productTextureTitle")}
                 </dt>
                 <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                  {product.texture[locale] || product.texture.zh || product.texture.en}
+                  {product.texture[locale] || t("productValueUnavailable")}
                 </dd>
               </div>
             ) : null}
@@ -145,7 +145,7 @@ export function ProductQuickView({
                   {t("productAvailabilityTitle")}
                 </dt>
                 <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                  {product.availability[locale] || product.availability.zh || product.availability.en}
+                  {product.availability[locale] || t("productValueUnavailable")}
                 </dd>
               </div>
             ) : null}
@@ -167,7 +167,7 @@ export function ProductQuickView({
                     aria-hidden
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                   />
-                  {spec[locale] || spec.zh || spec.en}
+                  {spec[locale] || t("productValueUnavailable")}
                 </li>
               ))}
             </ul>

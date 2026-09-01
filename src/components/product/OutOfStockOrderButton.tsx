@@ -24,12 +24,8 @@ export function OutOfStockOrderButton({
   const name = productName[locale] || productName.zh || productName.en;
   const storeSku = mofuSku?.trim();
   const identifier = storeSku
-    ? locale === "zh"
-      ? `店內貨號：${storeSku}`
-      : `Store SKU: ${storeSku}`
-    : locale === "zh"
-      ? `商品編號：${productId}`
-      : `Product ID: ${productId}`;
+    ? `${t("productSkuLabel")}: ${storeSku}`
+    : `${t("productIdLabel")}: ${productId}`;
   const enquiryMessage = locale === "zh"
     ? `你好，我想查詢以下暫時缺貨商品的訂貨安排：\n\n商品：${name}\n${identifier}\n\n請問預計補貨／代訂時間及訂購方式？謝謝。`
     : `Hello, I would like to enquire about ordering this temporarily out-of-stock product:\n\nProduct: ${name}\n${identifier}\n\nCould you please advise the expected restock or special-order timing and ordering arrangement? Thank you.`;

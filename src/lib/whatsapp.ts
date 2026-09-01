@@ -112,14 +112,12 @@ export function buildOrderMessage({
       ? items.map(
           (item, index) => {
             const skuLabel = item.mofuSku
-              ? locale === "zh"
-                ? `［貨號：${item.mofuSku}］`
-                : ` [SKU: ${item.mofuSku}]`
+              ? ` [${t("productSkuLabel")}: ${item.mofuSku}]`
               : "";
-            return `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || item.variantLabel.zh}）` : ""}${skuLabel} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`;
+            return `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || t("productValueUnavailable")}）` : ""}${skuLabel} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`;
           },
         )
-      : [`（${locale === "zh" ? "未有商品" : "No items"}）`];
+      : [`（${t("cartDrawerEmpty")}）`];
 
   const lines = [
     `🛒 ${t("whatsappOrderHeading")}`,

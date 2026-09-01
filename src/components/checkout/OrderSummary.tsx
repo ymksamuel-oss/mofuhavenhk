@@ -83,7 +83,7 @@ export function OrderSummary({
       <ul className="space-y-3">
         {items.length === 0 ? (
           <li className="py-6 text-center text-sm leading-relaxed text-[color:var(--muted)]">
-            {locale === "zh" ? "購物車未有商品" : "Your cart is empty"}
+            {t("cartDrawerEmpty")}
           </li>
         ) : null}
 
@@ -108,7 +108,7 @@ export function OrderSummary({
                   </p>
                   {item.variantLabel ? (
                     <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-                      {item.variantLabel[locale] || item.variantLabel.zh}
+                      {item.variantLabel[locale] || t("productValueUnavailable")}
                     </p>
                   ) : null}
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">

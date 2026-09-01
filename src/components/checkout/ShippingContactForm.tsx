@@ -2,6 +2,7 @@
 
 import type { InputHTMLAttributes } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { translations } from "@/lib/i18n/translations";
 import { HK_DISTRICTS } from "@/lib/hkDistricts";
 import { emailValidationMessage, isValidEmailAddress } from "@/lib/emailAddress";
 
@@ -130,31 +131,23 @@ export function getPhoneValidationError(
 ): string | null {
   const digits = normalizeLocalPhone(phone);
   if (!digits) {
-    return locale === "zh" ? "請輸入聯絡電話。" : "Please enter a phone number.";
+    return translations[locale].phoneValidationRequired;
   }
   if (countryCode === "+852") {
     if (digits.length !== 8) {
-      return locale === "zh"
-        ? "香港電話須為 8 位數字（例如 91234567）。"
-        : "Hong Kong numbers must be 8 digits (e.g. 91234567).";
+      return translations[locale].phoneValidationHkLength;
     }
     // HK mobiles/landlines are 8 digits starting 2–9.
     if (!/^[2-9]\d{7}$/.test(digits)) {
-      return locale === "zh"
-        ? "請輸入有效的香港電話號碼。"
-        : "Please enter a valid Hong Kong phone number.";
+      return translations[locale].phoneValidationHkInvalid;
     }
     return null;
   }
   if (countryCode === "+853" && digits.length !== 8) {
-    return locale === "zh"
-      ? "澳門電話一般為 8 位數字。"
-      : "Macao numbers are usually 8 digits.";
+    return translations[locale].phoneValidationMacaoLength;
   }
   if (countryCode === "+86" && (digits.length < 11 || digits.length > 11)) {
-    return locale === "zh"
-      ? "中國大陸手機一般為 11 位數字。"
-      : "Mainland China mobiles are usually 11 digits.";
+    return translations[locale].phoneValidationMainlandLength;
   }
   return null;
 }

@@ -173,7 +173,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {t("productModalFeaturesTitle")}
               </h2>
               <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                {selectedProduct.description[locale] || selectedProduct.description.zh || selectedProduct.description.en}
+                {selectedProduct.description[locale] || t("productDescriptionUnavailable")}
               </p>
             </div>
           ) : null}
@@ -186,7 +186,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {t("productTextureTitle")}
                   </dt>
                   <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                    {selectedProduct.texture[locale] || selectedProduct.texture.zh || selectedProduct.texture.en}
+                    {selectedProduct.texture[locale] || t("productValueUnavailable")}
                   </dd>
                 </div>
               ) : null}
@@ -196,7 +196,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {t("productAvailabilityTitle")}
                   </dt>
                   <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                    {selectedProduct.availability[locale] || selectedProduct.availability.zh || selectedProduct.availability.en}
+                    {selectedProduct.availability[locale] || t("productValueUnavailable")}
                   </dd>
                 </div>
               ) : null}
@@ -221,7 +221,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       aria-hidden
                       className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                     />
-                    {spec[locale] || spec.zh || spec.en}
+                    {spec[locale] || t("productValueUnavailable")}
                   </li>
                 ))}
               </ul>
@@ -387,17 +387,17 @@ export function ProductDetail({ product }: ProductDetailProps) {
                           <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
                             <ProductImage
                               src={spec.image}
-                              alt={spec.label[locale] || spec.label.zh || spec.label.en}
+                              alt={spec.label[locale] || t("productValueUnavailable")}
                               sizes="48px"
                               className="object-contain p-1"
                             />
                           </span>
                         ) : null}
                         <span className="min-w-0 leading-snug">
-                          <span className="block">{spec.label[locale] || spec.label.zh || spec.label.en}</span>
+                          <span className="block">{spec.label[locale] || t("productValueUnavailable")}</span>
                           <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
                             {formatMoney(spec.price, locale)}
-                            {spec.unitLabel ? ` · ${spec.unitLabel[locale] || spec.unitLabel.zh}` : ""}
+                            {spec.unitLabel ? ` · ${spec.unitLabel[locale] || t("productValueUnavailable")}` : ""}
                           </span>
                         </span>
                       </span>
