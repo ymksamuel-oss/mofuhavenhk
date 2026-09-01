@@ -50,6 +50,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     document.documentElement.lang = locale === "zh" ? "zh-HK" : "en";
+    document.title = translations[locale].documentTitle;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", translations[locale].documentDescription);
   }, [hydrated, locale]);
 
   const value = useMemo<I18nContextValue>(

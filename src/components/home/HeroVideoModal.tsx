@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function HeroVideoModal() {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -59,7 +61,7 @@ export function HeroVideoModal() {
         >
           ▶
         </span>
-        <span>觀看短片 / Watch Video</span>
+        <span>{t("homeVideoTrigger")}</span>
       </button>
 
       {/* @section: hero-video-dialog */}
@@ -77,7 +79,7 @@ export function HeroVideoModal() {
           >
             <div className="relative inline-flex max-h-[88dvh] max-w-[92vw] flex-col overflow-hidden rounded-[1.75rem] bg-black shadow-[0_30px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/20">
               <h2 id="hero-video-title" className="sr-only">
-                毛毛港寵物食品短片
+                {t("homeVideoTitle")}
               </h2>
 
               <button
@@ -85,7 +87,7 @@ export function HeroVideoModal() {
                 type="button"
                 onClick={closeModal}
                 className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/65 text-2xl leading-none text-white shadow-lg transition hover:bg-black/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                aria-label="關閉短片"
+                aria-label={t("homeVideoClose")}
               >
                 ×
               </button>
@@ -98,10 +100,10 @@ export function HeroVideoModal() {
                 playsInline
                 preload="metadata"
                 poster="/video/hero-short-poster.jpg"
-                aria-label="毛毛港寵物食品短片播放器"
+                aria-label={t("homeVideoPlayerLabel")}
               >
                 <source src="/video/hero-short.mp4" type="video/mp4" />
-                你的瀏覽器未能播放此短片。
+                {t("homeVideoUnsupported")}
               </video>
             </div>
           </div>,

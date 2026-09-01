@@ -28,7 +28,11 @@ import {
   getStripePublishableKey,
   getStripeSecretKey,
 } from "@/lib/stripe";
-import { GENERATED_PRODUCT_TRANSLATIONS } from "@/lib/generated-product-translations";
+import {
+  resolveEnglishProductDescription,
+  resolveEnglishProductName,
+  resolveGeneratedProductTranslation,
+} from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { resolveProductVariantImage } from "./product-variant-images";
@@ -53,7 +57,7 @@ function fallbackCatalogSnapshot(): CatalogSnapshot {
     ...RECENT_FALLBACK_PRODUCTS,
   ]);
   return {
-    products,
+    products: enforceEnglishCatalogProducts(products),
     categories: [],
     source: "fallback",
     matchedRecords: products.length,
@@ -305,6 +309,55 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
   return normalized && !CJK_TEXT_RE.test(normalized) ? normalized : fallback;
 }
 
+function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
+  return products.map((product) => {
+    const translation = resolveGeneratedProductTranslation({ id: product.id, name: product.name.zh });
+    const description = product.description
+      ? {
+          ...product.description,
+          en: resolveEnglishProductDescription({
+            id: product.id,
+            name: product.name.zh,
+            description: product.description.zh,
+            descriptionEn: product.description.en,
+          }),
+        }
+      : undefined;
+    return {
+      ...product,
+      name: {
+        ...product.name,
+        en: resolveEnglishProductName({
+          id: product.id,
+          name: product.name.zh,
+          nameEn: product.name.en || translation?.name_en,
+        }),
+      },
+      ...(description ? { description } : {}),
+      ...(product.texture
+        ? { texture: { ...product.texture, en: englishSafeText(product.texture.en, "") } }
+        : {}),
+      ...(product.availability
+        ? { availability: { ...product.availability, en: englishSafeText(product.availability.en, "") } }
+        : {}),
+      ...(product.specs
+        ? { specs: product.specs.map((spec) => ({ ...spec, en: englishSafeText(spec.en, "") })) }
+        : {}),
+      ...(product.variants
+        ? {
+            variants: product.variants.map((variant) => ({
+              ...variant,
+              label: { ...variant.label, en: englishSafeText(variant.label.en, "Product option") },
+              ...(variant.unitLabel
+                ? { unitLabel: { ...variant.unitLabel, en: englishSafeText(variant.unitLabel.en, "Unit") } }
+                : {}),
+            })),
+          }
+        : {}),
+    };
+  });
+}
+
 function bilingualMetadataValue(
   metadata: Record<string, string>,
   zhKeys: string[],
@@ -528,7 +581,7 @@ function stripeProductToCatalogProduct(
   const categorySlug = categoryFromProduct(product);
   const subcategory = subcategoryFromProduct(product, categorySlug);
   const snackSeries = snackSeriesFromProduct(product, categorySlug, subcategory);
-  const generatedTranslation = GENERATED_PRODUCT_TRANSLATIONS[id];
+  const generatedTranslation = resolveGeneratedProductTranslation({ id, name: product.name });
   const metadataName = bilingualMetadataValue(
     metadata,
     ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
@@ -538,16 +591,16 @@ function stripeProductToCatalogProduct(
   const localizedName = generatedTranslation
     ? {
         zh: metadataName?.zh || generatedTranslation.name_zh,
-        en: englishSafeText(metadataName?.en, generatedTranslation.name_en),
+        en: resolveEnglishProductName({ id, name: product.name, nameEn: metadataName?.en }),
       }
     : metadataName
       ? {
           zh: metadataName.zh,
-          en: englishSafeText(metadataName.en, "Product name unavailable"),
+          en: resolveEnglishProductName({ id, name: product.name, nameEn: metadataName.en }),
         }
       : {
           zh: product.name ?? "",
-          en: englishSafeText(product.name, "Product name unavailable"),
+          en: resolveEnglishProductName({ id, name: product.name }),
         };
   const metadataDescription = bilingualMetadataValue(
     metadata,
@@ -558,12 +611,22 @@ function stripeProductToCatalogProduct(
   const localizedDescription = generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
     ? {
         zh: metadataDescription?.zh || generatedTranslation.description_zh,
-        en: englishSafeText(metadataDescription?.en, generatedTranslation.description_en),
+        en: resolveEnglishProductDescription({
+          id,
+          name: product.name,
+          description: product.description,
+          descriptionEn: metadataDescription?.en,
+        }),
       }
     : metadataDescription
       ? {
           zh: metadataDescription.zh,
-          en: englishSafeText(metadataDescription.en, "Product description coming soon."),
+          en: resolveEnglishProductDescription({
+            id,
+            name: product.name,
+            description: product.description,
+            descriptionEn: metadataDescription.en,
+          }),
         }
       : undefined;
   const localizedTexture = bilingualMetadataValue(
@@ -638,7 +701,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
   if (products.length === 0) {
     throw new Error("Stripe catalog has no active HKD products");
   }
-  return { products, categories: [], source: "stripe", matchedRecords: products.length };
+  return { products: enforceEnglishCatalogProducts(products), categories: [], source: "stripe", matchedRecords: products.length };
 }
 
 function stripeErrorDetails(error: unknown) {
@@ -749,11 +812,26 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     // "lifestyle" instead of being guessed from SKU or name wording.
     const databaseCategorySlug = canonicalCategorySlug(categorySlugs.get(row.category_id));
     const categorySlug = databaseCategorySlug ?? "lifestyle";
-    const translation = GENERATED_PRODUCT_TRANSLATIONS[String(row.source_product_id ?? row.id)];
-    const databaseNameZh = String(row.name_zh || row.name || "未命名產品");
-    const databaseNameEn = englishSafeText(row.name_en, translation?.name_en ?? "Product name unavailable");
-    const databaseDescriptionZh = row.description_zh || row.description;
-    const databaseDescriptionEn = englishSafeText(row.description_en, translation?.description_en ?? "Product description coming soon.");
+    const translation = resolveGeneratedProductTranslation({
+      id: row.id,
+      sourceId: row.source_product_id,
+      name: row.name,
+    });
+    const databaseNameZh = String(row.name_zh || translation?.name_zh || row.name || "未命名產品");
+    const databaseNameEn = resolveEnglishProductName({
+      id: row.id,
+      sourceId: row.source_product_id,
+      name: row.name,
+      nameEn: row.name_en,
+    });
+    const databaseDescriptionZh = row.description_zh || translation?.description_zh || row.description;
+    const databaseDescriptionEn = resolveEnglishProductDescription({
+      id: row.id,
+      sourceId: row.source_product_id,
+      name: row.name,
+      description: row.description,
+      descriptionEn: row.description_en,
+    });
     return {
       id: String(row.id),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
@@ -782,7 +860,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       icon: iconForCategory(categorySlug),
     } satisfies Product;
       }).filter((product) => product.price >= 0);
-    return { products, categories: categoryTree, source: "supabase", matchedRecords: products.length };
+    return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
       errorName: error instanceof Error ? error.name : "unknown",

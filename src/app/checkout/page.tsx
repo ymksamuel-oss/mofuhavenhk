@@ -211,7 +211,7 @@ function CheckoutContent() {
               )
             : "Stripe") ||
           "Stripe",
-        customerName: shippingContact.name.trim() || "顧客",
+        customerName: shippingContact.name.trim() || t("checkoutCustomerFallback"),
         contact: shippingContact,
       });
 
@@ -299,10 +299,10 @@ function CheckoutContent() {
     if (!couponCode.trim()) return;
     const response = await fetch("/api/coupons/validate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: couponCode, subtotal: subtotalHkd }) });
     const result = await response.json();
-    if (!response.ok || !result.valid) { setCouponError("優惠碼無效或已停用。"); return; }
+    if (!response.ok || !result.valid) { setCouponError(t("couponInvalid")); return; }
     setAppliedCoupon({ code: result.code, discountAmount: Number(result.discountAmount || 0) }); setCouponCode(result.code);
     setClientSecret(null); setPhase("idle");
-  }, [couponCode, subtotalHkd]);
+  }, [couponCode, subtotalHkd, t]);
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -453,7 +453,7 @@ function CheckoutContent() {
                 ? "payPayMe"
                 : "payAlipayHk",
           ),
-          customerName: shippingContact.name.trim() || "顧客",
+          customerName: shippingContact.name.trim() || t("checkoutCustomerFallback"),
           contact: shippingContact,
         });
         window.location.assign(data.checkoutUrl);
@@ -548,9 +548,9 @@ function CheckoutContent() {
             qtyDisabled={qtyLocked}
           />
           <div className="rounded-2xl border border-[color:var(--line)] bg-white/70 p-4">
-            <label className="block text-sm font-semibold text-[color:var(--ink)]">優惠碼</label>
-            <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder="例如 SUMMER10" className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">套用</button></div>
-            {appliedCoupon ? <p className="mt-2 text-xs text-emerald-700">已套用 {appliedCoupon.code}，節省 HK${appliedCoupon.discountAmount.toFixed(2)}</p> : null}
+            <label className="block text-sm font-semibold text-[color:var(--ink)]">{t("couponLabel")}</label>
+            <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder={t("couponPlaceholder")} className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">{t("couponApply")}</button></div>
+            {appliedCoupon ? <p className="mt-2 text-xs text-emerald-700">{t("couponApplied").replace("{code}", appliedCoupon.code).replace("{amount}", `HK$${appliedCoupon.discountAmount.toFixed(2)}`)}</p> : null}
             {couponError ? <p className="mt-2 text-xs text-amber-700">{couponError}</p> : null}
           </div>
 

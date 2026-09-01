@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import type { Locale, TranslationKey } from "@/lib/i18n/translations";
 
 type BannerSlide = {
   id: string;
@@ -20,53 +22,55 @@ type BannerSlide = {
 };
 
 /** Static artwork used only when the store has no managed Banner configured. */
-export const HOME_BANNER_SLIDES: BannerSlide[] = [
-  {
-    id: "banner-1",
-    image: "/images/hero-sleeping-shiba-taupe.jpg",
-    mobileImage: "/images/hero-sleeping-shiba-taupe.jpg",
-    eyebrow: "MOFUHAVEN",
-    title: "MOFUHAVEN 質感寵物生活",
-    subtitle: "日系嚴選，給毛孩最溫柔的陪伴",
-    cta: "立即選購",
-    href: "/menu",
-    imageAlt: "Mofu Haven 寵物生活選品",
-    tone: "light",
-  },
-  {
-    id: "banner-2",
-    image: "/images/hero-mobile-clean-pet-lifestyle.jpg",
-    eyebrow: "FEEDING ESSENTIALS",
-    title: "食具及餵食專區",
-    subtitle: "陶瓷質感食碗，讓用餐變成一種享受",
-    cta: "探索食具",
-    href: "/categories/cats",
-    imageAlt: "寵物食具及餵食用品",
-    tone: "dark",
-  },
-  {
-    id: "banner-3",
-    image: "/images/explore-japanese-pet-lifestyle.jpg",
-    eyebrow: "PET HOME EDIT",
-    title: "寵物日常家居用品",
-    subtitle: "簡約自然風格，融入精緻家居",
-    cta: "查看新品",
-    href: "/categories/lifestyle",
-    imageAlt: "簡約自然風格的寵物家居用品",
-    tone: "dark",
-  },
-  {
-    id: "banner-4",
-    image: "/images/mofu-haven-website-b.png",
-    eyebrow: "LIMITED OFFER",
-    title: "全館限時優惠",
-    subtitle: "精選和服項圈與生活質感好物",
-    cta: "了解更多",
-    href: "/menu",
-    imageAlt: "Mofu Haven 精選寵物用品優惠",
-    tone: "dark",
-  },
-];
+function fallbackBannerSlides(t: (key: TranslationKey) => string): BannerSlide[] {
+  return [
+    {
+      id: "banner-1",
+      image: "/images/hero-sleeping-shiba-taupe.jpg",
+      mobileImage: "/images/hero-sleeping-shiba-taupe.jpg",
+      eyebrow: "MOFUHAVEN",
+      title: t("homeBanner1Title"),
+      subtitle: t("homeBanner1Subtitle"),
+      cta: t("homeBanner1Cta"),
+      href: "/menu",
+      imageAlt: t("homeBanner1Alt"),
+      tone: "light",
+    },
+    {
+      id: "banner-2",
+      image: "/images/hero-mobile-clean-pet-lifestyle.jpg",
+      eyebrow: "FEEDING ESSENTIALS",
+      title: t("homeBanner2Title"),
+      subtitle: t("homeBanner2Subtitle"),
+      cta: t("homeBanner2Cta"),
+      href: "/categories/cats",
+      imageAlt: t("homeBanner2Alt"),
+      tone: "dark",
+    },
+    {
+      id: "banner-3",
+      image: "/images/explore-japanese-pet-lifestyle.jpg",
+      eyebrow: "PET HOME EDIT",
+      title: t("homeBanner3Title"),
+      subtitle: t("homeBanner3Subtitle"),
+      cta: t("homeBanner3Cta"),
+      href: "/categories/lifestyle",
+      imageAlt: t("homeBanner3Alt"),
+      tone: "dark",
+    },
+    {
+      id: "banner-4",
+      image: "/images/mofu-haven-website-b.png",
+      eyebrow: "LIMITED OFFER",
+      title: t("homeBanner4Title"),
+      subtitle: t("homeBanner4Subtitle"),
+      cta: t("homeBanner4Cta"),
+      href: "/menu",
+      imageAlt: t("homeBanner4Alt"),
+      tone: "dark",
+    },
+  ];
+}
 
 const AUTO_PLAY_MS = 4000;
 
@@ -78,7 +82,16 @@ type StoreBanner = {
   title?: string | null;
 };
 
-function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
+function englishSafeBannerText(value: string | null | undefined, fallback: string): string {
+  const normalized = value?.trim() ?? "";
+  return normalized && !/[\u3400-\u9fff]/.test(normalized) ? normalized : fallback;
+}
+
+function toManagedSlides(
+  banners: StoreBanner[],
+  t: (key: TranslationKey) => string,
+  locale: Locale,
+): BannerSlide[] {
   const seenImages = new Set<string>();
   return banners
     .filter((banner) => typeof banner.image_url === "string" && banner.image_url.trim().length > 0)
@@ -91,11 +104,15 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
         // Prefer the dedicated mobile artwork; fall back to the desktop image when absent.
         mobileImage: mobileImage || image,
         eyebrow: "MOFU HAVEN",
-        title: banner.title?.trim() || "Mofu Haven 質感寵物生活",
+        title: locale === "en"
+          ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
+          : banner.title?.trim() || t("homeBannerManagedTitle"),
         subtitle: "",
         cta: "",
         href: banner.link?.trim() || "",
-        imageAlt: banner.title?.trim() || "Mofu Haven Banner",
+        imageAlt: locale === "en"
+          ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
+          : banner.title?.trim() || t("homeBannerManagedTitle"),
         tone: "dark" as const,
         managed: true,
       };
@@ -109,9 +126,14 @@ function toManagedSlides(banners: StoreBanner[]): BannerSlide[] {
 }
 
 export function HomeBannerCarousel() {
+  const { locale, t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
-  const [slides, setSlides] = useState<BannerSlide[]>(HOME_BANNER_SLIDES);
+  const [managedBanners, setManagedBanners] = useState<StoreBanner[]>([]);
+  const slides = useMemo(() => {
+    const managedSlides = toManagedSlides(managedBanners, t, locale);
+    return managedSlides.length > 0 ? managedSlides : fallbackBannerSlides(t);
+  }, [locale, managedBanners, t]);
   const autoplayTimer = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
 
@@ -120,10 +142,10 @@ export function HomeBannerCarousel() {
     fetch("/api/store", { cache: "no-store", signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
       .then((payload) => {
-        const managedSlides = toManagedSlides(Array.isArray(payload?.banners) ? payload.banners : []);
-        if (managedSlides.length > 0) {
+        const banners = Array.isArray(payload?.banners) ? payload.banners : [];
+        if (banners.length > 0) {
           // Replace the fallback atomically and restart from the first managed Banner.
-          setSlides(managedSlides);
+          setManagedBanners(banners);
           setActiveIndex(0);
         }
       })
@@ -210,7 +232,7 @@ export function HomeBannerCarousel() {
 
   return (
     <section
-      aria-label="Mofu Haven Banner Slider"
+      aria-label={t("homeBannerAriaLabel")}
       className="mobile-home-soft-surface relative isolate z-0 scroll-mt-14 bg-[color:var(--background)] px-4 pb-4 pt-4 sm:scroll-mt-16 sm:px-8 sm:pb-8 sm:pt-6 lg:px-12 lg:pb-10 lg:pt-8"
     >
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.5rem] border border-[#d7b893]/65 bg-[#ead7bf] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[2rem]">
@@ -283,7 +305,7 @@ export function HomeBannerCarousel() {
           <div className="pointer-events-none absolute inset-0 z-30">
             <button
               type="button"
-              aria-label="上一張 Banner"
+              aria-label={t("homeBannerPrevious")}
               disabled={slides.length <= 1}
               onClick={handleManualPrevious}
               className="pointer-events-auto absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:left-5 sm:h-11 sm:w-11"
@@ -292,7 +314,7 @@ export function HomeBannerCarousel() {
             </button>
             <button
               type="button"
-              aria-label="下一張 Banner"
+              aria-label={t("homeBannerNext")}
               disabled={slides.length <= 1}
               onClick={handleManualNext}
               className="pointer-events-auto absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:right-5 sm:h-11 sm:w-11"
@@ -301,13 +323,13 @@ export function HomeBannerCarousel() {
             </button>
 
             {slides.length > 1 && (
-              <div className="pointer-events-auto absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label="Banner 選擇">
+              <div className="pointer-events-auto absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label={t("homeBannerSelect")}>
                 {slides.map((slide, index) => (
                   <button
                     key={slide.id}
                     type="button"
                     role="tab"
-                    aria-label={`切換至 Banner ${index + 1}`}
+                    aria-label={t("homeBannerGoTo").replace("{number}", String(index + 1))}
                     aria-selected={activeIndex === index}
                     onClick={() => handleDotSelect(index)}
                     className={`h-2.5 rounded-full border border-white/80 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${

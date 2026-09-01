@@ -1,9 +1,12 @@
+"use client";
+
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
@@ -11,8 +14,9 @@ type HomepageProductGridProps = {
   products: Product[];
 };
 
-/** Server-rendered homepage product section. Products are assembled by the page from Supabase. */
+/** Locale-aware homepage product section. Products are assembled by the page from Supabase. */
 export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
+  const { locale, t } = useI18n();
   console.log("[homepage-product-grid] SSR products", catalogProducts);
   if (catalogProducts.length === 0) {
     console.error("[homepage-product-grid] SSR products is empty", {
@@ -39,29 +43,29 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
         <div className="mb-7 flex items-end justify-between gap-5 sm:mb-9">
           <div>
             <span className="inline-flex rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[color:var(--accent)]">
-              MOFU HAVEN PICKS
+              {t("homepageGridEyebrow")}
             </span>
             <h2
               id="homepage-products-title"
               className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl"
             >
-              今期人氣寵物好物
+              {t("homepageGridTitle")}
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">
-              由 Mofu Haven 精選的貓咪、狗狗及日系寵物用品，直接由現時產品目錄載入。
+              {t("homepageGridSubtitle")}
             </p>
           </div>
         </div>
 
         {products.length === 0 ? (
           <div className="rounded-2xl border border-[color:var(--line)] bg-white px-5 py-8 text-center shadow-[0_14px_30px_-26px_rgba(43,38,35,0.28)]">
-            <p className="text-sm font-semibold text-[color:var(--ink)]">暫時沒有可顯示的產品</p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">請稍後再試，或到商品目錄查看全部產品。</p>
+            <p className="text-sm font-semibold text-[color:var(--ink)]">{t("homepageGridEmptyTitle")}</p>
+            <p className="mt-2 text-sm text-[color:var(--muted)]">{t("homepageGridEmptyHint")}</p>
             <CategoryNavLink
               href="/menu"
               className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
             >
-              查看商品目錄
+              {t("homepageGridEmptyCta")}
             </CategoryNavLink>
           </div>
         ) : (
@@ -78,12 +82,12 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                 >
                   <CategoryNavLink
                     href={href}
-                    aria-label={`查看商品: ${product.name.zh}`}
+                    aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
                     className="relative block aspect-square overflow-hidden bg-[color:var(--accent-soft)]"
                   >
                     <ProductImage
                       src={product.image}
-                      alt={product.name.zh}
+                      alt={product.name[locale]}
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />
@@ -99,18 +103,18 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                       href={href}
                       className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {product.name.zh}
+                      {product.name[locale]}
                     </CategoryNavLink>
-                    {product.description?.zh ? (
-                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{product.description.zh}</p>
+                    {product.description?.[locale] ? (
+                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{product.description[locale]}</p>
                     ) : null}
                     <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
                       <p className="text-lg font-extrabold tabular-nums text-[color:var(--accent)]">
-                        {formatMoney(product.price, "zh")}
+                        {formatMoney(product.price, locale)}
                       </p>
                       {product.originalPrice ? (
                         <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                          {formatMoney(product.originalPrice, "zh")}
+                          {formatMoney(product.originalPrice, locale)}
                         </p>
                       ) : null}
                     </div>
