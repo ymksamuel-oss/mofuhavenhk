@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
-import { findCategoryBySlug } from "@/lib/store-categories";
 
 export const dynamic = "force-dynamic";
 
@@ -18,13 +16,9 @@ export async function generateMetadata({
 }: CategorySubPageProps): Promise<Metadata> {
   const { slug, sub } = await params;
   const query = await searchParams;
-  const snapshot = await getCatalogSnapshot();
-  const parent = findCategoryBySlug(snapshot.categories, slug);
-  const category = parent?.children.find((child) => child.slug === sub.trim().toLowerCase());
-  if (!parent || !category) return { robots: { index: false, follow: false } };
   const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
   return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
-    categorySlug: parent.slug,
+    categorySlug: canonicalCategorySlug(slug) ?? slug.trim().toLowerCase(),
   });
 }
 
@@ -40,10 +34,6 @@ export async function generateMetadata({
  */
 export default async function CategorySubPage({ params }: CategorySubPageProps) {
   const { slug, sub } = await params;
-  const snapshot = await getCatalogSnapshot();
-  const parent = findCategoryBySlug(snapshot.categories, slug);
-  const category = parent?.children.find((child) => child.slug === sub.trim().toLowerCase());
-  if (!parent || !category) notFound();
-
-  return <ProductCatalog categorySlug={parent.slug} subcategory={category.slug} showProductSearch />;
+  const categorySlug = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
+  return <ProductCatalog categorySlug={categorySlug} subcategory={sub.trim().toLowerCase()} showProductSearch />;
 }
