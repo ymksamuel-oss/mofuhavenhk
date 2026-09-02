@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
@@ -10,73 +9,6 @@ import { categoryDescendantIds, findCategoryBySlug } from "@/lib/store-categorie
 import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 import styles from "./HomeProductMarquee.module.css";
 
-type PageItem = number | "ellipsis";
-
-const PAGE_SIZE = 12;
-
-function getPageNumbers(current: number, total: number): PageItem[] {
-  const pages = new Set<number>([1, total, current, current - 1, current + 1]);
-  if (current <= 3) [2, 3, 4].forEach((page) => pages.add(page));
-  if (current >= total - 2) [total - 3, total - 2, total - 1].forEach((page) => pages.add(page));
-
-  const sorted = Array.from(pages)
-    .filter((page) => page >= 1 && page <= total)
-    .sort((a, b) => a - b);
-  const result: PageItem[] = [];
-  sorted.forEach((page, index) => {
-    if (index > 0 && page - sorted[index - 1] > 1) result.push("ellipsis");
-    result.push(page);
-  });
-  return result;
-}
-
-type ProductCardProps = {
-  product: Product;
-  duplicate?: boolean;
-};
-
-function ProductCard({ product, duplicate = false }: ProductCardProps) {
-  const { locale, t } = useI18n();
-  const href = productHref(product.id);
-  const discountPercent = product.originalPrice
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
-    : null;
-
-  return (
-    <article
-      aria-hidden={duplicate || undefined}
-      data-marquee-copy={duplicate ? "duplicate" : "source"}
-      className={styles.card}
-    >
-      <CategoryNavLink
-        href={href}
-        tabIndex={duplicate ? -1 : undefined}
-        aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
-        className={styles.cardLink}
-      >
-        <div className={styles.imageWrap}>
-          <ProductImage
-            src={product.image}
-            alt={product.name[locale]}
-            sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
-          />
-          {discountPercent ? <span className={styles.discount}>-{discountPercent}%</span> : null}
-        </div>
-        <div className={styles.cardBody}>
-          <p className={styles.name}>{product.name[locale]}</p>
-          <div className={styles.priceLine}>
-            <span className={styles.price}>{formatMoney(product.price, locale)}</span>
-            {product.originalPrice ? (
-              <span className={styles.originalPrice}>{formatMoney(product.originalPrice, locale)}</span>
-            ) : null}
-          </div>
-        </div>
-      </CategoryNavLink>
-    </article>
-  );
-}
-
 type ProductRowProps = {
   label: string;
   products: Product[];
@@ -85,109 +17,88 @@ type ProductRowProps = {
 
 function ProductRow({ label, products, speed }: ProductRowProps) {
   const { locale, t } = useI18n();
-  const [page, setPage] = useState(1);
-  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
-  const currentPage = Math.min(page, pageCount);
-  const pageProducts = products.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const repeatedProducts = [...pageProducts, ...pageProducts];
-
-  const goToPage = (nextPage: number) => {
-    const safePage = Math.max(1, Math.min(pageCount, nextPage));
-    setPage(safePage);
-    document.getElementById("home-product-marquee-title")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
+  const repeatedProducts = [...products, ...products];
 
   return (
-    <div className="space-y-4" data-product-slider="true" data-page={currentPage} data-page-size={PAGE_SIZE}>
-      <div className={styles.rowWrap} aria-label={label}>
-        <div
-          key={`${label}-${currentPage}`}
-          className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
-          title={t("homeMarqueePause")}
-        >
-          {repeatedProducts.map((product, index) => (
-            <ProductCard
-              key={`${product.id}-${currentPage}-${index}`}
-              product={product}
-              duplicate={index >= pageProducts.length}
-            />
-          ))}
-        </div>
-      </div>
-      <nav
-        className="flex flex-wrap items-center justify-center gap-1.5 px-4"
-        aria-label={locale === "zh" ? `${label} 分頁` : `${label} pages`}
+    <div className={styles.rowWrap} aria-label={label}>
+      <div
+        className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
+        title={t("homeMarqueePause")}
       >
-        <button
-          type="button"
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-          aria-label={locale === "zh" ? "上一頁" : "Previous page"}
-          className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          ← 上一頁
-        </button>
-        {getPageNumbers(currentPage, pageCount).map((item, index) =>
-          item === "ellipsis" ? (
-            <span key={`ellipsis-${index}`} className="px-1 text-sm text-[color:var(--muted)]" aria-hidden="true">
-              …
-            </span>
-          ) : (
-            <button
-              key={item}
-              type="button"
-              onClick={() => goToPage(item)}
-              aria-current={item === currentPage ? "page" : undefined}
-              className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
-                item === currentPage
-                  ? "bg-[color:var(--ink)] text-white"
-                  : "border border-[color:var(--line)] hover:bg-[color:var(--surface)]"
-              }`}
+        {repeatedProducts.map((product, index) => {
+          const duplicate = index >= products.length;
+          const href = productHref(product.id);
+          const discountPercent = product.originalPrice
+            ? Math.round((1 - product.price / product.originalPrice) * 100)
+            : null;
+
+          return (
+            <article
+              key={`${product.id}-${index}`}
+              aria-hidden={duplicate || undefined}
+              data-marquee-copy={duplicate ? "duplicate" : "source"}
+              className={styles.card}
             >
-              {item}
-            </button>
-          ),
-        )}
-        <button
-          type="button"
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === pageCount}
-          aria-label={locale === "zh" ? "下一頁" : "Next page"}
-          className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          下一頁 →
-        </button>
-      </nav>
+              <CategoryNavLink
+                href={href}
+                tabIndex={duplicate ? -1 : undefined}
+                aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
+                className={styles.cardLink}
+              >
+                <div className={styles.imageWrap}>
+                  <ProductImage
+                    src={product.image}
+                    alt={product.name[locale]}
+                    sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
+                  />
+                  {discountPercent ? (
+                    <span className={styles.discount}>-{discountPercent}%</span>
+                  ) : null}
+                </div>
+                <div className={styles.cardBody}>
+                  <p className={styles.name}>{product.name[locale]}</p>
+                  <div className={styles.priceLine}>
+                    <span className={styles.price}>{formatMoney(product.price, locale)}</span>
+                    {product.originalPrice ? (
+                      <span className={styles.originalPrice}>
+                        {formatMoney(product.originalPrice, locale)}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              </CategoryNavLink>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
 /**
- * The homepage keeps the original two showcase rows on every device.
- * Each row uses the same horizontal Slider and twelve-item pagination logic
- * at phone, tablet, and desktop widths.
+ * The original homepage two-row product parade. Each row repeats its
+ * showcase subset so the CSS animation loops without a visible jump.
  */
 export function HomeProductMarquee() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
   const activeProducts = catalogProducts.filter(isStorefrontReadyProduct);
   const catCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "cats"));
   const dogCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "dogs"));
-  const catProducts = activeProducts.filter(
-    (product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats",
-  );
-  const dogProducts = activeProducts.filter(
-    (product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs",
-  );
+  const catProducts = activeProducts
+    .filter((product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats")
+    .slice(0, 8);
+  const dogProducts = activeProducts
+    .filter((product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs")
+    .slice(0, 8);
 
-  if (catProducts.length === 0 || dogProducts.length === 0) return null;
+  if (catProducts.length === 0 || dogProducts.length === 0) {
+    return null;
+  }
 
   return (
     <section
-      id="home-product-marquee"
       aria-labelledby="home-product-marquee-title"
       className="overflow-hidden border-y border-[#d7c0aa]/70 bg-[#f4e9dc] py-12 sm:py-16"
     >
@@ -208,15 +119,15 @@ export function HomeProductMarquee() {
         </div>
       </div>
 
-      <div className="mt-8 space-y-7 sm:mt-10 sm:space-y-9">
+      <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6" data-locale={locale}>
         <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
-          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-4">
+          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
             {t("homeMarqueeCats")}
           </p>
         </div>
         <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
         <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
-          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-4">
+          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
             {t("homeMarqueeDogs")}
           </p>
         </div>
