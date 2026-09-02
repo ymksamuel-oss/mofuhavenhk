@@ -37,10 +37,25 @@ const CATEGORY_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   adult: "catDirectAdult",
   senior: "catDirectSenior",
   "wet-cans": "catSubWetCans",
+  "cats-food-cans": "catSubWetCans",
+  "cat-wet-food": "catSubWetCans",
   "freeze-dried": "catSubFreezeDried",
+  "cat-feezed-dried-food": "catSubFreezeDried",
   litter: "catSubLitter",
+  "cat-litter": "catSubLitter",
   "toys-climbing": "catSubToysClimbing",
+  "cat-dry-food": "catDirectDryFood",
+  "cat-snack-food": "catSubSnacks",
+  "cat-food-platter": "catSubToysClimbing",
   "dog-food": "dogSubFood",
+  "dog-food-cans": "dogSubWetCans",
+  "dog-wet-food": "dogSubWetCans",
+  "dog-canned-food": "dogSubWetCans",
+  "dog-dry-food": "dogSubDryFood",
+  "dog-freeze-dried": "dogSubFreezeDried",
+  "dog-snack-food": "dogSubSnacks",
+  "dog-treats": "dogSubSnacks",
+  "dog-toys": "dogSubToys",
   "toilet-pads": "dogSubToiletPads",
 };
 
@@ -50,7 +65,7 @@ export function categoryDisplayName(
 ): string {
   const key = CATEGORY_TRANSLATION_KEYS[category.slug];
   if (key) return t(key);
-  if (t("langEn") !== "EN" || !/[\u3400-\u9fff]/.test(category.name)) return category.name;
+  if (t("langEn") !== "EN") return category.name;
   return category.slug
     .split("-")
     .filter(Boolean)

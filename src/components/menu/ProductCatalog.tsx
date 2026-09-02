@@ -8,7 +8,11 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { categoryDescendantIds, findCategoryBySlug } from "@/lib/store-categories";
+import {
+  categoryDescendantIds,
+  categoryDisplayName,
+  findCategoryBySlug,
+} from "@/lib/store-categories";
 import { productHref } from "@/lib/products";
 
 const PAGE_SIZE = 12;
@@ -115,7 +119,7 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = selectedCategory?.name ?? t("menuTitle");
+  const title = selectedCategory ? categoryDisplayName(selectedCategory, t) : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>

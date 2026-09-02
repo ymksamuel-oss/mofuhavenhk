@@ -1,9 +1,13 @@
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import type { StoreCategory } from "@/lib/store-categories";
+import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
 
-function renderChildren(parentPath: string, children: StoreCategory[]) {
+function renderChildren(
+  parentPath: string,
+  children: StoreCategory[],
+  labelForCategory: (category: StoreCategory) => string,
+) {
   return children.map((child) => {
     const childPath = `${parentPath}/${child.slug}`;
     return (
@@ -12,14 +16,14 @@ function renderChildren(parentPath: string, children: StoreCategory[]) {
           href={childPath}
           className="group flex items-center justify-between rounded-xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm text-[color:var(--muted)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]"
         >
-          <span>{child.name}</span>
+          <span>{labelForCategory(child)}</span>
           <span aria-hidden="true" className="text-[color:var(--accent)] transition-transform group-hover:translate-x-1">
             →
           </span>
         </CategoryNavLink>
         {child.children.length > 0 ? (
           <ul className="ml-4 mt-2 grid gap-2 border-l border-[color:var(--line)] pl-3">
-            {renderChildren(childPath, child.children)}
+            {renderChildren(childPath, child.children, labelForCategory)}
           </ul>
         ) : null}
       </li>
@@ -30,6 +34,7 @@ function renderChildren(parentPath: string, children: StoreCategory[]) {
 export function CategoryGrid() {
   const { t } = useI18n();
   const { categories } = useCatalog();
+  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, t);
   const topLevelCategories = categories.filter((category) => category.parent_id === null);
 
   return (
@@ -62,14 +67,14 @@ export function CategoryGrid() {
                 href={parentPath}
                 className="group flex items-center justify-between gap-4 rounded-xl px-2 py-2 font-[family-name:var(--font-display)] text-lg font-semibold text-[color:var(--ink)]"
               >
-                <span id={`category-${category.id}`}>{category.name}</span>
+                <span id={`category-${category.id}`}>{localizedCategoryName(category)}</span>
                 <span aria-hidden="true" className="text-[color:var(--accent)] transition-transform group-hover:translate-x-1">
                   →
                 </span>
               </CategoryNavLink>
               {category.children.length > 0 ? (
                 <ul className="mt-2 grid gap-2">
-                  {renderChildren(parentPath, category.children)}
+                  {renderChildren(parentPath, category.children, localizedCategoryName)}
                 </ul>
               ) : null}
             </section>
