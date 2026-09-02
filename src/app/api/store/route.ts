@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getActiveStripeProductIds, getCatalogSnapshot, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { buildCategoryTree, flattenCategoryTree } from "@/lib/store-categories";
 import { getSupabasePublic } from "@/lib/supabase";
+import { databaseProductImageUrls } from "@/lib/catalog-images";
 
 export const dynamic = "force-dynamic";
 
@@ -95,8 +96,8 @@ export async function GET() {
     ));
     const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
     const enrichedProducts = activeProducts.map((row) => {
-      const dbImages = Array.isArray(row.images) ? row.images : [];
-      if (dbImages.length > 0) return row;
+      const dbImages = databaseProductImageUrls(row);
+      if (dbImages.length > 0) return { ...row, images: dbImages };
       const fallbackImages = stripeImages.get(row.source_product_id ?? "") ?? [];
       return fallbackImages.length > 0 ? { ...row, images: fallbackImages } : row;
     });

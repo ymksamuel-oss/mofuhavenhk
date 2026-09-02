@@ -32,6 +32,7 @@ import {
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
+import { databaseProductImageUrls } from "@/lib/catalog-images";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -110,6 +111,8 @@ function catalogImageUrls(product: Stripe.Product, metadata: Readonly<Record<str
 
 type SupabaseProductImageRow = {
   images?: unknown;
+  image?: unknown;
+  image_url?: unknown;
   source_product_id?: string | null;
 };
 
@@ -814,7 +817,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     }
     const mappedProducts = productResult.data
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
-      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
+      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
     const sourceProductId = row.source_product_id?.trim() || "";
     const storedPriceId = isStripePriceId(row.source_price_id) ? row.source_price_id.trim() : undefined;
     const priceRecords = sourceProductId ? pricesByProductId.get(sourceProductId) ?? [] : [];
@@ -828,7 +831,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         sourcePriceId: storedPriceId || null,
       });
     }
-    const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
+    const dbImages = databaseProductImageUrls(row);
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
     // Strict foreign-key resolution: the Admin-assigned category_id is the only
     // source of truth. Products without a database category relation fall back to
