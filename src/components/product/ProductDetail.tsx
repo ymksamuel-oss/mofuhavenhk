@@ -32,6 +32,19 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const { toOrderItems } = useCart();
   const { products } = useCatalog();
   const family = getProductFlavorFamily(product.stripeProductId ?? product.id);
+  // Treat every non-English locale as Chinese so the option UI never falls back to
+  // English when the document language is zh-HK or the locale is restored after hydration.
+  const optionLocale = locale === "en" ? "en" : "zh";
+  const localizedOptionText = (
+    text: { zh?: string; en?: string } | undefined,
+    fallback = "",
+  ) =>
+    text?.[optionLocale]?.trim()
+    || text?.zh?.trim()
+    || text?.en?.trim()
+    || fallback;
+  const familySelectorText = family ? localizedOptionText(family.selector) : "";
+  const familyLabelText = family ? localizedOptionText(family.label) : "";
   const [selectedProductId, setSelectedProductId] = useState(product.id);
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
 
@@ -64,7 +77,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   }, [selectedProduct.id]);
 
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
-  const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${locale}`]
+  const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${optionLocale}`]
     ?? t("productSpecSelectorTitle");
   const specOptions = hasPackVariants ? selectedProduct.variants! : [];
   const selectedOption = specOptions[selectedSpecIndex] ?? specOptions[0];
@@ -285,25 +298,30 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ) : null}
 
           {family && familyChoices.length > 1 ? (
-            <section className="mt-6" aria-labelledby="product-family-selector-title">
+            <section
+              key={`family-options-${optionLocale}`}
+              className="mt-6"
+              aria-labelledby="product-family-selector-title"
+            >
               <div className="flex items-end justify-between gap-3">
                 <div>
                   <h2
                     id="product-family-selector-title"
                     className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
                   >
-                    {family.selector[locale]}
+                    {familySelectorText}
                   </h2>
-                  <p className="mt-1 text-xs text-[color:var(--muted)]">{family.label[locale]}</p>
+                  <p className="mt-1 text-xs text-[color:var(--muted)]">{familyLabelText}</p>
                 </div>
                 <span className="text-[11px] text-[color:var(--muted)]">
                   {familyChoices.length} {t("productChoicesSuffix")}
                 </span>
               </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={family.selector[locale]}>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={familySelectorText}>
                 {familyChoices.map((choice) => {
                   const selected = choice.product.id === selectedProduct.id;
                   const unavailable = choice.product.inStock === false;
+                  const choiceLabel = localizedOptionText(choice.label, t("productValueUnavailable"));
                   return (
                     <button
                       key={choice.product.id}
@@ -324,13 +342,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
                         <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
                           <ProductImage
                             src={choice.product.image}
-                            alt={choice.label[locale]}
+                            alt={choiceLabel}
                             sizes="48px"
                             className="object-contain p-1"
                           />
                         </span>
                         <span className="min-w-0 leading-snug">
-                          <span className="block">{choice.label[locale]}</span>
+                          <span className="block">{choiceLabel}</span>
                           <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
                             {formatMoney(choice.product.price, locale)}
                             {unavailable ? ` · ${t("productSoldOut")}` : ""}
@@ -355,7 +373,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
           ) : null}
 
           {hasPackVariants ? (
-            <section className="mt-6" aria-labelledby="product-pack-selector-title">
+            <section
+              key={`pack-options-${optionLocale}`}
+              className="mt-6"
+              aria-labelledby="product-pack-selector-title"
+            >
               <div className="flex items-end justify-between gap-3">
                 <h2
                   id="product-pack-selector-title"
@@ -374,6 +396,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
               >
                 {specOptions.map((spec, index) => {
                   const selected = selectedSpecIndex === index;
+                  const specLabel = localizedOptionText(spec.label, t("productValueUnavailable"));
+                  const specUnitLabel = localizedOptionText(spec.unitLabel);
                   return (
                     <button
                       key={`${spec.key}-${index}`}
@@ -392,17 +416,17 @@ export function ProductDetail({ product }: ProductDetailProps) {
                           <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
                             <ProductImage
                               src={spec.image}
-                              alt={spec.label[locale] || t("productValueUnavailable")}
+                              alt={specLabel}
                               sizes="48px"
                               className="object-contain p-1"
                             />
                           </span>
                         ) : null}
                         <span className="min-w-0 leading-snug">
-                          <span className="block">{spec.label[locale] || t("productValueUnavailable")}</span>
+                          <span className="block">{specLabel}</span>
                           <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
                             {formatMoney(spec.price, locale)}
-                            {spec.unitLabel ? ` · ${spec.unitLabel[locale] || t("productValueUnavailable")}` : ""}
+                            {specUnitLabel ? ` · ${specUnitLabel}` : ""}
                           </span>
                         </span>
                       </span>
