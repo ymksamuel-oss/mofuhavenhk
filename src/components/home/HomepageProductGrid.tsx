@@ -66,7 +66,6 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
-    document.getElementById("homepage-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (

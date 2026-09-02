@@ -113,7 +113,6 @@ export function ProductCatalog({
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
-    document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const title = selectedCategory?.name ?? t("menuTitle");
