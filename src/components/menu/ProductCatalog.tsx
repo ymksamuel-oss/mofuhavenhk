@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
@@ -11,7 +11,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { categoryDescendantIds, findCategoryBySlug } from "@/lib/store-categories";
 import { productHref } from "@/lib/products";
 
-const MOBILE_PAGE_SIZE = 12;
+const PAGE_SIZE = 12;
 
 type PageItem = number | "ellipsis";
 
@@ -96,32 +96,37 @@ export function ProductCatalog({
       Boolean(product.categoryId) && selectedCategoryIds.has(product.categoryId as string),
     );
   }, [categorySlug, catalogProducts, selectedCategoryIds]);
-  const [isMobile, setIsMobile] = useState(false);
-  const [mobilePage, setMobilePage] = useState(1);
-  const mobilePageCount = Math.max(1, Math.ceil(products.length / MOBILE_PAGE_SIZE));
-  const visibleProducts = isMobile
-    ? products.slice((mobilePage - 1) * MOBILE_PAGE_SIZE, mobilePage * MOBILE_PAGE_SIZE)
-    : products;
+  const [currentPage, setCurrentPage] = useState(1);
+  const productSliderRef = useRef<HTMLDivElement>(null);
+  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, pageCount);
+  const visibleProducts = products.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE,
+  );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1023px)");
-    const syncViewport = () => setIsMobile(mediaQuery.matches);
-    syncViewport();
-    mediaQuery.addEventListener("change", syncViewport);
-    return () => mediaQuery.removeEventListener("change", syncViewport);
-  }, []);
+    setCurrentPage((current) => Math.min(current, pageCount));
+  }, [pageCount]);
 
   useEffect(() => {
-    setMobilePage((current) => Math.min(current, mobilePageCount));
-  }, [mobilePageCount]);
-
-  useEffect(() => {
-    setMobilePage(1);
+    setCurrentPage(1);
   }, [categorySlug, subcategory]);
 
-  const goToMobilePage = (page: number) => {
-    setMobilePage(page);
+  useEffect(() => {
+    productSliderRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  }, [currentPage]);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(pageCount, page)));
     document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const moveSlider = (direction: -1 | 1) => {
+    productSliderRef.current?.scrollBy({
+      left: direction * (productSliderRef.current.clientWidth * 0.86),
+      behavior: "smooth",
+    });
   };
   const title = selectedCategory?.name ?? t("menuTitle");
   return (
@@ -131,7 +136,26 @@ export function ProductCatalog({
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (
         <>
-          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+          <div className="mb-4 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => moveSlider(-1)}
+              aria-label={locale === "zh" ? "產品向左滑動" : "Scroll products left"}
+              className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => moveSlider(1)}
+              aria-label={locale === "zh" ? "產品向右滑動" : "Scroll products right"}
+              className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]"
+            >
+              →
+            </button>
+          </div>
+          <div ref={productSliderRef} className="overflow-x-auto snap-x snap-mandatory overscroll-x-contain pb-2 scrollbar-thin">
+          <ul id="products" className="flex w-max items-stretch gap-4 sm:gap-5">
           {visibleProducts.map((product) => {
             const discountPercent = product.originalPrice
               ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -142,7 +166,7 @@ export function ProductCatalog({
             return (
               <li
                 key={product.id}
-                className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
+                className="milk-tea-card group flex h-full w-44 shrink-0 snap-start flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)] sm:w-56 lg:w-60"
               >
                 <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                   <CategoryNavLink
@@ -214,21 +238,21 @@ export function ProductCatalog({
             );
           })}
           </ul>
-          {isMobile ? (
-            <nav
-              className="mt-6 flex flex-wrap items-center justify-center gap-1.5 lg:hidden"
+          </div>
+          <nav
+              className="mt-6 flex flex-wrap items-center justify-center gap-1.5"
               aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
             >
               <button
                 type="button"
-                onClick={() => goToMobilePage(Math.max(1, mobilePage - 1))}
-                disabled={mobilePage === 1}
+                onClick={() => goToPage(safeCurrentPage - 1)}
+                disabled={safeCurrentPage === 1}
                 aria-label={locale === "zh" ? "上一頁" : "Previous page"}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 ← 上一頁
               </button>
-              {getPageNumbers(mobilePage, mobilePageCount).map((page, index) =>
+              {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
                 page === "ellipsis" ? (
                   <span key={`ellipsis-${index}`} className="px-1 text-sm text-[color:var(--muted)]">
                     …
@@ -237,10 +261,10 @@ export function ProductCatalog({
                   <button
                     key={page}
                     type="button"
-                    onClick={() => goToMobilePage(page)}
-                    aria-current={page === mobilePage ? "page" : undefined}
+                    onClick={() => goToPage(page)}
+                    aria-current={page === safeCurrentPage ? "page" : undefined}
                     className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
-                      page === mobilePage
+                      page === safeCurrentPage
                         ? "bg-[color:var(--ink)] text-white"
                         : "border border-[color:var(--line)] hover:bg-[color:var(--surface)]"
                     }`}
@@ -251,15 +275,14 @@ export function ProductCatalog({
               )}
               <button
                 type="button"
-                onClick={() => goToMobilePage(Math.min(mobilePageCount, mobilePage + 1))}
-                disabled={mobilePage === mobilePageCount}
+                onClick={() => goToPage(safeCurrentPage + 1)}
+                disabled={safeCurrentPage === pageCount}
                 aria-label={locale === "zh" ? "下一頁" : "Next page"}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 下一頁 →
               </button>
-            </nav>
-          ) : null}
+          </nav>
         </>
       )}
     </div>

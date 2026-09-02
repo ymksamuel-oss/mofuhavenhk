@@ -12,7 +12,7 @@ import styles from "./HomeProductMarquee.module.css";
 
 type PageItem = number | "ellipsis";
 
-const MOBILE_PAGE_SIZE = 12;
+const PAGE_SIZE = 12;
 
 function getPageNumbers(current: number, total: number): PageItem[] {
   const pages = new Set<number>([1, total, current, current - 1, current + 1]);
@@ -46,7 +46,7 @@ function ProductCard({ product, duplicate = false }: ProductCardProps) {
     <article
       aria-hidden={duplicate || undefined}
       data-marquee-copy={duplicate ? "duplicate" : "source"}
-      className={`${styles.card} ${duplicate ? "" : ""}`}
+      className={styles.card}
     >
       <CategoryNavLink
         href={href}
@@ -58,7 +58,7 @@ function ProductCard({ product, duplicate = false }: ProductCardProps) {
           <ProductImage
             src={product.image}
             alt={product.name[locale]}
-            sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 50vw"
+            sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
           />
           {discountPercent ? <span className={styles.discount}>-{discountPercent}%</span> : null}
@@ -84,37 +84,13 @@ type ProductRowProps = {
 };
 
 function ProductRow({ label, products, speed }: ProductRowProps) {
-  const { t } = useI18n();
-  const repeatedProducts = [...products, ...products];
-
-  return (
-    <div className={styles.rowWrap} aria-label={label}>
-      <div
-        className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
-        title={t("homeMarqueePause")}
-      >
-        {repeatedProducts.map((product, index) => (
-          <ProductCard key={`${product.id}-${index}`} product={product} duplicate={index >= products.length} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-type MobileProductShowcaseProps = {
-  label: string;
-  products: Product[];
-};
-
-function MobileProductShowcase({ label, products }: MobileProductShowcaseProps) {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const [page, setPage] = useState(1);
-  const pageCount = Math.max(1, Math.ceil(products.length / MOBILE_PAGE_SIZE));
+  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
-  const visibleProducts = products.slice(
-    (currentPage - 1) * MOBILE_PAGE_SIZE,
-    currentPage * MOBILE_PAGE_SIZE,
-  );
+  const pageProducts = products.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const repeatedProducts = [...pageProducts, ...pageProducts];
+
   const goToPage = (nextPage: number) => {
     const safePage = Math.max(1, Math.min(pageCount, nextPage));
     setPage(safePage);
@@ -125,20 +101,25 @@ function MobileProductShowcase({ label, products }: MobileProductShowcaseProps) 
   };
 
   return (
-    <div className="lg:hidden" data-mobile-product-list="vertical-paginated">
-      <ul
-        aria-label={label}
-        className="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 sm:grid-cols-3 sm:gap-5 sm:px-10"
-      >
-        {visibleProducts.map((product) => (
-          <li key={product.id} className={styles.mobileCard}>
-            <ProductCard product={product} />
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-4" data-product-slider="true" data-page={currentPage} data-page-size={PAGE_SIZE}>
+      <div className={styles.rowWrap} aria-label={label}>
+        <div
+          key={`${label}-${currentPage}`}
+          className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
+          title={t("homeMarqueePause")}
+        >
+          {repeatedProducts.map((product, index) => (
+            <ProductCard
+              key={`${product.id}-${currentPage}-${index}`}
+              product={product}
+              duplicate={index >= pageProducts.length}
+            />
+          ))}
+        </div>
+      </div>
       <nav
-        className="mt-7 flex flex-wrap items-center justify-center gap-1.5 px-4"
-        aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
+        className="flex flex-wrap items-center justify-center gap-1.5 px-4"
+        aria-label={locale === "zh" ? `${label} 分頁` : `${label} pages`}
       >
         <button
           type="button"
@@ -160,7 +141,6 @@ function MobileProductShowcase({ label, products }: MobileProductShowcaseProps) 
               type="button"
               onClick={() => goToPage(item)}
               aria-current={item === currentPage ? "page" : undefined}
-              aria-label={`${locale === "zh" ? "第" : "Page "}${item}${locale === "zh" ? "頁" : ""}`}
               className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
                 item === currentPage
                   ? "bg-[color:var(--ink)] text-white"
@@ -186,21 +166,22 @@ function MobileProductShowcase({ label, products }: MobileProductShowcaseProps) 
 }
 
 /**
- * An editorial two-row product parade on desktop. On phones and tablets the
- * same products become a vertical, paginated grid with twelve products/page.
+ * The homepage keeps the original two showcase rows on every device.
+ * Each row uses the same horizontal Slider and twelve-item pagination logic
+ * at phone, tablet, and desktop widths.
  */
 export function HomeProductMarquee() {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
   const activeProducts = catalogProducts.filter(isStorefrontReadyProduct);
   const catCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "cats"));
   const dogCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "dogs"));
-  const catProducts = activeProducts
-    .filter((product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats")
-    .slice(0, 8);
-  const dogProducts = activeProducts
-    .filter((product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs")
-    .slice(0, 8);
+  const catProducts = activeProducts.filter(
+    (product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats",
+  );
+  const dogProducts = activeProducts.filter(
+    (product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs",
+  );
 
   if (catProducts.length === 0 || dogProducts.length === 0) return null;
 
@@ -227,33 +208,19 @@ export function HomeProductMarquee() {
         </div>
       </div>
 
-      <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6" data-locale={locale}>
-        <div className="lg:hidden">
-          <div className="mx-auto max-w-7xl px-4 sm:px-10">
-            <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#765039]">
-              {t("homeMarqueeCats")} · {t("homeMarqueeDogs")}
-            </p>
-          </div>
-          <MobileProductShowcase
-            label={`${t("homeMarqueeCats")} · ${t("homeMarqueeDogs")}`}
-            products={[...catProducts, ...dogProducts]}
-          />
+      <div className="mt-8 space-y-7 sm:mt-10 sm:space-y-9">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-4">
+            {t("homeMarqueeCats")}
+          </p>
         </div>
-
-        <div className="hidden lg:block">
-          <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
-            <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-              {t("homeMarqueeCats")}
-            </p>
-          </div>
-          <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
-          <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
-            <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-              {t("homeMarqueeDogs")}
-            </p>
-          </div>
-          <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
+        <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
+        <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
+          <p className="mb-3 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-4">
+            {t("homeMarqueeDogs")}
+          </p>
         </div>
+        <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
       </div>
     </section>
   );
