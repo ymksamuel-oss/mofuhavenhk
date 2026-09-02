@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getActiveStripeProductIds, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
+import { getActiveStripeProductIds, getCatalogSnapshot, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { buildCategoryTree, flattenCategoryTree } from "@/lib/store-categories";
 import { getSupabasePublic } from "@/lib/supabase";
 
@@ -16,6 +16,18 @@ const EMPTY_STORE_RESPONSE = {
   settings: {},
 };
 
+async function fallbackStoreResponse() {
+  const catalog = await getCatalogSnapshot();
+  return {
+    ...EMPTY_STORE_RESPONSE,
+    configured: false,
+    products: catalog.products,
+    categories: catalog.categories,
+    categoryTree: catalog.categories,
+    categoryList: flattenCategoryTree(catalog.categories),
+  };
+}
+
 export async function GET() {
   try {
     const supabase = getSupabasePublic();
@@ -24,7 +36,7 @@ export async function GET() {
         hasUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL),
         hasAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY),
       });
-      return NextResponse.json(EMPTY_STORE_RESPONSE, {
+      return NextResponse.json(await fallbackStoreResponse(), {
         status: 200,
         headers: { "Cache-Control": "no-store" },
       });
@@ -100,7 +112,7 @@ export async function GET() {
       errorMessage: error instanceof Error ? error.message : String(error),
       stack: error instanceof Error ? error.stack : undefined,
     });
-    return NextResponse.json(EMPTY_STORE_RESPONSE, {
+    return NextResponse.json(await fallbackStoreResponse(), {
       status: 200,
       headers: { "Cache-Control": "no-store" },
     });

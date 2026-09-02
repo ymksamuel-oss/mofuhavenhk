@@ -6,6 +6,17 @@ const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const SUPABASE_FETCH_TIMEOUT_MS = 12_000;
 const SUPABASE_FETCH_RETRIES = 3;
 
+function isValidSupabaseUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value.trim());
+    return (parsed.protocol === "https:" || parsed.protocol === "http:") && Boolean(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
+const validUrl = isValidSupabaseUrl(url) ? url.trim() : "";
+
 function requestPath(input: RequestInfo | URL): string {
   try {
     return new URL(typeof input === "string" ? input : input.toString()).pathname;
@@ -88,15 +99,15 @@ const clientOptions = {
 };
 
 export function getSupabasePublic(): SupabaseClient | null {
-  if (!url || !anonKey) return null;
-  return createClient(url, anonKey, clientOptions);
+  if (!validUrl || !anonKey) return null;
+  return createClient(validUrl, anonKey, clientOptions);
 }
 
 export function getSupabaseAdmin(): SupabaseClient | null {
-  if (!url || !serviceKey) return null;
-  return createClient(url, serviceKey, clientOptions);
+  if (!validUrl || !serviceKey) return null;
+  return createClient(validUrl, serviceKey, clientOptions);
 }
 
 export function isSupabaseConfigured() {
-  return Boolean(url && (anonKey || serviceKey));
+  return Boolean(validUrl && (anonKey || serviceKey));
 }
