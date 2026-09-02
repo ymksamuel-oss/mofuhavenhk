@@ -909,22 +909,26 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   noStore();
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
-    if (managedCatalog) return managedCatalog;
-    // Once Supabase is configured, never leak the old Git-backed catalog when a
-    // managed query fails; that could expose archived products outside Admin control.
-    if (isSupabaseConfigured()) {
-      return { products: [], categories: [], source: "supabase", matchedRecords: 0 };
+    if (managedCatalog?.products.length) return managedCatalog;
+    if (managedCatalog) {
+      console.warn("[catalog] Managed catalog returned zero products; trying Stripe and verified fallback catalog");
     }
-    // Intentionally uncached: fetch live Stripe catalog data on every request.
-    return await fetchCatalogFromStripe();
+
+    // A temporarily unavailable Supabase/Stripe connection must not blank the
+    // storefront. Try the live Stripe catalog first, then the verified catalog
+    // bundled with the deployment so product pages remain renderable.
+    try {
+      const stripeCatalog = await fetchCatalogFromStripe();
+      if (stripeCatalog.products.length) return stripeCatalog;
+    } catch (stripeError) {
+      console.error("[catalog] Live Stripe catalog unavailable; using verified fallback catalog", stripeErrorDetails(stripeError));
+    }
+    return fallbackCatalogSnapshot();
   } catch (error) {
     console.error(
       "Storefront catalog fetch failed",
       stripeErrorDetails(error),
     );
-    if (isSupabaseConfigured()) {
-      return { products: [], categories: [], source: "supabase", matchedRecords: 0 };
-    }
     return fallbackCatalogSnapshot();
   }
 }
