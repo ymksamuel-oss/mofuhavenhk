@@ -807,10 +807,12 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
     const activeStripeProductIds = await getActiveStripeProductIds();
     let pricesByProductId = new Map<string, StripePriceRecord[]>();
+    let pricesById = new Map<string, StripePriceRecord>();
     let stripePricesAvailable = false;
     if (getStripeSecretKey()) {
       try {
         pricesByProductId = await listAllActiveHkdPrices(getStripe());
+        pricesById = new Map(Array.from(pricesByProductId.values()).flat().map((price) => [price.id, price]));
         stripePricesAvailable = true;
       } catch (error) {
         console.warn("[catalog] Stripe HKD price lookup unavailable; stored source_price_id values will only be used as a last resort", {
@@ -826,15 +828,14 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const storedPriceId = isStripePriceId(row.source_price_id) ? row.source_price_id.trim() : undefined;
     const priceRecords = sourceProductId ? pricesByProductId.get(sourceProductId) ?? [] : [];
     const verifiedPriceRecord = storedPriceId ? priceRecords.find((price) => price.id === storedPriceId) : undefined;
-    const resolvedPriceRecord = verifiedPriceRecord ?? priceRecords[0];
+    const resolvedPriceRecord = verifiedPriceRecord ?? priceRecords[0] ?? (storedPriceId ? pricesById.get(storedPriceId) : undefined);
     const resolvedPriceId = resolvedPriceRecord?.id ?? (!stripePricesAvailable ? storedPriceId : undefined);
     if (!resolvedPriceId) {
-      console.warn("[catalog] Supabase product skipped: no active Stripe HKD Price mapping", {
+      console.warn("[catalog] Supabase product has no resolved Stripe HKD Price; keeping it visible with its database price", {
         databaseProductId: row.id,
         sourceProductId: sourceProductId || null,
         sourcePriceId: storedPriceId || null,
       });
-      return null;
     }
     const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
@@ -875,7 +876,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         zh: translation?.name_zh || databaseNameZh,
         en: databaseNameEn,
       },
-      priceId: resolvedPriceId,
+      ...(resolvedPriceId ? { priceId: resolvedPriceId } : {}),
       price: resolvedPriceRecord?.amount ?? Number(row.price || 0),
       ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
       inStock: Number(row.stock || 0) > 0,
