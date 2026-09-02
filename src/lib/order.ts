@@ -67,7 +67,7 @@ function orderItemFromProduct(
     ...(variant ? { variantLabel: variant.label } : {}),
     ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
     name: product.name,
-    image: product.image,
+    image: product.images?.[0] ?? "catalog-placeholder",
     qty,
     unit: variant?.price ?? product.price,
   };

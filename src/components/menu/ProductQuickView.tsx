@@ -73,7 +73,7 @@ export function ProductQuickView({
 
         <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
           <ProductImage
-            src={product.image}
+            src={product.images?.[0] ?? "catalog-placeholder"}
             alt={product.name[locale]}
             sizes="(min-width: 640px) 512px, 100vw"
             className="object-cover"

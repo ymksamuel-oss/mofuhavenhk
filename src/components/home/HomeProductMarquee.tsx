@@ -47,7 +47,7 @@ function ProductRow({ label, products, speed }: ProductRowProps) {
               >
                 <div className={styles.imageWrap}>
                   <ProductImage
-                    src={product.image}
+                    src={product.images?.[0] ?? "catalog-placeholder"}
                     alt={product.name[locale]}
                     sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"

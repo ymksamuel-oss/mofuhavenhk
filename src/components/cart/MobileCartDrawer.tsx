@@ -249,7 +249,7 @@ export function MobileCartDrawer({
                       >
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--line)]">
                           <ProductImage
-                            src={product.image}
+                            src={product.images?.[0] ?? "catalog-placeholder"}
                             alt={product.name[locale]}
                             sizes="48px"
                             className="object-cover"

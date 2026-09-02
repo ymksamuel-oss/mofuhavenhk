@@ -460,15 +460,16 @@ export function subcategoryFromMetadata(category: string | undefined): ProductSu
   );
 }
 
-export function isStorefrontReadyProduct(product: Pick<Product, "id" | "image" | "inStock" | "metadata">): boolean {
+export function isStorefrontReadyProduct(product: Pick<Product, "id" | "images" | "inStock" | "metadata">): boolean {
+  const primaryImage = product.images?.[0] ?? "catalog-placeholder";
   const importedPlaceholder =
-    product.image === "catalog-placeholder" &&
+    primaryImage === "catalog-placeholder" &&
     product.metadata?.image_pending === "true";
   const explicitlyVisibleWhenSoldOut = product.metadata?.show_when_out_of_stock === "true";
 
   return (
     (product.inStock !== false || explicitlyVisibleWhenSoldOut) &&
-    (product.image !== "catalog-placeholder" || importedPlaceholder) &&
+    (primaryImage !== "catalog-placeholder" || importedPlaceholder) &&
     !product.metadata?.demo
   );
 }

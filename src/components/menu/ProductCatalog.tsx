@@ -116,9 +116,9 @@ export function ProductCatalog({
                 : null;
               const badge = getProductBadge(product);
               const href = productHref(product.id);
-              // The URL is resolved inside this map iteration, so every card
-              // receives its own Supabase-mapped primary image.
-              const imageUrl = product.images?.[0] ?? product.image;
+              // The URL is resolved inside this map iteration from the
+              // verified Supabase `images` array, so every card is independent.
+              const imageUrl = product.images?.[0] ?? "catalog-placeholder";
               return (
                 <li
                   key={product.id}
