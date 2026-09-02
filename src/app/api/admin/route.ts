@@ -87,6 +87,11 @@ export async function DELETE(request: Request) {
   const body = await request.json().catch(() => ({})); const table = String(body.table || ""); const id = String(body.id || ""); const key = String(body.key || "");
   if (!tables.has(table) || (!id && !(table === "store_settings" && key))) return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
-  const query = table === "store_settings" ? supabase.from(table).delete().eq("key", key) : supabase.from(table).delete().eq("id", id); const { error } = await query;
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 }); return NextResponse.json({ ok: true });
+  const query = table === "store_settings"
+    ? supabase.from(table).delete().eq("key", key).select("key")
+    : supabase.from(table).delete().eq("id", id).select("id");
+  const { data, error } = await query;
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (!data || data.length === 0) return NextResponse.json({ error: "not_found_or_not_deleted" }, { status: 404 });
+  return NextResponse.json({ ok: true, deleted: data.length });
 }

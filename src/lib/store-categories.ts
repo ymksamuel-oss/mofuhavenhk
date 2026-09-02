@@ -5,6 +5,8 @@ import type { TranslationKey } from "./i18n/translations";
 export type StoreCategoryRow = {
   id: string;
   name: string;
+  name_zh?: string | null;
+  name_en?: string | null;
   slug: string;
   parent_id?: string | null;
   image_url?: string | null;
@@ -20,57 +22,13 @@ export type StoreCategory = StoreCategoryRow & {
 
 const DEFAULT_ICON: CategoryIconName = "bone";
 
-const CATEGORY_TRANSLATION_KEYS: Record<string, TranslationKey> = {
-  cats: "categoryCats",
-  dogs: "categoryDogs",
-  "small-pets": "categorySmallPets",
-  lifestyle: "categoryLifestyle",
-  snacks: "categorySnacks",
-  health: "categoryHealth",
-  cleaning: "categoryCleaning",
-  deals: "categoryDeals",
-  bestsellers: "categoryBestsellers",
-  outdoor: "categoryOutdoor",
-  toys: "categoryToys",
-  "dry-food": "catDirectDryFood",
-  kitten: "catDirectKitten",
-  adult: "catDirectAdult",
-  senior: "catDirectSenior",
-  "wet-cans": "catSubWetCans",
-  "cats-food-cans": "catSubWetCans",
-  "cat-wet-food": "catSubWetFood",
-  "freeze-dried": "catSubFreezeDried",
-  "cat-feezed-dried-food": "catSubFreezeDried",
-  litter: "catSubLitter",
-  "cat-litter": "catSubLitter",
-  "toys-climbing": "catSubToysClimbing",
-  "cat-dry-food": "catDirectDryFood",
-  "cat-snack-food": "catSubSnacks",
-  "cat-food-platter": "catSubToysClimbing",
-  "dog-food": "dogSubFood",
-  "dog-food-cans": "dogSubWetCans",
-  "dog-wet-food": "dogSubWetCans",
-  "dog-canned-food": "dogSubWetCans",
-  "dog-dry-food": "dogSubDryFood",
-  "dog-freeze-dried": "dogSubFreezeDried",
-  "dog-snack-food": "dogSubSnacks",
-  "dog-treats": "dogSubSnacks",
-  "dog-toys": "dogSubToys",
-  "toilet-pads": "dogSubToiletPads",
-};
-
 export function categoryDisplayName(
   category: StoreCategory,
   t: (key: TranslationKey) => string,
 ): string {
-  const key = CATEGORY_TRANSLATION_KEYS[category.slug];
-  if (key) return t(key);
-  if (t("langZh") === "中") return category.name;
-  return category.slug
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+  const isChinese = t("langZh") === "中";
+  const localized = isChinese ? category.name_zh : category.name_en;
+  return localized?.trim() || category.name.trim();
 }
 
 const KNOWN_ICONS = new Set<CategoryIconName>([
@@ -116,6 +74,8 @@ export function buildCategoryTree(rows: readonly Partial<StoreCategoryRow>[]): S
     nodes.set(id, {
       id,
       name,
+      name_zh: row.name_zh ? String(row.name_zh).trim() : null,
+      name_en: row.name_en ? String(row.name_en).trim() : null,
       slug,
       parent_id: row.parent_id ? String(row.parent_id) : null,
       image_url: row.image_url ? String(row.image_url) : null,
