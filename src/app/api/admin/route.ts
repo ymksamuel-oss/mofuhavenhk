@@ -61,8 +61,8 @@ export async function POST(request: Request) {
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
-  // Banner 新增預設採用覆蓋模式；管理員可明確選擇保留舊記錄，建立多張 slider。
-  if (table === "banners" && data?.id && body.replaceExisting !== false) {
+  // Banner 新增預設加入現有 slider；只有管理員明確選擇覆蓋時才清除舊記錄。
+  if (table === "banners" && data?.id && body.replaceExisting === true) {
     const { error: cleanupError } = await supabase.from("banners").delete().neq("id", data.id);
     if (cleanupError) return NextResponse.json({ error: `新 Banner 已儲存，但清除舊 Banner 失敗：${cleanupError.message}` }, { status: 500 });
   }
