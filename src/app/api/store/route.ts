@@ -16,6 +16,18 @@ const EMPTY_STORE_RESPONSE = {
   settings: {},
 };
 
+function uniqueStoreProductRows<T extends { id: string; source_product_id?: string | null }>(rows: readonly T[]): T[] {
+  const rowsByIdentity = new Map<string, T>();
+  for (const row of rows) {
+    const sourceProductId = row.source_product_id?.trim();
+    const identity = sourceProductId?.startsWith("prod_")
+      ? `stripe:${sourceProductId}`
+      : `database:${row.id}`;
+    if (!rowsByIdentity.has(identity)) rowsByIdentity.set(identity, row);
+  }
+  return Array.from(rowsByIdentity.values());
+}
+
 async function fallbackStoreResponse() {
   const catalog = await getCatalogSnapshot();
   return {
@@ -66,7 +78,7 @@ export async function GET() {
       .map((result) => ({ code: result.error?.code, message: result.error?.message }));
     if (requiredQueryErrors.length) {
       console.error("[store-api] Required Supabase product/category query returned errors", { requiredQueryErrors, optionalQueryErrors });
-      return NextResponse.json({ ...EMPTY_STORE_RESPONSE, configured: true }, {
+      return NextResponse.json(await fallbackStoreResponse(), {
         status: 200,
         headers: { "Cache-Control": "no-store" },
       });
@@ -78,9 +90,9 @@ export async function GET() {
     const categoryTree = buildCategoryTree(categories.data || []);
     const categoryList = flattenCategoryTree(categoryTree);
     const activeStripeProductIds = await getActiveStripeProductIds();
-    const activeProducts = (products.data || []).filter((row) =>
+    const activeProducts = uniqueStoreProductRows((products.data || []).filter((row) =>
       !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id),
-    );
+    ));
     const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
     const enrichedProducts = activeProducts.map((row) => {
       const dbImages = Array.isArray(row.images) ? row.images : [];

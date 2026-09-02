@@ -6,7 +6,6 @@ import { unstable_noStore as noStore } from "next/cache";
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { buildCategoryTree, type StoreCategory } from "@/lib/store-categories";
 import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
-import { RECENT_FALLBACK_PRODUCTS } from "@/lib/catalog-recent-fallback";
 import { LOCAL_CATALOG_IMAGE_FALLBACKS } from "@/lib/catalog-image-fallback";
 import {
   CAT_SNACK_SERIES,
@@ -52,16 +51,29 @@ export type CatalogSnapshot = {
 const FALLBACK_PRODUCTS: Product[] = VERIFIED_FALLBACK_PRODUCTS;
 
 function fallbackCatalogSnapshot(): CatalogSnapshot {
-  const products = uniqueProductsById([
-    ...FALLBACK_PRODUCTS,
-    ...RECENT_FALLBACK_PRODUCTS,
-  ]);
+  const products = uniqueProductsById(FALLBACK_PRODUCTS);
   return {
     products: enforceEnglishCatalogProducts(products),
     categories: [],
     source: "fallback",
     matchedRecords: products.length,
   };
+}
+
+/**
+ * Supabase import retries can create more than one database row for the same
+ * Stripe Product. The query is ordered newest-first, so retain the first row
+ * for every Stripe Product ID and never expose duplicate legacy cards.
+ */
+function uniqueProductsByStorefrontIdentity(products: readonly Product[]): Product[] {
+  const productsByIdentity = new Map<string, Product>();
+  for (const product of products) {
+    const identity = product.stripeProductId
+      ? `stripe:${product.stripeProductId}`
+      : `database:${product.id}`;
+    if (!productsByIdentity.has(identity)) productsByIdentity.set(identity, product);
+  }
+  return Array.from(productsByIdentity.values());
 }
 
 /** Internal marker handled by ProductImage as a CSS-only missing-image state. */
@@ -121,6 +133,10 @@ type SupabaseProductImageRow = {
   images?: unknown;
   source_product_id?: string | null;
 };
+
+function isStripeProductId(value: unknown): value is string {
+  return typeof value === "string" && /^prod_[A-Za-z0-9]+$/.test(value.trim());
+}
 
 function isStripePriceId(value: unknown): value is string {
   return typeof value === "string" && /^price_[A-Za-z0-9]+$/.test(value.trim());
@@ -821,7 +837,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         });
       }
     }
-    const products = productResult.data
+    const mappedProducts = productResult.data
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
       .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
     const sourceProductId = row.source_product_id?.trim() || "";
@@ -894,6 +910,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       icon: iconForCategory(categorySlug),
     } satisfies Product;
       }).filter((product): product is Product => Boolean(product && product.price >= 0));
+    const products = uniqueProductsByStorefrontIdentity(mappedProducts);
     return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
