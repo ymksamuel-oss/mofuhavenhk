@@ -2,15 +2,14 @@
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Product } from "@/lib/products";
-import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
 
 const NEW_ARRIVAL_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type ProductStatus = "featured" | "new-arrival" | "in-stock";
 
-export function getProductStatuses(product: Pick<Product, "id" | "createdAt" | "inStock">): ProductStatus[] {
+export function getProductStatuses(product: Pick<Product, "createdAt" | "inStock" | "metadata">): ProductStatus[] {
   const statuses: ProductStatus[] = [];
-  if (HOME_FEATURED_PRODUCT_IDS.includes(product.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number])) {
+  if (product.metadata?.featured === "true" || product.metadata?.is_featured === "true") {
     statuses.push("featured");
   }
   if (product.createdAt && Date.now() - product.createdAt * 1000 <= NEW_ARRIVAL_WINDOW_MS) {

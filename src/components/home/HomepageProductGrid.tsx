@@ -5,7 +5,6 @@ import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
-import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -45,13 +44,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
   }
   const products = getProductsByCategory(null, catalogProducts)
     .filter(isStorefrontReadyProduct)
-    .sort((left, right) => {
-      const leftRank = HOME_FEATURED_PRODUCT_IDS.indexOf(left.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
-      const rightRank = HOME_FEATURED_PRODUCT_IDS.indexOf(right.id as (typeof HOME_FEATURED_PRODUCT_IDS)[number]);
-      const normalizedLeftRank = leftRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : leftRank;
-      const normalizedRightRank = rightRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : rightRank;
-      return normalizedLeftRank - normalizedRightRank || left.id.localeCompare(right.id, undefined, { numeric: true });
-    });
+    .sort((left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }));
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);

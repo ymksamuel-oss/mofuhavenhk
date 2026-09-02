@@ -14,24 +14,17 @@ import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { calcSubtotal } from "@/lib/order";
-import { getProductFlavorFamily, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 type ProductDetailProps = {
   product: Product;
 };
 
-type FamilyChoice = {
-  product: Product;
-  label: { zh: string; en: string };
-};
-
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems } = useCart();
-  const { products } = useCatalog();
-  const family = getProductFlavorFamily(product.stripeProductId ?? product.id);
   // Treat every non-English locale as Chinese so the option UI never falls back to
   // English when the document language is zh-HK or the locale is restored after hydration.
   const optionLocale = locale === "en" ? "en" : "zh";
@@ -43,38 +36,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
     || text?.zh?.trim()
     || text?.en?.trim()
     || fallback;
-  const familySelectorText = family ? localizedOptionText(family.selector) : "";
-  const familyLabelText = family ? localizedOptionText(family.label) : "";
-  const [selectedProductId, setSelectedProductId] = useState(product.id);
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
 
-  const familyChoices = useMemo<FamilyChoice[]>(() => {
-    if (!family) return [];
-    const catalogById = new Map(
-      products.flatMap((candidate) => [
-        [candidate.id, candidate] as const,
-        ...(candidate.stripeProductId ? [[candidate.stripeProductId, candidate] as const] : []),
-      ]),
-    );
-    return family.choices.flatMap((choice) => {
-      const candidate = catalogById.get(choice.productId);
-      return candidate ? [{ product: candidate, label: choice.label }] : [];
-    });
-  }, [family, products]);
-
-  useEffect(() => {
-    setSelectedProductId(product.id);
-    setSelectedSpecIndex(0);
-  }, [product.id]);
-
-  const selectedFamilyChoice = familyChoices.find(
-    (choice) => choice.product.id === selectedProductId,
-  );
-  const selectedProduct = selectedFamilyChoice?.product ?? product;
-
-  useEffect(() => {
-    setSelectedSpecIndex(0);
-  }, [selectedProduct.id]);
+  const selectedProduct = product;
 
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
   const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${optionLocale}`]
@@ -297,80 +261,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </section>
           ) : null}
 
-          {family && familyChoices.length > 1 ? (
-            <section
-              key={`family-options-${optionLocale}`}
-              className="mt-6"
-              aria-labelledby="product-family-selector-title"
-            >
-              <div className="flex items-end justify-between gap-3">
-                <div>
-                  <h2
-                    id="product-family-selector-title"
-                    className="text-xs font-semibold uppercase tracking-wider text-[color:var(--accent)]"
-                  >
-                    {familySelectorText}
-                  </h2>
-                  <p className="mt-1 text-xs text-[color:var(--muted)]">{familyLabelText}</p>
-                </div>
-                <span className="text-[11px] text-[color:var(--muted)]">
-                  {familyChoices.length} {t("productChoicesSuffix")}
-                </span>
-              </div>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={familySelectorText}>
-                {familyChoices.map((choice) => {
-                  const selected = choice.product.id === selectedProduct.id;
-                  const unavailable = choice.product.inStock === false;
-                  const choiceLabel = localizedOptionText(choice.label, t("productValueUnavailable"));
-                  return (
-                    <button
-                      key={choice.product.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      disabled={unavailable}
-                      onClick={() => setSelectedProductId(choice.product.id)}
-                      className={`flex min-h-16 items-center justify-between gap-3 rounded-xl border px-3.5 py-2.5 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
-                        selected
-                          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                          : unavailable
-                            ? "cursor-not-allowed border-[color:var(--line)] bg-white/60 text-[color:var(--muted)] opacity-55"
-                            : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]/60"
-                      }`}
-                    >
-                      <span className="flex min-w-0 items-center gap-3">
-                        <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-[color:var(--line)]">
-                          <ProductImage
-                            src={choice.product.image}
-                            alt={choiceLabel}
-                            sizes="48px"
-                            className="object-contain p-1"
-                          />
-                        </span>
-                        <span className="min-w-0 leading-snug">
-                          <span className="block">{choiceLabel}</span>
-                          <span className="mt-0.5 block text-xs font-medium tabular-nums text-[color:var(--muted)]">
-                            {formatMoney(choice.product.price, locale)}
-                            {unavailable ? ` · ${t("productSoldOut")}` : ""}
-                          </span>
-                        </span>
-                      </span>
-                      <span
-                        aria-hidden
-                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ${
-                          selected
-                            ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                            : "border-[color:var(--line)] bg-white text-transparent"
-                        }`}
-                      >
-                        ✓
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          ) : null}
 
           {hasPackVariants ? (
             <section

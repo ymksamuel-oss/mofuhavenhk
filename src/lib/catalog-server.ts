@@ -5,8 +5,6 @@ import { unstable_noStore as noStore } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { buildCategoryTree, type StoreCategory } from "@/lib/store-categories";
-import { PRODUCTS as VERIFIED_FALLBACK_PRODUCTS } from "@/lib/catalog-fallback";
-import { LOCAL_CATALOG_IMAGE_FALLBACKS } from "@/lib/catalog-image-fallback";
 import {
   CAT_SNACK_SERIES,
   categorySlugFromMetadata,
@@ -19,7 +17,6 @@ import {
   type ProductVariant,
   isStorefrontReadyProduct,
   categorySlugFromMofuSku,
-  uniqueProductsById,
 } from "@/lib/products";
 import {
   fromStripeAmountHkd,
@@ -34,7 +31,6 @@ import {
 } from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
-import { resolveProductVariantImage } from "./product-variant-images";
 import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
 
 export type CatalogSnapshot = {
@@ -43,22 +39,6 @@ export type CatalogSnapshot = {
   source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
-
-/**
- * Git-backed catalog used when Stripe is unavailable or returns no usable
- * products. Checkout remains server-authoritative and re-validates prices.
- */
-const FALLBACK_PRODUCTS: Product[] = VERIFIED_FALLBACK_PRODUCTS;
-
-function fallbackCatalogSnapshot(): CatalogSnapshot {
-  const products = uniqueProductsById(FALLBACK_PRODUCTS);
-  return {
-    products: enforceEnglishCatalogProducts(products),
-    categories: [],
-    source: "fallback",
-    matchedRecords: products.length,
-  };
-}
 
 /**
  * Supabase import retries can create more than one database row for the same
@@ -125,7 +105,6 @@ function catalogImageUrls(product: Stripe.Product, metadata: Readonly<Record<str
   return Array.from(new Set([
     ...imageUrlsFromMetadata(metadata),
     ...(product.images ?? []),
-    ...(LOCAL_CATALOG_IMAGE_FALLBACKS[product.id] ?? []),
   ].filter(isUsableCatalogImage))).slice(0, 8);
 }
 
@@ -512,13 +491,9 @@ function productVariantsFromPrices(
       );
       const variantLabelZh = price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`);
       const variantLabelEn = price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`);
-      const variantImage = resolveProductVariantImage({
-        productId,
-        variantKey: price.metadata.variant_key,
-        labelZh: variantLabelZh,
-        labelEn: variantLabelEn,
-        explicitImage: price.metadata.variant_image_url,
-      });
+      const variantImage = isUsableCatalogImage(price.metadata.variant_image_url)
+        ? price.metadata.variant_image_url.trim()
+        : undefined;
       return {
         key: price.metadata.variant_key || `pack-${packCount}`,
         priceId: price.id,
@@ -788,7 +763,7 @@ export async function getCatalogDiagnostics() {
 async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
   const supabase = getSupabasePublic() || getSupabaseAdmin();
   if (!supabase) {
-    console.warn("[catalog] Supabase is not configured; using fallback catalog");
+    console.warn("[catalog] Supabase is not configured; returning an empty catalog");
     return null;
   }
 
@@ -926,26 +901,23 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   noStore();
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
-    if (managedCatalog?.products.length) return managedCatalog;
-    if (managedCatalog) {
-      console.warn("[catalog] Managed catalog returned zero products; trying Stripe and verified fallback catalog");
-    }
-
-    // A temporarily unavailable Supabase/Stripe connection must not blank the
-    // storefront. Try the live Stripe catalog first, then the verified catalog
-    // bundled with the deployment so product pages remain renderable.
-    try {
-      const stripeCatalog = await fetchCatalogFromStripe();
-      if (stripeCatalog.products.length) return stripeCatalog;
-    } catch (stripeError) {
-      console.error("[catalog] Live Stripe catalog unavailable; using verified fallback catalog", stripeErrorDetails(stripeError));
-    }
-    return fallbackCatalogSnapshot();
+    if (managedCatalog) return managedCatalog;
+    return {
+      products: [],
+      categories: [],
+      source: "supabase",
+      matchedRecords: 0,
+    };
   } catch (error) {
     console.error(
       "Storefront catalog fetch failed",
       stripeErrorDetails(error),
     );
-    return fallbackCatalogSnapshot();
+    return {
+      products: [],
+      categories: [],
+      source: "supabase",
+      matchedRecords: 0,
+    };
   }
 }
