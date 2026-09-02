@@ -386,6 +386,18 @@ export default function AdminPage() {
                               )}
                             </div>
                           )}
+                          {tab === "banners" && (
+                            <div data-banner-list="true" className="grid h-16 w-36 shrink-0 grid-cols-2 gap-1 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-1">
+                              <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
+                                {row.image_url ? <img src={row.image_url} alt={`${row.title || "Banner"} 桌面版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">桌面版</span>}
+                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">桌面</span>
+                              </div>
+                              <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
+                                {row.mobile_image_url || row.image_url ? <img src={row.mobile_image_url || row.image_url} alt={`${row.title || "Banner"} 手機版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">手機版</span>}
+                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">手機</span>
+                              </div>
+                            </div>
+                          )}
                           <div className="min-w-0">
                             <p className="font-semibold">{tab === "products" ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
                             <p className="mt-1 truncate text-sm text-[#8b7c70]">
@@ -395,7 +407,9 @@ export default function AdminPage() {
                                   ? `${row.total ?? 0} · ${row.created_at || ""}`
                                   : tab === "store_settings"
                                     ? (String(row.value).length > 20 ? "••••••••" : row.value)
-                                    : row.image_url || row.slug || row.discount_type || ""}
+                                    : tab === "banners"
+                                      ? `排序 ${row.sort_order ?? 0} · ${row.mobile_image_url ? "桌面／手機圖片已設定" : "手機版沿用桌面版"}`
+                                      : row.image_url || row.slug || row.discount_type || ""}
                             </p>
                             {tab === "products" && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
                           </div>
