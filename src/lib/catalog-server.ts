@@ -775,7 +775,9 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       supabase.from("categories").select("*"),
       supabase
         .from("products")
-        .select("*")
+        // Verified against the live raw row: `images` is the product image
+        // column and contains the ordered image URL array used by each card.
+        .select("id,name,price,original_price,stock,description,images,category_id,created_at,is_published,mofu_sku,status,source_product_id,source_price_id")
         .eq("is_published", true)
         .eq("status", "published")
         .gt("stock", 0)
