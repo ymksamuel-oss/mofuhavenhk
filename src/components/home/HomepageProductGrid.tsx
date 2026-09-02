@@ -6,13 +6,33 @@ import { MarketReferencePrice } from "@/components/product/MarketReferencePrice"
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { HOME_FEATURED_PRODUCT_IDS } from "@/lib/home-featured-product-ids";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
+const PAGE_SIZE = 12;
+type PageItem = number | "ellipsis";
+
 type HomepageProductGridProps = {
   products: Product[];
 };
+
+function getPageNumbers(current: number, total: number): PageItem[] {
+  const pages = new Set<number>([1, total, current, current - 1, current + 1]);
+  if (current <= 3) [2, 3, 4].forEach((page) => pages.add(page));
+  if (current >= total - 2) [total - 3, total - 2, total - 1].forEach((page) => pages.add(page));
+
+  const sorted = Array.from(pages)
+    .filter((page) => page >= 1 && page <= total)
+    .sort((a, b) => a - b);
+  const result: PageItem[] = [];
+  sorted.forEach((page, index) => {
+    if (index > 0 && page - sorted[index - 1] > 1) result.push("ellipsis");
+    result.push(page);
+  });
+  return result;
+}
 
 /** Locale-aware homepage product section. Products are assembled by the page from Supabase. */
 export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
@@ -31,11 +51,27 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
       const normalizedLeftRank = leftRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : leftRank;
       const normalizedRightRank = rightRank === -1 ? HOME_FEATURED_PRODUCT_IDS.length : rightRank;
       return normalizedLeftRank - normalizedRightRank || left.id.localeCompare(right.id, undefined, { numeric: true });
-    })
-    .slice(0, 12);
+    });
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, pageCount);
+  const visibleProducts = products.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE,
+  );
+
+  useEffect(() => {
+    setCurrentPage((current) => Math.min(current, pageCount));
+  }, [pageCount]);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(pageCount, page)));
+    document.getElementById("homepage-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <section
+      id="homepage-products"
       aria-labelledby="homepage-products-title"
       className="border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-12 sm:px-10 sm:py-16"
     >
@@ -69,8 +105,9 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
             </CategoryNavLink>
           </div>
         ) : (
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
-            {products.map((product) => {
+          <>
+            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
+              {visibleProducts.map((product) => {
               const href = productHref(product.id);
               const discountPercent = product.originalPrice
                 ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -128,8 +165,55 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                   </div>
                 </li>
               );
-            })}
-          </ul>
+              })}
+            </ul>
+
+            <nav
+              className="mt-6 flex flex-wrap items-center justify-center gap-1.5"
+              aria-label={t("productPaginationLabel")}
+            >
+              <button
+                type="button"
+                onClick={() => goToPage(safeCurrentPage - 1)}
+                disabled={safeCurrentPage === 1}
+                aria-label={t("productPaginationPrevious")}
+                className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {t("productPaginationPrevious")}
+              </button>
+              {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
+                page === "ellipsis" ? (
+                  <span key={`ellipsis-${index}`} className="px-1 text-sm text-[color:var(--muted)]" aria-hidden="true">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => goToPage(page)}
+                    aria-current={page === safeCurrentPage ? "page" : undefined}
+                    aria-label={t("productPaginationPage").replace("{page}", String(page))}
+                    className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
+                      page === safeCurrentPage
+                        ? "bg-[color:var(--ink)] text-white"
+                        : "border border-[color:var(--line)] hover:bg-[color:var(--surface)]"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
+              <button
+                type="button"
+                onClick={() => goToPage(safeCurrentPage + 1)}
+                disabled={safeCurrentPage === pageCount}
+                aria-label={t("productPaginationNext")}
+                className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {t("productPaginationNext")}
+              </button>
+            </nav>
+          </>
         )}
       </div>
     </section>

@@ -208,16 +208,16 @@ export function ProductCatalog({
 
           <nav
             className="mt-6 flex flex-wrap items-center justify-center gap-1.5"
-            aria-label={locale === "zh" ? "產品分頁" : "Product pages"}
+            aria-label={t("productPaginationLabel")}
           >
             <button
               type="button"
               onClick={() => goToPage(safeCurrentPage - 1)}
               disabled={safeCurrentPage === 1}
-              aria-label={locale === "zh" ? "上一頁" : "Previous page"}
+              aria-label={t("productPaginationPrevious")}
               className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              ← 上一頁
+              {t("productPaginationPrevious")}
             </button>
             {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
               page === "ellipsis" ? (
@@ -230,7 +230,7 @@ export function ProductCatalog({
                   type="button"
                   onClick={() => goToPage(page)}
                   aria-current={page === safeCurrentPage ? "page" : undefined}
-                  aria-label={`${locale === "zh" ? "第" : "Page "}${page}${locale === "zh" ? "頁" : ""}`}
+                  aria-label={t("productPaginationPage").replace("{page}", String(page))}
                   className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
                     page === safeCurrentPage
                       ? "bg-[color:var(--ink)] text-white"
@@ -245,10 +245,10 @@ export function ProductCatalog({
               type="button"
               onClick={() => goToPage(safeCurrentPage + 1)}
               disabled={safeCurrentPage === pageCount}
-              aria-label={locale === "zh" ? "下一頁" : "Next page"}
+              aria-label={t("productPaginationNext")}
               className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              下一頁 →
+              {t("productPaginationNext")}
             </button>
           </nav>
         </>
