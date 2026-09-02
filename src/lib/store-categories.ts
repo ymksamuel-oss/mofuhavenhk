@@ -38,7 +38,7 @@ const CATEGORY_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   senior: "catDirectSenior",
   "wet-cans": "catSubWetCans",
   "cats-food-cans": "catSubWetCans",
-  "cat-wet-food": "catSubWetCans",
+  "cat-wet-food": "catSubWetFood",
   "freeze-dried": "catSubFreezeDried",
   "cat-feezed-dried-food": "catSubFreezeDried",
   litter: "catSubLitter",
