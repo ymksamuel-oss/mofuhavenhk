@@ -122,6 +122,10 @@ type SupabaseProductImageRow = {
   source_product_id?: string | null;
 };
 
+function isStripePriceId(value: unknown): value is string {
+  return typeof value === "string" && /^price_[A-Za-z0-9]+$/.test(value.trim());
+}
+
 /**
  * Supabase is the source of truth for product rows, but older sync runs may
  * have left `images` empty while the linked Stripe Product still has images.
@@ -802,9 +806,36 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
     const activeStripeProductIds = await getActiveStripeProductIds();
+    let pricesByProductId = new Map<string, StripePriceRecord[]>();
+    let stripePricesAvailable = false;
+    if (getStripeSecretKey()) {
+      try {
+        pricesByProductId = await listAllActiveHkdPrices(getStripe());
+        stripePricesAvailable = true;
+      } catch (error) {
+        console.warn("[catalog] Stripe HKD price lookup unavailable; stored source_price_id values will only be used as a last resort", {
+          errorName: error instanceof Error ? error.name : "unknown",
+          errorMessage: error instanceof Error ? error.message : String(error),
+        });
+      }
+    }
     const products = productResult.data
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
-      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null }) => {
+      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
+    const sourceProductId = row.source_product_id?.trim() || "";
+    const storedPriceId = isStripePriceId(row.source_price_id) ? row.source_price_id.trim() : undefined;
+    const priceRecords = sourceProductId ? pricesByProductId.get(sourceProductId) ?? [] : [];
+    const verifiedPriceRecord = storedPriceId ? priceRecords.find((price) => price.id === storedPriceId) : undefined;
+    const resolvedPriceRecord = verifiedPriceRecord ?? priceRecords[0];
+    const resolvedPriceId = resolvedPriceRecord?.id ?? (!stripePricesAvailable ? storedPriceId : undefined);
+    if (!resolvedPriceId) {
+      console.warn("[catalog] Supabase product skipped: no active Stripe HKD Price mapping", {
+        databaseProductId: row.id,
+        sourceProductId: sourceProductId || null,
+        sourcePriceId: storedPriceId || null,
+      });
+      return null;
+    }
     const dbImages = Array.isArray(row.images) ? row.images.filter((value: unknown): value is string => typeof value === "string" && isUsableCatalogImage(value.trim())).map((value) => value.trim()) : [];
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
     // Strict foreign-key resolution: the Admin-assigned category_id is the only
@@ -834,6 +865,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     });
     return {
       id: String(row.id),
+      ...(isStripeProductId(sourceProductId) ? { stripeProductId: sourceProductId } : {}),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
       categoryId: row.category_id ? String(row.category_id) : undefined,
       categorySlug,
@@ -843,7 +875,8 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         zh: translation?.name_zh || databaseNameZh,
         en: databaseNameEn,
       },
-      price: Number(row.price || 0),
+      priceId: resolvedPriceId,
+      price: resolvedPriceRecord?.amount ?? Number(row.price || 0),
       ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
       inStock: Number(row.stock || 0) > 0,
       description: databaseDescriptionZh || databaseDescriptionEn
@@ -859,7 +892,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       tags: [categorySlug, ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
       icon: iconForCategory(categorySlug),
     } satisfies Product;
-      }).filter((product) => product.price >= 0);
+      }).filter((product): product is Product => Boolean(product && product.price >= 0));
     return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {

@@ -148,6 +148,17 @@ describe("payment receipt email", () => {
     ]);
   });
 
+  it("uses the Stripe Product ID when a managed catalog row has a database UUID", () => {
+    const metadata = receiptLineMetadata([
+      { ...sampleItems[0], id: "b390ea96-c888-53bb-9142-fa45b0519c9c", stripeProductId: "prod_ABC123" },
+    ]);
+
+    expect(metadata.receiptLineItems1).toBe("prod_ABC123|price_ABC123|2");
+    expect(parseReceiptLineMetadata(metadata)).toEqual([
+      { productId: "prod_ABC123", priceId: "price_ABC123", quantity: 2 },
+    ]);
+  });
+
   it("rebuilds immutable Stripe Price line items, sends once, and records delivery on a paid intent", async () => {
     process.env.RESEND_API_KEY = "re_test_key";
     process.env.RECEIPT_FROM_EMAIL = "Mofu Haven <receipts@example.com>";

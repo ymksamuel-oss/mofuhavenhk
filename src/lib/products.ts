@@ -318,6 +318,8 @@ export type Product = {
   createdAt?: number;
   /** Active HKD Stripe Price used by Checkout for this product. */
   priceId?: string;
+  /** Stripe Product ID used to verify receipt lines when the storefront row uses a database UUID. */
+  stripeProductId?: string;
   /** Stripe metadata delivered with the catalog. `category` is the canonical taxonomy key. */
   metadata?: Record<string, string>;
   /** Database foreign key to `categories.id`; authoritative for managed storefront filtering. */

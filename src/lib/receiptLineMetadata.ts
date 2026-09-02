@@ -10,6 +10,14 @@ type ReceiptLineReference = {
   quantity: number;
 };
 
+function isStripeProductId(value: string): boolean {
+  return /^prod_[A-Za-z0-9]+$/.test(value);
+}
+
+function isStripePriceId(value: string): boolean {
+  return /^price_[A-Za-z0-9]+$/.test(value);
+}
+
 function encode(line: ReceiptLineReference): string {
   return `${line.productId}|${line.priceId}|${line.quantity}`;
 }
@@ -20,13 +28,17 @@ function encode(line: ReceiptLineReference): string {
  */
 export function receiptLineMetadata(items: readonly OrderItem[]): Record<string, string> {
   const encoded = items.map((item) => {
-    if (!item.stripePriceId) {
-      throw new Error(`Cannot create receipt metadata without Stripe Price ID: ${item.id}`);
+    if (!item.stripePriceId || !isStripePriceId(item.stripePriceId)) {
+      throw new Error(`Cannot create receipt metadata without a valid Stripe Price ID: ${item.id}`);
+    }
+    const stripeProductId = item.stripeProductId || item.id;
+    if (!isStripeProductId(stripeProductId)) {
+      throw new Error(`Cannot create receipt metadata without a valid Stripe Product ID: ${item.id}`);
     }
     if (!Number.isInteger(item.qty) || item.qty <= 0) {
       throw new Error(`Cannot create receipt metadata with invalid quantity: ${item.id}`);
     }
-    return encode({ productId: item.id, priceId: item.stripePriceId, quantity: item.qty });
+    return encode({ productId: stripeProductId, priceId: item.stripePriceId, quantity: item.qty });
   });
   const chunks: string[] = [];
   let chunk = "";

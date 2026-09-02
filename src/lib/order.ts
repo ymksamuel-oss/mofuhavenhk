@@ -6,6 +6,8 @@ export type OrderItem = {
   id: string;
   /** Active Stripe Price ID; present for live Stripe catalog products. */
   stripePriceId?: string;
+  /** Stripe Product ID used by receipt verification; separate from the storefront row id. */
+  stripeProductId?: string;
   /** Selected quantity-tier label, if the product has Stripe-backed variants. */
   variantLabel?: { zh: string; en: string };
   /** Stable shop-facing item code, distinct from Stripe Product and Price IDs. */
@@ -59,6 +61,9 @@ function orderItemFromProduct(
     lineKey: cartLineKey(product.id, stripePriceId),
     id: product.id,
     ...(stripePriceId ? { stripePriceId } : {}),
+    ...(product.stripeProductId || /^prod_[A-Za-z0-9]+$/.test(product.id)
+      ? { stripeProductId: product.stripeProductId || product.id }
+      : {}),
     ...(variant ? { variantLabel: variant.label } : {}),
     ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
     name: product.name,
