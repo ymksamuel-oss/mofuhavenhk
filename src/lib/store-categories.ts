@@ -65,7 +65,7 @@ export function categoryDisplayName(
 ): string {
   const key = CATEGORY_TRANSLATION_KEYS[category.slug];
   if (key) return t(key);
-  if (t("langEn") !== "EN") return category.name;
+  if (t("langZh") === "中") return category.name;
   return category.slug
     .split("-")
     .filter(Boolean)
