@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
@@ -8,11 +8,6 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import {
-  categoryDescendantIds,
-  categoryDisplayName,
-  findCategoryBySlug,
-} from "@/lib/store-categories";
 import { productHref } from "@/lib/products";
 
 const PAGE_SIZE = 12;
@@ -82,23 +77,10 @@ export function ProductCatalog({
   snackSeries,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
-  const { products: catalogProducts, categories } = useCatalog();
-  const selectedCategory = useMemo(() => {
-    if (!categorySlug) return null;
-    const parent = findCategoryBySlug(categories, categorySlug);
-    if (!parent || typeof subcategory !== "string" || !subcategory.trim()) return parent;
-    return parent.children.find((child) => child.slug === subcategory.trim().toLowerCase()) ?? null;
-  }, [categories, categorySlug, subcategory]);
-  const selectedCategoryIds = useMemo(
-    () => categoryDescendantIds(selectedCategory),
-    [selectedCategory],
-  );
-  const products = useMemo(() => {
-    if (!categorySlug) return catalogProducts;
-    return catalogProducts.filter((product) =>
-      Boolean(product.categoryId) && selectedCategoryIds.has(product.categoryId as string),
-    );
-  }, [categorySlug, catalogProducts, selectedCategoryIds]);
+  const { products: catalogProducts } = useCatalog();
+  // Category routes are presentation-only. Render the products payload exactly
+  // as mapped from Supabase instead of traversing parent/child category cards.
+  const products = catalogProducts;
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
@@ -119,7 +101,7 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = selectedCategory ? categoryDisplayName(selectedCategory, t) : t("menuTitle");
+  const title = t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>
