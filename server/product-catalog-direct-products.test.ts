@@ -10,6 +10,8 @@ describe("category product catalog", () => {
     const productCatalog = source();
 
     expect(productCatalog).toContain("const products = catalogProducts;");
+    expect(productCatalog).toContain("const imageUrl = product.images?.[0] ?? product.image;");
+    expect(productCatalog).toContain("src={imageUrl}");
     expect(productCatalog).not.toContain("categoryDescendantIds");
     expect(productCatalog).not.toContain("findCategoryBySlug");
     expect(productCatalog).not.toContain("parent.children.find");

@@ -116,6 +116,9 @@ export function ProductCatalog({
                 : null;
               const badge = getProductBadge(product);
               const href = productHref(product.id);
+              // The URL is resolved inside this map iteration, so every card
+              // receives its own Supabase-mapped primary image.
+              const imageUrl = product.images?.[0] ?? product.image;
               return (
                 <li
                   key={product.id}
@@ -128,7 +131,8 @@ export function ProductCatalog({
                       className="absolute inset-0 block"
                     >
                       <ProductImage
-                        src={product.image}
+                        key={`${product.id}-${imageUrl}`}
+                        src={imageUrl}
                         alt={product.name[locale]}
                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
