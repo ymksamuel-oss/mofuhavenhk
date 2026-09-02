@@ -31,13 +31,18 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems } = useCart();
   const { products } = useCatalog();
-  const family = getProductFlavorFamily(product.id);
+  const family = getProductFlavorFamily(product.stripeProductId ?? product.id);
   const [selectedProductId, setSelectedProductId] = useState(product.id);
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
 
   const familyChoices = useMemo<FamilyChoice[]>(() => {
     if (!family) return [];
-    const catalogById = new Map(products.map((candidate) => [candidate.id, candidate]));
+    const catalogById = new Map(
+      products.flatMap((candidate) => [
+        [candidate.id, candidate] as const,
+        ...(candidate.stripeProductId ? [[candidate.stripeProductId, candidate] as const] : []),
+      ]),
+    );
     return family.choices.flatMap((choice) => {
       const candidate = catalogById.get(choice.productId);
       return candidate ? [{ product: candidate, label: choice.label }] : [];
