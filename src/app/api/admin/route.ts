@@ -3,11 +3,21 @@ import { cookies } from "next/headers";
 import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword, verifyAdminToken } from "@/lib/admin-auth";
 import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { FEATURED_PET_GALLERY_SETTING_KEY, isFeaturedPetLink, MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 4;
+
+type FeaturedPetPayload = {
+  image_url: string;
+  title: string;
+  description: string;
+  link: string | null;
+  sort_order: number;
+  is_published: boolean;
+};
 
 type BannerPayload = {
   image_url: string;
@@ -53,6 +63,61 @@ function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error
   return { banners };
 }
 
+function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]; error?: string } {
+  if (!Array.isArray(value)) return { pets: [], error: "invalid_featured_pets" };
+  if (value.length > MAX_FEATURED_PETS) return { pets: [], error: `最多只可儲存 ${MAX_FEATURED_PETS} 個精選寵物內容槽` };
+
+  const pets: FeaturedPetPayload[] = [];
+  const usedSortOrders = new Set<number>();
+  for (const [index, valueAtIndex] of value.entries()) {
+    if (!valueAtIndex || typeof valueAtIndex !== "object" || Array.isArray(valueAtIndex)) {
+      return { pets: [], error: `第 ${index + 1} 個內容槽格式不正確` };
+    }
+
+    const row = valueAtIndex as Record<string, unknown>;
+    const imageUrl = typeof row.image_url === "string" ? row.image_url.trim() : "";
+    const title = typeof row.title === "string" ? row.title.trim() : "";
+    const description = typeof row.description === "string" ? row.description.trim() : "";
+    const link = typeof row.link === "string" ? row.link.trim() : "";
+    const sortOrder = Number(row.sort_order);
+
+    if (!/^https?:\/\//i.test(imageUrl)) return { pets: [], error: `第 ${index + 1} 個內容槽必須提供有效圖片網址` };
+    if (!title) return { pets: [], error: `第 ${index + 1} 個內容槽必須填寫標題` };
+    if (!description) return { pets: [], error: `第 ${index + 1} 個內容槽必須填寫詳細描述` };
+    if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) {
+      return { pets: [], error: `第 ${index + 1} 個內容槽的排序必須是 0 或以上的整數` };
+    }
+    if (usedSortOrders.has(sortOrder)) return { pets: [], error: `精選寵物排序不可重複（第 ${index + 1} 個內容槽）` };
+    if (link && !isFeaturedPetLink(link)) return { pets: [], error: `第 ${index + 1} 個內容槽的連結必須以 /、http:// 或 https:// 開頭` };
+
+    usedSortOrders.add(sortOrder);
+    pets.push({
+      image_url: imageUrl.slice(0, 2_000),
+      title: title.slice(0, 160),
+      description: description.slice(0, 2_000),
+      link: link ? link.slice(0, 2_000) : null,
+      sort_order: sortOrder,
+      is_published: row.is_published !== false,
+    });
+  }
+  return { pets };
+}
+
+async function replaceFeaturedPets(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  pets: FeaturedPetPayload[],
+) {
+  return supabase
+    .from("store_settings")
+    .upsert({
+      key: FEATURED_PET_GALLERY_SETTING_KEY,
+      value: JSON.stringify(pets),
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "key" })
+    .select("key,value,updated_at")
+    .single();
+}
+
 async function replaceBanners(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
   banners: BannerPayload[],
@@ -91,9 +156,23 @@ function normalizeProductImages(value: unknown): string[] {
 
 export async function GET(request: Request) {
   const table = new URL(request.url).searchParams.get("table") || "";
-  if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
+  if (!tables.has(table) && table !== "featured_pets") return NextResponse.json({ error: "invalid_table" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  if (table === "featured_pets") {
+    const { data, error } = await supabase
+      .from("store_settings")
+      .select("value")
+      .eq("key", FEATURED_PET_GALLERY_SETTING_KEY)
+      .maybeSingle();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    try {
+      const entries = data?.value ? JSON.parse(data.value) : [];
+      return NextResponse.json({ data: Array.isArray(entries) ? entries : [] });
+    } catch {
+      return NextResponse.json({ data: [] });
+    }
+  }
   let query = supabase.from(table).select("*");
   if (table === "categories" || table === "banners") query = query.order("sort_order", { ascending: true });
   if (table === "orders" || table === "products") query = query.order("created_at", { ascending: false });
@@ -122,6 +201,15 @@ export async function POST(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   if (body.action === "logout") { const response = NextResponse.json({ ok: true }); response.cookies.set(ADMIN_COOKIE, "", { httpOnly: true, expires: new Date(0), path: "/" }); return response; }
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
+
+  if (body.action === "replace_featured_pets") {
+    const { pets, error: validationError } = normalizeFeaturedPetBatch(body.pets);
+    if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
+
+    const { data, error } = await replaceFeaturedPets(supabase, pets);
+    if (error) return NextResponse.json({ error: `精選寵物內容儲存失敗：${error.message}` }, { status: 500 });
+    return NextResponse.json({ data, count: pets.length });
+  }
 
   if (body.action === "replace_banners") {
     const { banners, error: validationError } = normalizeBannerBatch(body.banners);

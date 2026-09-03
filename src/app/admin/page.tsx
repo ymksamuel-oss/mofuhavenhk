@@ -4,13 +4,42 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 type Row = Record<string, any>;
-type Tab = "products" | "categories" | "banners" | "coupons" | "orders" | "store_settings";
+type Tab = "products" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
 
 const PAGE_SIZE = 20;
 const MAX_PRODUCT_IMAGES = 8;
 const BANNER_SLOT_COUNT = 4;
+
+type FeaturedPetSlot = {
+  image_url: string;
+  title: string;
+  description: string;
+  link: string;
+  sort_order: number;
+  is_published: boolean;
+};
+
+function emptyFeaturedPetSlot(sortOrder: number): FeaturedPetSlot {
+  return { image_url: "", title: "", description: "", link: "", sort_order: sortOrder, is_published: true };
+}
+
+function toFeaturedPetSlots(rows: Row[]): FeaturedPetSlot[] {
+  const slots = Array.from({ length: MAX_FEATURED_PETS }, (_, index) => emptyFeaturedPetSlot(index + 1));
+  rows.slice(0, MAX_FEATURED_PETS).forEach((row, index) => {
+    slots[index] = {
+      image_url: String(row.image_url || ""),
+      title: String(row.title || ""),
+      description: String(row.description || ""),
+      link: String(row.link || ""),
+      sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index + 1,
+      is_published: row.is_published !== false,
+    };
+  });
+  return slots;
+}
 
 type BannerSlot = {
   image_url: string;
@@ -62,6 +91,7 @@ const tabs: { id: Tab; label: string }[] = [
   { id: "products", label: "產品管理" },
   { id: "categories", label: "分類卡片" },
   { id: "banners", label: "Banner 輪播" },
+  { id: "featured_pets", label: "精選寵物專區" },
   { id: "coupons", label: "優惠碼" },
   { id: "orders", label: "訂單管理" },
   { id: "store_settings", label: "系統與 API" },
@@ -183,6 +213,9 @@ export default function AdminPage() {
   const [bannerSlots, setBannerSlots] = useState<BannerSlot[]>(() => toBannerSlots([]));
   const [bannerSaving, setBannerSaving] = useState(false);
   const [bannerNotice, setBannerNotice] = useState("");
+  const [featuredPetSlots, setFeaturedPetSlots] = useState<FeaturedPetSlot[]>(() => toFeaturedPetSlots([]));
+  const [featuredPetSaving, setFeaturedPetSaving] = useState(false);
+  const [featuredPetNotice, setFeaturedPetNotice] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [productQuery, setProductQuery] = useState("");
@@ -201,6 +234,9 @@ export default function AdminPage() {
       setRows(loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
+      }
+      if (selected === "featured_pets") {
+        setFeaturedPetSlots(toFeaturedPetSlots(loadedRows));
       }
       if (selected === "categories") {
         setCategories(result.data || []);
@@ -278,6 +314,51 @@ export default function AdminPage() {
       await load();
     } catch (e: any) {
       setError(e.message);
+    }
+  }
+
+  async function saveFeaturedPetBatch() {
+    const hasIncompleteSlot = featuredPetSlots.some((slot) => {
+      const hasImage = slot.image_url.trim().length > 0;
+      const hasOtherContent = Boolean(slot.title.trim() || slot.description.trim() || slot.link.trim());
+      return !hasImage && hasOtherContent;
+    });
+    if (hasIncompleteSlot) {
+      setError("如某一個內容槽已填寫標題、描述或連結，必須同時提供圖片。");
+      return;
+    }
+
+    const pets = featuredPetSlots
+      .filter((slot) => slot.image_url.trim())
+      .map((slot) => ({
+        image_url: slot.image_url.trim(),
+        title: slot.title.trim(),
+        description: slot.description.trim(),
+        link: slot.link.trim(),
+        sort_order: Number.isFinite(slot.sort_order) ? Math.trunc(slot.sort_order) : 0,
+        is_published: slot.is_published,
+      }));
+    const sortOrders = pets.map((pet) => pet.sort_order);
+    if (sortOrders.some((sortOrder) => sortOrder < 0) || new Set(sortOrders).size !== sortOrders.length) {
+      setError("已填寫的精選寵物內容必須使用不重複且為 0 或以上的整數排序。");
+      return;
+    }
+    if (pets.some((pet) => !pet.title || !pet.description)) {
+      setError("每個已填寫圖片的內容槽必須同時提供標題及詳細描述。");
+      return;
+    }
+
+    setFeaturedPetSaving(true);
+    setError("");
+    setFeaturedPetNotice("");
+    try {
+      const result = await call("POST", { action: "replace_featured_pets", pets });
+      setFeaturedPetNotice(result.count === 0 ? "已清空精選寵物專區，首頁不會顯示任何寫真。" : `已儲存 ${result.count} 個精選寵物內容，首頁會即時更新。`);
+      await load("featured_pets");
+    } catch (e: any) {
+      setError(e.message || "精選寵物內容儲存失敗");
+    } finally {
+      setFeaturedPetSaving(false);
     }
   }
 
@@ -389,7 +470,7 @@ export default function AdminPage() {
               <p className="text-sm text-[#8b7c70]">網站內容</p>
               <h2 className="text-3xl font-semibold">{title}</h2>
             </div>
-            {tab !== "orders" && tab !== "banners" && (
+            {tab !== "orders" && tab !== "banners" && tab !== "featured_pets" && (
               <button onClick={() => setForm(defaultRow(tab))} className="shrink-0 rounded-xl bg-[#a36b42] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">新增</button>
             )}
           </div>
@@ -441,9 +522,17 @@ export default function AdminPage() {
               saving={bannerSaving}
               notice={bannerNotice}
             />
+          ) : tab === "featured_pets" ? (
+            <FeaturedPetBatchEditor
+              slots={featuredPetSlots}
+              onChange={setFeaturedPetSlots}
+              onSave={saveFeaturedPetBatch}
+              saving={featuredPetSaving}
+              notice={featuredPetNotice}
+            />
           ) : form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} onSave={save} onCancel={() => setForm(null)} />}
 
-          {loading ? (
+          {tab !== "featured_pets" && (loading ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">載入中…</div>
           ) : visibleRows.length === 0 && !form ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">
@@ -560,7 +649,7 @@ export default function AdminPage() {
                 </nav>
               )}
             </>
-          )}
+          ))}
         </main>
       </div>
     </div>
@@ -826,6 +915,127 @@ function BannerBatchEditor({
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <button onClick={onSave} disabled={saving || Boolean(uploadingSlot)} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存全部 Banner"}</button>
         <span className="text-xs text-[#8b7c70]">有桌面版圖片的欄位會依「排序」由小至大顯示；已填寫的 Banner 不可使用相同排序。</span>
+      </div>
+    </section>
+  );
+}
+
+
+function FeaturedPetBatchEditor({
+  slots,
+  onChange,
+  onSave,
+  saving,
+  notice,
+}: {
+  slots: FeaturedPetSlot[];
+  onChange: (slots: FeaturedPetSlot[]) => void;
+  onSave: () => void;
+  saving: boolean;
+  notice: string;
+}) {
+  const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
+  const [uploadError, setUploadError] = useState("");
+
+  function updateSlot(index: number, patch: Partial<FeaturedPetSlot>) {
+    onChange(slots.map((slot, slotIndex) => (slotIndex === index ? { ...slot, ...patch } : slot)));
+  }
+
+  async function uploadPetImage(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setUploadError("");
+    setUploadingSlot(index);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      const response = await fetch("/api/admin/upload", { method: "POST", body: data });
+      const result = await response.json();
+      if (!response.ok || typeof result.url !== "string" || !result.url.trim()) {
+        throw new Error(result.error || "圖片上傳失敗");
+      }
+      updateSlot(index, { image_url: result.url.trim() });
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
+    } finally {
+      setUploadingSlot(null);
+    }
+  }
+
+  return (
+    <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
+      <div className="mb-5 max-w-3xl">
+        <p className="text-sm font-semibold text-[#2f4a3c]">精選寵物專區內容管理</p>
+        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過管理最多 {MAX_FEATURED_PETS} 個首頁內容槽。每個已使用的槽位均需填寫高清圖片、標題及詳細描述；連結及是否顯示則按需要設定。儲存後，首頁「精選寵物專區」會直接使用本頁的內容。</p>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-2">
+        {slots.map((slot, index) => {
+          const uploading = uploadingSlot === index;
+          return (
+            <fieldset key={index} className="rounded-2xl border border-[#eaded5] bg-[#fffdfa] p-4">
+              <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">內容槽 {index + 1}</legend>
+              <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">高清寵物圖片 <span className="text-red-600">*</span></label>
+                  <div className="aspect-[4/3] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
+                    {slot.image_url ? <img src={slot.image_url} alt={`內容槽 ${index + 1} 預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-4 text-center text-xs leading-5 text-[#a89587]">建議使用高畫質、寬幅橫向寵物相片</div>}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => uploadPetImage(event, index)}
+                    disabled={uploadingSlot !== null}
+                    className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
+                  />
+                  {uploading && <p className="text-xs text-[#a36b42]">圖片上傳中…</p>}
+                  <input
+                    aria-label={`內容槽 ${index + 1} 圖片 URL`}
+                    value={slot.image_url}
+                    onChange={(event) => updateSlot(index, { image_url: event.target.value })}
+                    placeholder="或貼上圖片 URL"
+                    className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <label className="block text-sm">
+                    <span className="mb-1 block font-medium">標題 <span className="text-red-600">*</span></span>
+                    <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="例如：午後陽光下的小夥伴" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                  </label>
+                  <label className="block text-sm">
+                    <span className="mb-1 block font-medium">點擊連結 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                    <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="例如：/menu 或 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <label className="block text-sm">
+                      <span className="mb-1 block font-medium">排序</span>
+                      <input type="number" min="0" step="1" value={slot.sort_order} onChange={(event) => updateSlot(index, { sort_order: Number(event.target.value) })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                    </label>
+                    <label className="flex items-end gap-2 pb-2 text-sm">
+                      <input type="checkbox" checked={slot.is_published} onChange={(event) => updateSlot(index, { is_published: event.target.checked })} />
+                      前台顯示
+                    </label>
+                  </div>
+                </div>
+
+                <label className="block text-sm sm:col-span-2">
+                  <span className="mb-1 block font-medium">詳細描述 <span className="text-red-600">*</span></span>
+                  <textarea value={slot.description} onChange={(event) => updateSlot(index, { description: event.target.value })} rows={4} placeholder="寫下這位毛孩的個性、日常或推廣內容…" className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm leading-6 outline-none focus:border-[#a36b42]" />
+                </label>
+              </div>
+            </fieldset>
+          );
+        })}
+      </div>
+
+      {uploadError && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{uploadError}</p>}
+      {notice && <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{notice}</p>}
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <button onClick={onSave} disabled={saving || uploadingSlot !== null} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存所有精選內容"}</button>
+        <span className="text-xs text-[#8b7c70]">有圖片的內容槽會依「排序」由小至大展示；清空所有圖片後儲存，即可從首頁移除整個內容集。</span>
       </div>
     </section>
   );

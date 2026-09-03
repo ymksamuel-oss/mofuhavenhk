@@ -1,19 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
-import { ExplorePetWorldGallery, type AnimalTab, type DogCoatFilter } from "@/components/about/ExplorePetWorldGallery";
 import { HomeProductMarquee } from "@/components/home/HomeProductMarquee";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function HomeInteractiveSections() {
   const { t } = useI18n();
-  const [exploreAnimal, setExploreAnimal] = useState<AnimalTab>("cats");
-  const [dogCoatFilter, setDogCoatFilter] = useState<DogCoatFilter>("all");
-
   return (
     <>
       <HomeProductMarquee />
@@ -65,7 +60,6 @@ export function HomeInteractiveSections() {
               <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
             </CategoryNavLink>
           </div>
-          <ExplorePetWorldGallery animal={exploreAnimal} dogCoat={dogCoatFilter} />
         </div>
       </section>
       <section className="bg-[color:var(--background)] px-6 py-11 sm:px-10 sm:py-16">
