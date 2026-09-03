@@ -1,6 +1,6 @@
 import { canonicalCategorySlug, type CategoryIconName } from "@/lib/categories";
 
-import type { TranslationKey } from "./i18n/translations";
+import type { Locale } from "./i18n/translations";
 
 export type StoreCategoryRow = {
   id: string;
@@ -24,10 +24,9 @@ const DEFAULT_ICON: CategoryIconName = "bone";
 
 export function categoryDisplayName(
   category: StoreCategory,
-  t: (key: TranslationKey) => string,
+  locale: Locale,
 ): string {
-  const isChinese = t("langZh") === "中";
-  const localized = isChinese ? category.name_zh : category.name_en;
+  const localized = locale === "en" ? category.name_en : category.name_zh;
   return localized?.trim() || category.name.trim();
 }
 

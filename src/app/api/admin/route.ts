@@ -13,7 +13,9 @@ const MAX_BANNERS = 4;
 type FeaturedPetPayload = {
   image_url: string;
   title: string;
+  title_en: string | null;
   description: string;
+  description_en: string | null;
   link: string | null;
   sort_order: number;
   is_published: boolean;
@@ -77,7 +79,9 @@ function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]
     const row = valueAtIndex as Record<string, unknown>;
     const imageUrl = typeof row.image_url === "string" ? row.image_url.trim() : "";
     const title = typeof row.title === "string" ? row.title.trim() : "";
+    const titleEn = typeof row.title_en === "string" ? row.title_en.trim() : "";
     const description = typeof row.description === "string" ? row.description.trim() : "";
+    const descriptionEn = typeof row.description_en === "string" ? row.description_en.trim() : "";
     const link = typeof row.link === "string" ? row.link.trim() : "";
     const sortOrder = Number(row.sort_order);
 
@@ -94,7 +98,9 @@ function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]
     pets.push({
       image_url: imageUrl.slice(0, 2_000),
       title: title.slice(0, 160),
+      title_en: titleEn ? titleEn.slice(0, 160) : null,
       description: description.slice(0, 2_000),
+      description_en: descriptionEn ? descriptionEn.slice(0, 2_000) : null,
       link: link ? link.slice(0, 2_000) : null,
       sort_order: sortOrder,
       is_published: row.is_published !== false,

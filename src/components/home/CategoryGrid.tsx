@@ -32,9 +32,9 @@ function renderChildren(
 }
 
 export function CategoryGrid() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { categories } = useCatalog();
-  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, t);
+  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, locale);
   const topLevelCategories = categories.filter((category) => category.parent_id === null);
 
   return (

@@ -261,7 +261,7 @@ export function Header() {
 
   const isCategoryActive = (category: StoreCategory) =>
     pathname === `/categories/${category.slug}` || pathname.startsWith(`/categories/${category.slug}/`);
-  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, t);
+  const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, locale);
 
   const mobileMenu =
     menuOpen && portalReady

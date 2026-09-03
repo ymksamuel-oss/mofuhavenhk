@@ -4,7 +4,9 @@ export const MAX_FEATURED_PETS = 12;
 export type FeaturedPet = {
   image_url: string;
   title: string;
+  title_en: string | null;
   description: string;
+  description_en: string | null;
   link: string | null;
   sort_order: number;
   is_published: boolean;
@@ -44,7 +46,9 @@ export function parseFeaturedPets(value: unknown): FeaturedPet[] {
       const row = item as Record<string, unknown>;
       const imageUrl = asText(row.image_url, 2_000);
       const title = asText(row.title, 160);
+      const titleEn = asText(row.title_en, 160);
       const description = asText(row.description, 2_000);
+      const descriptionEn = asText(row.description_en, 2_000);
       const candidateLink = asText(row.link, 2_000);
       const sortOrder = Number(row.sort_order);
       if (!isHttpUrl(imageUrl) || !title || !description || !Number.isInteger(sortOrder) || sortOrder < 0) continue;
@@ -53,7 +57,9 @@ export function parseFeaturedPets(value: unknown): FeaturedPet[] {
       bySortOrder.set(sortOrder, {
         image_url: imageUrl,
         title,
+        title_en: titleEn || null,
         description,
+        description_en: descriptionEn || null,
         link: candidateLink && isFeaturedPetLink(candidateLink) ? candidateLink : null,
         sort_order: sortOrder,
         is_published: row.is_published !== false,
