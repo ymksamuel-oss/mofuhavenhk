@@ -4,6 +4,11 @@ import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword, verifyAdminToken }
 import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { FEATURED_PET_GALLERY_SETTING_KEY, isFeaturedPetLink, MAX_FEATURED_PETS } from "@/lib/featured-pets";
+import {
+  CATEGORY_LOCALIZATIONS_SETTING_KEY,
+  normalizeCategoryLocalization,
+  parseCategoryLocalizations,
+} from "@/lib/category-localizations";
 
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -124,6 +129,34 @@ async function replaceFeaturedPets(
     .single();
 }
 
+async function upsertCategoryLocalization(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  id: string,
+  candidate: unknown,
+) {
+  const { data: existing, error: readError } = await supabase
+    .from("store_settings")
+    .select("value")
+    .eq("key", CATEGORY_LOCALIZATIONS_SETTING_KEY)
+    .maybeSingle();
+  if (readError) return { data: null, error: readError };
+
+  const localizations = parseCategoryLocalizations(existing?.value);
+  const next = {
+    ...localizations,
+    [id]: normalizeCategoryLocalization(candidate),
+  };
+  return supabase
+    .from("store_settings")
+    .upsert({
+      key: CATEGORY_LOCALIZATIONS_SETTING_KEY,
+      value: JSON.stringify(next),
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "key" })
+    .select("key,value,updated_at")
+    .single();
+}
+
 async function replaceBanners(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
   banners: BannerPayload[],
@@ -186,6 +219,15 @@ export async function GET(request: Request) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   let rows = data || [];
+  if (table === "categories") {
+    const { data: localizationSetting } = await supabase
+      .from("store_settings")
+      .select("value")
+      .eq("key", CATEGORY_LOCALIZATIONS_SETTING_KEY)
+      .maybeSingle();
+    const localizations = parseCategoryLocalizations(localizationSetting?.value);
+    rows = rows.map((row) => ({ ...row, ...(localizations[String(row.id)] || {}) }));
+  }
   if (table === "products") {
     const stripeImages = await getStripeImagesForSupabaseRows(rows);
     rows = rows.map((row) => {
@@ -229,9 +271,15 @@ export async function POST(request: Request) {
   const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
   if (table === "banners") return NextResponse.json({ error: "請使用四格 Banner 批量儲存功能。" }, { status: 400 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
+  const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
+  if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (table === "categories" && categoryLocalization) {
+    const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
+    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+  }
 
   return NextResponse.json({ data });
 }
@@ -242,10 +290,17 @@ export async function PATCH(request: Request) {
   if (!tables.has(table) || (!id && !(table === "store_settings" && key))) return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}), ...(table === "store_settings" ? { updated_at: new Date().toISOString() } : {}) }; delete payload.id; delete payload.created_at;
+  const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
+  if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 }); return NextResponse.json({ data });
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (table === "categories" && categoryLocalization) {
+    const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
+    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+  }
+  return NextResponse.json({ data });
 }
 
 export async function DELETE(request: Request) {

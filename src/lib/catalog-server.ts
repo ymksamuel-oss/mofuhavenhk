@@ -33,6 +33,11 @@ import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
 import { databaseProductImageUrls } from "@/lib/catalog-images";
+import {
+  applyCategoryLocalizations,
+  CATEGORY_LOCALIZATIONS_SETTING_KEY,
+  parseCategoryLocalizations,
+} from "@/lib/category-localizations";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -827,7 +832,19 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       });
       return null;
     }
-    const categoryTree = buildCategoryTree(categoryResult.data || []);
+    const rawCategoryTree = buildCategoryTree(categoryResult.data || []);
+    const adminSupabase = getSupabaseAdmin();
+    const localizedCategoryResult = adminSupabase
+      ? await adminSupabase
+        .from("store_settings")
+        .select("value")
+        .eq("key", CATEGORY_LOCALIZATIONS_SETTING_KEY)
+        .maybeSingle()
+      : null;
+    const categoryTree = applyCategoryLocalizations(
+      rawCategoryTree,
+      parseCategoryLocalizations(localizedCategoryResult?.data?.value),
+    );
     if (!productResult.data?.length) {
       console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
         categories: categoryResult.data?.length ?? 0,
