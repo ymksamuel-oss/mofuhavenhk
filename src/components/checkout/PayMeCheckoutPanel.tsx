@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import type { PayMeCheckoutSettings } from "@/lib/payme-checkout-settings";
@@ -21,9 +20,9 @@ export function PayMeCheckoutPanel({
   onConfirmPayment,
 }: PayMeCheckoutPanelProps) {
   const { locale, t } = useI18n();
-  const ready = Boolean(settings.payLink && settings.payCodeImageUrl);
+  const ready = Boolean(settings.payLink);
 
-  if (!ready || !settings.payLink || !settings.payCodeImageUrl) {
+  if (!ready || !settings.payLink) {
     return (
       <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm leading-relaxed text-amber-900">
         <p className="font-semibold">{t("payMeUnavailableTitle")}</p>
@@ -70,21 +69,6 @@ export function PayMeCheckoutPanel({
         {t("payMeOpenAppCta")}
       </a>
       <p className="mt-2 text-center text-xs leading-relaxed text-[color:var(--muted)]">{t("payMeOpenAppHint")}</p>
-
-      <div className="mt-5 border-t border-[#f4d8da] pt-4">
-        <p className="text-sm font-semibold text-[color:var(--ink)]">{t("payMePayCodeTitle")}</p>
-        <p className="mt-1 text-xs leading-relaxed text-[color:var(--muted)]">{t("payMePayCodeHint")}</p>
-        <div className="mx-auto mt-3 max-w-[14rem] overflow-hidden rounded-2xl border border-[#f2dddd] bg-white p-1.5 shadow-sm">
-          <Image
-            src={settings.payCodeImageUrl}
-            alt={t("payMePayCodeAlt").replace("{merchant}", settings.merchantName || "Mofu Havenhk")}
-            width={944}
-            height={2048}
-            sizes="224px"
-            className="h-auto w-full rounded-xl"
-          />
-        </div>
-      </div>
 
       <div className="mt-4 rounded-xl bg-[#fff1f2] p-3 text-xs leading-relaxed text-[#7e2632]">
         <p className="font-semibold">{t("payMeVerificationTitle")}</p>

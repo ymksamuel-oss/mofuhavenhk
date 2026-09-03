@@ -1,18 +1,15 @@
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 export const PAYME_PAY_LINK_SETTING_KEY = "payme_pay_link";
-export const PAYME_PAYCODE_IMAGE_SETTING_KEY = "payme_paycode_image";
 export const PAYME_MERCHANT_NAME_SETTING_KEY = "payme_merchant_name";
 
 export type PayMeCheckoutSettings = {
   payLink: string | null;
-  payCodeImageUrl: string | null;
   merchantName: string | null;
 };
 
 export const EMPTY_PAYME_CHECKOUT_SETTINGS: PayMeCheckoutSettings = {
   payLink: null,
-  payCodeImageUrl: null,
   merchantName: null,
 };
 
@@ -32,23 +29,10 @@ function isSafePayMeLink(value: string | null): value is string {
   }
 }
 
-function isSafeImageSource(value: string | null): value is string {
-  if (!value) return false;
-  if (value.startsWith("/")) return true;
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
 export function parsePayMeCheckoutSettings(settings: Record<string, unknown>): PayMeCheckoutSettings {
   const payLinkCandidate = cleanText(settings[PAYME_PAY_LINK_SETTING_KEY], 1024);
-  const imageCandidate = cleanText(settings[PAYME_PAYCODE_IMAGE_SETTING_KEY], 2048);
   return {
     payLink: isSafePayMeLink(payLinkCandidate) ? payLinkCandidate : null,
-    payCodeImageUrl: isSafeImageSource(imageCandidate) ? imageCandidate : null,
     merchantName: cleanText(settings[PAYME_MERCHANT_NAME_SETTING_KEY], 160),
   };
 }
@@ -62,7 +46,6 @@ export async function getPayMeCheckoutSettings(): Promise<PayMeCheckoutSettings>
     .select("key,value")
     .in("key", [
       PAYME_PAY_LINK_SETTING_KEY,
-      PAYME_PAYCODE_IMAGE_SETTING_KEY,
       PAYME_MERCHANT_NAME_SETTING_KEY,
     ]);
   if (error) {
