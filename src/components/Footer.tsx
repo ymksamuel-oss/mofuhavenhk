@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
 import {
@@ -280,6 +281,12 @@ function ContactBlock({
 
   return (
     <ul className="space-y-3">
+      <li className="flex items-center gap-2 pb-1">
+        <span className="relative h-9 w-12 shrink-0 overflow-hidden rounded-lg bg-[#f5e9dc]/70">
+          <Image src="/images/mofu-visuals/icons/support.jpg" alt="" fill sizes="48px" className="object-cover" />
+        </span>
+        <span className="text-xs font-medium tracking-[0.04em] text-[#72533f]">{t("footerContact")}</span>
+      </li>
       <li>
         {waUrl ? (
           <a

@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import type { FeaturedPet } from "@/lib/featured-pets";
 
 type FeaturedPetGalleryProps = {
@@ -19,8 +20,10 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
 
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-3xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#d8c9bb] bg-white/75 px-4 py-2 text-xs font-semibold tracking-[0.18em] text-[#95705b] shadow-sm">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+          <p className="inline-flex items-center gap-2 rounded-full border border-[#d8c9bb] bg-white/75 px-3 py-1.5 text-xs font-semibold tracking-[0.18em] text-[#95705b] shadow-sm">
+            <span className="relative h-6 w-8 overflow-hidden rounded-md bg-[#f7efe7]">
+              <Image src="/images/mofu-visuals/icons/featured.jpg" alt="" fill sizes="32px" className="object-cover" />
+            </span>
             FEATURED PET GALLERY
           </p>
           <h2 className="mt-5 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[0.04em] text-[#3f3029] sm:text-5xl">
@@ -53,11 +56,11 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
                     <h3 className="max-w-2xl font-[family-name:var(--font-display)] text-2xl font-semibold tracking-wide text-white sm:text-3xl">
                       {pet.title}
                     </h3>
-                    <p className="mt-2 line-clamp-3 max-w-2xl text-sm leading-6 text-white/85 sm:text-base">
+                    <p className="mt-2 line-clamp-3 max-w-2xl text-sm leading-6 text-white/85 transition-all duration-300 sm:max-h-0 sm:translate-y-2 sm:opacity-0 sm:text-base group-hover:sm:max-h-24 group-hover:sm:translate-y-0 group-hover:sm:opacity-100 group-focus-within:sm:max-h-24 group-focus-within:sm:translate-y-0 group-focus-within:sm:opacity-100">
                       {pet.description}
                     </p>
                     {href ? (
-                      <span className="mt-5 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white transition-transform duration-300 group-hover:translate-x-1">
+                      <span className="mt-3 inline-flex w-fit items-center gap-2 text-sm font-semibold text-white transition-transform duration-300 sm:mt-5 group-hover:translate-x-1">
                         探索更多 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                       </span>
                     ) : null}

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
@@ -68,9 +69,14 @@ export function ShippingPolicyPage() {
           <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--accent)]">
             {t("shippingPolicyEyebrow")}
           </p>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
-            {t("shippingPolicyTitle")}
-          </h1>
+          <div className="flex items-center gap-3">
+            <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-xl bg-[#f8f0e7]">
+              <Image src="/images/mofu-visuals/icons/delivery.jpg" alt="" fill sizes="56px" className="object-cover" />
+            </span>
+            <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
+              {t("shippingPolicyTitle")}
+            </h1>
+          </div>
           <p className="mt-3 text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
             {t("shippingPolicyIntro")}
           </p>

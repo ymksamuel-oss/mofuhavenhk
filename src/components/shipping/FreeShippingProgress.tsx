@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
@@ -43,8 +44,11 @@ export function FreeShippingProgress({
       aria-label={t("freeShippingProgressLabel")}
     >
       <div className="flex items-start justify-between gap-3">
+        <div className="relative mt-0.5 h-9 w-11 shrink-0 overflow-hidden rounded-lg bg-white/65">
+          <Image src="/images/mofu-visuals/icons/free-shipping.jpg" alt="" fill sizes="44px" className="object-cover" />
+        </div>
         <p
-          className={`min-w-0 text-sm font-semibold leading-snug ${
+          className={`min-w-0 flex-1 text-sm font-semibold leading-snug ${
             reached ? "text-emerald-800" : "text-[color:var(--ink)]"
           }`}
         >

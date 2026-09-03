@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
@@ -117,6 +118,7 @@ export default async function RootLayout({
           <CatalogProvider products={products} categories={categories}>
             <CartProvider>
               <Header />
+              <BrandServiceStrip />
               <ShopFlowNav>
                 <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
                   {children}
