@@ -671,7 +671,7 @@ function CheckoutContent() {
           ) : null}
 
           <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-            {t("secureNote")}
+            {selectedMethod === "payme" ? t("payMeSummaryNote") : t("secureNote")}
           </p>
         </div>
       </div>

@@ -172,6 +172,7 @@ export const translations = {
     payMeUnavailableTitle: "PayMe 收款碼暫未設定",
     payMeUnavailableBody: "請選擇其他付款方式，或稍後再試。",
     payMeDirectNote: "PayMe 會開啟 Mofu Havenhk 的官方收款頁或掃描 PayCode；請在 App 內核對金額後付款。",
+    payMeSummaryNote: "PayMe 付款完成後請通知店主核對；訂單會在確認收款後處理。",
     placeOrder: "確認付款",
     secureNote:
       "付款經 Stripe 加密處理；成功付款後會自動經 WhatsApp 通知店主，並寄送電子收據至你填寫的電郵地址。",
@@ -785,6 +786,7 @@ export const translations = {
     payMeUnavailableTitle: "PayMe is not configured yet",
     payMeUnavailableBody: "Please choose another payment method or try again later.",
     payMeDirectNote: "PayMe opens Mofu Havenhk’s official payment page or PayCode. Verify the amount in the app before paying.",
+    payMeSummaryNote: "After paying with PayMe, notify the shop for verification. Your order is processed after payment is confirmed.",
     placeOrder: "Pay now",
     secureNote:
       "Payments are encrypted by Stripe; after payment succeeds, the shop is notified on WhatsApp and a receipt is sent to your email address.",
