@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseFeaturedPets } from "../src/lib/featured-pets";
+import { parseProductLocalizations } from "../src/lib/product-localizations";
 import { buildCategoryTree, categoryDisplayName } from "../src/lib/store-categories";
 
 describe("bilingual managed content", () => {
@@ -20,6 +21,18 @@ describe("bilingual managed content", () => {
       { id: "small-pets", name: "小寵物", name_zh: "小寵物", slug: "small-pets", parent_id: null },
     ]);
     expect(categoryDisplayName(category, "en")).toBe("小寵物");
+  });
+
+  it("preserves English product titles for Checkout when the database row has no native English column", () => {
+    const localizations = parseProductLocalizations(JSON.stringify({
+      "product-1": {
+        name_en: "CIAO Cranky Extra-Strength Lactic Acid Bacteria Tuna & Bonito for Kittens 20g × 10 Packs",
+        description_en: "Crunchy tuna and bonito bites for kittens.",
+      },
+    }));
+
+    expect(localizations["product-1"].name_en).toContain("CIAO Cranky");
+    expect(localizations["product-1"].description_en).toBe("Crunchy tuna and bonito bites for kittens.");
   });
 
   it("preserves English gallery title and story fields from CMS settings", () => {

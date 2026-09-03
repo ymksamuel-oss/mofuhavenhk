@@ -404,6 +404,7 @@ export function StripePaymentForm({
   onPaid,
   onError,
 }: StripePaymentFormProps) {
+  const { locale } = useI18n();
   const stripePromise = useMemo(
     () => getStripePromise(publishableKey),
     [publishableKey],
@@ -422,9 +423,9 @@ export function StripePaymentForm({
           borderRadius: "12px",
         },
       },
-      locale: "zh-HK",
+      locale: locale === "en" ? "en" : "zh-HK",
     }),
-    [],
+    [locale],
   );
 
   useEffect(() => {

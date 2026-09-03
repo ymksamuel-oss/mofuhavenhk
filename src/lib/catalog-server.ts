@@ -38,6 +38,10 @@ import {
   CATEGORY_LOCALIZATIONS_SETTING_KEY,
   parseCategoryLocalizations,
 } from "@/lib/category-localizations";
+import {
+  PRODUCT_LOCALIZATIONS_SETTING_KEY,
+  parseProductLocalizations,
+} from "@/lib/product-localizations";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -845,6 +849,14 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       rawCategoryTree,
       parseCategoryLocalizations(localizedCategoryResult?.data?.value),
     );
+    const localizedProductResult = adminSupabase
+      ? await adminSupabase
+        .from("store_settings")
+        .select("value")
+        .eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY)
+        .maybeSingle()
+      : null;
+    const productLocalizations = parseProductLocalizations(localizedProductResult?.data?.value);
     if (!productResult.data?.length) {
       console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
         categories: categoryResult.data?.length ?? 0,
@@ -873,6 +885,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
       .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
     const sourceProductId = row.source_product_id?.trim() || "";
+    const productLocalization = productLocalizations[String(row.id)];
     const storedPriceId = isStripePriceId(row.source_price_id) ? row.source_price_id.trim() : undefined;
     const priceRecords = sourceProductId ? pricesByProductId.get(sourceProductId) ?? [] : [];
     const verifiedPriceRecord = storedPriceId ? priceRecords.find((price) => price.id === storedPriceId) : undefined;
@@ -902,7 +915,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       id: row.id,
       sourceId: row.source_product_id,
       name: row.name,
-      nameEn: row.name_en,
+      nameEn: productLocalization?.name_en || row.name_en,
     });
     const databaseDescriptionZh = row.description_zh || translation?.description_zh || row.description;
     const databaseDescriptionEn = resolveEnglishProductDescription({
@@ -910,7 +923,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       sourceId: row.source_product_id,
       name: row.name,
       description: row.description,
-      descriptionEn: row.description_en,
+      descriptionEn: productLocalization?.description_en || row.description_en,
     });
     return {
       id: String(row.id),

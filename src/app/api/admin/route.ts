@@ -9,6 +9,11 @@ import {
   normalizeCategoryLocalization,
   parseCategoryLocalizations,
 } from "@/lib/category-localizations";
+import {
+  PRODUCT_LOCALIZATIONS_SETTING_KEY,
+  normalizeProductLocalization,
+  parseProductLocalizations,
+} from "@/lib/product-localizations";
 
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -157,6 +162,34 @@ async function upsertCategoryLocalization(
     .single();
 }
 
+async function upsertProductLocalization(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  id: string,
+  candidate: unknown,
+) {
+  const { data: existing, error: readError } = await supabase
+    .from("store_settings")
+    .select("value")
+    .eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY)
+    .maybeSingle();
+  if (readError) return { data: null, error: readError };
+
+  const localizations = parseProductLocalizations(existing?.value);
+  const next = {
+    ...localizations,
+    [id]: normalizeProductLocalization(candidate),
+  };
+  return supabase
+    .from("store_settings")
+    .upsert({
+      key: PRODUCT_LOCALIZATIONS_SETTING_KEY,
+      value: JSON.stringify(next),
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "key" })
+    .select("key,value,updated_at")
+    .single();
+}
+
 async function replaceBanners(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
   banners: BannerPayload[],
@@ -229,6 +262,13 @@ export async function GET(request: Request) {
     rows = rows.map((row) => ({ ...row, ...(localizations[String(row.id)] || {}) }));
   }
   if (table === "products") {
+    const { data: localizationSetting } = await supabase
+      .from("store_settings")
+      .select("value")
+      .eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY)
+      .maybeSingle();
+    const localizations = parseProductLocalizations(localizationSetting?.value);
+    rows = rows.map((row) => ({ ...row, ...(localizations[String(row.id)] || {}) }));
     const stripeImages = await getStripeImagesForSupabaseRows(rows);
     rows = rows.map((row) => {
       if (Array.isArray(row.images) && row.images.length > 0) return row;
@@ -272,12 +312,18 @@ export async function POST(request: Request) {
   if (table === "banners") return NextResponse.json({ error: "請使用四格 Banner 批量儲存功能。" }, { status: 400 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
+  const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
+  if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
+    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+  }
+  if (table === "products" && productLocalization) {
+    const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
   }
 
@@ -291,13 +337,19 @@ export async function PATCH(request: Request) {
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}), ...(table === "store_settings" ? { updated_at: new Date().toISOString() } : {}) }; delete payload.id; delete payload.created_at;
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
+  const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
+  if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
+    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+  }
+  if (table === "products" && productLocalization) {
+    const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
   }
   return NextResponse.json({ data });

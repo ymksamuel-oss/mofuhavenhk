@@ -113,7 +113,7 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products") return { name: "", price: 0, original_price: "", stock: 0, description: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products") return { name: "", name_en: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
@@ -777,7 +777,9 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
             {uploading && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}
             {uploadNotice && <span className="mt-1 block text-xs text-[#a36b42]">{uploadNotice}</span>}
           </label>
-          {field("description", "產品描述")}
+          {field("description", "產品描述（中文）")}
+          {field("name_en", "English product name（英文前台與 Checkout 顯示）")}
+          {field("description_en", "English product description（英文前台顯示）")}
           {field("seo_title", "SEO 標題")}
           {field("seo_description", "SEO 描述")}
           <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categoryGroups(categories).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}</option>)}</optgroup>)}</select></label>
