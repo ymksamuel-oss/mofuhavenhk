@@ -21,57 +21,6 @@ type BannerSlide = {
   managed?: boolean;
 };
 
-/** Static artwork used only when the store has no managed Banner configured. */
-function fallbackBannerSlides(t: (key: TranslationKey) => string): BannerSlide[] {
-  return [
-    {
-      id: "banner-1",
-      image: "/images/hero-sleeping-shiba-taupe.jpg",
-      mobileImage: "/images/hero-sleeping-shiba-taupe.jpg",
-      eyebrow: "MOFUHAVEN",
-      title: t("homeBanner1Title"),
-      subtitle: t("homeBanner1Subtitle"),
-      cta: t("homeBanner1Cta"),
-      href: "/menu",
-      imageAlt: t("homeBanner1Alt"),
-      tone: "light",
-    },
-    {
-      id: "banner-2",
-      image: "/images/hero-mobile-clean-pet-lifestyle.jpg",
-      eyebrow: "FEEDING ESSENTIALS",
-      title: t("homeBanner2Title"),
-      subtitle: t("homeBanner2Subtitle"),
-      cta: t("homeBanner2Cta"),
-      href: "/categories/cats",
-      imageAlt: t("homeBanner2Alt"),
-      tone: "dark",
-    },
-    {
-      id: "banner-3",
-      image: "/images/explore-japanese-pet-lifestyle.jpg",
-      eyebrow: "PET HOME EDIT",
-      title: t("homeBanner3Title"),
-      subtitle: t("homeBanner3Subtitle"),
-      cta: t("homeBanner3Cta"),
-      href: "/categories/lifestyle",
-      imageAlt: t("homeBanner3Alt"),
-      tone: "dark",
-    },
-    {
-      id: "banner-4",
-      image: "/images/mofu-haven-website-b.png",
-      eyebrow: "LIMITED OFFER",
-      title: t("homeBanner4Title"),
-      subtitle: t("homeBanner4Subtitle"),
-      cta: t("homeBanner4Cta"),
-      href: "/menu",
-      imageAlt: t("homeBanner4Alt"),
-      tone: "dark",
-    },
-  ];
-}
-
 const AUTO_PLAY_MS = 4000;
 
 type StoreBanner = {
@@ -130,10 +79,7 @@ export function HomeBannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
   const [managedBanners, setManagedBanners] = useState<StoreBanner[]>([]);
-  const slides = useMemo(() => {
-    const managedSlides = toManagedSlides(managedBanners, t, locale);
-    return managedSlides.length > 0 ? managedSlides : fallbackBannerSlides(t);
-  }, [locale, managedBanners, t]);
+  const slides = useMemo(() => toManagedSlides(managedBanners, t, locale), [locale, managedBanners, t]);
   const autoplayTimer = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
 
@@ -143,15 +89,13 @@ export function HomeBannerCarousel() {
       .then((response) => (response.ok ? response.json() : null))
       .then((payload) => {
         const banners = Array.isArray(payload?.banners) ? payload.banners : [];
-        if (banners.length > 0) {
-          // Replace the fallback atomically and restart from the first managed Banner.
-          setManagedBanners(banners);
-          setActiveIndex(0);
-        }
+        // The database is the sole source of truth. An empty result intentionally hides the carousel.
+        setManagedBanners(banners);
+        setActiveIndex(0);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
-        // The static artwork remains a safe fallback when the optional store API is unavailable.
+        // Keep the current database-backed result if a transient request fails.
       });
 
     return () => controller.abort();

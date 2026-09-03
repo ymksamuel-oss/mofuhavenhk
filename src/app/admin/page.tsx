@@ -10,6 +10,33 @@ type Tab = "products" | "categories" | "banners" | "coupons" | "orders" | "store
 
 const PAGE_SIZE = 20;
 const MAX_PRODUCT_IMAGES = 8;
+const BANNER_SLOT_COUNT = 4;
+
+type BannerSlot = {
+  image_url: string;
+  mobile_image_url: string;
+  link: string;
+  title: string;
+  sort_order: number;
+};
+
+function emptyBannerSlot(sortOrder: number): BannerSlot {
+  return { image_url: "", mobile_image_url: "", link: "", title: "", sort_order: sortOrder };
+}
+
+function toBannerSlots(rows: Row[]): BannerSlot[] {
+  const slots = Array.from({ length: BANNER_SLOT_COUNT }, (_, index) => emptyBannerSlot(index + 1));
+  rows.slice(0, BANNER_SLOT_COUNT).forEach((row, index) => {
+    slots[index] = {
+      image_url: String(row.image_url || ""),
+      mobile_image_url: String(row.mobile_image_url || ""),
+      link: String(row.link || ""),
+      title: String(row.title || ""),
+      sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index + 1,
+    };
+  });
+  return slots;
+}
 
 function parseImageUrls(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
@@ -54,7 +81,6 @@ async function call(method: string, body?: Row, table?: string) {
 function defaultRow(tab: Tab): Row {
   if (tab === "products") return { name: "", price: 0, original_price: "", stock: 0, description: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "categories") return { name: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
-  if (tab === "banners") return { image_url: "", mobile_image_url: "", link: "", title: "", sort_order: 0, replace_existing: false };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
 }
@@ -154,6 +180,9 @@ export default function AdminPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [categories, setCategories] = useState<Row[]>([]);
   const [form, setForm] = useState<Row | null>(null);
+  const [bannerSlots, setBannerSlots] = useState<BannerSlot[]>(() => toBannerSlots([]));
+  const [bannerSaving, setBannerSaving] = useState(false);
+  const [bannerNotice, setBannerNotice] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [productQuery, setProductQuery] = useState("");
@@ -168,7 +197,11 @@ export default function AdminPage() {
     setError("");
     try {
       const result = await call("GET", undefined, selected);
-      setRows(result.data || []);
+      const loadedRows = result.data || [];
+      setRows(loadedRows);
+      if (selected === "banners") {
+        setBannerSlots(toBannerSlots(loadedRows));
+      }
       if (selected === "categories") {
         setCategories(result.data || []);
       } else if (selected === "products") {
@@ -248,6 +281,46 @@ export default function AdminPage() {
     }
   }
 
+  async function saveBannerBatch() {
+    const hasIncompleteSlot = bannerSlots.some((slot) => {
+      const hasDesktopImage = slot.image_url.trim().length > 0;
+      const hasOtherContent = Boolean(slot.mobile_image_url.trim() || slot.link.trim() || slot.title.trim());
+      return !hasDesktopImage && hasOtherContent;
+    });
+    if (hasIncompleteSlot) {
+      setError("如某一格已填寫手機圖片、連結或標題，必須同時提供桌面版圖片。");
+      return;
+    }
+
+    const banners = bannerSlots
+      .filter((slot) => slot.image_url.trim())
+      .map((slot) => ({
+        image_url: slot.image_url.trim(),
+        mobile_image_url: slot.mobile_image_url.trim(),
+        link: slot.link.trim(),
+        title: slot.title.trim(),
+        sort_order: Number.isFinite(slot.sort_order) ? Math.trunc(slot.sort_order) : 0,
+      }));
+    const sortOrders = banners.map((banner) => banner.sort_order);
+    if (sortOrders.some((sortOrder) => sortOrder < 0) || new Set(sortOrders).size !== sortOrders.length) {
+      setError("已填寫的 Banner 必須使用不重複且為 0 或以上的整數排序。");
+      return;
+    }
+
+    setBannerSaving(true);
+    setError("");
+    setBannerNotice("");
+    try {
+      const result = await call("POST", { action: "replace_banners", banners });
+      setBannerNotice(result.count === 0 ? "已清空所有 Banner 資料。" : `已儲存 ${result.count} 組 Banner，前台輪播已依排序更新。`);
+      await load("banners");
+    } catch (e: any) {
+      setError(e.message || "Banner 儲存失敗");
+    } finally {
+      setBannerSaving(false);
+    }
+  }
+
   async function remove(row: Row) {
     if (!row.id || !confirm("確定刪除此項目？")) return;
     try {
@@ -316,7 +389,7 @@ export default function AdminPage() {
               <p className="text-sm text-[#8b7c70]">網站內容</p>
               <h2 className="text-3xl font-semibold">{title}</h2>
             </div>
-            {tab !== "orders" && (
+            {tab !== "orders" && tab !== "banners" && (
               <button onClick={() => setForm(defaultRow(tab))} className="shrink-0 rounded-xl bg-[#a36b42] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">新增</button>
             )}
           </div>
@@ -360,7 +433,15 @@ export default function AdminPage() {
             </section>
           )}
 
-          {form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} onSave={save} onCancel={() => setForm(null)} />}
+          {tab === "banners" ? (
+            <BannerBatchEditor
+              slots={bannerSlots}
+              onChange={setBannerSlots}
+              onSave={saveBannerBatch}
+              saving={bannerSaving}
+              notice={bannerNotice}
+            />
+          ) : form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} onSave={save} onCancel={() => setForm(null)} />}
 
           {loading ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">載入中…</div>
@@ -457,10 +538,12 @@ export default function AdminPage() {
                                 </div>
                               )}
                             </div>
+                          ) : tab === "banners" ? (
+                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">請於上方四格管理</span>
                           ) : (
                             <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
                           )}
-                          {tab !== "orders" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
+                          {tab !== "orders" && tab !== "banners" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
                     </div>
@@ -613,6 +696,137 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
         {tab === "orders" && <p className="text-sm">顧客資料：{JSON.stringify(form.customer_info || {})}<br />商品：{JSON.stringify(form.items || [])}<br />狀態：{form.status}</p>}
       </div>
       <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">儲存</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#f6f2eb]">取消</button></div>
+    </section>
+  );
+}
+
+
+function BannerBatchEditor({
+  slots,
+  onChange,
+  onSave,
+  saving,
+  notice,
+}: {
+  slots: BannerSlot[];
+  onChange: (slots: BannerSlot[]) => void;
+  onSave: () => void;
+  saving: boolean;
+  notice: string;
+}) {
+  const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState("");
+
+  function updateSlot(index: number, patch: Partial<BannerSlot>) {
+    onChange(slots.map((slot, slotIndex) => (slotIndex === index ? { ...slot, ...patch } : slot)));
+  }
+
+  async function uploadBannerImage(event: React.ChangeEvent<HTMLInputElement>, index: number, field: "image_url" | "mobile_image_url") {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setUploadError("");
+    setUploadingSlot(`${index}-${field}`);
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      const response = await fetch("/api/admin/upload", { method: "POST", body: data });
+      const result = await response.json();
+      if (!response.ok || typeof result.url !== "string" || !result.url.trim()) {
+        throw new Error(result.error || "圖片上傳失敗");
+      }
+      updateSlot(index, { [field]: result.url.trim() });
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。" );
+    } finally {
+      setUploadingSlot(null);
+    }
+  }
+
+  return (
+    <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
+      <div className="mb-5 max-w-3xl">
+        <p className="text-sm font-semibold text-[#2f4a3c]">四組 Banner 批量管理</p>
+        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過設定最多四組輪播資料。按「儲存全部 Banner」時，系統會以本頁有桌面版圖片的欄位作為完整新輪播，並清除所有舊資料。至少填寫兩組才會啟用前台自動輪播；四格均留空則會清空所有 Banner。</p>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-2">
+        {slots.map((slot, index) => {
+          const desktopUploading = uploadingSlot === `${index}-image_url`;
+          const mobileUploading = uploadingSlot === `${index}-mobile_image_url`;
+          return (
+            <fieldset key={index} className="rounded-2xl border border-[#eaded5] bg-[#fffdfa] p-4">
+              <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">Banner {index + 1}</legend>
+              <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">桌面版圖片 <span className="text-red-600">*</span></label>
+                  <div className="aspect-[16/9] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
+                    {slot.image_url ? <img src={slot.image_url} alt={`Banner ${index + 1} 桌面版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 16:9 或更寬的橫向圖片</div>}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => uploadBannerImage(event, index, "image_url")}
+                    disabled={Boolean(uploadingSlot)}
+                    className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
+                  />
+                  {desktopUploading && <p className="text-xs text-[#a36b42]">桌面版上傳中…</p>}
+                  <input
+                    aria-label={`Banner ${index + 1} 桌面版圖片 URL`}
+                    value={slot.image_url}
+                    onChange={(event) => updateSlot(index, { image_url: event.target.value })}
+                    placeholder="或貼上桌面版圖片 URL"
+                    className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">手機版圖片 <span className="font-normal text-[#8b7c70]">（選填）</span></label>
+                  <div className="aspect-[4/5] max-h-56 overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
+                    {slot.mobile_image_url || slot.image_url ? <img src={slot.mobile_image_url || slot.image_url} alt={`Banner ${index + 1} 手機版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 4:5 直向圖片；留空會沿用桌面版</div>}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => uploadBannerImage(event, index, "mobile_image_url")}
+                    disabled={Boolean(uploadingSlot)}
+                    className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
+                  />
+                  {mobileUploading && <p className="text-xs text-[#a36b42]">手機版上傳中…</p>}
+                  <input
+                    aria-label={`Banner ${index + 1} 手機版圖片 URL`}
+                    value={slot.mobile_image_url}
+                    onChange={(event) => updateSlot(index, { mobile_image_url: event.target.value })}
+                    placeholder="或貼上手機版圖片 URL"
+                    className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
+                  />
+                </div>
+
+                <label className="block text-sm sm:col-span-2">
+                  <span className="mb-1 block font-medium">點擊連結 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                  <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="例如：/menu 或 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                </label>
+                <label className="block text-sm">
+                  <span className="mb-1 block font-medium">標題 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                  <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="供無障礙標示及圖片描述使用" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                </label>
+                <label className="block text-sm">
+                  <span className="mb-1 block font-medium">排序</span>
+                  <input type="number" min="0" step="1" value={slot.sort_order} onChange={(event) => updateSlot(index, { sort_order: Number(event.target.value) })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                </label>
+              </div>
+            </fieldset>
+          );
+        })}
+      </div>
+
+      {uploadError && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{uploadError}</p>}
+      {notice && <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{notice}</p>}
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <button onClick={onSave} disabled={saving || Boolean(uploadingSlot)} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存全部 Banner"}</button>
+        <span className="text-xs text-[#8b7c70]">有桌面版圖片的欄位會依「排序」由小至大顯示；已填寫的 Banner 不可使用相同排序。</span>
+      </div>
     </section>
   );
 }

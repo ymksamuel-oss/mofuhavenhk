@@ -7,6 +7,73 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
 const MAX_PRODUCT_IMAGES = 8;
+const MAX_BANNERS = 4;
+
+type BannerPayload = {
+  image_url: string;
+  mobile_image_url: string | null;
+  link: string | null;
+  title: string | null;
+  sort_order: number;
+};
+
+function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error?: string } {
+  if (!Array.isArray(value)) return { banners: [], error: "invalid_banners" };
+  if (value.length > MAX_BANNERS) return { banners: [], error: `最多只可儲存 ${MAX_BANNERS} 組 Banner` };
+
+  const banners: BannerPayload[] = [];
+  const usedSortOrders = new Set<number>();
+  for (const [index, valueAtIndex] of value.entries()) {
+    if (!valueAtIndex || typeof valueAtIndex !== "object" || Array.isArray(valueAtIndex)) {
+      return { banners: [], error: `第 ${index + 1} 組 Banner 格式不正確` };
+    }
+
+    const row = valueAtIndex as Record<string, unknown>;
+    const imageUrl = typeof row.image_url === "string" ? row.image_url.trim() : "";
+    if (!imageUrl) return { banners: [], error: `第 ${index + 1} 組 Banner 必須提供桌面版圖片` };
+
+    const sortOrder = Number(row.sort_order);
+    if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) {
+      return { banners: [], error: `第 ${index + 1} 組 Banner 的排序必須是 0 或以上的整數` };
+    }
+    if (usedSortOrders.has(sortOrder)) {
+      return { banners: [], error: `Banner 排序不可重複（第 ${index + 1} 組）` };
+    }
+    usedSortOrders.add(sortOrder);
+    banners.push({
+      image_url: imageUrl,
+      mobile_image_url: typeof row.mobile_image_url === "string" && row.mobile_image_url.trim() ? row.mobile_image_url.trim() : null,
+      link: typeof row.link === "string" && row.link.trim() ? row.link.trim() : null,
+      title: typeof row.title === "string" && row.title.trim() ? row.title.trim() : null,
+      sort_order: sortOrder,
+    });
+  }
+
+  if (banners.length === 1) return { banners: [], error: "輪播至少需要兩組 Banner；如要清空，請保留四格為空後儲存。" };
+  return { banners };
+}
+
+async function replaceBanners(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  banners: BannerPayload[],
+) {
+  if (banners.length === 0) {
+    const { error } = await supabase.from("banners").delete().not("id", "is", null);
+    return { data: [], error };
+  }
+
+  // Insert the complete new set first so a transient insert failure never clears the current slider.
+  const { data: inserted, error: insertError } = await supabase.from("banners").insert(banners).select();
+  if (insertError || !inserted) return { data: null, error: insertError || new Error("banner_insert_failed") };
+
+  const insertedIds = inserted.map((banner) => String(banner.id)).filter(Boolean);
+  const { error: cleanupError } = await supabase
+    .from("banners")
+    .delete()
+    .not("id", "in", `(${insertedIds.join(",")})`);
+
+  return { data: inserted, error: cleanupError };
+}
 
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
@@ -54,18 +121,23 @@ export async function POST(request: Request) {
   }
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   if (body.action === "logout") { const response = NextResponse.json({ ok: true }); response.cookies.set(ADMIN_COOKIE, "", { httpOnly: true, expires: new Date(0), path: "/" }); return response; }
-  const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
+
+  if (body.action === "replace_banners") {
+    const { banners, error: validationError } = normalizeBannerBatch(body.banners);
+    if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
+
+    const { data, error } = await replaceBanners(supabase, banners);
+    if (error) return NextResponse.json({ error: `Banner 儲存失敗：${error.message}` }, { status: 500 });
+    return NextResponse.json({ data, count: data?.length || 0 });
+  }
+
+  const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
+  if (table === "banners") return NextResponse.json({ error: "請使用四格 Banner 批量儲存功能。" }, { status: 400 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-
-  // Banner 新增預設加入現有 slider；只有管理員明確選擇覆蓋時才清除舊記錄。
-  if (table === "banners" && data?.id && body.replaceExisting === true) {
-    const { error: cleanupError } = await supabase.from("banners").delete().neq("id", data.id);
-    if (cleanupError) return NextResponse.json({ error: `新 Banner 已儲存，但清除舊 Banner 失敗：${cleanupError.message}` }, { status: 500 });
-  }
 
   return NextResponse.json({ data });
 }
