@@ -40,6 +40,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   const selectedProduct = product;
 
+  // Safe helper to render product name whether it's a plain string or a localized object
+  const renderProductName = () => {
+    const rawName = selectedProduct.name;
+    if (!rawName) return t("productDescriptionUnavailable");
+    if (typeof rawName === "string") return rawName;
+    return rawName[locale as keyof typeof rawName] || rawName.zh || rawName.en || t("productDescriptionUnavailable");
+  };
+
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
   const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${optionLocale}`]
     ?? t("productSpecSelectorTitle");
@@ -99,7 +107,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <span aria-hidden>/</span>
           </>
         ) : null}
-        <span className="text-[color:var(--ink)]">{selectedProduct.name[locale]}</span>
+        <span className="text-[color:var(--ink)]">{renderProductName()}</span>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-10">
@@ -108,7 +116,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             key={`${selectedProduct.id}-${selectedPriceId}`}
             images={selectedOption?.image ? [selectedOption.image] : selectedProduct.images}
             fallbackImage={selectedOption?.image ?? selectedProduct.image}
-            alt={selectedProduct.name[locale]}
+            alt={renderProductName()}
             priority
           />
           {discountPercent ? (
@@ -123,7 +131,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {mofuSku ? t("productSkuLabel") : t("productIdLabel")}：{mofuSku ?? selectedProduct.id}
           </p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
-            {selectedProduct.name[locale]}
+            {renderProductName()}
           </h1>
 
           <div className="mt-5 flex w-full min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">
@@ -155,7 +163,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 {t("productModalFeaturesTitle")}
               </h2>
               <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                {selectedProduct.description[locale] || t("productDescriptionUnavailable")}
+                {typeof selectedProduct.description === "string" 
+                  ? selectedProduct.description 
+                  : (selectedProduct.description[locale as keyof typeof selectedProduct.description] || t("productDescriptionUnavailable"))}
               </p>
             </div>
           ) : null}
@@ -168,7 +178,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {t("productTextureTitle")}
                   </dt>
                   <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                    {selectedProduct.texture[locale] || t("productValueUnavailable")}
+                    {typeof selectedProduct.texture === "string" 
+                      ? selectedProduct.texture 
+                      : (selectedProduct.texture[locale as keyof typeof selectedProduct.texture] || t("productValueUnavailable"))}
                   </dd>
                 </div>
               ) : null}
@@ -178,7 +190,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {t("productAvailabilityTitle")}
                   </dt>
                   <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                    {selectedProduct.availability[locale] || t("productValueUnavailable")}
+                    {typeof selectedProduct.availability === "string"
+                      ? selectedProduct.availability
+                      : (selectedProduct.availability[locale as keyof typeof selectedProduct.availability] || t("productValueUnavailable"))}
                   </dd>
                 </div>
               ) : null}
@@ -203,7 +217,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       aria-hidden
                       className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                     />
-                    {spec[locale] || t("productValueUnavailable")}
+                    {typeof spec === "string"
+                      ? spec
+                      : (spec[locale as keyof typeof spec] || t("productValueUnavailable"))}
                   </li>
                 ))}
               </ul>
@@ -356,7 +372,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </p>
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
-                productName={selectedProduct.name}
+                productName={renderProductName()}
                 mofuSku={mofuSku}
                 className="mt-3"
               />
@@ -367,7 +383,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {selectedProduct.inStock === false ? (
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
-                productName={selectedProduct.name}
+                productName={renderProductName()}
                 mofuSku={mofuSku}
               />
             ) : (
@@ -401,7 +417,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           {selectedProduct.inStock === false ? (
             <OutOfStockOrderButton
               productId={selectedProduct.id}
-              productName={selectedProduct.name}
+              productName={renderProductName()}
               mofuSku={mofuSku}
               className="!min-h-12 min-w-0 flex-1"
             />
