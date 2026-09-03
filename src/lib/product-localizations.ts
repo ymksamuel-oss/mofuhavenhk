@@ -50,7 +50,10 @@ export function applyProductLocalization(
       ...(localized.name_en ? { en: localized.name_en } : {}),
     },
     ...(localized.description_en ? {
-      description: { ...product.description, en: localized.description_en },
+      description: {
+        zh: product.description?.zh || product.description?.en || product.name.zh,
+        en: localized.description_en,
+      },
     } : {}),
   };
 }

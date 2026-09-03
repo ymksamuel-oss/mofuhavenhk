@@ -18,6 +18,7 @@ import {
 } from "@/components/checkout/ShippingContactForm";
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
+import { PayMeCheckoutPanel } from "@/components/checkout/PayMeCheckoutPanel";
 import { ContinueShoppingButton } from "@/components/ContinueShoppingButton";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -51,7 +52,7 @@ function CheckoutContent() {
   const { locale, t } = useI18n();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
-  const { products } = useCatalog();
+  const { products, payMe } = useCatalog();
   const cart = useCart();
 
   const [items, setItems] = useState<OrderItem[]>(() =>
@@ -303,6 +304,11 @@ function CheckoutContent() {
     setAppliedCoupon({ code: result.code, discountAmount: Number(result.discountAmount || 0) }); setCouponCode(result.code);
     setClientSecret(null); setPhase("idle");
   }, [couponCode, subtotalHkd, t]);
+  const handlePayMeConfirmation = () => {
+    if (!validateShippingContact()) return;
+    handleSendToWhatsApp();
+  };
+
   const handleSendToWhatsApp = () => {
     const number = orderNumber ?? generateOrderNumber();
     const paymentLabelKey = PAYMENT_METHODS.find(
@@ -353,6 +359,7 @@ function CheckoutContent() {
   }, [locale, shippingContact]);
 
   const startStripePayment = useCallback(async () => {
+    if (selectedMethod === "payme") return;
     if (!stripeConfigured || !publishableKey) {
       setPhase("stripe_missing");
       return;
@@ -378,7 +385,6 @@ function CheckoutContent() {
           : selectedMethod;
       const hostedCheckout =
         stripePaymentMethod === "googlepay" ||
-        stripePaymentMethod === "payme" ||
         stripePaymentMethod === "alipayhk";
       const endpoint = hostedCheckout
         ? "/api/stripe/create-checkout-session"
@@ -447,11 +453,7 @@ function CheckoutContent() {
           shipping: shippingHkd,
           total: typeof data.amount === "number" ? data.amount : liveTotalHkd,
           paymentLabel: t(
-            selectedMethod === "googlepay"
-              ? "payGooglePay"
-              : selectedMethod === "payme"
-                ? "payPayMe"
-                : "payAlipayHk",
+            selectedMethod === "googlepay" ? "payGooglePay" : "payAlipayHk",
           ),
           customerName: shippingContact.name.trim() || t("checkoutCustomerFallback"),
           contact: shippingContact,
@@ -508,7 +510,8 @@ function CheckoutContent() {
     phase !== "paid_receipt_pending" &&
     phase !== "paid_notify_failed" &&
     phase !== "stripe_missing" &&
-    phase !== "preparing";
+    phase !== "preparing" &&
+    selectedMethod !== "payme";
 
   return (
     <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(8rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
@@ -531,6 +534,15 @@ function CheckoutContent() {
             selected={selectedMethod}
             onSelect={handleSelectMethod}
           />
+          {selectedMethod === "payme" ? (
+            <PayMeCheckoutPanel
+              settings={payMe}
+              totalHkd={amountHkd}
+              orderNumber={orderNumber}
+              onBeforeOpen={validateShippingContact}
+              onConfirmPayment={handlePayMeConfirmation}
+            />
+          ) : null}
           <div className="milk-tea-card max-w-full p-5 sm:p-6">
             <ShippingContactForm
               value={shippingContact}
@@ -572,7 +584,8 @@ function CheckoutContent() {
             </p>
           ) : null}
 
-          {!showStripeForm &&
+          {selectedMethod !== "payme" &&
+          !showStripeForm &&
           phase !== "paid" &&
           phase !== "paid_receipt_pending" &&
           phase !== "paid_notify_failed" &&

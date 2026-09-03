@@ -10,6 +10,11 @@ import { CartProvider } from "@/lib/shop/cart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
+import {
+  EMPTY_PAYME_CHECKOUT_SETTINGS,
+  getPayMeCheckoutSettings,
+  type PayMeCheckoutSettings,
+} from "@/lib/payme-checkout-settings";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -99,13 +104,16 @@ export default async function RootLayout({
 }>) {
   let products: Product[] = [];
   let categories: StoreCategory[] = [];
+  let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products || [];
     categories = catalog.categories || [];
+    payMe = await getPayMeCheckoutSettings();
   } catch {
     products = [];
     categories = [];
+    payMe = await getPayMeCheckoutSettings();
   }
 
   return (
@@ -115,7 +123,7 @@ export default async function RootLayout({
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
-          <CatalogProvider products={products} categories={categories}>
+          <CatalogProvider products={products} categories={categories} payMe={payMe}>
             <CartProvider>
               <Header />
               <BrandServiceStrip />

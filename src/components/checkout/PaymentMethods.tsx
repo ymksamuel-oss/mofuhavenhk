@@ -128,8 +128,14 @@ export function PaymentMethods({ selected, onSelect }: PaymentMethodsProps) {
         })}
       </ul>
       <div className="space-y-1 text-xs leading-relaxed text-[color:var(--muted)]">
-        <p className="font-medium text-[color:var(--ink)]">{t("stripeMethodsPrimary")}</p>
-        <p>{t("stripeMethodsEligibility")}</p>
+        {selected === "payme" ? (
+          <p className="font-medium text-[color:var(--ink)]">{t("payMeDirectNote")}</p>
+        ) : (
+          <>
+            <p className="font-medium text-[color:var(--ink)]">{t("stripeMethodsPrimary")}</p>
+            <p>{t("stripeMethodsEligibility")}</p>
+          </>
+        )}
       </div>
     </section>
   );
