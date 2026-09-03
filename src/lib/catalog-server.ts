@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { unstable_noStore as noStore } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
-import { buildCategoryTree, type StoreCategory } from "@/lib/store-categories";
+import { buildCategoryTree, flattenCategoryTree, type StoreCategory } from "@/lib/store-categories";
 import {
   CAT_SNACK_SERIES,
   categorySlugFromMetadata,
@@ -55,6 +55,41 @@ function uniqueProductsByStorefrontIdentity(products: readonly Product[]): Produ
     if (!productsByIdentity.has(identity)) productsByIdentity.set(identity, product);
   }
   return Array.from(productsByIdentity.values());
+}
+
+type ManagedCategoryAssignment = {
+  categorySlug: string;
+  subcategory?: ProductSubcategory;
+};
+
+/**
+ * Resolves a product's category_id from the live Supabase category tree. A
+ * product may point to a child category, but storefront route filtering occurs
+ * at its root category with an optional standard subcategory. Products with no
+ * valid relation are intentionally unassigned, never guessed from their name
+ * or SKU and never leaked into another category.
+ */
+function resolveManagedCategoryAssignment(
+  categoryId: string | null | undefined,
+  categoriesById: ReadonlyMap<string, StoreCategory>,
+): ManagedCategoryAssignment {
+  const assigned = categoryId ? categoriesById.get(String(categoryId)) : undefined;
+  if (!assigned) return { categorySlug: "unassigned" };
+
+  let root = assigned;
+  const visited = new Set<string>([assigned.id]);
+  while (root.parent_id) {
+    const parent = categoriesById.get(root.parent_id);
+    if (!parent || visited.has(parent.id)) break;
+    visited.add(parent.id);
+    root = parent;
+  }
+
+  const categorySlug = canonicalCategorySlug(root.slug) ?? root.slug;
+  const subcategory = assigned.id === root.id
+    ? undefined
+    : resolveCategorySubSlug(categorySlug, assigned.slug) ?? subcategoryFromMetadata(assigned.name);
+  return { categorySlug, ...(subcategory ? { subcategory } : {}) };
 }
 
 /** Internal marker handled by ProductImage as a CSS-only missing-image state. */
@@ -799,7 +834,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       });
       return { products: [], categories: categoryTree, source: "supabase", matchedRecords: 0 };
     }
-    const categorySlugs = new Map((categoryResult.data || []).map((row) => [row.id, row.slug]));
+    const categoriesById = new Map(flattenCategoryTree(categoryTree).map((category) => [category.id, category]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
     const activeStripeProductIds = await getActiveStripeProductIds();
     let pricesByProductId = new Map<string, StripePriceRecord[]>();
@@ -835,11 +870,11 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     }
     const dbImages = databaseProductImageUrls(row);
     const images = dbImages.length ? dbImages : stripeImages.get(row.source_product_id ?? "") ?? [];
-    // Strict foreign-key resolution: the Admin-assigned category_id is the only
-    // source of truth. Products without a database category relation fall back to
-    // "lifestyle" instead of being guessed from SKU or name wording.
-    const databaseCategorySlug = canonicalCategorySlug(categorySlugs.get(row.category_id));
-    const categorySlug = databaseCategorySlug ?? "lifestyle";
+    // Resolve the database category relation through the tree. A child category
+    // maps to its root collection plus its canonical child collection name.
+    const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
+    const categorySlug = categoryAssignment.categorySlug;
+    const subcategory = categoryAssignment.subcategory;
     const translation = resolveGeneratedProductTranslation({
       id: row.id,
       sourceId: row.source_product_id,
@@ -866,6 +901,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
       categoryId: row.category_id ? String(row.category_id) : undefined,
       categorySlug,
+      ...(subcategory ? { subcategory } : {}),
       image: images[0] || CATALOG_IMAGE_FALLBACK,
       ...(images.length ? { images } : {}),
       name: {
@@ -886,7 +922,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         category: categorySlug,
         ...(row.mofu_sku ? { mofu_sku: String(row.mofu_sku) } : {}),
       },
-      tags: [categorySlug, ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
+      tags: [categorySlug, ...(subcategory ? [subcategory] : []), ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
       icon: iconForCategory(categorySlug),
     } satisfies Product;
       }).filter((product): product is Product => Boolean(product && product.price >= 0));

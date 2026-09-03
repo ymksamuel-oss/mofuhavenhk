@@ -8,7 +8,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { productHref } from "@/lib/products";
+import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -78,9 +78,18 @@ export function ProductCatalog({
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
-  // Category routes are presentation-only. Render the products payload exactly
-  // as mapped from Supabase instead of traversing parent/child category cards.
-  const products = catalogProducts;
+  const selectedSubcategory = typeof subcategory === "string"
+    ? resolveCategorySubSlug(categorySlug || "", subcategory.trim().toLowerCase())
+    : null;
+  const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
+  // A category route must never fall back to the complete catalog. When the
+  // child slug is recognised, match the resolved database subcategory exactly;
+  // an unrecognised child route is deliberately empty rather than overbroad.
+  const products = typeof subcategory === "string"
+    ? selectedSubcategory
+      ? productsInCategory.filter((product) => product.subcategory === selectedSubcategory)
+      : []
+    : productsInCategory;
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);

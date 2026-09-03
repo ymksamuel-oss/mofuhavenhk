@@ -234,6 +234,15 @@ export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   "freeze-dried": "冷凍脫水系列",
   litter: "貓砂及貓砂盆",
   "toys-climbing": "貓咪玩具及攀爬設施",
+  // Existing Supabase child-category slugs. These map to the same canonical
+  // collections used by the storefront navigation.
+  "cat-feezed-dried-food": "冷凍脫水系列",
+  "cat-freezed-dried-food": "冷凍脫水系列",
+  "cat-dry-food": "貓乾糧",
+  "cat-snack-food": "貓貓小食",
+  "cat-litter": "貓砂及貓砂盆",
+  "cats-food-cans": "貓罐罐",
+  "cat-wet-food": "貓罐罐",
   // Kept for existing shared links; deliberately omitted from the new Header list.
   "dry-food": "貓乾糧",
   "pill-treats": "投藥餵藥專用小食",
@@ -256,6 +265,10 @@ export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
   snacks: "狗狗小食",
   "toilet-pads": "狗狗廁所及尿墊",
   toys: "狗狗玩具",
+  // Existing Supabase child-category slugs.
+  "dog-food-cans": "狗狗罐頭及濕糧",
+  "dog-dry-food": "狗狗乾糧",
+  "dog-snack-food": "狗狗小食",
   // Kept for existing shared links; deliberately omitted from the new Header list.
   food: "狗狗食品",
   "pill-treats": "投藥餵藥專用小食",
@@ -294,6 +307,7 @@ export const SMALL_PET_SUBCATEGORY_SLUG: Record<SmallPetSubcategory, string> = {
 
 export const LIFESTYLE_SUBCATEGORY_BY_SLUG: Record<string, LifestyleSubcategory> = {
   feeding: "食具及餵食",
+  "cat-food-platter": "食具及餵食",
   "beds-home": "睡窩及家居",
   "outdoor-travel": "外出散步及旅行",
   "cleaning-odour": "清潔除臭及護理",

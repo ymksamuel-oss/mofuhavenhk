@@ -51,6 +51,8 @@ const CATEGORY_SLUG_ALIASES: Record<string, string> = {
   cats: "cats",
   dog: "dogs",
   dogs: "dogs",
+  "pet-supplies": "lifestyle",
+  "pet-supply": "lifestyle",
 };
 
 /** Convert legacy singular pet routes and database values to the canonical slugs. */
