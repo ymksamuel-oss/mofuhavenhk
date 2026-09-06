@@ -3,7 +3,7 @@
   "crons": [
     {
       "path": "/api/cron/fx-pricing",
-      "schedule": "30 15 * * 1-5"
+      "schedule": "30 15 * * *"
     }
   ]
 }
