@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { syncCatalogToLatestFxRate } from "@/lib/fxPricingSync";
+import { syncCatalogToLatestFxRate, syncSupabaseProductsToLatestFxRate } from "@/lib/fxPricingSync";
 import { readServerEnv } from "@/lib/serverEnv";
 
 export const runtime = "nodejs";
@@ -20,7 +20,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     const summary = await syncCatalogToLatestFxRate({ apply: true });
-    return NextResponse.json({ ok: summary.failedPriceCount === 0, summary }, {
+    const databaseSummary = await syncSupabaseProductsToLatestFxRate();
+    return NextResponse.json({ ok: summary.failedPriceCount === 0, summary, databaseSummary }, {
       status: summary.failedPriceCount === 0 ? 200 : 207,
       headers: { "Cache-Control": "no-store" },
     });

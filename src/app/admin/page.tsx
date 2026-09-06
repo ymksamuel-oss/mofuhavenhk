@@ -113,7 +113,7 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products") return { name: "", name_en: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
@@ -740,7 +740,12 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
         {tab === "products" && <>
           {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
-          {field("price", "售價", "number")}
+          {field("cost_price_rmb", "來貨價（RMB，可選）", "number")}
+          <div className="rounded-lg border border-[#eaded5] bg-[#fffaf4] px-3 py-2 text-sm">
+            <span className="block font-medium">自動售價公式</span>
+            <span className="mt-1 block text-xs leading-5 text-[#8b7c70]">RMB 來貨價 × 即時 RMB/HKD 匯率 × 1.88。每日匯率任務會自動更新前台售價；未填來貨價時保留手動售價。</span>
+          </div>
+          {field("price", "售價（HKD，無來貨價時作手動備用）", "number")}
           {field("original_price", "原價", "number")}
           {field("stock", "庫存", "number")}
           <div className="md:col-span-2">

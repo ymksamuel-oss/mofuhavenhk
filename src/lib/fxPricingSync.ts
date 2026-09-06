@@ -3,11 +3,13 @@ import { createHash } from "node:crypto";
 import type Stripe from "stripe";
 
 import { getStripe } from "@/lib/stripe";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 const FX_SOURCE_URL = "https://api.frankfurter.dev/v2/rates?base=EUR&quotes=CNY,HKD&providers=ECB";
-const CNY_TO_HKD_MIN = 0.9;
-const CNY_TO_HKD_MAX = 1.5;
-const RETAIL_MULTIPLIER = 1.76;
+export const DEFAULT_CNY_TO_HKD_RATE = 1.178;
+export const CNY_TO_HKD_MIN = 0.9;
+export const CNY_TO_HKD_MAX = 1.5;
+export const RETAIL_MULTIPLIER = 1.88;
 const PRICE_TAIL_HKD = 0.9;
 const ROUNDING_EPSILON = 1e-10;
 // Eight-decimal inferred baselines are intentionally floored so they preserve
@@ -84,7 +86,9 @@ export type FxPricingSyncSummary = {
 };
 
 function text(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  if (typeof value === "string") return value.trim();
+  if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  return "";
 }
 
 function positiveDecimal(value: unknown, maxFractionDigits: number): number | null {
@@ -143,6 +147,15 @@ export async function fetchLatestCnyHkdDailyRate(): Promise<CnyHkdDailyRate> {
 }
 
 /** Calculates the smallest positive HKD cents price ending in .90 that is not below the raw formula price. */
+export function hkdPriceFromCnyCost(costCny: string, rateValue: number): number {
+  const cost = positiveDecimal(costCny, 8);
+  if (cost === null) throw new Error("RMB cost must be a positive number with at most eight decimal places");
+  if (!Number.isFinite(rateValue) || rateValue < CNY_TO_HKD_MIN || rateValue > CNY_TO_HKD_MAX) {
+    throw new Error("RMB/HKD rate is outside the configured safety band");
+  }
+  return Math.round(cost * rateValue * RETAIL_MULTIPLIER * 100) / 100;
+}
+
 export function retailCentsFromCnyCost(
   costCny: string,
   rateValue: number,
@@ -153,9 +166,8 @@ export function retailCentsFromCnyCost(
   if (!Number.isFinite(rateValue) || rateValue < CNY_TO_HKD_MIN || rateValue > CNY_TO_HKD_MAX) {
     throw new Error("CNY/HKD rate is outside the configured safety band");
   }
-  const rawHkd = cost * rateValue * RETAIL_MULTIPLIER;
-  const upwardDollar = Math.ceil(rawHkd - PRICE_TAIL_HKD - roundingEpsilon);
-  const cents = Math.round((upwardDollar + PRICE_TAIL_HKD) * 100);
+  const rawHkd = hkdPriceFromCnyCost(costCny, rateValue);
+  const cents = Math.round(rawHkd * 100);
   if (!Number.isSafeInteger(cents) || cents <= 0) throw new Error("Computed retail cents are outside the supported range");
   return cents;
 }
@@ -412,6 +424,65 @@ export async function syncCatalogToLatestFxRate(options: { apply: boolean }): Pr
     skippedPriceCount,
     operations,
     completedAt: new Date().toISOString(),
+  };
+}
+
+export type SupabasePricingSyncSummary = {
+  rateDate: string;
+  rateHkdPerCny: string;
+  multiplier: number;
+  updatedProductCount: number;
+  skippedProductCount: number;
+  missingCostPriceCount: number;
+};
+
+/** Reprices the storefront's Supabase rows so the frontend fallback and admin data stay in sync. */
+export async function syncSupabaseProductsToLatestFxRate(rate?: CnyHkdDailyRate): Promise<SupabasePricingSyncSummary> {
+  const effectiveRate = rate ?? await fetchLatestCnyHkdDailyRate();
+  const supabase = getSupabaseAdmin();
+  if (!supabase) throw new Error("Supabase service role is not configured");
+
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("id,cost_price_rmb,price")
+    .limit(5000);
+  if (error) throw new Error(`Supabase product pricing read failed: ${error.message}`);
+
+  let updatedProductCount = 0;
+  let skippedProductCount = 0;
+  let missingCostPriceCount = 0;
+  for (const product of products ?? []) {
+    const rawCost = text(product.cost_price_rmb);
+    if (!rawCost || positiveDecimal(rawCost, 8) === null) {
+      missingCostPriceCount += 1;
+      continue;
+    }
+    const nextPrice = hkdPriceFromCnyCost(rawCost, effectiveRate.rateValue);
+    const currentPrice = Number(product.price);
+    if (Number.isFinite(currentPrice) && currentPrice === nextPrice) {
+      skippedProductCount += 1;
+      continue;
+    }
+    const { error: updateError } = await supabase
+      .from("products")
+      .update({ price: nextPrice, current_hkd: nextPrice })
+      .eq("id", product.id);
+    if (updateError) throw new Error(`Supabase product pricing update failed for ${product.id}: ${updateError.message}`);
+    updatedProductCount += 1;
+  }
+
+  await supabase.from("store_settings").upsert([
+    { key: "rmb_hkd_rate", value: effectiveRate.rateHkdPerCny, updated_at: new Date().toISOString() },
+    { key: "pricing_multiplier", value: String(RETAIL_MULTIPLIER), updated_at: new Date().toISOString() },
+  ], { onConflict: "key" });
+
+  return {
+    rateDate: effectiveRate.rateDate,
+    rateHkdPerCny: effectiveRate.rateHkdPerCny,
+    multiplier: RETAIL_MULTIPLIER,
+    updatedProductCount,
+    skippedProductCount,
+    missingCostPriceCount,
   };
 }
 

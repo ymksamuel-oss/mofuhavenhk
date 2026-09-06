@@ -214,6 +214,15 @@ async function replaceBanners(
 
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
+function normalizeCostPriceRmb(value: unknown): number | null {
+  if (value === null || value === undefined || String(value).trim() === "") return null;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed <= 0 || parsed > 10_000_000) {
+    throw new Error("來貨價必須是大於 0 的 RMB 數字");
+  }
+  return Math.round(parsed * 10_000) / 10_000;
+}
+
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return Array.from(
@@ -316,6 +325,10 @@ export async function POST(request: Request) {
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
+  if (table === "products" && "cost_price_rmb" in payload) {
+    try { payload.cost_price_rmb = normalizeCostPriceRmb(payload.cost_price_rmb); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "來貨價格式不正確" }, { status: 400 }); }
+  }
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
@@ -341,6 +354,10 @@ export async function PATCH(request: Request) {
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
+  if (table === "products" && "cost_price_rmb" in payload) {
+    try { payload.cost_price_rmb = normalizeCostPriceRmb(payload.cost_price_rmb); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "來貨價格式不正確" }, { status: 400 }); }
+  }
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });

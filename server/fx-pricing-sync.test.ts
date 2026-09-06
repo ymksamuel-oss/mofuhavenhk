@@ -37,10 +37,10 @@ describe("daily CNY/HKD FX pricing policy", () => {
     ])).toThrow(/safety band/);
   });
 
-  it("rounds each owner formula calculation upward to a .90 HKD price", () => {
+  it("calculates HKD price using RMB cost × FX rate × 1.88", () => {
     const rate = 1.1662926219;
-    expect(retailCentsFromCnyCost("168", rate)).toBe(34490);
-    expect(retailCentsFromCnyCost("20", rate)).toBe(4190);
+    expect(retailCentsFromCnyCost("168", rate)).toBe(36836);
+    expect(retailCentsFromCnyCost("20", rate)).toBe(4385);
     expect(() => retailCentsFromCnyCost("0", rate)).toThrow(/positive number/);
   });
 
