@@ -62,6 +62,16 @@ describe("daily CNY/HKD FX pricing policy", () => {
     expect(service).toContain("idempotencyKey: `mofu-fx-deactivate-");
   });
 
+  it("forces server-side pricing when the admin payload includes an RMB cost", () => {
+    const route = source("src/app/api/admin/route.ts");
+
+    expect(route).toContain('eq("key", "rmb_hkd_rate")');
+    expect(route).toContain("payload.price = calculatedPrice");
+    expect(route).toContain("payload.original_price = calculatedPrice");
+    expect(route).toContain("payload.current_hkd = calculatedPrice");
+    expect(route).toContain("delete payload.pricing_rate_rmb_hkd");
+  });
+
   it("requires CRON_SECRET authorization and never exposes it in the route response", () => {
     const route = source("src/app/api/cron/fx-pricing/route.ts");
 

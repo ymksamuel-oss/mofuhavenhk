@@ -14,6 +14,13 @@ import {
   normalizeProductLocalization,
   parseProductLocalizations,
 } from "@/lib/product-localizations";
+import {
+  CNY_TO_HKD_MAX,
+  CNY_TO_HKD_MIN,
+  DEFAULT_CNY_TO_HKD_RATE,
+  hkdPriceFromCnyCost,
+  RETAIL_MULTIPLIER,
+} from "@/lib/fxPricingSync";
 
 const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -223,6 +230,36 @@ function normalizeCostPriceRmb(value: unknown): number | null {
   return Math.round(parsed * 10_000) / 10_000;
 }
 
+async function applyServerProductPricing(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  payload: Record<string, any>,
+): Promise<void> {
+  if (!("cost_price_rmb" in payload)) return;
+  const costPriceRmb = normalizeCostPriceRmb(payload.cost_price_rmb);
+  if (costPriceRmb === null) return;
+
+  const { data: setting, error } = await supabase
+    .from("store_settings")
+    .select("value")
+    .eq("key", "rmb_hkd_rate")
+    .maybeSingle();
+  if (error) throw new Error(`讀取 RMB/HKD 匯率失敗：${error.message}`);
+
+  const configuredRate = Number(setting?.value);
+  const rmbHkdRate = Number.isFinite(configuredRate) && configuredRate >= CNY_TO_HKD_MIN && configuredRate <= CNY_TO_HKD_MAX
+    ? configuredRate
+    : DEFAULT_CNY_TO_HKD_RATE;
+  const calculatedPrice = hkdPriceFromCnyCost(String(costPriceRmb), rmbHkdRate);
+
+  // A cost price is authoritative: never trust client-provided HKD fields.
+  payload.cost_price_rmb = costPriceRmb;
+  payload.price = calculatedPrice;
+  payload.original_price = calculatedPrice;
+  payload.current_hkd = calculatedPrice;
+  payload.pricing_rate_rmb_hkd = rmbHkdRate;
+  payload.pricing_multiplier = RETAIL_MULTIPLIER;
+}
+
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return Array.from(
@@ -326,9 +363,11 @@ export async function POST(request: Request) {
   if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && "cost_price_rmb" in payload) {
-    try { payload.cost_price_rmb = normalizeCostPriceRmb(payload.cost_price_rmb); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "來貨價格式不正確" }, { status: 400 }); }
+    try { await applyServerProductPricing(supabase, payload); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
   }
+  delete payload.pricing_rate_rmb_hkd;
+  delete payload.pricing_multiplier;
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
@@ -355,9 +394,11 @@ export async function PATCH(request: Request) {
   if (table === "products") { delete payload.name_en; delete payload.description_en; }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && "cost_price_rmb" in payload) {
-    try { payload.cost_price_rmb = normalizeCostPriceRmb(payload.cost_price_rmb); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "來貨價格式不正確" }, { status: 400 }); }
+    try { await applyServerProductPricing(supabase, payload); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
   }
+  delete payload.pricing_rate_rmb_hkd;
+  delete payload.pricing_multiplier;
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
