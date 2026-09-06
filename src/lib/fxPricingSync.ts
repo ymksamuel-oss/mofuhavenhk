@@ -146,14 +146,16 @@ export async function fetchLatestCnyHkdDailyRate(): Promise<CnyHkdDailyRate> {
   return cnyHkdRateFromEcbPayload(payload);
 }
 
-/** Calculates the smallest positive HKD cents price ending in .90 that is not below the raw formula price. */
+/** Calculates the formula price and rounds it upward to the next HKD amount ending in .90. */
 export function hkdPriceFromCnyCost(costCny: string, rateValue: number): number {
   const cost = positiveDecimal(costCny, 8);
   if (cost === null) throw new Error("RMB cost must be a positive number with at most eight decimal places");
   if (!Number.isFinite(rateValue) || rateValue < CNY_TO_HKD_MIN || rateValue > CNY_TO_HKD_MAX) {
     throw new Error("RMB/HKD rate is outside the configured safety band");
   }
-  return Math.round(cost * rateValue * RETAIL_MULTIPLIER * 100) / 100;
+  const rawHkd = cost * rateValue * RETAIL_MULTIPLIER;
+  const upwardDollar = Math.ceil(rawHkd - PRICE_TAIL_HKD - ROUNDING_EPSILON);
+  return Number((upwardDollar + PRICE_TAIL_HKD).toFixed(2));
 }
 
 export function retailCentsFromCnyCost(
