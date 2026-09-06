@@ -228,6 +228,10 @@ export default function AdminPage() {
   const [openQuickCategoryProductId, setOpenQuickCategoryProductId] = useState<string | null>(null);
   const [categorySavingProductId, setCategorySavingProductId] = useState<string | null>(null);
   const [categoryQuickError, setCategoryQuickError] = useState<string | null>(null);
+  const [openQuickEditProductId, setOpenQuickEditProductId] = useState<string | null>(null);
+  const [quickEditDraft, setQuickEditDraft] = useState<Row | null>(null);
+  const [quickEditSaving, setQuickEditSaving] = useState(false);
+  const [quickEditError, setQuickEditError] = useState<string | null>(null);
 
   const load = async (selected = tab) => {
     setLoading(true);
@@ -447,6 +451,65 @@ export default function AdminPage() {
     }
   }
 
+  function toggleQuickEdit(row: Row) {
+    const productId = String(row.id);
+    setQuickEditError(null);
+    setOpenQuickCategoryProductId(null);
+    if (openQuickEditProductId === productId) {
+      setOpenQuickEditProductId(null);
+      setQuickEditDraft(null);
+      return;
+    }
+    setOpenQuickEditProductId(productId);
+    setQuickEditDraft({
+      id: row.id,
+      cost_price_rmb: row.cost_price_rmb ?? "",
+      stock: row.stock ?? 0,
+      status: row.status === "published" && row.is_published !== false ? "published" : "draft",
+      is_published: row.status === "published" && row.is_published !== false,
+      pricing_rate_rmb_hkd: row.pricing_rate_rmb_hkd,
+    });
+  }
+
+  function quickEditPrice(draft: Row | null) {
+    const cost = Number(draft?.cost_price_rmb);
+    const rate = Number(draft?.pricing_rate_rmb_hkd) || 1.178;
+    if (!Number.isFinite(cost) || cost <= 0 || !Number.isFinite(rate)) return null;
+    const rawHkd = cost * rate * 1.88;
+    return (Math.ceil(rawHkd - 0.9 - 1e-10) + 0.9).toFixed(2);
+  }
+
+  async function saveQuickEdit() {
+    if (!quickEditDraft?.id) return;
+    const productId = String(quickEditDraft.id);
+    setQuickEditSaving(true);
+    setQuickEditError(null);
+    try {
+      const published = quickEditDraft.status === "published";
+      const result = await call("PATCH", {
+        table: "products",
+        id: quickEditDraft.id,
+        row: {
+          cost_price_rmb: quickEditDraft.cost_price_rmb === "" ? null : Number(quickEditDraft.cost_price_rmb),
+          stock: Math.max(0, Math.trunc(Number(quickEditDraft.stock) || 0)),
+          status: published ? "published" : "draft",
+          is_published: published,
+        },
+      });
+      setRows((current) => current.map((item) => (
+        String(item.id) === productId
+          ? { ...item, ...(result.data || {}), status: published ? "published" : "draft", is_published: published }
+          : item
+      )));
+      setOpenQuickEditProductId(null);
+      setQuickEditDraft(null);
+    } catch (e: any) {
+      setQuickEditError(e.message || "快速儲存失敗");
+    } finally {
+      setQuickEditSaving(false);
+    }
+  }
+
   function categoryName(categoryId: unknown) {
     return categories.find((category) => String(category.id) === String(categoryId))?.name || "未分類";
   }
@@ -594,44 +657,17 @@ export default function AdminPage() {
                           {tab === "products" ? (
                             <div className="relative">
                               <div className="flex">
-                                <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                                  <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">完整編輯</button>
                                 <button
                                   type="button"
-                                  aria-label={`快速更改 ${row.name || "產品"} 分類`}
-                                  aria-expanded={openQuickCategoryProductId === String(row.id)}
-                                  onClick={() => {
-                                    setCategoryQuickError(null);
-                                    setOpenQuickCategoryProductId((current) => current === String(row.id) ? null : String(row.id));
-                                  }}
+                                    aria-label={`快速編輯 ${row.name || "產品"}`}
+                                    aria-expanded={openQuickEditProductId === String(row.id)}
+                                    onClick={() => toggleQuickEdit(row)}
                                   className="rounded-r-lg border border-[#ded5cc] px-2 py-2 text-sm transition hover:bg-[#f6f2eb]"
                                 >
-                                  <ChevronDown className={`h-4 w-4 transition-transform ${openQuickCategoryProductId === String(row.id) ? "rotate-180" : ""}`} />
+                                    <ChevronDown className={`h-4 w-4 transition-transform ${openQuickEditProductId === String(row.id) ? "rotate-180" : ""}`} />
                                 </button>
                               </div>
-                              {openQuickCategoryProductId === String(row.id) && (
-                                <div className="absolute right-0 top-full z-20 mt-2 w-72 rounded-xl border border-[#ded5cc] bg-white p-3 text-left shadow-lg">
-                                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#8b7c70]">快速更改分類</p>
-                                  <select
-                                    value={row.category_id || ""}
-                                    disabled={categorySavingProductId === String(row.id)}
-                                    onChange={(event) => updateProductCategory(row, event.target.value)}
-                                    className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 text-sm outline-none transition focus:border-[#a36b42] disabled:cursor-wait disabled:opacity-60"
-                                  >
-                                    <option value="">未分類</option>
-                                    {categoryGroups(categories).map(({ root, entries }) => (
-                                      <optgroup key={root.id} label={root.name}>
-                                        {entries.map(({ category, depth }) => (
-                                          <option key={category.id} value={category.id}>
-                                            {depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}
-                                          </option>
-                                        ))}
-                                      </optgroup>
-                                    ))}
-                                  </select>
-                                  {categorySavingProductId === String(row.id) && <p className="mt-2 text-xs text-[#a36b42]">儲存中…</p>}
-                                  {categoryQuickError && <p className="mt-2 text-xs text-red-600">{categoryQuickError}</p>}
-                                </div>
-                              )}
                             </div>
                           ) : tab === "banners" ? (
                             <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">請於上方四格管理</span>
@@ -641,6 +677,27 @@ export default function AdminPage() {
                           {tab !== "orders" && tab !== "banners" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
+                      {tab === "products" && openQuickEditProductId === String(row.id) && quickEditDraft && (
+                        <div className="mt-4 border-t border-[#eaded5] pt-4" role="region" aria-label={`${row.name || "產品"} 快速編輯`}>
+                          <div className="mb-3 flex items-center justify-between gap-3">
+                            <div>
+                              <p className="text-sm font-semibold text-[#2f4a3c]">快速編輯</p>
+                              <p className="mt-0.5 text-xs text-[#8b7c70]">不離開產品列表即可更新核心資料</p>
+                            </div>
+                            <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
+                          </div>
+                          <div className="grid gap-3 sm:grid-cols-3">
+                            <label className="text-sm"><span className="mb-1 block font-medium">來貨價（RMB）</span><input type="number" min="0" step="0.01" value={quickEditDraft.cost_price_rmb} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_price_rmb: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 25" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
+                          </div>
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#fffaf4] px-3 py-2 text-xs text-[#806b5d]">
+                            <span>自動售價：{quickEditPrice(quickEditDraft) ? `HK$${quickEditPrice(quickEditDraft)}（含 .9 尾數）` : "輸入來貨價後自動計算"}</span>
+                            {quickEditError && <span className="text-red-600">{quickEditError}</span>}
+                          </div>
+                          <div className="mt-3 flex justify-end"><button type="button" onClick={saveQuickEdit} disabled={quickEditSaving} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{quickEditSaving ? "儲存中…" : "即時儲存"}</button></div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
