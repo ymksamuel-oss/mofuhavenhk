@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } from "lucide-react";
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 type Row = Record<string, any>;
@@ -232,6 +232,8 @@ export default function AdminPage() {
   const [quickEditDraft, setQuickEditDraft] = useState<Row | null>(null);
   const [quickEditSaving, setQuickEditSaving] = useState(false);
   const [quickEditError, setQuickEditError] = useState<string | null>(null);
+  const [csvBusy, setCsvBusy] = useState(false);
+  const [csvNotice, setCsvNotice] = useState("");
 
   const load = async (selected = tab) => {
     setLoading(true);
@@ -322,6 +324,58 @@ export default function AdminPage() {
       await load();
     } catch (e: any) {
       setError(e.message);
+    }
+  }
+
+  async function exportProductsCsv() {
+    setCsvBusy(true);
+    setCsvNotice("");
+    try {
+      const response = await fetch("/api/admin/products/csv");
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || "CSV 匯出失敗");
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `mofu-products-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      setCsvNotice(`已匯出 ${rows.length} 項產品`);
+    } catch (e: any) {
+      setCsvNotice(e.message || "CSV 匯出失敗");
+    } finally {
+      setCsvBusy(false);
+    }
+  }
+
+  async function importProductsCsv(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setCsvNotice("請選擇 .csv 檔案");
+      return;
+    }
+    setCsvBusy(true);
+    setCsvNotice("");
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const response = await fetch("/api/admin/products/csv", { method: "POST", body });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "CSV 匯入失敗");
+      const summary = `匯入完成：新增 ${result.created} 項、更新 ${result.updated} 項${result.failed ? `、失敗 ${result.failed} 項` : ""}`;
+      setCsvNotice(result.errors?.length ? `${summary}。${result.errors.slice(0, 3).join("；")}` : summary);
+      await load("products");
+    } catch (e: any) {
+      setCsvNotice(e.message || "CSV 匯入失敗");
+    } finally {
+      setCsvBusy(false);
     }
   }
 
@@ -576,6 +630,12 @@ export default function AdminPage() {
                   </select>
                 </label>
               </div>
+              <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#eaded5] pt-4">
+                <button type="button" onClick={exportProductsCsv} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />{csvBusy ? "處理中…" : "匯出全部產品 CSV"}</button>
+                <label className={`inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#a36b42] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#8f5b37] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入產品 CSV<input type="file" accept=".csv,text/csv" className="sr-only" onChange={importProductsCsv} disabled={csvBusy} /></label>
+                <span className="text-xs text-[#806b5d]">欄位：產品名稱／SKU／來貨價 CNY／圖片 URL；售價會自動按 CNY × 1.88 計算</span>
+              </div>
+              {csvNotice && <div className="mt-3 rounded-xl bg-[#f7efe7] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
               <div className="mb-3 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3 text-xs leading-5 text-[#806b5d]">前台只會顯示「狀態 = published」、「已發布」及「庫存大於 0」的產品。要暫停產品，請改為 draft／archived 或取消已發布。</div><div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
                 <span>{productQuery || productCategory !== "all" ? `篩選結果：${filteredProductRows.length} 項` : `共 ${rows.length} 項產品`}</span>
                 {(productQuery || productCategory !== "all") && <button onClick={() => { setProductQuery(""); setProductCategory("all"); }} className="font-medium text-[#a36b42] hover:underline">清除篩選</button>}
