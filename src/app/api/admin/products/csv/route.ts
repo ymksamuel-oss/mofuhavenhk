@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import * as XLSX from "xlsx";
 
 const RATE = 1.88;
 const MAX_ROWS = 5000;
@@ -84,6 +85,27 @@ function parseCsv(text: string): string[][] {
   return rows.filter((current) => current.some((value) => value.trim()));
 }
 
+function parseSpreadsheet(buffer: ArrayBuffer, fileName: string): string[][] {
+  if (fileName.toLowerCase().endsWith(".csv")) return parseCsv(new TextDecoder().decode(buffer).replace(/^\uFEFF/, ""));
+  const workbook = XLSX.read(buffer, { type: "array", cellDates: false, raw: false });
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  if (!sheet) return [];
+  return XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, defval: "", raw: false })
+    .map((row) => row.map((cell) => String(cell ?? "").trim()));
+}
+
+function exportXlsx(rows: ProductRow[]) {
+  const values = [CSV_HEADERS as unknown as string[], ...rows.map((row) => [
+    row.id, row.name, row.mofu_sku ?? row.sku, row.cost_price_rmb, row.price, row.stock,
+    productImages(row).join(" | "), row.description, row.category_id, row.brand, row.status, row.is_published,
+  ])];
+  const sheet = XLSX.utils.aoa_to_sheet(values);
+  sheet["!cols"] = [{ wch: 28 }, { wch: 34 }, { wch: 20 }, { wch: 14 }, { wch: 14 }, { wch: 10 }, { wch: 52 }];
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, sheet, "產品");
+  return XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+}
+
 function firstValue(row: Record<string, string>, names: string[]) {
   for (const name of names) if (row[name] !== undefined) return row[name].trim();
   return "";
@@ -108,12 +130,20 @@ function findMatch(rows: ProductRow[], id: string, sku: string, name: string) {
   return undefined;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const isExcel = new URL(request.url).searchParams.get("format") === "xlsx";
+  if (isExcel) return new NextResponse(exportXlsx(data || []) as BodyInit, {
+    headers: {
+      "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "Content-Disposition": `attachment; filename="mofu-products-${new Date().toISOString().slice(0, 10)}.xlsx"`,
+      "Cache-Control": "no-store",
+    },
+  });
   return new NextResponse(exportCsv(data || []), {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
@@ -129,14 +159,15 @@ export async function POST(request: Request) {
   if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const form = await request.formData();
   const file = form.get("file");
-  if (!(file instanceof File)) return NextResponse.json({ error: "請選擇 CSV 檔案" }, { status: 400 });
-  if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: "CSV 檔案不可大於 10MB" }, { status: 400 });
-  const text = (await file.text()).replace(/^\uFEFF/, "");
-  const parsed = parseCsv(text);
-  if (parsed.length < 2) return NextResponse.json({ error: "CSV 必須包含標題列及至少一項產品" }, { status: 400 });
+  if (!(file instanceof File)) return NextResponse.json({ error: "請選擇 CSV 或 Excel 檔案" }, { status: 400 });
+  if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: "檔案不可大於 10MB" }, { status: 400 });
+  const fileName = file.name || "upload.csv";
+  if (!/\.(csv|xlsx|xls)$/i.test(fileName)) return NextResponse.json({ error: "只支援 .csv、.xlsx 或 .xls 檔案" }, { status: 400 });
+  const parsed = parseSpreadsheet(await file.arrayBuffer(), fileName);
+  if (parsed.length < 2) return NextResponse.json({ error: "檔案必須包含標題列及至少一項產品" }, { status: 400 });
   const headers = parsed[0].map((header) => header.trim());
   const requiredHeader = headers.find((header) => ["產品名稱", "name", "名稱"].includes(header));
-  if (!requiredHeader) return NextResponse.json({ error: "CSV 必須包含「產品名稱」欄位" }, { status: 400 });
+  if (!requiredHeader) return NextResponse.json({ error: "檔案必須包含「產品名稱」欄位" }, { status: 400 });
   if (parsed.length - 1 > MAX_ROWS) return NextResponse.json({ error: `單次最多匯入 ${MAX_ROWS} 項產品` }, { status: 400 });
   const { data: existing, error: readError } = await supabase.from("products").select("*");
   if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });
