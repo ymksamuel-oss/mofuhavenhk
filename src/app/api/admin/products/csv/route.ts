@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { DEFAULT_CNY_TO_HKD_RATE, RETAIL_MULTIPLIER, hkdPriceFromCnyCost } from "@/lib/fxPricingSync";
 import * as XLSX from "xlsx";
 
-const RATE = 1.88;
 const MAX_ROWS = 5000;
 const MAX_IMAGES = 8;
 const CSV_HEADERS = [
@@ -172,6 +172,16 @@ export async function POST(request: Request) {
   const { data: existing, error: readError } = await supabase.from("products").select("*");
   if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });
   const rows = existing || [];
+  const { data: pricingSetting, error: pricingSettingError } = await supabase
+    .from("store_settings")
+    .select("value")
+    .eq("key", "rmb_hkd_rate")
+    .maybeSingle();
+  if (pricingSettingError) return NextResponse.json({ error: `讀取 RMB/HKD 匯率失敗：${pricingSettingError.message}` }, { status: 500 });
+  const configuredRate = Number(pricingSetting?.value);
+  const rmbHkdRate = Number.isFinite(configuredRate) && configuredRate >= 0.9 && configuredRate <= 1.5
+    ? configuredRate
+    : DEFAULT_CNY_TO_HKD_RATE;
   let created = 0;
   let updated = 0;
   const errors: string[] = [];
@@ -186,13 +196,16 @@ export async function POST(request: Request) {
       const cost = parseNumber(firstValue(input, ["來貨價 CNY", "來貨價 RMB", "cost_price_rmb", "cny_cost"]), "來貨價 CNY", true)!;
       if (cost <= 0) throw new Error("來貨價 CNY 必須大於 0");
       const matched = findMatch(rows, firstValue(input, ["id"]), sku, name);
+      const retailPrice = hkdPriceFromCnyCost(String(cost), rmbHkdRate);
       const payload: Record<string, unknown> = {
         name,
         mofu_sku: sku || (matched?.mofu_sku ?? null),
         cost_price_rmb: cost,
-        price: Math.round(cost * RATE * 100) / 100,
-        original_price: Math.round(cost * RATE * 100) / 100,
-        current_hkd: Math.round(cost * RATE * 100) / 100,
+        price: retailPrice,
+        original_price: retailPrice,
+        current_hkd: retailPrice,
+        pricing_rate_rmb_hkd: rmbHkdRate,
+        pricing_multiplier: RETAIL_MULTIPLIER,
       };
       const stock = parseNumber(firstValue(input, ["庫存", "stock"]), "庫存");
       if (stock !== undefined) payload.stock = Math.trunc(stock);
