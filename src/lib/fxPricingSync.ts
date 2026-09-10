@@ -174,6 +174,60 @@ export function retailCentsFromCnyCost(
   return cents;
 }
 
+function isStripeProductId(value: unknown): value is string {
+  return typeof value === "string" && /^prod_[A-Za-z0-9]+$/.test(value.trim());
+}
+
+function isStripePriceId(value: unknown): value is string {
+  return typeof value === "string" && /^price_[A-Za-z0-9]+$/.test(value.trim());
+}
+
+/** Replaces one storefront Stripe Price with the owner-approved HKD amount. */
+export async function replaceSupabaseProductStripePrice(input: {
+  stripeProductId: string;
+  stripePriceId?: string | null;
+  targetHkd: number;
+  rateValue: number;
+}): Promise<string | null> {
+  if (!isStripeProductId(input.stripeProductId)) throw new Error("Invalid Stripe product id");
+  const stripe = getStripe();
+  const product = await stripe.products.retrieve(input.stripeProductId);
+  if (product.deleted) throw new Error("Stripe product is deleted");
+  const defaultPriceId = typeof product.default_price === "string" ? product.default_price : product.default_price?.id;
+  const sourceId = input.stripePriceId || defaultPriceId;
+  if (!sourceId || !isStripePriceId(sourceId)) return null;
+  const source = await stripe.prices.retrieve(sourceId);
+  const sourceProductId = typeof source.product === "string" ? source.product : source.product.id;
+  if (sourceProductId !== product.id || source.currency !== "hkd") throw new Error("Stripe Price does not belong to the product or is not HKD");
+  const targetCents = Math.round(input.targetHkd * 100);
+  if (!Number.isSafeInteger(targetCents) || targetCents <= 0) throw new Error("Invalid target HKD amount");
+  if (source.unit_amount === targetCents && source.active) return source.id;
+  const suffix = safeIdempotencySuffix(`${source.id}:manual-dot90:${targetCents}`);
+  const replacement = await stripe.prices.create({
+    unit_amount: targetCents,
+    currency: "hkd",
+    product: product.id,
+    active: true,
+    metadata: { ...source.metadata, pricing_rate_rmb_hkd: String(input.rateValue), pricing_multiplier: String(RETAIL_MULTIPLIER) },
+    ...(source.nickname ? { nickname: source.nickname } : {}),
+    ...(source.tax_behavior === "inclusive" || source.tax_behavior === "exclusive" ? { tax_behavior: source.tax_behavior } : {}),
+  }, { idempotencyKey: `mofu-dot90-create-${source.id}-${suffix}` });
+  const sourceWasDefault = defaultPriceId === source.id;
+  try {
+    if (sourceWasDefault) {
+      await stripe.products.update(product.id, { default_price: replacement.id }, { idempotencyKey: `mofu-dot90-default-${product.id}-${suffix}` });
+    }
+    await stripe.prices.update(source.id, { active: false }, { idempotencyKey: `mofu-dot90-deactivate-${source.id}-${suffix}` });
+  } catch (error) {
+    const sourceAfterError = await stripe.prices.retrieve(source.id).catch(() => null);
+    if (sourceAfterError?.active === false) return replacement.id;
+    if (sourceWasDefault) await stripe.products.update(product.id, { default_price: source.id }).catch(() => undefined);
+    await stripe.prices.update(replacement.id, { active: false }).catch(() => undefined);
+    throw error;
+  }
+  return replacement.id;
+}
+
 function trustedCostCny(
   priceMetadata: Record<string, string>,
   productMetadata: Record<string, string>,

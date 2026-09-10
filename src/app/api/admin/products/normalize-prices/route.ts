@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
-import { DEFAULT_CNY_TO_HKD_RATE, RETAIL_MULTIPLIER, hkdPriceFromCnyCost } from "@/lib/fxPricingSync";
+import { DEFAULT_CNY_TO_HKD_RATE, RETAIL_MULTIPLIER, hkdPriceFromCnyCost, replaceSupabaseProductStripePrice } from "@/lib/fxPricingSync";
 
 const PRICE_TAIL_EPSILON = 0.001;
 
@@ -15,6 +15,8 @@ type Product = {
   price?: number | string | null;
   original_price?: number | string | null;
   current_hkd?: number | string | null;
+  source_product_id?: string | null;
+  source_price_id?: string | null;
 };
 
 function hasNineTail(value: unknown) {
@@ -39,7 +41,7 @@ export async function POST() {
   const configuredRate = Number(setting?.value);
   const rate = Number.isFinite(configuredRate) && configuredRate >= 0.9 && configuredRate <= 1.5 ? configuredRate : DEFAULT_CNY_TO_HKD_RATE;
 
-  const { data, error } = await supabase.from("products").select("id,name,mofu_sku,sku,cost_price_rmb,price,original_price,current_hkd").order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("products").select("id,name,mofu_sku,sku,cost_price_rmb,price,original_price,current_hkd,source_product_id,source_price_id").order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: `讀取產品失敗：${error.message}` }, { status: 500 });
 
   const changed: Array<{ id: string; name: string | null; sku: string | null; oldPrice: number | null; newPrice: number }> = [];
@@ -61,18 +63,28 @@ export async function POST() {
     }
     const needsUpdate = !hasNineTail(product.price) || Number(product.price) !== newPrice || Number(product.original_price) !== newPrice || Number(product.current_hkd) !== newPrice;
     if (!needsUpdate) continue;
-    const { error: updateError } = await supabase.from("products").update({
-      price: newPrice,
-      original_price: newPrice,
-      current_hkd: newPrice,
-      pricing_rate_rmb_hkd: rate,
-      pricing_multiplier: RETAIL_MULTIPLIER,
-    }).eq("id", product.id);
-    if (updateError) {
-      failed.push({ id: product.id, name: product.name, error: updateError.message });
-      continue;
+    try {
+      let replacementPriceId: string | null = null;
+      if (product.source_product_id) {
+        replacementPriceId = await replaceSupabaseProductStripePrice({
+          stripeProductId: product.source_product_id,
+          stripePriceId: product.source_price_id,
+          targetHkd: newPrice,
+          rateValue: rate,
+        });
+      }
+      const { error: updateError } = await supabase.from("products").update({
+        price: newPrice,
+        original_price: newPrice,
+        current_hkd: newPrice,
+        pricing_rate_rmb_hkd: rate,
+        ...(replacementPriceId ? { source_price_id: replacementPriceId } : {}),
+      }).eq("id", product.id);
+      if (updateError) throw new Error(updateError.message);
+      changed.push({ id: product.id, name: product.name, sku: product.mofu_sku ?? product.sku ?? null, oldPrice: numberOrNull(product.price), newPrice });
+    } catch (cause) {
+      failed.push({ id: product.id, name: product.name, error: cause instanceof Error ? cause.message : "更新失敗" });
     }
-    changed.push({ id: product.id, name: product.name, sku: product.mofu_sku ?? product.sku ?? null, oldPrice: numberOrNull(product.price), newPrice });
   }
 
   return NextResponse.json({ ok: true, rate, multiplier: RETAIL_MULTIPLIER, total: data?.length || 0, changed: changed.length, skipped: skipped.length, failed: failed.length, changedProducts: changed, skippedProducts: skipped, failedProducts: failed });
