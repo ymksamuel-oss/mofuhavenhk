@@ -612,6 +612,7 @@ export default function AdminPage() {
             </button>
           ))}
           <button onClick={() => router.push("/admin/image-ops")} className="mt-3 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">圖片自動補圖</button>
+          <button onClick={() => router.push("/admin/price-ops")} className="mt-2 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">批次修正零售價</button>
         </aside>
 
         <main className="min-w-0 flex-1">
