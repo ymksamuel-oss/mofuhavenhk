@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
-import { DEFAULT_CNY_TO_HKD_RATE, RETAIL_MULTIPLIER, hkdPriceFromCnyCost } from "@/lib/fxPricingSync";
+import { DEFAULT_CNY_TO_HKD_RATE, hkdPriceFromCnyCost } from "@/lib/fxPricingSync";
 import * as XLSX from "xlsx";
 
 const MAX_ROWS = 5000;
@@ -204,8 +204,6 @@ export async function POST(request: Request) {
         price: retailPrice,
         original_price: retailPrice,
         current_hkd: retailPrice,
-        pricing_rate_rmb_hkd: rmbHkdRate,
-        pricing_multiplier: RETAIL_MULTIPLIER,
       };
       const stock = parseNumber(firstValue(input, ["庫存", "stock"]), "庫存");
       if (stock !== undefined) payload.stock = Math.trunc(stock);

@@ -76,7 +76,6 @@ export async function POST() {
         price: newPrice,
         original_price: newPrice,
         current_hkd: newPrice,
-        pricing_rate_rmb_hkd: rate,
         ...(replacementPriceId ? { source_price_id: replacementPriceId } : {}),
       }).eq("id", product.id);
       if (updateError) throw new Error(updateError.message);
