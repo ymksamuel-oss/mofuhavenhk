@@ -187,6 +187,21 @@ export async function getActiveStripeProductIds(): Promise<Set<string> | null> {
   }
 }
 
+/** Keep linked Stripe Product metadata as a fallback for older Supabase rows. */
+async function getActiveStripeProductsById(): Promise<Map<string, Stripe.Product>> {
+  if (!getStripeSecretKey()) return new Map();
+  try {
+    const products = await listAllActiveProducts(getStripe());
+    return new Map(products.map((product) => [product.id, product]));
+  } catch (error) {
+    console.warn("[catalog] Stripe bilingual metadata fallback unavailable", {
+      errorName: error instanceof Error ? error.name : "unknown",
+      errorMessage: error instanceof Error ? error.message : String(error),
+    });
+    return new Map();
+  }
+}
+
 export async function getStripeImagesForSupabaseRows(rows: SupabaseProductImageRow[]): Promise<Map<string, string[]>> {
   const missingSourceIds = new Set(
     rows
@@ -866,6 +881,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoriesById = new Map(flattenCategoryTree(categoryTree).map((category) => [category.id, category]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
     const activeStripeProductIds = await getActiveStripeProductIds();
+    const stripeProductsById = await getActiveStripeProductsById();
     let pricesByProductId = new Map<string, StripePriceRecord[]>();
     let pricesById = new Map<string, StripePriceRecord>();
     let stripePricesAvailable = false;
@@ -884,8 +900,23 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const mappedProducts = productResult.data
       .filter((row: { source_product_id?: string | null }) => !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id))
       .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
-    const sourceProductId = row.source_product_id?.trim() || "";
-    const productLocalization = productLocalizations[String(row.id)];
+      const sourceProductId = row.source_product_id?.trim() || "";
+      const stripeMetadata = sourceProductId
+        ? stripeProductsById.get(sourceProductId)?.metadata ?? {}
+        : {};
+      const stripeName = bilingualMetadataValue(
+        stripeMetadata,
+        ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
+        ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
+        "",
+      );
+      const stripeDescription = bilingualMetadataValue(
+        stripeMetadata,
+        ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
+        ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+        "",
+      );
+      const productLocalization = productLocalizations[String(row.id)];
     const storedPriceId = isStripePriceId(row.source_price_id) ? row.source_price_id.trim() : undefined;
     const priceRecords = sourceProductId ? pricesByProductId.get(sourceProductId) ?? [] : [];
     const verifiedPriceRecord = storedPriceId ? priceRecords.find((price) => price.id === storedPriceId) : undefined;
@@ -915,7 +946,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       id: row.id,
       sourceId: row.source_product_id,
       name: row.name,
-      nameEn: productLocalization?.name_en || row.name_en,
+      nameEn: productLocalization?.name_en || row.name_en || stripeName?.en,
     });
     const databaseDescriptionZh = row.description_zh || translation?.description_zh || row.description;
     const databaseDescriptionEn = resolveEnglishProductDescription({
@@ -923,7 +954,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       sourceId: row.source_product_id,
       name: row.name,
       description: row.description,
-      descriptionEn: productLocalization?.description_en || row.description_en,
+      descriptionEn: productLocalization?.description_en || row.description_en || stripeDescription?.en,
     });
     return {
       id: String(row.id),
