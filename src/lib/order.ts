@@ -13,6 +13,8 @@ export type OrderItem = {
   /** Stable shop-facing item code, distinct from Stripe Product and Price IDs. */
   mofuSku?: string;
   name: { zh: string; en: string };
+  /** Locale-aware product copy used by hosted checkout and receipts. */
+  description?: { zh: string; en: string };
   /** Real product photograph from the active catalog (local path or URL). */
   image: string;
   qty: number;
@@ -67,6 +69,7 @@ function orderItemFromProduct(
     ...(variant ? { variantLabel: variant.label } : {}),
     ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
     name: product.name,
+    ...(product.description ? { description: product.description } : {}),
     image: product.images?.[0] ?? "catalog-placeholder",
     qty,
     unit: variant?.price ?? product.price,
