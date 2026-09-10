@@ -10,7 +10,6 @@ type Product = {
   id: string;
   name: string | null;
   mofu_sku?: string | null;
-  sku?: string | null;
   cost_price_rmb?: number | string | null;
   price?: number | string | null;
   original_price?: number | string | null;
@@ -41,7 +40,7 @@ export async function POST() {
   const configuredRate = Number(setting?.value);
   const rate = Number.isFinite(configuredRate) && configuredRate >= 0.9 && configuredRate <= 1.5 ? configuredRate : DEFAULT_CNY_TO_HKD_RATE;
 
-  const { data, error } = await supabase.from("products").select("id,name,mofu_sku,sku,cost_price_rmb,price,original_price,current_hkd,source_product_id,source_price_id").order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("products").select("id,name,mofu_sku,cost_price_rmb,price,original_price,current_hkd,source_product_id,source_price_id").order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: `讀取產品失敗：${error.message}` }, { status: 500 });
 
   const changed: Array<{ id: string; name: string | null; sku: string | null; oldPrice: number | null; newPrice: number }> = [];
@@ -81,7 +80,7 @@ export async function POST() {
         ...(replacementPriceId ? { source_price_id: replacementPriceId } : {}),
       }).eq("id", product.id);
       if (updateError) throw new Error(updateError.message);
-      changed.push({ id: product.id, name: product.name, sku: product.mofu_sku ?? product.sku ?? null, oldPrice: numberOrNull(product.price), newPrice });
+      changed.push({ id: product.id, name: product.name, sku: product.mofu_sku ?? null, oldPrice: numberOrNull(product.price), newPrice });
     } catch (cause) {
       failed.push({ id: product.id, name: product.name, error: cause instanceof Error ? cause.message : "更新失敗" });
     }
