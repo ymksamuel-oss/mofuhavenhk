@@ -289,6 +289,17 @@ async function validateProductForPublishing(
     existing = data || {};
   }
   const candidate = { ...existing, ...payload };
+  const sku = String(candidate.mofu_sku || "").trim();
+  if (sku) {
+    let duplicateQuery = supabase.from("products").select("id,name,mofu_sku").eq("mofu_sku", sku).limit(10);
+    if (id) duplicateQuery = duplicateQuery.neq("id", id);
+    const { data: duplicates, error: duplicateError } = await duplicateQuery;
+    if (duplicateError) throw new Error(`檢查 SKU 是否重複時發生錯誤：${duplicateError.message}`);
+    if (duplicates && duplicates.length > 0) {
+      const names = duplicates.map((row) => String(row.name || row.id)).join("、");
+      throw new Error(`SKU「${sku}」已存在，與以下產品重複：${names}。請改用唯一 SKU 後再上架。`);
+    }
+  }
   let localized: Record<string, unknown> = {};
   if (id) {
     const { data, error } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY).maybeSingle();

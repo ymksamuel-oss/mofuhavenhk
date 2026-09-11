@@ -327,7 +327,9 @@ export default function AdminPage() {
       setForm(null);
       await load();
     } catch (e: any) {
-      setError(e.message);
+      const message = e?.message || "儲存失敗，請檢查產品資料後再試。";
+      setError(`儲存失敗：${message}`);
+      window.alert(`儲存失敗\n\n${message}`);
     }
   }
 
@@ -630,7 +632,7 @@ export default function AdminPage() {
             )}
           </div>
 
-          {error && <div className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
+          {error && <div role="alert" aria-live="assertive" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium leading-6 text-red-800 shadow-sm"><strong className="mr-1">⚠ 儲存失敗：</strong>{error.replace(/^儲存失敗：/, "")}</div>}
 
           {isProductTab(tab) && (
             <section className="mb-5 rounded-2xl bg-white p-4 shadow-sm md:p-5">
