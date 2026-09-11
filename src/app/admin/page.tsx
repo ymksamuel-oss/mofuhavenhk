@@ -109,8 +109,8 @@ async function call(method: string, body?: Row, table?: string) {
     headers: { "Content-Type": "application/json" },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
-  const json = await response.json();
-  if (!response.ok) throw new Error(json.error || "操作失敗");
+  const json = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(json.error || `操作失敗（HTTP ${response.status}）`);
   return json;
 }
 
@@ -303,9 +303,9 @@ export default function AdminPage() {
 
   async function save() {
     if (!form) return;
+    setError("");
     try {
       const normalized = { ...form };
-      if (tab === "draft_products") { normalized.status = "draft"; normalized.is_published = false; }
       const replaceExisting = tab === "banners" && !form.id && normalized.replace_existing === true;
       delete normalized.replace_existing;
       if (isProductTab(tab)) {
