@@ -238,6 +238,7 @@ export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
   // collections used by the storefront navigation.
   "cat-feezed-dried-food": "冷凍脫水系列",
   "cat-freezed-dried-food": "冷凍脫水系列",
+  "cat-freeze-dried-series": "冷凍脫水系列",
   "cat-dry-food": "貓乾糧",
   "cat-snack-food": "貓貓小食",
   "cat-litter": "貓砂及貓砂盆",
