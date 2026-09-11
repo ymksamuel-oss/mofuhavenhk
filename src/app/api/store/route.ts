@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getActiveStripeProductIds, getCatalogSnapshot, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
+import { getCatalogSnapshot, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
 import { buildCategoryTree, flattenCategoryTree } from "@/lib/store-categories";
 import { getSupabasePublic } from "@/lib/supabase";
 import { databaseProductImageUrls } from "@/lib/catalog-images";
@@ -90,10 +90,7 @@ export async function GET() {
 
     const categoryTree = buildCategoryTree(categories.data || []);
     const categoryList = flattenCategoryTree(categoryTree);
-    const activeStripeProductIds = await getActiveStripeProductIds();
-    const activeProducts = uniqueStoreProductRows((products.data || []).filter((row) =>
-      !activeStripeProductIds || !row.source_product_id || activeStripeProductIds.has(row.source_product_id),
-    ));
+    const activeProducts = uniqueStoreProductRows(products.data || []);
     const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
     const enrichedProducts = activeProducts.map((row) => {
       const dbImages = databaseProductImageUrls(row);
