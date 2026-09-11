@@ -27,7 +27,6 @@ import {
 import {
   resolveEnglishProductDescription,
   resolveEnglishProductName,
-  resolveGeneratedProductTranslation,
 } from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
@@ -372,15 +371,14 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
 
 function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
   return products.map((product) => {
-    const translation = resolveGeneratedProductTranslation({ id: product.id, name: product.name.zh });
     const description = product.description
       ? {
           ...product.description,
           en: resolveEnglishProductDescription({
-            id: product.id,
-            name: product.name.zh,
-            description: product.description.zh,
-            descriptionEn: product.description.en,
+          id: product.id,
+          name: product.name.zh,
+          description: product.description.zh,
+          descriptionEn: product.description.en,
           }),
         }
       : undefined;
@@ -391,7 +389,7 @@ function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] 
         en: resolveEnglishProductName({
           id: product.id,
           name: product.name.zh,
-          nameEn: product.name.en || translation?.name_en,
+          nameEn: product.name.en,
         }),
       },
       ...(description ? { description } : {}),
@@ -638,19 +636,13 @@ function stripeProductToCatalogProduct(
   const categorySlug = categoryFromProduct(product);
   const subcategory = subcategoryFromProduct(product, categorySlug);
   const snackSeries = snackSeriesFromProduct(product, categorySlug, subcategory);
-  const generatedTranslation = resolveGeneratedProductTranslation({ id, name: product.name });
   const metadataName = bilingualMetadataValue(
     metadata,
     ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
     ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
     "",
   );
-  const localizedName = generatedTranslation
-    ? {
-        zh: metadataName?.zh || generatedTranslation.name_zh,
-        en: resolveEnglishProductName({ id, name: product.name, nameEn: metadataName?.en }),
-      }
-    : metadataName
+  const localizedName = metadataName
       ? {
           zh: metadataName.zh,
           en: resolveEnglishProductName({ id, name: product.name, nameEn: metadataName.en }),
@@ -665,17 +657,7 @@ function stripeProductToCatalogProduct(
     ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
     "",
   );
-  const localizedDescription = generatedTranslation && (generatedTranslation.description_zh || generatedTranslation.description_en)
-    ? {
-        zh: metadataDescription?.zh || generatedTranslation.description_zh,
-        en: resolveEnglishProductDescription({
-          id,
-          name: product.name,
-          description: product.description,
-          descriptionEn: metadataDescription?.en,
-        }),
-      }
-    : metadataDescription
+  const localizedDescription = metadataDescription
       ? {
           zh: metadataDescription.zh,
           en: resolveEnglishProductDescription({
@@ -748,7 +730,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
   );
 
-  const products = uniqueProductsById(
+  const products = uniqueProductsByStorefrontIdentity(
     stripeProducts
       .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
@@ -896,7 +878,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         });
       }
     }
-    const mappedProducts = productResult.data
+    const mappedProducts: Product[] = productResult.data
       .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
       const sourceProductId = row.source_product_id?.trim() || "";
       const stripeMetadata = sourceProductId
@@ -934,19 +916,14 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
     const categorySlug = categoryAssignment.categorySlug;
     const subcategory = categoryAssignment.subcategory;
-    const translation = resolveGeneratedProductTranslation({
-      id: row.id,
-      sourceId: row.source_product_id,
-      name: row.name,
-    });
-    const databaseNameZh = String(row.name_zh || translation?.name_zh || row.name || "未命名產品");
+    const databaseNameZh = String(row.name_zh || row.name || "未命名產品");
     const databaseNameEn = resolveEnglishProductName({
       id: row.id,
       sourceId: row.source_product_id,
       name: row.name,
       nameEn: productLocalization?.name_en || row.name_en || stripeName?.en,
     });
-    const databaseDescriptionZh = row.description_zh || translation?.description_zh || row.description;
+    const databaseDescriptionZh = row.description_zh || row.description;
     const databaseDescriptionEn = resolveEnglishProductDescription({
       id: row.id,
       sourceId: row.source_product_id,
@@ -964,7 +941,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       image: images[0] || CATALOG_IMAGE_FALLBACK,
       ...(images.length ? { images } : {}),
       name: {
-        zh: translation?.name_zh || databaseNameZh,
+        zh: databaseNameZh,
         en: databaseNameEn,
       },
       ...(resolvedPriceId ? { priceId: resolvedPriceId } : {}),
@@ -973,7 +950,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       inStock: Number(row.stock || 0) > 0,
       description: databaseDescriptionZh || databaseDescriptionEn
         ? {
-            zh: String(translation?.description_zh || databaseDescriptionZh || "商品說明稍後更新。"),
+            zh: String(databaseDescriptionZh || "商品說明稍後更新。"),
             en: databaseDescriptionEn,
           }
         : undefined,
@@ -984,7 +961,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       tags: [categorySlug, ...(subcategory ? [subcategory] : []), ...(row.mofu_sku ? [String(row.mofu_sku)] : [])],
       icon: iconForCategory(categorySlug),
     } satisfies Product;
-      }).filter((product): product is Product => Boolean(product && product.price >= 0));
+      });
     const products = uniqueProductsByStorefrontIdentity(mappedProducts);
     return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, source: "supabase", matchedRecords: products.length };
   } catch (error) {

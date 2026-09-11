@@ -13,6 +13,7 @@ export default defineConfig([
   globalIgnores([
     ".next/**",
     ".validation-build/**",
+    "client/**",
     "node_modules/**",
     "coverage/**",
     "*.tsbuildinfo",

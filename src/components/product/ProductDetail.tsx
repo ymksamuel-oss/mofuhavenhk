@@ -10,10 +10,9 @@ import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductImage } from "@/components/product/ProductImage";
 import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
-import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { calcSubtotal } from "@/lib/order";
+import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { useState } from "react";
@@ -57,6 +56,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const selectedPriceId = selectedOption?.priceId ?? selectedProduct.priceId;
   const selectedOriginalPrice = selectedOption?.originalPrice ?? selectedProduct.originalPrice;
   const category = getCategoryBySlug(selectedProduct.categorySlug);
+  const petBundleQuantityOptions = selectedProduct.categorySlug === "cats" || selectedProduct.categorySlug === "dogs"
+    ? PET_BUNDLE_QUANTITIES
+    : undefined;
   const cartSubtotal = calcSubtotal(toOrderItems());
   const discountPercent = selectedOriginalPrice
     ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100)
@@ -372,7 +374,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </p>
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
-                productName={renderProductName()}
+                productName={selectedProduct.name}
                 mofuSku={mofuSku}
                 className="mt-3"
               />
@@ -383,12 +385,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {selectedProduct.inStock === false ? (
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
-                productName={renderProductName()}
+                productName={selectedProduct.name}
                 mofuSku={mofuSku}
               />
             ) : (
               <>
-                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" />
+                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={petBundleQuantityOptions} />
                 <CategoryNavLink
                   href="/checkout"
                   className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
@@ -417,7 +419,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           {selectedProduct.inStock === false ? (
             <OutOfStockOrderButton
               productId={selectedProduct.id}
-              productName={renderProductName()}
+              productName={selectedProduct.name}
               mofuSku={mofuSku}
               className="!min-h-12 min-w-0 flex-1"
             />
@@ -426,7 +428,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
               productId={selectedProduct.id}
               priceId={selectedPriceId}
               size="modal"
-              showQuantity={false}
+              showQuantity
+              quantityOptions={petBundleQuantityOptions}
               className="!mt-0 min-w-0 flex-1"
             />
           )}

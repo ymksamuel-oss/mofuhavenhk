@@ -114,6 +114,13 @@ export function OrderSummary({
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
                     {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                   </p>
+                  {item.discountPercent ? (
+                    <p className="text-xs font-semibold text-[#c0483a]">
+                      {locale === "en"
+                        ? `${item.discountPercent}% off applied`
+                        : `已享 ${item.discountPercent === 10 ? "9 折" : "85 折"} 優惠`}
+                    </p>
+                  ) : null}
                 </div>
                 {editable ? (
                   <div className="flex flex-wrap items-center gap-2">

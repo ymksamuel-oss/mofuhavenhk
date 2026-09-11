@@ -16,6 +16,19 @@ const MAX_LOG_SIZE_BYTES = 1 * 1024 * 1024; // 1MB per log file
 const TRIM_TARGET_BYTES = Math.floor(MAX_LOG_SIZE_BYTES * 0.6); // Trim to 60% to avoid constant re-trimming
 
 type LogSource = "browserConsole" | "networkRequests" | "sessionReplay";
+type DebugCollectorPayload = {
+  consoleLogs?: unknown[];
+  networkRequests?: unknown[];
+  sessionEvents?: unknown[];
+};
+
+function isDebugCollectorPayload(value: unknown): value is DebugCollectorPayload {
+  if (!value || typeof value !== "object") return false;
+  const payload = value as Record<string, unknown>;
+  return ["consoleLogs", "networkRequests", "sessionEvents"].every(
+    (key) => payload[key] === undefined || Array.isArray(payload[key]),
+  );
+}
 
 function ensureLogDir() {
   if (!fs.existsSync(LOG_DIR)) {
@@ -103,7 +116,10 @@ function vitePluginManusDebugCollector(): Plugin {
           return next();
         }
 
-        const handlePayload = (payload: any) => {
+        const handlePayload = (payload: unknown) => {
+          if (!isDebugCollectorPayload(payload)) {
+            throw new Error("Invalid debug collector payload");
+          }
           // Write logs directly to files
           if (payload.consoleLogs?.length > 0) {
             writeToLogFile("browserConsole", payload.consoleLogs);

@@ -19,6 +19,8 @@ export type OrderItem = {
   image: string;
   qty: number;
   unit: number;
+  originalUnit?: number;
+  discountPercent?: 10 | 15;
 };
 
 export type RequestedOrderLine = {
@@ -37,6 +39,25 @@ export function cartLineKey(productId: string, priceId?: string): string {
 
 export function calcSubtotal(items: OrderItem[]): number {
   return items.reduce((sum, item) => sum + item.qty * item.unit, 0);
+}
+
+export const PET_BUNDLE_QUANTITIES = [4, 6, 8, 12, 16, 24] as const;
+
+/** Quantity offers are deliberately limited to the two pet top-level shelves. */
+export function isPetBundleProduct(product: Product): boolean {
+  return product.categorySlug === "cats" || product.categorySlug === "dogs";
+}
+
+export function petBundleDiscountPercent(product: Product, qty: number): 0 | 10 | 15 {
+  if (!isPetBundleProduct(product)) return 0;
+  if (qty >= 16) return 15;
+  if (qty >= 8) return 10;
+  return 0;
+}
+
+export function discountedUnitPrice(product: Product, unit: number, qty: number): number {
+  const percent = petBundleDiscountPercent(product, qty);
+  return Number((unit * (1 - percent / 100)).toFixed(2));
 }
 
 export function getShippingCost(subtotal: number, hasItems = subtotal > 0): number {
@@ -59,6 +80,8 @@ function orderItemFromProduct(
 ): OrderItem {
   const variant = selectedVariant(product, requestedPriceId);
   const stripePriceId = variant?.priceId ?? product.priceId;
+  const originalUnit = variant?.price ?? product.price;
+  const discountPercent = petBundleDiscountPercent(product, qty);
   return {
     lineKey: cartLineKey(product.id, stripePriceId),
     id: product.id,
@@ -72,7 +95,8 @@ function orderItemFromProduct(
     ...(product.description ? { description: product.description } : {}),
     image: product.images?.[0] ?? "catalog-placeholder",
     qty,
-    unit: variant?.price ?? product.price,
+    unit: discountedUnitPrice(product, originalUnit, qty),
+    ...(discountPercent ? { originalUnit, discountPercent } : {}),
   };
 }
 
