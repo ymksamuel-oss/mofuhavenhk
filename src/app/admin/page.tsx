@@ -7,9 +7,10 @@ import { ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } f
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 type Row = Record<string, any>;
-type Tab = "products" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
+type Tab = "products" | "draft_products" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
 
 const PAGE_SIZE = 20;
+function isProductTab(tab: Tab) { return tab === "products" || tab === "draft_products"; }
 const MAX_PRODUCT_IMAGES = 8;
 const BANNER_SLOT_COUNT = 4;
 
@@ -93,6 +94,7 @@ function getProductImageUrls(row: Row): string[] {
 
 const tabs: { id: Tab; label: string }[] = [
   { id: "products", label: "產品管理" },
+  { id: "draft_products", label: "未上架產品" },
   { id: "categories", label: "分類卡片" },
   { id: "banners", label: "Banner 輪播" },
   { id: "featured_pets", label: "精選寵物專區" },
@@ -113,7 +115,7 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
@@ -239,9 +241,9 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const result = await call("GET", undefined, selected);
+      const result = await call("GET", undefined, selected === "draft_products" ? "products" : selected);
       const loadedRows = result.data || [];
-      setRows(loadedRows);
+      setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
       }
@@ -250,7 +252,7 @@ export default function AdminPage() {
       }
       if (selected === "categories") {
         setCategories(result.data || []);
-      } else if (selected === "products") {
+      } else if (selected === "products" || selected === "draft_products") {
         const c = await call("GET", undefined, "categories");
         setCategories(c.data || []);
       }
@@ -265,7 +267,7 @@ export default function AdminPage() {
   useEffect(() => {
     load(tab);
     setForm(null);
-    if (tab !== "products") {
+    if (!isProductTab(tab)) {
       setProductQuery("");
       setProductCategory("all");
       setProductPage(1);
@@ -275,7 +277,7 @@ export default function AdminPage() {
   const title = useMemo(() => tabs.find((item) => item.id === tab)?.label, [tab]);
 
   const filteredProductRows = useMemo(() => {
-    if (tab !== "products") return [];
+    if (!isProductTab(tab)) return [];
     const query = productQuery.trim().toLocaleLowerCase();
     return rows.filter((row) => {
       const matchesQuery = !query || getProductSearchText(row, categories).includes(query);
@@ -285,7 +287,7 @@ export default function AdminPage() {
   }, [rows, categories, productQuery, productCategory, tab]);
 
   const productPageCount = Math.max(1, Math.ceil(filteredProductRows.length / PAGE_SIZE));
-  const visibleRows = tab === "products"
+  const visibleRows = isProductTab(tab)
     ? filteredProductRows.slice((productPage - 1) * PAGE_SIZE, productPage * PAGE_SIZE)
     : rows;
   const firstVisibleProduct = filteredProductRows.length === 0 ? 0 : (productPage - 1) * PAGE_SIZE + 1;
@@ -303,9 +305,10 @@ export default function AdminPage() {
     if (!form) return;
     try {
       const normalized = { ...form };
+      if (tab === "draft_products") { normalized.status = "draft"; normalized.is_published = false; }
       const replaceExisting = tab === "banners" && !form.id && normalized.replace_existing === true;
       delete normalized.replace_existing;
-      if (tab === "products") {
+      if (isProductTab(tab)) {
         normalized.images = parseImageUrls(normalized.images);
       }
       if (tab === "categories") {
@@ -315,10 +318,11 @@ export default function AdminPage() {
           return;
         }
       }
+      const dataTable = isProductTab(tab) ? "products" : tab;
       if (form.id) {
-        await call("PATCH", { table: tab, id: form.id, row: normalized });
+        await call("PATCH", { table: dataTable, id: form.id, row: normalized });
       } else {
-        await call("POST", { table: tab, row: normalized, ...(tab === "banners" ? { replaceExisting } : {}) });
+        await call("POST", { table: dataTable, row: normalized, ...(tab === "banners" ? { replaceExisting } : {}) });
       }
       setForm(null);
       await load();
@@ -621,14 +625,14 @@ export default function AdminPage() {
               <p className="text-sm text-[#8b7c70]">網站內容</p>
               <h2 className="text-3xl font-semibold">{title}</h2>
             </div>
-            {tab !== "orders" && tab !== "banners" && tab !== "featured_pets" && (
+            {tab !== "orders" && tab !== "banners" && tab !== "draft_products" && tab !== "featured_pets" && (
               <button onClick={() => setForm(defaultRow(tab))} className="shrink-0 rounded-xl bg-[#a36b42] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">新增</button>
             )}
           </div>
 
           {error && <div className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
 
-          {tab === "products" && (
+          {isProductTab(tab) && (
             <section className="mb-5 rounded-2xl bg-white p-4 shadow-sm md:p-5">
               <div className="flex flex-col gap-3 lg:flex-row">
                 <label className="relative min-w-0 flex-1">
@@ -694,18 +698,18 @@ export default function AdminPage() {
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">載入中…</div>
           ) : visibleRows.length === 0 && !form ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">
-              {tab === "products" && (productQuery || productCategory !== "all") ? "找不到符合條件的產品。" : "尚未有資料，請按「新增」。"}
+              {isProductTab(tab) && (productQuery || productCategory !== "all") ? "找不到符合條件的產品。" : "尚未有資料，請按「新增」。"}
             </div>
           ) : (
             <>
               <div className="space-y-3">
                 {visibleRows.map((row) => {
-                  const thumbnailUrl = tab === "products" ? getProductImageUrls(row)[0] : undefined;
+                  const thumbnailUrl = isProductTab(tab) ? getProductImageUrls(row)[0] : undefined;
                   return (
                     <div key={row.id || row.key} className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
                       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div className="flex min-w-0 items-center gap-4">
-                          {tab === "products" && (
+                          {isProductTab(tab) && (
                             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
                               {thumbnailUrl ? (
                                 <img src={thumbnailUrl} alt={`${row.name || "產品"}縮圖`} className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} />
@@ -727,7 +731,7 @@ export default function AdminPage() {
                             </div>
                           )}
                           <div className="min-w-0">
-                            <p className="font-semibold">{tab === "products" ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
+                            <p className="font-semibold">{isProductTab(tab) ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
                             <p className="mt-1 truncate text-sm text-[#8b7c70]">
                               {tab === "products"
                                 ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
@@ -739,11 +743,11 @@ export default function AdminPage() {
                                       ? `排序 ${row.sort_order ?? 0} · ${row.mobile_image_url ? "桌面／手機圖片已設定" : "手機版沿用桌面版"}`
                                       : row.image_url || row.slug || row.discount_type || ""}
                             </p>
-                            {tab === "products" && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
+                            {isProductTab(tab) && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
                           </div>
                         </div>
                         <div className="flex shrink-0 gap-2">
-                          {tab === "products" ? (
+                          {isProductTab(tab) ? (
                             <div className="relative">
                               <div className="flex">
                                   <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">完整編輯</button>
@@ -763,10 +767,10 @@ export default function AdminPage() {
                           ) : (
                             <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
                           )}
-                          {tab !== "orders" && tab !== "banners" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
+                          {tab !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
-                      {tab === "products" && openQuickEditProductId === String(row.id) && quickEditDraft && (
+                      {isProductTab(tab) && openQuickEditProductId === String(row.id) && quickEditDraft && (
                         <div className="mt-4 border-t border-[#eaded5] pt-4" role="region" aria-label={`${row.name || "產品"} 快速編輯`}>
                           <div className="mb-3 flex items-center justify-between gap-3">
                             <div>
@@ -792,7 +796,7 @@ export default function AdminPage() {
                 })}
               </div>
 
-              {tab === "products" && filteredProductRows.length > 0 && productPageCount > 1 && (
+              {isProductTab(tab) && filteredProductRows.length > 0 && productPageCount > 1 && (
                 <nav aria-label="產品分頁" className="mt-6 flex flex-wrap items-center justify-center gap-2">
                   <button disabled={productPage === 1} onClick={() => setProductPage((page) => Math.max(1, page - 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />上一頁</button>
                   {getPageNumbers(productPage, productPageCount).map((page, index) => page === "ellipsis" ? <span key={`ellipsis-${index}`} className="px-1 text-[#8b7c70]">…</span> : <button key={page} onClick={() => setProductPage(page)} aria-current={page === productPage ? "page" : undefined} className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${page === productPage ? "bg-[#2f4a3c] text-white" : "border border-[#ded5cc] bg-white hover:bg-[#f6f2eb]"}`}>{page}</button>)}
@@ -883,7 +887,7 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
       {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">新增 Banner 預設會加入現有 slider。如要只保留這一張 Banner，請勾選「覆蓋現有 Banner」再儲存。</div>}
       <div className="grid gap-4 md:grid-cols-2">
-        {tab === "products" && <>
+        {isProductTab(tab) && <>
           {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
           {field("cost_price_rmb", "來貨價（RMB，可選）", "number")}

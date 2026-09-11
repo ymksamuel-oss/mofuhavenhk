@@ -26,6 +26,7 @@ const tables = new Set(["categories", "products", "banners", "coupons", "orders"
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 4;
+const PRODUCT_PUBLISH_FIELDS = ["中文品名", "英文品名", "中文詳細敘述", "英文詳細敘述", "有效售價", "庫存（需大於 0）", "圖片 URL"];
 
 type FeaturedPetPayload = {
   image_url: string;
@@ -232,7 +233,7 @@ function normalizeCostPriceRmb(value: unknown): number | null {
 
 async function applyServerProductPricing(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
-  payload: Record<string, any>,
+  payload: Record<string, unknown>,
 ): Promise<void> {
   if (!("cost_price_rmb" in payload)) return;
   const costPriceRmb = normalizeCostPriceRmb(payload.cost_price_rmb);
@@ -270,6 +271,40 @@ function normalizeProductImages(value: unknown): string[] {
         .filter(Boolean),
     ),
   ).slice(0, MAX_PRODUCT_IMAGES);
+}
+
+function isValidImageUrl(value: unknown) {
+  return typeof value === "string" && /^https?:\/\/\S+$/i.test(value.trim());
+}
+
+async function validateProductForPublishing(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  id: string | null,
+  payload: Record<string, unknown>,
+) {
+  let existing: Record<string, unknown> = {};
+  if (id) {
+    const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
+    if (error) throw new Error(`讀取產品發布資料失敗：${error.message}`);
+    existing = data || {};
+  }
+  const candidate = { ...existing, ...payload };
+  let localized: Record<string, unknown> = {};
+  if (id) {
+    const { data, error } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY).maybeSingle();
+    if (error) throw new Error(`讀取產品英文內容失敗：${error.message}`);
+    localized = parseProductLocalizations(data?.value)[id] || {};
+  }
+  const images = normalizeProductImages(candidate.images);
+  const missing: string[] = [];
+  if (!String(candidate.name || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[0]);
+  if (!String(candidate.name_en ?? localized.name_en ?? "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[1]);
+  if (!String(candidate.description || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[2]);
+  if (!String(candidate.description_en ?? localized.description_en ?? "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[3]);
+  if (!Number.isFinite(Number(candidate.price)) || Number(candidate.price) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[4]);
+  if (!Number.isFinite(Number(candidate.stock)) || Number(candidate.stock) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[5]);
+  if (!images.some(isValidImageUrl)) missing.push(PRODUCT_PUBLISH_FIELDS[6]);
+  if (missing.length) throw new Error(`產品未能上架，請先補齊：${missing.join("、")}`);
 }
 
 export async function GET(request: Request) {
@@ -360,12 +395,18 @@ export async function POST(request: Request) {
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
-  if (table === "products") { delete payload.name_en; delete payload.description_en; }
+  if (table === "products") { /* Keep English fields until publish validation completes. */ }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && "cost_price_rmb" in payload) {
     try { await applyServerProductPricing(supabase, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
   }
+  if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
+    try { await validateProductForPublishing(supabase, null, payload); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
+  }
+  if (table === "products" && "name_en" in payload) delete payload.name_en;
+  if (table === "products" && "description_en" in payload) delete payload.description_en;
   delete payload.pricing_rate_rmb_hkd;
   delete payload.pricing_multiplier;
   const { data, error } = await supabase.from(table).insert(payload).select().single();
@@ -391,12 +432,18 @@ export async function PATCH(request: Request) {
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
-  if (table === "products") { delete payload.name_en; delete payload.description_en; }
+  if (table === "products") { /* Keep English fields until publish validation completes. */ }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && "cost_price_rmb" in payload) {
     try { await applyServerProductPricing(supabase, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
   }
+  if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
+    try { await validateProductForPublishing(supabase, id, payload); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
+  }
+  if (table === "products" && "name_en" in payload) delete payload.name_en;
+  if (table === "products" && "description_en" in payload) delete payload.description_en;
   delete payload.pricing_rate_rmb_hkd;
   delete payload.pricing_multiplier;
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;

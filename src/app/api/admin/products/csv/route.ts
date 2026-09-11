@@ -215,6 +215,16 @@ export async function POST(request: Request) {
       }
       const published = firstValue(input, ["已發布", "is_published"]);
       if (published) payload.is_published = parseBoolean(published, true);
+      const wantsPublished = payload.status === "published" || payload.is_published === true;
+      if (wantsPublished) {
+        const missing: string[] = [];
+        if (!firstValue(input, ["英文品名", "name_en"])) missing.push("英文品名");
+        if (!firstValue(input, ["描述", "description"])) missing.push("中文詳細敘述");
+        if (!firstValue(input, ["英文描述", "description_en"])) missing.push("英文詳細敘述");
+        if (stock === undefined || stock <= 0) missing.push("庫存（需大於 0）");
+        if (!images || !images.split(/[|\r\n,;]+/).some((value) => /^https?:\/\/\S+$/i.test(value.trim()))) missing.push("圖片 URL");
+        if (missing.length) throw new Error(`產品未能上架，請先補齊：${missing.join("、")}`);
+      }
       if (matched) {
         const { error } = await supabase.from("products").update(payload).eq("id", matched.id);
         if (error) throw new Error(error.message);
