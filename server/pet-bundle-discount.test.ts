@@ -16,11 +16,15 @@ const base = {
 } as Product;
 
 describe("pet bundle discounts", () => {
-  it("exposes the six fixed product-page choices", () => {
-    expect(PET_BUNDLE_QUANTITIES).toEqual([4, 6, 8, 12, 16, 24]);
+  it("exposes small quantities plus the fixed bundle choices", () => {
+    expect(PET_BUNDLE_QUANTITIES).toEqual([1, 2, 3, 4, 6, 8, 12, 16, 24]);
   });
 
   it("applies 9折 from 8 and 85折 from 16", () => {
+    expect(petBundleDiscountPercent(base, 1)).toBe(0);
+    expect(petBundleDiscountPercent(base, 2)).toBe(0);
+    expect(petBundleDiscountPercent(base, 3)).toBe(0);
+    expect(discountedUnitPrice(base, 100, 3)).toBe(100);
     expect(petBundleDiscountPercent(base, 6)).toBe(0);
     expect(petBundleDiscountPercent(base, 8)).toBe(10);
     expect(petBundleDiscountPercent(base, 15)).toBe(10);

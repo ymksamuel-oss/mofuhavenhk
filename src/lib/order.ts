@@ -41,7 +41,7 @@ export function calcSubtotal(items: OrderItem[]): number {
   return items.reduce((sum, item) => sum + item.qty * item.unit, 0);
 }
 
-export const PET_BUNDLE_QUANTITIES = [4, 6, 8, 12, 16, 24] as const;
+export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12, 16, 24] as const;
 
 /** Quantity offers are deliberately limited to the two pet top-level shelves. */
 export function isPetBundleProduct(product: Product): boolean {
