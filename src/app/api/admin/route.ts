@@ -295,14 +295,15 @@ async function validateProductForPublishing(
     if (error) throw new Error(`讀取產品英文內容失敗：${error.message}`);
     localized = parseProductLocalizations(data?.value)[id] || {};
   }
-  const images = normalizeProductImages(candidate.images);
+  const submittedImages = normalizeProductImages(candidate.images);
+  const images = submittedImages.length > 0 ? submittedImages : normalizeProductImages(existing.images);
   const missing: string[] = [];
-  if (!String(candidate.name || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[0]);
-  if (!String(candidate.name_en ?? localized.name_en ?? "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[1]);
-  if (!String(candidate.description || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[2]);
-  if (!String(candidate.description_en ?? localized.description_en ?? "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[3]);
-  if (!Number.isFinite(Number(candidate.price)) || Number(candidate.price) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[4]);
-  if (!Number.isFinite(Number(candidate.stock)) || Number(candidate.stock) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[5]);
+  if (!String(candidate.name || existing.name || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[0]);
+  if (!String(candidate.name_en || localized.name_en || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[1]);
+  if (!String(candidate.description || existing.description || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[2]);
+  if (!String(candidate.description_en || localized.description_en || "").trim()) missing.push(PRODUCT_PUBLISH_FIELDS[3]);
+  if (!Number.isFinite(Number(candidate.price ?? existing.price)) || Number(candidate.price ?? existing.price) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[4]);
+  if (!Number.isFinite(Number(candidate.stock ?? existing.stock)) || Number(candidate.stock ?? existing.stock) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[5]);
   if (!images.some(isValidImageUrl)) missing.push(PRODUCT_PUBLISH_FIELDS[6]);
   if (missing.length) throw new Error(`產品未能上架，請先補齊：${missing.join("、")}`);
 }
