@@ -17,6 +17,7 @@ import {
 import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
 import { resolveCoupon } from "@/lib/coupon";
+import { stripeReceiptDescription } from "@/lib/stripeReceiptDescription";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -190,7 +191,7 @@ export async function POST(request: Request) {
       // Exclude Stripe's domestic Alipay type. A separate AlipayHK method, if
       // enabled by Stripe for this account/configuration, remains Dashboard-driven.
       excluded_payment_method_types: ["alipay"],
-      description: `Mofu Haven order ${orderNumber}`,
+      description: stripeReceiptDescription(items, orderNumber),
       customer: customer.id,
       metadata: {
         orderNumber,

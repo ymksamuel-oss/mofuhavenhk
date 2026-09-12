@@ -16,6 +16,7 @@ import {
 import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
 import { resolveCoupon } from "@/lib/coupon";
+import { stripeReceiptDescription } from "@/lib/stripeReceiptDescription";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -290,7 +291,7 @@ export async function POST(request: Request) {
         link: { display: "never" },
       },
       payment_intent_data: {
-        description: `Mofu Haven order ${orderNumber}`,
+        description: stripeReceiptDescription(items, orderNumber),
         metadata,
       },
       // Do not set payment_method_types here. Dashboard-enabled dynamic methods
