@@ -360,6 +360,13 @@ function CheckoutContent() {
 
   const startStripePayment = useCallback(async () => {
     if (selectedMethod === "payme") return;
+    // `null` means the Stripe configuration request is still in flight. Do
+    // not turn that transient state into a permanent "Stripe unavailable"
+    // state when a customer taps the CTA quickly after opening checkout.
+    if (stripeConfigured === null) {
+      setPayError(t("stripePreparing"));
+      return;
+    }
     if (!stripeConfigured || !publishableKey) {
       setPhase("stripe_missing");
       return;
