@@ -118,7 +118,7 @@ export function AddToCartButton({
   );
 
   if (size === "card") return (
-    <div className={`relative mt-1 flex justify-end ${className}`}>
+    <div className={`relative mt-0 flex justify-end ${className}`}>
       <button
         type="button"
         onClick={add}

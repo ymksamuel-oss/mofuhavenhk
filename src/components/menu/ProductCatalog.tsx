@@ -187,23 +187,25 @@ export function ProductCatalog({
                         {product.description[locale]}
                       </p>
                     ) : null}
-                    <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-1">
-                      <p className="text-lg font-bold tabular-nums text-[#7A4B31]">
-                        {formatMoney(product.price, locale)}
-                      </p>
-                      {product.originalPrice ? (
-                        <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                          {formatMoney(product.originalPrice, locale)}
-                        </p>
-                      ) : null}
-                    </div>
                     <MarketReferencePrice
                       price={product.marketReferencePrice}
                       asOf={product.marketReferenceAsOf}
                       compact
                       className="-mt-1"
                     />
-                    <AddToCartButton productId={product.id} size="card" />
+                    <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+                      <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                        <p className="text-lg font-bold tabular-nums text-[#7A4B31]">
+                          {formatMoney(product.price, locale)}
+                        </p>
+                        {product.originalPrice ? (
+                          <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
+                            {formatMoney(product.originalPrice, locale)}
+                          </p>
+                        ) : null}
+                      </div>
+                      <AddToCartButton productId={product.id} size="card" className="shrink-0" />
+                    </div>
                   </div>
                 </li>
               );
