@@ -21,6 +21,8 @@ type AddToCartButtonProps = {
   compact?: boolean;
 };
 
+type ToastOrigin = { x: number; y: number };
+
 const PET_QUICK_QUANTITIES = [8, 12, 16, 24] as const;
 
 export function AddToCartButton({
@@ -44,15 +46,19 @@ export function AddToCartButton({
   const qty = controlledQty ?? internalQty;
   const [added, setAdded] = useState(false);
   const [toastKey, setToastKey] = useState(0);
+  const [toastOrigin, setToastOrigin] = useState<ToastOrigin | null>(null);
   const discountPercent = product && isPetProduct
     ? petBundleDiscountPercent(product, qty)
     : 0;
 
   useEffect(() => {
     if (!added) return;
-    const timer = window.setTimeout(() => setAdded(false), 2250);
+    const timer = window.setTimeout(() => {
+      setAdded(false);
+      setToastOrigin(null);
+    }, size === "card" ? 1550 : 1600);
     return () => window.clearTimeout(timer);
-  }, [added, toastKey]);
+  }, [added, size, toastKey]);
 
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
@@ -85,9 +91,16 @@ export function AddToCartButton({
       <button type="button" onClick={increase} disabled={!purchasable || qty >= MAX_QTY} aria-label={t("qtyIncrease")} className={stepperBtnClass}>+</button>
     </div>
   );
-  const add = (event: React.MouseEvent) => {
+  const add = (event: React.MouseEvent<HTMLButtonElement>) => {
     stop(event);
     if (!purchasable) return;
+    if (size === "card") {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setToastOrigin({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+    }
     addItem(productId, qty, priceId);
     setAdded(true);
     setToastKey((key) => key + 1);
@@ -133,18 +146,18 @@ export function AddToCartButton({
         <ShoppingCart className="h-4 w-4" aria-hidden="true" />
         <span className="sr-only">{!purchasable ? t("productSoldOut") : t("menuAddToCart")}</span>
       </button>
-      {added && typeof document !== "undefined" ? createPortal(
+      {added && toastOrigin && typeof document !== "undefined" ? createPortal(
         <div
           key={toastKey}
           role="status"
           aria-live="polite"
-          className="cart-add-toast pointer-events-none fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-1/2 z-[100] flex w-[min(23rem,calc(100vw-2rem))] items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-[0_18px_45px_-18px_rgba(11,101,62,0.72)]"
+          style={{ left: toastOrigin.x, top: toastOrigin.y }}
+          className="cart-add-badge pointer-events-none fixed z-[100] flex h-24 w-24 flex-col items-center justify-center rounded-full bg-[#2fa23a] px-2 text-center text-white shadow-[0_18px_45px_-18px_rgba(11,101,62,0.72)]"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-white">
-            <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+          <ShoppingCart className="mb-1 h-7 w-7" strokeWidth={2.7} aria-hidden="true" />
+          <span className="text-xs font-bold leading-tight">
+            {locale === "en" ? "Added to cart" : <>成功加到<br />購物車</>}
           </span>
-          <span className="flex-1">{locale === "en" ? "Added to cart successfully" : "已成功加入購物車"}</span>
-          <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-emerald-700">+1</span>
         </div>
       , document.body) : null}
     </div>

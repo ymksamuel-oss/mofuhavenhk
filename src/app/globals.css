@@ -21,21 +21,21 @@
   --font-body: var(--font-sans);
 }
 
-@keyframes cartToast {
-  0% { opacity: 1; transform: translate3d(-50%, calc(100% + 9rem), 0) scale(0.96); }
-  12% { opacity: 1; transform: translate3d(-50%, -0.75rem, 0) scale(1.035); }
-  20% { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
-  83% { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
-  100% { opacity: 1; transform: translate3d(-50%, calc(100% + 9rem), 0) scale(0.98); }
+@keyframes cartAddBadge {
+  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.25); }
+  22% { opacity: 1; transform: translate3d(-50%, calc(-50% - 6rem), 0) scale(1.12); }
+  33% { opacity: 1; transform: translate3d(-50%, calc(-50% - 5.25rem), 0) scale(0.98); }
+  72% { opacity: 1; transform: translate3d(-50%, calc(-50% - 5.25rem), 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(-50%, calc(-50% - 3.75rem), 0) scale(0.22); }
 }
 
-.cart-add-toast {
-  animation: cartToast 2.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+.cart-add-badge {
+  animation: cartAddBadge 1.55s cubic-bezier(0.22, 1, 0.36, 1) both;
   will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cart-add-toast { animation-duration: 0.01ms; }
+  .cart-add-badge { animation-duration: 0.01ms; }
 }
 
 @theme inline {
