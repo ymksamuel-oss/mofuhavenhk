@@ -4,7 +4,10 @@ import {
   type EmailReceiptLine,
   sendOrderReceiptEmail,
 } from "@/lib/orderReceiptEmail";
-import { parseReceiptLineMetadata } from "@/lib/receiptLineMetadata";
+import {
+  parseReceiptLineFallback,
+  parseReceiptLineMetadata,
+} from "@/lib/receiptLineMetadata";
 import { normalizeEmailAddress } from "@/lib/emailAddress";
 
 export type PaidOrderReceiptResult =
@@ -95,6 +98,8 @@ async function receiptLinesFromMetadata(
   stripe: Stripe,
   metadata: Stripe.Metadata,
 ): Promise<EmailReceiptLine[] | null> {
+  const fallbackLines = parseReceiptLineFallback(metadata);
+  if (fallbackLines.length > 0) return fallbackLines;
   const references = parseReceiptLineMetadata(metadata);
   if (references.length === 0) return null;
   const lines = await Promise.all(
