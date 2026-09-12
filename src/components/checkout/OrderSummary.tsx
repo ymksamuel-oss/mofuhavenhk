@@ -188,7 +188,7 @@ export function OrderSummary({
         ))}
       </ul>
 
-      <FreeShippingProgress subtotal={subtotal} />
+      <FreeShippingProgress subtotal={subtotal} showContinueShoppingLink />
 
       <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">

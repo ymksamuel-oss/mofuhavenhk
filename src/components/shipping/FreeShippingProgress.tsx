@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
@@ -8,6 +9,7 @@ import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 type FreeShippingProgressProps = {
   subtotal: number;
   className?: string;
+  showContinueShoppingLink?: boolean;
 };
 
 /**
@@ -18,6 +20,7 @@ type FreeShippingProgressProps = {
 export function FreeShippingProgress({
   subtotal,
   className = "",
+  showContinueShoppingLink = false,
 }: FreeShippingProgressProps) {
   const { locale, t } = useI18n();
   const safeSubtotal = Number.isFinite(subtotal) ? Math.max(0, subtotal) : 0;
@@ -47,13 +50,25 @@ export function FreeShippingProgress({
         <div className="relative mt-0.5 h-9 w-11 shrink-0 overflow-hidden rounded-lg bg-white/65">
           <Image src="/images/mofu-visuals/icons/free-shipping.jpg" alt="" fill sizes="44px" className="object-cover" />
         </div>
-        <p
-          className={`min-w-0 flex-1 text-sm font-semibold leading-snug ${
+        {showContinueShoppingLink ? (
+          <Link
+            href="/menu"
+            className={`min-w-0 flex-1 text-sm font-semibold leading-snug underline decoration-current/35 underline-offset-2 transition hover:opacity-75 ${
+              reached ? "text-emerald-800" : "text-[color:var(--ink)]"
+            }`}
+            aria-label={`${message} ${t("navContinueShopping")}`}
+          >
+            {message}
+          </Link>
+        ) : (
+          <p
+            className={`min-w-0 flex-1 text-sm font-semibold leading-snug ${
             reached ? "text-emerald-800" : "text-[color:var(--ink)]"
-          }`}
-        >
-          {message}
-        </p>
+            }`}
+          >
+            {message}
+          </p>
+        )}
         <span
           className={`shrink-0 text-xs font-bold tabular-nums ${
             reached ? "text-emerald-700" : "text-[color:var(--accent)]"

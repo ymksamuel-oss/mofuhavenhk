@@ -20,7 +20,6 @@ import {
 import { StripePaymentForm } from "@/components/checkout/StripePaymentForm";
 import { WhatsAppOrder } from "@/components/checkout/WhatsAppOrder";
 import { PayMeCheckoutPanel } from "@/components/checkout/PayMeCheckoutPanel";
-import { ContinueShoppingButton } from "@/components/ContinueShoppingButton";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
@@ -544,7 +543,6 @@ function CheckoutContent() {
             {t("checkoutSubtitle")}
           </p>
         </div>
-        <ContinueShoppingButton variant="primary" className="sm:shrink-0" />
       </header>
 
       <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
