@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ShoppingCart } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
@@ -88,7 +89,7 @@ export function AddToCartButton({
     addItem(productId, qty, priceId);
     setAdded(true);
     setSafeQty(MIN_QTY);
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && size !== "card") {
       window.dispatchEvent(new CustomEvent("mofu:open-cart-drawer"));
     }
   };
@@ -113,6 +114,31 @@ export function AddToCartButton({
           {locale === "en" ? `${option} units` : `${option} 件`}
         </button>
       ))}
+    </div>
+  );
+
+  if (size === "card") return (
+    <div className={`relative mt-1 flex justify-end ${className}`}>
+      <button
+        type="button"
+        onClick={add}
+        disabled={!purchasable}
+        aria-label={locale === "en" ? `Add ${product?.name.en ?? "product"} to cart` : `將${product?.name.zh ?? "商品"}加入購物車`}
+        aria-live="polite"
+        className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
+      >
+        <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+        <span className="sr-only">{!purchasable ? t("productSoldOut") : t("menuAddToCart")}</span>
+      </button>
+      {added ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="cart-add-toast pointer-events-none fixed bottom-24 left-1/2 z-[80] w-[min(21rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-emerald-200 bg-white/95 px-4 py-3 text-center text-sm font-semibold text-emerald-800 shadow-[0_18px_45px_-18px_rgba(32,91,60,0.5)] backdrop-blur"
+        >
+          {locale === "en" ? "Added to cart successfully ✨" : "已成功加入購物車 ✨"}
+        </div>
+      ) : null}
     </div>
   );
 
