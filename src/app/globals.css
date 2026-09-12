@@ -22,15 +22,15 @@
 }
 
 @keyframes cartAddBadge {
-  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.25); }
-  22% { opacity: 1; transform: translate3d(-50%, calc(-50% - 6rem), 0) scale(1.12); }
-  33% { opacity: 1; transform: translate3d(-50%, calc(-50% - 5.25rem), 0) scale(0.98); }
-  72% { opacity: 1; transform: translate3d(-50%, calc(-50% - 5.25rem), 0) scale(1); }
-  100% { opacity: 0; transform: translate3d(-50%, calc(-50% - 3.75rem), 0) scale(0.22); }
+  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.42); }
+  22% { opacity: 1; transform: translate3d(-50%, calc(-50% - 5.5rem), 0) scale(1.08); }
+  34% { opacity: 1; transform: translate3d(-50%, calc(-50% - 4.75rem), 0) scale(0.98); }
+  80% { opacity: 1; transform: translate3d(-50%, calc(-50% - 4.75rem), 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(-50%, calc(-50% + 0.75rem), 0) scale(0.38); }
 }
 
 .cart-add-badge {
-  animation: cartAddBadge 1.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: cartAddBadge 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   will-change: transform, opacity;
 }
 

@@ -56,7 +56,7 @@ export function AddToCartButton({
     const timer = window.setTimeout(() => {
       setAdded(false);
       setToastOrigin(null);
-    }, size === "card" ? 1550 : 1600);
+    }, size === "card" ? 1800 : 1600);
     return () => window.clearTimeout(timer);
   }, [added, size, toastKey]);
 
@@ -141,7 +141,7 @@ export function AddToCartButton({
         disabled={!purchasable}
         aria-label={locale === "en" ? `Add ${product?.name.en ?? "product"} to cart` : `將${product?.name.zh ?? "商品"}加入購物車`}
         aria-live="polite"
-        className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
+        className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-[color:var(--hero-deep)]" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
       >
         <ShoppingCart className="h-4 w-4" aria-hidden="true" />
         <span className="sr-only">{!purchasable ? t("productSoldOut") : t("menuAddToCart")}</span>
@@ -152,11 +152,13 @@ export function AddToCartButton({
           role="status"
           aria-live="polite"
           style={{ left: toastOrigin.x, top: toastOrigin.y }}
-          className="cart-add-badge pointer-events-none fixed z-[100] flex h-24 w-24 flex-col items-center justify-center rounded-full bg-[#2fa23a] px-2 text-center text-white shadow-[0_18px_45px_-18px_rgba(11,101,62,0.72)]"
+          className="cart-add-badge pointer-events-none fixed z-[100] flex h-14 w-36 items-center justify-center gap-2 rounded-[1.25rem] border border-[#e7d3c0] bg-[#fff8f2] px-3 text-[#54392d] shadow-[0_18px_45px_-18px_rgba(84,57,45,0.58)]"
         >
-          <ShoppingCart className="mb-1 h-7 w-7" strokeWidth={2.7} aria-hidden="true" />
-          <span className="text-xs font-bold leading-tight">
-            {locale === "en" ? "Added to cart" : <>成功加到<br />購物車</>}
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#f0dfd0]">
+            <ShoppingCart className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+          </span>
+          <span className="text-sm font-bold tracking-wide">
+            {locale === "en" ? "Added ✦" : "已加入 ✦"}
           </span>
         </div>
       , document.body) : null}
