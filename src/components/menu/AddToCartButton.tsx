@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ShoppingCart } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -42,15 +43,16 @@ export function AddToCartButton({
   const [internalQty, setInternalQty] = useState(MIN_QTY);
   const qty = controlledQty ?? internalQty;
   const [added, setAdded] = useState(false);
+  const [toastKey, setToastKey] = useState(0);
   const discountPercent = product && isPetProduct
     ? petBundleDiscountPercent(product, qty)
     : 0;
 
   useEffect(() => {
     if (!added) return;
-    const timer = window.setTimeout(() => setAdded(false), 1600);
+    const timer = window.setTimeout(() => setAdded(false), 2250);
     return () => window.clearTimeout(timer);
-  }, [added]);
+  }, [added, toastKey]);
 
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
@@ -88,6 +90,7 @@ export function AddToCartButton({
     if (!purchasable) return;
     addItem(productId, qty, priceId);
     setAdded(true);
+    setToastKey((key) => key + 1);
     setSafeQty(MIN_QTY);
     if (typeof window !== "undefined" && size !== "card") {
       window.dispatchEvent(new CustomEvent("mofu:open-cart-drawer"));
@@ -130,19 +133,20 @@ export function AddToCartButton({
         <ShoppingCart className="h-4 w-4" aria-hidden="true" />
         <span className="sr-only">{!purchasable ? t("productSoldOut") : t("menuAddToCart")}</span>
       </button>
-      {added ? (
+      {added && typeof document !== "undefined" ? createPortal(
         <div
+          key={toastKey}
           role="status"
           aria-live="polite"
-          className="cart-add-toast pointer-events-none fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-1/2 z-[80] flex w-[min(23rem,calc(100vw-2rem))] -translate-x-1/2 items-center gap-3 rounded-xl border border-emerald-200 bg-white/95 px-4 py-3 text-left text-sm font-semibold text-emerald-800 shadow-[0_18px_45px_-18px_rgba(32,91,60,0.5)] backdrop-blur"
+          className="cart-add-toast pointer-events-none fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-1/2 z-[100] flex w-[min(23rem,calc(100vw-2rem))] items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-600 px-4 py-3 text-left text-sm font-semibold text-white shadow-[0_18px_45px_-18px_rgba(11,101,62,0.72)]"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-white">
             <ShoppingCart className="h-4 w-4" aria-hidden="true" />
           </span>
           <span className="flex-1">{locale === "en" ? "Added to cart successfully" : "已成功加入購物車"}</span>
-          <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">+1</span>
+          <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold text-emerald-700">+1</span>
         </div>
-      ) : null}
+      , document.body) : null}
     </div>
   );
 
