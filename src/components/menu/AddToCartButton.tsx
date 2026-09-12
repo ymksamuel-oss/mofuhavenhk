@@ -148,8 +148,15 @@ export function AddToCartButton({
           key={toastKey}
           role="status"
           aria-live="polite"
-          style={{ left: toastOrigin.x, top: toastOrigin.y }}
-          className="cart-add-badge pointer-events-none fixed z-[100] flex h-14 w-48 items-center justify-center gap-2 rounded-full border border-[#806153] bg-[#54392d] px-4 text-white shadow-[0_18px_45px_-18px_rgba(54,35,28,0.68)]"
+          style={{
+            left: Math.min(
+              Math.max(toastOrigin.x, 104),
+              window.innerWidth - 104,
+            ),
+            top: toastOrigin.y,
+            transform: "translate(-50%, -50%)",
+          }}
+          className="cart-add-badge pointer-events-none fixed z-[100] flex h-14 w-48 max-w-[calc(100vw-1rem)] items-center justify-center gap-2 rounded-full border border-[#806153] bg-[#54392d] px-4 text-white shadow-[0_18px_45px_-18px_rgba(54,35,28,0.68)]"
         >
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#f0dfd0]">
             <ShoppingCart className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />

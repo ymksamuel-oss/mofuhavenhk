@@ -34,7 +34,6 @@ import {
 } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
 import { saveReceipt } from "@/lib/receipt";
-import { formatMoney } from "@/lib/i18n/translations";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 import { isValidEmailAddress } from "@/lib/emailAddress";
 
