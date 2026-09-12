@@ -126,13 +126,13 @@ export function AddToCartButton({
   );
 
   return (
-    <div className={`flex flex-col ${size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
+    <div className={`flex flex-col ${compact ? "mt-0.5 gap-1.5" : size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct && !compact ? quickChoices : null}
-        {isPetProduct && !compact ? <p className="text-center text-xs font-semibold leading-5 text-[#c0483a]" role="note">{promotionHint}</p> : null}
+        {isPetProduct ? quickChoices : null}
+        {isPetProduct ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
-      {discountMessage && !compact ? <p className="text-center text-xs font-semibold text-[#c0483a]" role="status">{discountMessage}</p> : null}
+      {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>
         {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>

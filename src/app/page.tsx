@@ -5,6 +5,7 @@ import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSectio
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeCategoryVisualNav } from "@/components/home/HomeCategoryVisualNav";
 import { FeaturedPetGallery } from "@/components/home/FeaturedPetGallery";
+import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { getFeaturedPets } from "@/lib/featured-pets-server";
 import type { FeaturedPet } from "@/lib/featured-pets";
@@ -36,6 +37,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <HomeBulkPromotion />
       <HomeBannerCarousel />
       <HomeCategoryVisualNav categories={categories} />
       <HomepageProductGrid products={products} />
