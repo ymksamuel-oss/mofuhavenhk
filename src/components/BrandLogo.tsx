@@ -24,7 +24,7 @@ export function BrandLogo({
         width={960}
         height={1106}
         className="h-full w-auto object-contain"
-        sizes="(max-width: 640px) 112px, 160px"
+        sizes="(max-width: 640px) 56px, 160px"
         priority
       />
     </span>

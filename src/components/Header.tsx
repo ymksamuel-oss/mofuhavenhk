@@ -369,16 +369,16 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:gap-3 sm:px-6">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:h-16 sm:gap-3 sm:px-6">
           <Link
             href="/"
-            className="brand-logo-link flex min-w-0 shrink items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            className="brand-logo-link flex shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
             aria-label={t("brand")}
           >
             <BrandLogo
               title={t("brand")}
               animateOnMount
-              className="h-11 sm:h-[3.25rem]"
+              className="h-14 sm:h-[3.25rem]"
             />
           </Link>
 
