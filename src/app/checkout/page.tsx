@@ -13,6 +13,7 @@ import {
   EMPTY_SHIPPING_CONTACT,
   formatPhoneForDisplay,
   getPhoneValidationError,
+  isShippingContactComplete,
   ShippingContactForm,
   type ShippingContact,
 } from "@/components/checkout/ShippingContactForm";
@@ -502,6 +503,29 @@ function CheckoutContent() {
     validateShippingContact,
   ]);
 
+  // There is intentionally no second "Start secure payment" CTA. Once the
+  // required customer and shipping details are complete, prepare the chosen
+  // payment form automatically so the checkout page stays single-step.
+  useEffect(() => {
+    if (
+      selectedMethod === "payme" ||
+      phase !== "idle" ||
+      items.length === 0 ||
+      stripeConfigured === null ||
+      !isShippingContactComplete(shippingContact)
+    ) {
+      return;
+    }
+    void startStripePayment();
+  }, [
+    items.length,
+    phase,
+    selectedMethod,
+    shippingContact,
+    startStripePayment,
+    stripeConfigured,
+  ]);
+
   const showStripeForm =
     Boolean(clientSecret && publishableKey) &&
     (phase === "ready" || phase === "completing" || phase === "error");
@@ -510,16 +534,6 @@ function CheckoutContent() {
     phase === "paid" ||
     phase === "paid_notify_failed" ||
     phase === "completing";
-  const showMobilePayBar =
-    items.length > 0 &&
-    !showStripeForm &&
-    phase !== "paid" &&
-    phase !== "paid_receipt_pending" &&
-    phase !== "paid_notify_failed" &&
-    phase !== "stripe_missing" &&
-    phase !== "preparing" &&
-    selectedMethod !== "payme";
-
   return (
     <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(10rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -553,7 +567,14 @@ function CheckoutContent() {
           <div className="milk-tea-card max-w-full p-5 sm:p-6">
             <ShippingContactForm
               value={shippingContact}
-              onChange={setShippingContact}
+              onChange={(next) => {
+                setShippingContact(next);
+                if (phase === "ready" || phase === "error") {
+                  setClientSecret(null);
+                  setPayError("");
+                  setPhase("idle");
+                }
+              }}
               disabled={qtyLocked}
               showErrors={showContactErrors}
             />
@@ -589,22 +610,6 @@ function CheckoutContent() {
             <p className="text-center text-sm text-[color:var(--muted)]">
               {t("stripePreparing")}
             </p>
-          ) : null}
-
-          {selectedMethod !== "payme" &&
-          !showStripeForm &&
-          phase !== "paid" &&
-          phase !== "paid_receipt_pending" &&
-          phase !== "paid_notify_failed" &&
-          phase !== "stripe_missing" &&
-          phase !== "preparing" ? (
-            <button
-              type="button"
-              onClick={() => void startStripePayment()}
-              className="hidden w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] active:scale-[0.99] sm:block"
-            >
-              {t("stripeStartPay")}
-            </button>
           ) : null}
 
           {showStripeForm &&
@@ -692,27 +697,6 @@ function CheckoutContent() {
         ) : null}
       </div>
 
-      {showMobilePayBar ? (
-        <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-[100] isolate border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
-          <div className="pointer-events-auto mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-3">
-            <div className="min-w-0 shrink-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
-                {t("total")}
-              </p>
-              <p className="mt-0.5 text-xl font-extrabold leading-none tabular-nums text-[color:var(--accent)]">
-                {formatMoney(amountHkd, locale)}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => void startStripePayment()}
-              className="relative z-10 min-h-12 min-w-0 flex-1 touch-manipulation rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(109,76,61,0.58)] transition hover:bg-[color:var(--hero-deep)] active:scale-[0.98]"
-            >
-              {t("stripeStartPay")}
-            </button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
