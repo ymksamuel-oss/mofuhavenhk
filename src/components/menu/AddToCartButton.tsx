@@ -86,6 +86,9 @@ export function AddToCartButton({
     addItem(productId, qty, priceId);
     setAdded(true);
     setSafeQty(MIN_QTY);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("mofu:open-cart-drawer"));
+    }
   };
   const discountMessage = discountPercent === 10
     ? locale === "en" ? "10% off applied" : "已享 9 折優惠"

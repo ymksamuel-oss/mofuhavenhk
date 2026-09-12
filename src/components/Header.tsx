@@ -189,6 +189,12 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    const openCartDrawer = () => setCartOpen(true);
+    window.addEventListener("mofu:open-cart-drawer", openCartDrawer);
+    return () => window.removeEventListener("mofu:open-cart-drawer", openCartDrawer);
+  }, []);
+
+  useEffect(() => {
     setMenuOpen(false);
     setMobileCategoryOpen(null);
     setDesktopCategoryOpen(null);
