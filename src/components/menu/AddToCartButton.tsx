@@ -16,6 +16,7 @@ type AddToCartButtonProps = {
   quantityOptions?: readonly number[];
   quantity?: number;
   onQuantityChange?: (quantity: number) => void;
+  compact?: boolean;
 };
 
 const PET_QUICK_QUANTITIES = [8, 12, 16, 24] as const;
@@ -29,6 +30,7 @@ export function AddToCartButton({
   quantityOptions,
   quantity: controlledQty,
   onQuantityChange,
+  compact = false,
 }: AddToCartButtonProps) {
   const { t, locale } = useI18n();
   const { getProductById } = useCatalog();
@@ -127,10 +129,10 @@ export function AddToCartButton({
     <div className={`flex flex-col ${size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct ? quickChoices : null}
-        {isPetProduct ? <p className="text-center text-xs font-semibold leading-5 text-[#c0483a]" role="note">{promotionHint}</p> : null}
+        {isPetProduct && !compact ? quickChoices : null}
+        {isPetProduct && !compact ? <p className="text-center text-xs font-semibold leading-5 text-[#c0483a]" role="note">{promotionHint}</p> : null}
       </div> : null}
-      {discountMessage ? <p className="text-center text-xs font-semibold text-[#c0483a]" role="status">{discountMessage}</p> : null}
+      {discountMessage && !compact ? <p className="text-center text-xs font-semibold text-[#c0483a]" role="status">{discountMessage}</p> : null}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>
         {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>

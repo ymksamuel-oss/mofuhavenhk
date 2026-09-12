@@ -1,10 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function BrandServiceStrip() {
   const { locale } = useI18n();
+  const pathname = usePathname();
+  if (pathname.startsWith("/product/")) return null;
   const labels = locale === "en"
     ? [
         { title: "Delivery Service", body: "Carefully packed and dispatched with care.", image: "/images/mofu-visuals/icons/delivery.jpg" },

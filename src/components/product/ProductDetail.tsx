@@ -92,7 +92,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const mofuSku = metadata.mofu_sku?.trim();
 
   return (
-    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(9.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
+    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted)]">
         <CategoryNavLink
           href="/menu"
@@ -410,7 +410,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
       <ProductFAQ />
 
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
-        <div className="mx-auto flex w-full max-w-5xl items-end gap-3 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] pt-3">
+        <div className="mx-auto flex w-full max-w-5xl items-center gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom,0px))] pt-2">
           <div className="min-w-0 shrink-0">
             <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
               {t("total")}
@@ -435,6 +435,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               quantityOptions={petBundleQuantityOptions}
               quantity={selectedQty}
               onQuantityChange={setSelectedQty}
+              compact
               className="!mt-0 min-w-0 flex-1"
             />
           )}
