@@ -514,7 +514,7 @@ function CheckoutContent() {
     selectedMethod !== "payme";
 
   return (
-    <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(8rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
+    <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(10rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 max-w-2xl">
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-4xl">
@@ -686,8 +686,8 @@ function CheckoutContent() {
       </div>
 
       {showMobilePayBar ? (
-        <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
-          <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-3">
+        <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-[100] isolate border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
+          <div className="pointer-events-auto mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-3">
             <div className="min-w-0 shrink-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
                 {t("total")}
@@ -699,7 +699,7 @@ function CheckoutContent() {
             <button
               type="button"
               onClick={() => void startStripePayment()}
-              className="min-h-12 min-w-0 flex-1 rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(109,76,61,0.58)] transition hover:bg-[color:var(--hero-deep)] active:scale-[0.98]"
+              className="relative z-10 min-h-12 min-w-0 flex-1 touch-manipulation rounded-2xl bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-14px_rgba(109,76,61,0.58)] transition hover:bg-[color:var(--hero-deep)] active:scale-[0.98]"
             >
               {t("stripeStartPay")}
             </button>
