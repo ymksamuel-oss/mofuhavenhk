@@ -134,9 +134,13 @@ export function AddToCartButton({
         <div
           role="status"
           aria-live="polite"
-          className="cart-add-toast pointer-events-none fixed bottom-24 left-1/2 z-[80] w-[min(21rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-emerald-200 bg-white/95 px-4 py-3 text-center text-sm font-semibold text-emerald-800 shadow-[0_18px_45px_-18px_rgba(32,91,60,0.5)] backdrop-blur"
+          className="cart-add-toast pointer-events-none fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-1/2 z-[80] flex w-[min(23rem,calc(100vw-2rem))] -translate-x-1/2 items-center gap-3 rounded-xl border border-emerald-200 bg-white/95 px-4 py-3 text-left text-sm font-semibold text-emerald-800 shadow-[0_18px_45px_-18px_rgba(32,91,60,0.5)] backdrop-blur"
         >
-          {locale === "en" ? "Added to cart successfully ✨" : "已成功加入購物車 ✨"}
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+            <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="flex-1">{locale === "en" ? "Added to cart successfully" : "已成功加入購物車"}</span>
+          <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">+1</span>
         </div>
       ) : null}
     </div>

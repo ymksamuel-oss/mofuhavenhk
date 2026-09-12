@@ -22,13 +22,16 @@
 }
 
 @keyframes cartToast {
-  0% { opacity: 0; transform: translate(-50%, 1.25rem) scale(0.96); }
-  14%, 82% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, 1.25rem) scale(0.96); }
+  0% { opacity: 0; transform: translate(-50%, 120%) scale(0.94); }
+  10% { opacity: 1; transform: translate(-50%, -0.55rem) scale(1.03); }
+  18% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  82% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, 120%) scale(0.97); }
 }
 
 .cart-add-toast {
   animation: cartToast 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
 }
 
 @theme inline {
