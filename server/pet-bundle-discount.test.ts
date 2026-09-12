@@ -26,8 +26,11 @@ describe("pet bundle discounts", () => {
     expect(petBundleDiscountPercent(base, 3)).toBe(0);
     expect(discountedUnitPrice(base, 100, 3)).toBe(100);
     expect(petBundleDiscountPercent(base, 6)).toBe(0);
+    expect(petBundleDiscountPercent(base, 5)).toBe(0);
+    expect(petBundleDiscountPercent(base, 7)).toBe(0);
     expect(petBundleDiscountPercent(base, 8)).toBe(10);
     expect(petBundleDiscountPercent(base, 15)).toBe(10);
+    expect(petBundleDiscountPercent(base, 17)).toBe(15);
     expect(petBundleDiscountPercent(base, 16)).toBe(15);
     expect(discountedUnitPrice(base, 100, 8)).toBe(90);
     expect(discountedUnitPrice(base, 100, 16)).toBe(85);

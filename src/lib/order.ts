@@ -119,7 +119,7 @@ export function getOrderItems(
 }
 
 export const MIN_QTY = 1;
-export const MAX_QTY = 20;
+export const MAX_QTY = 24;
 
 /**
  * Rebuilds order lines from client selections. A requested Price ID is accepted
