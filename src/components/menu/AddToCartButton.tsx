@@ -105,9 +105,6 @@ export function AddToCartButton({
     setAdded(true);
     setToastKey((key) => key + 1);
     setSafeQty(MIN_QTY);
-    if (typeof window !== "undefined" && size !== "card") {
-      window.dispatchEvent(new CustomEvent("mofu:open-cart-drawer"));
-    }
   };
   const discountMessage = discountPercent === 10
     ? locale === "en" ? "10% off applied" : "已享 9 折優惠"

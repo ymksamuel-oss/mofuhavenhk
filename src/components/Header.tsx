@@ -8,7 +8,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
-import { MobileCartDrawer } from "@/components/cart/MobileCartDrawer";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
@@ -163,7 +162,6 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
   const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<string | null>(null);
-  const [cartOpen, setCartOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
   const mobileCategoriesId = useId();
@@ -189,16 +187,9 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const openCartDrawer = () => setCartOpen(true);
-    window.addEventListener("mofu:open-cart-drawer", openCartDrawer);
-    return () => window.removeEventListener("mofu:open-cart-drawer", openCartDrawer);
-  }, []);
-
-  useEffect(() => {
     setMenuOpen(false);
     setMobileCategoryOpen(null);
     setDesktopCategoryOpen(null);
-    setCartOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -464,13 +455,10 @@ export function Header() {
               ) : null}
             </Link>
 
-            <button
-              type="button"
+            <Link
+              href="/checkout"
               className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
-              aria-haspopup="dialog"
-              aria-expanded={cartOpen}
-              onClick={() => setCartOpen(true)}
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (
@@ -482,7 +470,7 @@ export function Header() {
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
-            </button>
+            </Link>
 
             <div
               className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11"
@@ -529,23 +517,6 @@ export function Header() {
         </div>
       </header>
       {mobileMenu}
-      <MobileCartDrawer
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-        onEmptyStateChange={(isEmpty) => {
-          if (typeof window !== "undefined") {
-            const nav = document.getElementById("shop-flow-nav-root");
-            const footer = document.getElementById("site-footer-root");
-            if (isEmpty && cartOpen) {
-              if (nav) nav.style.display = "none";
-              if (footer) footer.style.display = "none";
-            } else {
-              if (nav) nav.style.display = "";
-              if (footer) footer.style.display = "";
-            }
-          }
-        }}
-      />
     </>
   );
 }
