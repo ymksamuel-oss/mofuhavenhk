@@ -14,6 +14,8 @@ type AddToCartButtonProps = {
   showQuantity?: boolean;
   /** Pet product surfaces show bulk quick choices alongside the free-entry stepper. */
   quantityOptions?: readonly number[];
+  quantity?: number;
+  onQuantityChange?: (quantity: number) => void;
 };
 
 const PET_QUICK_QUANTITIES = [8, 12, 16, 24] as const;
@@ -25,6 +27,8 @@ export function AddToCartButton({
   size = "card",
   showQuantity = true,
   quantityOptions,
+  quantity: controlledQty,
+  onQuantityChange,
 }: AddToCartButtonProps) {
   const { t, locale } = useI18n();
   const { getProductById } = useCatalog();
@@ -32,7 +36,8 @@ export function AddToCartButton({
   const product = getProductById(productId);
   const purchasable = Boolean(product && product.inStock !== false);
   const isPetProduct = Boolean(quantityOptions?.length);
-  const [qty, setQty] = useState(MIN_QTY);
+  const [internalQty, setInternalQty] = useState(MIN_QTY);
+  const qty = controlledQty ?? internalQty;
   const [added, setAdded] = useState(false);
   const discountPercent = product && isPetProduct
     ? petBundleDiscountPercent(product, qty)
@@ -46,7 +51,9 @@ export function AddToCartButton({
 
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
-    setQty(Math.min(MAX_QTY, Math.max(MIN_QTY, Math.floor(value))));
+    const next = Math.min(MAX_QTY, Math.max(MIN_QTY, Math.floor(value)));
+    onQuantityChange?.(next);
+    if (controlledQty === undefined) setInternalQty(next);
   };
   const decrease = () => setSafeQty(qty - 1);
   const increase = () => setSafeQty(qty + 1);
@@ -78,7 +85,7 @@ export function AddToCartButton({
     if (!purchasable) return;
     addItem(productId, qty, priceId);
     setAdded(true);
-    setQty(MIN_QTY);
+    setSafeQty(MIN_QTY);
   };
   const discountMessage = discountPercent === 10
     ? locale === "en" ? "10% off applied" : "已享 9 折優惠"
@@ -94,7 +101,7 @@ export function AddToCartButton({
         <button
           key={option}
           type="button"
-          onClick={() => setQty(option)}
+          onClick={() => setSafeQty(option)}
           disabled={!purchasable}
           className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
         >

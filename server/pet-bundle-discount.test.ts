@@ -45,6 +45,7 @@ describe("pet bundle discounts", () => {
   it("rebuilds the discounted unit used by checkout", () => {
     const items = buildOrderItemsFromLines([{ id: base.id, qty: 16 }], [base]);
     expect(items[0]?.unit).toBe(85);
+    expect((items[0]?.qty ?? 0) * (items[0]?.unit ?? 0)).toBe(1360);
     expect(items[0]?.originalUnit).toBe(100);
     expect(items[0]?.discountPercent).toBe(15);
   });

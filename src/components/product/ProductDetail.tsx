@@ -12,7 +12,7 @@ import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButto
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
+import { calcSubtotal, discountedUnitPrice, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { useState } from "react";
@@ -55,6 +55,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const selectedPrice = selectedOption?.price ?? selectedProduct.price;
   const selectedPriceId = selectedOption?.priceId ?? selectedProduct.priceId;
   const selectedOriginalPrice = selectedOption?.originalPrice ?? selectedProduct.originalPrice;
+  const [selectedQty, setSelectedQty] = useState(1);
   const category = getCategoryBySlug(selectedProduct.categorySlug);
   const petBundleQuantityOptions = selectedProduct.categorySlug === "cats" || selectedProduct.categorySlug === "dogs"
     ? PET_BUNDLE_QUANTITIES
@@ -63,6 +64,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const discountPercent = selectedOriginalPrice
     ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100)
     : null;
+  const productUnitPrice = discountedUnitPrice(selectedProduct, selectedPrice, selectedQty);
+  const productTotalPrice = productUnitPrice * selectedQty;
   const metadata = selectedProduct.metadata ?? {};
   const metadataValue = (zhKey: string, enKey: string) => {
     const preferred = locale === "zh" ? metadata[zhKey] : metadata[enKey];
@@ -390,7 +393,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               />
             ) : (
               <>
-                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={petBundleQuantityOptions} />
+                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={petBundleQuantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} />
                 <CategoryNavLink
                   href="/checkout"
                   className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
@@ -413,7 +416,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               {t("total")}
             </p>
             <p className="mt-0.5 text-xl font-extrabold leading-none tabular-nums text-[color:var(--accent)]">
-              {formatMoney(selectedPrice, locale)}
+              {formatMoney(productTotalPrice, locale)}
             </p>
           </div>
           {selectedProduct.inStock === false ? (
@@ -430,6 +433,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
               size="modal"
               showQuantity
               quantityOptions={petBundleQuantityOptions}
+              quantity={selectedQty}
+              onQuantityChange={setSelectedQty}
               className="!mt-0 min-w-0 flex-1"
             />
           )}
