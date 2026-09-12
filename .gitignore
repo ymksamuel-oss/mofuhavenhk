@@ -138,3 +138,5 @@ catalog_classification_normalization_manifest.json
 # Generated cat life-stage audit/runtime artifacts
 cat_life_stage_audit.json
 cat_life_stage_normalization_manifest.json
+.vercel
+.env*
