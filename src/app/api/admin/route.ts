@@ -22,7 +22,7 @@ import {
   RETAIL_MULTIPLIER,
 } from "@/lib/fxPricingSync";
 
-const tables = new Set(["categories", "products", "banners", "coupons", "orders", "store_settings"]);
+const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 4;
@@ -370,6 +370,15 @@ export async function GET(request: Request) {
     });
   }
 
+  if (table === "brands") {
+    const { data: productRows } = await supabase.from("products").select("brand_id").limit(5000);
+    const counts = new Map<string, number>();
+    (productRows || []).forEach((product) => {
+      const brandId = String(product.brand_id || "");
+      counts.set(brandId, (counts.get(brandId) || 0) + 1);
+    });
+    rows = rows.map((row) => ({ ...row, product_count: counts.get(String(row.id)) || 0 }));
+  }
   return NextResponse.json({ data: rows.map((row) => cleanRow(table, row)) });
 }
 

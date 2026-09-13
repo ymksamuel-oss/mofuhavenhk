@@ -7,7 +7,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } f
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 type Row = Record<string, any>;
-type Tab = "products" | "draft_products" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
+type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
 
 const PAGE_SIZE = 20;
 function isProductTab(tab: Tab) { return tab === "products" || tab === "draft_products"; }
@@ -95,6 +95,7 @@ function getProductImageUrls(row: Row): string[] {
 const tabs: { id: Tab; label: string }[] = [
   { id: "products", label: "產品管理" },
   { id: "draft_products", label: "未上架產品" },
+  { id: "brands", label: "品牌管理" },
   { id: "categories", label: "分類卡片" },
   { id: "banners", label: "Banner 輪播" },
   { id: "featured_pets", label: "精選寵物專區" },
@@ -115,7 +116,8 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", brand_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "brands") return { name: "", slug: "", logo_url: "", description: "", sort_order: 0, is_active: true };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
   return { key: "announcement", value: "" };
@@ -215,6 +217,7 @@ export default function AdminPage() {
   const [tab, setTab] = useState<Tab>("products");
   const [rows, setRows] = useState<Row[]>([]);
   const [categories, setCategories] = useState<Row[]>([]);
+  const [brands, setBrands] = useState<Row[]>([]);
   const [form, setForm] = useState<Row | null>(null);
   const [bannerSlots, setBannerSlots] = useState<BannerSlot[]>(() => toBannerSlots([]));
   const [bannerSaving, setBannerSaving] = useState(false);
@@ -252,9 +255,13 @@ export default function AdminPage() {
       }
       if (selected === "categories") {
         setCategories(result.data || []);
+      } else if (selected === "brands") {
+        setBrands(result.data || []);
       } else if (selected === "products" || selected === "draft_products") {
         const c = await call("GET", undefined, "categories");
         setCategories(c.data || []);
+        const b = await call("GET", undefined, "brands");
+        setBrands(b.data || []);
       }
     } catch (e: any) {
       if (e.message === "unauthorized") router.replace("/admin/login");
@@ -694,7 +701,7 @@ export default function AdminPage() {
               saving={featuredPetSaving}
               notice={featuredPetNotice}
             />
-          ) : form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} onSave={save} onCancel={() => setForm(null)} />}
+          ) : form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} brands={brands} onSave={save} onCancel={() => setForm(null)} />}
 
           {tab !== "featured_pets" && (loading ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">載入中…</div>
@@ -711,6 +718,11 @@ export default function AdminPage() {
                     <div key={row.id || row.key} className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
                       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div className="flex min-w-0 items-center gap-4">
+                          {tab === "brands" && (
+                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-2">
+                              {row.logo_url ? <img src={row.logo_url} alt={`${row.name || "品牌"} logo`} className="h-full w-full object-contain" loading="lazy" /> : <span className="flex h-full items-center justify-center text-center text-xs text-[#8b7c70]">無 Logo</span>}
+                            </div>
+                          )}
                           {isProductTab(tab) && (
                             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
                               {thumbnailUrl ? (
@@ -737,6 +749,8 @@ export default function AdminPage() {
                             <p className="mt-1 truncate text-sm text-[#8b7c70]">
                               {tab === "products"
                                 ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
+                                : tab === "brands"
+                                  ? `商品 ${row.product_count ?? 0} 項 · 排序 ${row.sort_order ?? 0} · ${row.is_active ? "啟用中" : "已停用"}`
                                 : tab === "orders"
                                   ? `${row.total ?? 0} · ${row.created_at || ""}`
                                   : tab === "store_settings"
@@ -814,7 +828,7 @@ export default function AdminPage() {
   );
 }
 
-function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab; form: Row; setForm: (r: Row) => void; categories: Row[]; onSave: () => void; onCancel: () => void }) {
+function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { tab: Tab; form: Row; setForm: (r: Row) => void; categories: Row[]; brands: Row[]; onSave: () => void; onCancel: () => void }) {
   const [uploading, setUploading] = useState(false);
   const [uploadNotice, setUploadNotice] = useState("");
 
@@ -940,9 +954,11 @@ function Editor({ tab, form, setForm, categories, onSave, onCancel }: { tab: Tab
           {field("seo_title", "SEO 標題")}
           {field("seo_description", "SEO 描述")}
           <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categoryGroups(categories).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}</option>)}</optgroup>)}</select></label>
+          <label className="block text-sm"><span className="mb-1 block font-medium">所屬品牌</span><select value={form.brand_id || ""} onChange={(event) => setForm({ ...form, brand_id: event.target.value || null })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未指定品牌</option>{brands.filter((brand) => brand.is_active || String(brand.id) === String(form.brand_id)).map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></label>
           <label className="block text-sm"><span className="mb-1 block font-medium">產品狀態</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（上架）</option><option value="draft">draft（草稿）</option><option value="archived">archived（歸檔）</option></select></label>
           <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />已發布到前台</label>
         </>}
+        {tab === "brands" && <>{field("name", "品牌名稱")}{field("slug", "Slug")}{field("logo_url", "Logo 圖片 URL")}{field("description", "品牌簡介")}{field("sort_order", "排序", "number")}<label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_active !== false} onChange={(event) => setForm({ ...form, is_active: event.target.checked })} />前台啟用</label><label className="block text-sm md:col-span-2"><span className="mb-1 block font-medium">上傳品牌 Logo</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "logo_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label></>}
         {tab === "categories" && <>{field("name", "分類名稱（後台系統名稱）")}{field("name_zh", "中文分類名稱（中文頁面顯示）")}{field("name_en", "English category name（英文頁面顯示）")}{field("slug", "Slug")}          <label className="block text-sm"><span className="mb-1 block font-medium">父分類</span><select value={form.parent_id || ""} onChange={(event) => setForm({ ...form, parent_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">頂層分類</option>{categoryGroups(categories, String(form.id || "")).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{categoryOptionLabel(category.name, depth + 1)}</option>)}</optgroup>)}</select></label>{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
         {tab === "banners" && <>{field("image_url", "桌面版圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳桌面版 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("mobile_image_url", "手機版圖片 URL（選填）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳手機版 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">建議直向構圖（約 4:5）；留空時手機會沿用桌面版圖片。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing === true} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（勾選後才會清除舊 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}

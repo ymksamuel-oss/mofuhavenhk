@@ -18,6 +18,7 @@ import {
   isStorefrontReadyProduct,
   categorySlugFromMofuSku,
 } from "@/lib/products";
+import type { Brand } from "@/lib/brands";
 import {
   fromStripeAmountHkd,
   getStripe,
@@ -45,6 +46,7 @@ import {
 export type CatalogSnapshot = {
   products: Product[];
   categories: StoreCategory[];
+  brands: Brand[];
   source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
@@ -740,7 +742,7 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
   if (products.length === 0) {
     throw new Error("Stripe catalog has no active HKD products");
   }
-  return { products: enforceEnglishCatalogProducts(products), categories: [], source: "stripe", matchedRecords: products.length };
+  return { products: enforceEnglishCatalogProducts(products), categories: [], brands: [], source: "stripe", matchedRecords: products.length };
 }
 
 function stripeErrorDetails(error: unknown) {
@@ -812,24 +814,26 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
   }
 
   try {
-    const [categoryResult, productResult] = await Promise.all([
+    const [categoryResult, productResult, brandResult] = await Promise.all([
       supabase.from("categories").select("*"),
       supabase
         .from("products")
         // Verified against the live raw row: `images` is the product image
         // column and contains the ordered image URL array used by each card.
-        .select("id,name,price,original_price,stock,description,images,category_id,created_at,is_published,mofu_sku,status,source_product_id,source_price_id")
+        .select("id,name,price,original_price,stock,description,images,category_id,brand_id,brand,created_at,is_published,mofu_sku,status,source_product_id,source_price_id")
         .eq("is_published", true)
         .eq("status", "published")
         .gt("stock", 0)
         .order("created_at", { ascending: false }),
+      supabase.from("brands").select("id,name,slug,logo_url,description,sort_order,is_active,created_at").eq("is_active", true).order("sort_order", { ascending: true }),
     ]);
-    if (categoryResult.error || productResult.error) {
+    if (categoryResult.error || productResult.error || brandResult.error) {
       console.error("[catalog] Supabase product query returned an error", {
         categoryError: categoryResult.error?.message,
         categoryCode: categoryResult.error?.code,
         productError: productResult.error?.message,
         productCode: productResult.error?.code,
+        brandError: brandResult.error?.message,
       });
       return null;
     }
@@ -858,7 +862,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
         categories: categoryResult.data?.length ?? 0,
       });
-      return { products: [], categories: categoryTree, source: "supabase", matchedRecords: 0 };
+      return { products: [], categories: categoryTree, brands: brandResult.data || [], source: "supabase", matchedRecords: 0 };
     }
     const categoriesById = new Map(flattenCategoryTree(categoryTree).map((category) => [category.id, category]));
     const stripeImages = await getStripeImagesForSupabaseRows(productResult.data || []);
@@ -936,6 +940,8 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       ...(isStripeProductId(sourceProductId) ? { stripeProductId: sourceProductId } : {}),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
       categoryId: row.category_id ? String(row.category_id) : undefined,
+      brandId: (row as Record<string, unknown>).brand_id ? String((row as Record<string, unknown>).brand_id) : undefined,
+      brandName: (row as Record<string, unknown>).brand ? String((row as Record<string, unknown>).brand) : undefined,
       categorySlug,
       ...(subcategory ? { subcategory } : {}),
       image: images[0] || CATALOG_IMAGE_FALLBACK,
@@ -963,7 +969,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     } satisfies Product;
       });
     const products = uniqueProductsByStorefrontIdentity(mappedProducts);
-    return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, source: "supabase", matchedRecords: products.length };
+    return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, brands: brandResult.data || [], source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
       errorName: error instanceof Error ? error.name : "unknown",
@@ -982,6 +988,7 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     return {
       products: [],
       categories: [],
+      brands: [],
       source: "supabase",
       matchedRecords: 0,
     };
@@ -993,6 +1000,7 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     return {
       products: [],
       categories: [],
+      brands: [],
       source: "supabase",
       matchedRecords: 0,
     };

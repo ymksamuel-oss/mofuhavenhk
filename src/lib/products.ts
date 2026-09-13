@@ -329,6 +329,8 @@ export const LIFESTYLE_SUBCATEGORY_SLUG: Record<LifestyleSubcategory, string> = 
 
 export type Product = {
   id: string;
+  brandId?: string;
+  brandName?: string;
   /** Unix timestamp supplied by Stripe when this product was created. */
   createdAt?: number;
   /** Active HKD Stripe Price used by Checkout for this product. */
