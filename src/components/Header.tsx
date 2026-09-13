@@ -329,7 +329,7 @@ export function Header() {
                 {coreBrands.length > 0 ? (
                   <li className="block w-full">
                     <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${mobileBrandOpen ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}>
-                      <span className="min-w-0 flex-1 py-2.5">品牌專區</span>
+                      <span className="min-w-0 flex-1 py-2.5">{locale === "en" ? "Brands" : "品牌專區"}</span>
                       <button type="button" className="flex h-10 w-10 items-center justify-center" aria-expanded={mobileBrandOpen} aria-controls="mobile-brand-menu" onClick={() => setMobileBrandOpen((open) => !open)}><CaretIcon open={mobileBrandOpen} /></button>
                     </div>
                     {mobileBrandOpen ? <div id="mobile-brand-menu" className="mx-1 mt-2 grid gap-1 rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} className="rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => { setMobileBrandOpen(false); setMenuOpen(false); }}>{brand.name}</Link>)}</div> : null}
@@ -412,7 +412,7 @@ export function Header() {
             {coreBrands.length > 0 ? (
               <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
                 <button type="button" className={`${navLinkClassName(desktopBrandOpen || coreBrands.some((brand) => pathname === brandHref(brand.slug)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} aria-controls="desktop-brand-menu" onPointerDown={(event) => { event.stopPropagation(); setDesktopBrandOpen((open) => !open); }} onFocus={() => setDesktopBrandOpen(true)}>
-                  品牌專區 <CaretIcon open={desktopBrandOpen} />
+                  {locale === "en" ? "Brands" : "品牌專區"} <CaretIcon open={desktopBrandOpen} />
                 </button>
                 {desktopBrandOpen ? <div id="desktop-brand-menu" role="menu" className="absolute left-[-0.65rem] top-full z-[70] min-w-52 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]"><div className="grid gap-1">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{brand.name}</Link>)}</div></div> : null}
               </div>

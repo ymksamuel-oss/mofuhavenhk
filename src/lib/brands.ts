@@ -17,6 +17,8 @@ export type BrandProfile = {
   introduction: string;
 };
 
+export type BrandLocale = "zh" | "en";
+
 export function brandHref(slug: string): string {
   return `/brand/${encodeURIComponent(slug)}`;
 }
@@ -56,4 +58,15 @@ export function brandProfile(brand: Brand): BrandProfile {
   if (key === "doggyman") return { displayName: "DoggyMan (ドギーマン)", origin: "🇯🇵 日本品牌", audience: "🐶 狗狗專用", specialty: "寵物零食・生活用品", introduction: "DoggyMan 長年深耕日本寵物生活市場，從狗狗零食到日常用品都以安全、好用和容易融入家庭為核心。品牌熟悉毛孩的生活習慣，提供多元而貼心的日常選擇。" };
   if (key === "d.b.f") return { displayName: "d.b.f (デビフ)", origin: "🇯🇵 日本原裝直送", audience: "🐶 狗狗專用", specialty: "營養補給・下部尿路配方", introduction: "d.b.f 是日本專注犬用食品的品牌，重視不同年齡與體質狗狗的營養需求。旗下濕糧及營養補給配方講究食材比例，讓主人能為毛孩選擇更合適的日常照護。" };
   return { displayName: brand.name, origin: "🇯🇵 日本直送正貨", audience: "🐱🐶 貓狗適用", specialty: "嚴選配方・安心品質", introduction: brandDescription(brand) };
+}
+
+export function brandProfileLocalized(brand: Brand, locale: BrandLocale): BrandProfile {
+  if (locale === "zh") return brandProfile(brand);
+  const key = brand.name.trim().toLocaleLowerCase();
+  if (key === "ciao") return { displayName: "CIAO (チャオ)", origin: "🇯🇵 Direct from Japan", audience: "🐱 Cat Only", specialty: "Human-grade ingredients · Irresistible taste", introduction: "CIAO is Japan's renowned pet treat brand by INABA, celebrated for high-palatability purees and holistic wellness recipes that pets love." };
+  if (key === "inaba") return { displayName: "INABA (いなば)", origin: "🇯🇵 Japanese brand", audience: "🐱🐶 All Life Stages", specialty: "Natural ingredients · Reliable recipes", introduction: "INABA is a trusted Japanese pet food brand known for carefully selected ingredients, enjoyable textures and everyday recipes that help pets stay happy and well hydrated." };
+  if (key === "combo") return { displayName: "COMBO (コンボ)", origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 All Life Stages", specialty: "Balanced Nutrition · Daily Care", introduction: "COMBO is a popular Japanese pet food brand known for balanced daily meals and treats, carefully crafted to satisfy taste while supporting pets across every stage of growth." };
+  if (key === "doggyman") return { displayName: "DoggyMan (ドギーマン)", origin: "🇯🇵 Japanese brand", audience: "🐶 Dog Only", specialty: "Treats · Lifestyle supplies", introduction: "DoggyMan offers high-quality treats and lifestyle supplies crafted in Japan to bring comfort and vitality to your dogs." };
+  if (key === "d.b.f") return { displayName: "d.b.f (デビフ)", origin: "🇯🇵 Direct from Japan", audience: "🐶 Dog Only", specialty: "Nutritional support · Urinary care recipes", introduction: "d.b.f is a Japanese dog food brand focused on thoughtful nutrition for different ages and lifestyles, with wet food and supplement recipes made for everyday care." };
+  return { displayName: brand.name, origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 Cats & dogs", specialty: "Carefully selected · Reliable quality", introduction: "Carefully selected genuine Japanese brand, dedicated to providing high-quality and reliable daily meals and delicious treats for your beloved pets." };
 }

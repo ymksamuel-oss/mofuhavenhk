@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BrandInfoCard } from "@/components/brand/BrandInfoCard";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
-import { brandDescription, brandHref, brandProfile, type Brand } from "@/lib/brands";
+import { brandDescription, type Brand } from "@/lib/brands";
 import { formatMoney } from "@/lib/i18n/translations";
 import { productHref } from "@/lib/products";
 
@@ -59,21 +60,10 @@ export default async function BrandPage({ params }: Props) {
   const { brand, products } = await getBrand(slug);
   if (!brand) return <main className="mx-auto max-w-5xl px-4 py-20 text-center"><h1 className="text-3xl font-semibold">找不到這個品牌</h1><Link href="/" className="mt-6 inline-block text-[#7a4b31] underline">返回首頁</Link></main>;
 
-  const profile = brandProfile(brand);
   return (
     <main className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-      <section className="mb-8 rounded-xl border border-neutral-200 bg-stone-50 p-5 sm:p-7" aria-labelledby="brand-title">
-        <nav className="mb-6 text-sm text-neutral-500" aria-label="麵包屑">
-          <Link href="/" className="hover:text-[#7a4b31] hover:underline">首頁</Link><span className="px-2">&gt;</span><Link href="/" className="hover:text-[#7a4b31] hover:underline">品牌專區</Link><span className="px-2">&gt;</span><span className="text-neutral-700">{profile.displayName}</span>
-        </nav>
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#a36b42]">Brand Knowledge</p>
-        <h1 id="brand-title" className="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">{profile.displayName}</h1>
-        <div className="mt-5 flex flex-wrap gap-2" aria-label="品牌規格">
-          {[profile.origin, profile.audience, profile.specialty].map((badge) => <span key={badge} className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700">{badge}</span>)}
-        </div>
-        <p className="mt-5 max-w-3xl text-sm leading-7 text-neutral-600 sm:text-base">{profile.introduction}</p>
-      </section>
-      {products.length === 0 ? <section className="py-12 text-center"><p className="text-neutral-500">這個品牌暫時沒有上架產品，歡迎探索其他品牌。</p><Link href="/" className="mt-5 inline-block rounded-xl bg-[#7a4b31] px-5 py-3 font-semibold text-white">探索其他品牌</Link></section> : <section aria-labelledby="brand-products-title"><h2 id="brand-products-title" className="sr-only">{profile.displayName} 商品</h2><ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{products.map((product) => <ProductCard key={product.id} product={product} />)}</ul></section>}
+      <BrandInfoCard brand={brand} />
+      {products.length === 0 ? <section className="py-12 text-center"><p className="text-neutral-500">這個品牌暫時沒有上架產品，歡迎探索其他品牌。</p><Link href="/" className="mt-5 inline-block rounded-xl bg-[#7a4b31] px-5 py-3 font-semibold text-white">探索其他品牌</Link></section> : <section aria-labelledby="brand-products-title"><h2 id="brand-products-title" className="sr-only">{brand.name} 商品</h2><ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{products.map((product) => <ProductCard key={product.id} product={product} />)}</ul></section>}
     </main>
   );
 }
