@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function ProductCard({ product }: { product: CatalogProduct }) {
   return (
     <li className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-      <Link href={productHref(product.id)} className="block aspect-square bg-[#fbf5ed]">
+      <Link href={productHref(product.id)} className="relative block aspect-square overflow-hidden bg-[#fbf5ed]">
         <ProductImage src={product.images?.[0] || "catalog-placeholder"} alt={product.name.zh} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" className="object-cover" />
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
