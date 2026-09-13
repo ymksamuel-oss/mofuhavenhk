@@ -5,7 +5,8 @@ import { createPortal } from "react-dom";
 import { ShoppingCart } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
+import { discountedUnitPrice, MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
+import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
 type AddToCartButtonProps = {
@@ -19,6 +20,8 @@ type AddToCartButtonProps = {
   quantity?: number;
   onQuantityChange?: (quantity: number) => void;
   compact?: boolean;
+  showTotal?: boolean;
+  unitPrice?: number;
 };
 
 type ToastOrigin = { x: number; y: number };
@@ -35,6 +38,8 @@ export function AddToCartButton({
   quantity: controlledQty,
   onQuantityChange,
   compact = false,
+  showTotal = false,
+  unitPrice,
 }: AddToCartButtonProps) {
   const { t, locale } = useI18n();
   const { getProductById } = useCatalog();
@@ -115,7 +120,7 @@ export function AddToCartButton({
     ? "💡 Buy 8 or more to enjoy 10% off! Buy 16 or more for 15% off!"
     : "💡 凡購買滿 8 件或以上即享 9 折優惠！滿 16 件更可享 85 折優惠！";
   const quickChoices = (
-    <div className="flex flex-wrap justify-center gap-1.5" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
+    <div className="flex min-w-max flex-nowrap items-center gap-1.5 overflow-x-auto py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
       {PET_QUICK_QUANTITIES.map((option) => (
         <button
           key={option}
@@ -186,6 +191,7 @@ export function AddToCartButton({
         {isPetProduct ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
       {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
+      {showTotal ? <p className="text-center text-lg font-bold tabular-nums text-[color:var(--accent)]" aria-live="polite">{t("total")}：{formatMoney(product ? discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty : 0, locale)}</p> : null}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>
         {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>

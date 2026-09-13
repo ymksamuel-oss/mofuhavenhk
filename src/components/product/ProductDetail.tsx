@@ -12,7 +12,7 @@ import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButto
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { calcSubtotal, discountedUnitPrice, PET_BUNDLE_QUANTITIES } from "@/lib/order";
+import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
@@ -62,8 +62,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const discountPercent = selectedOriginalPrice
     ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100)
     : null;
-  const productUnitPrice = discountedUnitPrice(selectedProduct, selectedPrice, selectedQty);
-  const productTotalPrice = productUnitPrice * selectedQty;
   const metadata = selectedProduct.metadata ?? {};
   const metadataValue = (zhKey: string, enKey: string) => {
     const preferred = locale === "zh" ? metadata[zhKey] : metadata[enKey];
@@ -90,7 +88,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const mofuSku = metadata.mofu_sku?.trim();
 
   return (
-    <div className="relative mx-auto w-full max-w-5xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
+    <div className="relative mx-auto w-full max-w-5xl px-4 pb-12 pt-8 sm:px-6 sm:py-12">
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[color:var(--muted)]">
         <CategoryNavLink
           href="/menu"
@@ -159,6 +157,31 @@ export function ProductDetail({ product }: ProductDetailProps) {
           />
 
           <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
+
+          {selectedProduct.inStock === false ? null : (
+            <section className="mt-6" aria-labelledby="product-purchase-actions-title">
+              <h2 id="product-purchase-actions-title" className="text-sm font-semibold text-[color:var(--ink)]">
+                {locale === "en" ? "Quantity" : "購買數量"}
+              </h2>
+              <AddToCartButton
+                productId={selectedProduct.id}
+                priceId={selectedPriceId}
+                size="modal"
+                quantityOptions={petBundleQuantityOptions}
+                quantity={selectedQty}
+                onQuantityChange={setSelectedQty}
+                showTotal
+                unitPrice={selectedPrice}
+                className="!mt-3"
+              />
+              <CategoryNavLink
+                href="/checkout"
+                className="mt-3 inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3.5 text-sm font-medium text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)]"
+              >
+                {t("menuAddToCheckout")}
+              </CategoryNavLink>
+            </section>
+          )}
 
           {selectedProduct.description ? (
             <div className="mt-6">
@@ -382,63 +405,21 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
           ) : null}
 
-          <div className="hidden space-y-3 sm:block">
-            {selectedProduct.inStock === false ? (
+          {selectedProduct.inStock === false ? (
+            <div className="mt-6">
               <OutOfStockOrderButton
                 productId={selectedProduct.id}
                 productName={selectedProduct.name}
                 mofuSku={mofuSku}
               />
-            ) : (
-              <>
-                <AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={petBundleQuantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} />
-                <CategoryNavLink
-                  href="/checkout"
-                  className="inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[color:var(--accent)] bg-[color:var(--accent)] px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"
-                >
-                  {t("menuAddToCheckout")}
-                </CategoryNavLink>
-              </>
-            )}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
 
       <FAQAccordion />
       <ProductFAQ />
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 shadow-[0_-16px_36px_-28px_rgba(43,38,35,0.42)] backdrop-blur sm:hidden">
-        <div className="mx-auto flex w-full max-w-5xl items-center gap-2 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom,0px))] pt-2">
-          <div className="min-w-0 shrink-0">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--muted)]">
-              {t("total")}
-            </p>
-            <p className="mt-0.5 text-xl font-extrabold leading-none tabular-nums text-[color:var(--accent)]">
-              {formatMoney(productTotalPrice, locale)}
-            </p>
-          </div>
-          {selectedProduct.inStock === false ? (
-            <OutOfStockOrderButton
-              productId={selectedProduct.id}
-              productName={selectedProduct.name}
-              mofuSku={mofuSku}
-              className="!min-h-12 min-w-0 flex-1"
-            />
-          ) : (
-            <AddToCartButton
-              productId={selectedProduct.id}
-              priceId={selectedPriceId}
-              size="modal"
-              showQuantity
-              quantityOptions={petBundleQuantityOptions}
-              quantity={selectedQty}
-              onQuantityChange={setSelectedQty}
-              compact
-              className="!mt-0 min-w-0 flex-1"
-            />
-          )}
-        </div>
-      </div>
     </div>
   );
 }
