@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CatBreedsGuide } from "@/components/about/CatBreedsGuide";
 
 export const metadata: Metadata = {
-  title: "貓咪品種圖鑑｜Mofu Haven HK",
+  title: "貓咪品種圖鑑｜毛毛港 Mofu Haven HK",
   description: "探索常見貓咪品種的日常特質與護理重點——短毛、長毛一次看懂。",
 };
 

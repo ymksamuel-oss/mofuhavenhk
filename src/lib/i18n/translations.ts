@@ -4,7 +4,7 @@ export const LOCALE_STORAGE_KEY = "mofuhavenhk-locale";
 
 export const translations = {
   zh: {
-    brand: "Mofu Haven",
+    brand: "毛毛港 Mofu Haven",
     documentTitle: "Mofu Haven｜日本寵物用品",
     documentDescription: "精選日本寵物食品及生活用品，送到香港。",
     navHome: "首頁",
@@ -143,9 +143,9 @@ export const translations = {
     subtotal: "小計",
     shipping: "運費",
     shippingNote: "1–2 個工作天寄出・整體 5–7 個工作天收到",
-    freeShippingThreshold: "滿 HK$450 免運費",
-    freeShippingRemaining: "還差 {amount} 即可享 HK$450 免運費",
-    freeShippingReached: "已達 HK$450，享免運費",
+    freeShippingThreshold: "順豐本地免運門檻：HK$450",
+    freeShippingRemaining: "仲差 {amount} 即可享順豐本地免運！",
+    freeShippingReached: "🎉 已享有順豐本地免運費優惠！",
     freeShippingProgressLabel: "免運費進度",
     total: "總計",
     currency: "HK$",
@@ -427,9 +427,9 @@ export const translations = {
     infoPageBack: "返回首頁",
     aboutPageEyebrow: "Our Story",
     aboutPageTitle: "關於我們",
-    aboutBrandAlias: "Mofu Haven（毛毛港）",
+    aboutBrandAlias: "毛毛港 Mofu Haven",
     aboutPageIntro:
-      "Mofu Haven（毛毛港）係一間紮根香港、專注日本優質寵物糧食與用品嘅選品小店。我哋相信：毛孩值得被溫柔對待，每一次落單，都應該感覺安心、清楚、被照顧。",
+      "毛毛港 Mofu Haven 係一間紮根香港、專注日本優質寵物糧食與用品嘅選品小店。我哋相信：毛孩值得被溫柔對待，每一次落單，都應該感覺安心、清楚、被照顧。",
     aboutNameOriginTitle: "名字由來",
     aboutNameOriginBody:
       "「Mofu」來自日語「モフモフ」——摸落去軟綿綿、暖笠笠嘅觸感，象徵毛孩最療癒嘅存在。「Haven」係避風港，中文名「毛毛港」就係希望為香港每一隻毛孩，建立一個可以安心停泊嘅小港灣：有好野食、有好東西用，亦有人認真為你把關。",
@@ -447,23 +447,23 @@ export const translations = {
       "謝謝你願意信任毛毛港。願每一個紙箱打開嘅瞬間，都係一份溫柔——俾毛孩，亦俾愛佢哋嘅你。歡迎一齊，慢慢揀好野。",
     aboutShopCta: "逛逛商品",
     aboutPageBody:
-      "Mofu Haven（毛毛港）專注嚴選日本優質寵物糧食與用品，希望每位毛孩都能安心、健康地成長。",
+      "毛毛港 Mofu Haven 專注嚴選日本優質寵物糧食與用品，希望每位毛孩都能安心、健康地成長。",
     faqPageTitle: "常見問題",
     faqIntro: "為您解答關於運費、發貨、付款與退換貨的各項疑問",
     faqShippingQuestion: "運費點計？幾時有免運費？",
-    faqShippingAnswer: "Mofu Haven 提供香港本地順豐速運配送。全店購物淨額滿 HK$450 即享免運費；若未滿 HK$450，標準運費為 HK$35。系統會在結帳時自動計算。",
+    faqShippingAnswer: "毛毛港 Mofu Haven 使用順豐速運配送。全單滿 HK$450 即享順豐本地免運；未滿額劃一運費 HK$35，支援順豐站、智能櫃、工商及住宅上門。系統會在結帳時自動計算。",
     faqDeliveryQuestion: "落單後幾耐收貨？",
     faqDeliveryAnswer:
       "現貨商品：我們一般會在訂單確認並完成付款後 1-2 個工作天內由香港倉庫安排寄出。\n\n整體配送時間：連同速遞派送（如順豐速遞）計算，顧客通常會於下單後 5-7 個工作天內收到商品。\n\n惡劣天氣特別安排：如遇上香港發出八號或以上熱帶氣旋警告信號（掛風球）或黑色暴雨警告，本地物流及順豐派送服務將會暫停。受惡劣天氣影響之訂單，出貨及派送時間將會順延，敬請見諒。\n\n貨件發出後，我們將透過電郵或短訊發送順豐追蹤單號（Waybill No.），方便您隨時查閱物流進度。",
     faqPaymentQuestion: "支援乜嘢付款方式？",
     faqPaymentAnswer:
-      "我們支援多種安全便捷的網上付款方式，切合不同顧客的需求：\n\n1. 信用卡及手機支付：\nVisa／Mastercard（所有信用卡交易均經由 Stripe 加密處理，確保安全）\nApple Pay（適用於 iPhone、iPad 及 Mac 等 Apple 裝置）\nGoogle Pay（適用於 Android 裝置或 Chrome 瀏覽器）\n\n2. 本地主流電子支付：\nAlipayHK（支付寶香港）\nPayMe\n\n💡 溫馨提示（關於支付圖示顯示）：\n如果您使用 iPhone 或 iPad（iOS 裝置）瀏覽網店，受 Apple 系統生態限制，部分非 Apple 官方的支付標誌（如 Google Pay）可能無法在結帳頁面直接顯示。這屬於正常現象，並不影響您的正常下單與付款。如在付款時遇到任何疑問，歡迎隨時透過 WhatsApp 聯絡我們協助！",
+      "全店使用官方認證 Stripe 安全支付，支援 Visa、Mastercard、AMEX、Apple Pay、Google Pay、AlipayHK 及 WeChat Pay HK。全店不設手動轉帳，付款即時加密處理，完成後會自動確認訂單及寄出電子收據。\n\n正品保證：全線商品均為 100% 日本原裝直送或正規代理正貨，網站照片皆為供應商實物拍攝。\n\n量販多件優惠：買滿 8 件享 9 折，買滿 16 件享 85 折，系統會在結帳時自動折抵。",
     faqReturnsQuestion: "收到貨後可以退換貨嗎？",
     faqReturnsAnswer:
       "我們設有「7日退換貨保障」，致力為您和愛寵提供安心的購物體驗。如收到的商品出現以下情況，請於收貨後 7 天內透過 WhatsApp 或電郵聯絡我們，我們將盡快為您安排退換事宜：\n\n1. 適用退換之情況：\n• 運輸途中引致商品嚴重破損、變形或漏液。\n• 收到之商品與訂單內容不符（如：錯發款式、口味、數量不正確）。\n• 商品本身存在品質問題或已過期。\n\n2. 退換貨基本要求：\n• 必須於簽收後 7 天內提出申請（以速遞簽收記錄或自取點提取日期為準）。\n• 請保持商品為全新未開封狀態，連同完整的原包裝、標籤及送貨單（如適用）。\n• 基於衛生及食品安全理由，所有已開封、曾被使用、或因個人原因（如寵物不喜歡口味、主人買錯款式）而要求退換之商品，恕不接受退款或退換。\n\n3. 退換貨流程：\n第一步：拍攝清晰的損壞部位、商品全貌及問題單據相片／影片。\n第二步：透過網頁 Footer 的 WhatsApp（@MofuHavenHK）或電郵聯絡我們，並提供訂單號碼及相關相片。\n第三步：經客服確認後，我們會指導您後續的退回及補發／退款手續（相關之退換運費將由本店承擔）。",
     faqContactHint: "還有其他疑問？歡迎隨時透過 Footer 的 WhatsApp 聯絡我們（@MofuHavenHK），專人會為您解答！",
     faqPageBody:
-      "關於下單、付款、配送與售後的常見問題整理中。如需即時協助，歡迎經 WhatsApp 聯絡我們。",
+      "以下整理付款、正品保證、量販優惠、配送及售後安排，讓你安心為毛孩選購。",
     shippingPageTitle: "運送與發貨政策",
     shippingPageBody:
       "全店商品由日本直輸或香港正規授權代理嚴選引進，100% 正版正貨。毛毛港採每週定期集單；截單後約 7–14 個工作天空運抵港並安排順豐發貨。滿指定金額可享本地免運（詳見主頁公告）。",
@@ -497,9 +497,9 @@ export const translations = {
     returnsPageTitle: "退換貨政策",
     returnsPageBody:
       "若商品有瑕疵或寄送問題，請於收貨後盡快透過 WhatsApp 或電郵聯絡我們，我們會盡力協助處理。完整退換貨條款即將上線。",
-    termsPageTitle: "私隱政策與服務條款",
+    termsPageTitle: "配送、退換貨及服務條款",
     termsPageBody:
-      "我們重視顧客私隱，僅會將訂單與聯絡資料用於處理購物、成功付款確認、發送電子收據及客戶服務。付款由 Stripe 處理；電子收據會由受控電郵服務寄送至你在結帳時提供的地址。完整私隱政策與服務條款文件即將發佈。",
+      "配送：使用順豐速運，全單滿 HK$450 免運，未滿額劃一 HK$35；支援順豐站、智能櫃、工商及住宅上門。星期一至五下午 2:00 前完成付款，最快當天或下一個工作天出貨；出貨後會透過 WhatsApp 或 Email 提供順豐運單號追蹤。\n\n售後保障：由簽收日起 7 天內，如外箱破損、嚴重爆罐或送錯貨，請提供訂單編號及相片聯絡我們；確認後安排補發或經 Stripe 原路退款。基於食品安全，已開封食品不設退換。\n\n私隱與付款：訂單及聯絡資料只會用於處理訂單、付款確認、電子收據及客戶服務；付款由 Stripe 安全處理。",
     explorePetsWorld: "探索寵物世界",
     exploreAboutDog: "關於犬",
     exploreAboutCat: "關於貓",

@@ -25,7 +25,7 @@ const PROMISES: {
 ];
 
 /**
- * Brand story page for Mofu Haven（毛毛港）— milk-tea / Japanese-minimal layout.
+ * Brand story page for 毛毛港 Mofu Haven — milk-tea / Japanese-minimal layout.
  */
 export function AboutUsPage() {
   const { t } = useI18n();

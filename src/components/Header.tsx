@@ -10,9 +10,10 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
+import { categoryDisplayName, pruneEmptyCategories, type StoreCategory } from "@/lib/store-categories";
 import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
+import { isStorefrontReadyProduct } from "@/lib/products";
 
 function navLinkClassName(active: boolean) {
   return `relative truncate py-0.5 transition-colors ${
@@ -152,10 +153,14 @@ function renderDesktopCategoryChildren(
 
 export function Header() {
   const { locale, setLocale, t } = useI18n();
-  const { categories } = useCatalog();
+  const { categories, products } = useCatalog();
   // Only database rows with an empty parent_id are rendered in the bar.
   // Children remain inside the owning root category dropdown.
-  const topLevelCategories = categories.filter((category) => category.parent_id === null);
+  const activeProducts = products.filter(isStorefrontReadyProduct);
+  const activeCategoryIds = new Set(activeProducts.map((product) => product.categoryId).filter(Boolean) as string[]);
+  const activeCategorySlugs = new Set(activeProducts.map((product) => product.categorySlug));
+  const visibleCategories = pruneEmptyCategories(categories, activeCategoryIds, activeCategorySlugs);
+  const topLevelCategories = visibleCategories.filter((category) => category.parent_id === null);
   const pathname = usePathname();
   const router = useRouter();
   const { itemCount } = useCart();
@@ -415,14 +420,14 @@ export function Header() {
                   </button>
                   {isOpen ? (
                     <div id={panelId} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
-                      <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                        <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
                         <Link href={`/categories/${category.slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--ink)] hover:bg-[#f1ded1]" onClick={() => setDesktopCategoryOpen(null)}>
                           {locale === "en" ? `All ${localizedCategoryName(category)}` : `全部${localizedCategoryName(category)}`}
                         </Link>
                           <div className="grid gap-1">
                             {renderDesktopCategoryChildren(category, pathname, () => setDesktopCategoryOpen(null), localizedCategoryName)}
                           </div>
-                      </div>
+                        </div>
                     </div>
                   ) : null}
                 </div>

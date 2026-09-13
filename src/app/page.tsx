@@ -32,7 +32,7 @@ export default async function HomePage() {
       <HomeBulkPromotion />
       <HomeBannerCarousel />
       <HomepageProductGrid products={products} />
-      <HomeCategoryVisualNav categories={categories} />
+      <HomeCategoryVisualNav categories={categories} products={products} />
       <HomeInteractiveSections />
     </>
   );

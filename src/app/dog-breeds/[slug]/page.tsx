@@ -14,9 +14,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: DogBreedDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const breed = getDogBreedBySlug(slug);
-  if (!breed) return { title: "狗狗品種圖鑑｜Mofu Haven HK" };
+  if (!breed) return { title: "狗狗品種圖鑑｜毛毛港 Mofu Haven HK" };
   return {
-    title: `${breed.name}｜狗狗品種圖鑑｜Mofu Haven HK`,
+    title: `${breed.name}｜狗狗品種圖鑑｜毛毛港 Mofu Haven HK`,
     description: breed.shortDescription,
   };
 }

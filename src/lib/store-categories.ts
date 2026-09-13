@@ -150,3 +150,20 @@ export function categoryDescendantIds(category: StoreCategory | null | undefined
   visit(category);
   return ids;
 }
+
+/** Keep only categories that contain at least one storefront-ready product. */
+export function pruneEmptyCategories(
+  categories: readonly StoreCategory[],
+  activeCategoryIds: ReadonlySet<string>,
+  activeCategorySlugs: ReadonlySet<string> = new Set(),
+): StoreCategory[] {
+  const visit = (category: StoreCategory): StoreCategory | null => {
+    const children = category.children
+      .map(visit)
+      .filter((child): child is StoreCategory => child !== null);
+    const hasProduct = activeCategoryIds.has(category.id) || activeCategorySlugs.has(category.slug);
+    if (!hasProduct && children.length === 0) return null;
+    return { ...category, children };
+  };
+  return categories.map(visit).filter((category): category is StoreCategory => category !== null);
+}

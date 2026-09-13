@@ -80,6 +80,8 @@ export function OrderSummary({
         {t("orderSummary")}
       </h2>
 
+      <FreeShippingProgress subtotal={subtotal} showContinueShoppingLink />
+
       <ul className="space-y-3">
         {items.length === 0 ? (
           <li className="py-6 text-center text-sm leading-relaxed text-[color:var(--muted)]">
@@ -187,8 +189,6 @@ export function OrderSummary({
           </li>
         ))}
       </ul>
-
-      <FreeShippingProgress subtotal={subtotal} showContinueShoppingLink />
 
       <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">

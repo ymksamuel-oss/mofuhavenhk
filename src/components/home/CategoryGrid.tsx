@@ -1,7 +1,8 @@
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
+import { categoryDisplayName, pruneEmptyCategories, type StoreCategory } from "@/lib/store-categories";
+import { isStorefrontReadyProduct } from "@/lib/products";
 
 function renderChildren(
   parentPath: string,
@@ -33,9 +34,13 @@ function renderChildren(
 
 export function CategoryGrid() {
   const { t, locale } = useI18n();
-  const { categories } = useCatalog();
+  const { categories, products } = useCatalog();
   const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, locale);
-  const topLevelCategories = categories.filter((category) => category.parent_id === null);
+  const activeProducts = products.filter(isStorefrontReadyProduct);
+  const activeCategoryIds = new Set(activeProducts.map((product) => product.categoryId).filter(Boolean) as string[]);
+  const activeCategorySlugs = new Set(activeProducts.map((product) => product.categorySlug));
+  const visibleCategories = pruneEmptyCategories(categories, activeCategoryIds, activeCategorySlugs);
+  const topLevelCategories = visibleCategories.filter((category) => category.parent_id === null);
 
   return (
     <section

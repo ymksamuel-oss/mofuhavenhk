@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, PawPrint } from "lucide-react";
-import { categoryDisplayName, type StoreCategory } from "@/lib/store-categories";
+import { categoryDisplayName, pruneEmptyCategories, type StoreCategory } from "@/lib/store-categories";
+import { isStorefrontReadyProduct, type Product } from "@/lib/products";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type VisualCategoryCard = {
@@ -77,9 +78,12 @@ function getVisualCategoryCards(categories: StoreCategory[]): VisualCategoryCard
   });
 }
 
-export function HomeCategoryVisualNav({ categories }: { categories: StoreCategory[] }) {
+export function HomeCategoryVisualNav({ categories, products }: { categories: StoreCategory[]; products: Product[] }) {
   const { locale } = useI18n();
-  const cards = getVisualCategoryCards(categories);
+  const activeProducts = products.filter(isStorefrontReadyProduct);
+  const activeCategoryIds = new Set(activeProducts.map((product) => product.categoryId).filter(Boolean) as string[]);
+  const activeCategorySlugs = new Set(activeProducts.map((product) => product.categorySlug));
+  const cards = getVisualCategoryCards(pruneEmptyCategories(categories, activeCategoryIds, activeCategorySlugs));
   const copy = locale === "en"
     ? {
         eyebrow: "MOFU HAVEN COLLECTIONS",
