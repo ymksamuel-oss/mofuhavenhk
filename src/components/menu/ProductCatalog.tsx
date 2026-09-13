@@ -10,6 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -134,6 +135,7 @@ export function ProductCatalog({
               // The URL is resolved inside this map iteration from the
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
+              const localizedName = getLocalizedProductName(product, locale);
               return (
                 <li
                   key={product.id}
@@ -142,13 +144,13 @@ export function ProductCatalog({
                   <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                     <CategoryNavLink
                       href={href}
-                      aria-label={`${t("productViewDetails")}: ${product.name[locale]}`}
+                      aria-label={`${t("productViewDetails")}: ${localizedName}`}
                       className="absolute inset-0 block"
                     >
                       <ProductImage
                         key={`${product.id}-${imageUrl}`}
                         src={imageUrl}
-                        alt={product.name[locale]}
+                        alt={localizedName}
                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       />
@@ -180,7 +182,7 @@ export function ProductCatalog({
                       href={href}
                       className="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {product.name[locale]}
+                      {localizedName}
                     </CategoryNavLink>
                     {product.description ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">

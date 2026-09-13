@@ -15,6 +15,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { calcSubtotal, discountedUnitPrice, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { useState } from "react";
 
 type ProductDetailProps = {
@@ -41,10 +42,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   // Safe helper to render product name whether it's a plain string or a localized object
   const renderProductName = () => {
-    const rawName = selectedProduct.name;
-    if (!rawName) return t("productDescriptionUnavailable");
-    if (typeof rawName === "string") return rawName;
-    return rawName[locale as keyof typeof rawName] || rawName.zh || rawName.en || t("productDescriptionUnavailable");
+    return getLocalizedProductName(selectedProduct, locale) || t("productDescriptionUnavailable");
   };
 
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
