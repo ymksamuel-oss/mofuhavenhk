@@ -6,9 +6,12 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import {
   calcSubtotal,
+  calcBulkDiscount,
+  calcOriginalSubtotal,
   MAX_QTY,
   MIN_QTY,
   getShippingCost,
+  orderItemTotal,
   type OrderItem,
 } from "@/lib/order";
 
@@ -66,6 +69,8 @@ export function OrderSummary({
   const { locale, t } = useI18n();
 
   const subtotal = calcSubtotal(items);
+  const originalSubtotal = calcOriginalSubtotal(items);
+  const bulkDiscount = calcBulkDiscount(items);
   const shipping = getShippingCost(subtotal, items.length > 0);
   const total = subtotal + shipping;
   const editable = Boolean(onQtyChange) && !qtyDisabled;
@@ -183,9 +188,16 @@ export function OrderSummary({
                 )}
               </div>
             </div>
-            <p className="shrink-0 text-[0.95rem] font-medium tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-              {formatMoney(item.qty * item.unit, locale)}
-            </p>
+            <div className="shrink-0 text-right tabular-nums tracking-[0.01em]">
+              {item.discountPercent ? (
+                <p className="text-xs text-[color:var(--muted)] line-through">
+                  {formatMoney(item.qty * (item.originalUnit ?? item.unit), locale)}
+                </p>
+              ) : null}
+              <p className="text-[0.95rem] font-bold text-[color:var(--ink)]">
+                {formatMoney(orderItemTotal(item), locale)}
+              </p>
+            </div>
           </li>
         ))}
       </ul>
@@ -193,12 +205,22 @@ export function OrderSummary({
       <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">
           <dt className="tracking-[0.01em] text-[color:var(--muted)]">
-            {t("subtotal")}
+            {locale === "en" ? "Original subtotal" : "商品原價小計"}
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-            {formatMoney(subtotal, locale)}
+            {formatMoney(originalSubtotal, locale)}
           </dd>
         </div>
+        {bulkDiscount > 0 ? (
+          <div className="flex justify-between gap-4">
+            <dt className="tracking-[0.01em] text-emerald-700">
+              {locale === "en" ? "Bulk discount" : "量販多件折扣"}
+            </dt>
+            <dd className="font-semibold tabular-nums text-emerald-700">
+              - {formatMoney(bulkDiscount, locale)}
+            </dd>
+          </div>
+        ) : null}
         <div className="flex justify-between gap-4">
           <dt className="tracking-[0.01em] text-[color:var(--muted)]">
             {t("shipping")}
@@ -207,7 +229,7 @@ export function OrderSummary({
             </span>
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-            {formatMoney(shipping, locale)}
+            {formatMoney(shipping, locale)}{shipping === 0 ? ` (${locale === "en" ? "Free over HK$450" : "已滿 HK$450 免運"})` : ""}
           </dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3.5 text-base font-semibold tracking-[-0.01em]">

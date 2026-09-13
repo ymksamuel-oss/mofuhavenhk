@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ProductImage } from "@/components/product/ProductImage";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { calcSubtotal, MAX_QTY, MIN_QTY } from "@/lib/order";
+import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemTotal } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
@@ -41,6 +41,8 @@ export function MobileCartDrawer({
   const [portalReady, setPortalReady] = useState(false);
   const items = toOrderItems();
   const subtotal = calcSubtotal(items);
+  const originalSubtotal = calcOriginalSubtotal(items);
+  const bulkDiscount = calcBulkDiscount(items);
 
   useEffect(() => {
     setPortalReady(true);
@@ -69,17 +71,13 @@ export function MobileCartDrawer({
     };
   }, [onClose, open]);
 
-  const suggestions = useMemo(
-    () =>
-      products
-        .filter(
-          (product) =>
-            product.inStock !== false &&
-            !items.some((item) => item.id === product.id),
-        )
-        .slice(0, 3),
-    [items, products],
-  );
+  const suggestions = products
+    .filter(
+      (product) =>
+        product.inStock !== false &&
+        !items.some((item) => item.id === product.id),
+    )
+    .slice(0, 3);
 
   if (!open || !portalReady) return null;
 
@@ -186,6 +184,13 @@ export function MobileCartDrawer({
                       <p className="mt-1 text-xs text-[color:var(--muted)]">
                         {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                       </p>
+                      {item.discountPercent ? (
+                        <p className="mt-1 text-xs font-semibold text-emerald-700">
+                          {locale === "en"
+                            ? `🎉 ${item.discountPercent}% OFF applied`
+                            : `🎉 已享 ${item.discountPercent === 10 ? "10% OFF (9折優惠)" : "15% OFF (85折優惠)"}`}
+                        </p>
+                      ) : null}
                       <div className="mt-2.5 flex items-center justify-between gap-2">
                         <div className="inline-flex items-center gap-1 rounded-xl border border-[color:var(--line)] bg-[color:var(--background)] p-0.5">
                           <button
@@ -214,9 +219,10 @@ export function MobileCartDrawer({
                             +
                           </button>
                         </div>
-                        <p className="shrink-0 text-base font-bold tabular-nums text-[color:var(--accent)]">
-                          {formatMoney(item.qty * item.unit, locale)}
-                        </p>
+                        <div className="shrink-0 text-right tabular-nums">
+                          {item.discountPercent ? <p className="text-xs text-[color:var(--muted)] line-through">{formatMoney(item.qty * (item.originalUnit ?? item.unit), locale)}</p> : null}
+                          <p className="text-base font-bold text-[color:var(--accent)]">{formatMoney(orderItemTotal(item), locale)}</p>
+                        </div>
                       </div>
                     </div>
                   </li>
@@ -282,10 +288,14 @@ export function MobileCartDrawer({
         {items.length > 0 ? (
           <footer className="shrink-0 border-t border-[color:var(--line)] bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] pt-4 sm:px-5">
             <div className="mb-3 flex items-center justify-between gap-4">
-              <span className="text-sm text-[color:var(--muted)]">{t("subtotal")}</span>
-              <span className="text-xl font-bold tabular-nums text-[color:var(--accent)]">
-                {formatMoney(subtotal, locale)}
-              </span>
+              <div className="text-sm text-[color:var(--muted)]">
+                <span>{locale === "en" ? "Original subtotal" : "商品原價小計"}</span>
+                {bulkDiscount > 0 ? <span className="mt-1 block text-emerald-700">{locale === "en" ? "Bulk discount" : "量販多件折扣"}: -{formatMoney(bulkDiscount, locale)}</span> : null}
+              </div>
+              <div className="text-right">
+                <span className="text-xs text-[color:var(--muted)]">{formatMoney(originalSubtotal, locale)}</span>
+                <span className="block text-xl font-bold tabular-nums text-[color:var(--accent)]">{formatMoney(subtotal, locale)}</span>
+              </div>
             </div>
             <Link
               href="/checkout"

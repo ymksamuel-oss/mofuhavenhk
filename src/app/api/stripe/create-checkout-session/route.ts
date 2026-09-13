@@ -6,6 +6,7 @@ import {
   generateOrderNumber,
   getOrderItems,
   getShippingCost,
+  orderItemTotal,
 } from "@/lib/order";
 import {
   getRuntimeStripe,
@@ -252,9 +253,12 @@ export async function POST(request: Request) {
       line_items: items.map((item) => ({
         price_data: {
           currency: "hkd" as const,
-          unit_amount: toStripeAmountHkd(item.unit),
+          // Use one Stripe line per cart row so quantities such as 16 can use
+          // the exact rounded row total (e.g. HK$270.64) rather than rounding
+          // a discounted per-unit value first.
+          unit_amount: toStripeAmountHkd(orderItemTotal(item)),
           product_data: {
-            name: item.name.en || item.name.zh || item.id,
+            name: `${item.name.en || item.name.zh || item.id} × ${item.qty}`,
             ...(item.description?.en || item.name.en
               ? { description: (item.description?.en || item.name.en).slice(0, 500) }
               : {}),
@@ -263,7 +267,7 @@ export async function POST(request: Request) {
               : {}),
           },
         },
-        quantity: item.qty,
+        quantity: 1,
       })),
       ...(shipping > 0
         ? {

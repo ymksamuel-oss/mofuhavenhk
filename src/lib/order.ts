@@ -38,7 +38,25 @@ export function cartLineKey(productId: string, priceId?: string): string {
 }
 
 export function calcSubtotal(items: OrderItem[]): number {
-  return items.reduce((sum, item) => sum + item.qty * item.unit, 0);
+  return Number(items.reduce((sum, item) => sum + orderItemTotal(item), 0).toFixed(2));
+}
+
+export function calcOriginalSubtotal(items: OrderItem[]): number {
+  return Number(
+    items
+      .reduce((sum, item) => sum + item.qty * (item.originalUnit ?? item.unit), 0)
+      .toFixed(2),
+  );
+}
+
+export function calcBulkDiscount(items: OrderItem[]): number {
+  return Number(Math.max(0, calcOriginalSubtotal(items) - calcSubtotal(items)).toFixed(2));
+}
+
+export function orderItemTotal(item: OrderItem): number {
+  const originalUnit = item.originalUnit ?? item.unit;
+  const multiplier = item.discountPercent === 15 ? 0.85 : item.discountPercent === 10 ? 0.9 : 1;
+  return Number((item.qty * originalUnit * multiplier).toFixed(2));
 }
 
 export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12, 16, 24] as const;
@@ -49,7 +67,6 @@ export function isPetBundleProduct(product: Product): boolean {
 }
 
 export function petBundleDiscountPercent(product: Product, qty: number): 0 | 10 | 15 {
-  if (!isPetBundleProduct(product)) return 0;
   if (qty >= 16) return 15;
   if (qty >= 8) return 10;
   return 0;
