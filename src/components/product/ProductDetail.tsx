@@ -172,7 +172,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 onQuantityChange={setSelectedQty}
                 showTotal
                 unitPrice={selectedPrice}
-                className="!mt-3"
+                className="!mt-3 [&>button:last-child]:!rounded-xl [&>button:last-child]:!py-3.5 [&>button:last-child]:!font-medium"
               />
               <CategoryNavLink
                 href="/checkout"
