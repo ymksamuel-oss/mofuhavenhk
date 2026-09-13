@@ -8,6 +8,7 @@ import {
 } from "react";
 import { type Product, uniqueProductsById } from "@/lib/products";
 import { type StoreCategory } from "@/lib/store-categories";
+import { type Brand } from "@/lib/brands";
 import {
   EMPTY_PAYME_CHECKOUT_SETTINGS,
   type PayMeCheckoutSettings,
@@ -16,6 +17,7 @@ import {
 type CatalogContextValue = {
   products: Product[];
   categories: StoreCategory[];
+  brands: Brand[];
   payMe: PayMeCheckoutSettings;
   getProductById: (id: string | null | undefined) => Product | null;
 };
@@ -25,11 +27,13 @@ const CatalogContext = createContext<CatalogContextValue | null>(null);
 export function CatalogProvider({
   products,
   categories,
+  brands = [],
   payMe = EMPTY_PAYME_CHECKOUT_SETTINGS,
   children,
 }: {
   products: Product[];
   categories: StoreCategory[];
+  brands?: Brand[];
   payMe?: PayMeCheckoutSettings;
   children: ReactNode;
 }) {
@@ -39,10 +43,11 @@ export function CatalogProvider({
     return {
       products: uniqueProducts,
       categories,
+      brands,
       payMe,
       getProductById: (id) => (id ? byId.get(id) ?? null : null),
     };
-  }, [products, categories, payMe]);
+  }, [products, categories, brands, payMe]);
 
   return (
     <CatalogContext.Provider value={value}>{children}</CatalogContext.Provider>
@@ -55,6 +60,7 @@ export function useCatalog(): CatalogContextValue {
     return {
       products: [],
       categories: [],
+      brands: [],
       payMe: EMPTY_PAYME_CHECKOUT_SETTINGS,
       getProductById: () => null,
     };

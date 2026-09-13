@@ -10,6 +10,7 @@ import { CartProvider } from "@/lib/shop/cart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
+import type { Brand } from "@/lib/brands";
 import {
   EMPTY_PAYME_CHECKOUT_SETTINGS,
   getPayMeCheckoutSettings,
@@ -104,15 +105,18 @@ export default async function RootLayout({
 }>) {
   let products: Product[] = [];
   let categories: StoreCategory[] = [];
+  let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products || [];
     categories = catalog.categories || [];
+    brands = catalog.brands || [];
     payMe = await getPayMeCheckoutSettings();
   } catch {
     products = [];
     categories = [];
+    brands = [];
     payMe = await getPayMeCheckoutSettings();
   }
 
@@ -123,7 +127,7 @@ export default async function RootLayout({
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>
-          <CatalogProvider products={products} categories={categories} payMe={payMe}>
+          <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
             <CartProvider>
               <Header />
               <BrandServiceStrip />
