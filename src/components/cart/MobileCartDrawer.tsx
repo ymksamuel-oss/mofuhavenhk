@@ -7,7 +7,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemTotal } from "@/lib/order";
+import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemPricing, orderItemTotal } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
@@ -184,11 +184,11 @@ export function MobileCartDrawer({
                       <p className="mt-1 text-xs text-[color:var(--muted)]">
                         {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                       </p>
-                      {item.discountPercent ? (
+                      {orderItemPricing(item).hasDiscount ? (
                         <p className="mt-1 text-xs font-semibold text-emerald-700">
                           {locale === "en"
-                            ? `🎉 ${item.discountPercent}% OFF applied`
-                            : `🎉 已享 ${item.discountPercent === 10 ? "10% OFF (9折優惠)" : "15% OFF (85折優惠)"}`}
+                            ? `🎉 ${orderItemPricing(item).discountPercent}% OFF applied`
+                            : `🎉 已享 ${orderItemPricing(item).discountPercent === 10 ? "10% OFF (9折優惠)" : "15% OFF (85折優惠)"}`}
                         </p>
                       ) : null}
                       <div className="mt-2.5 flex items-center justify-between gap-2">
@@ -220,7 +220,7 @@ export function MobileCartDrawer({
                           </button>
                         </div>
                         <div className="shrink-0 text-right tabular-nums">
-                          {item.discountPercent ? <p className="text-xs text-[color:var(--muted)] line-through">{formatMoney(item.qty * (item.originalUnit ?? item.unit), locale)}</p> : null}
+                          {orderItemPricing(item).hasDiscount ? <p className="text-xs text-[color:var(--muted)] line-through">{formatMoney(orderItemPricing(item).itemOriginalTotal, locale)}</p> : null}
                           <p className="text-base font-bold text-[color:var(--accent)]">{formatMoney(orderItemTotal(item), locale)}</p>
                         </div>
                       </div>

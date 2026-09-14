@@ -12,6 +12,7 @@ import {
   MIN_QTY,
   getShippingCost,
   orderItemTotal,
+  orderItemPricing,
   type OrderItem,
 } from "@/lib/order";
 
@@ -121,11 +122,11 @@ export function OrderSummary({
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
                     {formatMoney(item.unit, locale)}/{t("unitPriceSuffix")}
                   </p>
-                  {item.discountPercent ? (
+                  {orderItemPricing(item).hasDiscount ? (
                     <p className="text-xs font-semibold text-[#c0483a]">
                       {locale === "en"
-                        ? `${item.discountPercent}% off applied`
-                        : `已享 ${item.discountPercent === 10 ? "9 折" : "85 折"} 優惠`}
+                        ? `${orderItemPricing(item).discountPercent}% off applied`
+                        : `已享 ${orderItemPricing(item).discountPercent === 10 ? "9 折" : "85 折"} 優惠`}
                     </p>
                   ) : null}
                 </div>
@@ -189,9 +190,9 @@ export function OrderSummary({
               </div>
             </div>
             <div className="shrink-0 text-right tabular-nums tracking-[0.01em]">
-              {item.discountPercent ? (
+              {orderItemPricing(item).hasDiscount ? (
                 <p className="text-xs text-[color:var(--muted)] line-through">
-                  {formatMoney(item.qty * (item.originalUnit ?? item.unit), locale)}
+                  {formatMoney(orderItemPricing(item).itemOriginalTotal, locale)}
                 </p>
               ) : null}
               <p className="text-[0.95rem] font-bold text-[color:var(--ink)]">

@@ -30,7 +30,7 @@ export type RequestedOrderLine = {
   priceId?: string;
 };
 
-export const SHIPPING = 25;
+export const SHIPPING = 35;
 export const FREE_SHIPPING_THRESHOLD = 450;
 
 export function cartLineKey(productId: string, priceId?: string): string {
@@ -44,7 +44,7 @@ export function calcSubtotal(items: OrderItem[]): number {
 export function calcOriginalSubtotal(items: OrderItem[]): number {
   return Number(
     items
-      .reduce((sum, item) => sum + item.qty * (item.originalUnit ?? item.unit), 0)
+      .reduce((sum, item) => sum + orderItemPricing(item).itemOriginalTotal, 0)
       .toFixed(2),
   );
 }
@@ -53,10 +53,39 @@ export function calcBulkDiscount(items: OrderItem[]): number {
   return Number(Math.max(0, calcOriginalSubtotal(items) - calcSubtotal(items)).toFixed(2));
 }
 
+export type OrderItemPricing = {
+  basePrice: number;
+  effectiveUnitPrice: number;
+  discountRate: number;
+  discountPercent: 0 | 10 | 15;
+  itemTotal: number;
+  itemOriginalTotal: number;
+  itemDiscountAmount: number;
+  hasDiscount: boolean;
+};
+
+/** Derives every price from the immutable base price and the current qty. */
+export function orderItemPricing(item: OrderItem): OrderItemPricing {
+  const basePrice = item.originalUnit ?? item.unit;
+  const discountPercent: 0 | 10 | 15 = item.qty >= 16 ? 15 : item.qty >= 8 ? 10 : 0;
+  const discountRate = discountPercent / 100;
+  const effectiveUnitPrice = Number((basePrice * (1 - discountRate)).toFixed(2));
+  const itemOriginalTotal = Number((basePrice * item.qty).toFixed(2));
+  const itemTotal = Number((basePrice * item.qty * (1 - discountRate)).toFixed(2));
+  return {
+    basePrice,
+    effectiveUnitPrice,
+    discountRate,
+    discountPercent,
+    itemTotal,
+    itemOriginalTotal,
+    itemDiscountAmount: Number((itemOriginalTotal - itemTotal).toFixed(2)),
+    hasDiscount: discountPercent > 0,
+  };
+}
+
 export function orderItemTotal(item: OrderItem): number {
-  const originalUnit = item.originalUnit ?? item.unit;
-  const multiplier = item.discountPercent === 15 ? 0.85 : item.discountPercent === 10 ? 0.9 : 1;
-  return Number((item.qty * originalUnit * multiplier).toFixed(2));
+  return orderItemPricing(item).itemTotal;
 }
 
 export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12, 16, 24] as const;
@@ -98,7 +127,6 @@ function orderItemFromProduct(
   const variant = selectedVariant(product, requestedPriceId);
   const stripePriceId = variant?.priceId ?? product.priceId;
   const originalUnit = variant?.price ?? product.price;
-  const discountPercent = petBundleDiscountPercent(product, qty);
   return {
     lineKey: cartLineKey(product.id, stripePriceId),
     id: product.id,
@@ -112,8 +140,9 @@ function orderItemFromProduct(
     ...(product.description ? { description: product.description } : {}),
     image: product.images?.[0] ?? "catalog-placeholder",
     qty,
-    unit: discountedUnitPrice(product, originalUnit, qty),
-    ...(discountPercent ? { originalUnit, discountPercent } : {}),
+    // Never persist a discounted unit price. The tier is derived from qty.
+    unit: originalUnit,
+    originalUnit,
   };
 }
 
