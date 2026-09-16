@@ -557,19 +557,13 @@ export default function AdminPage() {
     setQuickEditDraft({
       id: row.id,
       cost_price_rmb: row.cost_price_rmb ?? "",
+      price: row.price ?? "",
+      original_price: row.original_price ?? "",
       stock: row.stock ?? 0,
       status: row.status === "published" && row.is_published !== false ? "published" : "draft",
       is_published: row.status === "published" && row.is_published !== false,
       pricing_rate_rmb_hkd: row.pricing_rate_rmb_hkd,
     });
-  }
-
-  function quickEditPrice(draft: Row | null) {
-    const cost = Number(draft?.cost_price_rmb);
-    const rate = Number(draft?.pricing_rate_rmb_hkd) || 1.178;
-    if (!Number.isFinite(cost) || cost <= 0 || !Number.isFinite(rate)) return null;
-    const rawHkd = cost * rate * 1.88;
-    return (Math.ceil(rawHkd - 0.9 - 1e-10) + 0.9).toFixed(2);
   }
 
   async function saveQuickEdit() {
@@ -584,6 +578,9 @@ export default function AdminPage() {
         id: quickEditDraft.id,
         row: {
           cost_price_rmb: quickEditDraft.cost_price_rmb === "" ? null : Number(quickEditDraft.cost_price_rmb),
+          price: Number(quickEditDraft.price) || 0,
+          original_price: quickEditDraft.original_price === "" ? null : Number(quickEditDraft.original_price),
+          current_hkd: Number(quickEditDraft.price) || 0,
           stock: Math.max(0, Math.trunc(Number(quickEditDraft.stock) || 0)),
           status: published ? "published" : "draft",
           is_published: published,
@@ -625,7 +622,6 @@ export default function AdminPage() {
             </button>
           ))}
           <button onClick={() => router.push("/admin/image-ops")} className="mt-3 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">圖片自動補圖</button>
-          <button onClick={() => router.push("/admin/price-ops")} className="mt-2 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">批次修正零售價</button>
         </aside>
 
         <main className="min-w-0 flex-1">
@@ -675,7 +671,7 @@ export default function AdminPage() {
                 <button type="button" onClick={exportProductsCsv} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />匯出 CSV</button>
                 <button type="button" onClick={exportProductsExcel} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />下載 Excel</button>
                 <label className={`inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#a36b42] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#8f5b37] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={importProductsCsv} disabled={csvBusy} /></label>
-                <span className="text-xs text-[#806b5d]">支援 Excel／CSV；欄位：產品名稱／SKU／來貨價 CNY／圖片 URL；售價自動按 CNY × 1.88 計算</span>
+                <span className="text-xs text-[#806b5d]">支援 Excel／CSV；欄位：產品名稱／SKU／成本價 JPY／零售價 HKD／圖片 URL；成本與售價分開儲存</span>
               </div>
               {csvNotice && <div className="mt-3 rounded-xl bg-[#f7efe7] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
               <div className="mb-3 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3 text-xs leading-5 text-[#806b5d]">前台只會顯示「狀態 = published」、「已發布」及「庫存大於 0」的產品。要暫停產品，請改為 draft／archived 或取消已發布。</div><div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
@@ -796,12 +792,14 @@ export default function AdminPage() {
                             <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
                           </div>
                           <div className="grid gap-3 sm:grid-cols-3">
-                            <label className="text-sm"><span className="mb-1 block font-medium">來貨價（RMB）</span><input type="number" min="0" step="0.01" value={quickEditDraft.cost_price_rmb} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_price_rmb: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 25" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="0.01" value={quickEditDraft.cost_price_rmb} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_price_rmb: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 2500" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="手動輸入" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">原價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="可選" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
                           </div>
                           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#fffaf4] px-3 py-2 text-xs text-[#806b5d]">
-                            <span>自動售價：{quickEditPrice(quickEditDraft) ? `HK$${quickEditPrice(quickEditDraft)}（含 .9 尾數）` : "輸入來貨價後自動計算"}</span>
+                            <span>成本價與港幣零售價獨立儲存，不會自動換算。</span>
                             {quickEditError && <span className="text-red-600">{quickEditError}</span>}
                           </div>
                           <div className="mt-3 flex justify-end"><button type="button" onClick={saveQuickEdit} disabled={quickEditSaving} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{quickEditSaving ? "儲存中…" : "即時儲存"}</button></div>
