@@ -906,12 +906,12 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
         {isProductTab(tab) && <>
           {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
-          {field("cost_price_rmb", "來貨價（RMB，可選）", "number")}
+          {field("cost_price_rmb", "成本價（JPY，可選；僅作記錄）", "number")}
           <div className="rounded-lg border border-[#eaded5] bg-[#fffaf4] px-3 py-2 text-sm">
-            <span className="block font-medium">自動售價公式</span>
-            <span className="mt-1 block text-xs leading-5 text-[#8b7c70]">RMB 來貨價 × 即時 RMB/HKD 匯率 × 1.88。每日匯率任務會自動更新前台售價；未填來貨價時保留手動售價。</span>
+            <span className="block font-medium">手動定價</span>
+            <span className="mt-1 block text-xs leading-5 text-[#8b7c70]">成本價與港幣零售價分開儲存；請直接輸入售價及原價，系統不會再套用人民幣匯率或 1.88 倍率。</span>
           </div>
-          {field("price", "售價（HKD，無來貨價時作手動備用）", "number")}
+          {field("price", "售價（HKD，手動輸入）", "number")}
           {field("original_price", "原價", "number")}
           {field("stock", "庫存", "number")}
           <div className="md:col-span-2">

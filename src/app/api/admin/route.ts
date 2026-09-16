@@ -14,13 +14,6 @@ import {
   normalizeProductLocalization,
   parseProductLocalizations,
 } from "@/lib/product-localizations";
-import {
-  CNY_TO_HKD_MAX,
-  CNY_TO_HKD_MIN,
-  DEFAULT_CNY_TO_HKD_RATE,
-  hkdPriceFromCnyCost,
-  RETAIL_MULTIPLIER,
-} from "@/lib/fxPricingSync";
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -222,45 +215,6 @@ async function replaceBanners(
 
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
-function normalizeCostPriceRmb(value: unknown): number | null {
-  if (value === null || value === undefined || String(value).trim() === "") return null;
-  const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed <= 0 || parsed > 10_000_000) {
-    throw new Error("來貨價必須是大於 0 的 RMB 數字");
-  }
-  return Math.round(parsed * 10_000) / 10_000;
-}
-
-async function applyServerProductPricing(
-  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
-  payload: Record<string, unknown>,
-): Promise<void> {
-  if (!("cost_price_rmb" in payload)) return;
-  const costPriceRmb = normalizeCostPriceRmb(payload.cost_price_rmb);
-  if (costPriceRmb === null) return;
-
-  const { data: setting, error } = await supabase
-    .from("store_settings")
-    .select("value")
-    .eq("key", "rmb_hkd_rate")
-    .maybeSingle();
-  if (error) throw new Error(`讀取 RMB/HKD 匯率失敗：${error.message}`);
-
-  const configuredRate = Number(setting?.value);
-  const rmbHkdRate = Number.isFinite(configuredRate) && configuredRate >= CNY_TO_HKD_MIN && configuredRate <= CNY_TO_HKD_MAX
-    ? configuredRate
-    : DEFAULT_CNY_TO_HKD_RATE;
-  const calculatedPrice = hkdPriceFromCnyCost(String(costPriceRmb), rmbHkdRate);
-
-  // A cost price is authoritative: never trust client-provided HKD fields.
-  payload.cost_price_rmb = costPriceRmb;
-  payload.price = calculatedPrice;
-  payload.original_price = calculatedPrice;
-  payload.current_hkd = calculatedPrice;
-  payload.pricing_rate_rmb_hkd = rmbHkdRate;
-  payload.pricing_multiplier = RETAIL_MULTIPLIER;
-}
-
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return Array.from(
@@ -418,18 +372,12 @@ export async function POST(request: Request) {
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { /* Keep English fields until publish validation completes. */ }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
-  if (table === "products" && "cost_price_rmb" in payload) {
-    try { await applyServerProductPricing(supabase, payload); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
-  }
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, null, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
   }
   if (table === "products" && "name_en" in payload) delete payload.name_en;
   if (table === "products" && "description_en" in payload) delete payload.description_en;
-  delete payload.pricing_rate_rmb_hkd;
-  delete payload.pricing_multiplier;
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
@@ -455,18 +403,12 @@ export async function PATCH(request: Request) {
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { /* Keep English fields until publish validation completes. */ }
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
-  if (table === "products" && "cost_price_rmb" in payload) {
-    try { await applyServerProductPricing(supabase, payload); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "自動定價失敗" }, { status: 400 }); }
-  }
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, id, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
   }
   if (table === "products" && "name_en" in payload) delete payload.name_en;
   if (table === "products" && "description_en" in payload) delete payload.description_en;
-  delete payload.pricing_rate_rmb_hkd;
-  delete payload.pricing_multiplier;
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
