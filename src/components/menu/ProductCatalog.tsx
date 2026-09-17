@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getBilingualProductNameParts, getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -132,7 +132,7 @@ export function ProductCatalog({
   ingredientFilter = null,
   audienceFilter = null,
 }: ProductCatalogProps) {
-  const { locale, languageMode, t } = useI18n();
+  const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
   const liveChildCategory = typeof subcategory === "string"
     ? findCategoryBySlug(categories, subcategory.trim().toLowerCase())
@@ -182,23 +182,23 @@ export function ProductCatalog({
       <h1 className="sr-only">{title}</h1>
       <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
         <CategoryNavLink href="/menu" className={`rounded-full border px-4 py-2 text-sm transition ${!specialFilter ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-          {languageMode === "en" ? "All products" : languageMode === "bilingual" ? <>全部商品<span className="ml-1 text-[10px] opacity-75">すべて</span></> : "全部商品"}
+          {t("allProducts")}
         </CategoryNavLink>
         <CategoryNavLink href="/menu?category=cat-zone" className={`rounded-full border px-4 py-2 text-sm transition ${specialFilter === "cat-zone" ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-          {languageMode === "en" ? "For Cats" : languageMode === "bilingual" ? <>貓咪專區<span className="ml-1 text-[10px] opacity-75">猫ちゃん</span></> : "貓咪專區"}
+          {locale === "ja" ? "猫ちゃん" : locale === "en" ? "For Cats" : "貓咪專區"}
         </CategoryNavLink>
       </nav>
       <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
         {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="mx-1 opacity-60" aria-hidden>/</span><span className="text-[10px] leading-4 opacity-75">{ja}</span></> : zh}
+            {locale === "en" ? en : locale === "ja" ? ja : zh}
           </CategoryNavLink>
         ))}
       </nav>
       <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
         {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="mx-1 opacity-60" aria-hidden>/</span><span className="text-[10px] leading-4 opacity-75">{ja}</span></> : zh}
+            {locale === "en" ? en : locale === "ja" ? ja : zh}
           </CategoryNavLink>
         ))}
       </nav>
@@ -216,7 +216,7 @@ export function ProductCatalog({
               // The URL is resolved inside this map iteration from the
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
-              const localizedName = languageMode === "bilingual" ? getBilingualProductName(product) : getLocalizedProductName(product, locale);
+              const localizedName = getLocalizedProductName(product, locale);
               return (
                 <li
                   key={product.id}
@@ -261,18 +261,15 @@ export function ProductCatalog({
                   <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                     <CategoryNavLink
                       href={href}
-                      className="flex min-h-[3.5rem] min-w-0 flex-col justify-start gap-0.5 break-words text-left text-sm leading-relaxed text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+                      className="block min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {languageMode === "bilingual" ? (() => {
-                        const name = getBilingualProductNameParts(product);
-                        return <><span className="block font-semibold leading-6">{name.zh}</span>{name.ja ? <span className="block text-xs font-normal leading-5 text-[color:var(--muted)]">{name.ja}</span> : null}</>;
-                      })() : <span className="block font-semibold leading-6">{localizedName}</span>}
+                      {localizedName}
                     </CategoryNavLink>
                     {product.description ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
-                        {languageMode === "bilingual"
-                          ? `${product.description.zh} / ${product.metadata?.description_ja || "日本製・無添加"}`
-                          : product.description[locale]}
+                        {locale === "ja"
+                          ? product.metadata?.description_ja || product.description.zh || product.description.en
+                          : (locale === "en" ? product.description.en : product.description.zh) || product.description.en || product.description.zh}
                       </p>
                     ) : null}
                     <MarketReferencePrice

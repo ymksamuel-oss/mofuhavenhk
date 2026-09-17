@@ -131,23 +131,23 @@ export function getPhoneValidationError(
 ): string | null {
   const digits = normalizeLocalPhone(phone);
   if (!digits) {
-    return translations[locale].phoneValidationRequired;
+    return translations[locale === "en" ? "en" : "zh"].phoneValidationRequired;
   }
   if (countryCode === "+852") {
     if (digits.length !== 8) {
-      return translations[locale].phoneValidationHkLength;
+      return translations[locale === "en" ? "en" : "zh"].phoneValidationHkLength;
     }
     // HK mobiles/landlines are 8 digits starting 2–9.
     if (!/^[2-9]\d{7}$/.test(digits)) {
-      return translations[locale].phoneValidationHkInvalid;
+      return translations[locale === "en" ? "en" : "zh"].phoneValidationHkInvalid;
     }
     return null;
   }
   if (countryCode === "+853" && digits.length !== 8) {
-    return translations[locale].phoneValidationMacaoLength;
+    return translations[locale === "en" ? "en" : "zh"].phoneValidationMacaoLength;
   }
   if (countryCode === "+86" && (digits.length < 11 || digits.length > 11)) {
-    return translations[locale].phoneValidationMainlandLength;
+    return translations[locale === "en" ? "en" : "zh"].phoneValidationMainlandLength;
   }
   return null;
 }
@@ -190,7 +190,7 @@ export function ShippingContactForm({
 
   const phoneError =
     showErrors || normalizeLocalPhone(value.phone).length > 0
-      ? getPhoneValidationError(value.phone, value.phoneCountryCode, locale)
+      ? getPhoneValidationError(value.phone, value.phoneCountryCode, locale === "en" ? "en" : "zh")
       : null;
 
   return (
@@ -242,7 +242,7 @@ export function ShippingContactForm({
           maxLength={254}
           error={
             (showErrors || value.email.trim().length > 0) && !isValidEmailAddress(value.email)
-              ? emailValidationMessage(locale)
+              ? emailValidationMessage(locale === "en" ? "en" : "zh")
               : undefined
           }
         />
@@ -270,7 +270,7 @@ export function ShippingContactForm({
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>
-                  {locale === "zh" ? option.labelZh : option.labelEn}
+                  {locale === "en" ? option.labelEn : option.labelZh}
                 </option>
               ))}
             </select>

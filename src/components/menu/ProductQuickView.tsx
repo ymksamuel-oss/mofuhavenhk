@@ -10,6 +10,7 @@ import { formatMoney, type Locale, type TranslationKey } from "@/lib/i18n/transl
 import { calcSubtotal } from "@/lib/order";
 import { useCart } from "@/lib/shop/cart";
 import type { Product } from "@/lib/products";
+import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
 
 type ProductQuickViewProps = {
   product: Product;
@@ -74,7 +75,7 @@ export function ProductQuickView({
         <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}
-            alt={product.name[locale]}
+            alt={getLocalizedProductName(product, locale)}
             sizes="(min-width: 640px) 512px, 100vw"
             className="object-cover"
             priority
@@ -90,7 +91,7 @@ export function ProductQuickView({
           id="product-quick-view-title"
           className="text-center font-[family-name:var(--font-display)] text-xl font-semibold leading-snug text-[color:var(--ink)] sm:text-2xl"
         >
-          {product.name[locale]}
+          {getLocalizedProductName(product, locale)}
         </h2>
 
         <div className="mt-2 flex items-baseline justify-center gap-2">
@@ -122,7 +123,7 @@ export function ProductQuickView({
               {t("productModalFeaturesTitle")}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-              {product.description[locale] || t("productDescriptionUnavailable")}
+              {getLocalizedProductDescription(product, locale) || t("productDescriptionUnavailable")}
             </p>
           </div>
         ) : null}
@@ -135,7 +136,7 @@ export function ProductQuickView({
                   {t("productTextureTitle")}
                 </dt>
                 <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                  {product.texture[locale] || t("productValueUnavailable")}
+                  {(locale === "en" ? product.texture.en : product.texture.zh) || t("productValueUnavailable")}
                 </dd>
               </div>
             ) : null}
@@ -145,7 +146,7 @@ export function ProductQuickView({
                   {t("productAvailabilityTitle")}
                 </dt>
                 <dd className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                  {product.availability[locale] || t("productValueUnavailable")}
+                  {(locale === "en" ? product.availability.en : product.availability.zh) || t("productValueUnavailable")}
                 </dd>
               </div>
             ) : null}
@@ -167,7 +168,7 @@ export function ProductQuickView({
                     aria-hidden
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                   />
-                  {spec[locale] || t("productValueUnavailable")}
+                  {(locale === "en" ? spec.en : spec.zh) || t("productValueUnavailable")}
                 </li>
               ))}
             </ul>

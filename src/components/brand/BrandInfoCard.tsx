@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function BrandInfoCard({ brand }: { brand: Brand }) {
   const { locale } = useI18n();
-  const profile = brandProfileLocalized(brand, locale);
+  const profile = brandProfileLocalized(brand, locale === "en" ? "en" : "zh");
   const isEnglish = locale === "en";
 
   return (

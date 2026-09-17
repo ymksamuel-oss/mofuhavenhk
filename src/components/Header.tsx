@@ -153,7 +153,7 @@ function renderDesktopCategoryChildren(
 }
 
 export function Header() {
-  const { locale, languageMode, setLanguageMode, t } = useI18n();
+  const { locale, setLocale, t } = useI18n();
   const { categories, products, brands } = useCatalog();
   const coreBrands = getCoreBrands(brands);
   // Only database rows with an empty parent_id are rendered in the bar.
@@ -178,14 +178,13 @@ export function Header() {
   const desktopCategoryRef = useRef<HTMLElement>(null);
 
   const switchLocale = (next: Locale) => {
-    setLanguageMode(next === "en" ? "en" : "bilingual");
+    setLocale(next);
 
     // Category pages use a shareable language query so SSR metadata, canonical,
     // Open Graph tags, and visible labels always describe the same language.
     if (pathname.startsWith("/categories")) {
       const query = new URLSearchParams(window.location.search);
-      if (next === "en") query.set("lang", "en");
-      else query.delete("lang");
+      query.set("lang", next);
       const suffix = query.toString();
       router.replace(`${pathname}${suffix ? `?${suffix}` : ""}`);
     }
@@ -328,7 +327,7 @@ export function Header() {
                 ))}
                 <li className="block w-full">
                   <Link href="/menu?category=cat-zone" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
-                    {languageMode === "en" ? "For Cats" : languageMode === "bilingual" ? "貓咪專區 / 猫ちゃん" : "貓咪專區"}
+                    {t("navCategoriesCats")}
                   </Link>
                 </li>
                 {coreBrands.length > 0 ? (
@@ -415,7 +414,7 @@ export function Header() {
               {t("navHome")}
             </Link>
             <Link href="/menu?category=cat-zone" className={navLinkClassName(pathname === "/menu")}>
-              {languageMode === "en" ? "For Cats" : languageMode === "bilingual" ? "貓咪專區 / 猫ちゃん" : "貓咪專區"}
+              {t("navCategoriesCats")}
             </Link>
             {coreBrands.length > 0 ? (
               <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
@@ -515,30 +514,17 @@ export function Header() {
               role="group"
               aria-label={t("headerLanguageLabel")}
             >
-              <button
-                type="button"
-                onClick={() => switchLocale("zh")}
-                className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                  languageMode === "bilingual"
-                    ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
-                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
-                }`}
-                aria-pressed={languageMode === "bilingual"}
-              >
-                中 / 日
-              </button>
-              <button
-                type="button"
-                onClick={() => switchLocale("en")}
-                className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                  languageMode === "en"
-                    ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
-                    : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
-                }`}
-                aria-pressed={languageMode === "en"}
-              >
-                {t("langEn")}
-              </button>
+              {(["ja", "zh", "en"] as const).map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => switchLocale(option)}
+                  className={`h-10 rounded-full px-2 text-[10px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${locale === option ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}
+                  aria-pressed={locale === option}
+                >
+                  {option === "ja" ? "日本語" : option === "zh" ? "繁中" : "English"}
+                </button>
+              ))}
             </div>
 
             <button

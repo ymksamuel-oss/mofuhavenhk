@@ -104,7 +104,7 @@ export function OrderSummary({
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                 <ProductImage
                   src={item.image}
-                  alt={item.name[locale]}
+                  alt={(locale === "en" ? item.name.en : item.name.zh)}
                   sizes="56px"
                   className="object-cover"
                 />
@@ -112,11 +112,11 @@ export function OrderSummary({
               <div className="min-w-0 space-y-2">
                 <div className="min-w-0 space-y-0.5">
                   <p className="font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
-                    {item.name[locale]}
+                    {(locale === "en" ? item.name.en : item.name.zh)}
                   </p>
                   {item.variantLabel ? (
                     <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-                      {item.variantLabel[locale] || t("productValueUnavailable")}
+                      {(locale === "en" ? item.variantLabel.en : item.variantLabel.zh) || t("productValueUnavailable")}
                     </p>
                   ) : null}
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
@@ -135,7 +135,7 @@ export function OrderSummary({
                     <div
                       className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] bg-white p-0.5"
                       role="group"
-                      aria-label={`${t("qty")} ${item.name[locale]}`}
+                      aria-label={`${t("qty")} ${(locale === "en" ? item.name.en : item.name.zh)}`}
                     >
                       <button
                         type="button"
@@ -175,7 +175,7 @@ export function OrderSummary({
                         type="button"
                         onClick={() => onRemoveItem?.(item.lineKey)}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-[#8a3a2a] transition hover:border-[#c45a45] hover:bg-[#fdeceb] hover:text-[#6b2418] active:scale-[0.97]"
-                        aria-label={`${t("removeItem")}：${item.name[locale]}`}
+                        aria-label={`${t("removeItem")}：${(locale === "en" ? item.name.en : item.name.zh)}`}
                         title={t("removeItem")}
                       >
                         <TrashIcon className="h-4 w-4" />

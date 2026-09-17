@@ -1,4 +1,4 @@
-export type Locale = "zh" | "en";
+export type Locale = "ja" | "zh" | "en";
 
 export const LOCALE_STORAGE_KEY = "mofuhavenhk-locale";
 
@@ -1229,8 +1229,9 @@ export const translations = {
 export type TranslationKey = keyof typeof translations.zh;
 
 export function formatMoney(amount: number, locale: Locale): string {
-  const currency = translations[locale].currency;
-  const formatted = amount.toLocaleString(locale === "zh" ? "zh-HK" : "en-HK", {
+  const dictionary = locale === "en" ? translations.en : translations.zh;
+  const currency = dictionary.currency;
+  const formatted = amount.toLocaleString(locale === "zh" ? "zh-HK" : locale === "ja" ? "ja-JP" : "en-HK", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });

@@ -14,7 +14,7 @@ const SITE_NAME = "Mofu Haven HK";
 const SHARE_IMAGE = "/images/mofu-haven-cat-dog-logo-transparent.png";
 
 type SeoCopy = { title: string; description: string };
-type BilingualSeoCopy = Record<Locale, SeoCopy>;
+type BilingualSeoCopy = { zh: SeoCopy; en: SeoCopy; ja?: SeoCopy };
 
 const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   cats: {
@@ -369,11 +369,11 @@ export function getCategorySeoCopy(
   locale: Locale,
   { categorySlug, subcategory = null, snackSeries = null }: CategorySeoParams,
 ): SeoCopy {
-  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale];
-  const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale] : null;
+  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale === "ja" ? "zh" : locale];
+  const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale === "ja" ? "zh" : locale] : null;
   if (subcategoryCopy) return subcategoryCopy;
   return (
-    CATEGORY_SEO[categorySlug]?.[locale] ?? {
+    CATEGORY_SEO[categorySlug]?.[locale === "ja" ? "zh" : locale] ?? {
       title: locale === "zh" ? "寵物商品分類" : "Pet Product Categories",
       description:
         locale === "zh"

@@ -5,12 +5,12 @@ import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { getBilingualProductNameParts, getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
 
 export function BrandProductCard({ product }: { product: Product }) {
-  const { locale, languageMode } = useI18n();
-  const name = languageMode === "bilingual" ? getBilingualProductNameParts(product) : getLocalizedProductName(product, locale);
+  const { locale } = useI18n();
+  const name = getLocalizedProductName(product, locale);
   return (
     <li className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
       <Link href={productHref(product.id)} className="relative block aspect-square overflow-hidden bg-[#fbf5ed]">
@@ -18,7 +18,7 @@ export function BrandProductCard({ product }: { product: Product }) {
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
         <Link href={productHref(product.id)} className="flex min-h-[4rem] min-w-0 flex-col justify-start gap-0.5 break-words text-sm leading-relaxed text-[#3e2d25]">
-          {languageMode === "bilingual" && typeof name !== "string" ? <><span className="block font-semibold leading-6">{name.zh}</span>{name.ja ? <span className="block text-xs font-normal leading-5 text-[#8b7c70]">{name.ja}</span> : null}</> : <span className="block font-semibold leading-6">{name}</span>}
+          <span className="block font-semibold leading-6">{name}</span>
         </Link>
         <div className="mt-auto flex items-center justify-between gap-2">
           <div><strong className="text-lg text-[#7a4b31]">{formatMoney(product.price, locale)}</strong>{product.originalPrice ? <span className="ml-2 text-xs text-[#8b7c70] line-through">{formatMoney(product.originalPrice, locale)}</span> : null}</div>

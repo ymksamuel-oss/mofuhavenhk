@@ -66,7 +66,7 @@ function formatContactBlock(
   const line2 = contact.addressLine2?.trim();
   const districtRaw = (contact.district || contact.city)?.trim();
   const district = districtRaw
-    ? getDistrictLabel(districtRaw, locale)
+    ? getDistrictLabel(districtRaw, locale === "en" ? "en" : "zh")
     : undefined;
   const sfCode = contact.sfStationCode?.trim();
   const addressParts = [district, line1, line2].filter(Boolean);
@@ -114,7 +114,7 @@ export function buildOrderMessage({
             const skuLabel = item.mofuSku
               ? ` [${t("productSkuLabel")}: ${item.mofuSku}]`
               : "";
-            return `${index + 1}. ${item.name[locale]}${item.variantLabel ? `（${item.variantLabel[locale] || t("productValueUnavailable")}）` : ""}${skuLabel} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`;
+            return `${index + 1}. ${(locale === "en" ? item.name.en : item.name.zh)}${item.variantLabel ? `（${(locale === "en" ? item.variantLabel.en : item.variantLabel.zh) || t("productValueUnavailable")}）` : ""}${skuLabel} × ${item.qty}　${formatMoney(item.qty * item.unit, locale)}`;
           },
         )
       : [`（${t("cartDrawerEmpty")}）`];

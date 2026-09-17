@@ -1,0 +1,5 @@
+{
+  "nav": { "home": "Home", "cats": "Cats", "dogs": "Dogs", "supplies": "Pet Supplies", "checkout": "Checkout" },
+  "filters": { "all": "All", "seafood": "Seafood", "venison": "Venison", "horsemeat": "Horsemeat", "chicken": "Chicken", "beef": "Beef", "dairyTreats": "Dairy & Treats" },
+  "actions": { "addToCart": "Add to Cart", "buyNow": "Buy Now", "soldOut": "Sold Out" }
+}

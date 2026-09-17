@@ -16,6 +16,7 @@ import { createPortal } from "react-dom";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { formatMoney } from "@/lib/i18n/translations";
 import { productHref } from "@/lib/products";
 import { searchProducts, type ProductSearchHit } from "@/lib/searchProducts";
@@ -253,7 +254,7 @@ function SearchField({
                       <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <ProductImage
                           src={hit.image}
-                          alt={hit.name[locale]}
+                          alt={getLocalizedProductName(hit, locale)}
                           sizes="48px"
                           className="object-cover"
                         />
@@ -265,14 +266,14 @@ function SearchField({
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium text-[color:var(--ink)]">
-                          {hit.name[locale]}
+                          {getLocalizedProductName(hit, locale)}
                         </span>
                         <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[color:var(--muted)]">
                           <span className="font-semibold tabular-nums text-[color:var(--accent)]">
                             {formatMoney(hit.price, locale)}
                           </span>
-                          {hit.series?.[locale] ? (
-                            <span>{hit.series[locale]}</span>
+                          {(locale === "en" ? hit.series?.en : hit.series?.zh) ? (
+                            <span>{locale === "en" ? hit.series?.en : hit.series?.zh}</span>
                           ) : hit.brand ? (
                             <span>{hit.brand}</span>
                           ) : hit.vendor ? (

@@ -7,6 +7,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemPricing, orderItemTotal } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
@@ -155,7 +156,7 @@ export function MobileCartDrawer({
                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                       <ProductImage
                         src={item.image}
-                        alt={item.name[locale]}
+                        alt={(locale === "en" ? item.name.en : item.name.zh)}
                         sizes="64px"
                         className="object-cover"
                       />
@@ -164,11 +165,11 @@ export function MobileCartDrawer({
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <p className="line-clamp-2 text-sm font-medium leading-snug text-[color:var(--ink)]">
-                            {item.name[locale]}
+                            {(locale === "en" ? item.name.en : item.name.zh)}
                           </p>
                           {item.variantLabel ? (
                             <p className="mt-0.5 text-xs text-[color:var(--muted)]">
-                              {item.variantLabel[locale] || t("productValueUnavailable")}
+                              {(locale === "en" ? item.variantLabel.en : item.variantLabel.zh) || t("productValueUnavailable")}
                             </p>
                           ) : null}
                         </div>
@@ -176,7 +177,7 @@ export function MobileCartDrawer({
                           type="button"
                           onClick={() => removeItem(item.lineKey)}
                           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-lg leading-none text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
-                          aria-label={`${t("removeItem")}：${item.name[locale]}`}
+                          aria-label={`${t("removeItem")}：${(locale === "en" ? item.name.en : item.name.zh)}`}
                         >
                           ×
                         </button>
@@ -256,14 +257,14 @@ export function MobileCartDrawer({
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--line)]">
                           <ProductImage
                             src={product.images?.[0] ?? "catalog-placeholder"}
-                            alt={product.name[locale]}
+                            alt={getLocalizedProductName(product, locale)}
                             sizes="48px"
                             className="object-cover"
                           />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="line-clamp-2 text-xs font-medium leading-snug text-[color:var(--ink)]">
-                            {product.name[locale]}
+                            {getLocalizedProductName(product, locale)}
                           </p>
                           <p className="mt-1 text-sm font-bold tabular-nums text-[color:var(--accent)]">
                             {formatMoney(product.price, locale)}

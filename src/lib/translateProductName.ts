@@ -27,10 +27,17 @@ export function getJapaneseProductName(product: Product): string | undefined {
 }
 
 export function getLocalizedProductName(product: Product, locale: Locale): string {
+  if (locale === "ja") return getJapaneseProductName(product) || product.name.zh || product.name.en || "商品";
   if (locale !== "en") return product.name.zh || product.name.en || "商品";
   const explicitEnglish = product.name.en?.trim();
   if (explicitEnglish && explicitEnglish !== product.name.zh?.trim()) return explicitEnglish;
   return translateChineseName(product.name.zh || explicitEnglish || "Product");
+}
+
+export function getLocalizedProductDescription(product: Product, locale: Locale): string | undefined {
+  const metadata = product.metadata ?? {};
+  if (locale === "ja") return metadata.description_ja?.trim() || metadata.product_description_ja?.trim() || product.description?.zh || product.description?.en;
+  return product.description?.[locale] || product.description?.zh || product.description?.en;
 }
 
 export function getBilingualProductName(product: Product): string {

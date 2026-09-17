@@ -101,14 +101,14 @@ export function ReceiptPage({ orderNumber }: ReceiptPageProps) {
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <ProductImage
                           src={item.image}
-                          alt={item.name[locale]}
+                          alt={(locale === "en" ? item.name.en : item.name.zh)}
                           sizes="56px"
                           className="object-cover"
                         />
                       </div>
                       <div className="min-w-0">
                         <p className="font-medium leading-snug text-[color:var(--ink)]">
-                          {item.name[locale]}
+                          {(locale === "en" ? item.name.en : item.name.zh)}
                         </p>
                         <p className="mt-0.5 text-xs text-[color:var(--muted)]">
                           {formatMoney(item.unit, locale)} × {item.qty}

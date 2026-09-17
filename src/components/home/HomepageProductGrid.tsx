@@ -7,9 +7,9 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { getLocalizedProductName, getLocalizedProductDescription } from "@/lib/translateProductName";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
-
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
 
@@ -155,12 +155,12 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                 >
                   <CategoryNavLink
                     href={href}
-                    aria-label={`${t("viewProductAria")}: ${product.name[locale]}`}
+                    aria-label={`${t("viewProductAria")}: ${getLocalizedProductName(product, locale)}`}
                     className="relative block aspect-square overflow-hidden bg-[color:var(--accent-soft)]"
                   >
                     <ProductImage
                       src={product.images?.[0] ?? "catalog-placeholder"}
-                      alt={product.name[locale]}
+                      alt={getLocalizedProductName(product, locale)}
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                     />
@@ -176,10 +176,10 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                       href={href}
                       className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {product.name[locale]}
+                      {getLocalizedProductName(product, locale)}
                     </CategoryNavLink>
-                    {product.description?.[locale] ? (
-                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{product.description[locale]}</p>
+                    {getLocalizedProductDescription(product, locale) ? (
+                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{getLocalizedProductDescription(product, locale)}</p>
                     ) : null}
                     <MarketReferencePrice
                       price={product.marketReferencePrice}

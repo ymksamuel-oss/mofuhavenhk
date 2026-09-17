@@ -1,0 +1,5 @@
+{
+  "nav": { "home": "ホーム", "cats": "猫ちゃん", "dogs": "わんちゃん", "supplies": "ペット用品", "checkout": "お会計" },
+  "filters": { "all": "すべて", "seafood": "海鮮", "venison": "鹿肉", "horsemeat": "馬肉", "chicken": "鶏肉", "beef": "牛肉", "dairyTreats": "チーズ・ふりかけ" },
+  "actions": { "addToCart": "カートに追加", "buyNow": "今すぐ購入", "soldOut": "売り切れ" }
+}

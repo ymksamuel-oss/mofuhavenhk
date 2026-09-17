@@ -338,7 +338,7 @@ function CheckoutContent() {
         : getPhoneValidationError(
             shippingContact.phone,
             shippingContact.phoneCountryCode,
-            locale,
+            locale === "en" ? "en" : "zh",
           )
         ? "shipping-tel"
         : !shippingContact.district

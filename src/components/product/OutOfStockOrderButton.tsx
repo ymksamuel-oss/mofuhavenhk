@@ -21,7 +21,7 @@ export function OutOfStockOrderButton({
   className = "",
 }: OutOfStockOrderButtonProps) {
   const { locale, t } = useI18n();
-  const name = productName[locale] || productName.zh || productName.en;
+  const name = (locale === "en" ? productName.en : productName.zh) || productName.en || productName.zh || "商品";
   const storeSku = mofuSku?.trim();
   const identifier = storeSku
     ? `${t("productSkuLabel")}: ${storeSku}`
