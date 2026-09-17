@@ -820,7 +820,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         .from("products")
         // Verified against the live raw row: `images` is the product image
         // column and contains the ordered image URL array used by each card.
-        .select("id,name,price,original_price,stock,description,images,category_id,brand_id,brand,created_at,is_published,mofu_sku,status,source_product_id,source_price_id")
+        .select("id,name,name_zh,name_en,price,original_price,stock,stock_quantity,description,description_zh,description_en,images,category_id,brand_id,brand,supplier_brand,product_spec,pet_species,feature_tags,cost_price_rmb,created_at,is_published,mofu_sku,status,source_product_id,source_price_id")
         .eq("is_published", true)
         .eq("status", "published")
         .gt("stock", 0)
