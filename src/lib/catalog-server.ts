@@ -955,6 +955,12 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       description: row.description,
       descriptionEn: productLocalization?.description_en || row.description_en || stripeDescription?.en,
     });
+    const rawSourceName = String(row.name || "").trim();
+    const nameJa = ["name_ja", "name_jp", "product_name_ja", "原商品名", "商品名_日本語", "source_name_ja"]
+      .map((key) => stripeMetadata[key]?.trim()).find(Boolean)
+      || (/[\u3040-\u30ff]/.test(rawSourceName) ? rawSourceName : undefined);
+    const descriptionJa = ["description_ja", "detail_ja", "intro_ja", "日本語説明", "原文説明"]
+      .map((key) => stripeMetadata[key]?.trim()).find(Boolean);
     return {
       id: String(row.id),
       ...(isStripeProductId(sourceProductId) ? { stripeProductId: sourceProductId } : {}),
@@ -982,6 +988,8 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         : undefined,
       metadata: {
         category: categorySlug,
+        ...(nameJa ? { name_ja: nameJa } : {}),
+        ...(descriptionJa ? { description_ja: descriptionJa } : {}),
         ...(row.mofu_sku ? { mofu_sku: String(row.mofu_sku) } : {}),
       },
       tags: [

@@ -73,18 +73,18 @@ type ProductCatalogProps = {
 };
 
 const INGREDIENT_FILTERS = [
-  ["seafood", "深海海鮮", "Deep-Sea Seafood"],
-  ["deer", "低敏鹿肉", "Novel Deer Protein"],
-  ["horse", "低敏馬肉", "Novel Horse Protein"],
-  ["chicken", "純天然雞肉", "Natural Chicken"],
-  ["beef", "嚴選牛肉", "Premium Beef"],
-  ["dairy", "乳製品／芝士／拌糧粉", "Dairy / Cheese / Toppers"],
+  ["seafood", "深海海鮮", "海鮮", "Deep-Sea Seafood"],
+  ["deer", "低敏鹿肉", "鹿肉", "Novel Deer Protein"],
+  ["horse", "低敏馬肉", "馬肉", "Novel Horse Protein"],
+  ["chicken", "純天然雞肉", "鶏肉", "Natural Chicken"],
+  ["beef", "嚴選牛肉", "牛肉", "Premium Beef"],
+  ["dairy", "乳製品／芝士／拌糧粉", "乳製品・チーズ・ふりかけ", "Dairy / Cheese / Toppers"],
 ] as const;
 
 const AUDIENCE_FILTERS = [
-  ["cat", "貓專用", "For Cats"],
-  ["dog", "狗專用", "For Dogs"],
-  ["all-pets", "貓狗兼用", "All Pets"],
+  ["cat", "貓專用", "猫用", "For Cats"],
+  ["dog", "狗專用", "犬用", "For Dogs"],
+  ["all-pets", "貓狗兼用", "犬猫兼用", "All Pets"],
 ] as const;
 
 function productFilterText(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
@@ -182,23 +182,23 @@ export function ProductCatalog({
       <h1 className="sr-only">{title}</h1>
       <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
         <CategoryNavLink href="/menu" className={`rounded-full border px-4 py-2 text-sm transition ${!specialFilter ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-          {locale === "en" ? "All products" : "全部商品"}
+          {languageMode === "en" ? "All products" : languageMode === "bilingual" ? <>全部商品<span className="ml-1 text-[10px] opacity-75">すべて</span></> : "全部商品"}
         </CategoryNavLink>
         <CategoryNavLink href="/menu?category=cat-zone" className={`rounded-full border px-4 py-2 text-sm transition ${specialFilter === "cat-zone" ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-          {locale === "en" ? "For Cats" : "貓咪專區"}
+          {languageMode === "en" ? "For Cats" : languageMode === "bilingual" ? <>貓咪專區<span className="ml-1 text-[10px] opacity-75">猫ちゃん</span></> : "貓咪專區"}
         </CategoryNavLink>
       </nav>
       <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
-        {INGREDIENT_FILTERS.map(([slug, zh, en]) => (
+        {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {locale === "en" ? en : zh}
+            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="text-[10px] opacity-75">{ja}</span></> : zh}
           </CategoryNavLink>
         ))}
       </nav>
       <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
-        {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, en]) => (
+        {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {locale === "en" ? en : zh}
+            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="text-[10px] opacity-75">{ja}</span></> : zh}
           </CategoryNavLink>
         ))}
       </nav>
@@ -267,7 +267,9 @@ export function ProductCatalog({
                     </CategoryNavLink>
                     {product.description ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
-                        {product.description[locale]}
+                        {languageMode === "bilingual"
+                          ? `${product.description.zh} / ${product.metadata?.description_ja || "日本製・無添加"}`
+                          : product.description[locale]}
                       </p>
                     ) : null}
                     <MarketReferencePrice
