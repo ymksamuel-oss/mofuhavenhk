@@ -1,23 +1,38 @@
 {
-  "nav": { "home": "ホーム", "cats": "猫ちゃん", "dogs": "わんちゃん", "supplies": "ペット用品", "checkout": "お会計" },
-  "filters": { "all": "すべて", "seafood": "海鮮", "venison": "鹿肉", "horsemeat": "馬肉", "chicken": "鶏肉", "beef": "牛肉", "dairyTreats": "チーズ・ふりかけ" },
-  "actions": { "addToCart": "カートに追加", "buyNow": "今すぐ購入", "soldOut": "売り切れ" },
-  "checkoutTitle": "お会計",
-  "checkoutSubtitle": "ご注文内容を確認してお支払い方法を選択してください",
-  "receiptEmailLabel": "メールアドレス",
-  "receiptEmailPlaceholder": "例：hello@example.com",
-  "customerPhoneLabel": "お電話番号",
-  "customerPhonePlaceholder": "例：91234567",
-  "customerPhonePlaceholderHk": "香港の電話番号（8桁）例：91234567",
-  "shippingDistrictLabel": "地域",
-  "shippingDistrictPlaceholder": "地域を選択",
-  "shippingAddressLabel": "お届け先住所",
-  "shippingAddressPlaceholder": "通り名・建物名・部屋番号",
-  "shippingAddressLine2Label": "建物名・部屋番号（任意）",
-  "shippingAddressLine2Placeholder": "建物名・部屋番号（任意）",
-  "sfStationLabel": "SF Express / ロッカー番号（任意）",
-  "sfStationPlaceholder": "例：FRT123 またはロッカー番号",
-  "sfStationHint": "SF Expressの駅またはスマートロッカーへの配送をご希望の場合は、ステーション／ロッカー番号を入力してください。",
-  "shippingContactTitle": "お届け先情報",
-  "shippingContactHint": "入力した情報は注文通知と電子レシートの送付に使用します。"
+  "nav": {
+    "home": "ホーム",
+    "cats": "猫ちゃん",
+    "dogs": "わんちゃん",
+    "supplies": "ペット用品",
+    "checkout": "お会計"
+  },
+  "promotion": {
+    "ariaLabel": "まとめ買いキャンペーン",
+    "headline": "猫ちゃん・わんちゃん用品：8点以上で10%OFF、16点以上で15%OFF！",
+    "subline": "商品ページで 8・12・16・24 点をお選びいただけます"
+  },
+  "features": [
+    { "title": "安心の配送", "subtitle": "丁寧な梱包で、大切にお届けします" },
+    { "title": "送料無料", "subtitle": "HK$450以上のご注文で送料無料" },
+    { "title": "カスタマーサポート", "subtitle": "ご不明な点はお気軽にご相談ください" }
+  ],
+  "hero": {
+    "eyebrow": "季節限定",
+    "title": "心温まる、毎日の贈りもの",
+    "subtitle": "日本の厳選アイテムで、愛するうちの子に最高の毎日を。"
+  },
+  "filters": {
+    "all": "すべて",
+    "seafood": "海鮮",
+    "venison": "鹿肉",
+    "horsemeat": "馬肉",
+    "chicken": "鶏肉",
+    "beef": "牛肉",
+    "dairyTreats": "チーズ・ふりかけ"
+  },
+  "actions": {
+    "addToCart": "カートに追加",
+    "buyNow": "今すぐ購入",
+    "soldOut": "売り切れ"
+  }
 }

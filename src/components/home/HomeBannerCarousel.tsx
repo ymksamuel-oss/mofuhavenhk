@@ -52,14 +52,18 @@ function toManagedSlides(
         image,
         // Prefer the dedicated mobile artwork; fall back to the desktop image when absent.
         mobileImage: mobileImage || image,
-        eyebrow: "MOFU HAVEN",
-        title: locale === "en"
-          ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
-          : banner.title?.trim() || t("homeBannerManagedTitle"),
-        subtitle: "",
+        eyebrow: locale === "ja" && index === 0 ? t("homeBadge") : "MOFU HAVEN",
+        title: locale === "ja" && index === 0
+          ? t("homeHeadline")
+          : locale === "en"
+            ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
+            : banner.title?.trim() || t("homeBannerManagedTitle"),
+        subtitle: locale === "ja" && index === 0 ? t("homeSub") : "",
         cta: "",
         href: banner.link?.trim() || "",
-        imageAlt: locale === "en"
+        imageAlt: locale === "ja" && index === 0
+          ? t("homeHeadline")
+          : locale === "en"
           ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
           : banner.title?.trim() || t("homeBannerManagedTitle"),
         tone: "dark" as const,
