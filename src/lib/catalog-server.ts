@@ -371,6 +371,26 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
   return normalized && !CJK_TEXT_RE.test(normalized) ? normalized : fallback;
 }
 
+function bestPartnerChineseName(value: string, supplierBrand: string | null | undefined): string {
+  if (supplierBrand !== "Best Partner") return value;
+  const name = value.replace(/[　]/g, " ").trim();
+  const size = name.match(/(?:\s|^)([SML]|ＬＬ|Ｌ|Ｍ|Ｓ)(?:\s|$)/i)?.[1];
+  const sizeLabel = size ? `（${size.replace("Ｌ", "L").replace("Ｍ", "M").replace("Ｓ", "S")}）` : "";
+  if (/ハーネス/i.test(name)) return `Best Partner 強韌透氣防暴衝胸背帶${sizeLabel}`;
+  if (/リード/i.test(name)) return `Best Partner 強韌防暴衝牽引帶${sizeLabel}`;
+  if (/カラー/i.test(name)) return `Best Partner 雙色半鏈防暴衝頸圈${sizeLabel}`;
+  const translated = name
+    .replace(/猫の?/g, "貓用 ").replace(/塩無添加/g, "無鹽添加")
+    .replace(/まぐろ|マグロ/g, "金槍魚").replace(/かつお/g, "柴魚")
+    .replace(/ささみ/g, "雞胸肉").replace(/鶏/g, "雞")
+    .replace(/にぼし/g, "小魚乾").replace(/きびなご/g, "丁香魚")
+    .replace(/わかさぎ|ひめたら/g, "姬鱈魚").replace(/スライス/g, "薄片")
+    .replace(/フレーク/g, "肉鬆").replace(/ふりかけ/g, "拌飯粉")
+    .replace(/ちっぷす/g, "脆片").replace(/キューブ/g, "粒")
+    .replace(/スティック/g, "棒").replace(/\s+/g, " ").trim();
+  return `日本原裝 Best Partner 天然寵物零食｜${translated || "日本天然寵物零食"}`;
+}
+
 function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
   return products.map((product) => {
     const description = product.description
@@ -883,7 +903,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       }
     }
     const mappedProducts: Product[] = productResult.data
-      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
+      .map((row: { id: string; created_at?: string | null; category_id?: string | null; mofu_sku?: string | null; name?: string | null; name_zh?: string | null; name_en?: string | null; images?: unknown; image?: unknown; image_url?: unknown; price?: number | string | null; original_price?: number | string | null; stock?: number | string | null; description?: string | null; description_zh?: string | null; description_en?: string | null; supplier_brand?: string | null; source_product_id?: string | null; source_price_id?: string | null }) => {
       const sourceProductId = row.source_product_id?.trim() || "";
       const stripeMetadata = sourceProductId
         ? stripeProductsById.get(sourceProductId)?.metadata ?? {}
@@ -920,7 +940,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
     const categorySlug = categoryAssignment.categorySlug;
     const subcategory = categoryAssignment.subcategory;
-    const databaseNameZh = String(row.name_zh || row.name || "未命名產品");
+      const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "未命名產品"), row.supplier_brand);
     const databaseNameEn = resolveEnglishProductName({
       id: row.id,
       sourceId: row.source_product_id,

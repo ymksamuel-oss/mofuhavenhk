@@ -33,6 +33,50 @@ function getPageNumbers(current: number, total: number): PageItem[] {
   return result;
 }
 
+function homepageFamilyKey(product: Product): string {
+  const text = `${product.name.zh} ${product.name.en} ${Object.values(product.metadata ?? {}).join(" ")}`.toLowerCase();
+  if (/タフ[・\s-]*ブレイド|tough\s*blade/.test(text)) {
+    if (/ハーネス|harness|胸背/.test(text)) return "best-partner-tough-harness";
+    if (/リード|lead|leash|牽引/.test(text)) return "best-partner-tough-lead";
+    if (/カラー|collar|頸圈/.test(text)) return "best-partner-tough-collar";
+  }
+  return product.id;
+}
+
+function homepageGroup(product: Product): "cat" | "meat" | "gear" | "other" {
+  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""}`.toLowerCase();
+  if (/貓|猫|cat/.test(text) && /魚|鮪|吞拿魚|鰹|fish|tuna|bonito|鱈|沙丁|小魚/.test(text)) return "cat";
+  if (/鹿|馬|牛|羊|鯊魚|鹿肉|馬肉|beef|venison|horse|shark/.test(text)) return "meat";
+  if (/胸背|牽引|頸圈|harness|leash|collar|タフ[・\s-]*ブレイド/.test(text)) return "gear";
+  return "other";
+}
+
+/** Keep the full catalogue intact, but make the homepage an editorial sampler. */
+function homepageProducts(products: Product[]): Product[] {
+  const representatives = new Map<string, Product>();
+  for (const product of products) {
+    const key = homepageFamilyKey(product);
+    const current = representatives.get(key);
+    if (!current || (product.createdAt ?? 0) > (current.createdAt ?? 0)) representatives.set(key, product);
+  }
+  const groups: Record<ReturnType<typeof homepageGroup>, Product[]> = { cat: [], meat: [], gear: [], other: [] };
+  for (const product of representatives.values()) groups[homepageGroup(product)].push(product);
+  for (const group of Object.values(groups)) {
+    group.sort((left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }));
+  }
+  const result: Product[] = [];
+  const order: Array<keyof typeof groups> = ["cat", "meat", "gear", "other"];
+  let added = true;
+  while (added) {
+    added = false;
+    for (const key of order) {
+      const product = groups[key].shift();
+      if (product) { result.push(product); added = true; }
+    }
+  }
+  return result;
+}
+
 /** Locale-aware homepage product section. Products are assembled by the page from Supabase. */
 export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
   const { locale, t } = useI18n();
@@ -42,9 +86,9 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
       error: "No products were returned by getCatalogSnapshot",
     });
   }
-  const products = getProductsByCategory(null, catalogProducts)
+  const products = homepageProducts(getProductsByCategory(null, catalogProducts)
     .filter(isStorefrontReadyProduct)
-    .sort((left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }));
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
