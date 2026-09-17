@@ -418,12 +418,16 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
 
 function bestPartnerChineseName(value: string, supplierBrand: string | null | undefined): string {
   if (supplierBrand !== "Best Partner") return value;
-  const name = value.replace(/[　]/g, " ").trim();
+  const name = (value.replace(/[　]/g, " ").split(/[｜|]/).at(-1) || value)
+    .replace(/^日本(?:原裝|直送|製品?)\s*/i, "")
+    .replace(/^Best Partner\s*/i, "")
+    .replace(/^天然寵物(?:零食|食品|用品)\s*[：:]?\s*/i, "")
+    .trim();
   const size = name.match(/(?:\s|^)([SML]|ＬＬ|Ｌ|Ｍ|Ｓ)(?:\s|$)/i)?.[1];
   const sizeLabel = size ? `（${size.replace("Ｌ", "L").replace("Ｍ", "M").replace("Ｓ", "S")}）` : "";
-  if (/ハーネス/i.test(name)) return `Best Partner 強韌透氣防暴衝胸背帶${sizeLabel}`;
-  if (/リード/i.test(name)) return `Best Partner 強韌防暴衝牽引帶${sizeLabel}`;
-  if (/カラー/i.test(name)) return `Best Partner 雙色半鏈防暴衝頸圈${sizeLabel}`;
+  if (/ハーネス/i.test(name)) return `強韌透氣防暴衝胸背帶${sizeLabel}`;
+  if (/リード/i.test(name)) return `強韌防暴衝牽引帶${sizeLabel}`;
+  if (/カラー/i.test(name)) return `雙色半鏈防暴衝頸圈${sizeLabel}`;
   const translated = name
     .replace(/猫の?/g, "貓用 ").replace(/塩無添加/g, "無鹽添加")
     .replace(/まぐろ|マグロ/g, "金槍魚").replace(/かつお/g, "柴魚")
@@ -433,7 +437,7 @@ function bestPartnerChineseName(value: string, supplierBrand: string | null | un
     .replace(/フレーク/g, "肉鬆").replace(/ふりかけ/g, "拌飯粉")
     .replace(/ちっぷす/g, "脆片").replace(/キューブ/g, "粒")
     .replace(/スティック/g, "棒").replace(/\s+/g, " ").trim();
-  return `日本原裝 Best Partner 天然寵物零食｜${translated || "日本天然寵物零食"}`;
+  return translated || name || "未命名產品";
 }
 
 function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
