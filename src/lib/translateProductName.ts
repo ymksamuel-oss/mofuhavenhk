@@ -38,3 +38,9 @@ export function getBilingualProductName(product: Product): string {
   const ja = getJapaneseProductName(product);
   return ja && ja !== zh ? `${zh}\n${ja}` : zh;
 }
+
+export function getBilingualProductNameParts(product: Product): { zh: string; ja?: string } {
+  const zh = product.name.zh || product.name.en || "商品";
+  const ja = getJapaneseProductName(product);
+  return { zh, ja: ja && ja !== zh ? ja : undefined };
+}

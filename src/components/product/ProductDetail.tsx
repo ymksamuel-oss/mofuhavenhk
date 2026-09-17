@@ -137,7 +137,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <p className="text-sm text-[color:var(--muted)]">
             {mofuSku ? t("productSkuLabel") : t("productIdLabel")}：{mofuSku ?? selectedProduct.id}
           </p>
-          <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
+          <h1 className="mt-1 flex flex-col gap-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-relaxed text-[color:var(--ink)] sm:text-3xl">
             {renderProductName().split("\n").map((line) => <span key={line} className="block first:font-semibold first:text-[color:var(--ink)] last:mt-1 last:text-base last:font-normal last:text-[color:var(--muted)]">{line}</span>)}
           </h1>
 

@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getBilingualProductName, getLocalizedProductName } from "@/lib/translateProductName";
+import { getBilingualProductNameParts, getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -190,15 +190,15 @@ export function ProductCatalog({
       </nav>
       <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
         {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => (
-          <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="text-[10px] opacity-75">{ja}</span></> : zh}
+          <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="mx-1 opacity-60" aria-hidden>/</span><span className="text-[10px] leading-4 opacity-75">{ja}</span></> : zh}
           </CategoryNavLink>
         ))}
       </nav>
       <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
         {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, ja, en]) => (
-          <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="text-[10px] opacity-75">{ja}</span></> : zh}
+          <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+            {languageMode === "en" ? en : languageMode === "bilingual" ? <><span>{zh}</span><span className="mx-1 opacity-60" aria-hidden>/</span><span className="text-[10px] leading-4 opacity-75">{ja}</span></> : zh}
           </CategoryNavLink>
         ))}
       </nav>
@@ -261,9 +261,12 @@ export function ProductCatalog({
                   <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                     <CategoryNavLink
                       href={href}
-                      className="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+                      className="flex min-h-[3.5rem] min-w-0 flex-col justify-start gap-0.5 break-words text-left text-sm leading-relaxed text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {localizedName.split("\n").map((line) => <span key={line} className="block first:font-medium last:text-xs last:font-normal last:text-[color:var(--muted)]">{line}</span>)}
+                      {languageMode === "bilingual" ? (() => {
+                        const name = getBilingualProductNameParts(product);
+                        return <><span className="block font-semibold leading-6">{name.zh}</span>{name.ja ? <span className="block text-xs font-normal leading-5 text-[color:var(--muted)]">{name.ja}</span> : null}</>;
+                      })() : <span className="block font-semibold leading-6">{localizedName}</span>}
                     </CategoryNavLink>
                     {product.description ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
