@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -29,30 +27,6 @@ function getPageNumbers(current: number, total: number): PageItem[] {
     result.push(page);
   });
   return result;
-}
-
-function getProductBadge(product: {
-  id: string;
-  tags?: string[];
-  metadata?: Record<string, string>;
-  productType?: string;
-  sourceCategory?: string;
-}): "hot" | "new" | null {
-  const source = [
-    product.id,
-    ...(product.tags ?? []),
-    product.metadata?.badge,
-    product.metadata?.label,
-    product.productType,
-    product.sourceCategory,
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-
-  if (/熱賣|熱銷|bestseller|best seller|popular|hot/.test(source)) return "hot";
-  if (/新品|新款|new|launch|wt-japan/.test(source)) return "new";
-  return null;
 }
 
 type ProductCatalogProps = {
@@ -225,32 +199,20 @@ export function ProductCatalog({
         <>
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
         {visibleProducts.map((product) => {
-              const discountPercent = product.originalPrice
-                ? Math.round((1 - product.price / product.originalPrice) * 100)
-                : null;
-              const variantPrices = (product.variants ?? []).map((variant) => variant.price).filter((price) => Number.isFinite(price));
-              const lowestPrice = variantPrices.length ? Math.min(product.price, ...variantPrices) : product.price;
-              const highestPrice = variantPrices.length ? Math.max(product.price, ...variantPrices) : product.price;
-              const displayPrice = lowestPrice === highestPrice
-                ? formatMoney(lowestPrice, locale)
-                : `${formatMoney(lowestPrice, locale)} - ${formatMoney(highestPrice, locale)}`;
-              const badge = getProductBadge(product);
               const href = productHref(product.id);
               // The URL is resolved inside this map iteration from the
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
               const localizedName = getLocalizedProductName(product, locale);
+              const localizedDescription = getLocalizedProductDescription(product, locale);
               return (
-                <li
-                  key={product.id}
-                  className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
-                >
-                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
-                    <CategoryNavLink
-                      href={href}
-                      aria-label={`${t("productViewDetails")}: ${localizedName}`}
-                      className="absolute inset-0 block"
-                    >
+                <li key={product.id} className="min-w-0">
+                  <CategoryNavLink
+                    href={href}
+                    aria-label={`${t("productViewDetails")}: ${localizedName}`}
+                    className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
+                  >
+                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
                       <ProductImage
                         key={`${product.id}-${imageUrl}`}
                         src={imageUrl}
@@ -258,50 +220,14 @@ export function ProductCatalog({
                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       />
-                      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[color:var(--ink)]/0 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:bg-[color:var(--ink)]/20 group-hover:opacity-100">
-                        {t("productViewDetails")}
-                      </span>
-                    </CategoryNavLink>
-                    {product.inStock === false ? (
-                      <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[color:var(--ink)] px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
-                        {t("productSoldOut")}
-                      </span>
-                    ) : discountPercent ? (
-                      <span className="pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
-                        -{discountPercent}%
-                      </span>
-                    ) : badge ? (
-                      <span
-                        className={`pointer-events-none absolute left-2.5 top-2.5 z-10 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white shadow-sm ${
-                          badge === "hot" ? "bg-[#8b6f47]" : "bg-[#3d6954]"
-                        }`}
-                      >
-                        {badge === "hot" ? t("badgeHot") : t("badgeNew")}
-                      </span>
-                    ) : null}
-                  </div>
-
-                  <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
-                    <CategoryNavLink
-                      href={href}
-                      className="line-clamp-2 min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
-                    >
-                      {localizedName}
-                    </CategoryNavLink>
-                    <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-                      <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                        <p className="text-lg font-bold tabular-nums text-[#7A4B31]">
-                          {displayPrice}
-                        </p>
-                        {product.originalPrice ? (
-                          <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                            {formatMoney(product.originalPrice, locale)}
-                          </p>
-                        ) : null}
-                      </div>
-                      <AddToCartButton productId={product.id} size="card" className="shrink-0" />
                     </div>
-                  </div>
+                    <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 sm:p-4">
+                      <h2 className="line-clamp-2 min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+                        {localizedName}
+                      </h2>
+                      {localizedDescription ? <p className="line-clamp-2 text-xs leading-5 text-[color:var(--muted)]">{localizedDescription}</p> : null}
+                    </div>
+                  </CategoryNavLink>
                 </li>
               );
             })}

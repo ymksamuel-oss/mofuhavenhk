@@ -1,13 +1,10 @@
 "use client";
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
-import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { getLocalizedProductName } from "@/lib/translateProductName";
-import { formatMoney } from "@/lib/i18n/translations";
+import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -144,53 +141,23 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
             <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
               {visibleProducts.map((product) => {
               const href = productHref(product.id);
-              const discountPercent = product.originalPrice
-                ? Math.round((1 - product.price / product.originalPrice) * 100)
-                : null;
+              const name = getLocalizedProductName(product, locale);
+              const description = getLocalizedProductDescription(product, locale);
               return (
-                <li
-                  key={product.id}
-                  className="milk-tea-card group flex min-w-0 flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
-                >
+                <li key={product.id} className="min-w-0">
                   <CategoryNavLink
                     href={href}
-                    aria-label={`${t("viewProductAria")}: ${getLocalizedProductName(product, locale)}`}
-                    className="relative block aspect-square overflow-hidden bg-[color:var(--accent-soft)]"
+                    aria-label={`${t("viewProductAria")}: ${name}`}
+                    className="milk-tea-card group flex min-w-0 flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
                   >
-                    <ProductImage
-                      src={product.images?.[0] ?? "catalog-placeholder"}
-                      alt={getLocalizedProductName(product, locale)}
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
-                    {discountPercent ? (
-                      <span className="pointer-events-none absolute left-2.5 top-2.5 rounded-full bg-[#c0483a] px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
-                        -{discountPercent}%
-                      </span>
-                    ) : null}
-                    <ProductStatusBadges product={product} className="right-2.5 top-2.5" />
-                  </CategoryNavLink>
-                  <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
-                    <CategoryNavLink
-                      href={href}
-                      className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
-                    >
-                      {getLocalizedProductName(product, locale)}
-                    </CategoryNavLink>
-                    <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-                      <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                        <p className="text-lg font-extrabold tabular-nums text-[color:var(--accent)]">
-                          {formatMoney(product.price, locale)}
-                        </p>
-                        {product.originalPrice ? (
-                          <p className="text-xs tabular-nums text-[color:var(--muted)] line-through">
-                            {formatMoney(product.originalPrice, locale)}
-                          </p>
-                        ) : null}
-                      </div>
-                      <AddToCartButton productId={product.id} size="card" className="shrink-0" />
+                    <div className="relative aspect-square overflow-hidden bg-[color:var(--background)]">
+                      <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt={name} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" className="object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
                     </div>
-                  </div>
+                    <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 sm:p-4">
+                      <h3 className="line-clamp-2 text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{name}</h3>
+                      {description ? <p className="line-clamp-2 text-xs leading-5 text-[color:var(--muted)]">{description}</p> : null}
+                    </div>
+                  </CategoryNavLink>
                 </li>
               );
               })}
