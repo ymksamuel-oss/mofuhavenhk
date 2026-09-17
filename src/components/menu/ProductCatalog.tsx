@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -265,11 +265,9 @@ export function ProductCatalog({
                     >
                       {localizedName}
                     </CategoryNavLink>
-                    {product.description ? (
+                    {product.description || locale === "ja" ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
-                        {locale === "ja"
-                          ? product.metadata?.description_ja || product.description.zh || product.description.en
-                          : (locale === "en" ? product.description.en : product.description.zh) || product.description.en || product.description.zh}
+                        {getLocalizedProductDescription(product, locale)}
                       </p>
                     ) : null}
                     <MarketReferencePrice

@@ -22,7 +22,17 @@ function translateChineseName(name: string): string {
 
 export function getJapaneseProductName(product: Product): string | undefined {
   const metadata = product.metadata ?? {};
-  return ["name_ja", "name_jp", "product_name_ja", "原商品名", "商品名_日本語", "source_name_ja"]
+  return [
+    "name_ja",
+    "name_jp",
+    "japanese_name",
+    "name_japanese",
+    "product_name_ja",
+    "product_name_jp",
+    "原商品名",
+    "商品名_日本語",
+    "source_name_ja",
+  ]
     .map((key) => metadata[key]?.trim()).find(Boolean);
 }
 
@@ -36,7 +46,22 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
 
 export function getLocalizedProductDescription(product: Product, locale: Locale): string | undefined {
   const metadata = product.metadata ?? {};
-  if (locale === "ja") return metadata.description_ja?.trim() || metadata.product_description_ja?.trim() || product.description?.zh || product.description?.en;
+  if (locale === "ja") {
+    const japaneseDescription = [
+      "description_ja",
+      "description_jp",
+      "japanese_description",
+      "description_japanese",
+      "product_description_ja",
+      "商品説明_日本語",
+    ].map((key) => metadata[key]?.trim()).find(Boolean);
+    if (japaneseDescription) return japaneseDescription;
+
+    const japaneseName = getJapaneseProductName(product);
+    return japaneseName
+      ? `${japaneseName}。日本から厳選したペット用品です。詳しい原材料と給与方法はパッケージをご確認ください。`
+      : "日本から厳選したペット用品です。詳しい原材料と給与方法はパッケージをご確認ください。";
+  }
   return product.description?.[locale] || product.description?.zh || product.description?.en;
 }
 
