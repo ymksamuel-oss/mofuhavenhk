@@ -67,7 +67,50 @@ type ProductCatalogProps = {
   showProductSearch?: boolean;
   /** Special editorial filter for cat-only and cat-friendly natural products. */
   specialFilter?: "cat-zone" | null;
+  ingredientFilter?: string | null;
+  audienceFilter?: string | null;
 };
+
+const INGREDIENT_FILTERS = [
+  ["seafood", "深海海鮮", "Deep-Sea Seafood"],
+  ["deer", "低敏鹿肉", "Novel Deer Protein"],
+  ["horse", "低敏馬肉", "Novel Horse Protein"],
+  ["chicken", "純天然雞肉", "Natural Chicken"],
+  ["beef", "嚴選牛肉", "Premium Beef"],
+  ["dairy", "乳製品／芝士／拌糧粉", "Dairy / Cheese / Toppers"],
+] as const;
+
+const AUDIENCE_FILTERS = [
+  ["cat", "貓專用", "For Cats"],
+  ["dog", "狗專用", "For Dogs"],
+  ["all-pets", "貓狗兼用", "All Pets"],
+] as const;
+
+function productFilterText(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
+  return [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
+}
+
+function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
+  if (!filter) return true;
+  const text = productFilterText(product);
+  const patterns: Record<string, RegExp> = {
+    seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/,
+    deer: /低敏鹿肉|鹿肉|鹿|venison|deer/,
+    horse: /低敏馬肉|馬肉|馬|horse/,
+    chicken: /純天然雞肉|雞肉|鶏|ささみ|chicken/,
+    beef: /嚴選牛肉|牛肉|牛|beef/,
+    dairy: /乳製品|芝士|乳|チーズ|ヨーグルト|dairy|cheese|yogurt|ふりかけ|topper/,
+  };
+  return patterns[filter]?.test(text) ?? false;
+}
+
+function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {
+  if (!filter) return true;
+  const text = productFilterText(product);
+  if (filter === "cat") return /貓專用|猫用|貓用|for cats|cat-only/.test(text);
+  if (filter === "dog") return /狗專用|犬用|for dogs|dog-only|寵物用品/.test(text);
+  return !/貓專用|猫用|貓用|狗專用|犬用|狗具|for cats|for dogs|cat-only|dog-only/.test(text);
+}
 
 function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
   const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
@@ -85,6 +128,8 @@ export function ProductCatalog({
   catLifeStage,
   snackSeries,
   specialFilter = null,
+  ingredientFilter = null,
+  audienceFilter = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
@@ -105,7 +150,11 @@ export function ProductCatalog({
         ? productsInCategory.filter((product) => product.subcategory === selectedSubcategory)
       : []
     : productsInCategory;
-  const products = specialFilter === "cat-zone" ? productsByRoute.filter(isCatZoneProduct) : productsByRoute;
+  const products = productsByRoute.filter((product) =>
+    (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
+    matchesIngredient(product, ingredientFilter) &&
+    matchesAudience(product, audienceFilter),
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
@@ -137,6 +186,20 @@ export function ProductCatalog({
         <CategoryNavLink href="/menu?category=cat-zone" className={`rounded-full border px-4 py-2 text-sm transition ${specialFilter === "cat-zone" ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
           {locale === "en" ? "For Cats" : "貓咪專區"}
         </CategoryNavLink>
+      </nav>
+      <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-4 flex flex-wrap gap-2">
+        {INGREDIENT_FILTERS.map(([slug, zh, en]) => (
+          <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+            {locale === "en" ? en : zh}
+          </CategoryNavLink>
+        ))}
+      </nav>
+      <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-6 flex flex-wrap gap-2">
+        {AUDIENCE_FILTERS.map(([slug, zh, en]) => (
+          <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+            {locale === "en" ? en : zh}
+          </CategoryNavLink>
+        ))}
       </nav>
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
