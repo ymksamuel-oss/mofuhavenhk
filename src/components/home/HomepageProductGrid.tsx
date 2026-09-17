@@ -2,12 +2,11 @@
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { getLocalizedProductName, getLocalizedProductDescription } from "@/lib/translateProductName";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 const PAGE_SIZE = 12;
@@ -178,15 +177,6 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                     >
                       {getLocalizedProductName(product, locale)}
                     </CategoryNavLink>
-                    {getLocalizedProductDescription(product, locale) ? (
-                      <p className="line-clamp-2 text-xs leading-snug text-[color:var(--muted)]">{getLocalizedProductDescription(product, locale)}</p>
-                    ) : null}
-                    <MarketReferencePrice
-                      price={product.marketReferencePrice}
-                      asOf={product.marketReferenceAsOf}
-                      compact
-                      className="-mt-1"
-                    />
                     <div className="mt-auto flex items-center justify-between gap-2 pt-1">
                       <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
                         <p className="text-lg font-extrabold tabular-nums text-[color:var(--accent)]">

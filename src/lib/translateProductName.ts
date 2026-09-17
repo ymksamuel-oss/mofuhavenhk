@@ -37,11 +37,15 @@ export function getJapaneseProductName(product: Product): string | undefined {
 }
 
 export function getLocalizedProductName(product: Product, locale: Locale): string {
-  if (locale === "ja") return getJapaneseProductName(product) || "商品";
-  if (locale !== "en") return product.name.zh || product.name.en || "商品";
+  const metadata = product.metadata ?? {};
+  const metadataName = ["name_zh", "title_zh", "product_name_zh", "中文名稱", "中文商品名稱", "name_en", "title_en", "product_name_en"]
+    .map((key) => metadata[key]?.trim()).find(Boolean);
+  const realName = product.name.zh?.trim() || product.name.en?.trim() || metadataName;
+  if (locale === "ja") return getJapaneseProductName(product) || realName || metadata.japanese_name?.trim() || "未命名商品";
+  if (locale !== "en") return realName || "未命名商品";
   const explicitEnglish = product.name.en?.trim();
   if (explicitEnglish && explicitEnglish !== product.name.zh?.trim()) return explicitEnglish;
-  return translateChineseName(product.name.zh || explicitEnglish || "Product");
+  return translateChineseName(realName || explicitEnglish || "Unnamed product");
 }
 
 function cleanChineseProductSubtitle(value: string): string {

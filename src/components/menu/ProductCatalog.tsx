@@ -3,14 +3,13 @@
 import { useEffect, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
-import { MarketReferencePrice } from "@/components/product/MarketReferencePrice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getJapaneseProductSubtitle, getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -235,7 +234,6 @@ export function ProductCatalog({
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
               const localizedName = getLocalizedProductName(product, locale);
-              const japaneseSubtitle = locale === "ja" ? getJapaneseProductSubtitle(product) : null;
               return (
                 <li
                   key={product.id}
@@ -280,22 +278,10 @@ export function ProductCatalog({
                   <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:p-4">
                     <CategoryNavLink
                       href={href}
-                      className="block min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
+                      className="line-clamp-2 min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      <span className="block">{localizedName}</span>
-                      {japaneseSubtitle ? <span className="mt-1 block text-xs font-normal leading-5 text-[color:var(--muted)]">{japaneseSubtitle}</span> : null}
+                      {localizedName}
                     </CategoryNavLink>
-                    {product.description || locale === "ja" ? (
-                      <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">
-                        {getLocalizedProductDescription(product, locale)}
-                      </p>
-                    ) : null}
-                    <MarketReferencePrice
-                      price={product.marketReferencePrice}
-                      asOf={product.marketReferenceAsOf}
-                      compact
-                      className="-mt-1"
-                    />
                     <div className="mt-auto flex items-center justify-between gap-2 pt-1">
                       <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5">
                         <p className="text-lg font-bold tabular-nums text-[#7A4B31]">
