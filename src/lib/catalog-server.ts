@@ -67,6 +67,43 @@ function uniqueProductsByStorefrontIdentity(products: readonly Product[]): Produ
   return Array.from(productsByIdentity.values());
 }
 
+function variantGroupKey(product: Product): string {
+  const metadata = product.metadata ?? {};
+  const explicit = ["variant_group", "variant_group_id", "product_group", "parent_product_id", "parent_product", "style_id", "model_id", "mofu_product_group"]
+    .map((key) => metadata[key]?.trim()).find(Boolean);
+  if (explicit) return `group:${explicit.toLocaleLowerCase()}`;
+  const source = [product.name.zh, product.name.en, metadata.japanese_name, metadata.name_ja].filter(Boolean).join(" ");
+  if (/強韌(?:透氣)?防暴衝胸背帶|防暴衝牽引帶|防暴衝胸背帶|ハーネス|リード/i.test(source)) {
+    return /牽引帶|リード|lead/i.test(source) ? "style:best-partner-leash" : "style:best-partner-harness";
+  }
+  return `product:${product.id}`;
+}
+
+function mergeVariantProducts(products: readonly Product[]): Product[] {
+  const groups = new Map<string, Product[]>();
+  for (const product of products) groups.set(variantGroupKey(product), [...(groups.get(variantGroupKey(product)) ?? []), product]);
+  return Array.from(groups.values()).map((group) => {
+    if (group.length === 1) return group[0];
+    const representative = group[0];
+    const existingPriceIds = new Set((representative.variants ?? []).map((variant) => variant.priceId));
+    const mergedVariants = [...(representative.variants ?? [])];
+    for (const product of group.slice(1)) {
+      if (!product.priceId || existingPriceIds.has(product.priceId)) continue;
+      existingPriceIds.add(product.priceId);
+      const japaneseName = product.metadata?.japanese_name || product.metadata?.name_ja;
+      mergedVariants.push({
+        key: `product-${product.id}`,
+        priceId: product.priceId,
+        price: product.price,
+        label: { zh: product.name.zh || product.name.en || "選項", en: product.name.en || product.name.zh || "Option", ...(japaneseName ? { ja: japaneseName } : {}) },
+        ...(product.originalPrice ? { originalPrice: product.originalPrice } : {}),
+        ...(product.images?.[0] ? { image: product.images[0] } : {}),
+      });
+    }
+    return mergedVariants.length ? { ...representative, variants: mergedVariants } : representative;
+  });
+}
+
 type ManagedCategoryAssignment = {
   categorySlug: string;
   subcategory?: ProductSubcategory;
@@ -752,12 +789,12 @@ async function fetchCatalogFromStripe(): Promise<CatalogSnapshot> {
     stripeProducts.map(({ id, name, metadata }) => ({ id, name, metadata })),
   );
 
-  const products = uniqueProductsByStorefrontIdentity(
+  const products = mergeVariantProducts(uniqueProductsByStorefrontIdentity(
     stripeProducts
       .filter((product) => pricesByProductId.has(product.id))
       .map((product) => stripeProductToCatalogProduct(product, pricesByProductId))
       .filter((product): product is Product => product !== null),
-  ).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
+  )).sort((left, right) => left.id.localeCompare(right.id, undefined, { numeric: true }));
 
   if (products.length === 0) {
     throw new Error("Stripe catalog has no active HKD products");
@@ -1002,7 +1039,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       icon: iconForCategory(categorySlug),
     } satisfies Product;
       });
-    const products = uniqueProductsByStorefrontIdentity(mappedProducts);
+    const products = mergeVariantProducts(uniqueProductsByStorefrontIdentity(mappedProducts));
     return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, brands: brandResult.data || [], source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
