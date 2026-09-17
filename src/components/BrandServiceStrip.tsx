@@ -4,10 +4,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
-export function BrandServiceStrip() {
+export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "catalog-bottom" }) {
   const { locale } = useI18n();
   const pathname = usePathname();
   if (pathname.startsWith("/product/")) return null;
+  if (placement === "top" && (pathname === "/menu" || pathname.startsWith("/categories/"))) return null;
+  if (placement === "catalog-bottom" && pathname !== "/menu") return null;
   const labels = locale === "en"
     ? [
         { title: "Delivery Service", body: "Carefully packed and dispatched with care.", image: "/images/mofu-visuals/icons/delivery.jpg" },
@@ -21,7 +23,7 @@ export function BrandServiceStrip() {
       ];
 
   return (
-    <aside className="border-y border-[#e0cfbf] bg-[#f4e8dc]/75 px-4 py-4 sm:px-6" aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven 服務承諾"}>
+    <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-4 py-4 sm:px-6`} aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven 服務承諾"}>
       <div className="mx-auto grid max-w-6xl divide-y divide-[#dfccba] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {labels.map((item) => (
           <div key={item.title} className="flex items-center gap-3 px-3 py-3 first:pt-0 last:pb-0 sm:justify-center sm:px-5 sm:py-0 sm:first:pt-0 sm:last:pb-0">

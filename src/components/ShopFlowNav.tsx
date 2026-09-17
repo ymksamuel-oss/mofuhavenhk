@@ -46,6 +46,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === "/";
+  const isMenuPage = pathname === "/menu";
   const isCategoryPage = pathname.startsWith("/categories/");
   const isProductPage = pathname.startsWith("/product/");
   const isPictureBookPage =
@@ -58,7 +59,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
 
   return (
     <div id="shop-flow-nav-root">
-      {!isHome ? (
+      {!isHome && !isMenuPage ? (
         <div
           className={`relative z-20 border-b border-[color:var(--line)] ${
             isPictureBookPage

@@ -11,6 +11,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
 import { getLocalizedProductName } from "@/lib/translateProductName";
+import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -179,7 +180,7 @@ export function ProductCatalog({
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>
-      <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-6 flex flex-wrap gap-2">
+      <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
         <CategoryNavLink href="/menu" className={`rounded-full border px-4 py-2 text-sm transition ${!specialFilter ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
           {locale === "en" ? "All products" : "全部商品"}
         </CategoryNavLink>
@@ -187,15 +188,15 @@ export function ProductCatalog({
           {locale === "en" ? "For Cats" : "貓咪專區"}
         </CategoryNavLink>
       </nav>
-      <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-4 flex flex-wrap gap-2">
+      <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
         {INGREDIENT_FILTERS.map(([slug, zh, en]) => (
           <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
             {locale === "en" ? en : zh}
           </CategoryNavLink>
         ))}
       </nav>
-      <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-6 flex flex-wrap gap-2">
-        {AUDIENCE_FILTERS.map(([slug, zh, en]) => (
+      <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
+        {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, en]) => (
           <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`rounded-full border px-3 py-1.5 text-xs transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
             {locale === "en" ? en : zh}
           </CategoryNavLink>
@@ -339,6 +340,7 @@ export function ProductCatalog({
               {t("productPaginationNext")}
             </button>
           </nav>
+          <BrandServiceStrip placement="catalog-bottom" />
         </>
       )}
     </div>
