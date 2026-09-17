@@ -15,7 +15,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
-import { getLocalizedProductName } from "@/lib/translateProductName";
+import { getBilingualProductName, getLocalizedProductName } from "@/lib/translateProductName";
 import { useState } from "react";
 
 type ProductDetailProps = {
@@ -23,7 +23,7 @@ type ProductDetailProps = {
 };
 
 export function ProductDetail({ product }: ProductDetailProps) {
-  const { locale, t } = useI18n();
+  const { locale, languageMode, t } = useI18n();
   const { toOrderItems } = useCart();
   // Treat every non-English locale as Chinese so the option UI never falls back to
   // English when the document language is zh-HK or the locale is restored after hydration.
@@ -41,9 +41,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const selectedProduct = product;
 
   // Safe helper to render product name whether it's a plain string or a localized object
-  const renderProductName = () => {
-    return getLocalizedProductName(selectedProduct, locale) || t("productDescriptionUnavailable");
-  };
+  const renderProductName = () => languageMode === "bilingual"
+    ? getBilingualProductName(selectedProduct)
+    : getLocalizedProductName(selectedProduct, locale) || t("productDescriptionUnavailable");
 
   const hasPackVariants = Boolean(selectedProduct.variants?.length);
   const variantSelectorTitle = selectedProduct.metadata?.[`variant_selection_label_${optionLocale}`]
@@ -64,6 +64,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
     : null;
   const metadata = selectedProduct.metadata ?? {};
   const metadataValue = (zhKey: string, enKey: string) => {
+    if (languageMode === "bilingual") {
+      const zh = metadata[zhKey]?.trim();
+      const jaKey = zhKey.replace(/_zh$/, "_ja");
+      const ja = metadata[jaKey]?.trim() || metadata["raw_" + jaKey]?.trim();
+      return ja && ja !== zh ? `${zh || ""} / ${ja}` : zh;
+    }
     const preferred = locale === "zh" ? metadata[zhKey] : metadata[enKey];
     const fallback = locale === "zh" ? metadata[enKey] : metadata[zhKey];
     return preferred?.trim() || fallback?.trim();
@@ -132,7 +138,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             {mofuSku ? t("productSkuLabel") : t("productIdLabel")}：{mofuSku ?? selectedProduct.id}
           </p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold leading-snug text-[color:var(--ink)] sm:text-3xl">
-            {renderProductName()}
+            {renderProductName().split("\n").map((line) => <span key={line} className="block first:font-semibold first:text-[color:var(--ink)] last:mt-1 last:text-base last:font-normal last:text-[color:var(--muted)]">{line}</span>)}
           </h1>
 
           <div className="mt-5 flex w-full min-w-0 flex-wrap items-baseline gap-x-3 gap-y-2">

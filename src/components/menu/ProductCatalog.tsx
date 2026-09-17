@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductName } from "@/lib/translateProductName";
+import { getBilingualProductName, getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -132,7 +132,7 @@ export function ProductCatalog({
   ingredientFilter = null,
   audienceFilter = null,
 }: ProductCatalogProps) {
-  const { locale, t } = useI18n();
+  const { locale, languageMode, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
   const liveChildCategory = typeof subcategory === "string"
     ? findCategoryBySlug(categories, subcategory.trim().toLowerCase())
@@ -216,7 +216,7 @@ export function ProductCatalog({
               // The URL is resolved inside this map iteration from the
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
-              const localizedName = getLocalizedProductName(product, locale);
+              const localizedName = languageMode === "bilingual" ? getBilingualProductName(product) : getLocalizedProductName(product, locale);
               return (
                 <li
                   key={product.id}
@@ -263,7 +263,7 @@ export function ProductCatalog({
                       href={href}
                       className="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-medium leading-snug text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {localizedName}
+                      {localizedName.split("\n").map((line) => <span key={line} className="block first:font-medium last:text-xs last:font-normal last:text-[color:var(--muted)]">{line}</span>)}
                     </CategoryNavLink>
                     {product.description ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">

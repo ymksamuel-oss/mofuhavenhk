@@ -153,7 +153,7 @@ function renderDesktopCategoryChildren(
 }
 
 export function Header() {
-  const { locale, setLocale, t } = useI18n();
+  const { locale, languageMode, setLanguageMode, t } = useI18n();
   const { categories, products, brands } = useCatalog();
   const coreBrands = getCoreBrands(brands);
   // Only database rows with an empty parent_id are rendered in the bar.
@@ -178,7 +178,7 @@ export function Header() {
   const desktopCategoryRef = useRef<HTMLElement>(null);
 
   const switchLocale = (next: Locale) => {
-    setLocale(next);
+    setLanguageMode(next === "en" ? "en" : "bilingual");
 
     // Category pages use a shareable language query so SSR metadata, canonical,
     // Open Graph tags, and visible labels always describe the same language.
@@ -519,23 +519,23 @@ export function Header() {
                 type="button"
                 onClick={() => switchLocale("zh")}
                 className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                  locale === "zh"
+                  languageMode === "bilingual"
                     ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
                 }`}
-                aria-pressed={locale === "zh"}
+                aria-pressed={languageMode === "bilingual"}
               >
-                {t("langZh")}
+                中 / 日
               </button>
               <button
                 type="button"
                 onClick={() => switchLocale("en")}
                 className={`h-10 rounded-full px-2 text-[11px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${
-                  locale === "en"
+                  languageMode === "en"
                     ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm"
                     : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"
                 }`}
-                aria-pressed={locale === "en"}
+                aria-pressed={languageMode === "en"}
               >
                 {t("langEn")}
               </button>
