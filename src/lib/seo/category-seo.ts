@@ -369,11 +369,11 @@ export function getCategorySeoCopy(
   locale: Locale,
   { categorySlug, subcategory = null, snackSeries = null }: CategorySeoParams,
 ): SeoCopy {
-  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale === "ja" ? "zh" : locale];
-  const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale === "ja" ? "zh" : locale] : null;
+  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale];
+  const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale] : null;
   if (subcategoryCopy) return subcategoryCopy;
   return (
-    CATEGORY_SEO[categorySlug]?.[locale === "ja" ? "zh" : locale] ?? {
+    CATEGORY_SEO[categorySlug]?.[locale] ?? {
       title: locale === "zh" ? "寵物商品分類" : "Pet Product Categories",
       description:
         locale === "zh"

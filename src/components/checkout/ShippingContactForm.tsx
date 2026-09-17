@@ -271,7 +271,7 @@ export function ShippingContactForm({
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>
-                  {locale === "ja" ? option.labelJa : locale === "en" ? option.labelEn : option.labelZh}
+                  {false ? option.labelJa : locale === "en" ? option.labelEn : option.labelZh}
                 </option>
               ))}
             </select>
@@ -335,7 +335,7 @@ export function ShippingContactForm({
             <option value="">{t("shippingDistrictPlaceholder")}</option>
             {HK_DISTRICTS.map((district) => (
               <option key={district.zh} value={district.zh}>
-                {locale === "ja" ? district.en : locale === "en" ? district.en : district.zh}
+                {false ? district.en : locale === "en" ? district.en : district.zh}
               </option>
             ))}
           </select>

@@ -73,8 +73,16 @@ function variantGroupKey(product: Product): string {
     .map((key) => metadata[key]?.trim()).find(Boolean);
   if (explicit) return `group:${explicit.toLocaleLowerCase()}`;
   const source = [product.name.zh, product.name.en, metadata.japanese_name, metadata.name_ja].filter(Boolean).join(" ");
-  if (/強韌(?:透氣)?防暴衝胸背帶|防暴衝牽引帶|防暴衝胸背帶|ハーネス|リード/i.test(source)) {
-    return /牽引帶|リード|lead/i.test(source) ? "style:best-partner-leash" : "style:best-partner-harness";
+  if (/強韌(?:透氣)?防暴衝胸背帶|防暴衝牽引帶|防暴衝胸背帶|ハーネス|リード|牽引帶|項圈|頸圈|collar|leash|harness/i.test(source)) {
+    const style = /牽引帶|リード|lead|leash/i.test(source)
+      ? "leash"
+      : /項圈|頸圈|collar/i.test(source) ? "collar" : "harness";
+    const normalized = source
+      .toLocaleLowerCase()
+      .replace(/\b(?:xxs?|xs|s|m|l|xl|xxl)\b|(?:尺寸|size|顏色|颜色|color)\s*[:：-]?\s*[a-z0-9一二三四五六七八九十]+/gi, "")
+      .replace(/[\s|｜()（）【】\[\]_-]+/g, " ")
+      .trim();
+    return `style:${style}:${normalized}`;
   }
   return `product:${product.id}`;
 }
@@ -349,7 +357,7 @@ function subcategoryFromProduct(
     if (/(乾糧|狗糧|kibble|dry\s*food)/i.test(text)) return "狗狗乾糧";
     if (FREEZE_DRY_TEXT_MARK.test(text)) return "狗狗冷凍脫水食品";
     if (/(罐頭|罐罐|濕糧|濕食|wet\s*food|canned|\bcan\b|pouch)/i.test(text)) return "狗狗罐頭及濕糧";
-    if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷")) return "狗狗小食";
+    if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷") || text.includes("肉片") || text.includes("肉乾") || text.includes("肉粒") || text.includes("鹿肉") || text.includes("紫薯") || /treat|snack|jerky|sweet\s*potato/i.test(text)) return "狗狗小食";
     return "狗狗食品";
   }
   return undefined;

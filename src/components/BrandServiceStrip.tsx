@@ -16,7 +16,7 @@ export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "
         { title: "Free Shipping", body: "Enjoy free local shipping on orders from HK$450.", image: "/images/mofu-visuals/icons/free-shipping.jpg" },
         { title: "Kind Support", body: "We are here whenever you need a hand.", image: "/images/mofu-visuals/icons/support.jpg" },
       ]
-    : locale === "ja"
+    : false
       ? [
           { title: t("serviceDeliveryTitle"), body: t("serviceDeliveryBody"), image: "/images/mofu-visuals/icons/delivery.jpg" },
           { title: t("serviceFreeShippingTitle"), body: t("serviceFreeShippingBody"), image: "/images/mofu-visuals/icons/free-shipping.jpg" },
@@ -29,7 +29,7 @@ export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "
         ];
 
   return (
-    <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-2 py-1.5 sm:px-6 sm:py-4`} aria-label={locale === "en" ? "Mofu Haven service promises" : locale === "ja" ? "Mofu Haven サービスの約束" : "Mofu Haven 服務承諾"}>
+    <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-2 py-1.5 sm:px-6 sm:py-4`} aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven 服務承諾"}>
       <div className="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-[#dfccba] sm:divide-x">
         {labels.map((item) => (
           <div key={item.title} className="flex min-w-0 items-center justify-center gap-1 px-1 py-1 sm:gap-3 sm:px-5 sm:py-0">

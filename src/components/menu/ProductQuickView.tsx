@@ -168,7 +168,7 @@ export function ProductQuickView({
                     aria-hidden
                     className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
                   />
-                  {(locale === "ja" ? spec.ja || spec.zh : locale === "en" ? spec.en : spec.zh) || t("productValueUnavailable")}
+                  {(false ? spec.ja || spec.zh : locale === "en" ? spec.en : spec.zh) || t("productValueUnavailable")}
                 </li>
               ))}
             </ul>

@@ -1,25 +1,6 @@
 import type { Locale } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
 
-const NAME_REPLACEMENTS: Array<[string, string]> = [
-  ["One Touch盒裝糊仔小食", "One Touch Boxed Puree"], ["CIAO糊仔小食", "CIAO Puree Treats"],
-  ["糊仔小食 4條裝", "Puree Treats (4 Sticks)"], ["4條裝糊仔", "Puree Treats (4 Sticks)"],
-  ["護臟系肉泥小食", "Organ Care Puree Treats"], ["抑制血糖肉泥小食", "Blood Sugar Care Puree"],
-  ["乳酸菌肉泥", "Lactic Acid Bacteria Puree"], ["烤鰹魚 & 木魚乾", "Grilled Bonito & Dried Bonito"],
-  ["烤鰹魚 & 蟹肉", "Grilled Bonito & Crab Meat"], ["鰹魚 海鮮綜合味", "Bonito Seafood Medley"],
-  ["雞肉 海鮮綜合味", "Chicken Seafood Medley"], ["白肉金槍魚", "White Meat Tuna"],
-  ["金鮪魚味", "Gold Tuna Flavor"], ["雞肉帆立貝", "Chicken & Scallop"], ["帆立貝味", "Scallop Flavor"],
-  ["下部尿路配方", "Lower Urinary Tract Care"], ["1歲前幼貓用", "For Kittens under 1 Year"],
-  ["1歲前食用", "For Kittens under 1 Year"], ["腸內環境", "Gut Health Care"], ["低脂肪", "Low Fat"],
-  ["狗罐頭", "Dog Can"], ["貓罐頭", "Cat Can"], ["罐頭", "Cat Can"], ["雞肉", "Chicken"],
-];
-
-function translateChineseName(name: string): string {
-  let translated = name;
-  for (const [source, target] of NAME_REPLACEMENTS) translated = translated.replaceAll(source, target);
-  return translated.replaceAll("（", " (").replaceAll("）", ")").replaceAll("－", "-").replaceAll("–", "-").replaceAll("　", " ").replace(/\s{2,}/g, " ").trim();
-}
-
 export function getJapaneseProductName(product: Product): string | undefined {
   const metadata = product.metadata ?? {};
   return [
@@ -40,12 +21,14 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
   const metadata = product.metadata ?? {};
   const metadataName = ["name_zh", "title_zh", "product_name_zh", "中文名稱", "中文商品名稱", "name_en", "title_en", "product_name_en"]
     .map((key) => metadata[key]?.trim()).find(Boolean);
-  const realName = product.name.zh?.trim() || product.name.en?.trim() || metadataName;
-  if (locale === "ja") return getJapaneseProductName(product) || realName || metadata.japanese_name?.trim() || "未命名商品";
+  const zhName = product.name.zh?.trim();
+  const enName = product.name.en?.trim();
+  const isPlaceholder = (value?: string) => !value || /^(商品|product|unnamed product|product name unavailable)$/i.test(value.trim());
+  const isGeneratedEnglish = (value?: string) => Boolean(value && /best partner pet lifestyle accessories|japanese dog gear|pet lifestyle accessories|product name unavailable/i.test(value));
+  const realName = !isPlaceholder(zhName) ? zhName : (!isPlaceholder(enName) && !isGeneratedEnglish(enName) ? enName : metadataName);
   if (locale !== "en") return realName || "未命名商品";
-  const explicitEnglish = product.name.en?.trim();
-  if (explicitEnglish && explicitEnglish !== product.name.zh?.trim()) return explicitEnglish;
-  return translateChineseName(realName || explicitEnglish || "Unnamed product");
+  if (!isPlaceholder(enName) && !isGeneratedEnglish(enName) && enName !== zhName) return enName;
+  return realName || "Unnamed product";
 }
 
 function cleanChineseProductSubtitle(value: string): string {
@@ -64,23 +47,6 @@ export function getJapaneseProductSubtitle(product: Product): string {
 }
 
 export function getLocalizedProductDescription(product: Product, locale: Locale): string | undefined {
-  const metadata = product.metadata ?? {};
-  if (locale === "ja") {
-    const japaneseDescription = [
-      "description_ja",
-      "description_jp",
-      "japanese_description",
-      "description_japanese",
-      "product_description_ja",
-      "商品説明_日本語",
-    ].map((key) => metadata[key]?.trim()).find(Boolean);
-    if (japaneseDescription) return japaneseDescription;
-
-    const japaneseName = getJapaneseProductName(product);
-    return japaneseName
-      ? `${japaneseName}。日本から厳選したペット用品です。詳しい原材料と給与方法はパッケージをご確認ください。`
-      : "日本から厳選したペット用品です。詳しい原材料と給与方法はパッケージをご確認ください。";
-  }
   return product.description?.[locale] || product.description?.zh || product.description?.en;
 }
 

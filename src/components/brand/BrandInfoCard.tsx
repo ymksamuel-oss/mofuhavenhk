@@ -8,7 +8,7 @@ export function BrandInfoCard({ brand }: { brand: Brand }) {
   const { locale } = useI18n();
   const profile = brandProfileLocalized(brand, locale);
   const isEnglish = locale === "en";
-  const isJapanese = locale === "ja";
+  const isJapanese = false;
 
   return (
     <section className="mb-8 rounded-xl border border-neutral-200 bg-stone-50 p-5 sm:p-7" aria-labelledby="brand-title">

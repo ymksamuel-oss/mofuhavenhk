@@ -90,7 +90,7 @@ export function AddToCartButton({
         value={qty}
         onChange={(event) => setSafeQty(Number(event.target.value))}
         onClick={stop}
-        aria-label={locale === "en" ? "Purchase quantity" : locale === "ja" ? "購入数量" : "購買件數"}
+        aria-label={locale === "en" ? "Purchase quantity" : "購買件數"}
         className="h-9 w-16 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-2 text-center text-sm font-semibold tabular-nums text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)]"
       />
       <button type="button" onClick={increase} disabled={!purchasable || qty >= MAX_QTY} aria-label={t("qtyIncrease")} className={stepperBtnClass}>+</button>
@@ -112,15 +112,15 @@ export function AddToCartButton({
     setSafeQty(MIN_QTY);
   };
   const discountMessage = discountPercent === 10
-    ? locale === "en" ? "10% off applied" : locale === "ja" ? "10%割引が適用されました" : "已享 9 折優惠"
+    ? locale === "en" ? "10% off applied" : "已享 9 折優惠"
     : discountPercent === 15
-      ? locale === "en" ? "15% off applied" : locale === "ja" ? "15%割引が適用されました" : "已享 85 折優惠"
+      ? locale === "en" ? "15% off applied" : "已享 85 折優惠"
       : null;
   const promotionHint = locale === "en"
     ? "💡 Buy 8 or more to enjoy 10% off! Buy 16 or more for 15% off!"
-    : locale === "ja" ? "💡 8点以上で10%割引、16点以上で15%割引！" : "💡 凡購買滿 8 件或以上即享 9 折優惠！滿 16 件更可享 85 折優惠！";
+    : "💡 凡購買滿 8 件或以上即享 9 折優惠！滿 16 件更可享 85 折優惠！";
   const quickChoices = (
-    <div className="flex min-w-max flex-nowrap items-center gap-1.5 overflow-x-auto py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : locale === "ja" ? "まとめ買い数量" : "量販快捷選擇"}>
+    <div className="flex min-w-max flex-nowrap items-center gap-1.5 overflow-x-auto py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
       {PET_QUICK_QUANTITIES.map((option) => (
         <button
           key={option}
@@ -129,7 +129,7 @@ export function AddToCartButton({
           disabled={!purchasable}
           className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
         >
-          {locale === "en" ? `${option} units` : locale === "ja" ? `${option}点` : `${option} 件`}
+          {locale === "en" ? `${option} units` : `${option} 件`}
         </button>
       ))}
     </div>
@@ -141,7 +141,7 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={locale === "en" ? `Add ${product?.name.en ?? "product"} to cart` : locale === "ja" ? `${product?.name.zh ?? "商品"}をカートに追加` : `將${product?.name.zh ?? "商品"}加入購物車`}
+        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
         aria-live="polite"
         className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-[color:var(--hero-deep)]" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
       >
@@ -167,7 +167,7 @@ export function AddToCartButton({
             <ShoppingCart className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
           </span>
           <span className="text-sm font-bold tracking-wide">
-            {locale === "en" ? "Added to cart ✨" : locale === "ja" ? "カートに追加しました ✨" : "成功加入購物車 ✨"}
+            {locale === "en" ? "Added to cart ✨" : "成功加入購物車 ✨"}
           </span>
         </div>
       , document.body) : null}

@@ -31,7 +31,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
     fallback = "",
   ) =>
     text?.[optionLocale]?.trim()
-    || (locale === "ja" ? text?.zh?.trim() : undefined)
     || text?.zh?.trim()
     || text?.en?.trim()
     || fallback;
@@ -61,9 +60,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
     : null;
   const metadata = selectedProduct.metadata ?? {};
   const metadataValue = (zhKey: string, enKey: string) => {
-    const jaKey = zhKey.replace(/_zh$/, "_ja");
-    const preferred = locale === "ja" ? metadata[jaKey] || metadata["raw_" + jaKey] : locale === "zh" ? metadata[zhKey] : metadata[enKey];
-    const fallback = locale === "ja" ? metadata[zhKey] || metadata[enKey] : locale === "zh" ? metadata[enKey] : metadata[zhKey];
+    const preferred = locale === "zh" ? metadata[zhKey] : metadata[enKey];
+    const fallback = locale === "zh" ? metadata[enKey] : metadata[zhKey];
     return preferred?.trim() || fallback?.trim();
   };
   const detailedInformation = [

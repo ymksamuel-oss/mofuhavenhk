@@ -25,7 +25,7 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
         emptyTitle: "Our gallery is getting ready",
         emptyBody: "Add photographs and stories in Admin under Featured Pet Gallery, and your latest selections will appear here.",
       }
-    : locale === "ja"
+    : false
       ? {
           eyebrow: "おすすめペットギャラリー",
           title: "おすすめペット",

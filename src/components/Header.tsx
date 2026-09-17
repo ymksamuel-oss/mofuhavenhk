@@ -514,7 +514,7 @@ export function Header() {
               role="group"
               aria-label={t("headerLanguageLabel")}
             >
-              {(["ja", "zh", "en"] as const).map((option) => (
+              {(["zh", "en"] as const).map((option) => (
                 <button
                   key={option}
                   type="button"
@@ -522,7 +522,7 @@ export function Header() {
                   className={`h-10 rounded-full px-2 text-[10px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${locale === option ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}
                   aria-pressed={locale === option}
                 >
-                  {option === "ja" ? "日本語" : option === "zh" ? "繁中" : "English"}
+                  {option === "zh" ? "繁中" : "English"}
                 </button>
               ))}
             </div>

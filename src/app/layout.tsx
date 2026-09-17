@@ -121,7 +121,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="ja" className="bg-[color:var(--background)]">
+    <html lang="zh-HK" className="bg-[color:var(--background)]">
       <head>
         <GoogleAnalytics />
       </head>
