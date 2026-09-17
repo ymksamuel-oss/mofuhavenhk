@@ -17,7 +17,7 @@ export type BrandProfile = {
   introduction: string;
 };
 
-export type BrandLocale = "zh" | "en";
+export type BrandLocale = "zh" | "ja" | "en";
 
 export function brandHref(slug: string): string {
   return `/brand/${encodeURIComponent(slug)}`;
@@ -63,6 +63,14 @@ export function brandProfile(brand: Brand): BrandProfile {
 export function brandProfileLocalized(brand: Brand, locale: BrandLocale): BrandProfile {
   if (locale === "zh") return brandProfile(brand);
   const key = brand.name.trim().toLocaleLowerCase();
+  if (locale === "ja") {
+    if (key === "ciao") return { displayName: "CIAO（チャオ）", origin: "🇯🇵 日本から直送", audience: "🐱 猫ちゃん向け", specialty: "人間用食材・抜群のおいしさ", introduction: "CIAOは日本のいなばが展開する人気のペットフードブランドです。猫ちゃんが喜ぶなめらかなペーストや、毎日の食事にぴったりなレシピをお届けします。" };
+    if (key === "inaba") return { displayName: "INABA（いなば）", origin: "🇯🇵 日本ブランド", audience: "🐱🐶 全年齢対応", specialty: "天然素材・安心レシピ", introduction: "INABAは素材選びと製造品質にこだわる日本のペットフードブランドです。ウェットフードから栄養おやつまで、毎日の健康と水分補給をサポートします。" };
+    if (key === "combo") return { displayName: "COMBO（コンボ）", origin: "🇯🇵 日本から直送", audience: "🐱🐶 全年齢対応", specialty: "バランス栄養・毎日のケア", introduction: "COMBOは日本の家庭で親しまれているペットフードブランドです。バランスのよい主食とおやつで、成長段階に合わせた毎日の食事を支えます。" };
+    if (key === "doggyman") return { displayName: "DoggyMan（ドギーマン）", origin: "🇯🇵 日本ブランド", audience: "🐶 わんちゃん向け", specialty: "おやつ・ペット用品", introduction: "DoggyManは日本のペットライフを長く支えてきたブランドです。安全性と使いやすさにこだわったおやつや日用品を取り揃えています。" };
+    if (key === "d.b.f") return { displayName: "d.b.f（デビフ）", origin: "🇯🇵 日本から直送", audience: "🐶 わんちゃん向け", specialty: "栄養サポート・下部尿路ケア", introduction: "d.b.fは年齢や体質に合わせた犬用フードを提案する日本ブランドです。毎日の健康管理に役立つウェットフードと栄養補給レシピをお届けします。" };
+    return { displayName: brand.name, origin: "🇯🇵 日本正規品", audience: "🐱🐶 猫ちゃん・わんちゃん向け", specialty: "厳選レシピ・安心品質", introduction: brand.name + "の日本直送ペットフードと用品を厳選してお届けします。" };
+  }
   if (key === "ciao") return { displayName: "CIAO (チャオ)", origin: "🇯🇵 Direct from Japan", audience: "🐱 Cat Only", specialty: "Human-grade ingredients · Irresistible taste", introduction: "CIAO is Japan's renowned pet treat brand by INABA, celebrated for high-palatability purees and holistic wellness recipes that pets love." };
   if (key === "inaba") return { displayName: "INABA (いなば)", origin: "🇯🇵 Japanese brand", audience: "🐱🐶 All Life Stages", specialty: "Natural ingredients · Reliable recipes", introduction: "INABA is a trusted Japanese pet food brand known for carefully selected ingredients, enjoyable textures and everyday recipes that help pets stay happy and well hydrated." };
   if (key === "combo") return { displayName: "COMBO (コンボ)", origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 All Life Stages", specialty: "Balanced Nutrition · Daily Care", introduction: "COMBO is a popular Japanese pet food brand known for balanced daily meals and treats, carefully crafted to satisfy taste while supporting pets across every stage of growth." };

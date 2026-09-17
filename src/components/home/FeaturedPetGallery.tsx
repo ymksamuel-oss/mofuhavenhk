@@ -25,7 +25,17 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
         emptyTitle: "Our gallery is getting ready",
         emptyBody: "Add photographs and stories in Admin under Featured Pet Gallery, and your latest selections will appear here.",
       }
-    : {
+    : locale === "ja"
+      ? {
+          eyebrow: "おすすめペットギャラリー",
+          title: "おすすめペット",
+          body: "一枚一枚の写真に、やさしい出会いがあります。猫ちゃん、わんちゃん、すべての大切な家族の日々の物語をご紹介します。",
+          story: "ペットストーリー",
+          explore: "もっと見る",
+          emptyTitle: "ギャラリー準備中",
+          emptyBody: "管理画面の「おすすめペットギャラリー」から写真とストーリーを追加すると、ここに表示されます。",
+        }
+      : {
         eyebrow: "精選寵物圖集",
         title: "精選寵物專區",
         body: "每一張寫真，都是一段溫柔相遇。從貓咪、狗狗到每一位小小朋友，慢慢認識牠們的日常故事。",

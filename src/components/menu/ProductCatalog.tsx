@@ -176,11 +176,11 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = specialFilter === "cat-zone" ? (locale === "en" ? "For Cats" : "貓咪專區") : t("menuTitle");
+  const title = specialFilter === "cat-zone" ? (locale === "en" ? "For Cats" : locale === "ja" ? "猫ちゃん" : "貓咪專區") : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>
-      <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
+      <nav aria-label={locale === "en" ? "Product filters" : locale === "ja" ? "商品カテゴリー" : "商品分類篩選"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
         <CategoryNavLink href="/menu" className={`rounded-full border px-4 py-2 text-sm transition ${!specialFilter ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
           {t("allProducts")}
         </CategoryNavLink>
@@ -188,14 +188,14 @@ export function ProductCatalog({
           {locale === "ja" ? "猫ちゃん" : locale === "en" ? "For Cats" : "貓咪專區"}
         </CategoryNavLink>
       </nav>
-      <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
+      <nav aria-label={locale === "en" ? "Ingredient filters" : locale === "ja" ? "食材カテゴリー" : "食材分類篩選"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
         {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?ingredient=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${ingredientFilter === slug ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
             {locale === "en" ? en : locale === "ja" ? ja : zh}
           </CategoryNavLink>
         ))}
       </nav>
-      <nav aria-label={locale === "en" ? "Pet audience filters" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
+      <nav aria-label={locale === "en" ? "Pet audience filters" : locale === "ja" ? "対象ペット" : "適用對象篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-6 sm:flex-wrap">
         {AUDIENCE_FILTERS.filter(([slug]) => specialFilter !== "cat-zone" || slug !== "dog").map(([slug, zh, ja, en]) => (
           <CategoryNavLink key={slug} href={`/menu?audience=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${audienceFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
             {locale === "en" ? en : locale === "ja" ? ja : zh}

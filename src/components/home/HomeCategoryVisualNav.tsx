@@ -92,7 +92,15 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
         kicker: "CURATED FOR EVERY DAY",
         browse: "Explore",
       }
-    : {
+    : locale === "ja"
+      ? {
+          eyebrow: "MOFU HAVEN コレクション",
+          title: "毎日のために選んだ、やさしい品々。",
+          body: "毎日のごはんから暮らしの小物まで、4つのコレクションから大切な家族に合うものをお選びください。",
+          kicker: "毎日のためのセレクト",
+          browse: "見る",
+        }
+      : {
         eyebrow: "MOFU HAVEN 精選分類",
         title: "精選好物，溫柔分類",
         body: "由每日主糧到生活小物，從四個專區開始，慢慢挑選最適合毛孩的日常。",
@@ -139,7 +147,7 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
                 <p className="text-[11px] font-semibold tracking-[0.15em] text-white/80">{copy.kicker}</p>
                 <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-wide sm:text-[1.7rem]">{categoryDisplayName(card.category, locale)}</h3>
                 <div className="mt-2 flex translate-y-3 items-center justify-between gap-3 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
-                  <p className="text-sm text-white/85">{locale === "en" ? card.descriptionEn : card.descriptionZh}</p>
+                  <p className="text-sm text-white/85">{locale === "en" ? card.descriptionEn : locale === "ja" ? card.descriptionZh : card.descriptionZh}</p>
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/55 bg-white/15 backdrop-blur-sm">
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </span>
