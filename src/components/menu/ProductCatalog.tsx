@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
+import { getJapaneseProductSubtitle, getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -73,12 +73,13 @@ type ProductCatalogProps = {
 };
 
 const INGREDIENT_FILTERS = [
-  ["seafood", "深海海鮮", "海鮮", "Deep-Sea Seafood"],
-  ["deer", "低敏鹿肉", "鹿肉", "Novel Deer Protein"],
-  ["horse", "低敏馬肉", "馬肉", "Novel Horse Protein"],
-  ["chicken", "純天然雞肉", "鶏肉", "Natural Chicken"],
-  ["beef", "嚴選牛肉", "牛肉", "Premium Beef"],
-  ["dairy", "乳製品／芝士／拌糧粉", "乳製品・チーズ・ふりかけ", "Dairy / Cheese / Toppers"],
+  ["chicken", "純天然雞肉", "鶏 chicken", "Natural chicken"],
+  ["beef", "嚴選牛肉", "牛 cow", "Premium beef"],
+  ["pork", "豬肉", "豚 pig", "Pork"],
+  ["deer", "低敏鹿肉", "鹿 deer", "Venison"],
+  ["horse", "低敏馬肉", "馬 horse", "Horsemeat"],
+  ["seafood", "深海海鮮", "魚介 seafood", "Seafood"],
+  ["produce", "蔬菜・水果", "野菜・フルーツ", "Vegetables & fruits"],
 ] as const;
 
 const AUDIENCE_FILTERS = [
@@ -100,7 +101,8 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
     horse: /低敏馬肉|馬肉|馬|horse/,
     chicken: /純天然雞肉|雞肉|鶏|ささみ|chicken/,
     beef: /嚴選牛肉|牛肉|牛|beef/,
-    dairy: /乳製品|芝士|乳|チーズ|ヨーグルト|dairy|cheese|yogurt|ふりかけ|topper/,
+    pork: /豬肉|豚|ポーク|pork/,
+    produce: /蔬菜|水果|野菜|フルーツ|vegetable|fruit|produce/,
   };
   return patterns[filter]?.test(text) ?? false;
 }
@@ -207,7 +209,7 @@ export function ProductCatalog({
       ) : (
         <>
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-            {visibleProducts.map((product) => {
+        {visibleProducts.map((product) => {
               const discountPercent = product.originalPrice
                 ? Math.round((1 - product.price / product.originalPrice) * 100)
                 : null;
@@ -217,6 +219,7 @@ export function ProductCatalog({
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
               const localizedName = getLocalizedProductName(product, locale);
+              const japaneseSubtitle = locale === "ja" ? getJapaneseProductSubtitle(product) : null;
               return (
                 <li
                   key={product.id}
@@ -263,7 +266,8 @@ export function ProductCatalog({
                       href={href}
                       className="block min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors hover:text-[color:var(--accent)]"
                     >
-                      {localizedName}
+                      <span className="block">{localizedName}</span>
+                      {japaneseSubtitle ? <span className="mt-1 block text-xs font-normal leading-5 text-[color:var(--muted)]">{japaneseSubtitle}</span> : null}
                     </CategoryNavLink>
                     {product.description || locale === "ja" ? (
                       <p className="line-clamp-2 text-xs leading-snug break-words text-[color:var(--muted)]">

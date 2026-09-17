@@ -23,12 +23,13 @@
   },
   "filters": {
     "all": "すべて",
-    "seafood": "海鮮",
-    "venison": "鹿肉",
-    "horsemeat": "馬肉",
-    "chicken": "鶏肉",
-    "beef": "牛肉",
-    "dairyTreats": "チーズ・ふりかけ"
+    "chicken": "鶏 chicken",
+    "beef": "牛 cow",
+    "pork": "豚 pig",
+    "venison": "鹿 deer",
+    "horsemeat": "馬 horse",
+    "seafood": "魚介 seafood",
+    "produce": "野菜・フルーツ"
   },
   "actions": {
     "addToCart": "カートに追加",

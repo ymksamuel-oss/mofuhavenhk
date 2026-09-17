@@ -22,7 +22,7 @@ const JA_LABELS: Partial<Record<TranslationKey, string>> = {
   navCategoriesHint: "猫ちゃん、わんちゃん、毎日のペット用品", navCategoriesBrowseAll: "すべての商品を見る", headerLanguageLabel: "言語", navOpenMenu: "メニューを開く", navCloseMenu: "メニューを閉じる",
   homeBadge: "季節限定", homeHeadline: "心温まる、毎日の贈りもの", homeSub: "日本の厳選アイテムで、愛するうちの子に最高の毎日を。", serviceDeliveryTitle: "安心の配送", serviceDeliveryBody: "丁寧な梱包で、大切にお届けします", serviceFreeShippingTitle: "送料無料", serviceFreeShippingBody: "HK$450以上のご注文で送料無料", serviceSupportTitle: "カスタマーサポート", serviceSupportBody: "ご不明な点はお気軽にご相談ください", promoAriaLabel: "まとめ買いキャンペーン", promoHeadline: "猫ちゃん・わんちゃん用品：8点以上で10%OFF、16点以上で15%OFF！", promoSubline: "商品ページで 8・12・16・24 点をお選びいただけます", homeCta: "今すぐ選ぶ", goToCatalog: "商品一覧へ", viewProductAria: "商品を見る", productViewDetails: "詳細を見る", cartDrawerTitle: "カート", cartDrawerCheckoutCta: "お会計へ", checkoutTitle: "お会計", placeOrder: "お支払いを確定",
   allProducts: "すべて", categoryCats: "猫ちゃん商品", categoryDogs: "わんちゃん商品", menuAddToCart: "カートに追加", menuAddedToCart: "カートに追加しました", productSoldOut: "売り切れ",
-  productIngredientsLabel: "原材料", productGuaranteedAnalysisLabel: "保証成分", productOriginLabel: "原産国", productStorageLabel: "保存方法",
+  productIngredientsLabel: "原材料", productGuaranteedAnalysisLabel: "保証成分", productOriginLabel: "原産国", productStorageLabel: "保存方法", productPaginationLabel: "商品ページ", productPaginationPrevious: "← 前へ", productPaginationNext: "次へ →", productPaginationPage: "{page}ページ目",
   checkoutSubtitle: "ご注文内容を確認してお支払い方法を選択してください", checkoutCustomerFallback: "お客様",
   originalSubtotal: "商品原価小計", bulkDiscount: "まとめ買い割引", freeOverHk450: "HK$450以上で送料無料",
   discountApplied: "{percent}%割引が適用されました",

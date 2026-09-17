@@ -37,11 +37,26 @@ export function getJapaneseProductName(product: Product): string | undefined {
 }
 
 export function getLocalizedProductName(product: Product, locale: Locale): string {
-  if (locale === "ja") return getJapaneseProductName(product) || product.name.zh || product.name.en || "商品";
+  if (locale === "ja") return getJapaneseProductName(product) || "商品";
   if (locale !== "en") return product.name.zh || product.name.en || "商品";
   const explicitEnglish = product.name.en?.trim();
   if (explicitEnglish && explicitEnglish !== product.name.zh?.trim()) return explicitEnglish;
   return translateChineseName(product.name.zh || explicitEnglish || "Product");
+}
+
+function cleanChineseProductSubtitle(value: string): string {
+  const parts = value.split(/[｜|]/).map((part) => part.trim()).filter(Boolean);
+  const candidate = parts.at(-1) || value;
+  return candidate.replace(/^(日本原裝|日本直送|日本製)\s*/i, "").replace(/^(天然寵物零食|寵物零食)\s*[：:]?\s*/i, "").trim();
+}
+
+export function getJapaneseProductSubtitle(product: Product): string {
+  const metadata = product.metadata ?? {};
+  const source = ["name_zh", "title_zh", "product_name_zh", "中文名稱", "中文商品名稱"]
+    .map((key) => metadata[key]?.trim()).find(Boolean) || product.name.zh || product.name.en || "商品";
+  const subtitle = cleanChineseProductSubtitle(source);
+  const brand = product.brand || metadata.supplier_brand || metadata.brand;
+  return brand && !subtitle.toLocaleLowerCase().startsWith(brand.toLocaleLowerCase()) ? `${brand} ${subtitle}` : subtitle;
 }
 
 export function getLocalizedProductDescription(product: Product, locale: Locale): string | undefined {
