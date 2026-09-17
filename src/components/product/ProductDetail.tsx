@@ -25,14 +25,13 @@ type ProductDetailProps = {
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems } = useCart();
-  // Treat every non-English locale as Chinese so the option UI never falls back to
-  // English when the document language is zh-HK or the locale is restored after hydration.
-  const optionLocale = locale === "en" ? "en" : "zh";
+  const optionLocale = locale;
   const localizedOptionText = (
-    text: { zh?: string; en?: string } | undefined,
+    text: { zh?: string; en?: string; ja?: string } | undefined,
     fallback = "",
   ) =>
     text?.[optionLocale]?.trim()
+    || (locale === "ja" ? text?.zh?.trim() : undefined)
     || text?.zh?.trim()
     || text?.en?.trim()
     || fallback;

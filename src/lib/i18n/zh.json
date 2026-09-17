@@ -1,5 +1,12 @@
 {
   "nav": { "home": "首頁", "cats": "貓咪專區", "dogs": "狗狗專區", "supplies": "寵物用品", "checkout": "結帳" },
   "filters": { "all": "全部商品", "seafood": "深海海鮮", "venison": "低敏鹿肉", "horsemeat": "低敏馬肉", "chicken": "純天然雞肉", "beef": "嚴選牛肉", "dairyTreats": "乳製品・零食" },
-  "actions": { "addToCart": "加入購物車", "buyNow": "立即購買", "soldOut": "售罄" }
+  "actions": { "addToCart": "加入購物車", "buyNow": "立即購買", "soldOut": "售罄" },
+  "receiptEmailLabel": "電子收據電郵地址",
+  "customerPhoneLabel": "聯絡電話",
+  "shippingDistrictPlaceholder": "請選擇香港地區",
+  "shippingAddressLabel": "送貨地址",
+  "shippingAddressLine2Label": "地址第二行（選填）",
+  "sfStationLabel": "順豐站／智能櫃代碼（選填）",
+  "sfStationHint": "如欲寄往順豐站或智能櫃，可填寫站點／櫃位代碼，方便店主安排寄送。"
 }

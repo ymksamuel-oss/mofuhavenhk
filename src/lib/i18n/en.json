@@ -1,5 +1,12 @@
 {
   "nav": { "home": "Home", "cats": "Cats", "dogs": "Dogs", "supplies": "Pet Supplies", "checkout": "Checkout" },
   "filters": { "all": "All", "seafood": "Seafood", "venison": "Venison", "horsemeat": "Horsemeat", "chicken": "Chicken", "beef": "Beef", "dairyTreats": "Dairy & Treats" },
-  "actions": { "addToCart": "Add to Cart", "buyNow": "Buy Now", "soldOut": "Sold Out" }
+  "actions": { "addToCart": "Add to Cart", "buyNow": "Buy Now", "soldOut": "Sold Out" },
+  "receiptEmailLabel": "Email Address",
+  "customerPhoneLabel": "Phone Number",
+  "shippingDistrictPlaceholder": "Select Region",
+  "shippingAddressLabel": "Delivery Address",
+  "shippingAddressLine2Label": "Apartment, suite, etc. (Optional)",
+  "sfStationLabel": "SF Station / Locker Code (Optional)",
+  "sfStationHint": "If you would like delivery to an SF station or smart locker, enter the station or locker code so we can arrange delivery."
 }

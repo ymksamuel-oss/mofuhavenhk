@@ -38,10 +38,11 @@ const PHONE_COUNTRY_OPTIONS: Array<{
   code: PhoneCountryCode;
   labelZh: string;
   labelEn: string;
+  labelJa: string;
 }> = [
-  { code: "+852", labelZh: "+852 香港", labelEn: "+852 Hong Kong" },
-  { code: "+853", labelZh: "+853 澳門", labelEn: "+853 Macao" },
-  { code: "+86", labelZh: "+86 中國大陸", labelEn: "+86 Mainland China" },
+  { code: "+852", labelZh: "+852 香港", labelEn: "+852 Hong Kong", labelJa: "+852 香港" },
+  { code: "+853", labelZh: "+853 澳門", labelEn: "+853 Macao", labelJa: "+853 マカオ" },
+  { code: "+86", labelZh: "+86 中國大陸", labelEn: "+86 Mainland China", labelJa: "+86 中国本土" },
 ];
 
 function Field({
@@ -270,7 +271,7 @@ export function ShippingContactForm({
             >
               {PHONE_COUNTRY_OPTIONS.map((option) => (
                 <option key={option.code} value={option.code}>
-                  {locale === "en" ? option.labelEn : option.labelZh}
+                  {locale === "ja" ? option.labelJa : locale === "en" ? option.labelEn : option.labelZh}
                 </option>
               ))}
             </select>
@@ -334,7 +335,7 @@ export function ShippingContactForm({
             <option value="">{t("shippingDistrictPlaceholder")}</option>
             {HK_DISTRICTS.map((district) => (
               <option key={district.zh} value={district.zh}>
-                {locale === "en" ? district.en : district.zh}
+                {locale === "ja" ? district.en : locale === "en" ? district.en : district.zh}
               </option>
             ))}
           </select>

@@ -104,7 +104,7 @@ export function OrderSummary({
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                 <ProductImage
                   src={item.image}
-                  alt={(locale === "en" ? item.name.en : item.name.zh)}
+                  alt={(locale === "ja" ? item.name.ja || item.name.zh : locale === "en" ? item.name.en : item.name.zh)}
                   sizes="56px"
                   className="object-cover"
                 />
@@ -112,11 +112,11 @@ export function OrderSummary({
               <div className="min-w-0 space-y-2">
                 <div className="min-w-0 space-y-0.5">
                   <p className="font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
-                    {(locale === "en" ? item.name.en : item.name.zh)}
+                    {(locale === "ja" ? item.name.ja || item.name.zh : locale === "en" ? item.name.en : item.name.zh)}
                   </p>
                   {item.variantLabel ? (
                     <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-                      {(locale === "en" ? item.variantLabel.en : item.variantLabel.zh) || t("productValueUnavailable")}
+                      {(locale === "ja" ? item.variantLabel.ja || item.variantLabel.zh : locale === "en" ? item.variantLabel.en : item.variantLabel.zh) || t("productValueUnavailable")}
                     </p>
                   ) : null}
                   <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
@@ -124,9 +124,7 @@ export function OrderSummary({
                   </p>
                   {orderItemPricing(item).hasDiscount ? (
                     <p className="text-xs font-semibold text-[#c0483a]">
-                      {locale === "en"
-                        ? `${orderItemPricing(item).discountPercent}% off applied`
-                        : `已享 ${orderItemPricing(item).discountPercent === 10 ? "9 折" : "85 折"} 優惠`}
+                      {t("discountApplied").replace("{percent}", String(orderItemPricing(item).discountPercent))}
                     </p>
                   ) : null}
                 </div>
@@ -135,7 +133,7 @@ export function OrderSummary({
                     <div
                       className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] bg-white p-0.5"
                       role="group"
-                      aria-label={`${t("qty")} ${(locale === "en" ? item.name.en : item.name.zh)}`}
+                        aria-label={`${t("qty")} ${(locale === "ja" ? item.name.ja || item.name.zh : locale === "en" ? item.name.en : item.name.zh)}`}
                     >
                       <button
                         type="button"
@@ -175,7 +173,7 @@ export function OrderSummary({
                         type="button"
                         onClick={() => onRemoveItem?.(item.lineKey)}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-[#8a3a2a] transition hover:border-[#c45a45] hover:bg-[#fdeceb] hover:text-[#6b2418] active:scale-[0.97]"
-                        aria-label={`${t("removeItem")}：${(locale === "en" ? item.name.en : item.name.zh)}`}
+                        aria-label={`${t("removeItem")}：${(locale === "ja" ? item.name.ja || item.name.zh : locale === "en" ? item.name.en : item.name.zh)}`}
                         title={t("removeItem")}
                       >
                         <TrashIcon className="h-4 w-4" />
@@ -206,7 +204,7 @@ export function OrderSummary({
       <dl className="space-y-2.5 text-sm leading-relaxed">
         <div className="flex justify-between gap-4">
           <dt className="tracking-[0.01em] text-[color:var(--muted)]">
-            {locale === "en" ? "Original subtotal" : "商品原價小計"}
+            {t("originalSubtotal")}
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
             {formatMoney(originalSubtotal, locale)}
@@ -215,7 +213,7 @@ export function OrderSummary({
         {bulkDiscount > 0 ? (
           <div className="flex justify-between gap-4">
             <dt className="tracking-[0.01em] text-emerald-700">
-              {locale === "en" ? "Bulk discount" : "量販多件折扣"}
+              {t("bulkDiscount")}
             </dt>
             <dd className="font-semibold tabular-nums text-emerald-700">
               - {formatMoney(bulkDiscount, locale)}
@@ -230,7 +228,7 @@ export function OrderSummary({
             </span>
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-            {formatMoney(shipping, locale)}{shipping === 0 ? ` (${locale === "en" ? "Free over HK$450" : "已滿 HK$450 免運"})` : ""}
+            {formatMoney(shipping, locale)}{shipping === 0 ? ` (${t("freeOverHk450")})` : ""}
           </dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3.5 text-base font-semibold tracking-[-0.01em]">

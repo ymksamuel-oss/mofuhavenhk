@@ -165,11 +165,11 @@ export type ProductVariant = {
   key: string;
   priceId: string;
   price: number;
-  label: { zh: string; en: string };
+  label: { zh: string; en: string; ja?: string };
   /** Optional product image shown when this specific variant is selected. */
   image?: string;
   /** Optional per-can reference shown only for pack-size variants. */
-  unitLabel?: { zh: string; en: string };
+  unitLabel?: { zh: string; en: string; ja?: string };
   originalPrice?: number;
 };
 
@@ -365,7 +365,7 @@ export type Product = {
   texture?: { zh: string; en: string };
   /** Optional live import status / package status sourced from verified product metadata. */
   availability?: { zh: string; en: string };
-  specs?: { zh: string; en: string }[];
+  specs?: { zh: string; en: string; ja?: string }[];
   tags?: string[];
   productType?: string;
   inStock?: boolean;

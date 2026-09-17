@@ -1,4 +1,5 @@
 import { getProductsByCategory, type Product, type ProductVariant } from "@/lib/products";
+import { getJapaneseProductName } from "@/lib/translateProductName";
 
 export type OrderItem = {
   /** Stable cart-row key. Different pack sizes of one flavor remain separate lines. */
@@ -9,10 +10,10 @@ export type OrderItem = {
   /** Stripe Product ID used by receipt verification; separate from the storefront row id. */
   stripeProductId?: string;
   /** Selected quantity-tier label, if the product has Stripe-backed variants. */
-  variantLabel?: { zh: string; en: string };
+  variantLabel?: { zh: string; en: string; ja?: string };
   /** Stable shop-facing item code, distinct from Stripe Product and Price IDs. */
   mofuSku?: string;
-  name: { zh: string; en: string };
+  name: { zh: string; en: string; ja?: string };
   /** Locale-aware product copy used by hosted checkout and receipts. */
   description?: { zh: string; en: string };
   /** Real product photograph from the active catalog (local path or URL). */
@@ -136,7 +137,7 @@ function orderItemFromProduct(
       : {}),
     ...(variant ? { variantLabel: variant.label } : {}),
     ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
-    name: product.name,
+    name: { ...product.name, ...(getJapaneseProductName(product) ? { ja: getJapaneseProductName(product) } : {}) },
     ...(product.description ? { description: product.description } : {}),
     image: product.images?.[0] ?? "catalog-placeholder",
     qty,
