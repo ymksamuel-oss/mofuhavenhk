@@ -14,6 +14,7 @@ function MenuRedirectOrCatalog() {
   const category = searchParams.get("category");
   const legacySlug =
     category && isCategorySlug(category) ? category : null;
+  const catZone = category === "cat-zone";
 
   useEffect(() => {
     if (!legacySlug) return;
@@ -21,12 +22,12 @@ function MenuRedirectOrCatalog() {
     window.location.replace(categoryHref(legacySlug));
   }, [legacySlug]);
 
-  return <ProductCatalog categorySlug={legacySlug} subcategory={null} />;
+  return <ProductCatalog categorySlug={legacySlug} subcategory={null} specialFilter={catZone ? "cat-zone" : null} />;
 }
 
 export default function MenuPage() {
   return (
-    <Suspense fallback={<ProductCatalog categorySlug={null} subcategory={null} />}>
+    <Suspense fallback={<ProductCatalog categorySlug={null} subcategory={null} specialFilter={null} />}>
       <MenuRedirectOrCatalog />
     </Suspense>
   );

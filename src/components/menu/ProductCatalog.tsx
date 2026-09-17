@@ -65,7 +65,14 @@ type ProductCatalogProps = {
   snackSeries?: unknown;
   /** Show the homepage-style search section on `/categories/...` pages only. */
   showProductSearch?: boolean;
+  /** Special editorial filter for cat-only and cat-friendly natural products. */
+  specialFilter?: "cat-zone" | null;
 };
+
+function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
+  const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
+  return /貓|猫|cat|にぼし|まぐろ|マグロ|かつお|鰹|きびなご|ひめたら|わかさぎ|魚|fish|tuna|bonito|鱈|鹿肉|馬肉|鹿|馬|venison|horse/.test(text);
+}
 
 /**
  * Shared catalog UI for `/menu`, `/categories/[slug]`, and
@@ -77,6 +84,7 @@ export function ProductCatalog({
   subcategory,
   catLifeStage,
   snackSeries,
+  specialFilter = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
@@ -90,13 +98,14 @@ export function ProductCatalog({
   // A category route must never fall back to the complete catalog. When the
   // child slug is recognised, match the resolved database subcategory exactly;
   // an unrecognised child route is deliberately empty rather than overbroad.
-  const products = typeof subcategory === "string"
+  const productsByRoute = typeof subcategory === "string"
     ? liveChildCategory
       ? productsInCategory.filter((product) => product.categoryId === liveChildCategory.id)
       : selectedSubcategory
         ? productsInCategory.filter((product) => product.subcategory === selectedSubcategory)
       : []
     : productsInCategory;
+  const products = specialFilter === "cat-zone" ? productsByRoute.filter(isCatZoneProduct) : productsByRoute;
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
@@ -117,10 +126,18 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = t("menuTitle");
+  const title = specialFilter === "cat-zone" ? (locale === "en" ? "For Cats" : "貓咪專區") : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>
+      <nav aria-label={locale === "en" ? "Product filters" : "商品分類篩選"} className="mb-6 flex flex-wrap gap-2">
+        <CategoryNavLink href="/menu" className={`rounded-full border px-4 py-2 text-sm transition ${!specialFilter ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+          {locale === "en" ? "All products" : "全部商品"}
+        </CategoryNavLink>
+        <CategoryNavLink href="/menu?category=cat-zone" className={`rounded-full border px-4 py-2 text-sm transition ${specialFilter === "cat-zone" ? "border-[color:var(--ink)] bg-[color:var(--ink)] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+          {locale === "en" ? "For Cats" : "貓咪專區"}
+        </CategoryNavLink>
+      </nav>
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (

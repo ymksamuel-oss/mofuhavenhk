@@ -326,6 +326,11 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
+                <li className="block w-full">
+                  <Link href="/menu?category=cat-zone" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
+                    {locale === "en" ? "For Cats" : "貓咪專區"}
+                  </Link>
+                </li>
                 {coreBrands.length > 0 ? (
                   <li className="block w-full">
                     <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${mobileBrandOpen ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}>
@@ -408,6 +413,9 @@ export function Header() {
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
+            </Link>
+            <Link href="/menu?category=cat-zone" className={navLinkClassName(pathname === "/menu")}>
+              {locale === "en" ? "For Cats" : "貓咪專區"}
             </Link>
             {coreBrands.length > 0 ? (
               <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
