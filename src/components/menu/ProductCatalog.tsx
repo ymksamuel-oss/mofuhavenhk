@@ -118,8 +118,11 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
 function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter) return true;
   const text = productFilterText(product);
-  if (filter === "cat") return /貓專用|猫用|貓用|貓貓|for cats?|cat[-_ ]?only/i.test(text);
-  if (filter === "dog") return /狗專用|狗狗|犬用|犬|狗具|for dogs?|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  const isCatOnly = /貓專用|猫用|貓用|貓貓|for cats?|cat[-_ ]?only/i.test(text);
+  const isDogOnly = /狗專用|狗狗|犬用|犬|狗具|for dogs?|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  const isShared = /貓狗兼用|貓犬兼用|all[_ -]?pets|犬猫兼用|cats?\s*(?:and|&)\s*dogs?/i.test(text);
+  if (filter === "cat") return !isDogOnly || isShared ? (isCatOnly || isShared) : false;
+  if (filter === "dog") return !isCatOnly || isShared ? (isDogOnly || isShared) : false;
   return !/貓專用|猫用|貓用|貓貓|狗專用|狗狗|犬用|狗具|for cats?|for dogs?|cat[-_ ]?(?:only|treat|food|snack|product)|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
 }
 

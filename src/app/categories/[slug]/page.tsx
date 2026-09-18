@@ -5,6 +5,11 @@ import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
 export const dynamic = "force-dynamic";
 
+const DOG_INGREDIENTS = new Set([
+  "all", "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "horse", "sheep",
+  "roll", "chips-jerky", "seafood", "produce", "snacks", "dairy", "seasoning", "side-dish", "frozen", "food",
+]);
+
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ lang?: string | string[]; ingredient?: string | string[] }>;
@@ -27,5 +32,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const query = await searchParams;
   const categorySlug = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
   const ingredient = Array.isArray(query.ingredient) ? query.ingredient[0] : query.ingredient;
-  return <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredient ?? null} />;
+  const ingredientFilter = categorySlug === "dogs" && ingredient && DOG_INGREDIENTS.has(ingredient) && ingredient !== "all"
+    ? ingredient
+    : null;
+  return <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredientFilter} />;
 }
