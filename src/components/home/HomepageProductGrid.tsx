@@ -138,7 +138,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
           </div>
         ) : (
           <>
-            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-5">
+            <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-5">
               {visibleProducts.map((product, index) => {
               const href = productHref(product.id);
               const name = getLocalizedProductName(product, locale);
@@ -146,11 +146,11 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                 <li key={product.id} className="min-w-0">
                   <article className="milk-tea-card group flex min-w-0 flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
                     <CategoryNavLink href={href} aria-label={`${t("viewProductAria")}: ${name}`} className="flex min-w-0 flex-col">
-                    <div className="relative aspect-square overflow-hidden bg-[color:var(--product-image-surface)]">
-                      <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt={name} priority={index < 4} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" className="object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
+                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--product-image-surface)]">
+                      <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt={name} priority={index < 4} sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw" className="object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 pb-1 sm:p-4 sm:pb-2">
-                      <h3 className="line-clamp-2 text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{name}</h3>
+                      <h3 className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{name}</h3>
                     </div>
                     </CategoryNavLink>
                   </article>

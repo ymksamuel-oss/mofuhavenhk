@@ -288,7 +288,7 @@ export function ProductCatalog({
         </div>
       ) : (
         <>
-          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-5">
         {visibleProducts.map((product, index) => {
               const href = productHref(product.id);
               // The URL is resolved inside this map iteration from the
@@ -305,12 +305,12 @@ export function ProductCatalog({
                         src={imageUrl}
                         alt={localizedName}
                         priority={index < 4}
-                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       />
                     </div>
                     <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 sm:p-4">
-                      <h2 className="line-clamp-2 min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+                      <h2 className="line-clamp-2 min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
                         {localizedName}
                       </h2>
                     </div>
