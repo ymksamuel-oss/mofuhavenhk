@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
+import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
@@ -298,11 +299,8 @@ export function ProductCatalog({
               const localizedDescription = getLocalizedProductDescription(product, locale);
               return (
                 <li key={product.id} className="min-w-0">
-                  <CategoryNavLink
-                    href={href}
-                    aria-label={`${t("productViewDetails")}: ${localizedName}`}
-                    className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
-                  >
+                  <article className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
+                    <CategoryNavLink href={href} aria-label={`${t("productViewDetails")}: ${localizedName}`} className="flex min-w-0 flex-1 flex-col">
                     <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--product-image-surface)]">
                       <ProductImage
                         key={`${product.id}-${imageUrl}`}
@@ -319,7 +317,12 @@ export function ProductCatalog({
                       </h2>
                       {localizedDescription ? <p className="line-clamp-2 text-xs leading-5 text-[color:var(--muted)]">{localizedDescription}</p> : null}
                     </div>
-                  </CategoryNavLink>
+                    </CategoryNavLink>
+                    <div className="flex items-center justify-between gap-2 px-3 pb-3 sm:px-4 sm:pb-4">
+                      <span className="text-sm font-bold tabular-nums text-[color:var(--accent)]">HK${product.price.toFixed(2)}</span>
+                      <AddToCartButton productId={product.id} size="card" />
+                    </div>
+                  </article>
                 </li>
               );
             })}
