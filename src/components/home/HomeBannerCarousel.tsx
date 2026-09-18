@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
+import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Locale } from "@/lib/i18n/translations";
 
@@ -235,63 +236,38 @@ export function HomeBannerCarousel() {
           onTouchEnd={handleTouchEnd}
         >
           {/* Render one active article instead of a translated stack, so old/new artwork can never overlap. */}
-          <article key={activeSlide.id} aria-live="polite" className={`absolute inset-0 overflow-hidden ${slideAnimationClass}`}>
-            <picture>
-              {activeSlide.mobileImage ? <source media="(max-width: 639px)" srcSet={activeSlide.mobileImage} /> : null}
-              <Image
-                src={activeSlide.image}
-                alt={activeSlide.imageAlt}
-                fill
-                priority={activeIndex === 0}
-                quality={92}
-                sizes="(min-width: 1024px) 90vw, 100vw"
-                className="object-cover object-center"
-              />
-            </picture>
-
-            <>
-                <div
-                  className={`absolute inset-0 ${
-                    activeSlide.tone === "light"
-                      ? "bg-gradient-to-r from-[#f7efe4]/95 via-[#f7efe4]/72 to-transparent"
-                      : "bg-gradient-to-r from-[#2e2119]/80 via-[#2e2119]/38 to-transparent"
-                  }`}
-                  aria-hidden="true"
-                />
-                <div
-                  className={`absolute inset-x-0 bottom-0 top-0 flex max-w-xl flex-col justify-end px-6 pb-16 pt-12 sm:px-12 sm:pb-20 lg:px-16 lg:pb-24 ${
-                    activeSlide.tone === "light" ? "text-[#4b3621]" : "text-white"
-                  }`}
+          <article key={activeSlide.id} aria-live="polite" className={`absolute inset-0 overflow-hidden bg-[#f7efe4] ${slideAnimationClass}`}>
+            <div className="grid h-full grid-cols-1 lg:grid-cols-[55%_45%]">
+              <div className="order-2 flex min-w-0 flex-col justify-center pl-12 pr-6 py-8 text-[#4b3621] sm:pl-14 sm:pr-10 sm:py-10 lg:order-1 lg:pl-16 lg:pr-8 lg:py-12">
+                <p className="text-[10px] font-semibold tracking-[0.18em] text-[#8a6848] sm:text-xs">{activeSlide.eyebrow}</p>
+                <h1 className="mt-3 max-w-2xl font-[family-name:var(--font-display)] text-xl font-bold leading-tight tracking-[-0.02em] sm:text-2xl lg:text-3xl">
+                  {activeSlide.title}
+                </h1>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-[#725c45] sm:mt-4 sm:text-base sm:leading-7">
+                  {activeSlide.subtitle}
+                </p>
+                <CategoryNavLink
+                  href={activeSlide.href}
+                  className="mt-5 inline-flex min-h-11 w-fit items-center justify-center rounded-xl bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_14px_28px_-16px_rgba(43,31,24,0.6)] transition duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
                 >
-                  <p className="text-[10px] font-semibold tracking-[0.26em] opacity-80 sm:text-xs">{activeSlide.eyebrow}</p>
-                  <h1 className="mt-3 max-w-lg font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.08] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
-                    {activeSlide.title}
-                  </h1>
-                  <p className={`mt-4 max-w-md text-sm leading-7 sm:text-lg ${activeSlide.tone === "light" ? "text-[#725c45]" : "text-white/85"}`}>
-                    {activeSlide.subtitle}
-                  </p>
-                  <CategoryNavLink
-                    href={activeSlide.href}
-                    className={`mt-6 inline-flex min-h-12 w-fit items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold shadow-[0_14px_28px_-16px_rgba(43,31,24,0.6)] transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 ${
-                      activeSlide.tone === "light"
-                        ? "bg-[color:var(--accent)] text-white hover:bg-[color:var(--hero-deep)]"
-                        : "bg-white text-[#4b3621] hover:bg-[#fff8ee]"
-                    }`}
-                  >
-                    {activeSlide.cta}
-                    <span aria-hidden className="ml-2 text-base">→</span>
-                  </CategoryNavLink>
+                  {activeSlide.cta}<span aria-hidden className="ml-2 text-base">→</span>
+                </CategoryNavLink>
+              </div>
+              <div className="order-1 flex min-h-40 items-center justify-center gap-3 px-10 py-5 sm:min-h-52 sm:px-16 sm:py-8 lg:order-2 lg:min-h-0 lg:px-8 lg:py-10">
+                <div className="relative aspect-square w-full max-w-xs overflow-hidden rounded-[1.5rem] bg-white shadow-[0_20px_34px_-22px_rgba(75,54,33,0.65)] sm:max-w-sm">
+                  <ProductImage src={activeSlide.image} alt={activeSlide.imageAlt} priority={activeIndex === 0} sizes="(min-width: 1024px) 38vw, 80vw" className="object-contain p-3 sm:p-5" />
                 </div>
-              {activeSlide.gallery && activeSlide.gallery.length > 1 ? (
-                <div className="absolute bottom-5 right-5 z-10 hidden w-40 grid-cols-2 gap-2 sm:grid lg:bottom-8 lg:right-8 lg:w-52">
-                  {activeSlide.gallery.slice(1, 4).map((image, index) => (
-                    <div key={`${activeSlide.id}-${image}-${index}`} className="relative aspect-square overflow-hidden rounded-2xl border-2 border-white/80 bg-[#f7efe4]/80 shadow-lg">
-                      <Image src={image} alt="" fill sizes="104px" className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </>
+                {activeSlide.gallery && activeSlide.gallery.length > 1 ? (
+                  <div className="hidden w-20 shrink-0 flex-col gap-2 sm:flex lg:w-24">
+                    {activeSlide.gallery.slice(1, 4).map((image, index) => (
+                      <div key={`${activeSlide.id}-${image}-${index}`} className="relative aspect-square overflow-hidden rounded-xl border border-[#d7b893]/70 bg-white shadow-sm">
+                        <ProductImage src={image} alt="" sizes="96px" className="object-contain p-1" />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </article>
 
           {/* Keep the full-slide CTA below a dedicated controls layer so it can never intercept arrow or dot clicks. */}
@@ -301,7 +277,7 @@ export function HomeBannerCarousel() {
               aria-label={t("homeBannerPrevious")}
               disabled={slides.length <= 1}
               onClick={handleManualPrevious}
-              className="pointer-events-auto absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:left-5 sm:h-11 sm:w-11"
+              className="pointer-events-auto absolute left-1 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-[#8a6848]/40 bg-[#4b3621]/25 text-lg text-white shadow-sm transition hover:bg-[#4b3621]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-50 sm:left-2 sm:h-9 sm:w-9"
             >
               <span aria-hidden>‹</span>
             </button>
@@ -310,7 +286,7 @@ export function HomeBannerCarousel() {
               aria-label={t("homeBannerNext")}
               disabled={slides.length <= 1}
               onClick={handleManualNext}
-              className="pointer-events-auto absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50 sm:right-5 sm:h-11 sm:w-11"
+              className="pointer-events-auto absolute right-1 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-[#8a6848]/40 bg-[#4b3621]/25 text-lg text-white shadow-sm transition hover:bg-[#4b3621]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-50 sm:right-2 sm:h-9 sm:w-9"
             >
               <span aria-hidden>›</span>
             </button>
