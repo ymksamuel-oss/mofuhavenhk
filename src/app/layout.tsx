@@ -18,8 +18,7 @@ import {
 } from "@/lib/payme-checkout-settings";
 import "./globals.css";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mofuhavenhk.com"),

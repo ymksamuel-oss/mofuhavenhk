@@ -7,8 +7,7 @@ import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export default async function HomePage() {
   let products: Product[] = [];

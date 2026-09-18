@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const DOG_INGREDIENTS = new Set([
   "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "horse", "sheep",

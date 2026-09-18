@@ -80,6 +80,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Native momentum scrolling for horizontal catalog and gallery rows on iOS. */
+.overflow-x-auto,
+.scrollbar-none {
+  -webkit-overflow-scrolling: touch;
+}
+
 h1,
 h2,
 h3 {

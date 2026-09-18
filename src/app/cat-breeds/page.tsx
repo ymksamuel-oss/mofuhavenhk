@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { CatBreedsGuide } from "@/components/about/CatBreedsGuide";
 
 export const metadata: Metadata = {
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function CatBreedsPage() {
   return (
     <div className="min-h-full w-full bg-[#FBF9F6]">
-      <CatBreedsGuide />
+      <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>
+        <CatBreedsGuide />
+      </Suspense>
     </div>
   );
 }

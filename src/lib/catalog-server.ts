@@ -1,7 +1,6 @@
 import "server-only";
 
 import Stripe from "stripe";
-import { unstable_noStore as noStore } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { buildCategoryTree, flattenCategoryTree, type StoreCategory } from "@/lib/store-categories";
@@ -1064,7 +1063,6 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
 }
 
 export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
-  noStore();
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
     if (managedCatalog) return managedCatalog;

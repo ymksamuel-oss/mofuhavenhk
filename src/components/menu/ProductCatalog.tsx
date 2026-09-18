@@ -289,7 +289,7 @@ export function ProductCatalog({
       ) : (
         <>
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-        {visibleProducts.map((product) => {
+        {visibleProducts.map((product, index) => {
               const href = productHref(product.id);
               // The URL is resolved inside this map iteration from the
               // verified Supabase `images` array, so every card is independent.
@@ -303,11 +303,12 @@ export function ProductCatalog({
                     aria-label={`${t("productViewDetails")}: ${localizedName}`}
                     className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]"
                   >
-                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--background)]">
+                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--product-image-surface)]">
                       <ProductImage
                         key={`${product.id}-${imageUrl}`}
                         src={imageUrl}
                         alt={localizedName}
+                        priority={index < 4}
                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       />
