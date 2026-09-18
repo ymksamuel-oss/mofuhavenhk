@@ -137,7 +137,9 @@ export const translations = {
     productSearchHomeTitle: "尋找心水罐罐",
     productSearchHomeSub: "輸入品牌、口味、賣點標籤或適合品種，即時睇到建議。",
     checkoutTitle: "結帳",
-    checkoutSubtitle: "確認訂單並選擇付款方式",
+    checkoutSubtitle: "確認訂單、配送安排及付款方式",
+    checkoutShippingNotice:
+      "配送安排\n香港現貨：下單後 1–2 個工作天內由順豐寄出。\n日本預訂／直送商品：由日本品牌原裝空運抵港，約需 7 至 14 個工作天派送；如遇日本節假日，配送時間可能順延。\n同一張訂單如同時包含現貨及預訂／直送商品，將待所有商品備妥後一併發貨。",
     checkoutCustomerFallback: "顧客",
     originalSubtotal: "商品原價小計",
     bulkDiscount: "量販多件折扣",
@@ -155,7 +157,7 @@ export const translations = {
     removeItem: "移除商品",
     subtotal: "小計",
     shipping: "運費",
-    shippingNote: "1–2 個工作天寄出・整體 5–7 個工作天收到",
+    shippingNote: "現貨 1–2 個工作天寄出；預訂／直送約 7–14 個工作天",
     freeShippingThreshold: "順豐本地免運門檻：HK$450",
     freeShippingRemaining: "仲差 {amount} 即可享順豐本地免運！",
     freeShippingReached: "🎉 已享有順豐本地免運費優惠！",
@@ -483,16 +485,16 @@ export const translations = {
     shippingPolicyEyebrow: "Mofu Haven 毛毛港",
     shippingPolicyTitle: "運送與發貨政策",
     shippingPolicyIntro:
-      "以下為毛毛港 Mofu Haven 的貨品來源、集單出貨時效、香港本地派送與收件注意事項，請各位家長安心選購。",
+      "以下清楚說明香港現貨、日本預訂／直送商品的配送時效，以及同單混合商品的發貨安排，請各位家長安心選購。",
     shippingPolicySourceTitle: "貨品來源與品質保障",
     shippingPolicySourceBody:
       "全店商品均由日本直輸或經香港正規授權代理嚴選引進，100% 正版正貨，請各位家長放心選購。",
     shippingPolicyTimingTitle: "關於出貨與預購時效",
     shippingPolicyTimingBody:
-      "為確保主子們拿到最新鮮保質期的食品，毛毛港採取「每週定期集單」模式。\n一般日本直送／預購商品，將於截單後約 7–14 個工作天內空運抵港並安排順豐發貨。\n若遇日本當地公眾假期、海關抽查或節日航班繁忙期，或會出現輕微延誤，若有特殊情況我們將會主動通知。",
+      "日本預訂／直送商品由日本品牌原裝空運抵港，約需 7 至 14 個工作天派送。\n如遇日本節假日，配送時間可能順延；若有特殊情況，我們會主動通知。\n同一張訂單如同時包含香港現貨及日本預訂／直送商品，將待所有商品備妥後一併發貨。",
     shippingPolicyHkTitle:       "香港本地派送與運費",
     shippingPolicyHkBody:
-      "本店預設採用「順豐速運 (SF Express)」派遞，支援全港順豐站、智能櫃、工商及住宅地址。\n全店購物滿 HK$450 即享本地免運費優惠。",
+      "香港現貨商品下單後 1–2 個工作天內由順豐寄出，支援全港順豐站、智能櫃、工商及住宅地址。\n全店購物滿 HK$450 即享本地免運費優惠。",
     shippingPolicyNoticeTitle: "收件注意事項",
     shippingPolicyNoticeBody:
       "請閣下於結帳時仔細核對收件人姓名、電話及正確的順豐點碼／地址。\n若因提供不正確地址或資料導致包裹須要重新派送，產生的額外順豐運費將需由買家承擔，敬請見諒。\n如遇個別商品因日本供應商突發斷貨，我們將於 24 小時內聯絡閣下並安排全額退款。",
@@ -761,7 +763,9 @@ export const translations = {
     productSearchHomeSub:
       "Type a brand, flavor, selling tag, or breed for instant suggestions.",
     checkoutTitle: "Checkout",
-    checkoutSubtitle: "Review your order and choose a payment method",
+    checkoutSubtitle: "Review your order, delivery arrangement and payment method",
+    checkoutShippingNotice:
+      "Delivery arrangement\nHong Kong in-stock items: dispatched by SF Express within 1–2 working days after ordering.\nJapan preorder/direct items: air-freighted in their original Japanese-brand packaging and delivered in about 7–14 working days; Japanese public holidays may cause delays.\nOrders containing both in-stock and preorder/direct items will be shipped together once all items are ready.",
     checkoutCustomerFallback: "Customer",
     originalSubtotal: "Original subtotal",
     bulkDiscount: "Bulk discount",
@@ -779,7 +783,7 @@ export const translations = {
     removeItem: "Remove item",
     subtotal: "Subtotal",
     shipping: "Shipping",
-    shippingNote: "Dispatched in 1–2 working days・received within 5–7 working days overall",
+    shippingNote: "In-stock: dispatched in 1–2 working days; preorder/direct: about 7–14 working days",
     freeShippingThreshold: "Free shipping on orders over HK$450",
     freeShippingRemaining: "Spend {amount} more to unlock free shipping",
     freeShippingReached: "HK$450 reached — free shipping unlocked",
@@ -1107,16 +1111,16 @@ export const translations = {
     shippingPolicyEyebrow: "Mofu Haven",
     shippingPolicyTitle: "Shipping & Dispatch Policy",
     shippingPolicyIntro:
-      "Here’s how Mofu Haven covers product authenticity, weekly batch timing, Hong Kong delivery and fees, and receiving guidelines.",
+      "Here are the delivery times for Hong Kong in-stock items and Japan preorder/direct items, plus how mixed orders are shipped.",
     shippingPolicySourceTitle: "Product sourcing & authenticity",
     shippingPolicySourceBody:
       "Every item is imported directly from Japan or carefully sourced via authorised Hong Kong agents — 100% authentic goods. Shop with confidence.",
     shippingPolicyTimingTitle: "Dispatch & preorder timing",
     shippingPolicyTimingBody:
-      "To keep food as fresh as possible, Mofu Haven runs a weekly order-batching schedule.\nJapan-direct / preorder items are typically air-freighted to Hong Kong and handed to SF Express within about 7–14 working days after cutoff.\nJapanese public holidays, customs checks, or busy holiday flight periods may cause slight delays — we’ll proactively notify you if anything unusual comes up.",
+      "Japan preorder/direct items are air-freighted to Hong Kong in their original Japanese-brand packaging and delivered in about 7–14 working days.\nJapanese public holidays may cause delays; we’ll proactively notify you if anything unusual comes up.\nOrders containing both Hong Kong in-stock and Japan preorder/direct items will be shipped together once all items are ready.",
     shippingPolicyHkTitle: "Hong Kong delivery & shipping fees",
     shippingPolicyHkBody:
-      "We ship with SF Express by default, covering SF stations, smart lockers, and business / residential addresses across Hong Kong.\nOrders that reach the stated amount enjoy free local shipping (see the homepage notice for the current threshold).",
+      "Hong Kong in-stock items are dispatched by SF Express within 1–2 working days after ordering. We support SF stations, smart lockers, and business / residential addresses across Hong Kong.\nOrders that reach the stated amount enjoy free local shipping (see the homepage notice for the current threshold).",
     shippingPolicyNoticeTitle: "Receiving checklist",
     shippingPolicyNoticeBody:
       "Please carefully check the recipient name, phone, and correct SF point code / address at checkout.\nIf incorrect details cause a re-delivery, any extra SF fees will be borne by the buyer — thank you for understanding.\nIf a Japanese supplier suddenly runs out of stock, we’ll contact you within 24 hours and arrange a full refund.",

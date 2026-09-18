@@ -88,6 +88,14 @@ export function OrderSummary({
 
       <FreeShippingProgress subtotal={subtotal} showContinueShoppingLink />
 
+      <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)]/45 px-4 py-4 text-sm leading-relaxed text-[color:var(--ink)]">
+        {t("checkoutShippingNotice").split("\n").map((line, index) => (
+          <p key={`${index}-${line.slice(0, 12)}`} className={index === 0 ? "font-semibold" : "mt-1.5"}>
+            {line}
+          </p>
+        ))}
+      </div>
+
       <ul className="space-y-3">
         {items.length === 0 ? (
           <li className="py-6 text-center text-sm leading-relaxed text-[color:var(--muted)]">
