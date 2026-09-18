@@ -131,7 +131,7 @@ export function ProductCatalog({
     : null;
   const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
   const dedicatedCategoryFallback = categorySlug === "dogs"
-    ? catalogProducts.filter((product) => matchesAudience(product, "dog"))
+    ? catalogProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
     : categorySlug === "cats"
       ? catalogProducts.filter((product) => matchesAudience(product, "cat"))
       : categorySlug === "supplies"
@@ -147,11 +147,15 @@ export function ProductCatalog({
         ? productsInCategory.filter((product) => product.subcategory === selectedSubcategory)
       : []
     : productsInCategory.length > 0 ? productsInCategory : dedicatedCategoryFallback;
+  const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const foodCategorySelected = productCategory === "treats";
   const suppliesCategorySelected = productCategory === "supplies";
-  const ingredientEnabled = foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat");
+  const ingredientEnabled = (foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat"))
+    || (categorySlug === "dogs" && isDedicatedCategoryPage);
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
+    (categorySlug !== "dogs" || isFoodProduct(product)) &&
+    (categorySlug !== "supplies" || isSupplyProduct(product)) &&
     (!suppliesCategorySelected || isSupplyProduct(product)) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
     (!ingredientEnabled || matchesIngredient(product, ingredientFilter)) &&
@@ -192,7 +196,6 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const title = categorySlug === "dogs"
     ? (locale === "en" ? "For Dogs" : "狗狗專區")
     : categorySlug === "cats" || specialFilter === "cat-zone"
@@ -203,6 +206,15 @@ export function ProductCatalog({
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage ? "mb-6" : "sr-only"}`}>{title}</h1>
+      {categorySlug === "dogs" && isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="mb-7 flex flex-nowrap gap-2 overflow-x-auto border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {INGREDIENT_FILTERS.map(([slug, zh, , en]) => {
+          const active = (ingredientFilter ?? "all") === slug;
+          const href = `/categories/dogs${slug === "all" ? "" : `?ingredient=${slug}`}`;
+          return <CategoryNavLink key={slug} href={href} className={`relative inline-flex shrink-0 items-center whitespace-nowrap rounded-xl border px-3.5 py-2 text-sm transition ${active ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[7px] after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--accent)]" : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
+            {locale === "en" ? en : zh}
+          </CategoryNavLink>;
+        })}
+      </nav> : null}
       {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
           const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;

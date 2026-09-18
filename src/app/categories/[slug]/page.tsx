@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ lang?: string | string[] }>;
+  searchParams: Promise<{ lang?: string | string[]; ingredient?: string | string[] }>;
 };
 
 export async function generateMetadata({
@@ -22,8 +22,10 @@ export async function generateMetadata({
   });
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { slug } = await params;
+  const query = await searchParams;
   const categorySlug = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
-  return <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch />;
+  const ingredient = Array.isArray(query.ingredient) ? query.ingredient[0] : query.ingredient;
+  return <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredient ?? null} />;
 }
