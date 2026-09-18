@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { ShoppingCart } from "lucide-react";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { discountedUnitPrice, MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
+import { discountedUnitPrice, FREE_SHIPPING_THRESHOLD, MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 
@@ -116,20 +116,31 @@ export function AddToCartButton({
     : discountPercent === 15
       ? locale === "en" ? "15% off applied" : "已享 85 折優惠"
       : null;
+  const currentTotal = product
+    ? Number((discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty).toFixed(2))
+    : 0;
+  const currentOriginalTotal = Number(((unitPrice ?? product?.price ?? 0) * qty).toFixed(2));
+  const currentSavings = Number(Math.max(0, currentOriginalTotal - currentTotal).toFixed(2));
+  const freeShippingMessage = locale === "en"
+    ? `Free local shipping unlocked at HK$${FREE_SHIPPING_THRESHOLD}`
+    : `已享順豐本地免運費優惠（滿 HK$${FREE_SHIPPING_THRESHOLD}）`;
   const promotionHint = locale === "en"
     ? "💡 Buy 8 or more to enjoy 10% off! Buy 16 or more for 15% off!"
     : "💡 凡購買滿 8 件或以上即享 9 折優惠！滿 16 件更可享 85 折優惠！";
   const quickChoices = (
-    <div className="flex min-w-max flex-nowrap items-center gap-1.5 overflow-x-auto py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
+    <div className="flex min-w-0 flex-wrap items-stretch gap-2 py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
       {PET_QUICK_QUANTITIES.map((option) => (
         <button
           key={option}
           type="button"
           onClick={() => setSafeQty(option)}
           disabled={!purchasable}
-          className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
+          className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-2 text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_8px_18px_-12px_rgba(122,75,49,0.7)]" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
         >
-          {locale === "en" ? `${option} units` : `${option} 件`}
+          <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} 件`}</span>
+          <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-white/90" : "text-[#b04f40]"}`}>
+            {option >= 16 ? (locale === "en" ? "15% off" : "85折・超值") : (locale === "en" ? "10% off" : "9折優惠")}
+          </span>
         </button>
       ))}
     </div>
@@ -191,7 +202,11 @@ export function AddToCartButton({
         {isPetProduct ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
       {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
-      {showTotal ? <p className="text-center text-lg font-bold tabular-nums text-[color:var(--accent)]" aria-live="polite">{t("total")}：{formatMoney(product ? discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty : 0, locale)}</p> : null}
+      {showTotal ? <div className="space-y-1 text-center" aria-live="polite">
+        <p className="text-lg font-bold tabular-nums text-[color:var(--accent)]">{t("total")}：{formatMoney(currentTotal, locale)}</p>
+        {currentSavings > 0 ? <p className="text-xs font-semibold text-emerald-700">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `已省 ${formatMoney(currentSavings, locale)}`}</p> : null}
+        {currentTotal >= FREE_SHIPPING_THRESHOLD ? <p className="text-xs font-semibold text-emerald-700">{freeShippingMessage}</p> : null}
+      </div> : null}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>
         {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>
