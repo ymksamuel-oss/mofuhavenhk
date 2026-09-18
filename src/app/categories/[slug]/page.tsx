@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
@@ -35,5 +36,16 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const ingredientFilter = categorySlug === "dogs"
     ? (ingredient && DOG_INGREDIENTS.has(ingredient) ? ingredient : "chicken")
     : null;
-  return <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredientFilter} />;
+  const categoryName = categorySlug === "dogs" ? "狗狗專區" : categorySlug === "cats" ? "貓咪專區" : categorySlug === "supplies" ? "寵物用品" : "寵物商品分類";
+  return <>
+    <JsonLd data={{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "首頁", item: "https://mofuhavenhk.com/" },
+        { "@type": "ListItem", position: 2, name: categoryName, item: `https://mofuhavenhk.com/categories/${categorySlug}` },
+      ],
+    }} />
+    <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredientFilter} />
+  </>;
 }

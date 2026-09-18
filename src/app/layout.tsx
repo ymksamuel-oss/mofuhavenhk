@@ -23,6 +23,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mofuhavenhk.com"),
+  alternates: { canonical: "/" },
   title: {
     default: "毛毛港 Mofu Haven HK | 日本直送優質寵物糧食及用品",
     template: "%s | 毛毛港 Mofu Haven",
