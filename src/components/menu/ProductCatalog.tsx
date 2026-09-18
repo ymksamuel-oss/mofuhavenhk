@@ -3,12 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
-import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductDescription, getLocalizedProductName } from "@/lib/translateProductName";
+import { getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 
 const PAGE_SIZE = 12;
@@ -296,7 +295,6 @@ export function ProductCatalog({
               // verified Supabase `images` array, so every card is independent.
               const imageUrl = product.images?.[0] ?? "catalog-placeholder";
               const localizedName = getLocalizedProductName(product, locale);
-              const localizedDescription = getLocalizedProductDescription(product, locale);
               return (
                 <li key={product.id} className="min-w-0">
                   <article className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
@@ -315,13 +313,8 @@ export function ProductCatalog({
                       <h2 className="line-clamp-2 min-w-0 break-words text-left text-sm font-semibold leading-6 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
                         {localizedName}
                       </h2>
-                      {localizedDescription ? <p className="line-clamp-2 text-xs leading-5 text-[color:var(--muted)]">{localizedDescription}</p> : null}
                     </div>
                     </CategoryNavLink>
-                    <div className="flex items-center justify-between gap-2 px-3 pb-3 sm:px-4 sm:pb-4">
-                      <span className="text-sm font-bold tabular-nums text-[color:var(--accent)]">HK${product.price.toFixed(2)}</span>
-                      <AddToCartButton productId={product.id} size="card" />
-                    </div>
                   </article>
                 </li>
               );
