@@ -16,7 +16,7 @@ function containsJapanese(value?: string): boolean {
 function translateJapaneseName(value: string, locale: "zh" | "en"): string {
   const replacements = locale === "zh"
     ? [
-        [/こだわり/g, "特選"], [/ビーフ|牛(?!筋)/g, "牛肉"], [/牛アキレス/g, "牛筋"], [/アキレス/g, "筋條"],
+        [/鯨\s*\(くじら\)\s*の干し肉/g, "日本產 鯨魚肉乾"], [/ミンチ/g, "免治碎肉"], [/こだわり/g, "特選"], [/ビーフ|牛(?!筋)/g, "牛肉"], [/牛アキレス/g, "牛筋"], [/アキレス/g, "筋條"],
         [/ジャーキー/g, "肉乾"], [/スティック/g, "肉條"], [/スライス/g, "薄片"], [/チップス|ちっぷす/g, "肉片"],
         [/ささみ|ササミ|鶏|チキン/g, "雞肉"], [/鹿/g, "鹿肉"], [/ホース|馬/g, "馬肉"], [/ポーク|豚/g, "豬肉"],
         [/カンガルー/g, "袋鼠肉"], [/かつお|鰹/g, "鰹魚"], [/まぐろ|マグロ/g, "鮪魚"], [/にぼし|煮干し/g, "小魚乾"],
@@ -24,7 +24,7 @@ function translateJapaneseName(value: string, locale: "zh" | "en"): string {
         [/ロング/g, "長條"], [/お徳用/g, "特惠裝"],
       ] as const
     : [
-        [/こだわり/g, "Premium"], [/ビーフ|牛/g, "Beef"], [/アキレス/g, "Achilles Tendon"], [/ジャーキー/g, "Jerky"],
+        [/鯨\s*\(くじら\)\s*の干し肉/g, "Whale jerky"], [/ミンチ/g, "minced meat"], [/こだわり/g, "Premium"], [/ビーフ|牛/g, "Beef"], [/アキレス/g, "Achilles Tendon"], [/ジャーキー/g, "Jerky"],
         [/スティック/g, "Sticks"], [/スライス/g, "Slices"], [/チップス|ちっぷす/g, "Chips"], [/ささみ|ササミ|鶏|チキン/g, "Chicken"],
         [/鹿/g, "Venison"], [/ホース|馬/g, "Horse"], [/ポーク|豚/g, "Pork"], [/カンガルー/g, "Kangaroo"],
         [/かつお|鰹/g, "Bonito"], [/まぐろ|マグロ/g, "Tuna"], [/にぼし|煮干し/g, "Dried fish"], [/おやつ/g, "Treats"],

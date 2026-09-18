@@ -118,8 +118,8 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
 function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter) return true;
   const text = productFilterText(product);
-  const isCatOnly = /貓專用|猫用|貓用|貓貓|for cats?|cat[-_ ]?only/i.test(text);
-  const isDogOnly = /狗專用|狗狗|犬用|犬|狗具|for dogs?|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  const isCatOnly = /貓專用|猫用|貓用|貓貓|for cats?|\bcats?\b|cat[-_ ]?only/i.test(text);
+  const isDogOnly = /狗專用|狗狗|犬用|犬|狗具|for dogs?|\bdogs?\b|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
   const isShared = /貓狗兼用|貓犬兼用|all[_ -]?pets|犬猫兼用|cats?\s*(?:and|&)\s*dogs?/i.test(text);
   if (filter === "cat") return !isDogOnly || isShared ? (isCatOnly || isShared) : false;
   if (filter === "dog") return !isCatOnly || isShared ? (isDogOnly || isShared) : false;
@@ -179,7 +179,7 @@ export function ProductCatalog({
     || (categorySlug === "dogs" && isDedicatedCategoryPage);
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
-    (categorySlug !== "dogs" || isFoodProduct(product)) &&
+    (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product) && !isSupplyProduct(product))) &&
     (categorySlug !== "supplies" || isSupplyProduct(product)) &&
     (!suppliesCategorySelected || isSupplyProduct(product)) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
@@ -232,7 +232,7 @@ export function ProductCatalog({
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage ? "mb-6" : "sr-only"}`}>{title}</h1>
       {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7">
-        <nav aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="flex flex-nowrap gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 pr-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
+        <nav aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="flex flex-nowrap gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
           {INGREDIENT_FILTERS.map(([slug, zh, , en]) => {
             const active = (ingredientFilter ?? "all") === slug;
             const href = `/categories/dogs${slug === "all" ? "" : `?ingredient=${slug}`}`;
@@ -241,7 +241,7 @@ export function ProductCatalog({
             </CategoryNavLink>;
           })}
         </nav>
-        <span aria-hidden="true" className="pointer-events-none absolute right-0 top-0 flex h-[calc(100%-0.75rem)] items-center bg-gradient-to-l from-[color:var(--background)] via-[color:var(--background)]/90 to-transparent pl-5 pr-1 text-lg font-semibold text-[color:var(--muted)]">»</span>
+        <span aria-hidden="true" className="pointer-events-none absolute right-0 top-0 flex h-[calc(100%-0.75rem)] items-center bg-gradient-to-l from-[color:var(--background)] via-[color:var(--background)]/90 to-transparent pl-5 pr-1 text-lg font-semibold text-[color:var(--muted)]">›</span>
       </div> : null}
       {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
