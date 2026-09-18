@@ -11,7 +11,7 @@ import {
 } from "@/lib/products";
 
 const SITE_NAME = "Mofu Haven HK";
-const SHARE_IMAGE = "/images/mofu-haven-cat-dog-logo-transparent.png";
+const SHARE_IMAGE = "/images/best-partner-plain-pack-series.png";
 
 type SeoCopy = { title: string; description: string };
 type BilingualSeoCopy = { zh: SeoCopy; en: SeoCopy; ja?: SeoCopy };
@@ -434,7 +434,7 @@ export function getCategoryPageMetadata(
       title: copy.title,
       description: copy.description,
       siteName: SITE_NAME,
-      images: [{ url: SHARE_IMAGE, width: 960, height: 1106, alt: copy.title }],
+      images: [{ url: SHARE_IMAGE, width: 1194, height: 671, alt: copy.title }],
     },
     twitter: {
       card: "summary_large_image",

@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const description = (product.description?.zh?.trim()
     || `特價 ${formatMoney(product.price, "zh")} ${product.originalPrice ? `(原價 ${formatMoney(product.originalPrice, "zh")}) ` : ""}- 日本進口正貨`).slice(0, 120);
   const image = product.images?.[0] || product.image;
+  const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`;
   const title = `${name} | 日本原裝直送 - 毛毛港 Mofu Haven HK`;
   const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
   return {
@@ -31,14 +32,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       url: canonical,
       title,
       description,
-      images: [{ url: image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`, alt: name }],
+      images: [{ url: imageUrl, alt: name }],
       locale: "zh_HK",
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [imageUrl],
     },
   };
 }

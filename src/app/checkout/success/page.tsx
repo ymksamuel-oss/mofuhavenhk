@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getReceipt, saveReceipt } from "@/lib/receipt";
 import { useCart } from "@/lib/shop/cart";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 type CompletionState = "loading" | "success" | "error";
 
@@ -57,6 +58,13 @@ function CheckoutSuccessContent() {
           });
         }
         cart.clear();
+        trackMetaEvent("Purchase", {
+          content_type: "product",
+          content_ids: [data.orderNumber],
+          value: typeof data.total === "number" ? data.total : undefined,
+          currency: "HKD",
+          order_id: data.orderNumber,
+        });
         setReceiptHref(`/receipt/${data.orderNumber}`);
         setState("success");
       } catch {

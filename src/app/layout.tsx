@@ -8,6 +8,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { MetaPixel } from "@/components/MetaPixel";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
 import type { Brand } from "@/lib/brands";
@@ -60,10 +61,10 @@ export const metadata: Metadata = {
     siteName: "毛毛港 Mofu Haven",
     images: [
       {
-        url: "/images/mofu-haven-cat-dog-logo-transparent.png",
-        width: 960,
-        height: 1106,
-        alt: "毛毛港 Mofu Haven - 日本天然寵物用品",
+        url: "/images/best-partner-plain-pack-series.png",
+        width: 1194,
+        height: 671,
+        alt: "Best Partner 日本天然寵物食品官方海報",
       },
     ],
   },
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
     title: "毛毛港 Mofu Haven HK | 日本直送優質寵物糧食及用品",
     description:
       "專營日本優質寵物糧食與用品，現貨商品一般 1–2 個工作天寄出，整體 5–7 個工作天收到；滿 HK$450 免運費！",
-    images: ["/images/mofu-haven-cat-dog-logo-transparent.png"],
+    images: ["/images/best-partner-plain-pack-series.png"],
   },
   robots: {
     index: true,
@@ -124,6 +125,7 @@ export default async function RootLayout({
     <html lang="zh-HK" className="bg-[color:var(--background)]">
       <head>
         <GoogleAnalytics />
+        <MetaPixel />
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider>

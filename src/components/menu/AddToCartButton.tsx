@@ -8,6 +8,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { discountedUnitPrice, FREE_SHIPPING_THRESHOLD, MAX_QTY, MIN_QTY, PET_BUNDLE_QUANTITIES, petBundleDiscountPercent } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 type AddToCartButtonProps = {
   productId: string;
@@ -121,6 +122,14 @@ export function AddToCartButton({
       });
     }
     addItem(productId, qty, priceId);
+    trackMetaEvent("AddToCart", {
+      content_type: "product",
+      content_ids: [productId],
+      content_name: product?.name.zh || product?.name.en,
+      value: Number(((unitPrice ?? product?.price ?? 0) * qty).toFixed(2)),
+      currency: "HKD",
+      quantity: qty,
+    });
     setAdded(true);
     setToastKey((key) => key + 1);
     setSafeQty(MIN_QTY);

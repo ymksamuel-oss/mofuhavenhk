@@ -35,6 +35,7 @@ import { useCart } from "@/lib/shop/cart";
 import { saveReceipt } from "@/lib/receipt";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 import { isValidEmailAddress } from "@/lib/emailAddress";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 type PayPhase =
   | "idle"
@@ -139,6 +140,19 @@ function CheckoutContent() {
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
   }, []);
+
+  const trackedCheckout = useRef(false);
+  useEffect(() => {
+    if (trackedCheckout.current || !cart.ready || items.length === 0) return;
+    trackedCheckout.current = true;
+    trackMetaEvent("InitiateCheckout", {
+      content_type: "product",
+      content_ids: items.map((item) => item.id),
+      value: amountHkd,
+      currency: "HKD",
+      num_items: items.reduce((total, item) => total + item.qty, 0),
+    });
+  }, [amountHkd, cart.ready, items]);
 
   useEffect(() => {
     let cancelled = false;

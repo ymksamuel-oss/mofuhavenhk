@@ -16,7 +16,8 @@ import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
-import { useState } from "react";
+import { trackMetaEvent } from "@/components/MetaPixel";
+import { useEffect, useState } from "react";
 
 type ProductDetailProps = {
   product: Product;
@@ -37,6 +38,16 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
 
   const selectedProduct = product;
+
+  useEffect(() => {
+    trackMetaEvent("ViewContent", {
+      content_type: "product",
+      content_ids: [product.id],
+      content_name: product.name.zh || product.name.en,
+      value: product.price,
+      currency: "HKD",
+    });
+  }, [product.id, product.name.en, product.name.zh, product.price]);
 
   // Safe helper to render product name whether it's a plain string or a localized object
   const renderProductName = () => getLocalizedProductName(selectedProduct, locale) || t("productDescriptionUnavailable");
