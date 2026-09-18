@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import type { Locale, TranslationKey } from "@/lib/i18n/translations";
+import type { Locale } from "@/lib/i18n/translations";
 
 type BannerSlide = {
   id: string;
   image: string;
+  gallery?: string[];
   mobileImage?: string;
   eyebrow: string;
   title: string;
@@ -17,69 +18,118 @@ type BannerSlide = {
   href: string;
   imageAlt: string;
   tone: "dark" | "light";
-  /** Database-managed banners are complete artwork and must not receive fallback copy. */
-  managed?: boolean;
 };
 
-const AUTO_PLAY_MS = 4000;
+const AUTO_PLAY_MS = 5000;
 
-type StoreBanner = {
+type StoreProduct = {
   id?: string | number;
-  image_url?: string | null;
-  mobile_image_url?: string | null;
-  link?: string | null;
-  title?: string | null;
+  image?: string | null;
+  images?: unknown;
+  name?: { zh?: string; en?: string } | null;
+  description?: { zh?: string; en?: string } | null;
+  tags?: unknown;
+  metadata?: Record<string, unknown> | null;
 };
 
-function englishSafeBannerText(value: string | null | undefined, fallback: string): string {
-  const normalized = value?.trim() ?? "";
-  return normalized && !/[\u3400-\u9fff]/.test(normalized) ? normalized : fallback;
+function productText(product: StoreProduct): string {
+  return [
+    product.name?.zh,
+    product.name?.en,
+    product.description?.zh,
+    product.description?.en,
+    ...(Array.isArray(product.tags) ? product.tags : []),
+    ...Object.values(product.metadata ?? {}),
+  ]
+    .filter((value): value is string => typeof value === "string")
+    .join(" ")
+    .toLowerCase();
 }
 
-function toManagedSlides(
-  banners: StoreBanner[],
-  t: (key: TranslationKey) => string,
+function productImage(product: StoreProduct): string {
+  const gallery = Array.isArray(product.images)
+    ? product.images.find((image): image is string => typeof image === "string" && image.trim().length > 0)
+    : "";
+  return gallery || (typeof product.image === "string" ? product.image : "") || "catalog-placeholder";
+}
+
+function toProductSlides(
+  products: StoreProduct[],
   locale: Locale,
 ): BannerSlide[] {
-  const seenImages = new Set<string>();
-  return banners
-    .filter((banner) => typeof banner.image_url === "string" && banner.image_url.trim().length > 0)
-    .map((banner, index) => {
-      const image = banner.image_url!.trim();
-      const mobileImage = typeof banner.mobile_image_url === "string" ? banner.mobile_image_url.trim() : "";
-      return {
-        id: String(banner.id || `managed-banner-${index}`),
-        image,
-        // Prefer the dedicated mobile artwork; fall back to the desktop image when absent.
-        mobileImage: mobileImage || image,
-        eyebrow: "MOFU HAVEN",
-        title: locale === "en"
-            ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
-            : banner.title?.trim() || t("homeBannerManagedTitle"),
-        subtitle: "",
-        cta: "",
-        href: banner.link?.trim() || "",
-        imageAlt: locale === "en"
-          ? englishSafeBannerText(banner.title, t("homeBannerManagedTitle"))
-          : banner.title?.trim() || t("homeBannerManagedTitle"),
-        tone: "dark" as const,
-        managed: true,
-      };
-    })
-    .filter((banner) => {
-      const dedupeKey = `${banner.image}|${banner.mobileImage || ""}`;
-      if (seenImages.has(dedupeKey)) return false;
-      seenImages.add(dedupeKey);
-      return true;
-    });
+  const usableProducts = products.filter((product) => productImage(product) !== "catalog-placeholder");
+  if (usableProducts.length === 0) return [];
+  const used = new Set<string>();
+  const pick = (patterns: RegExp[]): StoreProduct[] => {
+    const matches = usableProducts.filter((product) => !used.has(String(product.id)) && patterns.some((pattern) => pattern.test(productText(product))));
+    matches.forEach((product) => used.add(String(product.id)));
+    return matches.slice(0, 2);
+  };
+  const fallback = (): StoreProduct[] => usableProducts.filter((product) => !used.has(String(product.id))).slice(0, 2);
+  const dog = pick([/蝦夷|北海道|鹿肉|鹿|venison|deer|馬肉|horse|牛筋|beef/i]);
+  const cat = pick([/金槍魚|鮪魚|まぐろ|柴魚|かつお|小魚乾|にぼし|tuna|bonito|fish/i]);
+  const supplies = pick([/胸背|防暴衝|半鏈|項圈|頸圈|harness|collar|leash/i]);
+  const offers = fallback();
+  const safeFallback = usableProducts.slice(0, 2);
+  const chosen = [dog, cat, supplies, offers].map((items) => (items.length ? items : fallback().length ? fallback() : safeFallback));
+  return [
+    {
+      id: "hero-dog-natural-meat",
+      image: productImage(chosen[0][0]),
+      gallery: chosen[0].map(productImage),
+      eyebrow: locale === "en" ? "JAPAN DIRECT · FOR DOGS" : "日本直送 ‧ 狗狗專區",
+      title: locale === "en" ? "100% Japanese natural meat, pure chewy goodness for your best friend" : "100% 日本產天然原肉，給毛孩最純粹的嚼勁美味",
+      subtitle: locale === "en" ? "Carefully selected Hokkaido venison, gentle horse meat and grilled beef tendon — no artificial additives." : "嚴選北海道鹿肉、低敏馬肉與香烤牛筋條，無人工添加，換季滋補首選。",
+      cta: locale === "en" ? "Shop natural dog jerky" : "選購狗狗天然肉乾",
+      href: "/categories/dogs",
+      imageAlt: locale === "en" ? "Natural Japanese dog meat treats" : "日本天然狗狗原肉零食",
+      tone: "light",
+    },
+    {
+      id: "hero-cat-seafood",
+      image: productImage(chosen[1][0]),
+      gallery: chosen[1].map(productImage),
+      eyebrow: locale === "en" ? "NATURAL SEAFOOD · FOR CATS" : "天然鮮味 ‧ 貓咪專區",
+      title: locale === "en" ? "Deep-sea Japanese flavours that picky cats love at first bite" : "日本深海直送魚香，挑嘴貓咪一口愛上",
+      subtitle: locale === "en" ? "Salt-free dried fish, bonito flakes, tuna and smooth snacks with natural taurine and quality protein." : "嚴選無鹽小魚乾、金槍魚柴魚薄片與糊仔，富含天然牛磺酸與優質蛋白。",
+      cta: locale === "en" ? "Explore cat seafood favourites" : "探索貓咪人氣海鮮",
+      href: "/categories/cats",
+      imageAlt: locale === "en" ? "Japanese seafood treats for cats" : "日本貓咪人氣海鮮零食",
+      tone: "light",
+    },
+    {
+      id: "hero-supplies-walk",
+      image: productImage(chosen[2][0]),
+      gallery: chosen[2].map(productImage),
+      eyebrow: locale === "en" ? "SAFE WALKS · PET SUPPLIES" : "安全出行 ‧ 寵物生活用品",
+      title: locale === "en" ? "Breathable anti-pull gear for easier, safer walks" : "減壓透氣防暴衝裝備，每一次散步都安心輕鬆",
+      subtitle: locale === "en" ? "Breathable mesh harnesses and two-tone anti-pull half-chain collars for comfortable outdoor adventures." : "透氣網眼胸背帶與雙色防暴衝半鏈頸圈，安全貼身，戶外散步無負擔。",
+      cta: locale === "en" ? "Shop walks and supplies" : "查看生活與出行良品",
+      href: "/categories/supplies",
+      imageAlt: locale === "en" ? "Anti-pull pet walking supplies" : "寵物防暴衝散步用品",
+      tone: "light",
+    },
+    {
+      id: "hero-bundle-offer",
+      image: productImage(chosen[3][0]),
+      gallery: chosen[3].map(productImage),
+      eyebrow: locale === "en" ? "STOREWIDE MULTI-BUY" : "全店量販優惠",
+      title: locale === "en" ? "Buy more, save more — 5% off at 4 items, 15% off at 12" : "買多折多！滿 4 件享 95 折，滿 12 件享 85 折",
+      subtitle: locale === "en" ? "Mix and match your pets’ favourites. Free SF Express local delivery over HK$450, with in-stock items dispatched in 1–2 working days." : "自由混搭毛孩心水零食！全單滿 HK$450 享順豐本地免運，1–2 工作天快速出貨。",
+      cta: locale === "en" ? "Build your multi-buy order" : "立即拼單享優惠",
+      href: "/menu",
+      imageAlt: locale === "en" ? "Popular pet treats in a multi-buy offer" : "熱門寵物零食量販優惠",
+      tone: "light",
+    },
+  ];
 }
 
 export function HomeBannerCarousel() {
   const { locale, t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
-  const [managedBanners, setManagedBanners] = useState<StoreBanner[]>([]);
-  const slides = useMemo(() => toManagedSlides(managedBanners, t, locale), [locale, managedBanners, t]);
+  const [storeProducts, setStoreProducts] = useState<StoreProduct[]>([]);
+  const slides = useMemo(() => toProductSlides(storeProducts, locale), [locale, storeProducts]);
   const autoplayTimer = useRef<number | null>(null);
   const touchStartX = useRef<number | null>(null);
 
@@ -88,9 +138,8 @@ export function HomeBannerCarousel() {
     fetch("/api/store", { cache: "no-store", signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
       .then((payload) => {
-        const banners = Array.isArray(payload?.banners) ? payload.banners : [];
-        // The database is the sole source of truth. An empty result intentionally hides the carousel.
-        setManagedBanners(banners);
+        const products = Array.isArray(payload?.products) ? payload.products : [];
+        setStoreProducts(products);
         setActiveIndex(0);
       })
       .catch((error: unknown) => {
@@ -200,8 +249,7 @@ export function HomeBannerCarousel() {
               />
             </picture>
 
-            {!activeSlide.managed && (
-              <>
+            <>
                 <div
                   className={`absolute inset-0 ${
                     activeSlide.tone === "light"
@@ -234,18 +282,19 @@ export function HomeBannerCarousel() {
                     <span aria-hidden className="ml-2 text-base">→</span>
                   </CategoryNavLink>
                 </div>
-              </>
-            )}
-
-            {activeSlide.managed && activeSlide.href && (
-              <CategoryNavLink href={activeSlide.href} className="absolute inset-0 z-10" aria-label={activeSlide.title}>
-                <span className="sr-only">{activeSlide.title}</span>
-              </CategoryNavLink>
-            )}
+              {activeSlide.gallery && activeSlide.gallery.length > 1 ? (
+                <div className="absolute bottom-5 right-5 z-10 hidden w-40 grid-cols-2 gap-2 sm:grid lg:bottom-8 lg:right-8 lg:w-52">
+                  {activeSlide.gallery.slice(1, 4).map((image, index) => (
+                    <div key={`${activeSlide.id}-${image}-${index}`} className="relative aspect-square overflow-hidden rounded-2xl border-2 border-white/80 bg-[#f7efe4]/80 shadow-lg">
+                      <Image src={image} alt="" fill sizes="104px" className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </>
           </article>
 
-          {/* Keep the full-slide CTA below a dedicated controls layer so it can
-              never intercept arrow or dot clicks, including on managed banners. */}
+          {/* Keep the full-slide CTA below a dedicated controls layer so it can never intercept arrow or dot clicks. */}
           <div className="pointer-events-none absolute inset-0 z-30">
             <button
               type="button"
