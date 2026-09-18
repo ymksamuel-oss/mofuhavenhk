@@ -47,19 +47,20 @@ type ProductCatalogProps = {
 };
 
 const INGREDIENT_FILTERS = [
+  ["all", "全部", "All", "All"],
   ["chicken", "純天然雞肉", "鶏 chicken", "Natural chicken"],
   ["beef", "嚴選牛肉", "牛 cow", "Premium beef"],
   ["pork", "豬肉", "豚 pig", "Pork"],
   ["deer", "低敏鹿肉", "鹿 deer", "Venison"],
   ["horse", "低敏馬肉", "馬 horse", "Horsemeat"],
+  ["sheep", "羊肉", "羊 sheep", "Sheep"],
   ["seafood", "深海海鮮", "魚介 seafood", "Seafood"],
-  ["produce", "蔬菜・水果", "野菜・フルーツ", "Vegetables & fruits"],
+  ["produce", "蔬菜・水果", "野菜・果物", "Vegetables & fruits"],
 ] as const;
 
 const AUDIENCE_FILTERS = [
-  ["all-pets", "所有寵物", "All Pets", "All Pets"],
-  ["cat", "貓貓專區", "All Cats", "For Cats"],
-  ["dog", "狗狗專區", "All Dogs", "For Dogs"],
+  ["dog", "狗狗專區", "犬用", "For dogs"],
+  ["cat", "貓貓專區", "猫用", "For cats"],
 ] as const;
 
 function productFilterText(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
@@ -73,7 +74,7 @@ function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
 }
 
 function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
-  if (!filter) return true;
+  if (!filter || filter === "all") return true;
   const text = productFilterText(product);
   const patterns: Record<string, RegExp> = {
     seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/,
@@ -168,31 +169,35 @@ export function ProductCatalog({
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className="sr-only">{title}</h1>
-      <nav aria-label={locale === "en" ? "Audience filters" : "對象分類"} className="mb-3 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
-        {AUDIENCE_FILTERS.map(([slug, zh, , en]) => {
-          const categoryQuery = productCategory ? `&category=${productCategory}` : "";
-          const href = slug === "all-pets" ? (productCategory ? `/menu?category=${productCategory}` : "/menu") : `/menu?audience=${slug}${categoryQuery}`;
-          const active = slug === "all-pets" ? !audienceFilter : audienceFilter === slug;
-          return <CategoryNavLink key={slug} href={href} className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${active ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {locale === "en" ? en : zh}
+      <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
+        {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
+          const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;
+          const active = audienceFilter === slug;
+          return <CategoryNavLink key={slug} href={href} className={`relative shrink-0 pb-3 text-lg transition ${active ? "font-bold text-[color:var(--ink)] after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
+            {locale === "en" ? en : locale === "zh" ? zh : ja}
           </CategoryNavLink>;
         })}
       </nav>
-      <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-2 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:mb-4 sm:flex-wrap">
+      <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
         {["treats", "supplies"].map((slug) => {
           const active = productCategory === slug;
-          return <CategoryNavLink key={slug} href={`/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3.5 py-2 text-sm transition ${active ? "border-[#7A4B31] bg-[#7A4B31] text-white" : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {locale === "en" ? (slug === "treats" ? "Natural Treats" : "Walks & Supplies") : (slug === "treats" ? "天然小食" : "散步與日常用品")}
+          const href = `/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`;
+          return <CategoryNavLink key={slug} href={href} className={`relative shrink-0 pb-2.5 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[color:var(--accent)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
+            {locale === "en" ? (slug === "treats" ? "Natural meat treats" : "Outdoors & daily supplies") : (slug === "treats" ? "天然肉食小食" : "外出及日常用品")}
           </CategoryNavLink>;
         })}
       </nav>
-      {ingredientEnabled ? <nav aria-label={locale === "en" ? "Ingredient filters" : "食材分類篩選"} className="mb-4 flex flex-nowrap gap-2 overflow-x-auto pb-1 sm:flex-wrap">
-        {INGREDIENT_FILTERS.map(([slug, zh, , en]) => (
-          <CategoryNavLink key={slug} href={`/menu?audience=${audienceFilter}&category=treats&ingredient=${slug}`} className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs leading-5 transition ${ingredientFilter === slug ? "border-[#3d6954] bg-[#3d6954] text-white" : "border-[color:var(--line)] text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-            {locale === "en" ? en : zh}
-          </CategoryNavLink>
-        ))}
-      </nav> : null}
+      {ingredientEnabled ? <div className="relative mb-5">
+        <nav aria-label={locale === "en" ? "Ingredient filters" : "肉源分類篩選"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
+            const active = (ingredientFilter ?? "all") === slug;
+            return <CategoryNavLink key={slug} href={`/menu?audience=${audienceFilter}&category=treats${slug === "all" ? "" : `&ingredient=${slug}`}`} className={`relative inline-flex shrink-0 items-center whitespace-nowrap px-3 py-2 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-1 after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
+              {locale === "en" ? en : locale === "zh" ? zh : ja}
+            </CategoryNavLink>;
+          })}
+        </nav>
+        <span aria-hidden="true" className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 bg-[color:var(--background)] pl-2 text-lg text-[color:var(--muted)]">»</span>
+      </div> : null}
       {products.length === 0 ? (
         <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
       ) : (
