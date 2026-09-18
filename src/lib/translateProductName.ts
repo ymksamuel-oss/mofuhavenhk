@@ -50,13 +50,14 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
     .map((key) => cleanName(metadata[key])).find(Boolean);
   const zhName = cleanName(product.name.zh);
   const enName = cleanName(product.name.en);
+  const isBarcodePlaceholder = (value?: string) => Boolean(value && /(?:商品|product)\s+\d{8,14}$/i.test(value.trim()));
   const translatedJapaneseZh = containsJapanese(zhName) ? translateJapaneseName(zhName, "zh") : "";
   const translatedJapaneseEn = containsJapanese(enName) ? translateJapaneseName(enName, "en") : "";
   const isPlaceholder = (value?: string) => !value || /^(商品|product|unnamed product|product name unavailable)$/i.test(value.trim());
   const isGeneratedEnglish = (value?: string) => Boolean(value && /best partner pet lifestyle accessories|japanese dog gear|pet lifestyle accessories|product name unavailable/i.test(value));
-  const realName = !isPlaceholder(zhName) && !containsJapanese(zhName)
+  const realName = !isPlaceholder(zhName) && !isBarcodePlaceholder(zhName) && !containsJapanese(zhName)
     ? zhName
-    : translatedJapaneseZh || (!isPlaceholder(enName) && !isGeneratedEnglish(enName) && !containsJapanese(enName) ? enName : metadataName);
+    : translatedJapaneseZh || (!isPlaceholder(enName) && !isBarcodePlaceholder(enName) && !isGeneratedEnglish(enName) && !containsJapanese(enName) ? enName : metadataName);
   if (locale !== "en") return realName || "未命名商品";
   if (!isPlaceholder(enName) && !isGeneratedEnglish(enName) && !containsJapanese(enName) && enName !== zhName) return enName;
   return translatedJapaneseEn || realName || "Unnamed product";

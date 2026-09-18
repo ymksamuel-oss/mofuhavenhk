@@ -415,9 +415,12 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
   return normalized && !CJK_TEXT_RE.test(normalized) ? normalized : fallback;
 }
 
-function bestPartnerChineseName(value: string, supplierBrand: string | null | undefined): string {
-  if (supplierBrand !== "Best Partner") return value;
-  const name = (value.replace(/[　]/g, " ").split(/[｜|]/).at(-1) || value)
+function bestPartnerChineseName(value: string, supplierBrand: string | null | undefined, sourceValue?: string | null): string {
+  const source = /^日本產天然寵物食品｜Best Partner 商品 \d+$/.test(value.trim())
+    ? sourceValue?.trim() || ""
+    : value;
+  if (supplierBrand !== "Best Partner" && source === value) return value;
+  const name = (source.replace(/[　]/g, " ").split(/[｜|]/).at(-1) || source)
     .replace(/^日本(?:原裝|直送|製品?)\s*/i, "")
     .replace(/^Best Partner\s*/i, "")
     .replace(/^天然寵物(?:零食|食品|用品)\s*[：:]?\s*/i, "")
@@ -988,7 +991,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
     const categorySlug = categoryAssignment.categorySlug;
     const subcategory = categoryAssignment.subcategory;
-      const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "未命名產品"), row.supplier_brand);
+    const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "未命名產品"), row.supplier_brand, row.name);
     const databaseNameEn = resolveEnglishProductName({
       id: row.id,
       sourceId: row.source_product_id,
