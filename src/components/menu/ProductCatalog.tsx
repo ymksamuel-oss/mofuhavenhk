@@ -219,7 +219,15 @@ export function ProductCatalog({
         <span aria-hidden="true" className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 bg-[color:var(--background)] pl-2 text-lg text-[color:var(--muted)]">»</span>
       </div> : null}
       {products.length === 0 ? (
-        <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
+        <div className="flex flex-col items-start gap-3 py-6">
+          <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
+          <CategoryNavLink
+            href={audienceFilter ? `/menu?audience=${audienceFilter}${productCategory ? `&category=${productCategory}` : ""}` : "/menu"}
+            className="inline-flex rounded-full border border-[color:var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]"
+          >
+            {locale === "en" ? "Clear ingredient filter" : "清除篩選，返回全部商品"}
+          </CategoryNavLink>
+        </div>
       ) : (
         <>
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">

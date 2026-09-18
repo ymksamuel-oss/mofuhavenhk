@@ -268,7 +268,16 @@ export function Header() {
     { href: "/checkout", label: t("navCheckout"), active: pathname === "/checkout" },
   ] as const;
 
-  const isCategoryActive = (category: StoreCategory) =>
+  const primaryCategoryLinks = [
+    { slug: "dogs", label: t("navCategoriesDogs") },
+    { slug: "cats", label: t("navCategoriesCats") },
+    { slug: "supplies", label: t("navHeaderLifestyle") },
+  ] as const;
+  const secondaryTopLevelCategories = topLevelCategories.filter(
+    (category) => !primaryCategoryLinks.some((link) => link.slug === category.slug),
+  );
+
+  const isCategoryActive = (category: Pick<StoreCategory, "slug">) =>
     pathname === `/categories/${category.slug}` || pathname.startsWith(`/categories/${category.slug}/`);
   const localizedCategoryName = (category: StoreCategory) => categoryDisplayName(category, locale);
 
@@ -325,11 +334,13 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
-                <li className="block w-full">
-                  <Link href="/menu?category=cat-zone" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
-                    {t("navCategoriesCats")}
-                  </Link>
-                </li>
+                {primaryCategoryLinks.map((item) => (
+                  <li key={item.slug} className="block w-full">
+                    <Link href={`/categories/${item.slug}`} className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
                 {coreBrands.length > 0 ? (
                   <li className="block w-full">
                     <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${mobileBrandOpen ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}>
@@ -339,7 +350,7 @@ export function Header() {
                     {mobileBrandOpen ? <div id="mobile-brand-menu" className="mx-1 mt-2 grid gap-1 rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} className="rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => { setMobileBrandOpen(false); setMenuOpen(false); }}>{brand.name}</Link>)}</div> : null}
                   </li>
                 ) : null}
-                {topLevelCategories.map((category) => {
+                {secondaryTopLevelCategories.map((category) => {
                   const isOpen = mobileCategoryOpen === category.id;
                   const panelId = `${mobileCategoriesId}-${category.id}`;
                   const hasChildren = category.children.length > 0;
@@ -413,9 +424,11 @@ export function Header() {
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
             </Link>
-            <Link href="/menu?category=cat-zone" className={navLinkClassName(pathname === "/menu")}>
-              {t("navCategoriesCats")}
-            </Link>
+            {primaryCategoryLinks.map((item) => (
+              <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>
+                {item.label}
+              </Link>
+            ))}
             {coreBrands.length > 0 ? (
               <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
                 <button type="button" className={`${navLinkClassName(desktopBrandOpen || coreBrands.some((brand) => pathname === brandHref(brand.slug)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} aria-controls="desktop-brand-menu" onPointerDown={(event) => { event.stopPropagation(); setDesktopBrandOpen((open) => !open); }} onFocus={() => setDesktopBrandOpen(true)}>
@@ -424,7 +437,7 @@ export function Header() {
                 {desktopBrandOpen ? <div id="desktop-brand-menu" role="menu" className="absolute left-[-0.65rem] top-full z-[70] min-w-52 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]"><div className="grid gap-1">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{brand.name}</Link>)}</div></div> : null}
               </div>
             ) : null}
-            {topLevelCategories.map((category) => {
+            {secondaryTopLevelCategories.map((category) => {
               const hasChildren = category.children.length > 0;
               const isOpen = desktopCategoryOpen === category.id;
               const panelId = `${desktopCategoriesId}-${category.id}`;

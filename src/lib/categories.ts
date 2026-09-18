@@ -36,6 +36,7 @@ export const CATEGORIES: Category[] = [
   { slug: "cats", labelKey: "categoryCats", icon: "cat" },
   { slug: "dogs", labelKey: "categoryDogs", icon: "dog" },
   { slug: "small-pets", labelKey: "categorySmallPets", icon: "bone" },
+  { slug: "supplies", labelKey: "categoryLifestyle", icon: "bag" },
   { slug: "lifestyle", labelKey: "categoryLifestyle", icon: "bag" },
   { slug: "snacks", labelKey: "categorySnacks", icon: "bone" },
   { slug: "toys", labelKey: "categoryToys", icon: "toy" },
@@ -51,8 +52,9 @@ const CATEGORY_SLUG_ALIASES: Record<string, string> = {
   cats: "cats",
   dog: "dogs",
   dogs: "dogs",
-  "pet-supplies": "lifestyle",
-  "pet-supply": "lifestyle",
+  supplies: "supplies",
+  "pet-supplies": "supplies",
+  "pet-supply": "supplies",
 };
 
 /** Convert legacy singular pet routes and database values to the canonical slugs. */

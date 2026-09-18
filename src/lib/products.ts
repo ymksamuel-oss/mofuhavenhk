@@ -522,7 +522,12 @@ export function getProductsByCategory(
   if (!canonicalSlug) return uniqueProducts;
   // Strict foreign-key filtering: a product appears in a category only when its
   // persisted category relation resolves to that slug. No fuzzy name/SKU matching.
-  return uniqueProducts.filter((product) => productCategorySlug(product) === canonicalSlug);
+  return uniqueProducts.filter((product) => {
+    const productSlug = productCategorySlug(product);
+    if (canonicalSlug === "supplies") return productSlug === "supplies" || productSlug === "lifestyle";
+    if (canonicalSlug === "lifestyle") return productSlug === "lifestyle" || productSlug === "supplies";
+    return productSlug === canonicalSlug;
+  });
 }
 
 export function getCatProductsBySubcategory(
@@ -644,7 +649,7 @@ export function resolveCategorySubSlug(
         : null)
     );
   }
-  if (categorySlug === "lifestyle") {
+  if (categorySlug === "lifestyle" || categorySlug === "supplies") {
     return (
       LIFESTYLE_SUBCATEGORY_BY_SLUG[subSlug] ??
       (LIFESTYLE_SUBCATEGORIES.includes(subSlug as LifestyleSubcategory)
