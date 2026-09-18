@@ -4,7 +4,6 @@ import Image from "next/image";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { HomeProductMarquee } from "@/components/home/HomeProductMarquee";
-import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function HomeInteractiveSections() {
@@ -60,17 +59,6 @@ export function HomeInteractiveSections() {
               <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
             </CategoryNavLink>
           </div>
-        </div>
-      </section>
-      <section className="bg-[color:var(--background)] px-6 py-11 sm:px-10 sm:py-16">
-        <div className="mx-auto max-w-6xl rounded-[1.8rem] border border-[color:var(--line)] bg-white px-5 py-7 sm:px-8">
-          <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] sm:text-3xl">
-            {t("productSearchHomeTitle")}
-          </h2>
-          <p className="mt-2 text-sm text-[color:var(--muted)] sm:text-base">
-            {t("productSearchHomeSub")}
-          </p>
-          <ProductSearch variant="home" className="mt-5 max-w-3xl" />
         </div>
       </section>
       <FAQAccordion />
