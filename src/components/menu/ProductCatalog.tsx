@@ -48,14 +48,25 @@ type ProductCatalogProps = {
 
 const INGREDIENT_FILTERS = [
   ["all", "全部", "All", "All"],
-  ["chicken", "純天然雞肉", "鶏 chicken", "Natural chicken"],
-  ["beef", "嚴選牛肉", "牛 cow", "Premium beef"],
+  ["chicken", "雞肉", "鶏 chicken", "Chicken"],
+  ["duck", "鴨肉", "鴨 duck", "Duck"],
+  ["beef", "牛肉", "牛 cow", "Beef"],
   ["pork", "豬肉", "豚 pig", "Pork"],
-  ["deer", "低敏鹿肉", "鹿 deer", "Venison"],
-  ["horse", "低敏馬肉", "馬 horse", "Horsemeat"],
-  ["sheep", "羊肉", "羊 sheep", "Sheep"],
-  ["seafood", "深海海鮮", "魚介 seafood", "Seafood"],
+  ["boar", "野豬肉", "猪 boar", "Boar"],
+  ["kangaroo", "袋鼠肉", "カンガルー kangaroo", "Kangaroo"],
+  ["deer", "鹿肉", "鹿 deer", "Venison"],
+  ["horse", "馬肉", "馬 horse", "Horse"],
+  ["sheep", "羊肉", "羊 sheep", "Lamb"],
+  ["roll", "肉類卷製", "巻き roll", "Roll"],
+  ["chips-jerky", "肉片・肉乾", "ちっぷすジャーキー", "Chips & jerky"],
+  ["seafood", "魚介海鮮", "魚介 seafood", "Seafood"],
   ["produce", "蔬菜・水果", "野菜・果物", "Vegetables & fruits"],
+  ["snacks", "零食", "おかし snacks", "Snacks"],
+  ["dairy", "乳製品", "乳製品 dairy", "Dairy"],
+  ["seasoning", "拌飯粉・撒料", "ふりかけ seasoning", "Seasoning"],
+  ["side-dish", "熟食配菜", "お惣菜 side dish", "Side dish"],
+  ["frozen", "冷凍食品", "冷凍 frozen", "Frozen"],
+  ["food", "主食・飯", "ごはん food", "Food"],
 ] as const;
 
 const AUDIENCE_FILTERS = [
@@ -70,7 +81,7 @@ function productFilterText(product: { name: { zh: string; en: string }; descript
 function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
   const text = productFilterText(product);
   return !/用品|胸背帶|牽引帶|項圈|玩具|貓砂|砂盆|尿墊|食器|餵食器|grooming|harness|leash|collar|toy|litter|pad|bowl|supply/i.test(text) &&
-    /食品|食物|小食|零食|乾糧|罐頭|凍乾|肉泥|肉片|肉乾|肉條|肉粒|鹿肉|紫薯|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
+    /supplier_category:(?:chicken|duck|beef|pork|boar|kangaroo|deer|horse|sheep|roll|chips-jerky|seafood|produce|snacks|dairy|seasoning|side-dish|frozen|food)|食品|食物|小食|零食|乾糧|罐頭|凍乾|肉泥|肉片|肉乾|肉條|肉粒|鹿肉|紫薯|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
 }
 
 function isSupplyProduct(product: Parameters<typeof productFilterText>[0]) {
@@ -81,6 +92,17 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
   if (!filter || filter === "all") return true;
   const text = productFilterText(product);
   const patterns: Record<string, RegExp> = {
+    food: /ごはん|乾糧|主食|飯|food|kibble|rice/i,
+    frozen: /冷凍|冷藏|frozen/i,
+    "side-dish": /お惣菜|熟食|side\s*dish|配菜/i,
+    seasoning: /ふりかけ|拌飯|拌糧|撒料|seasoning/i,
+    dairy: /乳製品|チーズ|cheese|奶|乳酪|dairy/i,
+    snacks: /おかし|おやつ|零食|小食|餅乾|snack/i,
+    "chips-jerky": /ちっぷす|チップ|ジャーキー|chips|jerky|肉乾|肉片/i,
+    roll: /巻き|卷|捲|roll/i,
+    kangaroo: /カンガルー|kangaroo|袋鼠/i,
+    duck: /鴨|鴨肉|duck|カモ/i,
+    boar: /猪|野豬|boar/i,
     seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/i,
     deer: /低敏鹿肉|鹿肉|鹿|ベニソン|venison|deer/i,
     horse: /低敏馬肉|馬肉|馬|horse/i,
