@@ -130,6 +130,13 @@ export function ProductCatalog({
     ? resolveCategorySubSlug(categorySlug || "", subcategory.trim().toLowerCase())
     : null;
   const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
+  const dedicatedCategoryFallback = categorySlug === "dogs"
+    ? catalogProducts.filter((product) => matchesAudience(product, "dog"))
+    : categorySlug === "cats"
+      ? catalogProducts.filter((product) => matchesAudience(product, "cat"))
+      : categorySlug === "supplies"
+        ? catalogProducts.filter(isSupplyProduct)
+        : [];
   // A category route must never fall back to the complete catalog. When the
   // child slug is recognised, match the resolved database subcategory exactly;
   // an unrecognised child route is deliberately empty rather than overbroad.
@@ -139,7 +146,7 @@ export function ProductCatalog({
       : selectedSubcategory
         ? productsInCategory.filter((product) => product.subcategory === selectedSubcategory)
       : []
-    : productsInCategory;
+    : productsInCategory.length > 0 ? productsInCategory : dedicatedCategoryFallback;
   const foodCategorySelected = productCategory === "treats";
   const suppliesCategorySelected = productCategory === "supplies";
   const ingredientEnabled = foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat");
@@ -185,11 +192,18 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = specialFilter === "cat-zone" ? (locale === "en" ? "For Cats" : "貓咪專區") : t("menuTitle");
+  const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
+  const title = categorySlug === "dogs"
+    ? (locale === "en" ? "For Dogs" : "狗狗專區")
+    : categorySlug === "cats" || specialFilter === "cat-zone"
+      ? (locale === "en" ? "For Cats" : "貓咪專區")
+      : categorySlug === "supplies"
+        ? (locale === "en" ? "Pet Supplies" : "寵物用品")
+        : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
-      <h1 className="sr-only">{title}</h1>
-      <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
+      <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage ? "mb-6" : "sr-only"}`}>{title}</h1>
+      {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
           const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;
           const active = audienceFilter === slug;
@@ -197,8 +211,8 @@ export function ProductCatalog({
             {locale === "en" ? en : locale === "zh" ? zh : ja}
           </CategoryNavLink>;
         })}
-      </nav>
-      <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
+      </nav> : null}
+      {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
         {["treats", "supplies"].map((slug) => {
           const active = productCategory === slug;
           const href = `/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`;
@@ -206,8 +220,8 @@ export function ProductCatalog({
             {locale === "en" ? (slug === "treats" ? "Natural meat treats" : "Outdoors & daily supplies") : (slug === "treats" ? "天然肉食小食" : "外出及日常用品")}
           </CategoryNavLink>;
         })}
-      </nav>
-      {ingredientEnabled ? <div className="relative mb-5">
+      </nav> : null}
+      {!isDedicatedCategoryPage && ingredientEnabled ? <div className="relative mb-5">
         <nav aria-label={locale === "en" ? "Ingredient filters" : "肉源分類篩選"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
             const active = (ingredientFilter ?? "all") === slug;
