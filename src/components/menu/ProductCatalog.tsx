@@ -73,17 +73,22 @@ function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
     /食品|食物|小食|零食|乾糧|罐頭|凍乾|肉泥|肉片|肉乾|肉條|肉粒|鹿肉|紫薯|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
 }
 
+function isSupplyProduct(product: Parameters<typeof productFilterText>[0]) {
+  return /supplies|用品|collar|harness|leash|lead|胸背帶|胸背|項圈|頸圈|牽引繩|牽引帶|散步|日常用品/i.test(productFilterText(product));
+}
+
 function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter || filter === "all") return true;
   const text = productFilterText(product);
   const patterns: Record<string, RegExp> = {
-    seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/,
-    deer: /低敏鹿肉|鹿肉|鹿|venison|deer/,
-    horse: /低敏馬肉|馬肉|馬|horse/,
-    chicken: /純天然雞肉|雞肉|鶏|ささみ|chicken/,
-    beef: /嚴選牛肉|牛肉|牛|beef/,
-    pork: /豬肉|豚|ポーク|pork/,
-    produce: /蔬菜|水果|野菜|フルーツ|vegetable|fruit|produce/,
+    seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/i,
+    deer: /低敏鹿肉|鹿肉|鹿|ベニソン|venison|deer/i,
+    horse: /低敏馬肉|馬肉|馬|horse/i,
+    chicken: /純天然雞肉|雞胸肉|雞肉|鶏|チキン|ささみ|chicken/i,
+    beef: /嚴選牛肉|牛肉|牛|ビーフ|beef/i,
+    pork: /豬肉|豚|ポーク|pork/i,
+    sheep: /羊肉|羊|ラム|sheep|lamb/i,
+    produce: /蔬菜|水果|野菜|フルーツ|果物|vegetable|fruit|produce/i,
   };
   return patterns[filter]?.test(text) ?? false;
 }
@@ -91,9 +96,9 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
 function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter) return true;
   const text = productFilterText(product);
-  if (filter === "cat") return /貓專用|猫用|貓用|for cats|cat-only/.test(text);
-  if (filter === "dog") return /狗專用|犬用|for dogs|dog-only|寵物用品/.test(text);
-  return !/貓專用|猫用|貓用|狗專用|犬用|狗具|for cats|for dogs|cat-only|dog-only/.test(text);
+  if (filter === "cat") return /貓專用|猫用|貓用|貓貓|for cats?|cat[-_ ]?only/i.test(text);
+  if (filter === "dog") return /狗專用|狗狗|犬用|犬|狗具|for dogs?|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  return !/貓專用|猫用|貓用|貓貓|狗專用|狗狗|犬用|狗具|for cats?|for dogs?|cat[-_ ]?(?:only|treat|food|snack|product)|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
 }
 
 function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
@@ -140,11 +145,26 @@ export function ProductCatalog({
   const ingredientEnabled = foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat");
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
-    (!suppliesCategorySelected || !isFoodProduct(product)) &&
+    (!suppliesCategorySelected || isSupplyProduct(product)) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
     (!ingredientEnabled || matchesIngredient(product, ingredientFilter)) &&
     matchesAudience(product, audienceFilter),
   ).sort((left, right) => categorySlug === "dogs" ? Number(isFoodProduct(right)) - Number(isFoodProduct(left)) : 0);
+
+  useEffect(() => {
+    console.log("[catalog-filter]", {
+      audience: audienceFilter ?? "all",
+      category: productCategory ?? "all",
+      ingredient: ingredientFilter ?? "all",
+      sourceCount: productsByRoute.length,
+      matchedCount: products.length,
+      matchedProducts: products.slice(0, 20).map((product) => ({
+        id: product.id,
+        name: product.name,
+        tags: product.tags,
+      })),
+    });
+  }, [audienceFilter, ingredientFilter, productCategory, products.length, productsByRoute.length]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
