@@ -13,6 +13,21 @@ const PAGE_SIZE = 20;
 function isProductTab(tab: Tab) { return tab === "products" || tab === "draft_products"; }
 const MAX_PRODUCT_IMAGES = 8;
 const BANNER_SLOT_COUNT = 4;
+const DEFAULT_JPY_TO_HKD = 0.052;
+const DEFAULT_SHIPPING_HKD = 8;
+const DEFAULT_MARKUP_MULTIPLIER = 2.2;
+
+function pricingPreview(costJpy: unknown, shippingHkd: unknown, markupMultiplier: unknown, exchangeRate: unknown, price: unknown) {
+  const jpy = Number(costJpy) || 0;
+  const shipping = Number(shippingHkd) || 0;
+  const multiplier = Number(markupMultiplier) || DEFAULT_MARKUP_MULTIPLIER;
+  const rate = Number(exchangeRate) || DEFAULT_JPY_TO_HKD;
+  const costHkd = jpy * rate + shipping;
+  const suggestedPrice = Math.round(costHkd * multiplier);
+  const retailPrice = Number(price) || 0;
+  const margin = (sellPrice: number) => sellPrice > 0 ? ((sellPrice - costHkd) / sellPrice) * 100 : 0;
+  return { costHkd, suggestedPrice, retailPrice, margin };
+}
 
 type FeaturedPetSlot = {
   image_url: string;
@@ -116,7 +131,7 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_price_rmb: "", price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", brand_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_jpy: 0, shipping_hkd: DEFAULT_SHIPPING_HKD, markup_multiplier: DEFAULT_MARKUP_MULTIPLIER, exchange_rate: DEFAULT_JPY_TO_HKD, price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", brand_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "brands") return { name: "", slug: "", logo_url: "", description: "", sort_order: 0, is_active: true };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
@@ -792,14 +807,14 @@ export default function AdminPage() {
                             <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
                           </div>
                           <div className="grid gap-3 sm:grid-cols-3">
-                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="0.01" value={quickEditDraft.cost_price_rmb} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_price_rmb: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 2500" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="1" value={quickEditDraft.cost_jpy ?? ""} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_jpy: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="手動輸入" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">原價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="可選" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
                             <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
                           </div>
                           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#fffaf4] px-3 py-2 text-xs text-[#806b5d]">
-                            <span>成本價與港幣零售價獨立儲存，不會自動換算。</span>
+                            <span>成本資料僅限 Admin；完整編輯可進行匯率、運費、倍率及毛利試算。</span>
                             {quickEditError && <span className="text-red-600">{quickEditError}</span>}
                           </div>
                           <div className="mt-3 flex justify-end"><button type="button" onClick={saveQuickEdit} disabled={quickEditSaving} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{quickEditSaving ? "儲存中…" : "即時儲存"}</button></div>
@@ -889,6 +904,8 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
   }
 
   const productImages = parseImageUrls(form.images);
+  const preview = pricingPreview(form.cost_jpy, form.shipping_hkd, form.markup_multiplier, form.exchange_rate, form.price);
+  const setNumeric = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [key]: event.target.value === "" ? "" : Number(event.target.value) });
 
   const field = (key: string, label: string, type = "text") => (
     <label className="block text-sm">
@@ -904,12 +921,23 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
         {isProductTab(tab) && <>
           {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
-          {field("cost_price_rmb", "成本價（JPY，可選；僅作記錄）", "number")}
-          <div className="rounded-lg border border-[#eaded5] bg-[#fffaf4] px-3 py-2 text-sm">
-            <span className="block font-medium">手動定價</span>
-            <span className="mt-1 block text-xs leading-5 text-[#8b7c70]">成本價與港幣零售價分開儲存；請直接輸入售價及原價，系統不會再套用人民幣匯率或 1.88 倍率。</span>
+          <div className="md:col-span-2 rounded-2xl border border-[#d9c4b3] bg-[#fffaf4] p-4">
+            <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+              <div><h3 className="font-semibold text-[#2f4a3c]">定價與成本試算</h3><p className="mt-1 text-xs text-[#8b7c70]">只限 Admin 查看；成本會存放於受保護設定，不會進入公開商品 API。</p></div>
+              <span className="rounded-full bg-[#f0e3d6] px-2.5 py-1 text-xs font-medium text-[#805536]">JPY → HKD</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <label className="text-sm"><span className="mb-1 block font-medium">來貨成本（JPY）</span><input type="number" min="0" step="1" value={form.cost_jpy ?? ""} onChange={setNumeric("cost_jpy")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">平攤運費（HKD）</span><input type="number" min="0" step="0.01" value={form.shipping_hkd ?? DEFAULT_SHIPPING_HKD} onChange={setNumeric("shipping_hkd")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">定價倍率</span><input type="number" min="0.1" step="0.1" value={form.markup_multiplier ?? DEFAULT_MARKUP_MULTIPLIER} onChange={setNumeric("markup_multiplier")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">JPY/HKD 匯率</span><input type="number" min="0.0001" step="0.0001" value={form.exchange_rate ?? DEFAULT_JPY_TO_HKD} onChange={setNumeric("exchange_rate")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+            </div>
+            <div className="mt-3 grid gap-2 text-sm sm:grid-cols-3"><div className="rounded-lg bg-white px-3 py-2">成本港幣：<strong>HK${preview.costHkd.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">建議零售價：<strong>HK${preview.suggestedPrice.toFixed(0)}</strong></div><button type="button" onClick={() => setForm({ ...form, price: preview.suggestedPrice })} className="rounded-lg bg-[#2f4a3c] px-3 py-2 font-semibold text-white transition hover:bg-[#22372d]">一鍵套用建議售價</button></div>
           </div>
-          {field("price", "售價（HKD，手動輸入）", "number")}
+          <div className="md:col-span-2 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
+            <label className="block text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={form.price ?? ""} onChange={setNumeric("price")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+            <div className="rounded-xl border border-[#eaded5] bg-[#fffaf4] p-3 text-xs"><p className="mb-2 font-semibold text-[#2f4a3c]">折扣毛利試算</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4"><span>單件<br /><strong>{preview.margin(preview.retailPrice).toFixed(1)}%</strong></span><span>4件 95折<br /><strong>{preview.margin(preview.retailPrice * .95).toFixed(1)}%</strong></span><span>8件 9折<br /><strong>{preview.margin(preview.retailPrice * .9).toFixed(1)}%</strong></span><span className={preview.margin(preview.retailPrice * .85) < 30 ? "font-bold text-red-600" : ""}>12件 85折<br /><strong>{preview.margin(preview.retailPrice * .85).toFixed(1)}%</strong></span></div>{preview.margin(preview.retailPrice * .85) < 30 ? <p className="mt-2 font-semibold text-red-600">折後利潤過低</p> : null}</div>
+          </div>
           {field("original_price", "原價", "number")}
           {field("stock", "庫存", "number")}
           <div className="md:col-span-2">

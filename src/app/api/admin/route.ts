@@ -17,9 +17,50 @@ import {
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
+const PRODUCT_COSTS_SETTING_KEY = "admin_product_costs";
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 4;
 const PRODUCT_PUBLISH_FIELDS = ["中文品名", "英文品名", "中文詳細敘述", "英文詳細敘述", "有效售價", "庫存（需大於 0）", "圖片 URL"];
+
+type ProductCost = { cost_jpy: number; shipping_hkd: number; markup_multiplier: number; exchange_rate: number };
+
+function parseProductCosts(value: unknown): Record<string, ProductCost> {
+  try {
+    const parsed = typeof value === "string" ? JSON.parse(value) : value;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).flatMap(([id, raw]) => {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return [];
+      const item = raw as Record<string, unknown>;
+      const cost_jpy = Number(item.cost_jpy);
+      const shipping_hkd = Number(item.shipping_hkd);
+      const markup_multiplier = Number(item.markup_multiplier);
+      const exchange_rate = Number(item.exchange_rate);
+      if (![cost_jpy, shipping_hkd, markup_multiplier, exchange_rate].every(Number.isFinite)) return [];
+      return [[id, { cost_jpy, shipping_hkd, markup_multiplier, exchange_rate } satisfies ProductCost]];
+    }));
+  } catch { return {}; }
+}
+
+function normalizeProductCost(row: Record<string, unknown>): ProductCost | null {
+  const values = {
+    cost_jpy: Number(row.cost_jpy ?? 0),
+    shipping_hkd: Number(row.shipping_hkd ?? 8),
+    markup_multiplier: Number(row.markup_multiplier ?? 2.2),
+    exchange_rate: Number(row.exchange_rate ?? 0.052),
+  };
+  return Object.values(values).every(Number.isFinite) && values.cost_jpy >= 0 && values.shipping_hkd >= 0 && values.markup_multiplier > 0 && values.exchange_rate > 0 ? values : null;
+}
+
+async function upsertProductCost(supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>, id: string, row: Record<string, unknown>) {
+  const { data: existing, error: readError } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
+  if (readError) return { error: readError };
+  const costs = parseProductCosts(existing?.value);
+  const cost = normalizeProductCost(row);
+  if (cost) costs[id] = cost;
+  else delete costs[id];
+  const { error } = await supabase.from("store_settings").upsert({ key: PRODUCT_COSTS_SETTING_KEY, value: JSON.stringify(costs), updated_at: new Date().toISOString() }, { onConflict: "key" });
+  return { error };
+}
 
 type FeaturedPetPayload = {
   image_url: string;
@@ -322,6 +363,9 @@ export async function GET(request: Request) {
       const fallbackImages = stripeImages.get(String(row.source_product_id || "")) || [];
       return fallbackImages.length > 0 ? { ...row, images: fallbackImages } : row;
     });
+    const { data: costSetting } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
+    const costs = parseProductCosts(costSetting?.value);
+    rows = rows.map((row) => ({ ...row, ...(costs[String(row.id)] || {}) }));
   }
 
   if (table === "brands") {
@@ -367,6 +411,14 @@ export async function POST(request: Request) {
   const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
   if (table === "banners") return NextResponse.json({ error: "請使用四格 Banner 批量儲存功能。" }, { status: 400 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
+  const productCost = table === "products" ? normalizeProductCost(payload) : null;
+  if (table === "products") {
+    delete payload.cost_jpy;
+    delete payload.shipping_hkd;
+    delete payload.markup_multiplier;
+    delete payload.exchange_rate;
+    delete payload.cost_price_rmb;
+  }
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
@@ -388,6 +440,10 @@ export async function POST(request: Request) {
     const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
   }
+  if (table === "products") {
+    const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
+    if (costError) return NextResponse.json({ error: `成本資料儲存失敗：${costError.message}` }, { status: 500 });
+  }
 
   return NextResponse.json({ data });
 }
@@ -398,6 +454,14 @@ export async function PATCH(request: Request) {
   if (!tables.has(table) || (!id && !(table === "store_settings" && key))) return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const payload = { ...(body.row || {}), ...(table === "store_settings" ? { updated_at: new Date().toISOString() } : {}) }; delete payload.id; delete payload.created_at;
+  const productCost = table === "products" ? normalizeProductCost(payload) : null;
+  if (table === "products") {
+    delete payload.cost_jpy;
+    delete payload.shipping_hkd;
+    delete payload.markup_multiplier;
+    delete payload.exchange_rate;
+    delete payload.cost_price_rmb;
+  }
   const categoryLocalization = table === "categories" ? normalizeCategoryLocalization(payload) : null;
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
@@ -420,6 +484,10 @@ export async function PATCH(request: Request) {
     const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
   }
+  if (table === "products") {
+    const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
+    if (costError) return NextResponse.json({ error: `成本資料儲存失敗：${costError.message}` }, { status: 500 });
+  }
   return NextResponse.json({ data });
 }
 
@@ -434,5 +502,13 @@ export async function DELETE(request: Request) {
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (!data || data.length === 0) return NextResponse.json({ error: "not_found_or_not_deleted" }, { status: 404 });
+  if (table === "products") {
+    const { data: costSetting } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
+    const costs = parseProductCosts(costSetting?.value);
+    if (costs[id]) {
+      delete costs[id];
+      await supabase.from("store_settings").upsert({ key: PRODUCT_COSTS_SETTING_KEY, value: JSON.stringify(costs), updated_at: new Date().toISOString() }, { onConflict: "key" });
+    }
+  }
   return NextResponse.json({ ok: true, deleted: data.length });
 }
