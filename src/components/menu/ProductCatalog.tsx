@@ -288,7 +288,7 @@ export function ProductCatalog({
         </div>
       ) : (
         <>
-          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-5">
+          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {visibleProducts.map((product, index) => {
               const href = productHref(product.id);
               // The URL is resolved inside this map iteration from the
@@ -305,7 +305,7 @@ export function ProductCatalog({
                         src={imageUrl}
                         alt={localizedName}
                         priority={index < 4}
-                        sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                        sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
                         className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       />
                     </div>
