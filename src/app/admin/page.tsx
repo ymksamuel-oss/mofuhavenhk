@@ -227,6 +227,13 @@ function getPageNumbers(current: number, total: number): (number | "ellipsis")[]
   return result;
 }
 
+const ORDER_STATUSES = [["pending", "待處理"], ["processing", "備貨中"], ["shipped", "已寄出"], ["completed", "已完成"], ["cancelled", "已取消"]] as const;
+function parseJsonValue(value: unknown): any { if (typeof value !== "string") return value || {}; try { return JSON.parse(value); } catch { return {}; } }
+function orderCustomer(value: unknown): Record<string, any> { const parsed = parseJsonValue(value); return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {}; }
+function orderItems(value: unknown): any[] { const parsed = parseJsonValue(value); return Array.isArray(parsed) ? parsed : []; }
+function orderDate(value: unknown): string { if (!value) return "—"; const date = new Date(String(value)); if (Number.isNaN(date.getTime())) return String(value); return new Intl.DateTimeFormat("zh-HK", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(date).replaceAll("/", "-"); }
+function orderMoney(value: unknown): string { return `HK$${(Number(value) || 0).toFixed(2)}`; }
+
 export default function AdminPage() {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("products");
@@ -774,6 +781,7 @@ export default function AdminPage() {
             <>
               <div className="space-y-3">
                 {visibleRows.map((row) => {
+                  if (tab === "orders") return <OrderCard key={row.id || row.key} order={row} onSaved={(next) => setRows((current) => current.map((item) => String(item.id) === String(row.id) ? { ...item, ...next } : item))} />;
                   const thumbnailUrl = isProductTab(tab) ? getProductImageUrls(row)[0] : undefined;
                   return (
                     <div key={row.id || row.key} className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
@@ -841,6 +849,8 @@ export default function AdminPage() {
                             </div>
                           ) : tab === "banners" ? (
                             <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">請於上方四格管理</span>
+                          ) : tab === "orders" ? (
+                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">可直接於卡片操作</span>
                           ) : (
                             <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
                           )}
@@ -934,6 +944,38 @@ function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) =>
     return () => { active = false; cancelAnimationFrame(frame); stream?.getTracks().forEach((track) => track.stop()); };
   }, [onDetected]);
   return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#fff4ed] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
+}
+
+function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => void }) {
+  const customer = orderCustomer(order.customer_info);
+  const items = orderItems(order.items);
+  const [status, setStatus] = useState(String(order.status || "pending"));
+  const [tracking, setTracking] = useState(String(order.tracking_number || customer._admin_tracking_number || ""));
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState("");
+  const [copied, setCopied] = useState(false);
+  const total = Number(order.total ?? order.total_hkd ?? 0) || 0;
+  const shipping = Number(order.shipping ?? order.shipping_hkd ?? 0) || 0;
+  const name = String(customer.name || customer.customerName || "未提供姓名");
+  const phone = String(customer.phone || customer.phoneNumber || "未提供電話");
+  const address = [customer.district, customer.address, customer.addressLine2, customer.sfStationCode ? `順豐站／智能櫃：${customer.sfStationCode}` : ""].filter(Boolean).join("，");
+  const statusLabel = ORDER_STATUSES.find(([key]) => key === status)?.[1] || status;
+  const saveOrder = async (patch: Row) => {
+    if (!order.id) return;
+    setSaving(true); setNotice("");
+    try { const result = await call("PATCH", { table: "orders", id: order.id, row: patch }); onSaved({ ...patch, ...(result.data || {}) }); }
+    catch (error: any) { setNotice(error.message || "訂單更新失敗"); }
+    finally { setSaving(false); }
+  };
+  const copyDelivery = async () => {
+    try { await navigator.clipboard.writeText([name, phone, address || "未提供地址"].join("\n")); setCopied(true); window.setTimeout(() => setCopied(false), 1800); }
+    catch { setNotice("無法存取剪貼簿，請手動選取文字複製。"); }
+  };
+  return <article className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md md:p-5">
+    <header className="flex flex-col gap-3 border-b border-[#eaded5] pb-4 sm:flex-row sm:items-start sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h3 className="text-lg font-semibold">訂單 {order.order_number || order.orderNumber || String(order.id || "").slice(0, 8)}</h3><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status === "cancelled" ? "bg-red-50 text-red-700" : status === "completed" ? "bg-emerald-50 text-emerald-700" : status === "shipped" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>{statusLabel}</span></div><p className="mt-1 text-sm text-[#8b7c70]">{orderDate(order.created_at || order.createdAt)}</p></div><div className="text-left sm:text-right"><p className="text-xs text-[#8b7c70]">訂單總額</p><p className="text-2xl font-bold text-[#2f4a3c]">{orderMoney(total)}</p></div></header>
+    <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]"><section className="rounded-xl bg-[#fffaf4] p-4"><div className="mb-3 flex items-center justify-between gap-2"><h4 className="font-semibold text-[#2f4a3c]">出貨資料</h4><button type="button" onClick={copyDelivery} className="rounded-lg border border-[#cdb9a8] px-2.5 py-1.5 text-xs font-medium text-[#805536] hover:bg-white">{copied ? "已複製" : "複製送貨資料"}</button></div><dl className="space-y-2 text-sm"><div><dt className="text-xs text-[#8b7c70]">顧客姓名</dt><dd className="font-medium">{name}</dd></div><div><dt className="text-xs text-[#8b7c70]">聯絡電話</dt><dd>{phone}</dd></div><div><dt className="text-xs text-[#8b7c70]">配送地址</dt><dd className="leading-6">{address || "未提供地址"}</dd></div></dl></section><section><h4 className="mb-2 font-semibold text-[#2f4a3c]">揀貨清單</h4><div className="overflow-x-auto rounded-xl border border-[#eaded5]"><table className="w-full min-w-[420px] text-sm"><thead className="bg-[#fffaf4] text-left text-xs text-[#8b7c70]"><tr><th className="px-3 py-2">商品</th><th className="px-3 py-2 text-center">數量</th><th className="px-3 py-2 text-right">單價</th><th className="px-3 py-2 text-right">小計</th></tr></thead><tbody className="divide-y divide-[#eaded5]">{items.map((item, index) => { const itemName = typeof item.name === "object" ? item.name?.zh || item.name?.en || item.name?.ja : item.name || item.title || "未命名商品"; const qty = Number(item.qty ?? item.quantity ?? 1) || 1; const price = Number(item.price ?? item.unit_price ?? 0) || 0; return <tr key={`${item.id || itemName}-${index}`}><td className="px-3 py-2.5">{itemName}</td><td className="px-3 py-2.5 text-center font-bold text-[#2f4a3c]">x {qty}</td><td className="px-3 py-2.5 text-right">{orderMoney(price)}</td><td className="px-3 py-2.5 text-right font-medium">{orderMoney(price * qty)}</td></tr>; })}</tbody></table></div><div className="mt-3 ml-auto max-w-xs space-y-1 text-sm"><div className="flex justify-between text-[#8b7c70]"><span>運費</span><span>{orderMoney(shipping)}</span></div><div className="flex justify-between border-t border-[#eaded5] pt-2 text-base font-bold"><span>訂單總額</span><span className="text-[#2f4a3c]">{orderMoney(total)}</span></div></div></section></div>
+    <footer className="mt-4 flex flex-col gap-3 border-t border-[#eaded5] pt-4 sm:flex-row sm:items-end sm:justify-between"><div className="grid w-full gap-3 sm:max-w-xl sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">訂單狀態</span><select value={status} onChange={(event) => { const next = event.target.value; setStatus(next); void saveOrder({ status: next }); }} disabled={saving} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="pending">待處理</option><option value="processing">備貨中</option><option value="shipped">已寄出</option><option value="completed">已完成</option><option value="cancelled">已取消</option></select></label><label className="text-sm"><span className="mb-1 block font-medium">順豐運單編號</span><div className="flex gap-2"><input value={tracking} onChange={(event) => setTracking(event.target.value)} placeholder="輸入 Waybill No." className="min-w-0 flex-1 rounded-lg border border-[#ded5cc] px-3 py-2" /><button type="button" onClick={() => void saveOrder({ customer_info: JSON.stringify({ ...customer, _admin_tracking_number: tracking.trim() }) })} disabled={saving} className="rounded-lg bg-[#2f4a3c] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">儲存</button></div></label></div>{notice && <span className="text-sm text-red-600">{notice}</span>}</footer>
+  </article>;
 }
 
 function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { tab: Tab; form: Row; setForm: (r: Row) => void; categories: Row[]; brands: Row[]; onSave: () => void; onCancel: () => void }) {
@@ -1084,7 +1126,7 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
         {tab === "banners" && <>{field("image_url", "桌面版圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳桌面版 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("mobile_image_url", "手機版圖片 URL（選填）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳手機版 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">建議直向構圖（約 4:5）；留空時手機會沿用桌面版圖片。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing === true} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（勾選後才會清除舊 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
         {tab === "store_settings" && <>{field("key", "設定 Key")}{field("value", "設定值（Secret Key 儲存後會遮罩）")}</>}
-        {tab === "orders" && <p className="text-sm">顧客資料：{JSON.stringify(form.customer_info || {})}<br />商品：{JSON.stringify(form.items || [])}<br />狀態：{form.status}</p>}
+        {tab === "orders" && <p className="rounded-xl bg-[#fffaf4] p-4 text-sm text-[#806b5d]">訂單已改用結構化出貨卡片，請直接在訂單卡片內更新狀態、揀貨及順豐運單。</p>}
       </div>
       <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">儲存</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#f6f2eb]">取消</button></div>
     </section>
