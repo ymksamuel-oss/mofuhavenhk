@@ -1,9 +1,9 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } from "lucide-react";
+import { Camera, ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } from "lucide-react";
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 
 type Row = Record<string, any>;
@@ -254,6 +254,11 @@ export default function AdminPage() {
   const [quickEditError, setQuickEditError] = useState<string | null>(null);
   const [csvBusy, setCsvBusy] = useState(false);
   const [csvNotice, setCsvNotice] = useState("");
+  const [scannerOpen, setScannerOpen] = useState(false);
+  const [barcodeProduct, setBarcodeProduct] = useState<Row | null>(null);
+  const [barcodeDraft, setBarcodeDraft] = useState<Row | null>(null);
+  const [barcodeSaving, setBarcodeSaving] = useState(false);
+  const [barcodeNotice, setBarcodeNotice] = useState("");
 
   const load = async (selected = tab) => {
     setLoading(true);
@@ -571,7 +576,10 @@ export default function AdminPage() {
     setOpenQuickEditProductId(productId);
     setQuickEditDraft({
       id: row.id,
-      cost_price_rmb: row.cost_price_rmb ?? "",
+      cost_jpy: row.cost_jpy ?? "",
+      shipping_hkd: row.shipping_hkd ?? DEFAULT_SHIPPING_HKD,
+      markup_multiplier: row.markup_multiplier ?? DEFAULT_MARKUP_MULTIPLIER,
+      exchange_rate: row.exchange_rate ?? DEFAULT_JPY_TO_HKD,
       price: row.price ?? "",
       original_price: row.original_price ?? "",
       stock: row.stock ?? 0,
@@ -592,7 +600,10 @@ export default function AdminPage() {
         table: "products",
         id: quickEditDraft.id,
         row: {
-          cost_price_rmb: quickEditDraft.cost_price_rmb === "" ? null : Number(quickEditDraft.cost_price_rmb),
+          cost_jpy: quickEditDraft.cost_jpy === "" ? 0 : Number(quickEditDraft.cost_jpy),
+          shipping_hkd: Number(quickEditDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
+          markup_multiplier: Number(quickEditDraft.markup_multiplier) || DEFAULT_MARKUP_MULTIPLIER,
+          exchange_rate: Number(quickEditDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
           price: Number(quickEditDraft.price) || 0,
           original_price: quickEditDraft.original_price === "" ? null : Number(quickEditDraft.original_price),
           current_hkd: Number(quickEditDraft.price) || 0,
@@ -612,6 +623,43 @@ export default function AdminPage() {
       setQuickEditError(e.message || "快速儲存失敗");
     } finally {
       setQuickEditSaving(false);
+    }
+  }
+
+  async function handleBarcode(code: string) {
+    const normalized = code.trim();
+    if (!normalized) return;
+    let match = rows.find((row) => [row.barcode, row.mofu_sku, row.sku, row.store_sku, row.id].some((value) => String(value || "").trim() === normalized));
+    if (!match) {
+      try {
+        const result = await call("GET", undefined, "products");
+        match = (result.data || []).find((row: Row) => [row.barcode, row.mofu_sku, row.sku, row.store_sku, row.id].some((value) => String(value || "").trim() === normalized));
+      } catch { /* Keep new-product flow available when lookup fails. */ }
+    }
+    setScannerOpen(false);
+    setBarcodeNotice("");
+    if (match) {
+      setBarcodeProduct(match);
+      setBarcodeDraft({ ...match, stock: Number(match.stock) || 0, price: Number(match.price) || 0 });
+      return;
+    }
+    setTab("products");
+    setForm({ ...defaultRow("products"), mofu_sku: normalized });
+  }
+
+  async function saveBarcodeProduct() {
+    if (!barcodeDraft?.id) return;
+    setBarcodeSaving(true);
+    setBarcodeNotice("");
+    try {
+      const result = await call("PATCH", { table: "products", id: barcodeDraft.id, row: { stock: Math.max(0, Math.trunc(Number(barcodeDraft.stock) || 0)), price: Number(barcodeDraft.price) || 0, current_hkd: Number(barcodeDraft.price) || 0 } });
+      setRows((current) => current.map((row) => String(row.id) === String(barcodeDraft.id) ? { ...row, ...(result.data || {}), stock: barcodeDraft.stock, price: barcodeDraft.price } : row));
+      setBarcodeProduct(null);
+      setBarcodeDraft(null);
+    } catch (e: any) {
+      setBarcodeNotice(e.message || "條碼產品儲存失敗");
+    } finally {
+      setBarcodeSaving(false);
     }
   }
 
@@ -661,6 +709,7 @@ export default function AdminPage() {
                   <input
                     value={productQuery}
                     onChange={(event) => setProductQuery(event.target.value)}
+                    onKeyDown={(event) => { if (event.key === "Enter" && /^\d{8,14}$/.test(productQuery.trim())) { event.preventDefault(); void handleBarcode(productQuery); } }}
                     placeholder="搜尋產品名稱、關鍵字、SKU 或產品 ID…"
                     className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] py-3 pl-10 pr-10 text-sm outline-none transition focus:border-[#a36b42] focus:ring-2 focus:ring-[#a36b42]/10"
                   />
@@ -683,6 +732,7 @@ export default function AdminPage() {
                 </label>
               </div>
               <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#eaded5] pt-4">
+                <button type="button" onClick={() => setScannerOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#2f4a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d]"><Camera className="h-4 w-4" />掃碼收貨／查貨</button>
                 <button type="button" onClick={exportProductsCsv} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />匯出 CSV</button>
                 <button type="button" onClick={exportProductsExcel} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />下載 Excel</button>
                 <label className={`inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#a36b42] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#8f5b37] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={importProductsCsv} disabled={csvBusy} /></label>
@@ -837,8 +887,53 @@ export default function AdminPage() {
           ))}
         </main>
       </div>
+      {scannerOpen && <BarcodeScanner onDetected={handleBarcode} onClose={() => setScannerOpen(false)} />}
+      {barcodeProduct && barcodeDraft && (
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/45 p-3 sm:items-center">
+          <section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-product-title">
+            <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#a36b42]">條碼匹配成功</p><h2 id="barcode-product-title" className="mt-1 text-xl font-semibold">{barcodeProduct.name || "產品"}</h2><p className="mt-1 text-xs text-[#8b7c70]">JAN／店內貨號：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p></div><button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div>
+            <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-xl bg-[#fffaf4] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div><div className="rounded-xl bg-[#fffaf4] p-3 text-sm">日元來貨價<strong className="mt-1 block text-2xl text-[#805536]">¥{barcodeProduct.cost_jpy ?? "—"}</strong></div></div>
+            <div className="mt-4 grid grid-cols-2 gap-3"><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 10 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+10 入庫</button><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 20 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+20 入庫</button></div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">調整後庫存</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label><label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label></div>
+            {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "儲存中…" : "儲存庫存／售價"}</button>
+          </section>
+        </div>
+      )}
     </div>
   );
+}
+
+type BarcodeDetectorLike = new (options?: { formats?: string[] }) => { detect: (video: HTMLVideoElement) => Promise<Array<{ rawValue?: string }>> };
+
+function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) => void; onClose: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [scannerError, setScannerError] = useState("");
+  const [manualCode, setManualCode] = useState("");
+  useEffect(() => {
+    let active = true;
+    let stream: MediaStream | null = null;
+    let frame = 0;
+    async function start() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+        if (!videoRef.current) return;
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+        const Detector = (window as Window & { BarcodeDetector?: BarcodeDetectorLike }).BarcodeDetector;
+        if (!Detector) { setScannerError("此瀏覽器未支援原生條碼辨識，請使用下方手動輸入或掃碼槍。"); return; }
+        const detector = new Detector({ formats: ["ean_13", "code_128"] });
+        const scan = async () => {
+          if (!active || !videoRef.current) return;
+          try { const results = await detector.detect(videoRef.current); const code = results[0]?.rawValue?.trim(); if (code) { active = false; onDetected(code); return; } } catch { /* Camera frame not ready yet. */ }
+          frame = requestAnimationFrame(scan);
+        };
+        frame = requestAnimationFrame(scan);
+      } catch (error) { setScannerError(error instanceof DOMException && error.name === "NotAllowedError" ? "請允許瀏覽器使用相機，或改用下方手動輸入。" : "無法開啟後置鏡頭，請改用手動輸入或掃碼槍。"); }
+    }
+    void start();
+    return () => { active = false; cancelAnimationFrame(frame); stream?.getTracks().forEach((track) => track.stop()); };
+  }, [onDetected]);
+  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#fff4ed] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
 }
 
 function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { tab: Tab; form: Row; setForm: (r: Row) => void; categories: Row[]; brands: Row[]; onSave: () => void; onCancel: () => void }) {
