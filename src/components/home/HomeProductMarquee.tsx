@@ -16,6 +16,28 @@ type ProductRowProps = {
   speed: "regular" | "slow";
 };
 
+function productAudienceText(product: Product) {
+  return [
+    product.categorySlug,
+    product.name.zh,
+    product.name.en,
+    product.description?.zh,
+    product.description?.en,
+    ...(product.tags ?? []),
+    ...Object.values(product.metadata ?? {}),
+  ].filter(Boolean).join(" ").toLowerCase();
+}
+
+function isCatMarqueeProduct(product: Product) {
+  const text = productAudienceText(product);
+  return product.categorySlug === "cats" || /貓|猫|cat|ねこ|ネコ/.test(text);
+}
+
+function isDogMarqueeProduct(product: Product) {
+  const text = productAudienceText(product);
+  return !/貓|猫|cat|ねこ|ネコ/.test(text) && (product.categorySlug === "dogs" || /狗|犬|dog/.test(text));
+}
+
 function ProductRow({ label, products, speed }: ProductRowProps) {
   const { locale, t } = useI18n();
   const repeatedProducts = [...products, ...products];
@@ -88,13 +110,13 @@ export function HomeProductMarquee() {
   const catCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "cats"));
   const dogCategoryIds = categoryDescendantIds(findCategoryBySlug(categories, "dogs"));
   const catProducts = activeProducts
-    .filter((product) => catCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "cats")
+    .filter((product) => catCategoryIds.has(product.categoryId ?? "") || isCatMarqueeProduct(product))
     .slice(0, 8);
   const dogProducts = activeProducts
-    .filter((product) => dogCategoryIds.has(product.categoryId ?? "") || product.categorySlug === "dogs")
+    .filter((product) => dogCategoryIds.has(product.categoryId ?? "") || isDogMarqueeProduct(product))
     .slice(0, 8);
 
-  if (catProducts.length === 0 || dogProducts.length === 0) {
+  if (catProducts.length === 0 && dogProducts.length === 0) {
     return null;
   }
 
@@ -121,18 +143,22 @@ export function HomeProductMarquee() {
       </div>
 
       <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6" data-locale={locale}>
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
-          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-            {t("homeMarqueeCats")}
-          </p>
-        </div>
-        <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
-        <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
-          <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
-            {t("homeMarqueeDogs")}
-          </p>
-        </div>
-        <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
+        {catProducts.length > 0 ? <>
+          <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12">
+            <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
+              {t("homeMarqueeCats")}
+            </p>
+          </div>
+          <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
+        </> : null}
+        {dogProducts.length > 0 ? <>
+          <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
+            <p className="mb-2 text-xs font-bold tracking-[0.14em] text-[#765039] sm:mb-3">
+              {t("homeMarqueeDogs")}
+            </p>
+          </div>
+          <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
+        </> : null}
       </div>
     </section>
   );
