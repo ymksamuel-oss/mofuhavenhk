@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
@@ -47,7 +47,6 @@ type ProductCatalogProps = {
 };
 
 const INGREDIENT_FILTERS = [
-  ["all", "全部", "All", "All"],
   ["chicken", "雞肉", "鶏 chicken", "Chicken"],
   ["duck", "鴨肉", "鴨 duck", "Duck"],
   ["beef", "牛肉", "牛 cow", "Beef"],
@@ -217,6 +216,11 @@ export function ProductCatalog({
     setCurrentPage(1);
   }, [categorySlug, subcategory, audienceFilter, productCategory, ingredientFilter]);
 
+  const ingredientScrollerRef = useRef<HTMLElement | null>(null);
+  const scrollIngredients = (direction: -1 | 1) => {
+    ingredientScrollerRef.current?.scrollBy({ left: direction * 200, behavior: "smooth" });
+  };
+
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
@@ -231,16 +235,18 @@ export function ProductCatalog({
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage ? "mb-6" : "sr-only"}`}>{title}</h1>
-      {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7">
-        <nav aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="flex flex-nowrap gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
+      {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7 px-8">
+        <button type="button" aria-label={locale === "en" ? "Scroll ingredients left" : "向左滑動分類"} onClick={() => scrollIngredients(-1)} className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">‹</button>
+        <nav ref={ingredientScrollerRef} aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="scroll-smooth flex flex-nowrap touch-pan-x gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
           {INGREDIENT_FILTERS.map(([slug, zh, , en]) => {
-            const active = (ingredientFilter ?? "all") === slug;
-            const href = `/categories/dogs${slug === "all" ? "" : `?ingredient=${slug}`}`;
+            const active = (ingredientFilter ?? "chicken") === slug;
+            const href = `/categories/dogs?ingredient=${slug}`;
             return <CategoryNavLink key={slug} href={href} className={`relative inline-flex shrink-0 items-center whitespace-nowrap rounded-xl border px-3.5 py-2 text-sm transition ${active ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[7px] after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--accent)]" : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
               {locale === "en" ? en : zh}
             </CategoryNavLink>;
           })}
         </nav>
+        <button type="button" aria-label={locale === "en" ? "Scroll ingredients right" : "向右滑動分類"} onClick={() => scrollIngredients(1)} className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">›</button>
       </div> : null}
       {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
@@ -264,7 +270,7 @@ export function ProductCatalog({
         <nav aria-label={locale === "en" ? "Ingredient filters" : "肉源分類篩選"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
             const active = (ingredientFilter ?? "all") === slug;
-            return <CategoryNavLink key={slug} href={`/menu?audience=${audienceFilter}&category=treats${slug === "all" ? "" : `&ingredient=${slug}`}`} className={`relative inline-flex shrink-0 items-center whitespace-nowrap px-3 py-2 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-1 after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
+            return <CategoryNavLink key={slug} href={`/menu?audience=${audienceFilter}&category=treats&ingredient=${slug}`} className={`relative inline-flex shrink-0 items-center whitespace-nowrap px-3 py-2 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-1 after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
               {locale === "en" ? en : locale === "zh" ? zh : ja}
             </CategoryNavLink>;
           })}
