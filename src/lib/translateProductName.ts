@@ -39,6 +39,7 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
   const metadata = product.metadata ?? {};
   const cleanName = (value?: string) => {
     if (!value) return "";
+    if (/雞雞胸肉\s*姿干し硬|雞胸肉\s*姿干し硬/i.test(value)) return "日本產 嚼勁雞胸肉乾 60g";
     const tail = value.split(/[｜|]/).at(-1) || value;
     return tail.replace(/^日本(?:原裝|直送|製品?)\s*/i, "")
       .replace(/^Best Partner\s*/i, "")

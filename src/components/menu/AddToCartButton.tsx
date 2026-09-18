@@ -26,7 +26,20 @@ type AddToCartButtonProps = {
 
 type ToastOrigin = { x: number; y: number };
 
-const PET_QUICK_QUANTITIES = [8, 12, 16, 24] as const;
+const PET_QUICK_QUANTITIES = [4, 8, 12] as const;
+const CELEBRATION_QUANTITIES = new Set(PET_QUICK_QUANTITIES);
+
+async function celebrateTier() {
+  const { default: confetti } = await import("canvas-confetti");
+  void confetti({
+    particleCount: 90,
+    spread: 70,
+    startVelocity: 32,
+    origin: { y: 0.62 },
+    colors: ["#6d4c3d", "#d9a441", "#e78a72", "#8ebf9f"],
+    disableForReducedMotion: true,
+  });
+}
 
 export function AddToCartButton({
   productId,
@@ -68,6 +81,7 @@ export function AddToCartButton({
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
     const next = Math.min(MAX_QTY, Math.max(MIN_QTY, Math.floor(value)));
+    if (next !== qty && CELEBRATION_QUANTITIES.has(next)) void celebrateTier();
     onQuantityChange?.(next);
     if (controlledQty === undefined) setInternalQty(next);
   };
@@ -111,10 +125,12 @@ export function AddToCartButton({
     setToastKey((key) => key + 1);
     setSafeQty(MIN_QTY);
   };
-  const discountMessage = discountPercent === 10
-    ? locale === "en" ? "10% off applied" : "已享 9 折優惠"
+  const discountMessage = discountPercent === 5
+    ? locale === "en" ? "🎉 Congratulations! 5% off applied" : "🎉 恭喜你！已獲得 95 折優惠！"
+    : discountPercent === 10
+    ? locale === "en" ? "🎉 Congratulations! 10% off applied" : "🎉 恭喜你！已獲得 9 折優惠！"
     : discountPercent === 15
-      ? locale === "en" ? "15% off applied" : "已享 85 折優惠"
+      ? locale === "en" ? "🎉 Congratulations! 15% off applied" : "🎉 恭喜你！已享有 85 折最高量販優惠！"
       : null;
   const currentTotal = product
     ? Number((discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty).toFixed(2))
@@ -124,9 +140,10 @@ export function AddToCartButton({
   const freeShippingMessage = locale === "en"
     ? `Free local shipping unlocked at HK$${FREE_SHIPPING_THRESHOLD}`
     : `已享順豐本地免運費優惠（滿 HK$${FREE_SHIPPING_THRESHOLD}）`;
+  const nextTier = qty < 4 ? 4 - qty : qty < 8 ? 8 - qty : qty < 12 ? 12 - qty : 0;
   const promotionHint = locale === "en"
-    ? "💡 Buy 8 or more to enjoy 10% off! Buy 16 or more for 15% off!"
-    : "💡 凡購買滿 8 件或以上即享 9 折優惠！滿 16 件更可享 85 折優惠！";
+    ? nextTier > 0 ? `Buy ${nextTier} more to unlock your next bulk discount.` : "Your best 15% bulk discount is unlocked!"
+    : nextTier > 0 ? `再買 ${nextTier} 件即享 ${qty < 4 ? "95 折" : qty < 8 ? "9 折" : "85 折"} 優惠！` : "已享有 85 折最高量販優惠！";
   const quickChoices = (
     <div className="flex min-w-0 flex-wrap items-stretch gap-2 py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
       {PET_QUICK_QUANTITIES.map((option) => (
@@ -198,7 +215,10 @@ export function AddToCartButton({
     <div className={`flex flex-col ${compact ? "mt-0.5 gap-1.5" : size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct ? quickChoices : null}
+        {isPetProduct ? <div className="w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] p-3">
+          <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "量販優惠"}</p>
+          {quickChoices}
+        </div> : null}
         {isPetProduct ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
       {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}

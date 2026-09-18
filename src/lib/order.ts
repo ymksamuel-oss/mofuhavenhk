@@ -21,7 +21,7 @@ export type OrderItem = {
   qty: number;
   unit: number;
   originalUnit?: number;
-  discountPercent?: 10 | 15;
+  discountPercent?: 0 | 5 | 10 | 15;
 };
 
 export type RequestedOrderLine = {
@@ -58,7 +58,7 @@ export type OrderItemPricing = {
   basePrice: number;
   effectiveUnitPrice: number;
   discountRate: number;
-  discountPercent: 0 | 10 | 15;
+  discountPercent: 0 | 5 | 10 | 15;
   itemTotal: number;
   itemOriginalTotal: number;
   itemDiscountAmount: number;
@@ -68,7 +68,7 @@ export type OrderItemPricing = {
 /** Derives every price from the immutable base price and the current qty. */
 export function orderItemPricing(item: OrderItem): OrderItemPricing {
   const basePrice = item.originalUnit ?? item.unit;
-  const discountPercent: 0 | 10 | 15 = item.qty >= 16 ? 15 : item.qty >= 8 ? 10 : 0;
+  const discountPercent: 0 | 5 | 10 | 15 = item.qty >= 12 ? 15 : item.qty >= 8 ? 10 : item.qty >= 4 ? 5 : 0;
   const discountRate = discountPercent / 100;
   const effectiveUnitPrice = Number((basePrice * (1 - discountRate)).toFixed(2));
   const itemOriginalTotal = Number((basePrice * item.qty).toFixed(2));
@@ -89,16 +89,18 @@ export function orderItemTotal(item: OrderItem): number {
   return orderItemPricing(item).itemTotal;
 }
 
-export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12, 16, 24] as const;
+export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12] as const;
 
 /** Quantity offers are deliberately limited to the two pet top-level shelves. */
 export function isPetBundleProduct(product: Product): boolean {
   return product.categorySlug === "cats" || product.categorySlug === "dogs";
 }
 
-export function petBundleDiscountPercent(product: Product, qty: number): 0 | 10 | 15 {
-  if (qty >= 16) return 15;
+export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 | 10 | 15 {
+  if (!isPetBundleProduct(product)) return 0;
+  if (qty >= 12) return 15;
   if (qty >= 8) return 10;
+  if (qty >= 4) return 5;
   return 0;
 }
 
