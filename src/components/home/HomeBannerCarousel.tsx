@@ -137,11 +137,11 @@ export function HomeBannerCarousel() {
   return (
     <section
       aria-label={t("homeBannerAriaLabel")}
-      className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-0 py-3 sm:px-6 sm:py-6 lg:px-10 lg:py-8"
+      className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-0 py-4 md:py-6 sm:px-6 lg:px-10"
     >
       <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-none border-y border-[#d7b893]/70 bg-[#f7efe4] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[1.5rem] sm:border">
         <div
-          className={`relative aspect-[4/5] w-full touch-pan-x sm:aspect-[16/9] ${slideClass}`}
+          className={`relative h-[220px] w-full touch-pan-x sm:h-[260px] md:h-[300px] lg:h-[360px] xl:h-[380px] ${slideClass}`}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
