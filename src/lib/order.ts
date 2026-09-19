@@ -97,14 +97,21 @@ export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12] as const;
  * food. Supplies and lifestyle products are deliberately excluded.
  */
 export function isPetBundleProduct(product: Product): boolean {
+  const raw = product as unknown as Record<string, unknown>;
+  const rawFeatureTags = Array.isArray(raw.feature_tags)
+    ? raw.feature_tags.filter((tag): tag is string => typeof tag === "string")
+    : [];
+  const rawPetSpecies = typeof raw.pet_species === "string" ? raw.pet_species : "";
   const text = [
     product.categorySlug,
     product.subcategory,
     product.sourceCategory,
     product.productType,
-    product.name.zh,
-    product.name.en,
+    typeof product.name === "string" ? product.name : product.name.zh,
+    typeof product.name === "string" ? product.name : product.name.en,
     ...(product.tags ?? []),
+    ...rawFeatureTags,
+    rawPetSpecies,
     product.metadata?.category,
     product.metadata?.subcategory,
     product.metadata?.pet_species,
