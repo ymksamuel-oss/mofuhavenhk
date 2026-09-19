@@ -347,7 +347,7 @@ export type Product = {
   image: string;
   /** Optional product gallery, populated from up to five usable Stripe product images. */
   images?: string[];
-  name: { zh: string; en: string };
+  name: { zh: string; en: string; ja?: string };
   price: number;
   /** Active pack-size variants sourced from Stripe Prices, ordered by pack count. */
   variants?: ProductVariant[];

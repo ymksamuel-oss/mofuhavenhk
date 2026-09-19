@@ -5,6 +5,7 @@ import type { Locale } from "./i18n/translations";
 export type StoreCategoryRow = {
   id: string;
   name: string;
+  name_ja?: string | null;
   name_zh?: string | null;
   name_en?: string | null;
   slug: string;
@@ -26,7 +27,7 @@ export function categoryDisplayName(
   category: StoreCategory,
   locale: Locale,
 ): string {
-  const localized = locale === "en" ? category.name_en : category.name_zh;
+  const localized = locale === "en" ? category.name_en : locale === "ja" ? category.name_ja : category.name_zh;
   return localized?.trim() || category.name.trim();
 }
 

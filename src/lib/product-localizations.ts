@@ -3,6 +3,7 @@ import type { Product } from "@/lib/products";
 export const PRODUCT_LOCALIZATIONS_SETTING_KEY = "product_localizations";
 
 export type ProductLocalization = {
+  name_ja: string | null;
   name_en: string | null;
   description_en: string | null;
 };
@@ -18,6 +19,7 @@ export function normalizeProductLocalization(value: unknown): ProductLocalizatio
     ? value as Record<string, unknown>
     : {};
   return {
+    name_ja: optionalText(row.name_ja, 240),
     name_en: optionalText(row.name_en, 240),
     description_en: optionalText(row.description_en, 4_000),
   };
@@ -47,6 +49,7 @@ export function applyProductLocalization(
     ...product,
     name: {
       ...product.name,
+      ...(localized.name_ja ? { ja: localized.name_ja } : {}),
       ...(localized.name_en ? { en: localized.name_en } : {}),
     },
     ...(localized.description_en ? {

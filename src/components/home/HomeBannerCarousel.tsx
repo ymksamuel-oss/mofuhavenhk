@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type StoreBanner = {
@@ -31,7 +30,11 @@ function cleanBanner(banner: StoreBanner) {
 }
 
 function BannerArtwork({ src, alt, priority }: { src: string; alt: string; priority: boolean }) {
-  return <ProductImage src={src} alt={alt} priority={priority} sizes="100vw" className="object-contain p-0" />;
+  return (
+    // The banner must define its own height from its intrinsic aspect ratio.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} loading={priority ? "eager" : "lazy"} className="block h-auto w-full object-contain" />
+  );
 }
 
 /** Admin-managed hero banners with the official Best Partner poster fallback. */
@@ -120,9 +123,9 @@ export function HomeBannerCarousel() {
   const slideClass = direction === "next" ? "banner-slide-in-next" : "banner-slide-in-previous";
 
   return (
-    <section aria-label={t("homeBannerAriaLabel")} className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-0 py-4 md:py-6 sm:px-6 lg:px-10">
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-none border-y border-[#d7b893]/70 bg-[#f7efe4] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[1.5rem] sm:border">
-        <div className={`relative h-[220px] w-full touch-pan-x sm:h-[260px] md:h-[300px] lg:h-[360px] xl:h-[380px] ${slideClass}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <section aria-label={t("homeBannerAriaLabel")} className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-4 sm:px-6 lg:px-10">
+      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-2xl bg-[#f7efe4] shadow-sm">
+        <div className={`relative w-full touch-pan-x ${slideClass}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           <CategoryNavLink href={href} aria-label={title} className="group absolute inset-0 block touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-inset">
             <div className="relative h-full w-full sm:hidden"><BannerArtwork src={mobileImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} /></div>
             <div className="relative hidden h-full w-full sm:block"><BannerArtwork src={desktopImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} /></div>

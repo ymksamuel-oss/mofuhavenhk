@@ -1025,6 +1025,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       ...(images.length ? { images } : {}),
       name: {
         zh: databaseNameZh,
+        ...(productLocalization?.name_ja ? { ja: productLocalization.name_ja } : {}),
         en: databaseNameEn,
       },
       ...(resolvedPriceId ? { priceId: resolvedPriceId } : {}),
