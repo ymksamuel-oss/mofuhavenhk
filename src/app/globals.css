@@ -50,6 +50,7 @@
 html {
   max-width: 100%;
   overflow-x: hidden;
+  scroll-behavior: smooth;
   /* Prevent pure-white flash when rubber-banding past the top on mobile */
   background-color: var(--background);
   color-scheme: light;

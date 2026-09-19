@@ -71,7 +71,7 @@ export function ExplorePetsDropdown() {
           className="absolute left-0 top-[calc(100%+0.4rem)] z-30 min-w-[10.5rem] overflow-hidden rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] py-1 shadow-[0_18px_34px_-22px_rgba(74,54,38,0.55)]"
         >
           <CategoryNavLink
-            href="/about-dog"
+            href="/#pet-guide"
             role="menuitem"
             className="block px-4 py-2.5 text-sm font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--accent)]"
             onNavigate={() => setOpen(false)}
