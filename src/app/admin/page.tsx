@@ -243,6 +243,8 @@ export default function AdminPage() {
   const [form, setForm] = useState<Row | null>(null);
   const [bannerSlots, setBannerSlots] = useState<BannerSlot[]>(() => toBannerSlots([]));
   const [bannerSaving, setBannerSaving] = useState(false);
+  const [bannerAutoplayEnabled, setBannerAutoplayEnabled] = useState(false);
+  const [bannerAutoplaySaving, setBannerAutoplaySaving] = useState(false);
   const [bannerNotice, setBannerNotice] = useState("");
   const [featuredPetSlots, setFeaturedPetSlots] = useState<FeaturedPetSlot[]>(() => toFeaturedPetSlots([]));
   const [featuredPetSaving, setFeaturedPetSaving] = useState(false);
@@ -276,6 +278,9 @@ export default function AdminPage() {
       setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
+        const settings = await call("GET", undefined, "store_settings");
+        const autoplay = (settings.data || []).find((row: Row) => row.key === "banner_autoplay_enabled")?.value;
+        setBannerAutoplayEnabled(String(autoplay || "false").toLowerCase() === "true");
       }
       if (selected === "featured_pets") {
         setFeaturedPetSlots(toFeaturedPetSlots(loadedRows));
@@ -532,6 +537,20 @@ export default function AdminPage() {
     }
   }
 
+  async function saveBannerAutoplay(enabled: boolean) {
+    setBannerAutoplaySaving(true);
+    setError("");
+    try {
+      await call("POST", { action: "set_banner_autoplay", enabled });
+      setBannerAutoplayEnabled(enabled);
+      setBannerNotice(enabled ? "已開啟 Banner 自動輪播。" : "已停用 Banner 自動輪播，前台只顯示第一組 Banner。" );
+    } catch (e: any) {
+      setError(e.message || "Banner 輪播設定儲存失敗");
+    } finally {
+      setBannerAutoplaySaving(false);
+    }
+  }
+
   async function remove(row: Row) {
     if (!row.id || !confirm("確定刪除此項目？")) return;
     try {
@@ -760,6 +779,9 @@ export default function AdminPage() {
               onSave={saveBannerBatch}
               saving={bannerSaving}
               notice={bannerNotice}
+              autoplayEnabled={bannerAutoplayEnabled}
+              autoplaySaving={bannerAutoplaySaving}
+              onAutoplayChange={saveBannerAutoplay}
             />
           ) : tab === "featured_pets" ? (
             <FeaturedPetBatchEditor
@@ -1140,12 +1162,18 @@ function BannerBatchEditor({
   onSave,
   saving,
   notice,
+  autoplayEnabled,
+  autoplaySaving,
+  onAutoplayChange,
 }: {
   slots: BannerSlot[];
   onChange: (slots: BannerSlot[]) => void;
   onSave: () => void;
   saving: boolean;
   notice: string;
+  autoplayEnabled: boolean;
+  autoplaySaving: boolean;
+  onAutoplayChange: (enabled: boolean) => void;
 }) {
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState("");
@@ -1181,7 +1209,25 @@ function BannerBatchEditor({
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
       <div className="mb-5 max-w-3xl">
         <p className="text-sm font-semibold text-[#2f4a3c]">四組 Banner 批量管理</p>
-        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過設定最多四組輪播資料。按「儲存全部 Banner」時，系統會以本頁有桌面版圖片的欄位作為完整新輪播，並清除所有舊資料。至少填寫兩組才會啟用前台自動輪播；四格均留空則會清空所有 Banner。</p>
+        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過設定最多四組 Banner。停用自動輪播時，前台只顯示排序最前的一組；開啟後才會按設定自動切換。儲存全部 Banner 會以本頁有桌面版圖片的欄位作為完整新輪播。</p>
+      </div>
+
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold text-[#2f4a3c]">前台 Banner 自動輪播</p>
+          <p className="mt-1 text-xs text-[#8b7c70]">目前：{autoplayEnabled ? "開啟" : "關閉（只顯示第一組）"}</p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={autoplayEnabled}
+          disabled={autoplaySaving}
+          onClick={() => onAutoplayChange(!autoplayEnabled)}
+          className={`relative inline-flex h-8 w-14 items-center rounded-full p-1 transition ${autoplayEnabled ? "bg-[#2f4a3c]" : "bg-[#c9b8a8]"} disabled:cursor-wait disabled:opacity-60`}
+        >
+          <span className={`h-6 w-6 rounded-full bg-white shadow-sm transition ${autoplayEnabled ? "translate-x-6" : "translate-x-0"}`} />
+          <span className="sr-only">{autoplayEnabled ? "關閉 Banner 自動輪播" : "開啟 Banner 自動輪播"}</span>
+        </button>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">

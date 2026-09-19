@@ -113,7 +113,6 @@ function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error
     });
   }
 
-  if (banners.length === 1) return { banners: [], error: "輪播至少需要兩組 Banner；如要清空，請保留四格為空後儲存。" };
   return { banners };
 }
 
@@ -406,6 +405,17 @@ export async function POST(request: Request) {
     const { data, error } = await replaceBanners(supabase, banners);
     if (error) return NextResponse.json({ error: `Banner 儲存失敗：${error.message}` }, { status: 500 });
     return NextResponse.json({ data, count: data?.length || 0 });
+  }
+
+  if (body.action === "set_banner_autoplay") {
+    if (typeof body.enabled !== "boolean") return NextResponse.json({ error: "banner_autoplay_enabled 必須是布林值" }, { status: 400 });
+    const { data, error } = await supabase.from("store_settings").upsert({
+      key: "banner_autoplay_enabled",
+      value: body.enabled ? "true" : "false",
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "key" }).select("key,value,updated_at").single();
+    if (error) return NextResponse.json({ error: `Banner 輪播設定儲存失敗：${error.message}` }, { status: 500 });
+    return NextResponse.json({ data, enabled: body.enabled });
   }
 
   const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });

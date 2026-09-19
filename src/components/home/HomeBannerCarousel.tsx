@@ -30,32 +30,15 @@ function cleanBanner(banner: StoreBanner) {
   };
 }
 
-function BannerArtwork({
-  src,
-  alt,
-  priority,
-  mobile = false,
-}: {
-  src: string;
-  alt: string;
-  priority: boolean;
-  mobile?: boolean;
-}) {
-  return (
-    <ProductImage
-      src={src}
-      alt={alt}
-      priority={priority}
-      sizes="100vw"
-      className={`object-contain ${mobile ? "p-0" : "p-0"}`}
-    />
-  );
+function BannerArtwork({ src, alt, priority }: { src: string; alt: string; priority: boolean }) {
+  return <ProductImage src={src} alt={alt} priority={priority} sizes="100vw" className="object-contain p-0" />;
 }
 
 /** Admin-managed hero banners with the official Best Partner poster fallback. */
 export function HomeBannerCarousel() {
   const { t } = useI18n();
   const [managedBanners, setManagedBanners] = useState<StoreBanner[]>([]);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState<"next" | "previous">("next");
   const timer = useRef<number | null>(null);
@@ -65,8 +48,9 @@ export function HomeBannerCarousel() {
     () => managedBanners.map(cleanBanner).filter((banner): banner is NonNullable<ReturnType<typeof cleanBanner>> => Boolean(banner)),
     [managedBanners],
   );
+  const visibleBanners = autoplayEnabled ? banners : banners.slice(0, 1);
   const hasManagedBanners = banners.length > 0;
-  const activeBanner = banners[activeIndex] ?? null;
+  const activeBanner = visibleBanners[activeIndex] ?? visibleBanners[0] ?? null;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -74,6 +58,7 @@ export function HomeBannerCarousel() {
       .then((response) => (response.ok ? response.json() : null))
       .then((payload) => {
         setManagedBanners(Array.isArray(payload?.banners) ? payload.banners : []);
+        setAutoplayEnabled(String(payload?.settings?.banner_autoplay_enabled || "false").toLowerCase() === "true");
         setActiveIndex(0);
       })
       .catch((error: unknown) => {
@@ -84,27 +69,27 @@ export function HomeBannerCarousel() {
   }, []);
 
   const goTo = useCallback((index: number) => {
-    if (banners.length <= 1) return;
+    if (visibleBanners.length <= 1) return;
     setDirection(index >= activeIndex ? "next" : "previous");
-    setActiveIndex((index + banners.length) % banners.length);
-  }, [activeIndex, banners.length]);
+    setActiveIndex((index + visibleBanners.length) % visibleBanners.length);
+  }, [activeIndex, visibleBanners.length]);
 
   const goNext = useCallback(() => {
-    if (banners.length <= 1) return;
+    if (visibleBanners.length <= 1) return;
     setDirection("next");
-    setActiveIndex((index) => (index + 1) % banners.length);
-  }, [banners.length]);
+    setActiveIndex((index) => (index + 1) % visibleBanners.length);
+  }, [visibleBanners.length]);
 
   const goPrevious = useCallback(() => {
-    if (banners.length <= 1) return;
+    if (visibleBanners.length <= 1) return;
     setDirection("previous");
-    setActiveIndex((index) => (index - 1 + banners.length) % banners.length);
-  }, [banners.length]);
+    setActiveIndex((index) => (index - 1 + visibleBanners.length) % visibleBanners.length);
+  }, [visibleBanners.length]);
 
   const restartAutoplay = useCallback(() => {
     if (timer.current !== null) window.clearInterval(timer.current);
-    timer.current = banners.length > 1 ? window.setInterval(goNext, AUTO_PLAY_MS) : null;
-  }, [banners.length, goNext]);
+    timer.current = autoplayEnabled && visibleBanners.length > 1 ? window.setInterval(goNext, AUTO_PLAY_MS) : null;
+  }, [autoplayEnabled, visibleBanners.length, goNext]);
 
   useEffect(() => {
     restartAutoplay();
@@ -119,14 +104,14 @@ export function HomeBannerCarousel() {
   }, []);
 
   const handleTouchEnd = useCallback((event: React.TouchEvent<HTMLElement>) => {
-    if (touchStartX.current === null || banners.length <= 1) return;
+    if (touchStartX.current === null || visibleBanners.length <= 1) return;
     const deltaX = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
     touchStartX.current = null;
     if (Math.abs(deltaX) < 40) return;
     if (deltaX < 0) goNext();
     else goPrevious();
     restartAutoplay();
-  }, [banners.length, goNext, goPrevious, restartAutoplay]);
+  }, [visibleBanners.length, goNext, goPrevious, restartAutoplay]);
 
   const title = activeBanner?.title || "Best Partner PLAIN PACK SERIES";
   const href = activeBanner?.href || "/categories/dogs";
@@ -135,55 +120,20 @@ export function HomeBannerCarousel() {
   const slideClass = direction === "next" ? "banner-slide-in-next" : "banner-slide-in-previous";
 
   return (
-    <section
-      aria-label={t("homeBannerAriaLabel")}
-      className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-0 py-4 md:py-6 sm:px-6 lg:px-10"
-    >
+    <section aria-label={t("homeBannerAriaLabel")} className="mobile-home-soft-surface relative z-0 bg-[color:var(--background)] px-0 py-4 md:py-6 sm:px-6 lg:px-10">
       <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-none border-y border-[#d7b893]/70 bg-[#f7efe4] shadow-[0_22px_52px_-38px_rgba(75,54,33,0.58)] sm:rounded-[1.5rem] sm:border">
-        <div
-          className={`relative h-[220px] w-full touch-pan-x sm:h-[260px] md:h-[300px] lg:h-[360px] xl:h-[380px] ${slideClass}`}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <CategoryNavLink
-            href={href}
-            aria-label={title}
-            className="group absolute inset-0 block touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-inset"
-          >
-            <div className="relative h-full w-full sm:hidden">
-              <BannerArtwork src={mobileImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} mobile />
-            </div>
-            <div className="relative hidden h-full w-full sm:block">
-              <BannerArtwork src={desktopImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} />
-            </div>
+        <div className={`relative h-[220px] w-full touch-pan-x sm:h-[260px] md:h-[300px] lg:h-[360px] xl:h-[380px] ${slideClass}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+          <CategoryNavLink href={href} aria-label={title} className="group absolute inset-0 block touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-inset">
+            <div className="relative h-full w-full sm:hidden"><BannerArtwork src={mobileImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} /></div>
+            <div className="relative hidden h-full w-full sm:block"><BannerArtwork src={desktopImage} alt={title} priority={!hasManagedBanners || activeIndex === 0} /></div>
           </CategoryNavLink>
 
-          {banners.length > 1 ? (
+          {visibleBanners.length > 1 ? (
             <div className="pointer-events-none absolute inset-0 z-20">
-              <button
-                type="button"
-                aria-label={t("homeBannerPrevious")}
-                onClick={() => { goPrevious(); restartAutoplay(); }}
-                className="pointer-events-auto absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-xl text-white shadow-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >‹</button>
-              <button
-                type="button"
-                aria-label={t("homeBannerNext")}
-                onClick={() => { goNext(); restartAutoplay(); }}
-                className="pointer-events-auto absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-xl text-white shadow-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >›</button>
+              <button type="button" aria-label={t("homeBannerPrevious")} onClick={() => { goPrevious(); restartAutoplay(); }} className="pointer-events-auto absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-xl text-white shadow-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">‹</button>
+              <button type="button" aria-label={t("homeBannerNext")} onClick={() => { goNext(); restartAutoplay(); }} className="pointer-events-auto absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 text-xl text-white shadow-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">›</button>
               <div className="pointer-events-auto absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2" role="tablist" aria-label={t("homeBannerSelect")}>
-                {banners.map((banner, index) => (
-                  <button
-                    key={banner.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeIndex === index}
-                    aria-label={t("homeBannerGoTo").replace("{number}", String(index + 1))}
-                    onClick={() => { goTo(index); restartAutoplay(); }}
-                    className={`h-2.5 rounded-full border border-white/90 transition-all ${activeIndex === index ? "w-8 bg-white" : "w-2.5 bg-white/50"}`}
-                  />
-                ))}
+                {visibleBanners.map((banner, index) => <button key={banner.id} type="button" role="tab" aria-selected={activeIndex === index} aria-label={t("homeBannerGoTo").replace("{number}", String(index + 1))} onClick={() => { goTo(index); restartAutoplay(); }} className={`h-2.5 rounded-full border border-white/90 transition-all ${activeIndex === index ? "w-8 bg-white" : "w-2.5 bg-white/50"}`} />)}
               </div>
             </div>
           ) : null}

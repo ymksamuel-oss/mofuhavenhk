@@ -68,7 +68,7 @@ export async function GET() {
       // one active slide at a time, while Admin controls whether a new upload replaces
       // the set or is appended to it.
       supabase.from("banners").select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false }),
-      supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key"]),
+      supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key", "banner_autoplay_enabled"]),
     ]);
 
     const requiredQueryErrors = [categories, products]
