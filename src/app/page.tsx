@@ -5,7 +5,6 @@ import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSectio
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { BestPartnerBanner } from "@/components/home/BestPartnerBanner";
 import { BestPartnerValues } from "@/components/home/BestPartnerValues";
-import { FeatureBadges } from "@/components/home/FeatureBadges";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -26,7 +25,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <FeatureBadges />
       <BestPartnerBanner />
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
