@@ -2,10 +2,10 @@
 // soft gold actions, mobile-first stacked storytelling, and no video CTA in the hero.
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSections";
-import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { BestPartnerBanner } from "@/components/home/BestPartnerBanner";
 import { BestPartnerValues } from "@/components/home/BestPartnerValues";
+import { FeatureBadges } from "@/components/home/FeatureBadges";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -26,11 +26,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <HomeBulkPromotion />
       <BestPartnerBanner />
-      <HomeBannerCarousel />
-      <BestPartnerValues />
+      <FeatureBadges />
+      <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
+      <BestPartnerValues />
       <HomeInteractiveSections />
     </>
   );
