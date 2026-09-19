@@ -9,6 +9,7 @@ import { discountedUnitPrice, FREE_SHIPPING_THRESHOLD, MAX_QTY, MIN_QTY, PET_BUN
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 import { trackMetaEvent } from "@/components/MetaPixel";
+import { celebrateBulkTier } from "@/lib/celebrateBulkTier";
 
 type AddToCartButtonProps = {
   productId: string;
@@ -30,18 +31,6 @@ type ToastOrigin = { x: number; y: number };
 
 const PET_QUICK_QUANTITIES = [4, 8, 12] as const;
 const CELEBRATION_QUANTITIES = new Set(PET_QUICK_QUANTITIES);
-
-async function celebrateTier() {
-  const { default: confetti } = await import("canvas-confetti");
-  void confetti({
-    particleCount: 90,
-    spread: 70,
-    startVelocity: 32,
-    origin: { y: 0.62 },
-    colors: ["#6d4c3d", "#d9a441", "#e78a72", "#8ebf9f"],
-    disableForReducedMotion: true,
-  });
-}
 
 export function AddToCartButton({
   productId,
@@ -84,7 +73,7 @@ export function AddToCartButton({
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
     const next = Math.min(MAX_QTY, Math.max(MIN_QTY, Math.floor(value)));
-    if (next !== qty && CELEBRATION_QUANTITIES.has(next as (typeof PET_QUICK_QUANTITIES)[number])) void celebrateTier();
+    if (next !== qty && CELEBRATION_QUANTITIES.has(next as (typeof PET_QUICK_QUANTITIES)[number])) celebrateBulkTier();
     onQuantityChange?.(next);
     if (controlledQty === undefined) setInternalQty(next);
   };

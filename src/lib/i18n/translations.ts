@@ -1,4 +1,4 @@
-export type Locale = "zh" | "en";
+export type Locale = "ja" | "zh" | "en";
 
 export const LOCALE_STORAGE_KEY = "mofuhavenhk-locale";
 

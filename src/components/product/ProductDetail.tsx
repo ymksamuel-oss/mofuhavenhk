@@ -17,6 +17,7 @@ import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { trackMetaEvent } from "@/components/MetaPixel";
+import { celebrateBulkTier } from "@/lib/celebrateBulkTier";
 import { useEffect, useState } from "react";
 
 type ProductDetailProps = {
@@ -190,6 +191,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     onClick={() => {
                       setSelectedQty(quantity);
                       setBulkCelebrationKey((key) => key + 1);
+                      void celebrateBulkTier();
                     }}
                     className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${selectedQty === quantity ? "border-amber-700 bg-amber-700 text-white" : "border-amber-300 bg-white/70 text-amber-900 hover:border-amber-700 hover:bg-amber-100"}`}
                   >

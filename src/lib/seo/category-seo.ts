@@ -369,7 +369,7 @@ export function getCategorySeoCopy(
   locale: Locale,
   { categorySlug, subcategory = null, snackSeries = null }: CategorySeoParams,
 ): SeoCopy {
-  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale];
+  if (snackSeries) return SNACK_SERIES_SEO[snackSeries][locale === "ja" ? "zh" : locale];
   const subcategoryCopy = subcategory ? SUBCATEGORY_SEO[subcategory]?.[locale] : null;
   if (subcategoryCopy) return subcategoryCopy;
   return (

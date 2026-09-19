@@ -360,7 +360,7 @@ export type Product = {
   series?: { zh: string; en: string };
   snackSeries?: CatSnackSeries;
   icon: CategoryIconName;
-  description?: { zh: string; en: string };
+  description?: { zh: string; en: string; ja?: string };
   /** Optional serving texture and bite notes sourced from verified product metadata. */
   texture?: { zh: string; en: string };
   /** Optional live import status / package status sourced from verified product metadata. */
