@@ -8,6 +8,89 @@ export const dynamic = "force-dynamic";
 const SITE_URL = "https://mofuhavenhk.com";
 const SITE_NAME = "毛毛港 Mofu Haven HK";
 
+const merchantReturnPolicy = {
+  "@type": "MerchantReturnPolicy",
+  applicableCountry: "HK",
+  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+  merchantReturnDays: 7,
+  returnMethod: "https://schema.org/ReturnByMail",
+  returnFees: "https://schema.org/ReturnShippingFees",
+  returnPolicyCountry: "HK",
+  merchantReturnLink: `${SITE_URL}/shipping-policy`,
+  description:
+    "未開封及保持原有包裝的生活用品，可於收貨後 7 日內聯絡我們申請退換。食品、零食、已拆封或因顧客保存不當而受損的商品基於衛生及食品安全原因不設退換。如收到商品有破損或錯漏，請於收貨後 48 小時內透過 WhatsApp 聯絡我們並提供照片。",
+};
+
+const hongKongShippingDetails = {
+  "@type": "OfferShippingDetails",
+  shippingLabel: "香港配送",
+  shippingDestination: {
+    "@type": "DefinedRegion",
+    addressCountry: "HK",
+  },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: {
+      "@type": "QuantitativeValue",
+      minValue: 1,
+      maxValue: 2,
+      unitCode: "DAY",
+    },
+    transitTime: {
+      "@type": "QuantitativeValue",
+      minValue: 1,
+      maxValue: 2,
+      unitCode: "DAY",
+    },
+  },
+  shippingRate: {
+    "@type": "MonetaryAmount",
+    value: 0,
+    currency: "HKD",
+  },
+  freeShippingThreshold: {
+    "@type": "MonetaryAmount",
+    value: 450,
+    currency: "HKD",
+  },
+  description: "香港現貨一般於下單後 1–2 個工作天內由順豐寄出；全單滿 HK$450 享本地順豐免運。",
+};
+
+const japanDirectShippingDetails = {
+  "@type": "OfferShippingDetails",
+  shippingLabel: "日本預訂／直送",
+  shippingDestination: {
+    "@type": "DefinedRegion",
+    addressCountry: "HK",
+  },
+  deliveryTime: {
+    "@type": "ShippingDeliveryTime",
+    handlingTime: {
+      "@type": "QuantitativeValue",
+      minValue: 1,
+      maxValue: 3,
+      unitCode: "DAY",
+    },
+    transitTime: {
+      "@type": "QuantitativeValue",
+      minValue: 7,
+      maxValue: 14,
+      unitCode: "DAY",
+    },
+  },
+  shippingRate: {
+    "@type": "MonetaryAmount",
+    value: 0,
+    currency: "HKD",
+  },
+  freeShippingThreshold: {
+    "@type": "MonetaryAmount",
+    value: 450,
+    currency: "HKD",
+  },
+  description: "日本預訂／直送商品由日本品牌原裝空運抵港，約需 7–14 個工作天；日本節假日或會順延。",
+};
+
 type ProductPageProps = {
   params: Promise<{ id: string }>;
 };
@@ -74,6 +157,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       priceCurrency: "HKD",
       availability: product.inStock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
+      hasMerchantReturnPolicy: merchantReturnPolicy,
+      shippingDetails: [hongKongShippingDetails, japanDirectShippingDetails],
     },
   };
   const breadcrumbSchema = {
