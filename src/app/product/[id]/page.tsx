@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
-import { formatMoney } from "@/lib/i18n/translations";
 
 export const dynamic = "force-dynamic";
 const SITE_URL = "https://mofuhavenhk.com";
+const SITE_NAME = "毛毛港 Mofu Haven HK";
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;
@@ -16,15 +16,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { id } = await params;
   const product = (await getCatalogSnapshot()).products.find((candidate) => candidate.id === id);
   if (!product) return { title: "商品不存在 | 毛毛港 Mofu Haven" };
-  const name = product.name.zh || product.name.en || "寵物商品";
-  const description = (product.description?.zh?.trim()
-    || `特價 ${formatMoney(product.price, "zh")} ${product.originalPrice ? `(原價 ${formatMoney(product.originalPrice, "zh")}) ` : ""}- 日本進口正貨`).slice(0, 120);
+  const name = product.name.zh || product.name.en || "日本天然寵物零食";
+  const title = `【日本原裝】${name} | 無添加寵物零食 - ${SITE_NAME}`;
+  const description = `選購【${name}】。嚴選 100% 日本國產優質原料，堅持無添加、無人工防腐劑及色素。原廠低溫慢烘工藝，鎖住天然鮮味與嚼勁。香港現貨 1–2 日出貨，全單滿 HK$450 享順豐本地免運。`.slice(0, 160);
   const image = product.images?.[0] || product.image;
   const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`;
-  const title = `${name} | 日本原裝直送 - 毛毛港 Mofu Haven HK`;
   const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical },
     openGraph: {
@@ -32,8 +31,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       url: canonical,
       title,
       description,
-      images: [{ url: imageUrl, alt: name }],
+      images: [{ url: imageUrl, alt: name, width: 1200, height: 1200 }],
       locale: "zh_HK",
+      siteName: SITE_NAME,
     },
     twitter: {
       card: "summary_large_image",
@@ -52,18 +52,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const name = product.name.zh || product.name.en || "寵物商品";
-  const description = (product.description?.zh?.trim() || product.description?.en?.trim() || `${name}｜日本原裝直送寵物商品`).slice(0, 120);
+  const name = product.name.zh || product.name.en || "日本天然寵物零食";
+  const description = `選購【${name}】。嚴選 100% 日本國產優質原料，堅持無添加、無人工防腐劑及色素。原廠低溫慢烘工藝，鎖住天然鮮味與嚼勁。香港現貨 1–2 日出貨，全單滿 HK$450 享順豐本地免運。`.slice(0, 160);
   const image = product.images?.[0] || product.image;
   const imageUrl = image.startsWith("http") ? image : `https://mofuhavenhk.com${image.startsWith("/") ? "" : "/"}${image}`;
   const canonical = `https://mofuhavenhk.com/product/${encodeURIComponent(product.id)}`;
+  const sku = product.metadata?.mofu_sku || product.id;
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
     image: [imageUrl],
     description,
-    sku: product.metadata?.mofu_sku || product.id,
+    sku,
+    url: canonical,
     brand: product.brand || product.brandName ? { "@type": "Brand", name: product.brand || product.brandName } : undefined,
     offers: {
       "@type": "Offer",
@@ -74,9 +76,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
       itemCondition: "https://schema.org/NewCondition",
     },
   };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "首頁", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "商品目錄", item: `${SITE_URL}/menu` },
+      { "@type": "ListItem", position: 3, name, item: canonical },
+    ],
+  };
 
   return <>
     <JsonLd data={productSchema} />
+    <JsonLd data={breadcrumbSchema} />
     <ProductDetail product={product} />
   </>;
 }
