@@ -64,7 +64,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedQty, setSelectedQty] = useState(1);
   const [bulkCelebrationKey, setBulkCelebrationKey] = useState(0);
   const category = getCategoryBySlug(selectedProduct.categorySlug);
-  const petBundleQuantityOptions = isPetBundleProduct(selectedProduct)
+  const legacyProductText = JSON.stringify(selectedProduct).toLowerCase();
+  const legacyFoodFallback = /(food|treat|snack|零食|小食|食品|食物|肉乾|肉條|肉片|肉棒|肉鬆|魚介|鮮肉|原肉)/i.test(legacyProductText)
+    && !/(supplies|lifestyle|用品|collar|harness|leash|牽引|項圈|胸背|玩具|睡窩|清潔|護理)/i.test(legacyProductText);
+  const petBundleQuantityOptions = isPetBundleProduct(selectedProduct) || legacyFoodFallback
     ? PET_BUNDLE_QUANTITIES
     : undefined;
   const cartSubtotal = calcSubtotal(toOrderItems());
