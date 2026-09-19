@@ -53,7 +53,7 @@ export function HomeInteractiveSections() {
               ))}
             </div>
             <CategoryNavLink
-              href="/cat-breeds"
+              href="/pet-guide"
               className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl bg-[color:var(--accent)] px-8 py-3 text-lg font-semibold text-white shadow-[0_13px_26px_-16px_rgba(95,62,26,0.62)] transition hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)]"
             >
               <span aria-hidden>▢</span> {t("exploreCta")} <span aria-hidden>→</span>
