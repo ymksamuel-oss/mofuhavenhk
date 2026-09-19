@@ -8,5 +8,14 @@
   "shippingAddressLabel": "送貨地址",
   "shippingAddressLine2Label": "地址第二行（選填）",
   "sfStationLabel": "順豐站／智能櫃代碼（選填）",
-  "sfStationHint": "如欲寄往順豐站或智能櫃，可填寫站點／櫃位代碼，方便店主安排寄送。"
+  "sfStationHint": "如欲寄往順豐站或智能櫃，可填寫站點／櫃位代碼，方便店主安排寄送。",
+  "bulkDiscountApplied": "已享 {percent}% 折扣",
+  "bulkHintUnder4": "🎁 再買 {count} 件即享 95 折優惠！",
+  "bulkHint4To7": "🎉 已享 95 折！再買 {count} 件升級至 9 折！",
+  "bulkHint8To11": "🎉 已享 9 折！再買 {count} 件即可解鎖 85 折最高優惠！",
+  "bulkHint12Plus": "🏆 已享有 85 折最高量販優惠，超值推薦！",
+  "bulkShortcut4": "4件 (95折)",
+  "bulkShortcut8": "8件 (9折)",
+  "bulkShortcut12": "12件 (85折)",
+  "bulkShortcutLabel": "快捷湊單"
 }

@@ -8,5 +8,14 @@
   "shippingAddressLabel": "Delivery Address",
   "shippingAddressLine2Label": "Apartment, suite, etc. (Optional)",
   "sfStationLabel": "SF Station / Locker Code (Optional)",
-  "sfStationHint": "If you would like delivery to an SF station or smart locker, enter the station or locker code so we can arrange delivery."
+  "sfStationHint": "If you would like delivery to an SF station or smart locker, enter the station or locker code so we can arrange delivery.",
+  "bulkDiscountApplied": "{percent}% off applied",
+  "bulkHintUnder4": "🎁 Buy {count} more to unlock 5% off!",
+  "bulkHint4To7": "🎉 5% off unlocked! Buy {count} more to upgrade to 10% off!",
+  "bulkHint8To11": "🎉 10% off unlocked! Buy {count} more to unlock the maximum 15% off!",
+  "bulkHint12Plus": "🏆 Maximum 15% bulk discount unlocked — great value!",
+  "bulkShortcut4": "4 items (5% off)",
+  "bulkShortcut8": "8 items (10% off)",
+  "bulkShortcut12": "12 items (15% off)",
+  "bulkShortcutLabel": "Quick bulk picks"
 }

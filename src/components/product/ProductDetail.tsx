@@ -61,6 +61,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const selectedPriceId = selectedOption?.priceId ?? selectedProduct.priceId;
   const selectedOriginalPrice = selectedOption?.originalPrice ?? selectedProduct.originalPrice;
   const [selectedQty, setSelectedQty] = useState(1);
+  const [bulkCelebrationKey, setBulkCelebrationKey] = useState(0);
   const category = getCategoryBySlug(selectedProduct.categorySlug);
   const petBundleQuantityOptions = selectedProduct.categorySlug === "cats" || selectedProduct.categorySlug === "dogs"
     ? PET_BUNDLE_QUANTITIES
@@ -165,10 +166,44 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />
 
+          {petBundleQuantityOptions ? (
+            <section className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-900" aria-live="polite" aria-labelledby="bulk-discount-title">
+              <div className="flex items-start gap-2">
+                {bulkCelebrationKey > 0 ? (
+                  <span key={bulkCelebrationKey} className="animate-[fadeUp_0.35s_ease_both] text-lg" aria-hidden="true">🎉</span>
+                ) : null}
+                <p id="bulk-discount-title" className="text-sm font-semibold leading-6">
+                  {selectedQty < 4
+                    ? t("bulkHintUnder4").replace("{count}", String(4 - selectedQty))
+                    : selectedQty < 8
+                      ? t("bulkHint4To7").replace("{count}", String(8 - selectedQty))
+                      : selectedQty < 12
+                        ? t("bulkHint8To11").replace("{count}", String(12 - selectedQty))
+                        : t("bulkHint12Plus")}
+                </p>
+              </div>
+              <div className="mt-2 flex flex-wrap items-center gap-2" aria-label={t("bulkShortcutLabel")}>
+                {[4, 8, 12].map((quantity) => (
+                  <button
+                    key={quantity}
+                    type="button"
+                    onClick={() => {
+                      setSelectedQty(quantity);
+                      setBulkCelebrationKey((key) => key + 1);
+                    }}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] ${selectedQty === quantity ? "border-amber-700 bg-amber-700 text-white" : "border-amber-300 bg-white/70 text-amber-900 hover:border-amber-700 hover:bg-amber-100"}`}
+                  >
+                    {t(`bulkShortcut${quantity}` as "bulkShortcut4" | "bulkShortcut8" | "bulkShortcut12")}
+                  </button>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           {selectedProduct.inStock === false ? null : (
             <section className="mt-6" aria-labelledby="product-purchase-actions-title">
-              <h2 id="product-purchase-actions-title" className="text-sm font-semibold text-[color:var(--ink)]">
-                {locale === "en" ? "Quantity" : "購買數量"}
+                <h2 id="product-purchase-actions-title" className="text-sm font-semibold text-[color:var(--ink)]">
+                {t("productPurchaseQuantity")}
               </h2>
               <AddToCartButton
                 productId={selectedProduct.id}
@@ -177,6 +212,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 quantityOptions={petBundleQuantityOptions}
                 quantity={selectedQty}
                 onQuantityChange={setSelectedQty}
+                showBulkShortcuts={false}
                 showTotal
                 unitPrice={selectedPrice}
                 className="!mt-3 [&>button:last-child]:!rounded-xl [&>button:last-child]:!py-3.5 [&>button:last-child]:!font-medium"

@@ -23,6 +23,7 @@ type AddToCartButtonProps = {
   compact?: boolean;
   showTotal?: boolean;
   unitPrice?: number;
+  showBulkShortcuts?: boolean;
 };
 
 type ToastOrigin = { x: number; y: number };
@@ -54,6 +55,7 @@ export function AddToCartButton({
   compact = false,
   showTotal = false,
   unitPrice,
+  showBulkShortcuts = true,
 }: AddToCartButtonProps) {
   const { t, locale } = useI18n();
   const { getProductById } = useCatalog();
@@ -224,11 +226,11 @@ export function AddToCartButton({
     <div className={`flex flex-col ${compact ? "mt-0.5 gap-1.5" : size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct ? <div className="w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] p-3">
+        {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] p-3">
           <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "量販優惠"}</p>
           {quickChoices}
         </div> : null}
-        {isPetProduct ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
+        {isPetProduct && showBulkShortcuts ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
       {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
       {showTotal ? <div className="space-y-1 text-center" aria-live="polite">

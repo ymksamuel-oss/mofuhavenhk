@@ -187,9 +187,7 @@ export function MobileCartDrawer({
                       </p>
                       {orderItemPricing(item).hasDiscount ? (
                         <p className="mt-1 text-xs font-semibold text-emerald-700">
-                          {locale === "en"
-                            ? `🎉 ${orderItemPricing(item).discountPercent}% OFF applied`
-                            : `🎉 已享 ${orderItemPricing(item).discountPercent === 5 ? "5% OFF (95折優惠)" : orderItemPricing(item).discountPercent === 10 ? "10% OFF (9折優惠)" : "15% OFF (85折優惠)"}`}
+                          🎉 {t("discountApplied").replace("{percent}", String(orderItemPricing(item).discountPercent))}
                         </p>
                       ) : null}
                       <div className="mt-2.5 flex items-center justify-between gap-2">
