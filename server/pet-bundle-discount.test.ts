@@ -43,6 +43,27 @@ describe("pet bundle discounts", () => {
     expect(discountedUnitPrice(other, 100, 24)).toBe(100);
   });
 
+  it("recognizes legacy food rows without a managed category relation", () => {
+    const legacyFood = {
+      ...base,
+      categorySlug: "unassigned",
+      name: { zh: "鯊魚軟骨原肉零食 20g", en: "Shark cartilage treat" },
+      tags: ["all_pets", "supplier_category:snacks"],
+    } as Product;
+    expect(petBundleDiscountPercent(legacyFood, 4)).toBe(5);
+    expect(discountedUnitPrice(legacyFood, 70, 4)).toBe(66.5);
+  });
+
+  it("keeps supplies excluded even when they are marked for all pets", () => {
+    const supply = {
+      ...base,
+      categorySlug: "unassigned",
+      name: { zh: "強韌透氣防暴衝胸背帶", en: "No-pull harness" },
+      tags: ["all_pets", "supplies"],
+    } as Product;
+    expect(petBundleDiscountPercent(supply, 12)).toBe(0);
+  });
+
   it("rebuilds the discounted unit used by checkout", () => {
     const items = buildOrderItemsFromLines([{ id: base.id, qty: 12 }], [base]);
     expect(items[0]?.unit).toBe(100);

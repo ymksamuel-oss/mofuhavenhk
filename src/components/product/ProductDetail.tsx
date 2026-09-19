@@ -12,7 +12,7 @@ import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButto
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
-import { calcSubtotal, PET_BUNDLE_QUANTITIES } from "@/lib/order";
+import { calcSubtotal, isPetBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
@@ -64,7 +64,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedQty, setSelectedQty] = useState(1);
   const [bulkCelebrationKey, setBulkCelebrationKey] = useState(0);
   const category = getCategoryBySlug(selectedProduct.categorySlug);
-  const petBundleQuantityOptions = selectedProduct.categorySlug === "cats" || selectedProduct.categorySlug === "dogs"
+  const petBundleQuantityOptions = isPetBundleProduct(selectedProduct)
     ? PET_BUNDLE_QUANTITIES
     : undefined;
   const cartSubtotal = calcSubtotal(toOrderItems());

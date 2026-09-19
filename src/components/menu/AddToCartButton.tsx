@@ -156,7 +156,11 @@ export function AddToCartButton({
         >
           <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} 件`}</span>
           <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-white/90" : "text-[#b04f40]"}`}>
-            {option >= 16 ? (locale === "en" ? "15% off" : "85折・超值") : (locale === "en" ? "10% off" : "9折優惠")}
+            {option === 4
+              ? (locale === "en" ? "5% off" : "95折優惠")
+              : option >= 12
+                ? (locale === "en" ? "15% off" : "85折・超值")
+                : (locale === "en" ? "10% off" : "9折優惠")}
           </span>
         </button>
       ))}
@@ -215,7 +219,7 @@ export function AddToCartButton({
     <div className={`flex flex-col ${compact ? "mt-0.5 gap-1.5" : size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] p-3">
+        {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-3">
           <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "量販優惠"}</p>
           {quickChoices}
         </div> : null}

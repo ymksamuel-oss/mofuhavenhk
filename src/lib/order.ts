@@ -91,9 +91,28 @@ export function orderItemTotal(item: OrderItem): number {
 
 export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12] as const;
 
-/** Quantity offers are deliberately limited to the two pet top-level shelves. */
+/**
+ * Quantity offers apply to pet food and treats, including legacy rows whose
+ * category relation is missing but whose source tags/name clearly identify
+ * food. Supplies and lifestyle products are deliberately excluded.
+ */
 export function isPetBundleProduct(product: Product): boolean {
-  return product.categorySlug === "cats" || product.categorySlug === "dogs";
+  const text = [
+    product.categorySlug,
+    product.subcategory,
+    product.sourceCategory,
+    product.productType,
+    product.name.zh,
+    product.name.en,
+    ...(product.tags ?? []),
+    product.metadata?.category,
+    product.metadata?.subcategory,
+    product.metadata?.pet_species,
+  ].filter(Boolean).join(" ").toLowerCase();
+
+  if (product.categorySlug === "cats" || product.categorySlug === "dogs") return true;
+  if (/(supplies|lifestyle|用品|collar|harness|leash|牽引|項圈|胸背|玩具|睡窩|清潔|護理)/i.test(text)) return false;
+  return /(food|treat|snack|零食|小食|食品|食物|罐頭|乾糧|濕糧|肉乾|肉條|肉片|肉棒|肉鬆|魚介|seafood|鮮肉|原肉)/i.test(text);
 }
 
 export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 | 10 | 15 {
