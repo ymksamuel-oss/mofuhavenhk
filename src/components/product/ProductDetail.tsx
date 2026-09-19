@@ -214,7 +214,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                 quantityOptions={petBundleQuantityOptions}
                 quantity={selectedQty}
                 onQuantityChange={setSelectedQty}
-                showBulkShortcuts={false}
+                showBulkShortcuts
                 showTotal
                 unitPrice={selectedPrice}
                 className="!mt-3 [&>button:last-child]:!rounded-xl [&>button:last-child]:!py-3.5 [&>button:last-child]:!font-medium"
