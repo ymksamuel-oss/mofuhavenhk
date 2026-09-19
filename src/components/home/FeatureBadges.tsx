@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 const FEATURES = [
-  { icon: "🚚", title: "快速配送", body: "現貨商品安心寄送" },
-  { icon: "🎁", title: "滿額免運", body: "滿 HK$450 即享免運" },
-  { icon: "💬", title: "貼心客服", body: "有需要隨時聯絡我們" },
+  { icon: "🚚", title: "快速配送", body: "現貨商品安心寄送", href: "/shipping-policy" },
+  { icon: "🎁", title: "滿額免運", body: "滿 HK$450 即享免運", href: "/categories/dogs" },
+  { icon: "💬", title: "貼心客服", body: "有需要隨時聯絡我們", href: "https://wa.me/85298646585" },
 ] as const;
 
 export function FeatureBadges() {
@@ -9,13 +11,13 @@ export function FeatureBadges() {
     <section aria-label="配送服務、滿額免運及貼心客服" className="w-full bg-transparent px-4 py-3 sm:px-6">
       <div className="mx-auto grid w-full max-w-6xl grid-cols-3 gap-2 sm:gap-4">
         {FEATURES.map((feature) => (
-          <div key={feature.title} className="flex min-w-0 items-center justify-center gap-2 rounded-xl bg-[#fffaf4] px-2 py-3 text-center shadow-sm sm:gap-3 sm:px-4">
+          <Link key={feature.title} href={feature.href} className="flex min-w-0 items-center justify-center gap-2 rounded-xl bg-[#fffaf4] px-2 py-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] sm:gap-3 sm:px-4">
             <span className="text-xl sm:text-2xl" aria-hidden="true">{feature.icon}</span>
             <span className="min-w-0">
               <strong className="block truncate text-xs font-bold text-[#49372c] sm:text-sm">{feature.title}</strong>
               <span className="hidden text-xs text-[#806d5d] sm:block">{feature.body}</span>
             </span>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

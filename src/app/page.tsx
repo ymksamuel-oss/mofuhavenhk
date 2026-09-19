@@ -26,8 +26,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <BestPartnerBanner />
       <FeatureBadges />
+      <BestPartnerBanner />
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
       <BestPartnerValues />

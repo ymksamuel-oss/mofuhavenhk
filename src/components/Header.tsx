@@ -334,15 +334,6 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
-                <li className="block w-full">
-                  <Link
-                    href="/brand/best-partner"
-                    className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === "/brand/best-partner" ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Best Partner 品牌概念
-                  </Link>
-                </li>
                 {primaryCategoryLinks.map((item) => (
                   <li key={item.slug} className="block w-full">
                     <Link href={`/categories/${item.slug}`} className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
@@ -402,6 +393,15 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
+                <li className="block w-full">
+                  <Link href="/about-dog" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>探索寵物世界</Link>
+                </li>
+                <li className="block w-full">
+                  <Link href="/about" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>關於我們</Link>
+                </li>
+                <li className="block w-full">
+                  <Link href="/brand/best-partner" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === "/brand/best-partner" ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>Best Partner 品牌概念</Link>
+                </li>
               </ul>
             </nav>
           </div>,
@@ -432,9 +432,6 @@ export function Header() {
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {t("navHome")}
-            </Link>
-            <Link href="/brand/best-partner" className={navLinkClassName(pathname === "/brand/best-partner")}>
-              Best Partner 品牌概念
             </Link>
             {primaryCategoryLinks.map((item) => (
               <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>
@@ -493,6 +490,9 @@ export function Header() {
             <Link href="/checkout" className={navLinkClassName(pathname === "/checkout")}>
               {t("navCheckout")}
             </Link>
+            <Link href="/about-dog" className={navLinkClassName(pathname === "/about-dog")}>探索寵物世界</Link>
+            <Link href="/about" className={navLinkClassName(pathname === "/about")}>關於我們</Link>
+            <Link href="/brand/best-partner" className={navLinkClassName(pathname === "/brand/best-partner")}>Best Partner 品牌概念</Link>
           </nav>
 
           {/* Search, cart and language controls remain visually separate from category navigation. */}
