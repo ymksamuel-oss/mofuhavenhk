@@ -4,6 +4,7 @@ import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSections";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
+import { BestPartnerBanner } from "@/components/home/BestPartnerBanner";
 import { BestPartnerValues } from "@/components/home/BestPartnerValues";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
@@ -26,6 +27,7 @@ export default async function HomePage() {
   return (
     <>
       <HomeBulkPromotion />
+      <BestPartnerBanner />
       <HomeBannerCarousel />
       <BestPartnerValues />
       <HomepageProductGrid products={products} />
