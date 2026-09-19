@@ -364,7 +364,15 @@ export async function GET(request: Request) {
     });
     const { data: costSetting } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
     const costs = parseProductCosts(costSetting?.value);
-    rows = rows.map((row) => ({ ...row, ...(costs[String(row.id)] || {}) }));
+    rows = rows.map((row) => {
+      const privateCost = costs[String(row.id)];
+      const legacyCostJpy = Number(row.cost_price_jpy ?? row.cost_jpy ?? row.cost_price_rmb);
+      return {
+        ...row,
+        ...(privateCost || {}),
+        ...(!privateCost && Number.isFinite(legacyCostJpy) && legacyCostJpy > 0 ? { cost_jpy: legacyCostJpy } : {}),
+      };
+    });
   }
 
   if (table === "brands") {

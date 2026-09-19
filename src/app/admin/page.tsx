@@ -666,7 +666,15 @@ export default function AdminPage() {
     setBarcodeNotice("");
     if (match) {
       setBarcodeProduct(match);
-      setBarcodeDraft({ ...match, stock: Number(match.stock) || 0, price: Number(match.price) || 0 });
+      const legacyCostJpy = Number(match.cost_price_jpy ?? match.cost_jpy ?? match.cost_price_rmb);
+      setBarcodeDraft({
+        ...match,
+        cost_jpy: Number(match.cost_jpy) || (Number.isFinite(legacyCostJpy) ? legacyCostJpy : ""),
+        shipping_hkd: Number(match.shipping_hkd) || DEFAULT_SHIPPING_HKD,
+        exchange_rate: Number(match.exchange_rate) || DEFAULT_JPY_TO_HKD,
+        stock: Number(match.stock) || 0,
+        price: Number(match.price) || 0,
+      });
       return;
     }
     setTab("products");
@@ -678,8 +686,28 @@ export default function AdminPage() {
     setBarcodeSaving(true);
     setBarcodeNotice("");
     try {
-      const result = await call("PATCH", { table: "products", id: barcodeDraft.id, row: { stock: Math.max(0, Math.trunc(Number(barcodeDraft.stock) || 0)), price: Number(barcodeDraft.price) || 0, current_hkd: Number(barcodeDraft.price) || 0 } });
-      setRows((current) => current.map((row) => String(row.id) === String(barcodeDraft.id) ? { ...row, ...(result.data || {}), stock: barcodeDraft.stock, price: barcodeDraft.price } : row));
+      const result = await call("PATCH", {
+        table: "products",
+        id: barcodeDraft.id,
+        row: {
+          cost_jpy: Number(barcodeDraft.cost_jpy) || 0,
+          shipping_hkd: Number(barcodeDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
+          exchange_rate: Number(barcodeDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
+          markup_multiplier: DEFAULT_MARKUP_MULTIPLIER,
+          stock: Math.max(0, Math.trunc(Number(barcodeDraft.stock) || 0)),
+          price: Number(barcodeDraft.price) || 0,
+          current_hkd: Number(barcodeDraft.price) || 0,
+        },
+      });
+      setRows((current) => current.map((row) => String(row.id) === String(barcodeDraft.id) ? {
+        ...row,
+        ...(result.data || {}),
+        cost_jpy: barcodeDraft.cost_jpy,
+        shipping_hkd: barcodeDraft.shipping_hkd,
+        exchange_rate: barcodeDraft.exchange_rate,
+        stock: barcodeDraft.stock,
+        price: barcodeDraft.price,
+      } : row));
       setBarcodeProduct(null);
       setBarcodeDraft(null);
     } catch (e: any) {
@@ -692,6 +720,30 @@ export default function AdminPage() {
   function categoryName(categoryId: unknown) {
     return categories.find((category) => String(category.id) === String(categoryId))?.name || "未分類";
   }
+
+  const barcodeTags = barcodeProduct && Array.isArray(barcodeProduct.feature_tags)
+    ? barcodeProduct.feature_tags.filter((tag: unknown): tag is string => typeof tag === "string")
+    : [];
+  const barcodeChineseName = String(barcodeProduct?.name_zh || barcodeProduct?.name || "產品")
+    .split(/[｜|]/)[0]
+    .replace(/^日本原裝\s*Best Partner\s*/i, "")
+    .trim();
+  const barcodeJapaneseName = String(barcodeProduct?.name || "").split(/[｜|]/).at(-1)?.trim() || "—";
+  const barcodeCostJpy = Number(barcodeDraft?.cost_jpy) || 0;
+  const barcodeExchangeRate = Number(barcodeDraft?.exchange_rate) || DEFAULT_JPY_TO_HKD;
+  const barcodeShippingHkd = Number(barcodeDraft?.shipping_hkd) || DEFAULT_SHIPPING_HKD;
+  const barcodeCostHkd = barcodeCostJpy * barcodeExchangeRate + barcodeShippingHkd;
+  const barcodePriceHkd = Number(barcodeDraft?.price) || 0;
+  const barcodeMargin = barcodePriceHkd > 0 ? ((barcodePriceHkd - barcodeCostHkd) / barcodePriceHkd) * 100 : 0;
+  const barcodeAudience = String(barcodeProduct?.pet_species || "").toLowerCase().includes("cat")
+    ? "貓咪專區"
+    : String(barcodeProduct?.pet_species || "").toLowerCase().includes("dog") ? "狗狗專區" : "貓狗兼用";
+  const barcodeCategory = barcodeProduct?.category_id
+    ? categoryName(barcodeProduct.category_id)
+    : barcodeTags.filter((tag: string) => tag.startsWith("supplier_category:")).map((tag: string) => tag.split(":")[1]).join("／") || "未分類";
+  const barcodeStatus = barcodeProduct?.is_published === false || barcodeProduct?.status === "draft"
+    ? "隱藏"
+    : Number(barcodeDraft?.stock) > 0 ? "在售中" : "缺貨中";
 
   return (
     <div className="min-h-screen bg-[#f6f2eb] text-[#27231f]">
@@ -922,12 +974,38 @@ export default function AdminPage() {
       {scannerOpen && <BarcodeScanner onDetected={handleBarcode} onClose={() => setScannerOpen(false)} />}
       {barcodeProduct && barcodeDraft && (
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/45 p-3 sm:items-center">
-          <section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-product-title">
-            <div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#a36b42]">條碼匹配成功</p><h2 id="barcode-product-title" className="mt-1 text-xl font-semibold">{barcodeProduct.name || "產品"}</h2><p className="mt-1 text-xs text-[#8b7c70]">JAN／店內貨號：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p></div><button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div>
-            <div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-xl bg-[#fffaf4] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div><div className="rounded-xl bg-[#fffaf4] p-3 text-sm">日元來貨價<strong className="mt-1 block text-2xl text-[#805536]">¥{barcodeProduct.cost_jpy ?? "—"}</strong></div></div>
+          <section className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-product-title">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#a36b42]">條碼匹配成功</p>
+                <h2 id="barcode-product-title" className="mt-1 text-xl font-semibold">{barcodeChineseName}</h2>
+                <p className="mt-1 text-sm text-[#756962]">原廠日文：{barcodeJapaneseName}</p>
+                <p className="mt-1 text-xs text-[#8b7c70]">JAN／店內貨號：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p>
+              </div>
+              <button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+              <span className="rounded-full bg-[#e8f3ec] px-3 py-1.5 text-[#2f4a3c]">{barcodeStatus}</span>
+              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">{barcodeAudience}／{barcodeCategory}</span>
+              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">規格：{barcodeProduct.product_spec || "—"}</span>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div>
+              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">折合港幣成本<strong className="mt-1 block text-2xl text-[#805536]">HK${barcodeCostHkd.toFixed(2)}</strong><span className="text-xs text-[#8b7c70]">匯率 {barcodeExchangeRate}</span></div>
+            </div>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <label className="text-sm"><span className="mb-1 block font-medium">日元來貨價（JPY）</span><input type="number" min="0" step="1" value={barcodeDraft.cost_jpy ?? ""} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, cost_jpy: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" placeholder="例如 380" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">目前售價（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
+              <div className="rounded-xl border border-[#ded5cc] bg-[#fffdfa] p-3 text-sm"><span className="block font-medium">預估毛利率</span><strong className={`mt-2 block text-xl ${barcodeMargin < 30 ? "text-[#b34d36]" : "text-[#2f4a3c]"}`}>{barcodeMargin.toFixed(1)}%</strong></div>
+            </div>
+
             <div className="mt-4 grid grid-cols-2 gap-3"><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 10 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+10 入庫</button><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 20 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+20 入庫</button></div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">調整後庫存</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label><label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label></div>
-            {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "儲存中…" : "儲存庫存／售價"}</button>
+            <label className="mt-4 block text-sm"><span className="mb-1 block font-medium">調整後庫存</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
+            {barcodeMargin < 30 && <p className="mt-3 rounded-lg bg-[#fff1ed] px-3 py-2 text-sm text-[#b34d36]">折後利潤過低，請檢查日元成本或售價。</p>}
+            {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "儲存中…" : "儲存庫存／售價／日元成本"}</button>
           </section>
         </div>
       )}
