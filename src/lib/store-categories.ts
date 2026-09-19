@@ -27,7 +27,7 @@ export function categoryDisplayName(
   category: StoreCategory,
   locale: Locale,
 ): string {
-  const localized = locale === "en" ? category.name_en : locale === "ja" ? category.name_ja : category.name_zh;
+  const localized = locale === "en" ? category.name_en : category.name_zh;
   return localized?.trim() || category.name.trim();
 }
 

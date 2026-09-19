@@ -842,7 +842,7 @@ export default function AdminPage() {
                                 ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
                                 : tab === "brands"
                                   ? `商品 ${row.product_count ?? 0} 項 · 排序 ${row.sort_order ?? 0} · ${row.is_active ? "啟用中" : "已停用"}`
-                                : tab === "orders"
+                                : (tab as Tab) === "orders"
                                   ? `${row.total ?? 0} · ${row.created_at || ""}`
                                   : tab === "store_settings"
                                     ? (String(row.value).length > 20 ? "••••••••" : row.value)
@@ -871,12 +871,12 @@ export default function AdminPage() {
                             </div>
                           ) : tab === "banners" ? (
                             <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">請於上方四格管理</span>
-                          ) : tab === "orders" ? (
+                          ) : (tab as Tab) === "orders" ? (
                             <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">可直接於卡片操作</span>
                           ) : (
                             <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
                           )}
-                          {tab !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
+                          {(tab as Tab) !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
                       {isProductTab(tab) && openQuickEditProductId === String(row.id) && quickEditDraft && (

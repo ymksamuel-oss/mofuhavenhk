@@ -82,7 +82,7 @@ export function AddToCartButton({
   const setSafeQty = (value: number) => {
     if (!Number.isFinite(value)) return;
     const next = Math.min(MAX_QTY, Math.max(MIN_QTY, Math.floor(value)));
-    if (next !== qty && CELEBRATION_QUANTITIES.has(next)) void celebrateTier();
+    if (next !== qty && CELEBRATION_QUANTITIES.has(next as (typeof PET_QUICK_QUANTITIES)[number])) void celebrateTier();
     onQuantityChange?.(next);
     if (controlledQty === undefined) setInternalQty(next);
   };
