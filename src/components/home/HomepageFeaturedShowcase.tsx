@@ -10,6 +10,7 @@ type Shelf = {
   description: string;
   href: string;
   patterns: RegExp[];
+  skus?: readonly string[];
 };
 
 const SHELVES: readonly Shelf[] = [
@@ -40,6 +41,7 @@ const SHELVES: readonly Shelf[] = [
     description: "貼合、減壓、好看，陪伴每一次自在散步。",
     href: "/collections/outdoor-gear",
     patterns: [/胸背|牽引|牽繩|頸圈|項圈|散步|外出|harness|leash|lead|collar|walk/i],
+    skus: ["4976064026071", "4976064026088", "4976064026170", "4976064023322", "4976064015013", "4976064026231"],
   },
 ];
 
@@ -58,6 +60,13 @@ function searchableText(product: Product): string {
 }
 
 function productsForShelf(products: Product[], shelf: Shelf): Product[] {
+  if (shelf.skus) {
+    const skuSet = new Set(shelf.skus);
+    return products.filter((product) => {
+      const sku = product.metadata?.mofu_sku?.trim() || product.tags?.find((tag) => /^\d{8,14}$/.test(tag));
+      return sku ? skuSet.has(sku) : false;
+    });
+  }
   const matches = products.filter((product) => shelf.patterns.some((pattern) => pattern.test(searchableText(product))));
   return (matches.length >= 4 ? matches : products).slice(0, 4);
 }

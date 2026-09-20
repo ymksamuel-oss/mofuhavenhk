@@ -5,6 +5,8 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { COLLECTIONS, getCollection } from "@/lib/collections";
 
 export const revalidate = 300;
+// Collection pages are public storefront routes; unknown slugs still resolve to notFound below.
+export const dynamicParams = true;
 
 type CollectionPageProps = {
   params: Promise<{ slug: string }>;

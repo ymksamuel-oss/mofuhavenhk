@@ -33,7 +33,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           />
         </div>
         <div className="min-w-0 px-3 pt-3 sm:px-4 sm:pt-4">
-          <h3 className="line-clamp-3 min-h-[4.2rem] break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{displayName}</h3>
+          <h3 className="line-clamp-3 min-h-[4.5rem] break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{displayName}</h3>
         </div>
       </Link>
       <div className="mt-auto flex items-end justify-between gap-2 px-3 pb-3 pt-2 sm:px-4 sm:pb-4">

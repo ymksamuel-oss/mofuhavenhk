@@ -373,8 +373,8 @@ export const translations = {
     dogSnacksZoneSubtitle:
       "精選狗狗零食同獎勵小食，獨立歸入狗狗商品，方便喺狗狗食品下面直接揀。",
     menuAddToCheckout: "前往結帳",
-    menuAddToCart: "加入購物籃",
-    menuAddedToCart: "已加入購物籃 ✓",
+    menuAddToCart: "加入購物車",
+    menuAddedToCart: "已加入購物車 ✓",
     productSoldOut: "暫時缺貨",
     productOutOfStockMessage: "此商品目前缺貨，暫時未能加入購物籃或結帳；如需訂貨或查詢補貨安排，請直接聯絡店主。",
     productOrderInquiryCta: "聯絡店主查詢訂貨",
