@@ -9,6 +9,7 @@ import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/li
 import { findCategoryBySlug } from "@/lib/store-categories";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
+import { getCollection, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -44,6 +45,7 @@ type ProductCatalogProps = {
   ingredientFilter?: string | null;
   audienceFilter?: string | null;
   productCategory?: "treats" | "supplies" | null;
+  collectionSlug?: string | null;
 };
 
 const INGREDIENT_FILTERS = [
@@ -144,6 +146,7 @@ export function ProductCatalog({
   ingredientFilter = null,
   audienceFilter = null,
   productCategory = null,
+  collectionSlug = null,
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
@@ -154,6 +157,7 @@ export function ProductCatalog({
     ? resolveCategorySubSlug(categorySlug || "", subcategory.trim().toLowerCase())
     : null;
   const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
+  const collection = collectionSlug ? getCollection(collectionSlug) : undefined;
   const dedicatedCategoryFallback = categorySlug === "dogs"
     ? catalogProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
     : categorySlug === "cats"
@@ -164,7 +168,9 @@ export function ProductCatalog({
   // A category route must never fall back to the complete catalog. When the
   // child slug is recognised, match the resolved database subcategory exactly;
   // an unrecognised child route is deliberately empty rather than overbroad.
-  const productsByRoute = typeof subcategory === "string"
+  const productsByRoute = collection
+    ? getCollectionProducts(catalogProducts, collection)
+    : typeof subcategory === "string"
     ? liveChildCategory
       ? productsInCategory.filter((product) => product.categoryId === liveChildCategory.id)
       : selectedSubcategory
@@ -172,6 +178,7 @@ export function ProductCatalog({
       : []
     : productsInCategory.length > 0 ? productsInCategory : dedicatedCategoryFallback;
   const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
+  const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
   const suppliesCategorySelected = productCategory === "supplies";
   const ingredientEnabled = (foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat"))
@@ -225,7 +232,9 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = categorySlug === "dogs"
+  const title = collection
+    ? getCollectionLabel(collection, locale)
+    : categorySlug === "dogs"
     ? (locale === "en" ? "For Dogs" : "狗狗專區")
     : categorySlug === "cats" || specialFilter === "cat-zone"
       ? (locale === "en" ? "For Cats" : "貓咪專區")
@@ -234,7 +243,13 @@ export function ProductCatalog({
         : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
-      <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage ? "mb-6" : "sr-only"}`}>{title}</h1>
+      <div className={isCollectionPage ? "mb-7" : ""}>
+        <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
+        {collection ? <>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{collection.description}</p>
+          <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "款商品"}</p>
+        </> : null}
+      </div>
       {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7 px-8">
         <button type="button" aria-label={locale === "en" ? "Scroll ingredients left" : "向左滑動分類"} onClick={() => scrollIngredients(-1)} className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">‹</button>
         <nav ref={ingredientScrollerRef} aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="scroll-smooth flex flex-nowrap touch-pan-x gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
@@ -248,7 +263,7 @@ export function ProductCatalog({
         </nav>
         <button type="button" aria-label={locale === "en" ? "Scroll ingredients right" : "向右滑動分類"} onClick={() => scrollIngredients(1)} className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">›</button>
       </div> : null}
-      {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
+      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
           const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;
           const active = audienceFilter === slug;
@@ -257,7 +272,7 @@ export function ProductCatalog({
           </CategoryNavLink>;
         })}
       </nav> : null}
-      {!isDedicatedCategoryPage ? <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
+      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
         {["treats", "supplies"].map((slug) => {
           const active = productCategory === slug;
           const href = `/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`;
@@ -266,7 +281,7 @@ export function ProductCatalog({
           </CategoryNavLink>;
         })}
       </nav> : null}
-      {!isDedicatedCategoryPage && ingredientEnabled ? <div className="relative mb-5">
+      {!isDedicatedCategoryPage && !isCollectionPage && ingredientEnabled ? <div className="relative mb-5">
         <nav aria-label={locale === "en" ? "Ingredient filters" : "肉源分類篩選"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
             const active = (ingredientFilter ?? "all") === slug;

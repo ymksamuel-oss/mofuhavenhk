@@ -15,6 +15,7 @@ import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { brandHref, getCoreBrands } from "@/lib/brands";
+import { CollectionsNav } from "@/components/CollectionsNav";
 
 function navLinkClassName(active: boolean) {
   return `relative truncate py-0.5 transition-colors ${
@@ -340,6 +341,7 @@ export function Header() {
                     </Link>
                   </li>
                 ))}
+                <CollectionsNav mobile onNavigate={() => setMenuOpen(false)} />
                 {coreBrands.length > 0 ? (
                   <li className="block w-full">
                     <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${mobileBrandOpen ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}>
@@ -440,6 +442,7 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <CollectionsNav />
             {coreBrands.length > 0 ? (
               <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
                 <button type="button" className={`${navLinkClassName(desktopBrandOpen || coreBrands.some((brand) => pathname === brandHref(brand.slug)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} aria-controls="desktop-brand-menu" onPointerDown={(event) => { event.stopPropagation(); setDesktopBrandOpen((open) => !open); }} onFocus={() => setDesktopBrandOpen(true)}>
