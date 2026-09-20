@@ -11,7 +11,7 @@ export function HomeInteractiveSections() {
   return (
     <>
       <HomeProductMarquee />
-      <section id="pet-guide" className="scroll-mt-24 bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-20">
+      <section id="pet-guide" className="scroll-mt-24 bg-[#fbf7f3] px-5 py-6 sm:px-10 sm:py-8">
         <div className="mx-auto grid max-w-6xl gap-0 lg:grid-cols-2 lg:items-center lg:gap-x-10">
           <div className="max-w-xl lg:col-start-1 lg:row-start-1 lg:py-6">
             <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">

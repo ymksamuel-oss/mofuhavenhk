@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { Product } from "@/lib/products";
 
 type Shelf = {
   id: string;
-  title: string;
-  description: string;
+  title: { zh: string; en: string };
+  description: { zh: string; en: string };
   href: string;
   patterns: RegExp[];
   skus?: readonly string[];
@@ -16,32 +17,31 @@ type Shelf = {
 const SHELVES: readonly Shelf[] = [
   {
     id: "bestsellers",
-    title: "🏆 Best Sellers",
-    description: "Japanese favourites pets always want another serving of.",
+    title: { zh: "🏆 熱賣排行榜", en: "🏆 Top Sellers" },
+    description: { zh: "毛孩總想再來一份的日本人氣好物。", en: "Japanese favourites pets always want another serving of." },
     href: "/collections/dogs",
     patterns: [/\u71b1\u8ce3|\u4eba\u6c23|best.?seller|\u4eba\u6c17|\u63a8\u85a6|featured/i],
   },
   {
     id: "dental",
-    title: "🦷 Dental Chews",
-    description: "Natural chewing support for daily oral care and calmer energy.",
+    title: { zh: "🦷 物理潔齒耐咬專區", en: "🦷 Dental & Chews" },
+    description: { zh: "以天然咀嚼支援日常口腔護理，消耗旺盛精力。", en: "Natural chewing support for daily oral care and calmer energy." },
     href: "/collections/dental-chews",
     patterns: [/\u6f54\u9f52|\u6f54\u7259|\u7259\u68d2|\u725b\u8e44|\u725b\u7b4b|\u8010\u54ac|dental|chew|tooth/i],
   },
   {
-    id: "toppers",
-    title: "✨ Meal Toppers",
-    description: "Add a little aroma to mealtimes and make every bowl more exciting.",
-    href: "/collections/meal-toppers",
-    patterns: [/\u62cc\u98ef|\u62cc\u7ce7|\u6492\u6599|ふりかけ|\u8a98\u98df|topper|topping|seasoning/i],
+    id: "meat",
+    title: { zh: "🥩 天然原肉與低敏零食", en: "🥩 Pure Meat Treats" },
+    description: { zh: "單一肉源、純粹肉香，溫柔照顧挑食與敏感毛孩。", en: "Single-protein treats with clean flavour for sensitive appetites." },
+    href: "/collections/horse-meat",
+    patterns: [/\u9e7f|\u99ac|\u725b|\u7f8a|\u9bca\u9b5a|\u9e7f\u8089|\u99ac\u8089|beef|venison|horse|shark|meat|jerky/i],
   },
   {
-    id: "outdoor",
-    title: "🦺 Outdoor Walking Gear",
-    description: "Comfortable, supportive and stylish gear for better everyday walks.",
-    href: "/collections/outdoor-gear",
-    patterns: [/\u80f8\u80cc|\u727d\u5f15|\u727d\u7e69|\u9838\u5708|\u9805\u5708|\u6563\u6b65|\u5916\u51fa|harness|leash|lead|collar|walk/i],
-    skus: ["4976064026071", "4976064026088", "4976064026170", "4976064023322", "4976064015013", "4976064026231"],
+    id: "bundles",
+    title: { zh: "🎁 限時超值套裝", en: "🎁 Value Bundles" },
+    description: { zh: "一次配齊日常所需，送禮自用都更划算。", en: "Thoughtful Japanese bundles for better value and easy gifting." },
+    href: "/collections/value-bundles",
+    patterns: [/bundle|value|set|\u5957\u88dd|\u7d44\u5408|\u7279\u60e0/i],
   },
 ];
 
@@ -72,35 +72,37 @@ function productsForShelf(products: Product[], shelf: Shelf): Product[] {
 }
 
 export function HomepageFeaturedShowcase({ products }: { products: Product[] }) {
+  const { locale } = useI18n();
+  const isZh = locale === "zh";
   return (
-    <section aria-labelledby="homepage-featured-showcase-title" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-16">
+    <section aria-labelledby="homepage-featured-showcase-title" className="bg-[#fbf7f3] px-5 py-6 sm:px-10 sm:py-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 flex items-end justify-between gap-4">
+        <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">MOFU HAVEN SELECT</span>
-            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">Curated Collections</h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">Browse Japanese pet essentials organised around everyday needs.</p>
+            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">{isZh ? "日系主題策展" : "Curated Collections"}</h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">{isZh ? "按毛孩日常需要，精選日本寵物好物。" : "Browse Japanese pet essentials organised around everyday needs."}</p>
           </div>
         </div>
 
-        <div className="grid gap-10">
+        <div className="grid gap-6">
           {SHELVES.map((shelf) => {
             const shelfProducts = productsForShelf(products, shelf);
             return (
               <section key={shelf.id} aria-labelledby={`${shelf.id}-title`}>
-                <div className="mb-4 flex items-end justify-between gap-3">
+                <div className="mb-3 flex items-end justify-between gap-3">
                   <div>
-                    <h3 id={`${shelf.id}-title`} className="text-xl font-bold text-[color:var(--ink)] sm:text-2xl">{shelf.title}</h3>
-                    <p className="mt-1 text-sm text-[color:var(--muted)]">{shelf.description}</p>
+                    <h3 id={`${shelf.id}-title`} className="text-xl font-bold text-[color:var(--ink)] sm:text-2xl">{isZh ? shelf.title.zh : shelf.title.en}</h3>
+                    <p className="mt-1 text-sm text-[color:var(--muted)]">{isZh ? shelf.description.zh : shelf.description.en}</p>
                   </div>
-                  <Link href={shelf.href} className="shrink-0 rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--accent)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]">View all →</Link>
+                  <Link href={shelf.href} className="shrink-0 rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--accent)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]">{isZh ? "查看全部 →" : "View all →"}</Link>
                 </div>
                 {shelfProducts.length > 0 ? (
-                  <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></li>)}
+                  <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
+                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><div className="relative">{shelf.id === "bestsellers" && index < 3 ? <span className="absolute left-2 top-2 z-20 rounded-full bg-[#8b573f] px-2 py-1 text-[10px] font-bold text-white shadow-sm">{isZh ? `第 ${index + 1} 名` : `${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : "rd"}`}</span> : null}<ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></div></li>)}
                   </ul>
                 ) : (
-                  <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">Our product catalogue is updating. Please check back soon.</p>
+                  <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">{isZh ? "商品目錄正在更新，請稍後再來。" : "Our product catalogue is updating. Please check back soon."}</p>
                 )}
               </section>
             );

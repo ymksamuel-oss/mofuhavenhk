@@ -20,9 +20,9 @@ export function BestPartnerValues() {
   return (
     <section
       aria-labelledby="best-partner-values-title"
-      className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-12 sm:px-8 sm:py-16 lg:px-10"
+      className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-6 sm:px-8 sm:py-8 lg:px-10"
     >
-      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-9 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-12 lg:px-14">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-6 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-8 lg:px-14">
         <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#d9c0a8] bg-[#f4e5d6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#7c5841]">
             <span aria-hidden="true">✦</span> Made in Aichi, Japan・Officially Imported
@@ -38,7 +38,7 @@ export function BestPartnerValues() {
           </p>
         </div>
 
-        <div className="mt-8 grid gap-3 sm:mt-10 lg:grid-cols-3 lg:gap-5">
+        <div className="mt-5 grid gap-3 sm:mt-6 lg:grid-cols-3 lg:gap-5">
           {VALUES.map((value) => (
             <div
               key={value.title}

@@ -104,10 +104,10 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
     <section
       id="homepage-products"
       aria-labelledby="homepage-products-title"
-      className="border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-12 sm:px-10 sm:py-16"
+      className="border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-6 sm:px-10 sm:py-8"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-7 flex items-end justify-between gap-5 sm:mb-9">
+        <div className="mb-5 flex items-end justify-between gap-5 sm:mb-6">
           <div>
             <span className="inline-flex rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[color:var(--accent)]">
               {t("homepageGridEyebrow")}
@@ -137,7 +137,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
           </div>
         ) : (
           <>
-            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
               {visibleProducts.map((product, index) => {
               return (
                 <li key={product.id} className="min-w-0">
