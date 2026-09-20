@@ -141,7 +141,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
               {visibleProducts.map((product, index) => {
               return (
                 <li key={product.id} className="min-w-0">
-                  <ProductCard product={product} priority={index < 4} />
+                  <ProductCard product={product} priority={index < 4} showPurchaseControls={false} />
                 </li>
               );
               })}

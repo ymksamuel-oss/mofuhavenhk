@@ -97,7 +97,7 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
                 </div>
                 {shelfProducts.length > 0 ? (
                   <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><ProductCard product={product} priority={index === 0} /></li>)}
+                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></li>)}
                   </ul>
                 ) : (
                   <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">商品資料更新中，請稍後再來查看。</p>
