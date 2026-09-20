@@ -73,7 +73,7 @@ function ProductRow({ label, products, speed }: ProductRowProps) {
                     src={product.images?.[0] ?? "catalog-placeholder"}
                     alt={getLocalizedProductName(product, locale)}
                     sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.045]"
+                    className="object-contain p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.045]"
                   />
                   {discountPercent ? (
                     <span className={styles.discount}>-{discountPercent}%</span>

@@ -250,12 +250,12 @@ function SearchField({
                       }}
                       onNavigate={dismissForNavigation}
                     >
-                      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
+                      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#ECE5D8] bg-[#FAF7F2] p-1 ring-0">
                         <ProductImage
                           src={hit.image}
                           alt={getLocalizedProductName(hit, locale)}
                           sizes="48px"
-                          className="object-cover"
+                          className="object-contain mix-blend-multiply"
                         />
                         {hit.inStock === false ? (
                           <span className="absolute inset-x-0 bottom-0 bg-[color:var(--ink)]/75 px-1 py-0.5 text-center text-[9px] font-semibold text-white">

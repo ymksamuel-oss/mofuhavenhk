@@ -72,12 +72,12 @@ export function ProductQuickView({
           ✕
         </button>
 
-        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
+        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FAF7F2] p-4">
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}
             alt={getLocalizedProductName(product, locale)}
             sizes="(min-width: 640px) 512px, 100vw"
-            className="object-cover"
+            className="object-contain mix-blend-multiply"
             priority
           />
           {discountPercent ? (

@@ -19,9 +19,9 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
-    <article className="milk-tea-card group flex h-full min-w-0 flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
+    <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className={`block min-w-0 ${showPurchaseControls ? "" : "h-full"}`}>
-        <div className="relative aspect-square w-full overflow-hidden rounded-t-[1.35rem] bg-[color:var(--product-image-surface)]">
+        <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-3 sm:p-4">
           <ProductStatusBadges product={product} className="right-2 top-2" />
           {hasDiscount ? <span className="absolute left-2 top-2 z-10 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-2 py-0.5 text-[10px] font-bold leading-4 text-[#a2382e]">優惠</span> : null}
           <ProductImage
@@ -29,7 +29,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
             alt={displayName}
             priority={priority}
             sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+            className="object-contain mix-blend-multiply transition-transform duration-300 ease-out group-hover:scale-[1.03]"
           />
         </div>
         <div className="min-w-0 px-3 pt-3 sm:px-4 sm:pt-4">
