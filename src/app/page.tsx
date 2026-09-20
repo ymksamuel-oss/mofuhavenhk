@@ -3,7 +3,7 @@
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSections";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
-import { BestPartnerBanner } from "@/components/home/BestPartnerBanner";
+import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { BestPartnerValues } from "@/components/home/BestPartnerValues";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
@@ -25,7 +25,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <BestPartnerBanner />
+      <HomeBannerCarousel />
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
       <BestPartnerValues />
