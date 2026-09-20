@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { ProductImage } from "@/components/product/ProductImage";
+import { ProductCard } from "@/components/product/ProductCard";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { getProductsByCategory, productHref, resolveCategorySubSlug } from "@/lib/products";
+import { getProductsByCategory, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
-import { getLocalizedProductName } from "@/lib/translateProductName";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 
@@ -305,32 +304,9 @@ export function ProductCatalog({
         <>
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {visibleProducts.map((product, index) => {
-              const href = productHref(product.id);
-              // The URL is resolved inside this map iteration from the
-              // verified Supabase `images` array, so every card is independent.
-              const imageUrl = product.images?.[0] ?? "catalog-placeholder";
-              const localizedName = getLocalizedProductName(product, locale);
               return (
                 <li key={product.id} className="min-w-0">
-                  <article className="milk-tea-card group flex h-full min-w-0 flex-col overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
-                    <CategoryNavLink href={href} aria-label={`${t("productViewDetails")}: ${localizedName}`} className="flex min-w-0 flex-1 flex-col">
-                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--product-image-surface)]">
-                      <ProductImage
-                        key={`${product.id}-${imageUrl}`}
-                        src={imageUrl}
-                        alt={localizedName}
-                        priority={index < 4}
-                        sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-                        className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 sm:p-4">
-                      <h2 className="line-clamp-2 min-h-[2.5rem] min-w-0 break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
-                        {localizedName}
-                      </h2>
-                    </div>
-                    </CategoryNavLink>
-                  </article>
+                  <ProductCard product={product} priority={index < 4} />
                 </li>
               );
             })}

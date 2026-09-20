@@ -265,13 +265,13 @@ export function Header() {
   }, [menuOpen]);
 
   const mobileNavItems = [
-    { href: "/", label: t("navHome"), active: pathname === "/" },
+    { href: "/", label: locale === "zh" ? "首頁" : t("navHome"), active: pathname === "/" },
   ] as const;
 
   const primaryCategoryLinks = [
-    { slug: "dogs", label: t("navCategoriesDogs") },
-    { slug: "cats", label: t("navCategoriesCats") },
-    { slug: "supplies", label: t("navHeaderLifestyle") },
+    { slug: "dogs", label: locale === "zh" ? "狗狗專區" : t("navCategoriesDogs") },
+    { slug: "cats", label: locale === "zh" ? "貓貓專區" : t("navCategoriesCats") },
+    { slug: "supplies", label: locale === "zh" ? "寵物用品" : t("navHeaderLifestyle") },
   ] as const;
   const secondaryTopLevelCategories = topLevelCategories.filter(
     (category) => !primaryCategoryLinks.some((link) => link.slug === category.slug),
@@ -435,7 +435,7 @@ export function Header() {
             aria-label={t("headerPrimaryNavLabel")}
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
-              {t("navHome")}
+              {locale === "zh" ? "首頁" : t("navHome")}
             </Link>
             {primaryCategoryLinks.map((item) => (
               <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>

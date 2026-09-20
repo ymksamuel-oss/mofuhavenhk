@@ -125,7 +125,7 @@ export function HomeBannerCarousel() {
           <div className={`absolute inset-0 -z-10 bg-gradient-to-r ${activeSlide.tone}`} />
           <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2d211b]/55 via-transparent to-transparent" />
 
-          <div className="flex min-h-[390px] max-w-2xl flex-col justify-center px-7 py-14 text-white sm:min-h-[430px] sm:px-14 sm:py-16">
+          <div className="flex min-h-[390px] max-w-2xl flex-col justify-center px-14 py-14 text-white sm:min-h-[430px] sm:px-20 sm:py-16">
             <span className="mb-4 w-fit rounded-full border border-white/45 bg-white/15 px-3.5 py-1.5 text-xs font-semibold tracking-[0.12em] backdrop-blur-sm sm:text-sm">{activeSlide.badge}</span>
             <h1 className="max-w-xl text-3xl font-bold leading-[1.15] tracking-tight drop-shadow-md sm:text-5xl">{activeSlide.title}</h1>
             <p className="mt-4 max-w-xl text-lg font-semibold leading-snug text-[#fff8ee] drop-shadow sm:text-2xl">{activeSlide.subtitle}</p>

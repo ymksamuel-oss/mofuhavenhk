@@ -1,0 +1,103 @@
+"use client";
+
+import Link from "next/link";
+import { ProductCard } from "@/components/product/ProductCard";
+import type { Product } from "@/lib/products";
+
+type Shelf = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  patterns: RegExp[];
+};
+
+const SHELVES: readonly Shelf[] = [
+  {
+    id: "bestsellers",
+    title: "🏆 回購熱銷榜",
+    description: "毛孩吃過都想再來一份的日本人氣好物。",
+    href: "/collections/dogs",
+    patterns: [/熱賣|人氣|best.?seller|人気|推薦|featured/i],
+  },
+  {
+    id: "dental",
+    title: "🦷 物理潔齒防拆家",
+    description: "以自然咀嚼消耗精力，同時照顧每日口腔清潔。",
+    href: "/collections/dental-chews",
+    patterns: [/潔齒|潔牙|牙棒|牛蹄|牛筋|耐咬|dental|chew|tooth/i],
+  },
+  {
+    id: "toppers",
+    title: "✨ 挑食拌糧誘食",
+    description: "為日常飯點加一點香氣，讓挑食毛孩重新期待吃飯。",
+    href: "/collections/meal-toppers",
+    patterns: [/拌飯|拌糧|撒料|ふりかけ|誘食|topper|topping|seasoning/i],
+  },
+  {
+    id: "outdoor",
+    title: "🦺 戶外漫步裝備",
+    description: "貼合、減壓、好看，陪伴每一次自在散步。",
+    href: "/collections/outdoor-gear",
+    patterns: [/胸背|牽引|牽繩|頸圈|項圈|散步|外出|harness|leash|lead|collar|walk/i],
+  },
+];
+
+function searchableText(product: Product): string {
+  return [
+    product.name.zh,
+    product.name.en,
+    product.name.ja,
+    product.description?.zh,
+    product.description?.en,
+    product.categorySlug,
+    product.subcategory,
+    ...(product.tags ?? []),
+    ...Object.values(product.metadata ?? {}),
+  ].filter(Boolean).join(" ");
+}
+
+function productsForShelf(products: Product[], shelf: Shelf): Product[] {
+  const matches = products.filter((product) => shelf.patterns.some((pattern) => pattern.test(searchableText(product))));
+  return (matches.length >= 4 ? matches : products).slice(0, 4);
+}
+
+export function HomepageFeaturedShowcase({ products }: { products: Product[] }) {
+  return (
+    <section aria-labelledby="homepage-featured-showcase-title" className="bg-[#fbf7f3] px-5 py-12 sm:px-10 sm:py-16">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">MOFU HAVEN SELECT</span>
+            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">精選主題貨架</h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">按毛孩日常需要整理，快速找到適合你的日本直送好物。</p>
+          </div>
+        </div>
+
+        <div className="grid gap-10">
+          {SHELVES.map((shelf) => {
+            const shelfProducts = productsForShelf(products, shelf);
+            return (
+              <section key={shelf.id} aria-labelledby={`${shelf.id}-title`}>
+                <div className="mb-4 flex items-end justify-between gap-3">
+                  <div>
+                    <h3 id={`${shelf.id}-title`} className="text-xl font-bold text-[color:var(--ink)] sm:text-2xl">{shelf.title}</h3>
+                    <p className="mt-1 text-sm text-[color:var(--muted)]">{shelf.description}</p>
+                  </div>
+                  <Link href={shelf.href} className="shrink-0 rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--accent)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]">查看全部 →</Link>
+                </div>
+                {shelfProducts.length > 0 ? (
+                  <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><ProductCard product={product} priority={index === 0} /></li>)}
+                  </ul>
+                ) : (
+                  <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">商品資料更新中，請稍後再來查看。</p>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

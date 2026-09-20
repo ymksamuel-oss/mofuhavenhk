@@ -1,11 +1,10 @@
 "use client";
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { ProductImage } from "@/components/product/ProductImage";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { getLocalizedProductName } from "@/lib/translateProductName";
-import { getProductsByCategory, isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
+import { getProductsByCategory, isStorefrontReadyProduct, type Product } from "@/lib/products";
+import { ProductCard } from "@/components/product/ProductCard";
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
 
@@ -75,7 +74,7 @@ function homepageProducts(products: Product[]): Product[] {
 
 /** Locale-aware homepage product section. Products are assembled by the page from Supabase. */
 export function HomepageProductGrid({ products: catalogProducts }: HomepageProductGridProps) {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   console.log("[homepage-product-grid] SSR products", catalogProducts);
   if (catalogProducts.length === 0) {
     console.error("[homepage-product-grid] SSR products is empty", {
@@ -140,20 +139,9 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
           <>
             <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
               {visibleProducts.map((product, index) => {
-              const href = productHref(product.id);
-              const name = getLocalizedProductName(product, locale);
               return (
                 <li key={product.id} className="min-w-0">
-                  <article className="milk-tea-card group flex min-w-0 flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
-                    <CategoryNavLink href={href} aria-label={`${t("viewProductAria")}: ${name}`} className="flex min-w-0 flex-col">
-                    <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[color:var(--product-image-surface)]">
-                      <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt={name} priority={index < 4} sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw" className="object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
-                    </div>
-                    <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-3 pb-1 sm:p-4 sm:pb-2">
-                      <h3 className="line-clamp-2 min-h-[2.5rem] text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{name}</h3>
-                    </div>
-                    </CategoryNavLink>
-                  </article>
+                  <ProductCard product={product} priority={index < 4} />
                 </li>
               );
               })}
