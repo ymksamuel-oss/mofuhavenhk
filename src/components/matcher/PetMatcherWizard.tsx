@@ -70,10 +70,12 @@ const NEEDS: Record<Pet, Array<{ id: Need; label: Choice; hint: Choice; keywords
     { id: "sensitive", label: { zh: "敏感腸胃・挑食毛孩", en: "Sensitive stomachs & picky eaters" }, hint: { zh: "北海道野生鹿肉／低敏馬肉", en: "Hokkaido venison and gentle horse meat" }, keywords: ["venison", "horse", "meat", "sensitive", "鹿肉", "馬肉", "原肉"] },
   ],
   cat: [
-    { id: "picky-cat", label: { zh: "挑食胃口差・純肉開胃", en: "Picky appetites & pure-meat treats" }, hint: { zh: "天然帆立貝唇／魚肉條", en: "Scallop lips and fish strips" }, keywords: ["fish", "seafood", "scallop", "treat", "魚", "帆立", "肉泥"] },
-    { id: "urinary", label: { zh: "下泌尿道健康照護", en: "Lower urinary tract support" }, hint: { zh: "CIAO 泌尿配方肉泥", en: "CIAO urinary-care purée" }, keywords: ["urinary", "ciao", "churu", "pouch", "泌尿", "肉泥"] },
+    { id: "picky-cat", label: { zh: "挑食胃口差・純肉開胃", en: "Picky appetites & pure-meat treats" }, hint: { zh: "嚴選日本天然原肉，天然肉香激發食慾", en: "Carefully selected Japanese natural meat to gently awaken appetite" }, keywords: ["fish", "seafood", "salmon", "treat", "meat", "魚", "三文魚", "深海", "原肉", "天然雞肉"] },
+    { id: "urinary", label: { zh: "下泌尿道健康照護", en: "Lower urinary tract support" }, hint: { zh: "高水分無添加配方，呵護泌尿與腸胃", en: "High-moisture, additive-free recipes for urinary and digestive care" }, keywords: ["urinary", "hydration", "moisture", "digestive", "pouch", "水分", "泌尿", "腸胃"] },
   ],
 };
+
+const CAT_DISCONTINUED_TERMS = ["ciao", "churu", "scallop lips", "帆立貝唇", "魚肉條", "fish strips"];
 
 const AGE_LABELS: Record<Age, Choice> = {
   young: { zh: "幼年期（0–1歲）", en: "Young (0–1 year)" },
@@ -147,7 +149,14 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     if (!pet || !need) return [];
     const excluded = new Set(lines.map((line) => line.id));
     return products
-      .filter((product) => product.inStock !== false && !excluded.has(product.id))
+      .filter((product) => {
+        if (product.inStock === false || excluded.has(product.id)) return false;
+        if (pet === "cat") {
+          const text = searchableProductText(product);
+          return !CAT_DISCONTINUED_TERMS.some((term) => text.includes(term));
+        }
+        return true;
+      })
       .sort((a, b) => scoreProduct(b, need, pet, specialCare) - scoreProduct(a, need, pet, specialCare) || a.price - b.price)
       .slice(0, 3);
   }, [lines, need, pet, products, specialCare]);
