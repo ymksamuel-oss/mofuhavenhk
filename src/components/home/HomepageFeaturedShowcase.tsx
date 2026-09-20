@@ -59,6 +59,10 @@ function searchableText(product: Product): string {
   ].filter(Boolean).join(" ");
 }
 
+function productSku(product: Product): string {
+  return String(product.metadata?.mofu_sku ?? product.tags?.find((tag) => /^MOFU-|^\d{8,14}$/.test(tag)) ?? "").trim();
+}
+
 function productsForShelf(products: Product[], shelf: Shelf): Product[] {
   if (shelf.skus) {
     const skuSet = new Set(shelf.skus);
@@ -67,8 +71,13 @@ function productsForShelf(products: Product[], shelf: Shelf): Product[] {
       return sku ? skuSet.has(sku) : false;
     });
   }
-  const matches = products.filter((product) => shelf.patterns.some((pattern) => pattern.test(searchableText(product))));
-  return (matches.length >= 4 ? matches : products).slice(0, 4);
+  const matches = products.filter((product) => {
+    const sku = productSku(product);
+    const isSeafoodBundle = sku === "MOFU-BUNDLE-SEAFOOD-03" || product.tags?.includes("seafood-bundle");
+    if (shelf.id === "dental" && isSeafoodBundle) return false;
+    return shelf.patterns.some((pattern) => pattern.test(searchableText(product)));
+  });
+  return matches.slice(0, 4);
 }
 
 export function HomepageFeaturedShowcase({ products }: { products: Product[] }) {
