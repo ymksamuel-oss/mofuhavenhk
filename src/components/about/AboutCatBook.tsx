@@ -2,15 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Zen_Maru_Gothic } from "next/font/google";
 import { categoryHref } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
-const zenMaru = Zen_Maru_Gothic({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+const zenMaru = { className: "font-sans" };
 
 type Chapter = {
   titleKey: TranslationKey;

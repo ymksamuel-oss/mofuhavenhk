@@ -11,25 +11,29 @@ import { productHref, type Product } from "@/lib/products";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const { locale, t } = useI18n();
+  const hasBrand = Boolean(product.brand?.trim() || product.brandName?.trim());
   const name = getLocalizedProductName(product, locale);
+  const displayName = hasBrand
+    ? name.replace(/Best\s*Partner/gi, "").replace(/\s{2,}/g, " ").trim()
+    : name;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
     <article className="milk-tea-card group flex h-full min-w-0 flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_24px_40px_-24px_rgba(43,38,35,0.3)]">
-      <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${name}`} className="block min-w-0">
+      <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className="block min-w-0">
         <div className="relative aspect-square w-full overflow-hidden rounded-t-[1.35rem] bg-[color:var(--product-image-surface)]">
           <ProductStatusBadges product={product} className="right-2 top-2" />
           {hasDiscount ? <span className="absolute left-2 top-2 z-10 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-2 py-0.5 text-[10px] font-bold leading-4 text-[#a2382e]">優惠</span> : null}
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}
-            alt={name}
+            alt={displayName}
             priority={priority}
             sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
           />
         </div>
         <div className="min-w-0 px-3 pt-3 sm:px-4 sm:pt-4">
-          <h3 className="line-clamp-2 min-h-[2.5rem] break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{name}</h3>
+          <h3 className="line-clamp-3 min-h-[4.2rem] break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{displayName}</h3>
         </div>
       </Link>
       <div className="mt-auto flex items-end justify-between gap-2 px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
