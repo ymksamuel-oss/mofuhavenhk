@@ -20,11 +20,14 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const { slug } = await params;
   const collection = getCollection(slug.trim().toLowerCase());
   if (!collection) return { title: "Collection not found | Mofu Haven HK" };
+  const title = `${collection.title_zh}｜日本天然寵物用品推薦｜毛毛港 MofuHaven`;
+  const description = `${collection.description} 按毛孩需要選擇合適產品，查看規格、用法及香港配送資訊，方便安心選購。`;
   return {
-    title: collection.seo_title,
-    description: collection.description,
+    title,
+    description,
     alternates: { canonical: `https://mofuhavenhk.com/collections/${collection.slug}` },
-    openGraph: { title: collection.seo_title, description: collection.description, type: "website" },
+    openGraph: { title, description, type: "website", url: `https://mofuhavenhk.com/collections/${collection.slug}` },
+    twitter: { card: "summary", title, description },
   };
 }
 

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { isStorefrontReadyProduct } from "@/lib/products";
+import { COLLECTIONS } from "@/lib/collections";
 
 const SITE_URL = "https://mofuhavenhk.com";
 
@@ -14,6 +15,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/categories/cats`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/categories/supplies`, changeFrequency: "weekly", priority: 0.8 },
   ];
+  const collectionRoutes: MetadataRoute.Sitemap = COLLECTIONS.map((collection) => ({
+    url: `${SITE_URL}/collections/${collection.slug}`,
+    changeFrequency: "weekly",
+    priority: collection.slug === "value-bundles" ? 0.9 : 0.8,
+  }));
 
   try {
     const { products } = await getCatalogSnapshot();
@@ -24,9 +30,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as const,
         priority: 0.7,
       }));
-    return [...staticRoutes, ...productRoutes];
+    return [...staticRoutes, ...collectionRoutes, ...productRoutes];
   } catch (error) {
     console.error("[seo] sitemap catalog unavailable", error);
-    return staticRoutes;
+    return [...staticRoutes, ...collectionRoutes];
   }
 }

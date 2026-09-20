@@ -7,6 +7,30 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 export const dynamic = "force-dynamic";
 const SITE_URL = "https://mofuhavenhk.com";
 const SITE_NAME = "毛毛港 Mofu Haven HK";
+const VALUE_BUNDLE_SKUS = new Set([
+  "MOFU-BUNDLE-PICKY-01",
+  "MOFU-BUNDLE-DENTAL-02",
+  "MOFU-BUNDLE-SEAFOOD-03",
+  "MOFU-BUNDLE-WALK-04",
+]);
+
+function productSku(product: { id: string; metadata?: Record<string, string> }) {
+  return product.metadata?.mofu_sku?.trim() || product.id;
+}
+
+function productSeoDescription(product: { name: { zh: string; en: string }; description?: { zh: string; en: string } }) {
+  const name = product.name.zh || product.name.en || "日本天然寵物用品";
+  const highlight = (product.description?.zh || product.description?.en || `精選${name}，適合毛孩日常照顧與獎勵。`)
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 140);
+  const punctuation = /[。！？.!?]$/.test(highlight) ? "" : "。";
+  return `${highlight}${punctuation}100%日本在地製造，全港滿額免運直送。`;
+}
+
+function productImageUrl(image: string) {
+  return image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+}
 
 const merchantReturnPolicy = {
   "@type": "MerchantReturnPolicy",
@@ -100,10 +124,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const product = (await getCatalogSnapshot()).products.find((candidate) => candidate.id === id);
   if (!product) return { title: "商品不存在 | 毛毛港 Mofu Haven" };
   const name = product.name.zh || product.name.en || "日本天然寵物零食";
-  const title = `【日本原裝】${name} | 無添加寵物零食 - ${SITE_NAME}`;
-  const description = `選購【${name}】。嚴選 100% 日本國產優質原料，堅持無添加、無人工防腐劑及色素。原廠低溫慢烘工藝，鎖住天然鮮味與嚼勁。香港現貨 1–2 日出貨，全單滿 HK$450 享順豐本地免運。`.slice(0, 160);
+  const title = `${name}｜毛毛港 MofuHaven`;
+  const description = productSeoDescription(product);
   const image = product.images?.[0] || product.image;
-  const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+  const imageUrl = productImageUrl(image);
   const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
   return {
     title: { absolute: title },
@@ -136,11 +160,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const name = product.name.zh || product.name.en || "日本天然寵物零食";
-  const description = `選購【${name}】。嚴選 100% 日本國產優質原料，堅持無添加、無人工防腐劑及色素。原廠低溫慢烘工藝，鎖住天然鮮味與嚼勁。香港現貨 1–2 日出貨，全單滿 HK$450 享順豐本地免運。`.slice(0, 160);
+  const description = productSeoDescription(product);
   const image = product.images?.[0] || product.image;
-  const imageUrl = image.startsWith("http") ? image : `https://mofuhavenhk.com${image.startsWith("/") ? "" : "/"}${image}`;
-  const canonical = `https://mofuhavenhk.com/product/${encodeURIComponent(product.id)}`;
-  const sku = product.metadata?.mofu_sku || product.id;
+  const imageUrl = productImageUrl(image);
+  const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
+  const sku = productSku(product);
+  const breadcrumbUrl = VALUE_BUNDLE_SKUS.has(sku)
+    ? `${SITE_URL}/collections/value-bundles`
+    : product.categorySlug
+      ? `${SITE_URL}/categories/${encodeURIComponent(product.categorySlug)}`
+      : `${SITE_URL}/menu`;
+  const breadcrumbName = VALUE_BUNDLE_SKUS.has(sku) ? "促銷組合" : product.categorySlug || "商品目錄";
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -166,7 +196,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "首頁", item: `${SITE_URL}/` },
-      { "@type": "ListItem", position: 2, name: "商品目錄", item: `${SITE_URL}/menu` },
+      { "@type": "ListItem", position: 2, name: breadcrumbName, item: breadcrumbUrl },
       { "@type": "ListItem", position: 3, name, item: canonical },
     ],
   };
