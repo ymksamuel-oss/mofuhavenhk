@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, isStorefrontReadyProduct, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product/ProductCard";
+import { inferFoodZone } from "@/lib/classifyPetFood";
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
 
@@ -38,37 +39,27 @@ function homepageFamilyKey(product: Product): string {
   return product.id;
 }
 
-function homepageGroup(product: Product): "food" | "other" | "gear" {
-  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""} ${product.categorySlug} ${product.subcategory ?? ""}`.toLowerCase();
-  if (/\u80f8\u80cc|\u727d\u5f15|\u9838\u5708|\u6563\u6b65|\u5916\u51fa|harness|leash|lead|collar|walking|outdoor|gear|タフ[・\s-]*ブレイド/.test(text)) return "gear";
-  if (/\u8089\u4e7e|\u96f6\u98df|\u51cd\u4e7e|\u6f54\u9f52|\u6f54\u7259|\u725b\u8e44|\u725b\u7b4b|\u9e7f\u8089|\u99ac\u8089|\u9b5a|\u9baa|\u541e\u62ff\u9b5a|\u7d2b\u85af|\u96de\u8089|\u725b\u8089|\u7f8a\u8089|\u539f\u8089|\u9bae\u7ce7|\u5957\u88dd|\u7d44\u5408|treat|snack|food|jerky|freeze.?dried|dental|chew|beef|venison|horse|chicken|fish|tuna|bonito|meat|bundle/.test(text)) return "food";
-  return "other";
+function isHomepageFoodProduct(product: Product): boolean {
+  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""} ${product.description?.en ?? ""} ${product.categorySlug} ${product.subcategory ?? ""} ${product.productType ?? ""} ${(product.tags ?? []).join(" ")} ${Object.values(product.metadata ?? {}).join(" ")}`.toLowerCase();
+  const gearText = /\u80f8\u80cc|\u80f8\u80cc\u5e36|\u727d\u5f15|\u727d\u5f15\u7e69|\u9838\u5708|\u9805\u5708|\u6f2b\u6b65\u88dd\u7532|\u5916\u51fa|harness|leash|lead|collar|walking|outdoor|gear|tough.?blade|\u96e8\u8863|\u73a9\u5177|toy/.test(text);
+  if (gearText) return false;
+  const categoryText = `${product.categorySlug} ${product.metadata?.category ?? ""} ${product.metadata?.category_slug ?? ""} ${product.metadata?.product_type ?? ""}`.toLowerCase();
+  const explicitFoodCategory = /^(food|treats?|snacks?|dental|chews?|food-treats)(?:[\s_-]|$)/.test(categoryText) || /(?:^|[\s_-])(food|treats?|snacks?|dental|chews?)(?:[\s_-]|$)/.test(categoryText);
+  const edibleText = /\u8089\u4e7e|\u96f6\u98df|\u51cd\u4e7e|\u6f54\u9f52|\u6f54\u7259|\u725b\u8e44|\u725b\u7b4b|\u9e7f\u8089|\u99ac\u8089|\u9b5a|\u9baa|\u541e\u62ff\u9b5a|\u7d2b\u85af|\u96de\u8089|\u725b\u8089|\u7f8a\u8089|\u539f\u8089|\u9bae\u7ce7|\u8089\u6ce5|\u5957\u88dd|\u7d44\u5408|treat|snack|food|jerky|freeze.?dried|dental|chew|beef|venison|horse|chicken|fish|tuna|bonito|meat|bundle/.test(text);
+  return explicitFoodCategory || edibleText || inferFoodZone(product) !== null;
 }
 
 /** Keep the full catalogue intact, but make the homepage an editorial sampler. */
 function homepageProducts(products: Product[]): Product[] {
   const representatives = new Map<string, Product>();
-  for (const product of products) {
+  for (const product of products.filter(isHomepageFoodProduct)) {
     const key = homepageFamilyKey(product);
     const current = representatives.get(key);
     if (!current || (product.createdAt ?? 0) > (current.createdAt ?? 0)) representatives.set(key, product);
   }
-  const groups: Record<ReturnType<typeof homepageGroup>, Product[]> = { food: [], other: [], gear: [] };
-  for (const product of representatives.values()) groups[homepageGroup(product)].push(product);
-  for (const group of Object.values(groups)) {
-    group.sort((left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }));
-  }
-  const result: Product[] = [];
-  const order: Array<keyof typeof groups> = ["food", "other", "gear"];
-  let added = true;
-  while (added) {
-    added = false;
-    for (const key of order) {
-      const product = groups[key].shift();
-      if (product) { result.push(product); added = true; }
-    }
-  }
-  return result;
+  return Array.from(representatives.values()).sort(
+    (left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }),
+  );
 }
 
 /** Locale-aware homepage product section. Products are assembled by the page from Supabase. */
