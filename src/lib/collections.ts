@@ -145,4 +145,8 @@ export function getCollectionLabel(collection: CollectionConfig, locale: Locale)
   return locale === "en" ? collection.title_en : collection.title_zh;
 }
 
+export function getCollectionDescription(collection: CollectionConfig): string {
+  return collection.description;
+}
+
 export { CAT_SKUS };
