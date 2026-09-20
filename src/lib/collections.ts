@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/products";
+import type { Locale } from "@/lib/i18n/translations";
 
 export type CollectionGroup = "species" | "dog-function" | "dog-meat" | "outdoor";
 
@@ -125,7 +126,7 @@ export function getCollectionProducts(products: Product[], collection: Collectio
   return products.filter(collection.match);
 }
 
-export function getCollectionLabel(collection: CollectionConfig, locale: "zh" | "en"): string {
+export function getCollectionLabel(collection: CollectionConfig, locale: Locale): string {
   return locale === "en" ? collection.title_en : collection.title_zh;
 }
 
