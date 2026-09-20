@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ProductImage } from "@/components/product/ProductImage";
+import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
-import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { getLocalizedProductName } from "@/lib/translateProductName";
 import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemPricing, orderItemTotal } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
@@ -37,8 +36,7 @@ export function MobileCartDrawer({
   onEmptyStateChange,
 }: MobileCartDrawerProps) {
   const { locale, t } = useI18n();
-  const { products } = useCatalog();
-  const { itemCount, toOrderItems, setQty, removeItem, addItem } = useCart();
+  const { itemCount, toOrderItems, setQty, removeItem } = useCart();
   const [portalReady, setPortalReady] = useState(false);
   const items = toOrderItems();
   const subtotal = calcSubtotal(items);
@@ -71,14 +69,6 @@ export function MobileCartDrawer({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose, open]);
-
-  const suggestions = products
-    .filter(
-      (product) =>
-        product.inStock !== false &&
-        !items.some((item) => item.id === product.id),
-    )
-    .slice(0, 3);
 
   if (!open || !portalReady) return null;
 
@@ -228,58 +218,7 @@ export function MobileCartDrawer({
                 ))}
               </ul>
 
-              {suggestions.length > 0 ? (
-                <section className="mt-6" aria-labelledby="cart-upsell-title">
-                  <div className="mb-3 flex items-end justify-between gap-3">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
-                        {t("cartDrawerUpsellEyebrow")}
-                      </p>
-                      <h3
-                        id="cart-upsell-title"
-                        className="mt-1 font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)]"
-                      >
-                        {t("cartDrawerUpsellTitle")}
-                      </h3>
-                    </div>
-                    <span className="text-xs text-[color:var(--muted)]">
-                      {t("cartDrawerUpsellHint")}
-                    </span>
-                  </div>
-                  <ul className="grid gap-3">
-                    {suggestions.map((product) => (
-                      <li
-                        key={product.id}
-                        className="flex items-center gap-3 rounded-2xl border border-[color:var(--line)] bg-white p-3 shadow-[0_10px_24px_-24px_rgba(43,38,35,0.5)]"
-                      >
-                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--line)]">
-                          <ProductImage
-                            src={product.images?.[0] ?? "catalog-placeholder"}
-                            alt={getLocalizedProductName(product, locale)}
-                            sizes="48px"
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="line-clamp-2 text-xs font-medium leading-snug text-[color:var(--ink)]">
-                            {getLocalizedProductName(product, locale)}
-                          </p>
-                          <p className="mt-1 text-sm font-bold tabular-nums text-[color:var(--accent)]">
-                            {formatMoney(product.price, locale)}
-                          </p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => addItem(product.id)}
-                          className="shrink-0 rounded-xl bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[color:var(--hero-deep)] active:scale-[0.97]"
-                        >
-                          {t("cartDrawerAdd")}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
+              <YouMayAlsoLike cartProductIds={items.map((item) => item.id)} className="mt-6" />
             </>
           )}
         </div>

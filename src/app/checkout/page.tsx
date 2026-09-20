@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import {
   PAYMENT_METHODS,
   PaymentMethods,
@@ -136,6 +137,12 @@ function CheckoutContent() {
       current === "stripe_missing" ? current : "idle",
     );
   }, [category, cart.ready, cart.lines.length, phase, products]);
+
+  useEffect(() => {
+    if (!cart.ready || !hydratedFromCart || cart.lines.length === 0) return;
+    if (phase === "paid" || phase === "paid_notify_failed") return;
+    setItems(cart.toOrderItems());
+  }, [cart.lines, cart.ready, cart.toOrderItems, hydratedFromCart, phase]);
 
   useEffect(() => {
     setOrderNumber(generateOrderNumber());
@@ -598,6 +605,9 @@ function CheckoutContent() {
             onRemoveItem={handleRemoveItem}
             qtyDisabled={qtyLocked}
           />
+          {items.length > 0 ? (
+            <YouMayAlsoLike cartProductIds={items.map((item) => item.id)} />
+          ) : null}
           <div className="rounded-2xl border border-[color:var(--line)] bg-white/70 p-4">
             <label className="block text-sm font-semibold text-[color:var(--ink)]">{t("couponLabel")}</label>
             <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder={t("couponPlaceholder")} className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">{t("couponApply")}</button></div>
