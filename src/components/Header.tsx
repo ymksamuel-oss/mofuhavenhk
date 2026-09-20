@@ -153,7 +153,7 @@ function renderDesktopCategoryChildren(
 }
 
 export function Header() {
-  const { locale, t } = useI18n();
+  const { locale, setLocale, t } = useI18n();
   const { categories, products, brands } = useCatalog();
   const coreBrands = getCoreBrands(brands);
   // Only database rows with an empty parent_id are rendered in the bar.
@@ -527,12 +527,9 @@ export function Header() {
               ) : null}
             </Link>
 
-            <div
-              className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11"
-              role="group"
-              aria-label={t("headerLanguageLabel")}
-            >
-              <span className="rounded-full bg-[color:var(--ink)] px-2.5 py-2 text-[10px] font-medium tracking-wide text-[color:var(--surface)] sm:text-xs">English</span>
+            <div className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11" role="group" aria-label={t("headerLanguageLabel")}>
+              <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "中文" : "Chinese"}</button>
+              <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "英文" : "English"}</button>
             </div>
 
             <button

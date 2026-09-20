@@ -1,5 +1,5 @@
 import { getProductsByCategory, type Product, type ProductVariant } from "@/lib/products";
-import { getJapaneseProductName } from "@/lib/translateProductName";
+import { getJapaneseProductName, getLocalizedProductName } from "@/lib/translateProductName";
 
 export type OrderItem = {
   /** Stable cart-row key. Different pack sizes of one flavor remain separate lines. */
@@ -165,7 +165,11 @@ function orderItemFromProduct(
       : {}),
     ...(variant ? { variantLabel: variant.label } : {}),
     ...(product.metadata?.mofu_sku?.trim() ? { mofuSku: product.metadata.mofu_sku.trim() } : {}),
-    name: { ...product.name, ...(getJapaneseProductName(product) ? { ja: getJapaneseProductName(product) } : {}) },
+    name: {
+      zh: getLocalizedProductName(product, "zh"),
+      en: getLocalizedProductName(product, "en"),
+      ...(getJapaneseProductName(product) ? { ja: getJapaneseProductName(product) } : {}),
+    },
     ...(product.description ? { description: product.description } : {}),
     image: product.images?.[0] ?? "catalog-placeholder",
     qty,

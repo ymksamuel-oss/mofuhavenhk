@@ -55,9 +55,9 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouM
     <section className={`border-t border-[color:var(--line)] pt-5 ${className}`} aria-labelledby="you-may-also-like-title">
       <div className="mb-3">
         <h2 id="you-may-also-like-title" className="font-[family-name:var(--font-display)] text-base font-semibold text-[color:var(--ink)]">
-          ✨ You May Also Like
+          {locale === "zh" ? "✨ 你可能會喜歡" : "✨ You May Also Like"}
         </h2>
-        <p className="mt-1 text-xs text-[color:var(--muted)]">Popular additions from other pet parents</p>
+        <p className="mt-1 text-xs text-[color:var(--muted)]">{locale === "zh" ? "其他毛孩家長熱門加購" : "Popular additions from other pet parents"}</p>
       </div>
       <ul className="space-y-2.5">
         {recommendations.map((product) => {
@@ -73,7 +73,7 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouM
                 <p className="mt-1 text-sm font-bold tabular-nums text-[color:var(--accent)]">{formatMoney(product.price, locale)}</p>
               </div>
               <button type="button" onClick={() => handleAdd(product.id)} disabled={isAdded} className="shrink-0 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[color:var(--hero-deep)] disabled:cursor-default disabled:bg-emerald-700 active:scale-[0.97]">
-                {isAdded ? "Added ✓" : "+ Add"}
+                {isAdded ? (locale === "zh" ? "已加入 ✓" : "Added ✓") : locale === "zh" ? "+ 加購" : "+ Add"}
               </button>
             </li>
           );
