@@ -19,19 +19,44 @@ type Choice = { zh: string; en: string };
 const BREEDS: Record<Pet, Choice[]> = {
   dog: [
     { zh: "柴犬", en: "Shiba Inu" },
+    { zh: "玩具貴婦", en: "Toy Poodle" },
+    { zh: "松鼠狗", en: "Pomeranian" },
+    { zh: "比熊犬", en: "Bichon Frise" },
     { zh: "哥基", en: "Corgi" },
-    { zh: "貴婦", en: "Poodle" },
-    { zh: "比熊", en: "Bichon Frise" },
-    { zh: "金毛", en: "Golden Retriever" },
-    { zh: "唐狗", en: "Mixed Breed" },
+    { zh: "法國鬥牛犬", en: "French Bulldog" },
+    { zh: "唐狗／混種犬", en: "Mixed Breed" },
+    { zh: "金毛尋回犬", en: "Golden Retriever" },
+    { zh: "史納莎", en: "Schnauzer" },
+    { zh: "拉布拉多", en: "Labrador Retriever" },
+    { zh: "哈士奇", en: "Siberian Husky" },
     { zh: "其他", en: "Other" },
   ],
   cat: [
     { zh: "英國短毛貓", en: "British Shorthair" },
-    { zh: "家貓／唐貓", en: "Domestic Shorthair" },
+    { zh: "唐貓／家貓", en: "Domestic Shorthair" },
     { zh: "布偶貓", en: "Ragdoll" },
+    { zh: "美國短毛貓", en: "American Shorthair" },
     { zh: "異國短毛貓", en: "Exotic Shorthair" },
+    { zh: "曼赤肯短腿貓", en: "Munchkin" },
+    { zh: "暹羅貓", en: "Siamese" },
+    { zh: "緬因貓", en: "Maine Coon" },
     { zh: "其他", en: "Other" },
+  ],
+};
+
+const QUICK_BREEDS: Record<Pet, Choice[]> = {
+  dog: [
+    { zh: "柴犬", en: "Shiba Inu" },
+    { zh: "貴婦", en: "Toy Poodle" },
+    { zh: "哥基", en: "Corgi" },
+    { zh: "唐狗", en: "Mixed Breed" },
+    { zh: "比熊", en: "Bichon Frise" },
+  ],
+  cat: [
+    { zh: "英短", en: "British Shorthair" },
+    { zh: "唐貓", en: "Domestic Shorthair" },
+    { zh: "布偶", en: "Ragdoll" },
+    { zh: "美短", en: "American Shorthair" },
   ],
 };
 
@@ -154,7 +179,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
             {step < 5 ? <><div className="mb-5 flex items-center gap-1.5" aria-label={isZh ? `第 ${step} 步，共 4 步` : `Step ${step} of 4`}>{[1, 2, 3, 4].map((item) => <span key={item} className={`h-1.5 flex-1 rounded-full ${item <= step ? "bg-[#8a5836]" : "bg-[#ead8c8]"}`} />)}</div><p className="text-xs font-semibold text-[#a36b42]">{isZh ? `第 ${step} 步／4` : `Step ${step} of 4`}</p><h3 className="mt-2 text-xl font-bold leading-tight text-stone-800">{stepTitle}</h3>
               {step === 1 ? <div className="mt-5 grid grid-cols-2 gap-3">{(["cat", "dog"] as Pet[]).map((item) => <button key={item} type="button" onClick={() => setPet(item)} className={`flex min-h-28 flex-col items-center justify-center rounded-2xl border-2 bg-white text-3xl transition ${pet === item ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span>{item === "cat" ? "🐱" : "🐶"}</span><span className="mt-2 text-sm font-bold text-stone-700">{item === "cat" ? (isZh ? "貓咪" : "Cat") : (isZh ? "狗狗" : "Dog")}</span>{pet === item ? <span className="text-xs text-[#8a5836]">✓</span> : null}</button>)}</div> : null}
               {step === 2 ? <div className="mt-5 grid gap-3">{(Object.keys(AGE_LABELS) as Age[]).map((item) => <button key={item} type="button" onClick={() => setAge(item)} className={`rounded-full border-2 px-4 py-3 text-left text-sm font-semibold transition ${age === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700"}`}>{localize(AGE_LABELS[item], locale)}</button>)}</div> : null}
-              {step === 3 && pet ? <div className="mt-5 flex flex-wrap gap-2">{BREEDS[pet].map((item) => <button key={item.en} type="button" onClick={() => setBreed(item)} className={`rounded-full border px-3.5 py-2 text-sm font-semibold transition ${breed?.en === item.en ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item, locale)}</button>)}</div> : null}
+              {step === 3 && pet ? <div className="mt-5"><label htmlFor="pet-matcher-breed" className="sr-only">{isZh ? "選擇品種" : "Select a breed"}</label><div className="relative"><select id="pet-matcher-breed" value={breed?.en ?? ""} onChange={(event) => setBreed(BREEDS[pet].find((item) => item.en === event.target.value) ?? null)} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇品種..." : "Select a breed..."}</option>{BREEDS[pet].map((item) => <option key={item.en} value={item.en}>{localize(item, locale)}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{isZh ? "熱門品種" : "Popular breeds"}</p><div className="mt-2 flex flex-wrap gap-2">{QUICK_BREEDS[pet].map((item) => <button key={item.en} type="button" onClick={() => setBreed(BREEDS[pet].find((candidate) => candidate.en === item.en) ?? item)} className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${breed?.en === item.en ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item, locale)}</button>)}</div></div> : null}
               {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}</div> : null}
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
               <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你的${age ? ` ${AGE_LABELS[age].zh}` : ""} ${breed?.zh ?? "毛孩"} 定制的提案：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : "日常配搭合適的天然好物，讓毛孩吃得開心、玩得安心。"}` : `A tailored proposal for your ${breed?.en ?? "companion"}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : "a thoughtful mix of Japanese essentials for happier play, care and everyday moments."}`}</div>
