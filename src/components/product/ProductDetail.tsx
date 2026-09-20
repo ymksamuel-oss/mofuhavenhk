@@ -27,10 +27,10 @@ function parseDescription(text: string, product: Product): RichContent {
   const find = (names: string[]) => blocks.find((block) => names.some((name) => block.includes(name))) ?? "";
   const body = (value: string) => value.replace(/^【[^】]+】|^##?\s[^\n]+/m, "").trim();
   const lines = (value: string) => body(value).split("\n").map((line) => line.trim()).filter((line) => line.length > 2);
-  const features = lines(find(["\u6838\u5fc3\u4eae\u9ede", "\u5546\u54c1\u7279\u8272", "Highlights", "Features"]));
-  const feeding = lines(find(["4 \u5927\u82b1\u5f0f\u9935\u98df\u6cd5", "4\u5927\u82b1\u5f0f\u9935\u98df\u6cd5", "\u9935\u98df\u65b9\u6cd5", "Feeding"]));
-  const nutrition = lines(find(["\u898f\u683c\u8207\u4fdd\u8b49\u71df\u990a", "\u4fdd\u8b49\u71df\u990a", "\u71df\u990a", "Nutrition"]));
-  const notes = lines(find(["\u8cbc\u5fc3\u53ee\u5680", "\u6ce8\u610f\u4e8b\u9805", "\u4fdd\u5b58\u65b9\u6cd5", "Notes"]));
+  const features = lines(find(["Product Features", "Highlights", "Features"]));
+  const feeding = lines(find(["Feeding Instructions", "Feeding"]));
+  const nutrition = lines(find(["Nutrition & Specifications", "Nutrition", "Specifications"]));
+  const notes = lines(find(["Shopping Notes", "Notes"]));
   const dynamicParagraphs = text.split(/\r?\n/).map((line) => line.trim()).filter((line) => line.length > 8 && !/^【[^】]+】/.test(line) && !/^##?\s/.test(line));
   return {
     highlights: (features.length ? features : product.specs?.map((spec) => spec.en || spec.zh) ?? []).slice(0, 5),
@@ -57,7 +57,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
   ];
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ \u5546\u54c1\u7279\u8272</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
+      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ Product Features</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
       {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5"><p className="text-xs font-semibold tracking-wide text-stone-400">Product code: {sku}</p><ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">{rich.highlights.map((item, index) => <li key={`${item}-${index}`}>{/^[🐟🚫🦴✨🍲🥣🐾✂️✔️❌]/.test(item) ? item : `✨ ${item}`}</li>)}</ul>{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="font-bold">{rich.spotlight.split("\n")[0]}</p>{rich.spotlight.split("\n").slice(1).length ? <p className="mt-2 text-sm leading-6 text-stone-600">{rich.spotlight.split("\n").slice(1).join(" ")}</p> : null}</div> : null}</div> : null}
     </section>
     <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label="Product content tabs"><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Details</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Shopping notes</button></div>
@@ -65,9 +65,9 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
       <section className="relative overflow-hidden rounded-2xl border border-stone-100 bg-white p-3 shadow-sm sm:p-4"><span className="absolute right-5 top-5 z-10 rounded-full bg-stone-900/70 px-3 py-1 text-[11px] font-bold text-white backdrop-blur">🇯🇵 Made in Japan・Additive-Free</span><div className="relative aspect-square overflow-hidden rounded-xl bg-[#f5f0e9]"><ProductImage src={firstImage} alt={product.name.zh} sizes="(min-width: 1024px) 700px, 100vw" priority className="object-contain p-3" /></div></section>
       {rich.texture ? <section className="rounded-2xl border border-stone-200 bg-white p-4"><div className="flex items-center justify-between gap-3"><h2 className="font-bold">🐾 Texture & hardness</h2></div><p className="mt-2 text-sm leading-6 text-stone-600">{rich.texture}</p></section> : null}
       {rich.feeding.length ? <section><h2 className="mb-3 text-lg font-bold">🍽️ Feeding instructions</h2><div className="grid gap-3 sm:grid-cols-2">{rich.feeding.map((item, index) => <article key={`${item}-${index}`} className="rounded-2xl border border-stone-200 bg-[#fffdf9] p-4"><p className="text-sm font-bold leading-6">{item}</p></article>)}</div></section> : null}
-      <section className="rounded-2xl border border-stone-200 bg-white p-4"><h2 className="font-bold">📋 Nutrition & specifications</h2><dl className="mt-3 divide-y divide-stone-100 text-sm">{nutrition.map((row, index) => { const [key, ...rest] = row.split("："); return <div key={`${row}-${index}`} className="grid grid-cols-[6.5rem_1fr] gap-3 py-2.5"><dt className="font-semibold text-stone-500">{key}</dt><dd>{rest.join("：") || row}</dd></div>; })}</dl></section>
+      <section className="rounded-2xl border border-stone-200 bg-white p-4"><h2 className="font-bold">📋 Nutrition & Specifications</h2><dl className="mt-3 divide-y divide-stone-100 text-sm">{nutrition.map((row, index) => { const [key, ...rest] = row.split(":"); return <div key={`${row}-${index}`} className="grid grid-cols-[6.5rem_1fr] gap-3 py-2.5"><dt className="font-semibold text-stone-500">{key}</dt><dd>{rest.join(":") || row}</dd></div>; })}</dl></section>
       {rich.notes.length ? <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><h2 className="font-bold text-amber-900">💛 Helpful notes</h2><ul className="mt-2 space-y-2 text-sm leading-6 text-amber-900/80">{rich.notes.map((note, index) => <li key={`${note}-${index}`}>・{note}</li>)}</ul></section> : null}
-    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ Shopping notes</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600"><li>📦 \u9999\u6e2f\u73fe\u8ca8\u4e00\u822c\u65bc\u4e0b\u55ae\u5f8c 1–2 \u500b\u5de5\u4f5c\u5929\u5167\u7531\u9806\u8c50\u5bc4\u51fa。</li><li>✈️ \u65e5\u672c\u9810\u8a02／\u76f4\u9001\u5546\u54c1\u7d04\u9700 7–14 \u500b\u5de5\u4f5c\u5929，\u9047\u65e5\u672c\u7bc0\u5047\u65e5\u6216\u6703\u9806\u5ef6。</li><li>🧺 \u540c\u55ae\u542b\u73fe\u8ca8\u8207\u9810\u8a02\u54c1\u5c07\u4e00\u4f75\u767c\u8ca8；\u5168\u55ae\u6eff HK$450 \u4eab\u672c\u5730\u9806\u8c50\u514d\u904b。</li><li>💬 \u5982\u5c0d\u7522\u54c1\u7684\u9935\u98df\u65b9\u5f0f、\u98df\u6750\u6216\u4fdd\u5b58\u65b9\u6cd5\u6709\u7591\u554f，\u6b61\u8fce\u806f\u7d61\u6211\u5011。</li></ul></section>}
+    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ Shopping Notes</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600"><li>📦 Hong Kong in-stock items are generally shipped within 1–2 business days via SF Express.</li><li>✈️ Japan Pre-order and direct-shipping items usually arrive within 7–14 business days. Japanese public holidays may cause delays.</li><li>🧺 Mixed orders containing in-stock and pre-order items ship together. Local shipping is free for orders over HK$450.</li><li>💬 Contact us if you have questions about feeding, ingredients or storage.</li></ul></section>}
   </div>;
 }
 
@@ -85,7 +85,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const sku = product.metadata?.mofu_sku?.trim() || product.id;
   const firstImage = selectedOption?.image || product.images?.[0] || product.image;
   const cartSubtotal = calcSubtotal(toOrderItems());
-  const isFood = isPetBundleProduct(product) || /(food|treat|snack|\u96f6\u98df|\u5c0f\u98df|\u98df\u54c1|\u8089\u4e7e|\u8089\u689d|\u9b5a\u4ecb|\u9bae\u8089|\u539f\u8089)/i.test(JSON.stringify(product));
+  const isFood = isPetBundleProduct(product) || /(food|treat|snack|seafood|jerky|meat)/i.test(JSON.stringify(product));
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [product.id], content_name: product.name.zh || product.name.en, value: product.price, currency: "HKD" }); }, [product.id, product.name.en, product.name.zh, product.price]);

@@ -74,7 +74,7 @@ export function MobileCartDrawer({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[120] md:hidden"
+      className="fixed inset-0 z-[120]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="mobile-cart-drawer-title"

@@ -497,6 +497,11 @@ export function Header() {
               className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:flex"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
               data-testid="header-cart"
+              onClick={(event) => {
+                if (typeof window !== "undefined" && window.innerWidth < 768) return;
+                event.preventDefault();
+                window.dispatchEvent(new Event("mofu:open-cart"));
+              }}
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (
@@ -514,6 +519,10 @@ export function Header() {
               href="/checkout"
               className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
               aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
+              onClick={(event) => {
+                event.preventDefault();
+                window.dispatchEvent(new Event("mofu:open-cart"));
+              }}
             >
               <CartIcon className="h-5 w-5" />
               {itemCount > 0 ? (

@@ -25,7 +25,7 @@ function skuFor(product: Product): string {
   return product.metadata?.mofu_sku?.trim() || product.tags?.find((tag) => /^MOFU-BUNDLE-/.test(tag))?.trim() || "";
 }
 function cleanName(value?: string): string {
-  if (!value) return "";
+  if (!value || /\\u[0-9a-fA-F]{4}/.test(value) || CJK_RE.test(value)) return "";
   return (value.split(/[|｜]/).at(-1) || value).replace(/^\s*(?:Made in Japan|Japan-made|Best Partner)\s*/i, "").replace(/\s{2,}/g, " ").trim();
 }
 export function getJapaneseProductName(product: Product): string | undefined {
