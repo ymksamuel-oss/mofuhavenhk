@@ -1,7 +1,7 @@
 import type { Product } from "@/lib/products";
 import type { Locale } from "@/lib/i18n/translations";
 
-export type CollectionGroup = "species" | "dog-function" | "dog-meat" | "outdoor";
+export type CollectionGroup = "species" | "dog-function" | "dog-meat" | "outdoor" | "promotions";
 
 type CollectionMatcher = (product: Product) => boolean;
 
@@ -24,6 +24,13 @@ const CAT_SKUS = new Set([
   "4976064015747",
   "4976064025500",
   "4976064024718",
+]);
+
+const VALUE_BUNDLE_SKUS = new Set([
+  "MOFU-BUNDLE-PICKY-01",
+  "MOFU-BUNDLE-DENTAL-02",
+  "MOFU-BUNDLE-SEAFOOD-03",
+  "MOFU-BUNDLE-WALK-04",
 ]);
 
 function productText(product: Product): string {
@@ -86,6 +93,7 @@ const OUTDOOR_PATTERNS: Record<string, RegExp[]> = {
 
 const DOG = (product: Product) => isDogProduct(product);
 const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
+const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.has(productSku(product));
 const OUTDOOR = (product: Product) => matchesAny(product, [/胸背|牽引|牽繩|頸圈|項圈|半鏈|拾便|外出|散步|harness|leash|lead|collar|walk|outdoor/i]);
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
@@ -109,6 +117,7 @@ export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "leashes", title_zh: "牽引帶", title_en: "Leashes", description: "適合日常散步與外出的牽引帶選擇。", seo_title: "寵物牽引帶｜戶外漫步裝備", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS.leashes) },
   { slug: "collars", title_zh: "頸圈／半鏈", title_en: "Collars & Half Chains", description: "實用耐用的頸圈及半鏈外出裝備。", seo_title: "寵物頸圈半鏈｜戶外漫步裝備", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS.collars) },
   { slug: "walk-accessories", title_zh: "拾便袋與外出包", title_en: "Walk Accessories", description: "拾便袋、外出包及散步時不可缺少的貼心配件。", seo_title: "拾便袋與外出包｜寵物散步配件", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS["walk-accessories"]) },
+  { slug: "value-bundles", title_zh: "🎁 促銷組合", title_en: "🎁 Value Bundles", description: "官方特惠套裝，一次配齊毛孩日常所需。", seo_title: "促銷組合｜Mofu Haven 官方寵物套裝優惠", group: "promotions", match: VALUE_BUNDLES },
 ] as const;
 
 export const COLLECTION_NAV_GROUPS: readonly { key: CollectionGroup; title_zh: string; title_en: string; slugs: readonly string[] }[] = [
@@ -116,6 +125,7 @@ export const COLLECTION_NAV_GROUPS: readonly { key: CollectionGroup; title_zh: s
   { key: "dog-function", title_zh: "狗狗機能分類", title_en: "Dog Functions", slugs: ["dental-chews", "meal-toppers", "training-treats", "joint-care", "skin-coat", "senior-puppy"] },
   { key: "dog-meat", title_zh: "狗狗肉源分類", title_en: "Dog Ingredients", slugs: ["horse-meat", "venison", "beef-tendon", "chicken-poultry", "seafood-fish", "pork-specialty", "cheese-bakery"] },
   { key: "outdoor", title_zh: "戶外裝備", title_en: "Outdoor Gear", slugs: ["harnesses", "leashes", "collars", "walk-accessories"] },
+  { key: "promotions", title_zh: "促銷專區", title_en: "Promotions", slugs: ["value-bundles"] },
 ] as const;
 
 export function getCollection(slug: string): CollectionConfig | undefined {
