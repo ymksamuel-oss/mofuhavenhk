@@ -13,6 +13,7 @@ type HeroSlide = {
   badge: LocalizedText;
   title: LocalizedText;
   subtitle: LocalizedText;
+  mobileSubtitle: LocalizedText;
   href: string;
   cta: LocalizedText;
   image: string;
@@ -28,6 +29,7 @@ const HERO_SLIDES: readonly HeroSlide[] = [
     badge: { zh: "日本在地嚴選・純粹原肉", en: "JAPAN-SELECTED・PURE MEAT" },
     title: { zh: "純粹肉香・100% 無添加的天然賞賜", en: "Pure Meat Goodness・100% Natural Treats" },
     subtitle: { zh: "嚴選北海道野生鹿肉與低敏馬肉｜低溫慢火烘乾，鎖住極致鮮味", en: "Wild Hokkaido venison and gentle horse meat｜slow-dried to preserve every layer of flavour" },
+    mobileSubtitle: { zh: "北海道野生鹿肉・低敏馬肉，低溫慢火濃縮純粹肉香", en: "Hokkaido venison・gentle horse meat, slow-dried for pure flavour" },
     href: "/collections/venison",
     cta: { zh: "探索天然原肉系列", en: "Explore Natural Treats" },
     image: "/images/hero-natural-meat.jpg",
@@ -41,6 +43,7 @@ const HERO_SLIDES: readonly HeroSlide[] = [
     badge: { zh: "物理潔齒提案・釋放精力", en: "DENTAL CARE・ENERGY RELEASE" },
     title: { zh: "告別拆家！天然耐咬潔齒系列", en: "Natural Dental Chews for Happier Days" },
     subtitle: { zh: "原隻牛蹄・特長牛大筋・犛牛芝士棒", en: "Whole hooves・beef tendons・yak cheese sticks｜daily chewing support for cleaner teeth and calm energy" },
+    mobileSubtitle: { zh: "原隻牛蹄・牛大筋・犛牛芝士棒，自然耐咬潔齒", en: "Whole hooves・beef tendons・yak cheese sticks for natural dental care" },
     href: "/collections/dental-chews",
     cta: { zh: "選購潔齒耐咬", en: "Shop Dental Chews" },
     image: "/images/hero-dental-chew.jpg",
@@ -54,6 +57,7 @@ const HERO_SLIDES: readonly HeroSlide[] = [
     badge: { zh: "日系機能美學・舒適同行", en: "JAPANESE FUNCTION・COMFORT IN MOTION" },
     title: { zh: "人寵同行的輕量美學｜優雅漫步提案", en: "Lightweight Design for Better Walks" },
     subtitle: { zh: "Y 型減壓胸背帶・防勒牽引繩｜全方位分擔拉扯受力，告別暴衝勒喉", en: "Y-shaped harnesses・pressure-friendly leads｜balanced support for comfortable everyday adventures" },
+    mobileSubtitle: { zh: "Y 型均分減壓胸背帶，貼合身形告別勒喉暴衝", en: "Y-shaped harnesses that balance pressure for comfortable walks" },
     href: "/collections/outdoor-gear",
     cta: { zh: "探索散步機能選品", en: "Explore Outdoor Gear" },
     image: "/images/hero-outdoor-walk.jpg",
@@ -133,9 +137,10 @@ export function HomeBannerCarousel() {
           <div className="pointer-events-none absolute inset-0 z-10 hidden bg-gradient-to-t from-[#241912]/45 via-transparent to-transparent md:block" />
 
           <div className="relative z-10 flex max-w-2xl flex-col justify-center rounded-b-[1.35rem] bg-[#FAF7F2] px-5 py-5 text-stone-800 md:min-h-[430px] md:rounded-none md:bg-transparent md:px-20 md:py-16 md:text-white">
-            <span className="mb-3 hidden w-fit text-[10px] font-bold tracking-[0.24em] text-[#f7d7b8] md:block md:text-xs">{activeSlide.eyebrow[locale]}</span>
+            <span className="mb-1 block w-fit text-[10px] font-bold uppercase tracking-wider text-stone-400 md:mb-3 md:text-[#f7d7b8] md:tracking-[0.24em] md:text-xs">{activeSlide.eyebrow[locale]}</span>
             <span className="mb-3 w-fit rounded-full border border-[#8a5836]/25 bg-[#ead8c8]/60 px-3 py-1.5 text-[10px] font-semibold tracking-[0.08em] text-[#704525] shadow-sm md:mb-4 md:border-white/35 md:bg-white/15 md:text-xs md:text-white md:backdrop-blur-md">{activeSlide.badge[locale]}</span>
-            <h1 className="max-w-xl text-[clamp(1.5rem,7vw,3.25rem)] font-bold leading-[1.15] tracking-[-0.025em] md:tracking-[-0.035em] md:drop-shadow-md">{activeSlide.title[locale]}</h1>
+            <h1 className="max-w-xl text-lg font-bold leading-snug tracking-[-0.015em] text-balance md:text-[clamp(2rem,7vw,3.25rem)] md:leading-[1.12] md:tracking-[-0.035em] md:drop-shadow-md">{activeSlide.title[locale]}</h1>
+            <p className="mt-2 line-clamp-1 text-xs font-medium leading-5 text-stone-500 md:hidden">{activeSlide.mobileSubtitle[locale]}</p>
             <p className="mt-4 hidden max-w-xl text-base font-semibold leading-7 text-[#fff8ee] drop-shadow md:block md:text-xl md:leading-8">{activeSlide.subtitle[locale]}</p>
             <Link href={activeSlide.href} className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-[#8a5836] px-4 py-2.5 text-xs font-bold text-white shadow-[0_12px_24px_-12px_rgba(39,20,10,0.8)] transition duration-200 hover:scale-[1.02] hover:bg-[#a66d46] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f8dfc4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#5b3d2c] md:mt-7 md:px-5 md:py-3 md:text-sm">
               {activeSlide.cta[locale]}<span aria-hidden="true">→</span>
