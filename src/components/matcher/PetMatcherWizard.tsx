@@ -141,6 +141,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   const [need, setNeed] = useState<Need | null>(null);
   const [specialCare, setSpecialCare] = useState<SpecialCare[]>([]);
   const [addedIds, setAddedIds] = useState<string[]>([]);
+  const [shareNotice, setShareNotice] = useState("");
 
   const recommendations = useMemo(() => {
     if (!pet || !need) return [];
@@ -166,6 +167,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     setNeed(null);
     setSpecialCare([]);
     setAddedIds([]);
+    setShareNotice("");
   };
   const canContinue = step === 1 ? Boolean(pet) : step === 2 ? Boolean(age) : step === 3 ? Boolean(breed) : Boolean(need);
   const next = () => {
@@ -185,9 +187,10 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   const toggleSpecialCare = (careId: SpecialCare) => {
     setSpecialCare((current) => current.includes(careId) ? current.filter((item) => item !== careId) : [...current, careId]);
   };
-  const shareProposal = async () => {
+  const shareProposal = async (mode: "download" | "instagram" = "download") => {
     if (!pet || !need) return;
     const shareUrl = `${window.location.origin}/?matcher=${encodeURIComponent([pet, age ?? "", breed?.en ?? "", need, ...specialCare].join("|"))}`;
+    const shareText = isZh ? "我剛完成 Mofu Haven 毛孩專屬選品配對！" : "I just found a tailored Mofu Haven pet-care match!";
     const qrDataUrl = await QRCode.toDataURL(shareUrl, { width: 180, margin: 1, color: { dark: "#704525", light: "#FAF7F2" } });
     const canvas = document.createElement("canvas");
     canvas.width = 900;
@@ -236,6 +239,18 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     context.fillText(isZh ? "掃描 QR Code 分享你的專屬提案" : "Scan to share your tailored proposal", 72, 1010);
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
     if (!blob) return;
+    if (mode === "instagram") {
+      const file = new File([blob], "mofu-haven-pet-match.png", { type: "image/png" });
+      if (typeof navigator.share === "function" && typeof navigator.canShare === "function" && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: isZh ? "Mofu Haven 毛孩專屬提案" : "Mofu Haven pet-care proposal", text: shareText });
+          setShareNotice(isZh ? "已開啟分享選單，請選擇 Instagram 動態。" : "Share sheet opened — choose Instagram Stories.");
+          return;
+        } catch {
+          // The user may dismiss the native share sheet; fall through to a local download.
+        }
+      }
+    }
     const downloadUrl = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = downloadUrl;
@@ -243,6 +258,16 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     anchor.click();
     URL.revokeObjectURL(downloadUrl);
     try { await navigator.clipboard.writeText(shareUrl); } catch { /* clipboard permissions are optional */ }
+    setShareNotice(mode === "instagram"
+      ? (isZh ? "已下載分享卡片並複製連結，請在 Instagram 動態加入圖片。" : "Card downloaded and link copied — add the image to Instagram Stories.")
+      : (isZh ? "分享卡片已下載，連結亦已複製。" : "Card downloaded and proposal link copied."));
+  };
+  const shareToWhatsApp = () => {
+    if (!pet || !need) return;
+    const shareUrl = `${window.location.origin}/?matcher=${encodeURIComponent([pet, age ?? "", breed?.en ?? "", need, ...specialCare].join("|"))}`;
+    const text = isZh ? `我剛完成 Mofu Haven 毛孩專屬選品配對！\n${shareUrl}` : `I just found a tailored Mofu Haven pet-care match!\n${shareUrl}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    setShareNotice(isZh ? "已開啟 WhatsApp 分享。" : "WhatsApp sharing opened.");
   };
 
   useEffect(() => {
@@ -280,7 +305,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
               <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你的${age ? ` ${AGE_LABELS[age].zh}` : ""} ${breed?.zh ?? "毛孩"} 定制的提案：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : "日常配搭合適的天然好物，讓毛孩吃得開心、玩得安心。"}` : `A tailored proposal for your ${breed?.en ?? "companion"}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : "a thoughtful mix of Japanese essentials for happier play, care and everyday moments."}`}</div>
               <div className="mt-4 grid gap-3">{recommendations.length ? recommendations.map((product) => <article key={product.id} className="flex items-center gap-3 rounded-2xl border border-white bg-white p-3"><div className="relative h-16 w-16 min-w-[64px] shrink-0 overflow-hidden rounded-xl bg-[#FAF7F2] p-1"><ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={getLocalizedProductName(product, locale)} sizes="64px" className="h-full w-full object-contain mix-blend-multiply" /></div><div className="min-w-0 flex-1"><p className="line-clamp-2 text-sm font-semibold text-stone-800">{getLocalizedProductName(product, locale)}</p><p className="mt-1 text-sm font-bold text-[#8a5836]">{formatMoney(product.price, locale)}</p></div><button type="button" onClick={() => addOne(product)} disabled={addedIds.includes(product.id)} className="shrink-0 rounded-full bg-[#8a5836] px-3 py-2 text-xs font-bold text-white disabled:bg-emerald-700">{addedIds.includes(product.id) ? "✓" : isZh ? "+ 加購" : "+ Add"}</button></article>) : <p className="rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}</div>
-              {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
+              {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}{recommendations.length ? <div className="mt-3 grid grid-cols-2 gap-2"><button type="button" onClick={shareToWhatsApp} className="rounded-2xl bg-[#25D366] px-3 py-3 text-xs font-bold text-white transition hover:brightness-95">{isZh ? "WhatsApp 分享" : "Share to WhatsApp"}</button><button type="button" onClick={() => { void shareProposal("instagram"); }} className="rounded-2xl bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] px-3 py-3 text-xs font-bold text-white transition hover:brightness-105">{isZh ? "Instagram 動態" : "Instagram Stories"}</button></div> : null}{shareNotice ? <p className="mt-3 rounded-xl bg-[#ead8c8]/55 px-3 py-2 text-center text-xs text-[#704525]" role="status">{shareNotice}</p> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
           </div>
         </div>
       </div> : null}
