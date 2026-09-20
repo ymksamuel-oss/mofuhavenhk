@@ -128,29 +128,29 @@ export function HomeBannerCarousel() {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div key={activeSlide.id} className={`relative isolate overflow-hidden rounded-[1.35rem] ${direction === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"}`}>
-          <picture className="relative z-0 block h-56 w-full bg-[#ead8c8] md:absolute md:inset-0 md:h-full">
+        <div key={activeSlide.id} className={`relative isolate h-[380px] overflow-hidden rounded-3xl ${direction === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"} sm:h-[420px]`}>
+          <picture className="absolute inset-0 z-0 block h-full w-full bg-[#ead8c8]">
             <source media="(max-width: 639px)" srcSet={activeSlide.mobileImage} />
-            <img src={activeSlide.image} alt="" aria-hidden="true" className={`absolute inset-0 z-0 h-full w-full object-cover object-center ${activeSlide.imagePosition}`} />
+            <img src={activeSlide.image} alt="" aria-hidden="true" className="absolute inset-0 z-0 h-full w-full object-cover object-[75%_center]" />
           </picture>
+          <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
           <div className={`pointer-events-none absolute inset-0 z-10 hidden bg-gradient-to-r md:block ${activeSlide.tone}`} />
-          <div className="pointer-events-none absolute inset-0 z-10 hidden bg-gradient-to-t from-[#241912]/45 via-transparent to-transparent md:block" />
 
-          <div className="relative z-10 flex max-w-2xl flex-col justify-center rounded-b-[1.35rem] bg-[#FAF7F2] px-5 py-5 text-stone-800 md:min-h-[430px] md:rounded-none md:bg-transparent md:px-20 md:py-16 md:text-white">
-            <span className="mb-1 block w-fit text-[10px] font-bold uppercase tracking-wider text-stone-400 md:mb-3 md:text-[#f7d7b8] md:tracking-[0.24em] md:text-xs">{activeSlide.eyebrow[locale]}</span>
-            <span className="mb-3 w-fit rounded-full border border-[#8a5836]/25 bg-[#ead8c8]/60 px-3 py-1.5 text-[10px] font-semibold tracking-[0.08em] text-[#704525] shadow-sm md:mb-4 md:border-white/35 md:bg-white/15 md:text-xs md:text-white md:backdrop-blur-md">{activeSlide.badge[locale]}</span>
-            <h1 className="max-w-xl text-lg font-bold leading-snug tracking-[-0.015em] text-balance md:text-[clamp(2rem,7vw,3.25rem)] md:leading-[1.12] md:tracking-[-0.035em] md:drop-shadow-md">{activeSlide.title[locale]}</h1>
-            <p className="mt-2 line-clamp-1 text-xs font-medium leading-5 text-stone-500 md:hidden">{activeSlide.mobileSubtitle[locale]}</p>
-            <p className="mt-4 hidden max-w-xl text-base font-semibold leading-7 text-[#fff8ee] drop-shadow md:block md:text-xl md:leading-8">{activeSlide.subtitle[locale]}</p>
-            <Link href={activeSlide.href} className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-[#8a5836] px-4 py-2.5 text-xs font-bold text-white shadow-[0_12px_24px_-12px_rgba(39,20,10,0.8)] transition duration-200 hover:scale-[1.02] hover:bg-[#a66d46] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f8dfc4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#5b3d2c] md:mt-7 md:px-5 md:py-3 md:text-sm">
+          <div className="absolute bottom-5 left-4 z-20 flex max-w-[70%] flex-col items-start gap-1.5 text-white md:bottom-16 md:left-20 md:max-w-2xl">
+            <span className="w-fit text-[10px] font-bold uppercase tracking-wider text-white/80 md:text-xs md:tracking-[0.24em]">{activeSlide.eyebrow[locale]}</span>
+            <span className="w-fit rounded-full border border-white/30 bg-white/20 px-2 py-0.5 text-[11px] font-semibold tracking-[0.04em] text-white backdrop-blur-sm">{activeSlide.badge[locale]}</span>
+            <h1 className="text-base font-bold leading-tight drop-shadow-sm sm:text-lg md:text-[clamp(2rem,7vw,3.25rem)] md:leading-[1.12]">{activeSlide.title[locale]}</h1>
+            <p className="line-clamp-1 text-xs text-white/90 drop-shadow-sm md:hidden">{activeSlide.mobileSubtitle[locale]}</p>
+            <p className="mt-1 hidden max-w-xl text-base font-semibold leading-7 text-white/90 drop-shadow-sm md:block md:text-xl md:leading-8">{activeSlide.subtitle[locale]}</p>
+            <Link href={activeSlide.href} className="mt-1 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-stone-900 shadow-sm transition hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-stone-900 md:px-5 md:py-3 md:text-sm">
               {activeSlide.cta[locale]}<span aria-hidden="true">→</span>
             </Link>
           </div>
 
-          <button type="button" aria-label={t("homeBannerPrevious")} onClick={goPrevious} className="absolute left-2 top-28 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-5 md:top-1/2 md:h-12 md:w-12"><Arrow direction="previous" /></button>
-          <button type="button" aria-label={t("homeBannerNext")} onClick={goNext} className="absolute right-2 top-28 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/20 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-5 md:top-1/2 md:h-12 md:w-12"><Arrow direction="next" /></button>
+          <button type="button" aria-label={t("homeBannerPrevious")} onClick={goPrevious} className="absolute left-2 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 p-1.5 text-white backdrop-blur-sm transition hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-5 md:h-12 md:w-12"><Arrow direction="previous" /></button>
+          <button type="button" aria-label={t("homeBannerNext")} onClick={goNext} className="absolute right-2 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 p-1.5 text-white backdrop-blur-sm transition hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-5 md:h-12 md:w-12"><Arrow direction="next" /></button>
 
-          <div className="absolute left-1/2 top-[13.25rem] z-20 flex -translate-x-1/2 items-center gap-2 md:bottom-5 md:top-auto" role="tablist" aria-label={t("homeBannerSelect")}>
+          <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label={t("homeBannerSelect")}>
             {HERO_SLIDES.map((slide, index) => <button key={slide.id} type="button" role="tab" aria-selected={index === activeIndex} aria-label={t("homeBannerGoTo").replace("{number}", String(index + 1))} onClick={() => goTo(index)} className={`h-2.5 rounded-full border border-white/90 transition-all ${index === activeIndex ? "w-9 bg-white" : "w-2.5 bg-white/45 hover:bg-white/75"}`} />)}
           </div>
         </div>
