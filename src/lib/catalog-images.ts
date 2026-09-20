@@ -1,6 +1,15 @@
 const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
 const MAX_CATALOG_IMAGES = 8;
 
+/** Prefer the verified Best Partner packaging image, then the close-up image. */
+export function orderProductImages(images: string[]): string[] {
+  const unique = Array.from(new Set(images));
+  const officialPackaging = unique.filter((image) => /\/official-[^/]+-0\.(?:jpg|jpeg|png|webp)(?:\?|$)/i.test(image));
+  const officialCloseUp = unique.filter((image) => /\/official-[^/]+-1\.(?:jpg|jpeg|png|webp)(?:\?|$)/i.test(image));
+  const remaining = unique.filter((image) => !officialPackaging.includes(image) && !officialCloseUp.includes(image));
+  return [...officialPackaging, ...officialCloseUp, ...remaining];
+}
+
 function isUsableCatalogImage(value: string): boolean {
   if (!value || LEGACY_PRODUCT_IMAGE_PATH.test(value)) return false;
   try {
@@ -36,11 +45,9 @@ export function databaseProductImageUrls(row: {
   image?: unknown;
   image_url?: unknown;
 }): string[] {
-  return Array.from(
-    new Set(
-      [row.images, row.image, row.image_url]
-        .flatMap(parseImageField)
-        .filter(isUsableCatalogImage),
-    ),
+  return orderProductImages(
+    [row.images, row.image, row.image_url]
+      .flatMap(parseImageField)
+      .filter(isUsableCatalogImage),
   ).slice(0, MAX_CATALOG_IMAGES);
 }

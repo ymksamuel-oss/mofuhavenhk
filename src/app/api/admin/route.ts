@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword, verifyAdminToken } from "@/lib/admin-auth";
 import { getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
+import { orderProductImages } from "@/lib/catalog-images";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { FEATURED_PET_GALLERY_SETTING_KEY, isFeaturedPetLink, MAX_FEATURED_PETS } from "@/lib/featured-pets";
 import {
@@ -257,13 +258,11 @@ async function isAdmin() { const jar = await cookies(); return verifyAdminToken(
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
-  return Array.from(
-    new Set(
-      values
-        .flatMap((item) => (typeof item === "string" ? item.split(/[\r\n,|;]+/) : []))
-        .map((item) => item.trim())
-        .filter(Boolean),
-    ),
+  return orderProductImages(
+    values
+      .flatMap((item) => (typeof item === "string" ? item.split(/[\r\n,|;]+/) : []))
+      .map((item) => item.trim())
+      .filter(Boolean),
   ).slice(0, MAX_PRODUCT_IMAGES);
 }
 
