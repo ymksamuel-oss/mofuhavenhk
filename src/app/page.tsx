@@ -7,6 +7,7 @@ import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { BestPartnerValues } from "@/components/home/BestPartnerValues";
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
+import { PetMatcherWizard } from "@/components/matcher/PetMatcherWizard";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -31,6 +32,7 @@ export default async function HomePage() {
       <HomeBannerCarousel />
       <HomeDiscoveryBar />
       <HomeBulkPromotion />
+      <PetMatcherWizard variant="home" />
       <HomepageProductGrid products={products} />
       <HomepageFeaturedShowcase products={products} />
       <BestPartnerValues />
