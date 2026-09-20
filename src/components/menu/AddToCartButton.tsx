@@ -96,7 +96,7 @@ export function AddToCartButton({
         value={qty}
         onChange={(event) => setSafeQty(Number(event.target.value))}
         onClick={stop}
-        aria-label={locale === "en" ? "Purchase quantity" : "購買件數"}
+        aria-label={locale === "en" ? "Purchase quantity" : "\u8cfc\u8cb7\u4ef6\u6578"}
         className="h-9 w-16 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-2 text-center text-sm font-semibold tabular-nums text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)]"
       />
       <button type="button" onClick={increase} disabled={!purchasable || qty >= MAX_QTY} aria-label={t("qtyIncrease")} className={stepperBtnClass}>+</button>
@@ -126,11 +126,11 @@ export function AddToCartButton({
     setSafeQty(MIN_QTY);
   };
   const discountMessage = discountPercent === 5
-    ? locale === "en" ? "🎉 Congratulations! 5% off applied" : "🎉 恭喜你！已獲得 95 折優惠！"
+    ? locale === "en" ? "🎉 Congratulations! 5% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 95 \u6298\u512a\u60e0！"
     : discountPercent === 10
-    ? locale === "en" ? "🎉 Congratulations! 10% off applied" : "🎉 恭喜你！已獲得 9 折優惠！"
+    ? locale === "en" ? "🎉 Congratulations! 10% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 9 \u6298\u512a\u60e0！"
     : discountPercent === 15
-      ? locale === "en" ? "🎉 Congratulations! 15% off applied" : "🎉 恭喜你！已享有 85 折最高量販優惠！"
+      ? locale === "en" ? "🎉 Congratulations! 15% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u4eab\u6709 85 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！"
       : null;
   const currentTotal = product
     ? Number((discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty).toFixed(2))
@@ -139,13 +139,13 @@ export function AddToCartButton({
   const currentSavings = Number(Math.max(0, currentOriginalTotal - currentTotal).toFixed(2));
   const freeShippingMessage = locale === "en"
     ? `Free local shipping unlocked at HK$${FREE_SHIPPING_THRESHOLD}`
-    : `已享順豐本地免運費優惠（滿 HK$${FREE_SHIPPING_THRESHOLD}）`;
+    : `\u5df2\u4eab\u9806\u8c50\u672c\u5730\u514d\u904b\u8cbb\u512a\u60e0（\u6eff HK$${FREE_SHIPPING_THRESHOLD}）`;
   const nextTier = qty < 4 ? 4 - qty : qty < 8 ? 8 - qty : qty < 12 ? 12 - qty : 0;
   const promotionHint = locale === "en"
     ? nextTier > 0 ? `Buy ${nextTier} more to unlock your next bulk discount.` : "Your best 15% bulk discount is unlocked!"
-    : nextTier > 0 ? `再買 ${nextTier} 件即享 ${qty < 4 ? "95 折" : qty < 8 ? "9 折" : "85 折"} 優惠！` : "已享有 85 折最高量販優惠！";
+    : nextTier > 0 ? `\u518d\u8cb7 ${nextTier} \u4ef6\u5373\u4eab ${qty < 4 ? "95 \u6298" : qty < 8 ? "9 \u6298" : "85 \u6298"} \u512a\u60e0！` : "\u5df2\u4eab\u6709 85 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！";
   const quickChoices = (
-    <div className="flex min-w-0 flex-wrap items-stretch gap-2 py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "量販快捷選擇"}>
+    <div className="flex min-w-0 flex-wrap items-stretch gap-2 py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "\u91cf\u8ca9\u5feb\u6377\u9078\u64c7"}>
       {PET_QUICK_QUANTITIES.map((option) => (
         <button
           key={option}
@@ -154,13 +154,13 @@ export function AddToCartButton({
           disabled={!purchasable}
           className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-2 text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_8px_18px_-12px_rgba(122,75,49,0.7)]" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
         >
-          <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} 件`}</span>
+          <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} \u4ef6`}</span>
           <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-white/90" : "text-[#b04f40]"}`}>
             {option === 4
-              ? (locale === "en" ? "5% off" : "95折優惠")
+              ? (locale === "en" ? "5% off" : "95\u6298\u512a\u60e0")
               : option >= 12
-                ? (locale === "en" ? "15% off" : "85折・超值")
-                : (locale === "en" ? "10% off" : "9折優惠")}
+                ? (locale === "en" ? "15% off" : "85\u6298・\u8d85\u503c")
+                : (locale === "en" ? "10% off" : "9\u6298\u512a\u60e0")}
           </span>
         </button>
       ))}
@@ -173,7 +173,7 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
+        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `\u5c07${product?.name.zh ?? product?.name.en ?? "\u5546\u54c1"}\u52a0\u5165\u8cfc\u7269\u8eca`}
         aria-live="polite"
         className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-[color:var(--hero-deep)]" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
       >
@@ -199,7 +199,7 @@ export function AddToCartButton({
             <ShoppingCart className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
           </span>
           <span className="text-sm font-bold tracking-wide">
-            {locale === "en" ? "Added to cart ✨" : "成功加入購物車 ✨"}
+            {locale === "en" ? "Added to cart ✨" : "\u6210\u529f\u52a0\u5165\u8cfc\u7269\u8eca ✨"}
           </span>
         </div>
       , document.body) : null}
@@ -220,7 +220,7 @@ export function AddToCartButton({
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
         {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-3">
-          <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "量販優惠"}</p>
+          <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "\u91cf\u8ca9\u512a\u60e0"}</p>
           {quickChoices}
         </div> : null}
         {isPetProduct && showBulkShortcuts ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
@@ -228,7 +228,7 @@ export function AddToCartButton({
       {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
       {showTotal ? <div className="space-y-1 text-center" aria-live="polite">
         <p className="text-lg font-bold tabular-nums text-[color:var(--accent)]">{t("total")}：{formatMoney(currentTotal, locale)}</p>
-        {currentSavings > 0 ? <p className="text-xs font-semibold text-emerald-700">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `已省 ${formatMoney(currentSavings, locale)}`}</p> : null}
+        {currentSavings > 0 ? <p className="text-xs font-semibold text-emerald-700">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `\u5df2\u7701 ${formatMoney(currentSavings, locale)}`}</p> : null}
         {currentTotal >= FREE_SHIPPING_THRESHOLD ? <p className="text-xs font-semibold text-emerald-700">{freeShippingMessage}</p> : null}
       </div> : null}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>

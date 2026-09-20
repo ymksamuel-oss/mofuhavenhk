@@ -55,7 +55,7 @@ function shippingAddress(metadata: Stripe.Metadata): string {
     value(metadata, "shippingDistrict"),
   ].filter(Boolean);
   const sfStationCode = value(metadata, "shippingSfStationCode");
-  if (sfStationCode) address.push(`順豐站／智能櫃：${sfStationCode}`);
+  if (sfStationCode) address.push(`\u9806\u8c50\u7ad9／\u667a\u80fd\u6ac3：${sfStationCode}`);
   return address.join("，");
 }
 
@@ -66,7 +66,7 @@ function isExpandedProduct(product: Stripe.Price["product"]): product is Stripe.
 function productName(price: Stripe.Price): string {
   return isExpandedProduct(price.product)
     ? price.product.name
-    : price.nickname || "Mofu Haven 商品";
+    : price.nickname || "Mofu Haven \u5546\u54c1";
 }
 
 function productId(price: Stripe.Price): string {
@@ -197,9 +197,9 @@ export async function sendPaidOrderReceipt({
   const paymentLabel = paymentLabelFromIntent(paymentIntent, paymentMethod);
   const delivery = await sendOrderReceiptEmail(paymentIntent.id, {
     orderNumber,
-    customerName: value(metadata, "customerName") || "顧客",
+    customerName: value(metadata, "customerName") || "\u9867\u5ba2",
     customerEmail: email,
-    shippingRecipientName: value(metadata, "shippingName") || value(metadata, "customerName") || "顧客",
+    shippingRecipientName: value(metadata, "shippingName") || value(metadata, "customerName") || "\u9867\u5ba2",
     shippingPhone: value(metadata, "shippingPhone"),
     shippingAddress: shippingAddress(metadata),
     paidAt: await paymentCompletedAt(stripe, paymentIntent),

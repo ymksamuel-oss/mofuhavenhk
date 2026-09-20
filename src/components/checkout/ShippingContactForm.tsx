@@ -40,9 +40,9 @@ const PHONE_COUNTRY_OPTIONS: Array<{
   labelEn: string;
   labelJa: string;
 }> = [
-  { code: "+852", labelZh: "+852 香港", labelEn: "+852 Hong Kong", labelJa: "+852 香港" },
-  { code: "+853", labelZh: "+853 澳門", labelEn: "+853 Macao", labelJa: "+853 マカオ" },
-  { code: "+86", labelZh: "+86 中國大陸", labelEn: "+86 Mainland China", labelJa: "+86 中国本土" },
+  { code: "+852", labelZh: "+852 \u9999\u6e2f", labelEn: "+852 Hong Kong", labelJa: "+852 \u9999\u6e2f" },
+  { code: "+853", labelZh: "+853 \u6fb3\u9580", labelEn: "+853 Macao", labelJa: "+853 マカオ" },
+  { code: "+86", labelZh: "+86 \u4e2d\u570b\u5927\u9678", labelEn: "+86 Mainland China", labelJa: "+86 \u4e2d\u56fd\u672c\u571f" },
 ];
 
 function Field({

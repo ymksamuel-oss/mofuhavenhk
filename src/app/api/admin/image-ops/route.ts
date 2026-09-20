@@ -23,7 +23,7 @@ type SourceMatch = {
   handle: string;
   imageUrl: string;
   productUrl: string;
-  method: "JAN" | "日文品名";
+  method: "JAN" | "\u65e5\u6587\u54c1\u540d";
 };
 
 type SyncItem = {
@@ -55,16 +55,16 @@ function sourceName(value: unknown) {
   const normalized = normalizeText(value);
   const afterPipe = normalized.includes("|") ? normalized.split("|").pop() || normalized : normalized;
   return afterPipe
-    .replace(/^日本原裝\s*/i, "")
+    .replace(/^\u65e5\u672c\u539f\u88dd\s*/i, "")
     .replace(/^Best Partner\s*/i, "")
-    .replace(/^天然寵物零食\s*/i, "")
+    .replace(/^\u5929\u7136\u5bf5\u7269\u96f6\u98df\s*/i, "")
     .trim();
 }
 
 function compactName(value: unknown) {
   return sourceName(value)
     .toLocaleLowerCase("ja-JP")
-    .replace(/\b\d+(?:\.\d+)?\s*(?:g|kg|ml|本|個|袋|支|入|枚|パック)\b/gi, "")
+    .replace(/\b\d+(?:\.\d+)?\s*(?:g|kg|ml|\u672c|\u500b|\u888b|\u652f|\u5165|\u679a|パック)\b/gi, "")
     .replace(/[ＳＭＬＬＬ]+$/u, "")
     .replace(/[\s・･,，、/／|｜()（）［］【】「」『』\-–—:：]/g, "")
     .trim();
@@ -170,7 +170,7 @@ async function findExactSourceProduct(name: unknown, sku: unknown): Promise<Sour
         handle: productUrl.split("/archives/")[1]?.replace(/\/$/, "") || "",
         imageUrl,
         productUrl,
-        method: janMatches ? "JAN" : "日文品名",
+        method: janMatches ? "JAN" : "\u65e5\u6587\u54c1\u540d",
       };
     }
   }
@@ -186,16 +186,16 @@ function extension(contentType: string | null, sourceUrl: string) {
 
 async function uploadImage(imageUrl: string, productId: string, supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>) {
   const response = await fetchWithTimeout(imageUrl, { headers: { Accept: "image/avif,image/webp,image/*" } });
-  if (!response.ok) throw new Error(`圖片下載失敗：HTTP ${response.status}`);
+  if (!response.ok) throw new Error(`\u5716\u7247\u4e0b\u8f09\u5931\u6557：HTTP ${response.status}`);
   const bytes = Buffer.from(await response.arrayBuffer());
-  if (!bytes.length) throw new Error("下載圖片為空");
+  if (!bytes.length) throw new Error("\u4e0b\u8f09\u5716\u7247\u70ba\u7a7a");
   const digest = crypto.createHash("sha1").update(bytes).digest("hex").slice(0, 12);
   const objectPath = `best-partner/${productId}-${digest}.${extension(response.headers.get("content-type"), imageUrl)}`;
   const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(objectPath, bytes, {
     contentType: response.headers.get("content-type") || "image/jpeg",
     upsert: true,
   });
-  if (error) throw new Error(`Supabase 圖片上傳失敗：${error.message}`);
+  if (error) throw new Error(`Supabase \u5716\u7247\u4e0a\u50b3\u5931\u6557：${error.message}`);
   return supabase.storage.from(STORAGE_BUCKET).getPublicUrl(objectPath).data.publicUrl;
 }
 
@@ -212,7 +212,7 @@ export async function POST(request: Request) {
     .from("products")
     .select("id,name,mofu_sku,images")
     .order("created_at", { ascending: false });
-  if (error) return NextResponse.json({ error: `讀取產品失敗：${error.message}` }, { status: 500 });
+  if (error) return NextResponse.json({ error: `\u8b80\u53d6\u7522\u54c1\u5931\u6557：${error.message}` }, { status: 500 });
   const products = ((data || []) as Product[]).filter((product) => overwrite || !hasUsableImages(product.images)).slice(0, limit);
   const items: SyncItem[] = [];
   let matched = 0;
@@ -247,7 +247,7 @@ export async function POST(request: Request) {
       uploaded += 1;
       const mergedImages = [publicUrl, ...existingImages(product.images).filter((image) => image !== publicUrl)].slice(0, 8);
       const { error: updateError } = await supabase.from("products").update({ images: mergedImages }).eq("id", product.id);
-      if (updateError) throw new Error(`產品更新失敗：${updateError.message}`);
+      if (updateError) throw new Error(`\u7522\u54c1\u66f4\u65b0\u5931\u6557：${updateError.message}`);
       updated += 1;
       item.status = "updated";
       item.imageUrl = publicUrl;

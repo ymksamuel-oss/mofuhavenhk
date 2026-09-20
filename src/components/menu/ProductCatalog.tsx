@@ -48,30 +48,30 @@ type ProductCatalogProps = {
 };
 
 const INGREDIENT_FILTERS = [
-  ["chicken", "雞肉", "鶏 chicken", "Chicken"],
-  ["duck", "鴨肉", "鴨 duck", "Duck"],
-  ["beef", "牛肉", "牛 cow", "Beef"],
-  ["pork", "豬肉", "豚 pig", "Pork"],
-  ["boar", "野豬肉", "猪 boar", "Boar"],
-  ["kangaroo", "袋鼠肉", "カンガルー kangaroo", "Kangaroo"],
-  ["deer", "鹿肉", "鹿 deer", "Venison"],
-  ["horse", "馬肉", "馬 horse", "Horse"],
-  ["sheep", "羊肉", "羊 sheep", "Lamb"],
-  ["roll", "肉類卷製", "巻き roll", "Roll"],
-  ["chips-jerky", "肉片・肉乾", "ちっぷすジャーキー", "Chips & jerky"],
-  ["seafood", "魚介海鮮", "魚介 seafood", "Seafood"],
-  ["produce", "蔬菜・水果", "野菜・果物", "Vegetables & fruits"],
-  ["snacks", "零食", "おかし snacks", "Snacks"],
-  ["dairy", "乳製品", "乳製品 dairy", "Dairy"],
-  ["seasoning", "拌飯粉・撒料", "ふりかけ seasoning", "Seasoning"],
-  ["side-dish", "熟食配菜", "お惣菜 side dish", "Side dish"],
-  ["frozen", "冷凍食品", "冷凍 frozen", "Frozen"],
-  ["food", "主食・飯", "ごはん food", "Food"],
+  ["chicken", "\u96de\u8089", "\u9d8f chicken", "Chicken"],
+  ["duck", "\u9d28\u8089", "\u9d28 duck", "Duck"],
+  ["beef", "\u725b\u8089", "\u725b cow", "Beef"],
+  ["pork", "\u8c6c\u8089", "\u8c5a pig", "Pork"],
+  ["boar", "\u91ce\u8c6c\u8089", "\u732a boar", "Boar"],
+  ["kangaroo", "\u888b\u9f20\u8089", "カンガルー kangaroo", "Kangaroo"],
+  ["deer", "\u9e7f\u8089", "\u9e7f deer", "Venison"],
+  ["horse", "\u99ac\u8089", "\u99ac horse", "Horse"],
+  ["sheep", "\u7f8a\u8089", "\u7f8a sheep", "Lamb"],
+  ["roll", "\u8089\u985e\u5377\u88fd", "\u5dfbき roll", "Roll"],
+  ["chips-jerky", "\u8089\u7247・\u8089\u4e7e", "ちっぷすジャーキー", "Chips & jerky"],
+  ["seafood", "\u9b5a\u4ecb\u6d77\u9bae", "\u9b5a\u4ecb seafood", "Seafood"],
+  ["produce", "\u852c\u83dc・\u6c34\u679c", "\u91ce\u83dc・\u679c\u7269", "Vegetables & fruits"],
+  ["snacks", "\u96f6\u98df", "おかし snacks", "Snacks"],
+  ["dairy", "\u4e73\u88fd\u54c1", "\u4e73\u88fd\u54c1 dairy", "Dairy"],
+  ["seasoning", "\u62cc\u98ef\u7c89・\u6492\u6599", "ふりかけ seasoning", "Seasoning"],
+  ["side-dish", "\u719f\u98df\u914d\u83dc", "お\u60e3\u83dc side dish", "Side dish"],
+  ["frozen", "\u51b7\u51cd\u98df\u54c1", "\u51b7\u51cd frozen", "Frozen"],
+  ["food", "\u4e3b\u98df・\u98ef", "ごはん food", "Food"],
 ] as const;
 
 const AUDIENCE_FILTERS = [
-  ["dog", "狗狗專區", "犬用", "For dogs"],
-  ["cat", "貓貓專區", "猫用", "For cats"],
+  ["dog", "\u72d7\u72d7\u5c08\u5340", "\u72ac\u7528", "For dogs"],
+  ["cat", "\u8c93\u8c93\u5c08\u5340", "\u732b\u7528", "For cats"],
 ] as const;
 
 function productFilterText(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
@@ -80,37 +80,37 @@ function productFilterText(product: { name: { zh: string; en: string }; descript
 
 function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
   const text = productFilterText(product);
-  return !/用品|胸背帶|牽引帶|項圈|玩具|貓砂|砂盆|尿墊|食器|餵食器|grooming|harness|leash|collar|toy|litter|pad|bowl|supply/i.test(text) &&
-    /supplier_category:(?:chicken|duck|beef|pork|boar|kangaroo|deer|horse|sheep|roll|chips-jerky|seafood|produce|snacks|dairy|seasoning|side-dish|frozen|food)|食品|食物|小食|零食|乾糧|罐頭|凍乾|肉泥|肉片|肉乾|肉條|肉粒|鹿肉|紫薯|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
+  return !/\u7528\u54c1|\u80f8\u80cc\u5e36|\u727d\u5f15\u5e36|\u9805\u5708|\u73a9\u5177|\u8c93\u7802|\u7802\u76c6|\u5c3f\u588a|\u98df\u5668|\u9935\u98df\u5668|grooming|harness|leash|collar|toy|litter|pad|bowl|supply/i.test(text) &&
+    /supplier_category:(?:chicken|duck|beef|pork|boar|kangaroo|deer|horse|sheep|roll|chips-jerky|seafood|produce|snacks|dairy|seasoning|side-dish|frozen|food)|\u98df\u54c1|\u98df\u7269|\u5c0f\u98df|\u96f6\u98df|\u4e7e\u7ce7|\u7f50\u982d|\u51cd\u4e7e|\u8089\u6ce5|\u8089\u7247|\u8089\u4e7e|\u8089\u689d|\u8089\u7c92|\u9e7f\u8089|\u7d2b\u85af|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
 }
 
 function isSupplyProduct(product: Parameters<typeof productFilterText>[0]) {
-  return /supplies|用品|collar|harness|leash|lead|胸背帶|胸背|項圈|頸圈|牽引繩|牽引帶|散步|日常用品/i.test(productFilterText(product));
+  return /supplies|\u7528\u54c1|collar|harness|leash|lead|\u80f8\u80cc\u5e36|\u80f8\u80cc|\u9805\u5708|\u9838\u5708|\u727d\u5f15\u7e69|\u727d\u5f15\u5e36|\u6563\u6b65|\u65e5\u5e38\u7528\u54c1/i.test(productFilterText(product));
 }
 
 function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter || filter === "all") return true;
   const text = productFilterText(product);
   const patterns: Record<string, RegExp> = {
-    food: /ごはん|乾糧|主食|飯|food|kibble|rice/i,
-    frozen: /冷凍|冷藏|frozen/i,
-    "side-dish": /お惣菜|熟食|side\s*dish|配菜/i,
-    seasoning: /ふりかけ|拌飯|拌糧|撒料|seasoning/i,
-    dairy: /乳製品|チーズ|cheese|奶|乳酪|dairy/i,
-    snacks: /おかし|おやつ|零食|小食|餅乾|snack/i,
-    "chips-jerky": /ちっぷす|チップ|ジャーキー|chips|jerky|肉乾|肉片/i,
-    roll: /巻き|卷|捲|roll/i,
-    kangaroo: /カンガルー|kangaroo|袋鼠/i,
-    duck: /鴨|鴨肉|duck|カモ/i,
-    boar: /猪|野豬|boar/i,
-    seafood: /深海海鮮|魚介|魚|まぐろ|マグロ|かつお|鰹|きびなご|わかさぎ|たら|鱈|鮭|鯛|鯵|鯖|鱧|うなぎ|帆立|白子|seafood|fish|tuna|bonito/i,
-    deer: /低敏鹿肉|鹿肉|鹿|ベニソン|venison|deer/i,
-    horse: /低敏馬肉|馬肉|馬|horse/i,
-    chicken: /純天然雞肉|雞胸肉|雞肉|鶏|チキン|ささみ|chicken/i,
-    beef: /嚴選牛肉|牛肉|牛|ビーフ|beef/i,
-    pork: /豬肉|豚|ポーク|pork/i,
-    sheep: /羊肉|羊|ラム|sheep|lamb/i,
-    produce: /蔬菜|水果|野菜|フルーツ|果物|vegetable|fruit|produce/i,
+    food: /ごはん|\u4e7e\u7ce7|\u4e3b\u98df|\u98ef|food|kibble|rice/i,
+    frozen: /\u51b7\u51cd|\u51b7\u85cf|frozen/i,
+    "side-dish": /お\u60e3\u83dc|\u719f\u98df|side\s*dish|\u914d\u83dc/i,
+    seasoning: /ふりかけ|\u62cc\u98ef|\u62cc\u7ce7|\u6492\u6599|seasoning/i,
+    dairy: /\u4e73\u88fd\u54c1|チーズ|cheese|\u5976|\u4e73\u916a|dairy/i,
+    snacks: /おかし|おやつ|\u96f6\u98df|\u5c0f\u98df|\u9905\u4e7e|snack/i,
+    "chips-jerky": /ちっぷす|チップ|ジャーキー|chips|jerky|\u8089\u4e7e|\u8089\u7247/i,
+    roll: /\u5dfbき|\u5377|\u6372|roll/i,
+    kangaroo: /カンガルー|kangaroo|\u888b\u9f20/i,
+    duck: /\u9d28|\u9d28\u8089|duck|カモ/i,
+    boar: /\u732a|\u91ce\u8c6c|boar/i,
+    seafood: /\u6df1\u6d77\u6d77\u9bae|\u9b5a\u4ecb|\u9b5a|まぐろ|マグロ|かつお|\u9c39|きびなご|わかさぎ|たら|\u9c48|\u9bad|\u9bdb|\u9bf5|\u9bd6|\u9c67|うなぎ|\u5e06\u7acb|\u767d\u5b50|seafood|fish|tuna|bonito/i,
+    deer: /\u4f4e\u654f\u9e7f\u8089|\u9e7f\u8089|\u9e7f|ベニソン|venison|deer/i,
+    horse: /\u4f4e\u654f\u99ac\u8089|\u99ac\u8089|\u99ac|horse/i,
+    chicken: /\u7d14\u5929\u7136\u96de\u8089|\u96de\u80f8\u8089|\u96de\u8089|\u9d8f|チキン|ささみ|chicken/i,
+    beef: /\u56b4\u9078\u725b\u8089|\u725b\u8089|\u725b|ビーフ|beef/i,
+    pork: /\u8c6c\u8089|\u8c5a|ポーク|pork/i,
+    sheep: /\u7f8a\u8089|\u7f8a|ラム|sheep|lamb/i,
+    produce: /\u852c\u83dc|\u6c34\u679c|\u91ce\u83dc|フルーツ|\u679c\u7269|vegetable|fruit|produce/i,
   };
   return patterns[filter]?.test(text) ?? false;
 }
@@ -118,17 +118,17 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
 function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {
   if (!filter) return true;
   const text = productFilterText(product);
-  const isCatOnly = /貓專用|猫用|貓用|貓貓|猫の|ねこ|ネコ|for cats?|\bcats?\b|cat[-_ ]?only|audience:cat/i.test(text);
-  const isDogOnly = /狗專用|狗狗|犬用|犬|狗具|for dogs?|\bdogs?\b|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
-  const isShared = /貓狗兼用|貓犬兼用|all[_ -]?pets|犬猫兼用|cats?\s*(?:and|&)\s*dogs?/i.test(text);
+  const isCatOnly = /\u8c93\u5c08\u7528|\u732b\u7528|\u8c93\u7528|\u8c93\u8c93|\u732bの|ねこ|ネコ|for cats?|\bcats?\b|cat[-_ ]?only|audience:cat/i.test(text);
+  const isDogOnly = /\u72d7\u5c08\u7528|\u72d7\u72d7|\u72ac\u7528|\u72ac|\u72d7\u5177|for dogs?|\bdogs?\b|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  const isShared = /\u8c93\u72d7\u517c\u7528|\u8c93\u72ac\u517c\u7528|all[_ -]?pets|\u72ac\u732b\u517c\u7528|cats?\s*(?:and|&)\s*dogs?/i.test(text);
   if (filter === "cat") return !isDogOnly || isShared ? (isCatOnly || isShared) : false;
   if (filter === "dog") return !isCatOnly || isShared ? (isDogOnly || isShared) : false;
-  return !/貓專用|猫用|貓用|貓貓|狗專用|狗狗|犬用|狗具|for cats?|for dogs?|cat[-_ ]?(?:only|treat|food|snack|product)|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
+  return !/\u8c93\u5c08\u7528|\u732b\u7528|\u8c93\u7528|\u8c93\u8c93|\u72d7\u5c08\u7528|\u72d7\u72d7|\u72ac\u7528|\u72d7\u5177|for cats?|for dogs?|cat[-_ ]?(?:only|treat|food|snack|product)|dog[-_ ]?(?:only|treat|food|snack|product)/i.test(text);
 }
 
 function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
   const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
-  return /貓|猫|cat|にぼし|まぐろ|マグロ|かつお|鰹|きびなご|ひめたら|わかさぎ|魚|fish|tuna|bonito|鱈|鹿肉|馬肉|鹿|馬|venison|horse/.test(text);
+  return /\u8c93|\u732b|cat|にぼし|まぐろ|マグロ|かつお|\u9c39|きびなご|ひめたら|わかさぎ|\u9b5a|fish|tuna|bonito|\u9c48|\u9e7f\u8089|\u99ac\u8089|\u9e7f|\u99ac|venison|horse/.test(text);
 }
 
 /**
@@ -234,11 +234,11 @@ export function ProductCatalog({
   const title = collection
     ? getCollectionLabel(collection, locale)
     : categorySlug === "dogs"
-    ? (locale === "en" ? "For Dogs" : "狗狗專區")
+    ? (locale === "en" ? "For Dogs" : "\u72d7\u72d7\u5c08\u5340")
     : categorySlug === "cats" || specialFilter === "cat-zone"
-      ? (locale === "en" ? "For Cats" : "貓咪專區")
+      ? (locale === "en" ? "For Cats" : "\u8c93\u54aa\u5c08\u5340")
       : categorySlug === "supplies"
-        ? (locale === "en" ? "Pet Supplies" : "寵物用品")
+        ? (locale === "en" ? "Pet Supplies" : "\u5bf5\u7269\u7528\u54c1")
         : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
@@ -246,12 +246,12 @@ export function ProductCatalog({
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {collection ? <>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
-          <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "款商品"}</p>
+          <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "\u6b3e\u5546\u54c1"}</p>
         </> : null}
       </div>
       {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7 px-8">
-        <button type="button" aria-label={locale === "en" ? "Scroll ingredients left" : "向左滑動分類"} onClick={() => scrollIngredients(-1)} className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">‹</button>
-        <nav ref={ingredientScrollerRef} aria-label={locale === "en" ? "Dog food ingredients" : "狗狗肉類食材"} className="scroll-smooth flex flex-nowrap touch-pan-x gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
+        <button type="button" aria-label={locale === "en" ? "Scroll ingredients left" : "\u5411\u5de6\u6ed1\u52d5\u5206\u985e"} onClick={() => scrollIngredients(-1)} className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">‹</button>
+        <nav ref={ingredientScrollerRef} aria-label={locale === "en" ? "Dog food ingredients" : "\u72d7\u72d7\u8089\u985e\u98df\u6750"} className="scroll-smooth flex flex-nowrap touch-pan-x gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
           {INGREDIENT_FILTERS.map(([slug, zh, , en]) => {
             const active = (ingredientFilter ?? "chicken") === slug;
             const href = `/categories/dogs?ingredient=${slug}`;
@@ -260,9 +260,9 @@ export function ProductCatalog({
             </CategoryNavLink>;
           })}
         </nav>
-        <button type="button" aria-label={locale === "en" ? "Scroll ingredients right" : "向右滑動分類"} onClick={() => scrollIngredients(1)} className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">›</button>
+        <button type="button" aria-label={locale === "en" ? "Scroll ingredients right" : "\u5411\u53f3\u6ed1\u52d5\u5206\u985e"} onClick={() => scrollIngredients(1)} className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">›</button>
       </div> : null}
-      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Audience" : "對象分類"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
+      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Audience" : "\u5c0d\u8c61\u5206\u985e"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
           const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;
           const active = audienceFilter === slug;
@@ -271,17 +271,17 @@ export function ProductCatalog({
           </CategoryNavLink>;
         })}
       </nav> : null}
-      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Product categories" : "商品類別"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
+      {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Product categories" : "\u5546\u54c1\u985e\u5225"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
         {["treats", "supplies"].map((slug) => {
           const active = productCategory === slug;
           const href = `/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`;
           return <CategoryNavLink key={slug} href={href} className={`relative shrink-0 pb-2.5 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[color:var(--accent)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
-            {locale === "en" ? (slug === "treats" ? "Natural meat treats" : "Outdoors & daily supplies") : (slug === "treats" ? "天然肉食小食" : "外出及日常用品")}
+            {locale === "en" ? (slug === "treats" ? "Natural meat treats" : "Outdoors & daily supplies") : (slug === "treats" ? "\u5929\u7136\u8089\u98df\u5c0f\u98df" : "\u5916\u51fa\u53ca\u65e5\u5e38\u7528\u54c1")}
           </CategoryNavLink>;
         })}
       </nav> : null}
       {!isDedicatedCategoryPage && !isCollectionPage && ingredientEnabled ? <div className="relative mb-5">
-        <nav aria-label={locale === "en" ? "Ingredient filters" : "肉源分類篩選"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav aria-label={locale === "en" ? "Ingredient filters" : "\u8089\u6e90\u5206\u985e\u7be9\u9078"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
             const active = (ingredientFilter ?? "all") === slug;
             return <CategoryNavLink key={slug} href={`/menu?audience=${audienceFilter}&category=treats&ingredient=${slug}`} className={`relative inline-flex shrink-0 items-center whitespace-nowrap px-3 py-2 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-1 after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
@@ -297,7 +297,7 @@ export function ProductCatalog({
             href={audienceFilter ? `/menu?audience=${audienceFilter}${productCategory ? `&category=${productCategory}` : ""}` : "/menu"}
             className="inline-flex rounded-full border border-[color:var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]"
           >
-            {locale === "en" ? "Clear ingredient filter" : "清除篩選，返回全部商品"}
+            {locale === "en" ? "Clear ingredient filter" : "\u6e05\u9664\u7be9\u9078，\u8fd4\u56de\u5168\u90e8\u5546\u54c1"}
           </CategoryNavLink>
         </div>
       ) : (

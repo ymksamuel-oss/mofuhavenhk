@@ -31,18 +31,18 @@ function getPageNumbers(current: number, total: number): PageItem[] {
 function homepageFamilyKey(product: Product): string {
   const text = `${product.name.zh} ${product.name.en} ${Object.values(product.metadata ?? {}).join(" ")}`.toLowerCase();
   if (/タフ[・\s-]*ブレイド|tough\s*blade/.test(text)) {
-    if (/ハーネス|harness|胸背/.test(text)) return "best-partner-tough-harness";
-    if (/リード|lead|leash|牽引/.test(text)) return "best-partner-tough-lead";
-    if (/カラー|collar|頸圈/.test(text)) return "best-partner-tough-collar";
+    if (/ハーネス|harness|\u80f8\u80cc/.test(text)) return "best-partner-tough-harness";
+    if (/リード|lead|leash|\u727d\u5f15/.test(text)) return "best-partner-tough-lead";
+    if (/カラー|collar|\u9838\u5708/.test(text)) return "best-partner-tough-collar";
   }
   return product.id;
 }
 
 function homepageGroup(product: Product): "cat" | "meat" | "gear" | "other" {
   const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""}`.toLowerCase();
-  if (/貓|猫|cat/.test(text) && /魚|鮪|吞拿魚|鰹|fish|tuna|bonito|鱈|沙丁|小魚/.test(text)) return "cat";
-  if (/鹿|馬|牛|羊|鯊魚|鹿肉|馬肉|beef|venison|horse|shark/.test(text)) return "meat";
-  if (/胸背|牽引|頸圈|harness|leash|collar|タフ[・\s-]*ブレイド/.test(text)) return "gear";
+  if (/\u8c93|\u732b|cat/.test(text) && /\u9b5a|\u9baa|\u541e\u62ff\u9b5a|\u9c39|fish|tuna|bonito|\u9c48|\u6c99\u4e01|\u5c0f\u9b5a/.test(text)) return "cat";
+  if (/\u9e7f|\u99ac|\u725b|\u7f8a|\u9bca\u9b5a|\u9e7f\u8089|\u99ac\u8089|beef|venison|horse|shark/.test(text)) return "meat";
+  if (/\u80f8\u80cc|\u727d\u5f15|\u9838\u5708|harness|leash|collar|タフ[・\s-]*ブレイド/.test(text)) return "gear";
   return "other";
 }
 

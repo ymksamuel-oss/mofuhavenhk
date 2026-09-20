@@ -15,8 +15,6 @@ export function getProductStatuses(product: Pick<Product, "createdAt" | "inStock
   if (product.createdAt && Date.now() - product.createdAt * 1000 <= NEW_ARRIVAL_WINDOW_MS) {
     statuses.push("new-arrival");
   }
-  // 「現貨」只作為沒有精選或新上架提示時的可售狀態，避免三個
-  // 真實標籤同時堆疊而遮擋產品圖片。
   if (product.inStock === true && statuses.length === 0) {
     statuses.push("in-stock");
   }
@@ -35,11 +33,11 @@ export function ProductStatusBadges({ product, className = "" }: { product: Prod
   if (!statuses.length) return null;
 
   return (
-    <div className={`pointer-events-none absolute z-10 flex flex-col items-end gap-1 ${className}`} aria-label={t("badgeInStock")}>
+    <div className={`pointer-events-none flex max-w-full flex-wrap items-start justify-end gap-1 ${className}`} aria-label={t("badgeInStock")}>
       {statuses.map((status) => (
         <span
           key={status}
-          className={`rounded-full border px-2 py-0.5 text-[10px] font-bold leading-4 shadow-[0_3px_12px_-8px_rgba(75,54,33,0.65)] ${statusStyle[status]}`}
+          className={`max-w-full shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold leading-4 shadow-[0_3px_12px_-8px_rgba(75,54,33,0.65)] sm:px-2 sm:text-[10px] ${statusStyle[status]}`}
         >
           {status === "featured"
             ? t("badgeFeatured")

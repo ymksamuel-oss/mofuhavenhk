@@ -46,14 +46,14 @@ export type NotifyResult =
 /**
  * Exact shop-owner notification template (must stay in this shape):
  *
- * 🛒 Mofu Haven 新訂單通知
- * 訂單編號：MH…
- * 付款方式：…
- * 應付總額：HK$…
- * 顧客：…
- * 商品：
+ * 🛒 Mofu Haven \u65b0\u8a02\u55ae\u901a\u77e5
+ * \u8a02\u55ae\u7de8\u865f：MH…
+ * \u4ed8\u6b3e\u65b9\u5f0f：…
+ * \u61c9\u4ed8\u7e3d\u984d：HK$…
+ * \u9867\u5ba2：…
+ * \u5546\u54c1：
  * - MH-… × 1
- * 請到後台 / Blobs 核對完整訂單資料。
+ * \u8acb\u5230\u5f8c\u53f0 / Blobs \u6838\u5c0d\u5b8c\u6574\u8a02\u55ae\u8cc7\u6599。
  * — mofuhavenhk.com
  */
 export function buildNotifyMessage({
@@ -78,13 +78,13 @@ export function buildNotifyMessage({
   });
 
   return [
-    `🛒 Mofu Haven 新訂單通知`,
-    `訂單編號：${orderNumber}`,
-    `付款方式：${paymentLabel}`,
-    `應付總額：${formattedTotal}`,
-    `顧客：${customerName}`,
-    ...(itemLines.length > 0 ? ["", "商品：", ...itemLines] : []),
-    `請到後台 / Blobs 核對完整訂單資料。`,
+    `🛒 Mofu Haven \u65b0\u8a02\u55ae\u901a\u77e5`,
+    `\u8a02\u55ae\u7de8\u865f：${orderNumber}`,
+    `\u4ed8\u6b3e\u65b9\u5f0f：${paymentLabel}`,
+    `\u61c9\u4ed8\u7e3d\u984d：${formattedTotal}`,
+    `\u9867\u5ba2：${customerName}`,
+    ...(itemLines.length > 0 ? ["", "\u5546\u54c1：", ...itemLines] : []),
+    `\u8acb\u5230\u5f8c\u53f0 / Blobs \u6838\u5c0d\u5b8c\u6574\u8a02\u55ae\u8cc7\u6599。`,
     `— ${SITE_LABEL}`,
   ].join("\n");
 }

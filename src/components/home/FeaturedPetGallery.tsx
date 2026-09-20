@@ -29,20 +29,20 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
       ? {
           eyebrow: "おすすめペットギャラリー",
           title: "おすすめペット",
-          body: "一枚一枚の写真に、やさしい出会いがあります。猫ちゃん、わんちゃん、すべての大切な家族の日々の物語をご紹介します。",
+          body: "\u4e00\u679a\u4e00\u679aの\u5199\u771fに、やさしい\u51fa\u4f1aいがあります。\u732bちゃん、わんちゃん、すべての\u5927\u5207な\u5bb6\u65cfの\u65e5々の\u7269\u8a9eをご\u7d39\u4ecbします。",
           story: "ペットストーリー",
-          explore: "もっと見る",
-          emptyTitle: "ギャラリー準備中",
-          emptyBody: "管理画面の「おすすめペットギャラリー」から写真とストーリーを追加すると、ここに表示されます。",
+          explore: "もっと\u898bる",
+          emptyTitle: "ギャラリー\u6e96\u5099\u4e2d",
+          emptyBody: "\u7ba1\u7406\u753b\u9762の「おすすめペットギャラリー」から\u5199\u771fとストーリーを\u8ffd\u52a0すると、ここに\u8868\u793aされます。",
         }
       : {
-        eyebrow: "精選寵物圖集",
-        title: "精選寵物專區",
-        body: "每一張寫真，都是一段溫柔相遇。從貓咪、狗狗到每一位小小朋友，慢慢認識牠們的日常故事。",
-        story: "毛孩故事",
-        explore: "探索更多",
-        emptyTitle: "寫真專區準備中",
-        emptyBody: "請於後台「精選寵物專區」上載相片及填寫內容，首頁會即時展示你的最新精選。",
+        eyebrow: "\u7cbe\u9078\u5bf5\u7269\u5716\u96c6",
+        title: "\u7cbe\u9078\u5bf5\u7269\u5c08\u5340",
+        body: "\u6bcf\u4e00\u5f35\u5beb\u771f，\u90fd\u662f\u4e00\u6bb5\u6eab\u67d4\u76f8\u9047。\u5f9e\u8c93\u54aa、\u72d7\u72d7\u5230\u6bcf\u4e00\u4f4d\u5c0f\u5c0f\u670b\u53cb，\u6162\u6162\u8a8d\u8b58\u7260\u5011\u7684\u65e5\u5e38\u6545\u4e8b。",
+        story: "\u6bdb\u5b69\u6545\u4e8b",
+        explore: "\u63a2\u7d22\u66f4\u591a",
+        emptyTitle: "\u5beb\u771f\u5c08\u5340\u6e96\u5099\u4e2d",
+        emptyBody: "\u8acb\u65bc\u5f8c\u53f0「\u7cbe\u9078\u5bf5\u7269\u5c08\u5340」\u4e0a\u8f09\u76f8\u7247\u53ca\u586b\u5beb\u5167\u5bb9，\u9996\u9801\u6703\u5373\u6642\u5c55\u793a\u4f60\u7684\u6700\u65b0\u7cbe\u9078。",
       };
   return (
     <section id="featured-pets" className="relative overflow-hidden bg-[#f8f3ed] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">

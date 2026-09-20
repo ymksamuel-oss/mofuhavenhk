@@ -7,7 +7,7 @@ export function BestPartnerBanner() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/best-partner-banner.jpg"
-          alt="Best Partner 国産 無添加 無着色"
+          alt="Best Partner \u56fd\u7523 \u7121\u6dfb\u52a0 \u7121\u7740\u8272"
           className="block h-auto w-full"
         />
       </Link>

@@ -27,14 +27,14 @@ function parseDescription(text: string, product: Product): RichContent {
   const find = (names: string[]) => blocks.find((block) => names.some((name) => block.includes(name))) ?? "";
   const body = (value: string) => value.replace(/^【[^】]+】|^##?\s[^\n]+/m, "").trim();
   const lines = (value: string) => body(value).split("\n").map((line) => line.trim()).filter((line) => line.length > 2);
-  const features = lines(find(["核心亮點", "商品特色", "Highlights", "Features"]));
-  const feeding = lines(find(["4 大花式餵食法", "4大花式餵食法", "餵食方法", "Feeding"]));
-  const nutrition = lines(find(["規格與保證營養", "保證營養", "營養", "Nutrition"]));
-  const notes = lines(find(["貼心叮嚀", "注意事項", "保存方法", "Notes"]));
+  const features = lines(find(["\u6838\u5fc3\u4eae\u9ede", "\u5546\u54c1\u7279\u8272", "Highlights", "Features"]));
+  const feeding = lines(find(["4 \u5927\u82b1\u5f0f\u9935\u98df\u6cd5", "4\u5927\u82b1\u5f0f\u9935\u98df\u6cd5", "\u9935\u98df\u65b9\u6cd5", "Feeding"]));
+  const nutrition = lines(find(["\u898f\u683c\u8207\u4fdd\u8b49\u71df\u990a", "\u4fdd\u8b49\u71df\u990a", "\u71df\u990a", "Nutrition"]));
+  const notes = lines(find(["\u8cbc\u5fc3\u53ee\u5680", "\u6ce8\u610f\u4e8b\u9805", "\u4fdd\u5b58\u65b9\u6cd5", "Notes"]));
   const dynamicParagraphs = text.split(/\r?\n/).map((line) => line.trim()).filter((line) => line.length > 8 && !/^【[^】]+】/.test(line) && !/^##?\s/.test(line));
   return {
     highlights: (features.length ? features : product.specs?.map((spec) => spec.en || spec.zh) ?? []).slice(0, 5),
-    spotlight: body(find(["商品重點", "購買理由", "Key point"])),
+    spotlight: body(find(["\u5546\u54c1\u91cd\u9ede", "\u8cfc\u8cb7\u7406\u7531", "Key point"])),
     texture: body(find(["Texture", "Texture & Hardness"])) || product.texture?.en || "",
     feeding: (feeding.length ? feeding : dynamicParagraphs).slice(0, 4),
     nutrition: nutrition.slice(0, 8),
@@ -57,7 +57,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
   ];
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ 商品特色</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
+      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ \u5546\u54c1\u7279\u8272</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
       {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5"><p className="text-xs font-semibold tracking-wide text-stone-400">Product code: {sku}</p><ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">{rich.highlights.map((item, index) => <li key={`${item}-${index}`}>{/^[🐟🚫🦴✨🍲🥣🐾✂️✔️❌]/.test(item) ? item : `✨ ${item}`}</li>)}</ul>{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="font-bold">{rich.spotlight.split("\n")[0]}</p>{rich.spotlight.split("\n").slice(1).length ? <p className="mt-2 text-sm leading-6 text-stone-600">{rich.spotlight.split("\n").slice(1).join(" ")}</p> : null}</div> : null}</div> : null}
     </section>
     <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label="Product content tabs"><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Details</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Shopping notes</button></div>
@@ -67,7 +67,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
       {rich.feeding.length ? <section><h2 className="mb-3 text-lg font-bold">🍽️ Feeding instructions</h2><div className="grid gap-3 sm:grid-cols-2">{rich.feeding.map((item, index) => <article key={`${item}-${index}`} className="rounded-2xl border border-stone-200 bg-[#fffdf9] p-4"><p className="text-sm font-bold leading-6">{item}</p></article>)}</div></section> : null}
       <section className="rounded-2xl border border-stone-200 bg-white p-4"><h2 className="font-bold">📋 Nutrition & specifications</h2><dl className="mt-3 divide-y divide-stone-100 text-sm">{nutrition.map((row, index) => { const [key, ...rest] = row.split("："); return <div key={`${row}-${index}`} className="grid grid-cols-[6.5rem_1fr] gap-3 py-2.5"><dt className="font-semibold text-stone-500">{key}</dt><dd>{rest.join("：") || row}</dd></div>; })}</dl></section>
       {rich.notes.length ? <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><h2 className="font-bold text-amber-900">💛 Helpful notes</h2><ul className="mt-2 space-y-2 text-sm leading-6 text-amber-900/80">{rich.notes.map((note, index) => <li key={`${note}-${index}`}>・{note}</li>)}</ul></section> : null}
-    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ Shopping notes</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600"><li>📦 香港現貨一般於下單後 1–2 個工作天內由順豐寄出。</li><li>✈️ 日本預訂／直送商品約需 7–14 個工作天，遇日本節假日或會順延。</li><li>🧺 同單含現貨與預訂品將一併發貨；全單滿 HK$450 享本地順豐免運。</li><li>💬 如對產品的餵食方式、食材或保存方法有疑問，歡迎聯絡我們。</li></ul></section>}
+    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ Shopping notes</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600"><li>📦 \u9999\u6e2f\u73fe\u8ca8\u4e00\u822c\u65bc\u4e0b\u55ae\u5f8c 1–2 \u500b\u5de5\u4f5c\u5929\u5167\u7531\u9806\u8c50\u5bc4\u51fa。</li><li>✈️ \u65e5\u672c\u9810\u8a02／\u76f4\u9001\u5546\u54c1\u7d04\u9700 7–14 \u500b\u5de5\u4f5c\u5929，\u9047\u65e5\u672c\u7bc0\u5047\u65e5\u6216\u6703\u9806\u5ef6。</li><li>🧺 \u540c\u55ae\u542b\u73fe\u8ca8\u8207\u9810\u8a02\u54c1\u5c07\u4e00\u4f75\u767c\u8ca8；\u5168\u55ae\u6eff HK$450 \u4eab\u672c\u5730\u9806\u8c50\u514d\u904b。</li><li>💬 \u5982\u5c0d\u7522\u54c1\u7684\u9935\u98df\u65b9\u5f0f、\u98df\u6750\u6216\u4fdd\u5b58\u65b9\u6cd5\u6709\u7591\u554f，\u6b61\u8fce\u806f\u7d61\u6211\u5011。</li></ul></section>}
   </div>;
 }
 
@@ -85,7 +85,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const sku = product.metadata?.mofu_sku?.trim() || product.id;
   const firstImage = selectedOption?.image || product.images?.[0] || product.image;
   const cartSubtotal = calcSubtotal(toOrderItems());
-  const isFood = isPetBundleProduct(product) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(product));
+  const isFood = isPetBundleProduct(product) || /(food|treat|snack|\u96f6\u98df|\u5c0f\u98df|\u98df\u54c1|\u8089\u4e7e|\u8089\u689d|\u9b5a\u4ecb|\u9bae\u8089|\u539f\u8089)/i.test(JSON.stringify(product));
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [product.id], content_name: product.name.zh || product.name.en, value: product.price, currency: "HKD" }); }, [product.id, product.name.en, product.name.zh, product.price]);

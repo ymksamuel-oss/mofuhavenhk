@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ReceiptPage } from "@/components/ReceiptPage";
 
 export const metadata: Metadata = {
-  title: "訂單收據｜Mofu Haven",
-  description: "查看 Mofu Haven 訂單收據與明細。",
+  title: "\u8a02\u55ae\u6536\u64da｜Mofu Haven",
+  description: "\u67e5\u770b Mofu Haven \u8a02\u55ae\u6536\u64da\u8207\u660e\u7d30。",
 };
 
 export default async function ReceiptRoutePage({

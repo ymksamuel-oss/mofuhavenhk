@@ -5,8 +5,8 @@ const COMPARE_AT_METADATA_KEYS = [
   "original_price",
   "originalPrice",
   "compareAtPrice",
-  "原價",
-  "原價 (HKD)",
+  "\u539f\u50f9",
+  "\u539f\u50f9 (HKD)",
 ] as const;
 
 function parseHkdAmount(value: string | undefined): number | undefined {

@@ -19,9 +19,9 @@ type BilingualSeoCopy = { zh: SeoCopy; en: SeoCopy; ja?: SeoCopy };
 const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   cats: {
     zh: {
-      title: "貓咪商品｜日本貓糧、罐頭及小食",
+      title: "\u8c93\u54aa\u5546\u54c1｜\u65e5\u672c\u8c93\u7ce7、\u7f50\u982d\u53ca\u5c0f\u98df",
       description:
-        "探索 Mofu Haven 日本直送貓咪商品：貓罐頭、乾糧、凍乾、貓咪小食及日常護理用品，為愛貓挑選安心好物。",
+        "\u63a2\u7d22 Mofu Haven \u65e5\u672c\u76f4\u9001\u8c93\u54aa\u5546\u54c1：\u8c93\u7f50\u982d、\u4e7e\u7ce7、\u51cd\u4e7e、\u8c93\u54aa\u5c0f\u98df\u53ca\u65e5\u5e38\u8b77\u7406\u7528\u54c1，\u70ba\u611b\u8c93\u6311\u9078\u5b89\u5fc3\u597d\u7269。",
     },
     en: {
       title: "Cat Products | Japanese Cat Food, Cans & Treats",
@@ -31,9 +31,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   dogs: {
     zh: {
-      title: "狗狗商品｜日本狗糧、零食及用品",
+      title: "\u72d7\u72d7\u5546\u54c1｜\u65e5\u672c\u72d7\u7ce7、\u96f6\u98df\u53ca\u7528\u54c1",
       description:
-        "探索 Mofu Haven 日本直送狗狗食品、營養零食及日常用品，為毛孩挑選安心、實用又高品質的好物。",
+        "\u63a2\u7d22 Mofu Haven \u65e5\u672c\u76f4\u9001\u72d7\u72d7\u98df\u54c1、\u71df\u990a\u96f6\u98df\u53ca\u65e5\u5e38\u7528\u54c1，\u70ba\u6bdb\u5b69\u6311\u9078\u5b89\u5fc3、\u5be6\u7528\u53c8\u9ad8\u54c1\u8cea\u7684\u597d\u7269。",
     },
     en: {
       title: "Dog Products | Japanese Dog Food, Treats & Supplies",
@@ -43,9 +43,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   "small-pets": {
     zh: {
-      title: "小寵物用品｜兔仔、倉鼠及小動物好物",
+      title: "\u5c0f\u5bf5\u7269\u7528\u54c1｜\u5154\u4ed4、\u5009\u9f20\u53ca\u5c0f\u52d5\u7269\u597d\u7269",
       description:
-        "精選日本小寵物食品、營養保健及日常用品，照顧兔仔、倉鼠及其他小動物的安心生活。",
+        "\u7cbe\u9078\u65e5\u672c\u5c0f\u5bf5\u7269\u98df\u54c1、\u71df\u990a\u4fdd\u5065\u53ca\u65e5\u5e38\u7528\u54c1，\u7167\u9867\u5154\u4ed4、\u5009\u9f20\u53ca\u5176\u4ed6\u5c0f\u52d5\u7269\u7684\u5b89\u5fc3\u751f\u6d3b。",
     },
     en: {
       title: "Small Pet Supplies | Japanese Essentials for Rabbits & More",
@@ -55,9 +55,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   lifestyle: {
     zh: {
-      title: "寵物生活用品｜日常家居、清潔及外出好物",
+      title: "\u5bf5\u7269\u751f\u6d3b\u7528\u54c1｜\u65e5\u5e38\u5bb6\u5c45、\u6e05\u6f54\u53ca\u5916\u51fa\u597d\u7269",
       description:
-        "探索食具、睡窩、清潔護理、外出及日常配件，為毛孩建立更舒適的生活節奏。",
+        "\u63a2\u7d22\u98df\u5177、\u7761\u7aa9、\u6e05\u6f54\u8b77\u7406、\u5916\u51fa\u53ca\u65e5\u5e38\u914d\u4ef6，\u70ba\u6bdb\u5b69\u5efa\u7acb\u66f4\u8212\u9069\u7684\u751f\u6d3b\u7bc0\u594f。",
     },
     en: {
       title: "Pet Living Essentials | Home, Care & Travel",
@@ -67,9 +67,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   snacks: {
     zh: {
-      title: "寵物小食｜日本直送貓狗零食",
+      title: "\u5bf5\u7269\u5c0f\u98df｜\u65e5\u672c\u76f4\u9001\u8c93\u72d7\u96f6\u98df",
       description:
-        "精選日本直送貓狗小食、凍乾、肉泥及獎勵零食，為日常互動帶來安心又美味的選擇。",
+        "\u7cbe\u9078\u65e5\u672c\u76f4\u9001\u8c93\u72d7\u5c0f\u98df、\u51cd\u4e7e、\u8089\u6ce5\u53ca\u734e\u52f5\u96f6\u98df，\u70ba\u65e5\u5e38\u4e92\u52d5\u5e36\u4f86\u5b89\u5fc3\u53c8\u7f8e\u5473\u7684\u9078\u64c7。",
     },
     en: {
       title: "Pet Snacks | Japanese Treats for Cats & Dogs",
@@ -79,9 +79,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   toys: {
     zh: {
-      title: "寵物玩具｜貓狗互動及益智玩具",
+      title: "\u5bf5\u7269\u73a9\u5177｜\u8c93\u72d7\u4e92\u52d5\u53ca\u76ca\u667a\u73a9\u5177",
       description:
-        "探索貓狗互動、益智及日常玩具，為毛孩增添安全、有趣又充實的玩樂時光。",
+        "\u63a2\u7d22\u8c93\u72d7\u4e92\u52d5、\u76ca\u667a\u53ca\u65e5\u5e38\u73a9\u5177，\u70ba\u6bdb\u5b69\u589e\u6dfb\u5b89\u5168、\u6709\u8da3\u53c8\u5145\u5be6\u7684\u73a9\u6a02\u6642\u5149。",
     },
     en: {
       title: "Pet Toys | Interactive Toys for Cats & Dogs",
@@ -91,9 +91,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   health: {
     zh: {
-      title: "營養保健｜寵物營養與健康護理",
+      title: "\u71df\u990a\u4fdd\u5065｜\u5bf5\u7269\u71df\u990a\u8207\u5065\u5eb7\u8b77\u7406",
       description:
-        "精選寵物營養補充、腸胃、毛髮及日常健康護理用品，支持毛孩每一天的安心狀態。",
+        "\u7cbe\u9078\u5bf5\u7269\u71df\u990a\u88dc\u5145、\u8178\u80c3、\u6bdb\u9aee\u53ca\u65e5\u5e38\u5065\u5eb7\u8b77\u7406\u7528\u54c1，\u652f\u6301\u6bdb\u5b69\u6bcf\u4e00\u5929\u7684\u5b89\u5fc3\u72c0\u614b。",
     },
     en: {
       title: "Pet Supplements | Everyday Wellness & Care",
@@ -103,9 +103,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   cleaning: {
     zh: {
-      title: "居家清潔｜寵物衛生及日常護理",
+      title: "\u5c45\u5bb6\u6e05\u6f54｜\u5bf5\u7269\u885b\u751f\u53ca\u65e5\u5e38\u8b77\u7406",
       description:
-        "探索寵物居家清潔、衛生及日常護理用品，讓毛孩與家人共享舒適整潔的生活空間。",
+        "\u63a2\u7d22\u5bf5\u7269\u5c45\u5bb6\u6e05\u6f54、\u885b\u751f\u53ca\u65e5\u5e38\u8b77\u7406\u7528\u54c1，\u8b93\u6bdb\u5b69\u8207\u5bb6\u4eba\u5171\u4eab\u8212\u9069\u6574\u6f54\u7684\u751f\u6d3b\u7a7a\u9593。",
     },
     en: {
       title: "Pet Cleaning | Hygiene & Home Care Essentials",
@@ -115,9 +115,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   deals: {
     zh: {
-      title: "限時優惠｜日本寵物用品精選優惠",
+      title: "\u9650\u6642\u512a\u60e0｜\u65e5\u672c\u5bf5\u7269\u7528\u54c1\u7cbe\u9078\u512a\u60e0",
       description:
-        "查看 Mofu Haven 限時精選優惠，把握日本直送寵物用品、食品及日常好物的安心入手機會。",
+        "\u67e5\u770b Mofu Haven \u9650\u6642\u7cbe\u9078\u512a\u60e0，\u628a\u63e1\u65e5\u672c\u76f4\u9001\u5bf5\u7269\u7528\u54c1、\u98df\u54c1\u53ca\u65e5\u5e38\u597d\u7269\u7684\u5b89\u5fc3\u5165\u624b\u6a5f\u6703。",
     },
     en: {
       title: "Limited-Time Deals | Curated Japanese Pet Supplies",
@@ -127,9 +127,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   bestsellers: {
     zh: {
-      title: "熱賣商品｜人氣日本寵物用品",
+      title: "\u71b1\u8ce3\u5546\u54c1｜\u4eba\u6c23\u65e5\u672c\u5bf5\u7269\u7528\u54c1",
       description:
-        "探索 Mofu Haven 人氣熱賣日本寵物用品，從貓狗食品到日常好物，快速找到大家喜愛的選擇。",
+        "\u63a2\u7d22 Mofu Haven \u4eba\u6c23\u71b1\u8ce3\u65e5\u672c\u5bf5\u7269\u7528\u54c1，\u5f9e\u8c93\u72d7\u98df\u54c1\u5230\u65e5\u5e38\u597d\u7269，\u5feb\u901f\u627e\u5230\u5927\u5bb6\u559c\u611b\u7684\u9078\u64c7。",
     },
     en: {
       title: "Best Sellers | Popular Japanese Pet Supplies",
@@ -139,9 +139,9 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
   },
   outdoor: {
     zh: {
-      title: "外出用品｜寵物旅行及散步好物",
+      title: "\u5916\u51fa\u7528\u54c1｜\u5bf5\u7269\u65c5\u884c\u53ca\u6563\u6b65\u597d\u7269",
       description:
-        "精選寵物旅行、散步及外出用品，為貓狗每次出門準備更安心、舒適的日常配備。",
+        "\u7cbe\u9078\u5bf5\u7269\u65c5\u884c、\u6563\u6b65\u53ca\u5916\u51fa\u7528\u54c1，\u70ba\u8c93\u72d7\u6bcf\u6b21\u51fa\u9580\u6e96\u5099\u66f4\u5b89\u5fc3、\u8212\u9069\u7684\u65e5\u5e38\u914d\u5099。",
     },
     en: {
       title: "Outdoor Pet Gear | Travel & Walk Essentials",
@@ -152,11 +152,11 @@ const CATEGORY_SEO: Record<string, BilingualSeoCopy> = {
 };
 
 const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
-  貓罐罐: {
+  \u8c93\u7f50\u7f50: {
     zh: {
-      title: "貓罐頭及濕糧｜日本貓咪主食罐",
+      title: "\u8c93\u7f50\u982d\u53ca\u6fd5\u7ce7｜\u65e5\u672c\u8c93\u54aa\u4e3b\u98df\u7f50",
       description:
-        "精選日本貓罐頭、濕糧及高水分主食，為愛貓提供美味、方便又安心的日常飲食選擇。",
+        "\u7cbe\u9078\u65e5\u672c\u8c93\u7f50\u982d、\u6fd5\u7ce7\u53ca\u9ad8\u6c34\u5206\u4e3b\u98df，\u70ba\u611b\u8c93\u63d0\u4f9b\u7f8e\u5473、\u65b9\u4fbf\u53c8\u5b89\u5fc3\u7684\u65e5\u5e38\u98f2\u98df\u9078\u64c7。",
     },
     en: {
       title: "Cat Cans & Wet Food | Japanese Meals for Cats",
@@ -164,11 +164,11 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Browse Japanese cat cans and wet food with satisfying, high-moisture everyday meal options for cats.",
     },
   },
-  貓乾糧: {
+  \u8c93\u4e7e\u7ce7: {
     zh: {
-      title: "貓乾糧及主糧｜日本貓咪日常營養",
+      title: "\u8c93\u4e7e\u7ce7\u53ca\u4e3b\u7ce7｜\u65e5\u672c\u8c93\u54aa\u65e5\u5e38\u71df\u990a",
       description:
-        "探索日本貓乾糧及主食，為不同年齡與生活需要的貓咪挑選均衡、安心的日常營養。",
+        "\u63a2\u7d22\u65e5\u672c\u8c93\u4e7e\u7ce7\u53ca\u4e3b\u98df，\u70ba\u4e0d\u540c\u5e74\u9f61\u8207\u751f\u6d3b\u9700\u8981\u7684\u8c93\u54aa\u6311\u9078\u5747\u8861、\u5b89\u5fc3\u7684\u65e5\u5e38\u71df\u990a。",
     },
     en: {
       title: "Cat Dry Food | Japanese Everyday Nutrition",
@@ -176,11 +176,11 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Explore Japanese dry food and staple diets for balanced, dependable everyday cat nutrition.",
     },
   },
-  冷凍脫水系列: {
+  \u51b7\u51cd\u812b\u6c34\u7cfb\u5217: {
     zh: {
-      title: "貓咪冷凍脫水系列｜日本凍乾小食",
+      title: "\u8c93\u54aa\u51b7\u51cd\u812b\u6c34\u7cfb\u5217｜\u65e5\u672c\u51cd\u4e7e\u5c0f\u98df",
       description:
-        "精選日本貓咪凍乾及冷凍脫水小食，保留食材香氣與口感，為日常獎勵增添自然美味。",
+        "\u7cbe\u9078\u65e5\u672c\u8c93\u54aa\u51cd\u4e7e\u53ca\u51b7\u51cd\u812b\u6c34\u5c0f\u98df，\u4fdd\u7559\u98df\u6750\u9999\u6c23\u8207\u53e3\u611f，\u70ba\u65e5\u5e38\u734e\u52f5\u589e\u6dfb\u81ea\u7136\u7f8e\u5473。",
     },
     en: {
       title: "Freeze-Dried Cat Treats | Japanese Natural Snacks",
@@ -188,11 +188,11 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Shop Japanese freeze-dried treats selected for natural aroma, satisfying texture, and rewarding cat moments.",
     },
   },
-  貓貓小食: {
+  \u8c93\u8c93\u5c0f\u98df: {
     zh: {
-      title: "貓咪小食｜日本肉泥、凍乾及零食",
+      title: "\u8c93\u54aa\u5c0f\u98df｜\u65e5\u672c\u8089\u6ce5、\u51cd\u4e7e\u53ca\u96f6\u98df",
       description:
-        "探索日本貓咪小食、肉泥、脆餅及凍乾零食，按年齡、毛球護理及口味挑選貼心獎勵。",
+        "\u63a2\u7d22\u65e5\u672c\u8c93\u54aa\u5c0f\u98df、\u8089\u6ce5、\u8106\u9905\u53ca\u51cd\u4e7e\u96f6\u98df，\u6309\u5e74\u9f61、\u6bdb\u7403\u8b77\u7406\u53ca\u53e3\u5473\u6311\u9078\u8cbc\u5fc3\u734e\u52f5。",
     },
     en: {
       title: "Cat Treats | Japanese Purees, Crunchy Bites & Snacks",
@@ -200,31 +200,31 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Browse Japanese cat purees, crunchy treats, and freeze-dried snacks for tasty, caring everyday rewards.",
     },
   },
-  貓砂及貓砂盆: {
+  \u8c93\u7802\u53ca\u8c93\u7802\u76c6: {
     zh: {
-      title: "貓砂及貓砂盆｜愛貓日常衛生用品",
-      description: "探索貓砂、貓砂盆及日常衛生用品，為愛貓準備舒適、整潔的居家空間。",
+      title: "\u8c93\u7802\u53ca\u8c93\u7802\u76c6｜\u611b\u8c93\u65e5\u5e38\u885b\u751f\u7528\u54c1",
+      description: "\u63a2\u7d22\u8c93\u7802、\u8c93\u7802\u76c6\u53ca\u65e5\u5e38\u885b\u751f\u7528\u54c1，\u70ba\u611b\u8c93\u6e96\u5099\u8212\u9069、\u6574\u6f54\u7684\u5c45\u5bb6\u7a7a\u9593。",
     },
     en: {
       title: "Cat Litter & Litter Boxes | Everyday Cat Hygiene",
       description: "Explore cat litter, litter boxes, and hygiene essentials for a clean, comfortable feline home.",
     },
   },
-  貓咪玩具及攀爬設施: {
+  \u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd: {
     zh: {
-      title: "貓咪玩具及攀爬設施｜日常玩樂與探索",
-      description: "探索貓咪玩具、抓玩及攀爬設施，為愛貓增添安全、有趣的日常活動。",
+      title: "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd｜\u65e5\u5e38\u73a9\u6a02\u8207\u63a2\u7d22",
+      description: "\u63a2\u7d22\u8c93\u54aa\u73a9\u5177、\u6293\u73a9\u53ca\u6500\u722c\u8a2d\u65bd，\u70ba\u611b\u8c93\u589e\u6dfb\u5b89\u5168、\u6709\u8da3\u7684\u65e5\u5e38\u6d3b\u52d5。",
     },
     en: {
       title: "Cat Toys & Climbing Furniture | Play and Enrichment",
       description: "Discover cat toys and climbing furniture for safe, engaging everyday feline enrichment.",
     },
   },
-  投藥餵藥專用小食: {
+  \u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df: {
     zh: {
-      title: "投藥餵藥專用小食｜寵物用藥好幫手",
+      title: "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df｜\u5bf5\u7269\u7528\u85e5\u597d\u5e6b\u624b",
       description:
-        "精選方便包裹藥物、容易餵食的寵物專用小食，協助貓狗日常服藥時更安心順暢。",
+        "\u7cbe\u9078\u65b9\u4fbf\u5305\u88f9\u85e5\u7269、\u5bb9\u6613\u9935\u98df\u7684\u5bf5\u7269\u5c08\u7528\u5c0f\u98df，\u5354\u52a9\u8c93\u72d7\u65e5\u5e38\u670d\u85e5\u6642\u66f4\u5b89\u5fc3\u9806\u66a2。",
     },
     en: {
       title: "Pill & Medication Treats | Easier Pet Dosing",
@@ -232,11 +232,11 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Discover pet-friendly medication treats designed to make everyday dosing easier for cats and dogs.",
     },
   },
-  狗狗食品: {
+  \u72d7\u72d7\u98df\u54c1: {
     zh: {
-      title: "狗狗食品｜日本狗糧及日常營養",
+      title: "\u72d7\u72d7\u98df\u54c1｜\u65e5\u672c\u72d7\u7ce7\u53ca\u65e5\u5e38\u71df\u990a",
       description:
-        "探索日本狗狗食品及日常營養選擇，為不同體型與生活需要的狗狗提供安心美味。",
+        "\u63a2\u7d22\u65e5\u672c\u72d7\u72d7\u98df\u54c1\u53ca\u65e5\u5e38\u71df\u990a\u9078\u64c7，\u70ba\u4e0d\u540c\u9ad4\u578b\u8207\u751f\u6d3b\u9700\u8981\u7684\u72d7\u72d7\u63d0\u4f9b\u5b89\u5fc3\u7f8e\u5473。",
     },
     en: {
       title: "Dog Food | Japanese Everyday Nutrition for Dogs",
@@ -244,41 +244,41 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Explore Japanese dog food and everyday nutrition selected for dependable, delicious routines.",
     },
   },
-  狗狗乾糧: {
+  \u72d7\u72d7\u4e7e\u7ce7: {
     zh: {
-      title: "狗狗乾糧｜日本狗狗主糧",
-      description: "精選日本狗狗乾糧及日常主食，為狗狗提供安心、均衡的日常營養選擇。",
+      title: "\u72d7\u72d7\u4e7e\u7ce7｜\u65e5\u672c\u72d7\u72d7\u4e3b\u7ce7",
+      description: "\u7cbe\u9078\u65e5\u672c\u72d7\u72d7\u4e7e\u7ce7\u53ca\u65e5\u5e38\u4e3b\u98df，\u70ba\u72d7\u72d7\u63d0\u4f9b\u5b89\u5fc3、\u5747\u8861\u7684\u65e5\u5e38\u71df\u990a\u9078\u64c7。",
     },
     en: {
       title: "Dog Dry Food | Japanese Staple Diets",
       description: "Shop Japanese dog dry food and staple diets selected for balanced everyday nutrition.",
     },
   },
-  狗狗罐頭及濕糧: {
+  \u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7: {
     zh: {
-      title: "狗狗罐頭及濕糧｜日本狗狗濕食",
-      description: "探索日本狗狗罐頭、濕糧及濃湯配方，為日常餵食增添安心美味。",
+      title: "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7｜\u65e5\u672c\u72d7\u72d7\u6fd5\u98df",
+      description: "\u63a2\u7d22\u65e5\u672c\u72d7\u72d7\u7f50\u982d、\u6fd5\u7ce7\u53ca\u6fc3\u6e6f\u914d\u65b9，\u70ba\u65e5\u5e38\u9935\u98df\u589e\u6dfb\u5b89\u5fc3\u7f8e\u5473。",
     },
     en: {
       title: "Dog Cans & Wet Food | Japanese Wet Meals",
       description: "Browse Japanese dog cans, wet food, and soup recipes for delicious everyday feeding.",
     },
   },
-  狗狗冷凍脫水食品: {
+  \u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1: {
     zh: {
-      title: "狗狗凍乾及脫水食品｜日本自然好物",
-      description: "探索日本狗狗凍乾及脫水食品，保留食材風味，為日常增添自然口感。",
+      title: "\u72d7\u72d7\u51cd\u4e7e\u53ca\u812b\u6c34\u98df\u54c1｜\u65e5\u672c\u81ea\u7136\u597d\u7269",
+      description: "\u63a2\u7d22\u65e5\u672c\u72d7\u72d7\u51cd\u4e7e\u53ca\u812b\u6c34\u98df\u54c1，\u4fdd\u7559\u98df\u6750\u98a8\u5473，\u70ba\u65e5\u5e38\u589e\u6dfb\u81ea\u7136\u53e3\u611f。",
     },
     en: {
       title: "Freeze-Dried Dog Food | Japanese Natural Essentials",
       description: "Explore Japanese freeze-dried and dehydrated dog food selected for natural everyday feeding.",
     },
   },
-  狗狗小食: {
+  \u72d7\u72d7\u5c0f\u98df: {
     zh: {
-      title: "狗狗小食｜日本獎勵零食及肉條",
+      title: "\u72d7\u72d7\u5c0f\u98df｜\u65e5\u672c\u734e\u52f5\u96f6\u98df\u53ca\u8089\u689d",
       description:
-        "精選日本狗狗零食、肉條及獎勵小食，為訓練、互動和日常陪伴帶來美味又安心的選擇。",
+        "\u7cbe\u9078\u65e5\u672c\u72d7\u72d7\u96f6\u98df、\u8089\u689d\u53ca\u734e\u52f5\u5c0f\u98df，\u70ba\u8a13\u7df4、\u4e92\u52d5\u548c\u65e5\u5e38\u966a\u4f34\u5e36\u4f86\u7f8e\u5473\u53c8\u5b89\u5fc3\u7684\u9078\u64c7。",
     },
     en: {
       title: "Dog Treats | Japanese Reward Snacks & Jerky",
@@ -286,20 +286,20 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
         "Shop Japanese dog treats, jerky, and reward snacks for training, bonding, and everyday enjoyment.",
     },
   },
-  狗狗廁所及尿墊: {
+  \u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a: {
     zh: {
-      title: "狗狗廁所及尿墊｜日常如廁用品",
-      description: "探索狗狗廁所、尿墊及日常清潔用品，令毛孩居家生活更舒適整潔。",
+      title: "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a｜\u65e5\u5e38\u5982\u5ec1\u7528\u54c1",
+      description: "\u63a2\u7d22\u72d7\u72d7\u5ec1\u6240、\u5c3f\u588a\u53ca\u65e5\u5e38\u6e05\u6f54\u7528\u54c1，\u4ee4\u6bdb\u5b69\u5c45\u5bb6\u751f\u6d3b\u66f4\u8212\u9069\u6574\u6f54。",
     },
     en: {
       title: "Dog Toilets & Training Pads | Everyday Hygiene",
       description: "Discover dog toilets, training pads, and everyday hygiene supplies for a clean home routine.",
     },
   },
-  狗狗玩具: {
+  \u72d7\u72d7\u73a9\u5177: {
     zh: {
-      title: "狗狗玩具｜互動及日常玩樂",
-      description: "探索狗狗玩具及互動用品，為毛孩增添安全、有趣的日常活動。",
+      title: "\u72d7\u72d7\u73a9\u5177｜\u4e92\u52d5\u53ca\u65e5\u5e38\u73a9\u6a02",
+      description: "\u63a2\u7d22\u72d7\u72d7\u73a9\u5177\u53ca\u4e92\u52d5\u7528\u54c1，\u70ba\u6bdb\u5b69\u589e\u6dfb\u5b89\u5168、\u6709\u8da3\u7684\u65e5\u5e38\u6d3b\u52d5。",
     },
     en: {
       title: "Dog Toys | Interactive Everyday Play",
@@ -309,11 +309,11 @@ const SUBCATEGORY_SEO: Partial<Record<ProductSubcategory, BilingualSeoCopy>> = {
 };
 
 const SNACK_SERIES_SEO: Record<CatSnackSeries, BilingualSeoCopy> = {
-  無添加天然系列: {
+  \u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217: {
     zh: {
-      title: "無添加天然貓咪小食｜日本自然零食",
+      title: "\u7121\u6dfb\u52a0\u5929\u7136\u8c93\u54aa\u5c0f\u98df｜\u65e5\u672c\u81ea\u7136\u96f6\u98df",
       description:
-        "探索無添加天然系列日本貓咪小食，為日常獎勵挑選更簡單、貼心又美味的選擇。",
+        "\u63a2\u7d22\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217\u65e5\u672c\u8c93\u54aa\u5c0f\u98df，\u70ba\u65e5\u5e38\u734e\u52f5\u6311\u9078\u66f4\u7c21\u55ae、\u8cbc\u5fc3\u53c8\u7f8e\u5473\u7684\u9078\u64c7。",
     },
     en: {
       title: "No-Additive Natural Cat Treats | Japanese Snacks",
@@ -321,11 +321,11 @@ const SNACK_SERIES_SEO: Record<CatSnackSeries, BilingualSeoCopy> = {
         "Browse Japanese no-additive natural cat treats selected for simple, caring everyday rewards.",
     },
   },
-  老貓零食: {
+  \u8001\u8c93\u96f6\u98df: {
     zh: {
-      title: "老貓零食｜日本熟齡貓咪小食",
+      title: "\u8001\u8c93\u96f6\u98df｜\u65e5\u672c\u719f\u9f61\u8c93\u54aa\u5c0f\u98df",
       description:
-        "精選適合熟齡貓日常享用的日本貓咪小食，照顧口感、香氣及輕鬆進食需要。",
+        "\u7cbe\u9078\u9069\u5408\u719f\u9f61\u8c93\u65e5\u5e38\u4eab\u7528\u7684\u65e5\u672c\u8c93\u54aa\u5c0f\u98df，\u7167\u9867\u53e3\u611f、\u9999\u6c23\u53ca\u8f15\u9b06\u9032\u98df\u9700\u8981。",
     },
     en: {
       title: "Senior Cat Treats | Japanese Snacks for Mature Cats",
@@ -333,11 +333,11 @@ const SNACK_SERIES_SEO: Record<CatSnackSeries, BilingualSeoCopy> = {
         "Discover Japanese treats selected for mature cats, with comforting flavours and easy everyday enjoyment.",
     },
   },
-  去毛球配方: {
+  \u53bb\u6bdb\u7403\u914d\u65b9: {
     zh: {
-      title: "去毛球配方貓咪小食｜日本毛球護理零食",
+      title: "\u53bb\u6bdb\u7403\u914d\u65b9\u8c93\u54aa\u5c0f\u98df｜\u65e5\u672c\u6bdb\u7403\u8b77\u7406\u96f6\u98df",
       description:
-        "探索日本去毛球配方貓咪小食，為換毛季與日常毛球護理提供貼心美味選擇。",
+        "\u63a2\u7d22\u65e5\u672c\u53bb\u6bdb\u7403\u914d\u65b9\u8c93\u54aa\u5c0f\u98df，\u70ba\u63db\u6bdb\u5b63\u8207\u65e5\u5e38\u6bdb\u7403\u8b77\u7406\u63d0\u4f9b\u8cbc\u5fc3\u7f8e\u5473\u9078\u64c7。",
     },
     en: {
       title: "Hairball-Care Cat Treats | Japanese Supportive Snacks",
@@ -345,11 +345,11 @@ const SNACK_SERIES_SEO: Record<CatSnackSeries, BilingualSeoCopy> = {
         "Browse Japanese hairball-care cat treats for tasty, thoughtful support during shedding season and beyond.",
     },
   },
-  bb貓零食: {
+  bb\u8c93\u96f6\u98df: {
     zh: {
-      title: "幼貓零食｜日本 BB 貓小食",
+      title: "\u5e7c\u8c93\u96f6\u98df｜\u65e5\u672c BB \u8c93\u5c0f\u98df",
       description:
-        "精選適合幼貓成長期享用的日本小食，為探索期的味蕾與日常互動帶來安心獎勵。",
+        "\u7cbe\u9078\u9069\u5408\u5e7c\u8c93\u6210\u9577\u671f\u4eab\u7528\u7684\u65e5\u672c\u5c0f\u98df，\u70ba\u63a2\u7d22\u671f\u7684\u5473\u857e\u8207\u65e5\u5e38\u4e92\u52d5\u5e36\u4f86\u5b89\u5fc3\u734e\u52f5。",
     },
     en: {
       title: "Kitten Treats | Japanese Snacks for Growing Cats",
@@ -374,10 +374,10 @@ export function getCategorySeoCopy(
   if (subcategoryCopy) return subcategoryCopy;
   return (
     CATEGORY_SEO[categorySlug]?.[locale] ?? {
-      title: locale === "zh" ? "寵物商品分類" : "Pet Product Categories",
+      title: locale === "zh" ? "\u5bf5\u7269\u5546\u54c1\u5206\u985e" : "Pet Product Categories",
       description:
         locale === "zh"
-          ? "探索 Mofu Haven 精選日本寵物用品。"
+          ? "\u63a2\u7d22 Mofu Haven \u7cbe\u9078\u65e5\u672c\u5bf5\u7269\u7528\u54c1。"
           : "Explore curated Japanese pet supplies at Mofu Haven HK.",
     }
   );

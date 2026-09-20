@@ -12,6 +12,6 @@ export function isValidEmailAddress(value: unknown): value is string {
 
 export function emailValidationMessage(locale: "zh" | "en"): string {
   return locale === "zh"
-    ? "請輸入有效電郵地址，以便收取付款電子收據。"
+    ? "\u8acb\u8f38\u5165\u6709\u6548\u96fb\u90f5\u5730\u5740，\u4ee5\u4fbf\u6536\u53d6\u4ed8\u6b3e\u96fb\u5b50\u6536\u64da。"
     : "Please enter a valid email address to receive your payment receipt.";
 }

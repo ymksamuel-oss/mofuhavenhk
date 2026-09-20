@@ -9,65 +9,65 @@
     {
       "breed_id": "british_shorthair",
       "name_en": "British Shorthair",
-      "name_zh_hk": "英國短毛貓",
+      "name_zh_hk": "\u82f1\u570b\u77ed\u6bdb\u8c93",
       "aliases": [],
-      "origin_summary": "英國",
-      "lifespan": "12 - 17 歲",
-      "weight": "公 5.0–8.0 kg／母 4.0–6.0 kg",
-      "coat": "短毛",
-      "short_description": "溫和穩定、體型圓滾，注意體重管理。",
-      "full_description": "英國短毛貓擁有悠久歷史，由古代羅馬貓引入英國本土貓改良而成，是歐洲最古老的貓品種之一。牠們以圓滾滾的臉龐、厚密「絨毛感」短毛聞名，性格溫和理性，非常適合忙碌的都市家庭。",
+      "origin_summary": "\u82f1\u570b",
+      "lifespan": "12 - 17 \u6b72",
+      "weight": "\u516c 5.0–8.0 kg／\u6bcd 4.0–6.0 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u6eab\u548c\u7a69\u5b9a、\u9ad4\u578b\u5713\u6efe，\u6ce8\u610f\u9ad4\u91cd\u7ba1\u7406。",
+      "full_description": "\u82f1\u570b\u77ed\u6bdb\u8c93\u64c1\u6709\u60a0\u4e45\u6b77\u53f2，\u7531\u53e4\u4ee3\u7f85\u99ac\u8c93\u5f15\u5165\u82f1\u570b\u672c\u571f\u8c93\u6539\u826f\u800c\u6210，\u662f\u6b50\u6d32\u6700\u53e4\u8001\u7684\u8c93\u54c1\u7a2e\u4e4b\u4e00。\u7260\u5011\u4ee5\u5713\u6efe\u6efe\u7684\u81c9\u9f90、\u539a\u5bc6「\u7d68\u6bdb\u611f」\u77ed\u6bdb\u805e\u540d，\u6027\u683c\u6eab\u548c\u7406\u6027，\u975e\u5e38\u9069\u5408\u5fd9\u788c\u7684\u90fd\u5e02\u5bb6\u5ead。",
       "personality": [
-        "性格溫和、理性、脾氣極好",
-        "成熟穩重，不愛胡鬧或過度吵鬧",
-        "獨立性高，非常適合忙碌的都市家庭與上班族",
-        "對人友善，但通常不屬於黏人精型別，喜歡靜靜陪伴在旁"
+        "\u6027\u683c\u6eab\u548c、\u7406\u6027、\u813e\u6c23\u6975\u597d",
+        "\u6210\u719f\u7a69\u91cd，\u4e0d\u611b\u80e1\u9b27\u6216\u904e\u5ea6\u5435\u9b27",
+        "\u7368\u7acb\u6027\u9ad8，\u975e\u5e38\u9069\u5408\u5fd9\u788c\u7684\u90fd\u5e02\u5bb6\u5ead\u8207\u4e0a\u73ed\u65cf",
+        "\u5c0d\u4eba\u53cb\u5584，\u4f46\u901a\u5e38\u4e0d\u5c6c\u65bc\u9ecf\u4eba\u7cbe\u578b\u5225，\u559c\u6b61\u975c\u975c\u966a\u4f34\u5728\u65c1"
       ],
       "care_tips": [
-        "雖然是短毛貓，但因底毛厚密，平時每週需梳毛 1-2 次。",
-        "換毛季掉毛量大，需增加梳毛頻率以防毛球症。",
-        "購買前建議確認父母已做 HCM／PKD 基因檢測。"
+        "\u96d6\u7136\u662f\u77ed\u6bdb\u8c93，\u4f46\u56e0\u5e95\u6bdb\u539a\u5bc6，\u5e73\u6642\u6bcf\u9031\u9700\u68b3\u6bdb 1-2 \u6b21。",
+        "\u63db\u6bdb\u5b63\u6389\u6bdb\u91cf\u5927，\u9700\u589e\u52a0\u68b3\u6bdb\u983b\u7387\u4ee5\u9632\u6bdb\u7403\u75c7。",
+        "\u8cfc\u8cb7\u524d\u5efa\u8b70\u78ba\u8a8d\u7236\u6bcd\u5df2\u505a HCM／PKD \u57fa\u56e0\u6aa2\u6e2c。"
       ],
       "nutrition_advice": [
-        "絕育後極容易發胖，必須嚴格定時定量控制熱量。",
-        "提供足夠的活水與溫和運動，維持理想體型。",
-        "建議高蛋白質配方，並可適量補充魚油維持絨毛光澤。"
+        "\u7d55\u80b2\u5f8c\u6975\u5bb9\u6613\u767c\u80d6，\u5fc5\u9808\u56b4\u683c\u5b9a\u6642\u5b9a\u91cf\u63a7\u5236\u71b1\u91cf。",
+        "\u63d0\u4f9b\u8db3\u5920\u7684\u6d3b\u6c34\u8207\u6eab\u548c\u904b\u52d5，\u7dad\u6301\u7406\u60f3\u9ad4\u578b。",
+        "\u5efa\u8b70\u9ad8\u86cb\u767d\u8cea\u914d\u65b9，\u4e26\u53ef\u9069\u91cf\u88dc\u5145\u9b5a\u6cb9\u7dad\u6301\u7d68\u6bdb\u5149\u6fa4。"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "british_shorthair_hero",
-        "description": "金漸層 (Golden Shaded)",
+        "description": "\u91d1\u6f38\u5c64 (Golden Shaded)",
         "src": "/images/cat-breeds/british-shorthair-golden.jpg",
-        "alt": "金漸層英國短毛貓",
+        "alt": "\u91d1\u6f38\u5c64\u82f1\u570b\u77ed\u6bdb\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "金漸層 (Golden Shaded)",
+            "target_feature": "\u91d1\u6f38\u5c64 (Golden Shaded)",
             "local_src": "/images/cat-breeds/british-shorthair-golden.jpg",
             "src": "/images/cat-breeds/british-shorthair-golden.jpg",
-            "alt": "金漸層英國短毛貓"
+            "alt": "\u91d1\u6f38\u5c64\u82f1\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "經典藍貓 (British Blue)",
+            "target_feature": "\u7d93\u5178\u85cd\u8c93 (British Blue)",
             "local_src": "/images/cat-breeds/british-shorthair-blue.jpg",
             "src": "/images/cat-breeds/british-shorthair-blue.jpg",
-            "alt": "經典藍灰色英國短毛貓"
+            "alt": "\u7d93\u5178\u85cd\u7070\u8272\u82f1\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "銀虎斑 (Silver Tabby)",
+            "target_feature": "\u9280\u864e\u6591 (Silver Tabby)",
             "local_src": "/images/cat-breeds/british-shorthair-silver.jpg",
             "src": "/images/cat-breeds/british-shorthair-silver.jpg",
-            "alt": "銀虎斑英國短毛貓"
+            "alt": "\u9280\u864e\u6591\u82f1\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "日常慵懶/居家情境",
+            "target_feature": "\u65e5\u5e38\u6175\u61f6/\u5c45\u5bb6\u60c5\u5883",
             "local_src": "/images/cat-breeds/british-shorthair-cozy.jpg",
             "src": "/images/cat-breeds/british-shorthair-cozy.jpg",
-            "alt": "室內休息的英國短毛貓"
+            "alt": "\u5ba4\u5167\u4f11\u606f\u7684\u82f1\u570b\u77ed\u6bdb\u8c93"
           }
         ]
       },
@@ -77,72 +77,72 @@
     {
       "breed_id": "american_shorthair",
       "name_en": "American Shorthair",
-      "name_zh_hk": "美國短毛貓",
+      "name_zh_hk": "\u7f8e\u570b\u77ed\u6bdb\u8c93",
       "aliases": [],
-      "origin_summary": "美國",
-      "lifespan": "15 - 20 歲",
-      "weight": "公 5.0–7.5 kg／母 3.5–5.5 kg",
-      "coat": "短毛",
-      "short_description": "活潑好動、適應力強，需補足每日運動量。",
-      "full_description": "美國短毛貓祖先隨移民船來到北美，經長期選育成為體格強健、適應力極高的經典家貓。以銀虎斑與各色虎斑聞名，個性外向友善，非常適合香港忙碌的都市家庭。",
+      "origin_summary": "\u7f8e\u570b",
+      "lifespan": "15 - 20 \u6b72",
+      "weight": "\u516c 5.0–7.5 kg／\u6bcd 3.5–5.5 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u6d3b\u6f51\u597d\u52d5、\u9069\u61c9\u529b\u5f37，\u9700\u88dc\u8db3\u6bcf\u65e5\u904b\u52d5\u91cf。",
+      "full_description": "\u7f8e\u570b\u77ed\u6bdb\u8c93\u7956\u5148\u96a8\u79fb\u6c11\u8239\u4f86\u5230\u5317\u7f8e，\u7d93\u9577\u671f\u9078\u80b2\u6210\u70ba\u9ad4\u683c\u5f37\u5065、\u9069\u61c9\u529b\u6975\u9ad8\u7684\u7d93\u5178\u5bb6\u8c93。\u4ee5\u9280\u864e\u6591\u8207\u5404\u8272\u864e\u6591\u805e\u540d，\u500b\u6027\u5916\u5411\u53cb\u5584，\u975e\u5e38\u9069\u5408\u9999\u6e2f\u5fd9\u788c\u7684\u90fd\u5e02\u5bb6\u5ead。",
       "personality": [
-        "聰明活潑，好奇心強，喜歡觀察家中動靜",
-        "對人友善，通常能與兒童及其他寵物和睦相處",
-        "適應力強，適合作為忙碌都市家庭的陪伴貓",
-        "玩耍時精力充沛，平時也能安靜地陪伴在旁"
+        "\u8070\u660e\u6d3b\u6f51，\u597d\u5947\u5fc3\u5f37，\u559c\u6b61\u89c0\u5bdf\u5bb6\u4e2d\u52d5\u975c",
+        "\u5c0d\u4eba\u53cb\u5584，\u901a\u5e38\u80fd\u8207\u5152\u7ae5\u53ca\u5176\u4ed6\u5bf5\u7269\u548c\u7766\u76f8\u8655",
+        "\u9069\u61c9\u529b\u5f37，\u9069\u5408\u4f5c\u70ba\u5fd9\u788c\u90fd\u5e02\u5bb6\u5ead\u7684\u966a\u4f34\u8c93",
+        "\u73a9\u800d\u6642\u7cbe\u529b\u5145\u6c9b，\u5e73\u6642\u4e5f\u80fd\u5b89\u975c\u5730\u966a\u4f34\u5728\u65c1"
       ],
       "care_tips": [
-        "短毛易打理，平時每週梳毛 1 次；換毛季可增至 2-3 次。",
-        "精力充沛，建議每天互動遊戲，並提供貓抓板與跳台。",
-        "定期清潔牙齒，留意 HCM 等遺傳風險與健康檢查。"
+        "\u77ed\u6bdb\u6613\u6253\u7406，\u5e73\u6642\u6bcf\u9031\u68b3\u6bdb 1 \u6b21；\u63db\u6bdb\u5b63\u53ef\u589e\u81f3 2-3 \u6b21。",
+        "\u7cbe\u529b\u5145\u6c9b，\u5efa\u8b70\u6bcf\u5929\u4e92\u52d5\u904a\u6232，\u4e26\u63d0\u4f9b\u8c93\u6293\u677f\u8207\u8df3\u53f0。",
+        "\u5b9a\u671f\u6e05\u6f54\u7259\u9f52，\u7559\u610f HCM \u7b49\u907a\u50b3\u98a8\u96aa\u8207\u5065\u5eb7\u6aa2\u67e5。"
       ],
       "nutrition_advice": [
-        "肌肉發達，需補充優質動物性蛋白以維持體態。",
-        "可搭配軟骨素與葡萄糖胺，照顧日常跳躍的關節健康。",
-        "成貓需定時定量，並提供足夠新鮮飲用水。"
+        "\u808c\u8089\u767c\u9054，\u9700\u88dc\u5145\u512a\u8cea\u52d5\u7269\u6027\u86cb\u767d\u4ee5\u7dad\u6301\u9ad4\u614b。",
+        "\u53ef\u642d\u914d\u8edf\u9aa8\u7d20\u8207\u8461\u8404\u7cd6\u80fa，\u7167\u9867\u65e5\u5e38\u8df3\u8e8d\u7684\u95dc\u7bc0\u5065\u5eb7。",
+        "\u6210\u8c93\u9700\u5b9a\u6642\u5b9a\u91cf，\u4e26\u63d0\u4f9b\u8db3\u5920\u65b0\u9bae\u98f2\u7528\u6c34。"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "american_shorthair_hero",
-        "description": "棕色虎斑美國短毛貓戶外特寫",
+        "description": "\u68d5\u8272\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93\u6236\u5916\u7279\u5beb",
         "src": "/images/cat-breeds/american-shorthair.jpg",
-        "alt": "棕色虎斑美國短毛貓",
+        "alt": "\u68d5\u8272\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "棕色虎斑美國短毛貓戶外特寫",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93\u6236\u5916\u7279\u5beb",
             "local_src": "/images/cat-breeds/american-shorthair.jpg",
             "src": "/images/cat-breeds/american-shorthair.jpg",
-            "alt": "棕色虎斑美國短毛貓"
+            "alt": "\u68d5\u8272\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "標誌性銀虎斑（旋渦經典紋）",
+            "target_feature": "\u6a19\u8a8c\u6027\u9280\u864e\u6591（\u65cb\u6e26\u7d93\u5178\u7d0b）",
             "local_src": "/images/cat-breeds/american-shorthair-silver.jpg",
             "src": "/images/cat-breeds/american-shorthair-silver.jpg",
-            "alt": "銀虎斑美國短毛貓"
+            "alt": "\u9280\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "棕色虎斑與白斑近距離肖像",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u8207\u767d\u6591\u8fd1\u8ddd\u96e2\u8096\u50cf",
             "local_src": "/images/cat-breeds/american-shorthair-tabby.jpg",
             "src": "/images/cat-breeds/american-shorthair-tabby.jpg",
-            "alt": "棕色虎斑美國短毛貓特寫"
+            "alt": "\u68d5\u8272\u864e\u6591\u7f8e\u570b\u77ed\u6bdb\u8c93\u7279\u5beb"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "戶外探索中的美短",
+            "target_feature": "\u6236\u5916\u63a2\u7d22\u4e2d\u7684\u7f8e\u77ed",
             "local_src": "/images/cat-breeds/american-shorthair-outdoor.jpg",
             "src": "/images/cat-breeds/american-shorthair-outdoor.jpg",
-            "alt": "戶外的美國短毛貓"
+            "alt": "\u6236\u5916\u7684\u7f8e\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "居家休息的銀虎斑美短",
+            "target_feature": "\u5c45\u5bb6\u4f11\u606f\u7684\u9280\u864e\u6591\u7f8e\u77ed",
             "local_src": "/images/cat-breeds/american-shorthair-cozy.jpg",
             "src": "/images/cat-breeds/american-shorthair-cozy.jpg",
-            "alt": "室內休息的美國短毛貓"
+            "alt": "\u5ba4\u5167\u4f11\u606f\u7684\u7f8e\u570b\u77ed\u6bdb\u8c93"
           }
         ]
       },
@@ -152,65 +152,65 @@
     {
       "breed_id": "ragdoll",
       "name_en": "Ragdoll",
-      "name_zh_hk": "布偶貓",
+      "name_zh_hk": "\u5e03\u5076\u8c93",
       "aliases": [],
-      "origin_summary": "美國加州",
-      "lifespan": "12 - 15 歲（晚熟 3-4 年）",
-      "weight": "公 6.0–9.0 kg／母 4.5–7.0 kg",
-      "coat": "中長毛",
-      "short_description": "性格溫順、毛髮豐盈，需注重腸胃與定期梳毛。",
-      "full_description": "被譽為「貓界仙女」的布偶貓，擁有深邃的藍眼睛與豐滿的中長毛。當你抱起牠時，牠會像軟綿綿的布偶一樣放鬆，是極具療癒感的情感陪伴寵物。",
+      "origin_summary": "\u7f8e\u570b\u52a0\u5dde",
+      "lifespan": "12 - 15 \u6b72（\u665a\u719f 3-4 \u5e74）",
+      "weight": "\u516c 6.0–9.0 kg／\u6bcd 4.5–7.0 kg",
+      "coat": "\u4e2d\u9577\u6bdb",
+      "short_description": "\u6027\u683c\u6eab\u9806、\u6bdb\u9aee\u8c50\u76c8，\u9700\u6ce8\u91cd\u8178\u80c3\u8207\u5b9a\u671f\u68b3\u6bdb。",
+      "full_description": "\u88ab\u8b7d\u70ba「\u8c93\u754c\u4ed9\u5973」\u7684\u5e03\u5076\u8c93，\u64c1\u6709\u6df1\u9083\u7684\u85cd\u773c\u775b\u8207\u8c50\u6eff\u7684\u4e2d\u9577\u6bdb。\u7576\u4f60\u62b1\u8d77\u7260\u6642，\u7260\u6703\u50cf\u8edf\u7dbf\u7dbf\u7684\u5e03\u5076\u4e00\u6a23\u653e\u9b06，\u662f\u6975\u5177\u7642\u7652\u611f\u7684\u60c5\u611f\u966a\u4f34\u5bf5\u7269。",
       "personality": [
-        "極度黏人（Puppy Cat 性格）",
-        "脾氣溫和，對兒童與寵物忍耐力高",
-        "叫聲輕柔安靜",
-        "高情商，善於陪伴與察覺情緒"
+        "\u6975\u5ea6\u9ecf\u4eba（Puppy Cat \u6027\u683c）",
+        "\u813e\u6c23\u6eab\u548c，\u5c0d\u5152\u7ae5\u8207\u5bf5\u7269\u5fcd\u8010\u529b\u9ad8",
+        "\u53eb\u8072\u8f15\u67d4\u5b89\u975c",
+        "\u9ad8\u60c5\u5546，\u5584\u65bc\u966a\u4f34\u8207\u5bdf\u89ba\u60c5\u7dd2"
       ],
       "care_tips": [
-        "100% 室內飼養（防禦力低，切勿放養）",
-        "每週 2-3 次梳毛，定期修剪臀部雜毛",
-        "留意 HCM／PKD 等遺傳風險，定期健康檢查"
+        "100% \u5ba4\u5167\u98fc\u990a（\u9632\u79a6\u529b\u4f4e，\u5207\u52ff\u653e\u990a）",
+        "\u6bcf\u9031 2-3 \u6b21\u68b3\u6bdb，\u5b9a\u671f\u4fee\u526a\u81c0\u90e8\u96dc\u6bdb",
+        "\u7559\u610f HCM／PKD \u7b49\u907a\u50b3\u98a8\u96aa，\u5b9a\u671f\u5065\u5eb7\u6aa2\u67e5"
       ],
       "nutrition_advice": [
-        "玻璃胃（腸胃敏感），換糧需 7-10 天過渡，建議補充益生菌",
-        "定時定量餵食，預防肥胖",
-        "補充 Omega-3 / Omega-6 脂肪酸，保持飄逸毛髮柔順"
+        "\u73bb\u7483\u80c3（\u8178\u80c3\u654f\u611f），\u63db\u7ce7\u9700 7-10 \u5929\u904e\u6e21，\u5efa\u8b70\u88dc\u5145\u76ca\u751f\u83cc",
+        "\u5b9a\u6642\u5b9a\u91cf\u9935\u98df，\u9810\u9632\u80a5\u80d6",
+        "\u88dc\u5145 Omega-3 / Omega-6 \u8102\u80aa\u9178，\u4fdd\u6301\u98c4\u9038\u6bdb\u9aee\u67d4\u9806"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "ragdoll_hero",
-        "description": "湛藍眼睛與柔順長毛的雙色布偶貓特寫",
+        "description": "\u6e5b\u85cd\u773c\u775b\u8207\u67d4\u9806\u9577\u6bdb\u7684\u96d9\u8272\u5e03\u5076\u8c93\u7279\u5beb",
         "src": "/images/cat-breeds/ragdoll.jpg",
-        "alt": "雙色布偶貓湛藍眼睛特寫",
+        "alt": "\u96d9\u8272\u5e03\u5076\u8c93\u6e5b\u85cd\u773c\u775b\u7279\u5beb",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "湛藍眼睛與柔順長毛的雙色布偶貓特寫",
+            "target_feature": "\u6e5b\u85cd\u773c\u775b\u8207\u67d4\u9806\u9577\u6bdb\u7684\u96d9\u8272\u5e03\u5076\u8c93\u7279\u5beb",
             "local_src": "/images/cat-breeds/ragdoll.jpg",
             "src": "/images/cat-breeds/ragdoll.jpg",
-            "alt": "雙色布偶貓湛藍眼睛特寫"
+            "alt": "\u96d9\u8272\u5e03\u5076\u8c93\u6e5b\u85cd\u773c\u775b\u7279\u5beb"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "手套色（Mitted）布偶：白手套與白腳的經典花色",
+            "target_feature": "\u624b\u5957\u8272（Mitted）\u5e03\u5076：\u767d\u624b\u5957\u8207\u767d\u8173\u7684\u7d93\u5178\u82b1\u8272",
             "local_src": "/images/cat-breeds/ragdoll-mitted.jpg",
             "src": "/images/cat-breeds/ragdoll-mitted.jpg",
-            "alt": "手套色布偶貓"
+            "alt": "\u624b\u5957\u8272\u5e03\u5076\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "倒V字雙色布偶全身照（參考圖）",
+            "target_feature": "\u5012V\u5b57\u96d9\u8272\u5e03\u5076\u5168\u8eab\u7167（\u53c3\u8003\u5716）",
             "local_src": null,
             "src": "https://cdn2.thecatapi.com/images/HDxfaNlLj.jpg",
-            "alt": "雙色布偶貓全身"
+            "alt": "\u96d9\u8272\u5e03\u5076\u8c93\u5168\u8eab"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "重點色布偶：臉耳尾色深、軀幹較淺",
+            "target_feature": "\u91cd\u9ede\u8272\u5e03\u5076：\u81c9\u8033\u5c3e\u8272\u6df1、\u8ec0\u5e79\u8f03\u6dfa",
             "local_src": null,
             "src": "https://cdn2.thecatapi.com/images/nqS9tUT3i.jpg",
-            "alt": "重點色布偶貓"
+            "alt": "\u91cd\u9ede\u8272\u5e03\u5076\u8c93"
           }
         ]
       },
@@ -220,86 +220,86 @@
     {
       "breed_id": "russian_blue",
       "name_en": "Russian Blue",
-      "name_zh_hk": "俄羅斯藍貓",
+      "name_zh_hk": "\u4fc4\u7f85\u65af\u85cd\u8c93",
       "aliases": [],
-      "origin_summary": "俄羅斯（阿爾漢格爾斯克）",
-      "lifespan": "15 - 20 歲",
-      "weight": "公 3.5–5.5 kg／母 2.5–4.5 kg",
-      "coat": "短毛",
-      "short_description": "銀光藍灰、翡翠綠眼；文靜忠誠，適合寧靜居家。",
-      "full_description": "俄羅斯藍貓擁有銀光閃耀的藍灰色雙層短毛與翡翠般的綠眼睛，體態修長優雅。牠們文靜內斂，對陌生人較為害羞，但對認定的主人極為忠誠親密，是適合喜歡寧靜陪伴的經典短毛品種。",
+      "origin_summary": "\u4fc4\u7f85\u65af（\u963f\u723e\u6f22\u683c\u723e\u65af\u514b）",
+      "lifespan": "15 - 20 \u6b72",
+      "weight": "\u516c 3.5–5.5 kg／\u6bcd 2.5–4.5 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u9280\u5149\u85cd\u7070、\u7fe1\u7fe0\u7da0\u773c；\u6587\u975c\u5fe0\u8aa0，\u9069\u5408\u5be7\u975c\u5c45\u5bb6。",
+      "full_description": "\u4fc4\u7f85\u65af\u85cd\u8c93\u64c1\u6709\u9280\u5149\u9583\u8000\u7684\u85cd\u7070\u8272\u96d9\u5c64\u77ed\u6bdb\u8207\u7fe1\u7fe0\u822c\u7684\u7da0\u773c\u775b，\u9ad4\u614b\u4fee\u9577\u512a\u96c5。\u7260\u5011\u6587\u975c\u5167\u6582，\u5c0d\u964c\u751f\u4eba\u8f03\u70ba\u5bb3\u7f9e，\u4f46\u5c0d\u8a8d\u5b9a\u7684\u4e3b\u4eba\u6975\u70ba\u5fe0\u8aa0\u89aa\u5bc6，\u662f\u9069\u5408\u559c\u6b61\u5be7\u975c\u966a\u4f34\u7684\u7d93\u5178\u77ed\u6bdb\u54c1\u7a2e。",
       "personality": [
-        "對陌生人偏害羞，對家人極為忠誠親密",
-        "叫聲輕柔、氣質安靜優雅",
-        "聰慧敏銳，喜歡智力遊戲與觀察",
-        "環境敏感，需要穩定作息與安全休息區"
+        "\u5c0d\u964c\u751f\u4eba\u504f\u5bb3\u7f9e，\u5c0d\u5bb6\u4eba\u6975\u70ba\u5fe0\u8aa0\u89aa\u5bc6",
+        "\u53eb\u8072\u8f15\u67d4、\u6c23\u8cea\u5b89\u975c\u512a\u96c5",
+        "\u8070\u6167\u654f\u92b3，\u559c\u6b61\u667a\u529b\u904a\u6232\u8207\u89c0\u5bdf",
+        "\u74b0\u5883\u654f\u611f，\u9700\u8981\u7a69\u5b9a\u4f5c\u606f\u8207\u5b89\u5168\u4f11\u606f\u5340"
       ],
       "care_tips": [
-        "銀藍雙層短毛掉毛少，每週梳毛 1 次即可；換毛季可略增",
-        "對環境變化敏感，家中應保留安靜躲藏／休息空間",
-        "鼓勵多喝水，留意泌尿健康；適合藏食玩具等智力挑戰"
+        "\u9280\u85cd\u96d9\u5c64\u77ed\u6bdb\u6389\u6bdb\u5c11，\u6bcf\u9031\u68b3\u6bdb 1 \u6b21\u5373\u53ef；\u63db\u6bdb\u5b63\u53ef\u7565\u589e",
+        "\u5c0d\u74b0\u5883\u8b8a\u5316\u654f\u611f，\u5bb6\u4e2d\u61c9\u4fdd\u7559\u5b89\u975c\u8eb2\u85cf／\u4f11\u606f\u7a7a\u9593",
+        "\u9f13\u52f5\u591a\u559d\u6c34，\u7559\u610f\u6ccc\u5c3f\u5065\u5eb7；\u9069\u5408\u85cf\u98df\u73a9\u5177\u7b49\u667a\u529b\u6311\u6230"
       ],
       "nutrition_advice": [
-        "維持高消化率優質蛋白，保持修長輕盈體型",
-        "控制脂肪與熱量，避免因室內活動偏少而發胖",
-        "補足牛磺酸（Taurine），保護綠眼睛與心臟健康"
+        "\u7dad\u6301\u9ad8\u6d88\u5316\u7387\u512a\u8cea\u86cb\u767d，\u4fdd\u6301\u4fee\u9577\u8f15\u76c8\u9ad4\u578b",
+        "\u63a7\u5236\u8102\u80aa\u8207\u71b1\u91cf，\u907f\u514d\u56e0\u5ba4\u5167\u6d3b\u52d5\u504f\u5c11\u800c\u767c\u80d6",
+        "\u88dc\u8db3\u725b\u78fa\u9178（Taurine），\u4fdd\u8b77\u7da0\u773c\u775b\u8207\u5fc3\u81df\u5065\u5eb7"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "russian_blue_hero",
-        "description": "美國型銀藍俄藍（翡翠綠眼睛）",
+        "description": "\u7f8e\u570b\u578b\u9280\u85cd\u4fc4\u85cd（\u7fe1\u7fe0\u7da0\u773c\u775b）",
         "src": "/images/cat-breeds/russian-blue.jpg",
-        "alt": "銀藍灰色俄羅斯藍貓",
+        "alt": "\u9280\u85cd\u7070\u8272\u4fc4\u7f85\u65af\u85cd\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "美國型銀藍俄藍（翡翠綠眼睛）",
+            "target_feature": "\u7f8e\u570b\u578b\u9280\u85cd\u4fc4\u85cd（\u7fe1\u7fe0\u7da0\u773c\u775b）",
             "local_src": "/images/cat-breeds/russian-blue.jpg",
             "src": "/images/cat-breeds/russian-blue.jpg",
-            "alt": "銀藍灰色俄羅斯藍貓"
+            "alt": "\u9280\u85cd\u7070\u8272\u4fc4\u7f85\u65af\u85cd\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "銀光被毛與綠眼近距離特寫",
+            "target_feature": "\u9280\u5149\u88ab\u6bdb\u8207\u7da0\u773c\u8fd1\u8ddd\u96e2\u7279\u5beb",
             "local_src": "/images/cat-breeds/russian-blue-portrait.jpg",
             "src": "/images/cat-breeds/russian-blue-portrait.jpg",
-            "alt": "俄羅斯藍貓臉部特寫"
+            "alt": "\u4fc4\u7f85\u65af\u85cd\u8c93\u81c9\u90e8\u7279\u5beb"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "修長優雅的側身坐姿",
+            "target_feature": "\u4fee\u9577\u512a\u96c5\u7684\u5074\u8eab\u5750\u59ff",
             "local_src": "/images/cat-breeds/russian-blue-elegant.jpg",
             "src": "/images/cat-breeds/russian-blue-elegant.jpg",
-            "alt": "優雅姿態的俄羅斯藍貓"
+            "alt": "\u512a\u96c5\u59ff\u614b\u7684\u4fc4\u7f85\u65af\u85cd\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "窗邊日光下的銀藍光澤",
+            "target_feature": "\u7a97\u908a\u65e5\u5149\u4e0b\u7684\u9280\u85cd\u5149\u6fa4",
             "local_src": "/images/cat-breeds/russian-blue-window.jpg",
             "src": "/images/cat-breeds/russian-blue-window.jpg",
-            "alt": "窗邊的俄羅斯藍貓"
+            "alt": "\u7a97\u908a\u7684\u4fc4\u7f85\u65af\u85cd\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "居家休息的安靜日常",
+            "target_feature": "\u5c45\u5bb6\u4f11\u606f\u7684\u5b89\u975c\u65e5\u5e38",
             "local_src": "/images/cat-breeds/russian-blue-cozy.jpg",
             "src": "/images/cat-breeds/russian-blue-cozy.jpg",
-            "alt": "室內休息的俄羅斯藍貓"
+            "alt": "\u5ba4\u5167\u4f11\u606f\u7684\u4fc4\u7f85\u65af\u85cd\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "桌邊警覺坐姿與綠眼",
+            "target_feature": "\u684c\u908a\u8b66\u89ba\u5750\u59ff\u8207\u7da0\u773c",
             "local_src": "/images/cat-breeds/russian-blue-pose.jpg",
             "src": "/images/cat-breeds/russian-blue-pose.jpg",
-            "alt": "桌邊的俄羅斯藍貓"
+            "alt": "\u684c\u908a\u7684\u4fc4\u7f85\u65af\u85cd\u8c93"
           },
           {
             "tag": "gallery_item_6",
-            "target_feature": "舉手展示薰衣草色肉墊",
+            "target_feature": "\u8209\u624b\u5c55\u793a\u85b0\u8863\u8349\u8272\u8089\u588a",
             "local_src": "/images/cat-breeds/russian-blue-paw.jpg",
             "src": "/images/cat-breeds/russian-blue-paw.jpg",
-            "alt": "展示肉墊的俄羅斯藍貓"
+            "alt": "\u5c55\u793a\u8089\u588a\u7684\u4fc4\u7f85\u65af\u85cd\u8c93"
           }
         ]
       },
@@ -309,72 +309,72 @@
     {
       "breed_id": "munchkin",
       "name_en": "Munchkin",
-      "name_zh_hk": "曼赤因短腿貓",
+      "name_zh_hk": "\u66fc\u8d64\u56e0\u77ed\u817f\u8c93",
       "aliases": [],
-      "origin_summary": "美國",
-      "lifespan": "12 - 15 歲",
-      "weight": "公 2.7–4.0 kg／母 2.3–3.6 kg",
-      "coat": "短毛 / 長毛",
-      "short_description": "短腿長身、天真活潑；嚴格控重並照顧關節脊椎。",
-      "full_description": "曼赤因貓以標誌性的短腿和長身軀聞名，被稱為「貓界臘腸狗」。短腿來自自然顯性基因，性格像小狗般熱情活潑，奔跑與站立玩耍都靈巧可愛，是家中的開心果。",
+      "origin_summary": "\u7f8e\u570b",
+      "lifespan": "12 - 15 \u6b72",
+      "weight": "\u516c 2.7–4.0 kg／\u6bcd 2.3–3.6 kg",
+      "coat": "\u77ed\u6bdb / \u9577\u6bdb",
+      "short_description": "\u77ed\u817f\u9577\u8eab、\u5929\u771f\u6d3b\u6f51；\u56b4\u683c\u63a7\u91cd\u4e26\u7167\u9867\u95dc\u7bc0\u810a\u690e。",
+      "full_description": "\u66fc\u8d64\u56e0\u8c93\u4ee5\u6a19\u8a8c\u6027\u7684\u77ed\u817f\u548c\u9577\u8eab\u8ec0\u805e\u540d，\u88ab\u7a31\u70ba「\u8c93\u754c\u81d8\u8178\u72d7」。\u77ed\u817f\u4f86\u81ea\u81ea\u7136\u986f\u6027\u57fa\u56e0，\u6027\u683c\u50cf\u5c0f\u72d7\u822c\u71b1\u60c5\u6d3b\u6f51，\u5954\u8dd1\u8207\u7ad9\u7acb\u73a9\u800d\u90fd\u9748\u5de7\u53ef\u611b，\u662f\u5bb6\u4e2d\u7684\u958b\u5fc3\u679c。",
       "personality": [
-        "天真活潑，像長不大的孩子",
-        "社交性高，通常對人與寵物友善",
-        "好奇心強，短腿仍敏捷能跑能玩",
-        "親人討抱，是家中開心果"
+        "\u5929\u771f\u6d3b\u6f51，\u50cf\u9577\u4e0d\u5927\u7684\u5b69\u5b50",
+        "\u793e\u4ea4\u6027\u9ad8，\u901a\u5e38\u5c0d\u4eba\u8207\u5bf5\u7269\u53cb\u5584",
+        "\u597d\u5947\u5fc3\u5f37，\u77ed\u817f\u4ecd\u654f\u6377\u80fd\u8dd1\u80fd\u73a9",
+        "\u89aa\u4eba\u8a0e\u62b1，\u662f\u5bb6\u4e2d\u958b\u5fc3\u679c"
       ],
       "care_tips": [
-        "避免過高跳台與重摔；提供低矮跳台、斜坡與防滑地面",
-        "定期修剪指甲，減少短腿踩滑受傷",
-        "短毛每週梳 1 次；長毛型 2-3 次，並保持適度運動"
+        "\u907f\u514d\u904e\u9ad8\u8df3\u53f0\u8207\u91cd\u6454；\u63d0\u4f9b\u4f4e\u77ee\u8df3\u53f0、\u659c\u5761\u8207\u9632\u6ed1\u5730\u9762",
+        "\u5b9a\u671f\u4fee\u526a\u6307\u7532，\u6e1b\u5c11\u77ed\u817f\u8e29\u6ed1\u53d7\u50b7",
+        "\u77ed\u6bdb\u6bcf\u9031\u68b3 1 \u6b21；\u9577\u6bdb\u578b 2-3 \u6b21，\u4e26\u4fdd\u6301\u9069\u5ea6\u904b\u52d5"
       ],
       "nutrition_advice": [
-        "嚴格控制體重，減輕脊椎與短腿壓力",
-        "補充關節營養（葡萄糖胺、MSM、適量鈣與維生素 D3）",
-        "可選小顆粒乾糧，方便較小口腔咀嚼"
+        "\u56b4\u683c\u63a7\u5236\u9ad4\u91cd，\u6e1b\u8f15\u810a\u690e\u8207\u77ed\u817f\u58d3\u529b",
+        "\u88dc\u5145\u95dc\u7bc0\u71df\u990a（\u8461\u8404\u7cd6\u80fa、MSM、\u9069\u91cf\u9223\u8207\u7dad\u751f\u7d20 D3）",
+        "\u53ef\u9078\u5c0f\u9846\u7c92\u4e7e\u7ce7，\u65b9\u4fbf\u8f03\u5c0f\u53e3\u8154\u5480\u56bc"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "munchkin_hero",
-        "description": "長毛曼赤因全身（短腿特徵清晰）",
+        "description": "\u9577\u6bdb\u66fc\u8d64\u56e0\u5168\u8eab（\u77ed\u817f\u7279\u5fb5\u6e05\u6670）",
         "src": "/images/cat-breeds/munchkin.jpg",
-        "alt": "曼赤因短腿貓全身照",
+        "alt": "\u66fc\u8d64\u56e0\u77ed\u817f\u8c93\u5168\u8eab\u7167",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "長毛曼赤因全身（短腿特徵清晰）",
+            "target_feature": "\u9577\u6bdb\u66fc\u8d64\u56e0\u5168\u8eab（\u77ed\u817f\u7279\u5fb5\u6e05\u6670）",
             "local_src": "/images/cat-breeds/munchkin.jpg",
             "src": "/images/cat-breeds/munchkin.jpg",
-            "alt": "曼赤因短腿貓全身照"
+            "alt": "\u66fc\u8d64\u56e0\u77ed\u817f\u8c93\u5168\u8eab\u7167"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "棕色虎斑短腿曼赤因",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u77ed\u817f\u66fc\u8d64\u56e0",
             "local_src": "/images/cat-breeds/munchkin-tabby.jpg",
             "src": "/images/cat-breeds/munchkin-tabby.jpg",
-            "alt": "虎斑曼赤因短腿貓"
+            "alt": "\u864e\u6591\u66fc\u8d64\u56e0\u77ed\u817f\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "重點色曼赤因站立姿態",
+            "target_feature": "\u91cd\u9ede\u8272\u66fc\u8d64\u56e0\u7ad9\u7acb\u59ff\u614b",
             "local_src": "/images/cat-breeds/munchkin-standing.jpg",
             "src": "/images/cat-breeds/munchkin-standing.jpg",
-            "alt": "站立的曼赤因短腿貓"
+            "alt": "\u7ad9\u7acb\u7684\u66fc\u8d64\u56e0\u77ed\u817f\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "巧克力雙色短腿特寫",
+            "target_feature": "\u5de7\u514b\u529b\u96d9\u8272\u77ed\u817f\u7279\u5beb",
             "local_src": "/images/cat-breeds/munchkin-bicolor.jpg",
             "src": "/images/cat-breeds/munchkin-bicolor.jpg",
-            "alt": "雙色曼赤因短腿貓"
+            "alt": "\u96d9\u8272\u66fc\u8d64\u56e0\u77ed\u817f\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "後肢站立玩耍的活潑日常",
+            "target_feature": "\u5f8c\u80a2\u7ad9\u7acb\u73a9\u800d\u7684\u6d3b\u6f51\u65e5\u5e38",
             "local_src": "/images/cat-breeds/munchkin-play.jpg",
             "src": "/images/cat-breeds/munchkin-play.jpg",
-            "alt": "玩耍中的曼赤因短腿貓"
+            "alt": "\u73a9\u800d\u4e2d\u7684\u66fc\u8d64\u56e0\u77ed\u817f\u8c93"
           }
         ]
       },
@@ -384,72 +384,72 @@
     {
       "breed_id": "norwegian_forest",
       "name_en": "Norwegian Forest Cat",
-      "name_zh_hk": "挪威森林貓",
+      "name_zh_hk": "\u632a\u5a01\u68ee\u6797\u8c93",
       "aliases": [],
-      "origin_summary": "挪威",
-      "lifespan": "14 - 16 歲",
-      "weight": "公 5.5–9.0 kg／母 4.0–6.5 kg",
-      "coat": "長毛",
-      "short_description": "大型防水長毛、攀爬高手；換毛季需勤梳並注意毛球。",
-      "full_description": "源自北歐森林的大型自然貓種，擁有適應嚴寒的防水雙層長毛、山貓耳尖與強壯軀幹。牠們是天生的攀爬者，外表威嚴但性格溫和包容，適合有垂直活動空間的家庭。",
+      "origin_summary": "\u632a\u5a01",
+      "lifespan": "14 - 16 \u6b72",
+      "weight": "\u516c 5.5–9.0 kg／\u6bcd 4.0–6.5 kg",
+      "coat": "\u9577\u6bdb",
+      "short_description": "\u5927\u578b\u9632\u6c34\u9577\u6bdb、\u6500\u722c\u9ad8\u624b；\u63db\u6bdb\u5b63\u9700\u52e4\u68b3\u4e26\u6ce8\u610f\u6bdb\u7403。",
+      "full_description": "\u6e90\u81ea\u5317\u6b50\u68ee\u6797\u7684\u5927\u578b\u81ea\u7136\u8c93\u7a2e，\u64c1\u6709\u9069\u61c9\u56b4\u5bd2\u7684\u9632\u6c34\u96d9\u5c64\u9577\u6bdb、\u5c71\u8c93\u8033\u5c16\u8207\u5f37\u58ef\u8ec0\u5e79。\u7260\u5011\u662f\u5929\u751f\u7684\u6500\u722c\u8005，\u5916\u8868\u5a01\u56b4\u4f46\u6027\u683c\u6eab\u548c\u5305\u5bb9，\u9069\u5408\u6709\u5782\u76f4\u6d3b\u52d5\u7a7a\u9593\u7684\u5bb6\u5ead。",
       "personality": [
-        "勇敢探索，天生攀爬高手",
-        "外表威嚴，對人溫和友善",
-        "適應力佳，能與兒童及寵物共處",
-        "獨立中帶親密，喜歡安靜陪伴"
+        "\u52c7\u6562\u63a2\u7d22，\u5929\u751f\u6500\u722c\u9ad8\u624b",
+        "\u5916\u8868\u5a01\u56b4，\u5c0d\u4eba\u6eab\u548c\u53cb\u5584",
+        "\u9069\u61c9\u529b\u4f73，\u80fd\u8207\u5152\u7ae5\u53ca\u5bf5\u7269\u5171\u8655",
+        "\u7368\u7acb\u4e2d\u5e36\u89aa\u5bc6，\u559c\u6b61\u5b89\u975c\u966a\u4f34"
       ],
       "care_tips": [
-        "雙層防水毛厚實，平時每週梳 2-3 次；換毛季建議每日梳理",
-        "家中需有高聳貓樹或牆面跳台，滿足攀高天性",
-        "夏季注意室內通風散熱，避免厚毛中暑"
+        "\u96d9\u5c64\u9632\u6c34\u6bdb\u539a\u5be6，\u5e73\u6642\u6bcf\u9031\u68b3 2-3 \u6b21；\u63db\u6bdb\u5b63\u5efa\u8b70\u6bcf\u65e5\u68b3\u7406",
+        "\u5bb6\u4e2d\u9700\u6709\u9ad8\u8073\u8c93\u6a39\u6216\u7246\u9762\u8df3\u53f0，\u6eff\u8db3\u6500\u9ad8\u5929\u6027",
+        "\u590f\u5b63\u6ce8\u610f\u5ba4\u5167\u901a\u98a8\u6563\u71b1，\u907f\u514d\u539a\u6bdb\u4e2d\u6691"
       ],
       "nutrition_advice": [
-        "大型晚熟（約 3-5 年），需長期優質高蛋白與足夠熱量",
-        "補纖維協助排出毛球；可加葡萄糖胺支持骨骼",
-        "成貓定時定量，避免因活動量變化而發胖"
+        "\u5927\u578b\u665a\u719f（\u7d04 3-5 \u5e74），\u9700\u9577\u671f\u512a\u8cea\u9ad8\u86cb\u767d\u8207\u8db3\u5920\u71b1\u91cf",
+        "\u88dc\u7e96\u7dad\u5354\u52a9\u6392\u51fa\u6bdb\u7403；\u53ef\u52a0\u8461\u8404\u7cd6\u80fa\u652f\u6301\u9aa8\u9abc",
+        "\u6210\u8c93\u5b9a\u6642\u5b9a\u91cf，\u907f\u514d\u56e0\u6d3b\u52d5\u91cf\u8b8a\u5316\u800c\u767c\u80d6"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "norwegian_forest_hero",
-        "description": "棕色虎斑挪森臉部（山貓耳尖）",
+        "description": "\u68d5\u8272\u864e\u6591\u632a\u68ee\u81c9\u90e8（\u5c71\u8c93\u8033\u5c16）",
         "src": "/images/cat-breeds/norwegian-forest.jpg",
-        "alt": "挪威森林貓臉部特寫",
+        "alt": "\u632a\u5a01\u68ee\u6797\u8c93\u81c9\u90e8\u7279\u5beb",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "棕色虎斑挪森臉部（山貓耳尖）",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u632a\u68ee\u81c9\u90e8（\u5c71\u8c93\u8033\u5c16）",
             "local_src": "/images/cat-breeds/norwegian-forest.jpg",
             "src": "/images/cat-breeds/norwegian-forest.jpg",
-            "alt": "挪威森林貓臉部特寫"
+            "alt": "\u632a\u5a01\u68ee\u6797\u8c93\u81c9\u90e8\u7279\u5beb"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "雪中厚毛挪森",
+            "target_feature": "\u96ea\u4e2d\u539a\u6bdb\u632a\u68ee",
             "local_src": "/images/cat-breeds/norwegian-forest-snow.jpg",
             "src": "/images/cat-breeds/norwegian-forest-snow.jpg",
-            "alt": "雪地中的挪威森林貓"
+            "alt": "\u96ea\u5730\u4e2d\u7684\u632a\u5a01\u68ee\u6797\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "戶外自然環境中的挪森",
+            "target_feature": "\u6236\u5916\u81ea\u7136\u74b0\u5883\u4e2d\u7684\u632a\u68ee",
             "local_src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
             "src": "/images/cat-breeds/norwegian-forest-outdoor.jpg",
-            "alt": "戶外的挪威森林貓"
+            "alt": "\u6236\u5916\u7684\u632a\u5a01\u68ee\u6797\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "銀虎斑臉部與綠眼特寫",
+            "target_feature": "\u9280\u864e\u6591\u81c9\u90e8\u8207\u7da0\u773c\u7279\u5beb",
             "local_src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
             "src": "/images/cat-breeds/norwegian-forest-portrait.jpg",
-            "alt": "銀虎斑挪威森林貓特寫"
+            "alt": "\u9280\u864e\u6591\u632a\u5a01\u68ee\u6797\u8c93\u7279\u5beb"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "雪地中的挪森群像",
+            "target_feature": "\u96ea\u5730\u4e2d\u7684\u632a\u68ee\u7fa4\u50cf",
             "local_src": "/images/cat-breeds/norwegian-forest-pack.jpg",
             "src": "/images/cat-breeds/norwegian-forest-pack.jpg",
-            "alt": "雪地中的挪威森林貓們"
+            "alt": "\u96ea\u5730\u4e2d\u7684\u632a\u5a01\u68ee\u6797\u8c93\u5011"
           }
         ]
       },
@@ -459,72 +459,72 @@
     {
       "breed_id": "exotic_shorthair",
       "name_en": "Exotic Shorthair",
-      "name_zh_hk": "異國短毛貓",
+      "name_zh_hk": "\u7570\u570b\u77ed\u6bdb\u8c93",
       "aliases": [],
-      "origin_summary": "美國",
-      "lifespan": "12 - 15 歲",
-      "weight": "公 4.0–6.5 kg／母 3.0–5.0 kg",
-      "coat": "短毛",
-      "short_description": "扁臉圓眼、溫柔安靜；每日清理眼角並嚴格控重。",
-      "full_description": "異國短毛貓是波斯貓的短毛版本，擁有標誌性的扁扁大臉、圓滾大眼與濃密短毛，性格溫柔討喜，被大家親切地稱為「加菲貓」，是適合安靜陪伴的室內明星品種。",
+      "origin_summary": "\u7f8e\u570b",
+      "lifespan": "12 - 15 \u6b72",
+      "weight": "\u516c 4.0–6.5 kg／\u6bcd 3.0–5.0 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u6241\u81c9\u5713\u773c、\u6eab\u67d4\u5b89\u975c；\u6bcf\u65e5\u6e05\u7406\u773c\u89d2\u4e26\u56b4\u683c\u63a7\u91cd。",
+      "full_description": "\u7570\u570b\u77ed\u6bdb\u8c93\u662f\u6ce2\u65af\u8c93\u7684\u77ed\u6bdb\u7248\u672c，\u64c1\u6709\u6a19\u8a8c\u6027\u7684\u6241\u6241\u5927\u81c9、\u5713\u6efe\u5927\u773c\u8207\u6fc3\u5bc6\u77ed\u6bdb，\u6027\u683c\u6eab\u67d4\u8a0e\u559c，\u88ab\u5927\u5bb6\u89aa\u5207\u5730\u7a31\u70ba「\u52a0\u83f2\u8c93」，\u662f\u9069\u5408\u5b89\u975c\u966a\u4f34\u7684\u5ba4\u5167\u660e\u661f\u54c1\u7a2e。",
       "personality": [
-        "文靜呆萌，喜歡安靜陪伴",
-        "溫柔討抱，情感豐富但不吵鬧",
-        "適合公寓室內生活",
-        "節奏偏慢，享受窗邊觀察與午睡"
+        "\u6587\u975c\u5446\u840c，\u559c\u6b61\u5b89\u975c\u966a\u4f34",
+        "\u6eab\u67d4\u8a0e\u62b1，\u60c5\u611f\u8c50\u5bcc\u4f46\u4e0d\u5435\u9b27",
+        "\u9069\u5408\u516c\u5bd3\u5ba4\u5167\u751f\u6d3b",
+        "\u7bc0\u594f\u504f\u6162，\u4eab\u53d7\u7a97\u908a\u89c0\u5bdf\u8207\u5348\u7761"
       ],
       "care_tips": [
-        "扁臉易淚溢，每天用溫濕棉片清理眼角與臉摺",
-        "鼻短需注意通風散熱；食碗選淺口較易進食",
-        "每週梳毛 2-3 次（底毛厚），並定期檢查鼻周圍清潔"
+        "\u6241\u81c9\u6613\u6dda\u6ea2，\u6bcf\u5929\u7528\u6eab\u6fd5\u68c9\u7247\u6e05\u7406\u773c\u89d2\u8207\u81c9\u647a",
+        "\u9f3b\u77ed\u9700\u6ce8\u610f\u901a\u98a8\u6563\u71b1；\u98df\u7897\u9078\u6dfa\u53e3\u8f03\u6613\u9032\u98df",
+        "\u6bcf\u9031\u68b3\u6bdb 2-3 \u6b21（\u5e95\u6bdb\u539a），\u4e26\u5b9a\u671f\u6aa2\u67e5\u9f3b\u5468\u570d\u6e05\u6f54"
       ],
       "nutrition_advice": [
-        "嚴格控重，減輕心肺負擔",
-        "可選易咬碎顆粒，方便扁臉咀嚼",
-        "補充護眼抗氧化配方，留意 PKD 等遺傳風險"
+        "\u56b4\u683c\u63a7\u91cd，\u6e1b\u8f15\u5fc3\u80ba\u8ca0\u64d4",
+        "\u53ef\u9078\u6613\u54ac\u788e\u9846\u7c92，\u65b9\u4fbf\u6241\u81c9\u5480\u56bc",
+        "\u88dc\u5145\u8b77\u773c\u6297\u6c27\u5316\u914d\u65b9，\u7559\u610f PKD \u7b49\u907a\u50b3\u98a8\u96aa"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "exotic_shorthair_hero",
-        "description": "棕色虎斑異短（銅眼扁臉）",
+        "description": "\u68d5\u8272\u864e\u6591\u7570\u77ed（\u9285\u773c\u6241\u81c9）",
         "src": "/images/cat-breeds/exotic-shorthair.jpg",
-        "alt": "棕色虎斑異國短毛貓",
+        "alt": "\u68d5\u8272\u864e\u6591\u7570\u570b\u77ed\u6bdb\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "棕色虎斑異短（銅眼扁臉）",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u7570\u77ed（\u9285\u773c\u6241\u81c9）",
             "local_src": "/images/cat-breeds/exotic-shorthair.jpg",
             "src": "/images/cat-breeds/exotic-shorthair.jpg",
-            "alt": "棕色虎斑異國短毛貓"
+            "alt": "\u68d5\u8272\u864e\u6591\u7570\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "藍白雙色異短窗邊特寫",
+            "target_feature": "\u85cd\u767d\u96d9\u8272\u7570\u77ed\u7a97\u908a\u7279\u5beb",
             "local_src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
             "src": "/images/cat-breeds/exotic-shorthair-bicolor.jpg",
-            "alt": "藍白雙色異國短毛貓"
+            "alt": "\u85cd\u767d\u96d9\u8272\u7570\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "棕色虎斑側臉輪廓",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u5074\u81c9\u8f2a\u5ed3",
             "local_src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
             "src": "/images/cat-breeds/exotic-shorthair-tabby.jpg",
-            "alt": "虎斑異國短毛貓側臉"
+            "alt": "\u864e\u6591\u7570\u570b\u77ed\u6bdb\u8c93\u5074\u81c9"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "奶油色異短居家休息",
+            "target_feature": "\u5976\u6cb9\u8272\u7570\u77ed\u5c45\u5bb6\u4f11\u606f",
             "local_src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
             "src": "/images/cat-breeds/exotic-shorthair-cozy.jpg",
-            "alt": "休息中的異國短毛貓"
+            "alt": "\u4f11\u606f\u4e2d\u7684\u7570\u570b\u77ed\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "奶油白異短向上凝視",
+            "target_feature": "\u5976\u6cb9\u767d\u7570\u77ed\u5411\u4e0a\u51dd\u8996",
             "local_src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
             "src": "/images/cat-breeds/exotic-shorthair-cream.jpg",
-            "alt": "奶油白異國短毛貓"
+            "alt": "\u5976\u6cb9\u767d\u7570\u570b\u77ed\u6bdb\u8c93"
           }
         ]
       },
@@ -534,79 +534,79 @@
     {
       "breed_id": "maine_coon",
       "name_en": "Maine Coon",
-      "name_zh_hk": "緬因貓",
+      "name_zh_hk": "\u7dec\u56e0\u8c93",
       "aliases": [],
-      "origin_summary": "美國（緬因州）",
-      "lifespan": "12 - 15 歲",
-      "weight": "公 6.0–11.0 kg／母 4.0–7.5 kg",
-      "coat": "長毛",
-      "short_description": "溫柔的巨人、體型龐大；注重心臟、關節與長毛護理。",
-      "full_description": "緬因貓是體型最大的家貓品種之一，耳朵帶有山貓簇毛，尾巴如羽扇般豐滿。雖然外表霸氣，但性格卻像小狗般忠誠溫柔，是適合有空間家庭的「溫柔巨人」。",
+      "origin_summary": "\u7f8e\u570b（\u7dec\u56e0\u5dde）",
+      "lifespan": "12 - 15 \u6b72",
+      "weight": "\u516c 6.0–11.0 kg／\u6bcd 4.0–7.5 kg",
+      "coat": "\u9577\u6bdb",
+      "short_description": "\u6eab\u67d4\u7684\u5de8\u4eba、\u9ad4\u578b\u9f90\u5927；\u6ce8\u91cd\u5fc3\u81df、\u95dc\u7bc0\u8207\u9577\u6bdb\u8b77\u7406。",
+      "full_description": "\u7dec\u56e0\u8c93\u662f\u9ad4\u578b\u6700\u5927\u7684\u5bb6\u8c93\u54c1\u7a2e\u4e4b\u4e00，\u8033\u6735\u5e36\u6709\u5c71\u8c93\u7c07\u6bdb，\u5c3e\u5df4\u5982\u7fbd\u6247\u822c\u8c50\u6eff。\u96d6\u7136\u5916\u8868\u9738\u6c23，\u4f46\u6027\u683c\u537b\u50cf\u5c0f\u72d7\u822c\u5fe0\u8aa0\u6eab\u67d4，\u662f\u9069\u5408\u6709\u7a7a\u9593\u5bb6\u5ead\u7684「\u6eab\u67d4\u5de8\u4eba」。",
       "personality": [
-        "溫柔巨人，對人友善忠誠",
-        "聲音細小，常發出吱吱叫",
-        "智力高，部分喜歡玩水",
-        "適合有空間的家庭"
+        "\u6eab\u67d4\u5de8\u4eba，\u5c0d\u4eba\u53cb\u5584\u5fe0\u8aa0",
+        "\u8072\u97f3\u7d30\u5c0f，\u5e38\u767c\u51fa\u5431\u5431\u53eb",
+        "\u667a\u529b\u9ad8，\u90e8\u5206\u559c\u6b61\u73a9\u6c34",
+        "\u9069\u5408\u6709\u7a7a\u9593\u7684\u5bb6\u5ead"
       ],
       "care_tips": [
-        "每週梳 2-3 次，重點腋下、肚皮與尾根；換毛季每日梳",
-        "配備超大貓砂盆與加固高聳貓樹",
-        "定期心臟檢查（HCM），避免過胖加重關節負擔"
+        "\u6bcf\u9031\u68b3 2-3 \u6b21，\u91cd\u9ede\u814b\u4e0b、\u809a\u76ae\u8207\u5c3e\u6839；\u63db\u6bdb\u5b63\u6bcf\u65e5\u68b3",
+        "\u914d\u5099\u8d85\u5927\u8c93\u7802\u76c6\u8207\u52a0\u56fa\u9ad8\u8073\u8c93\u6a39",
+        "\u5b9a\u671f\u5fc3\u81df\u6aa2\u67e5（HCM），\u907f\u514d\u904e\u80d6\u52a0\u91cd\u95dc\u7bc0\u8ca0\u64d4"
       ],
       "nutrition_advice": [
-        "大型晚熟需長期高蛋白與足夠熱量",
-        "補充葡萄糖胺、軟骨素與 Omega-3",
-        "大顆粒乾糧有助咀嚼並減慢進食"
+        "\u5927\u578b\u665a\u719f\u9700\u9577\u671f\u9ad8\u86cb\u767d\u8207\u8db3\u5920\u71b1\u91cf",
+        "\u88dc\u5145\u8461\u8404\u7cd6\u80fa、\u8edf\u9aa8\u7d20\u8207 Omega-3",
+        "\u5927\u9846\u7c92\u4e7e\u7ce7\u6709\u52a9\u5480\u56bc\u4e26\u6e1b\u6162\u9032\u98df"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "maine_coon_hero",
-        "description": "戶外棕色虎斑緬因（山貓耳尖）",
+        "description": "\u6236\u5916\u68d5\u8272\u864e\u6591\u7dec\u56e0（\u5c71\u8c93\u8033\u5c16）",
         "src": "/images/cat-breeds/maine-coon.jpg",
-        "alt": "緬因貓戶外特寫",
+        "alt": "\u7dec\u56e0\u8c93\u6236\u5916\u7279\u5beb",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "戶外棕色虎斑緬因（山貓耳尖）",
+            "target_feature": "\u6236\u5916\u68d5\u8272\u864e\u6591\u7dec\u56e0（\u5c71\u8c93\u8033\u5c16）",
             "local_src": "/images/cat-breeds/maine-coon.jpg",
             "src": "/images/cat-breeds/maine-coon.jpg",
-            "alt": "緬因貓戶外特寫"
+            "alt": "\u7dec\u56e0\u8c93\u6236\u5916\u7279\u5beb"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "長毛臉部近距離",
+            "target_feature": "\u9577\u6bdb\u81c9\u90e8\u8fd1\u8ddd\u96e2",
             "local_src": "/images/cat-breeds/maine-coon-portrait.jpg",
             "src": "/images/cat-breeds/maine-coon-portrait.jpg",
-            "alt": "緬因貓臉部特寫"
+            "alt": "\u7dec\u56e0\u8c93\u81c9\u90e8\u7279\u5beb"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "方形吻部與綠眼",
+            "target_feature": "\u65b9\u5f62\u543b\u90e8\u8207\u7da0\u773c",
             "local_src": "/images/cat-breeds/maine-coon-face.jpg",
             "src": "/images/cat-breeds/maine-coon-face.jpg",
-            "alt": "緬因貓正面"
+            "alt": "\u7dec\u56e0\u8c93\u6b63\u9762"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "大型全身與羽狀尾",
+            "target_feature": "\u5927\u578b\u5168\u8eab\u8207\u7fbd\u72c0\u5c3e",
             "local_src": "/images/cat-breeds/maine-coon-full.jpg",
             "src": "/images/cat-breeds/maine-coon-full.jpg",
-            "alt": "緬因貓全身照"
+            "alt": "\u7dec\u56e0\u8c93\u5168\u8eab\u7167"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "三種花色緬因群像",
+            "target_feature": "\u4e09\u7a2e\u82b1\u8272\u7dec\u56e0\u7fa4\u50cf",
             "local_src": "/images/cat-breeds/maine-coon-group.jpg",
             "src": "/images/cat-breeds/maine-coon-group.jpg",
-            "alt": "緬因貓群像"
+            "alt": "\u7dec\u56e0\u8c93\u7fa4\u50cf"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "銀虎斑緬因",
+            "target_feature": "\u9280\u864e\u6591\u7dec\u56e0",
             "local_src": "/images/cat-breeds/maine-coon-silver.jpg",
             "src": "/images/cat-breeds/maine-coon-silver.jpg",
-            "alt": "銀虎斑緬因貓"
+            "alt": "\u9280\u864e\u6591\u7dec\u56e0\u8c93"
           }
         ]
       },
@@ -616,79 +616,79 @@
     {
       "breed_id": "persian",
       "name_en": "Persian",
-      "name_zh_hk": "波斯貓",
+      "name_zh_hk": "\u6ce2\u65af\u8c93",
       "aliases": [],
-      "origin_summary": "伊朗／波斯",
-      "lifespan": "12 - 17 歲",
+      "origin_summary": "\u4f0a\u6717／\u6ce2\u65af",
+      "lifespan": "12 - 17 \u6b72",
       "weight": "3.5 - 7.0 kg",
-      "coat": "長毛",
-      "short_description": "華麗長毛與扁平面孔的優雅代表，需每日梳毛護理。",
-      "full_description": "波斯貓是世界上最知名的長毛貓之一，特徵為豐滿的長毛、圓潤的身體與扁平面孔。性格溫柔、安靜、優雅，喜歡平穩的日常，適合公寓與較安靜的家庭。每日梳毛不可或缺；扁臉構造也需特別留意眼部分泌與呼吸舒適度。",
+      "coat": "\u9577\u6bdb",
+      "short_description": "\u83ef\u9e97\u9577\u6bdb\u8207\u6241\u5e73\u9762\u5b54\u7684\u512a\u96c5\u4ee3\u8868，\u9700\u6bcf\u65e5\u68b3\u6bdb\u8b77\u7406。",
+      "full_description": "\u6ce2\u65af\u8c93\u662f\u4e16\u754c\u4e0a\u6700\u77e5\u540d\u7684\u9577\u6bdb\u8c93\u4e4b\u4e00，\u7279\u5fb5\u70ba\u8c50\u6eff\u7684\u9577\u6bdb、\u5713\u6f64\u7684\u8eab\u9ad4\u8207\u6241\u5e73\u9762\u5b54。\u6027\u683c\u6eab\u67d4、\u5b89\u975c、\u512a\u96c5，\u559c\u6b61\u5e73\u7a69\u7684\u65e5\u5e38，\u9069\u5408\u516c\u5bd3\u8207\u8f03\u5b89\u975c\u7684\u5bb6\u5ead。\u6bcf\u65e5\u68b3\u6bdb\u4e0d\u53ef\u6216\u7f3a；\u6241\u81c9\u69cb\u9020\u4e5f\u9700\u7279\u5225\u7559\u610f\u773c\u90e8\u5206\u6ccc\u8207\u547c\u5438\u8212\u9069\u5ea6。",
       "personality": [
-        "溫柔",
-        "安靜",
-        "優雅",
-        "黏人"
+        "\u6eab\u67d4",
+        "\u5b89\u975c",
+        "\u512a\u96c5",
+        "\u9ecf\u4eba"
       ],
       "care_tips": [
-        "長毛極易打結，建議每天用針梳／排梳徹底梳理。",
-        "扁臉構造需每日清理眼角淚痕，並留意呼吸與散熱舒適度。",
-        "可定期專業美容，但日常梳毛不能省；換毛季加強梳理減少毛球。"
+        "\u9577\u6bdb\u6975\u6613\u6253\u7d50，\u5efa\u8b70\u6bcf\u5929\u7528\u91dd\u68b3／\u6392\u68b3\u5fb9\u5e95\u68b3\u7406。",
+        "\u6241\u81c9\u69cb\u9020\u9700\u6bcf\u65e5\u6e05\u7406\u773c\u89d2\u6dda\u75d5，\u4e26\u7559\u610f\u547c\u5438\u8207\u6563\u71b1\u8212\u9069\u5ea6。",
+        "\u53ef\u5b9a\u671f\u5c08\u696d\u7f8e\u5bb9，\u4f46\u65e5\u5e38\u68b3\u6bdb\u4e0d\u80fd\u7701；\u63db\u6bdb\u5b63\u52a0\u5f37\u68b3\u7406\u6e1b\u5c11\u6bdb\u7403。"
       ],
       "nutrition_advice": [
-        "選擇有助毛球控制、易消化的優質成貓配方。",
-        "控制份量，避免因活動量較低而過重。",
-        "乾濕搭配有助水分攝取；扁臉貓可選淺口或微傾斜食碗。"
+        "\u9078\u64c7\u6709\u52a9\u6bdb\u7403\u63a7\u5236、\u6613\u6d88\u5316\u7684\u512a\u8cea\u6210\u8c93\u914d\u65b9。",
+        "\u63a7\u5236\u4efd\u91cf，\u907f\u514d\u56e0\u6d3b\u52d5\u91cf\u8f03\u4f4e\u800c\u904e\u91cd。",
+        "\u4e7e\u6fd5\u642d\u914d\u6709\u52a9\u6c34\u5206\u651d\u53d6；\u6241\u81c9\u8c93\u53ef\u9078\u6dfa\u53e3\u6216\u5fae\u50be\u659c\u98df\u7897。"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "persian_hero",
-        "description": "經典波斯：豐滿長毛與扁平面孔的優雅代表",
+        "description": "\u7d93\u5178\u6ce2\u65af：\u8c50\u6eff\u9577\u6bdb\u8207\u6241\u5e73\u9762\u5b54\u7684\u512a\u96c5\u4ee3\u8868",
         "src": "/images/cat-breeds/persian.jpg",
-        "alt": "奶油白波斯貓正面特寫",
+        "alt": "\u5976\u6cb9\u767d\u6ce2\u65af\u8c93\u6b63\u9762\u7279\u5beb",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "經典波斯：豐滿長毛與扁平面孔的優雅代表",
+            "target_feature": "\u7d93\u5178\u6ce2\u65af：\u8c50\u6eff\u9577\u6bdb\u8207\u6241\u5e73\u9762\u5b54\u7684\u512a\u96c5\u4ee3\u8868",
             "local_src": "/images/cat-breeds/persian.jpg",
             "src": "/images/cat-breeds/persian.jpg",
-            "alt": "奶油白波斯貓正面特寫"
+            "alt": "\u5976\u6cb9\u767d\u6ce2\u65af\u8c93\u6b63\u9762\u7279\u5beb"
           },
           {
             "tag": "gallery_item_01",
-            "target_feature": "雪白／奶油長毛：圓潤輪廓與柔順被毛",
+            "target_feature": "\u96ea\u767d／\u5976\u6cb9\u9577\u6bdb：\u5713\u6f64\u8f2a\u5ed3\u8207\u67d4\u9806\u88ab\u6bdb",
             "local_src": "/images/cat-breeds/persian-cream.jpg",
             "src": "/images/cat-breeds/persian-cream.jpg",
-            "alt": "奶油色波斯貓"
+            "alt": "\u5976\u6cb9\u8272\u6ce2\u65af\u8c93"
           },
           {
             "tag": "gallery_item_02",
-            "target_feature": "蓬鬆披毛特寫：華麗長毛的質感",
+            "target_feature": "\u84ec\u9b06\u62ab\u6bdb\u7279\u5beb：\u83ef\u9e97\u9577\u6bdb\u7684\u8cea\u611f",
             "local_src": "/images/cat-breeds/persian-fluffy.jpg",
             "src": "/images/cat-breeds/persian-fluffy.jpg",
-            "alt": "長毛蓬鬆的波斯貓"
+            "alt": "\u9577\u6bdb\u84ec\u9b06\u7684\u6ce2\u65af\u8c93"
           },
           {
             "tag": "gallery_item_03",
-            "target_feature": "臉部特寫：扁臉構造與大圓眼",
+            "target_feature": "\u81c9\u90e8\u7279\u5beb：\u6241\u81c9\u69cb\u9020\u8207\u5927\u5713\u773c",
             "local_src": "/images/cat-breeds/persian-face.jpg",
             "src": "/images/cat-breeds/persian-face.jpg",
-            "alt": "波斯貓扁臉特寫"
+            "alt": "\u6ce2\u65af\u8c93\u6241\u81c9\u7279\u5beb"
           },
           {
             "tag": "gallery_item_04",
-            "target_feature": "肖像角度：沉靜優雅的氣質",
+            "target_feature": "\u8096\u50cf\u89d2\u5ea6：\u6c89\u975c\u512a\u96c5\u7684\u6c23\u8cea",
             "local_src": "/images/cat-breeds/persian-portrait.jpg",
             "src": "/images/cat-breeds/persian-portrait.jpg",
-            "alt": "波斯貓肖像"
+            "alt": "\u6ce2\u65af\u8c93\u8096\u50cf"
           },
           {
             "tag": "gallery_item_05",
-            "target_feature": "居家寧靜氛圍：適合穩定作息的室內伴侶",
+            "target_feature": "\u5c45\u5bb6\u5be7\u975c\u6c1b\u570d：\u9069\u5408\u7a69\u5b9a\u4f5c\u606f\u7684\u5ba4\u5167\u4f34\u4fb6",
             "local_src": "/images/cat-breeds/persian-cozy.jpg",
             "src": "/images/cat-breeds/persian-cozy.jpg",
-            "alt": "在家中休息的波斯貓"
+            "alt": "\u5728\u5bb6\u4e2d\u4f11\u606f\u7684\u6ce2\u65af\u8c93"
           }
         ]
       },
@@ -698,79 +698,79 @@
     {
       "breed_id": "scottish_fold",
       "name_en": "Scottish Fold",
-      "name_zh_hk": "蘇格蘭摺耳貓",
+      "name_zh_hk": "\u8607\u683c\u862d\u647a\u8033\u8c93",
       "aliases": [],
-      "origin_summary": "蘇格蘭",
-      "lifespan": "11 - 14 歲",
-      "weight": "公 4.0–6.0 kg／母 2.7–4.5 kg",
-      "coat": "短毛 / 長毛",
-      "short_description": "圓頭摺耳、溫和黏人；必須關注軟骨與關節健康。",
-      "full_description": "蘇格蘭摺耳貓以向前下折的耳朵和圓滾滾大頭外貌聞名，像一隻溫柔的小貓頭鷹。性格溫和親人，但摺耳基因與軟骨健康息息相關，飼養前務必了解健康風險與負責任繁殖。",
+      "origin_summary": "\u8607\u683c\u862d",
+      "lifespan": "11 - 14 \u6b72",
+      "weight": "\u516c 4.0–6.0 kg／\u6bcd 2.7–4.5 kg",
+      "coat": "\u77ed\u6bdb / \u9577\u6bdb",
+      "short_description": "\u5713\u982d\u647a\u8033、\u6eab\u548c\u9ecf\u4eba；\u5fc5\u9808\u95dc\u6ce8\u8edf\u9aa8\u8207\u95dc\u7bc0\u5065\u5eb7。",
+      "full_description": "\u8607\u683c\u862d\u647a\u8033\u8c93\u4ee5\u5411\u524d\u4e0b\u6298\u7684\u8033\u6735\u548c\u5713\u6efe\u6efe\u5927\u982d\u5916\u8c8c\u805e\u540d，\u50cf\u4e00\u96bb\u6eab\u67d4\u7684\u5c0f\u8c93\u982d\u9df9。\u6027\u683c\u6eab\u548c\u89aa\u4eba，\u4f46\u647a\u8033\u57fa\u56e0\u8207\u8edf\u9aa8\u5065\u5eb7\u606f\u606f\u76f8\u95dc，\u98fc\u990a\u524d\u52d9\u5fc5\u4e86\u89e3\u5065\u5eb7\u98a8\u96aa\u8207\u8ca0\u8cac\u4efb\u7e41\u6b96。",
       "personality": [
-        "溫和黏人，感情豐富",
-        "常出現大叔坐姿等可愛姿勢",
-        "安靜不吵，適合室內陪伴",
-        "對主人依戀，喜歡待在身邊"
+        "\u6eab\u548c\u9ecf\u4eba，\u611f\u60c5\u8c50\u5bcc",
+        "\u5e38\u51fa\u73fe\u5927\u53d4\u5750\u59ff\u7b49\u53ef\u611b\u59ff\u52e2",
+        "\u5b89\u975c\u4e0d\u5435，\u9069\u5408\u5ba4\u5167\u966a\u4f34",
+        "\u5c0d\u4e3b\u4eba\u4f9d\u6200，\u559c\u6b61\u5f85\u5728\u8eab\u908a"
       ],
       "care_tips": [
-        "每週清潔摺耳內側，避免濕氣與耳垢堆積",
-        "密切留意走姿與尾巴柔軟度（軟骨發育相關風險）",
-        "避免過高跳躍；嚴格控重並補充關節營養"
+        "\u6bcf\u9031\u6e05\u6f54\u647a\u8033\u5167\u5074，\u907f\u514d\u6fd5\u6c23\u8207\u8033\u57a2\u5806\u7a4d",
+        "\u5bc6\u5207\u7559\u610f\u8d70\u59ff\u8207\u5c3e\u5df4\u67d4\u8edf\u5ea6（\u8edf\u9aa8\u767c\u80b2\u76f8\u95dc\u98a8\u96aa）",
+        "\u907f\u514d\u904e\u9ad8\u8df3\u8e8d；\u56b4\u683c\u63a7\u91cd\u4e26\u88dc\u5145\u95dc\u7bc0\u71df\u990a"
       ],
       "nutrition_advice": [
-        "長期補充葡萄糖胺、軟骨素、綠唇貽貝等",
-        "嚴格精算熱量，控重是保護關節的關鍵",
-        "均衡全價飲食，換糧需漸進"
+        "\u9577\u671f\u88dc\u5145\u8461\u8404\u7cd6\u80fa、\u8edf\u9aa8\u7d20、\u7da0\u5507\u8cbd\u8c9d\u7b49",
+        "\u56b4\u683c\u7cbe\u7b97\u71b1\u91cf，\u63a7\u91cd\u662f\u4fdd\u8b77\u95dc\u7bc0\u7684\u95dc\u9375",
+        "\u5747\u8861\u5168\u50f9\u98f2\u98df，\u63db\u7ce7\u9700\u6f38\u9032"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "scottish_fold_hero",
-        "description": "藍灰色摺耳特寫（銅眼）",
+        "description": "\u85cd\u7070\u8272\u647a\u8033\u7279\u5beb（\u9285\u773c）",
         "src": "/images/cat-breeds/scottish-fold.jpg",
-        "alt": "藍灰色蘇格蘭摺耳貓",
+        "alt": "\u85cd\u7070\u8272\u8607\u683c\u862d\u647a\u8033\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "藍灰色摺耳特寫（銅眼）",
+            "target_feature": "\u85cd\u7070\u8272\u647a\u8033\u7279\u5beb（\u9285\u773c）",
             "local_src": "/images/cat-breeds/scottish-fold.jpg",
             "src": "/images/cat-breeds/scottish-fold.jpg",
-            "alt": "藍灰色蘇格蘭摺耳貓"
+            "alt": "\u85cd\u7070\u8272\u8607\u683c\u862d\u647a\u8033\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "棚拍全身摺耳",
+            "target_feature": "\u68da\u62cd\u5168\u8eab\u647a\u8033",
             "local_src": "/images/cat-breeds/scottish-fold-studio.jpg",
             "src": "/images/cat-breeds/scottish-fold-studio.jpg",
-            "alt": "蘇格蘭摺耳貓棚拍"
+            "alt": "\u8607\u683c\u862d\u647a\u8033\u8c93\u68da\u62cd"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "戶外藤籃中的摺耳",
+            "target_feature": "\u6236\u5916\u85e4\u7c43\u4e2d\u7684\u647a\u8033",
             "local_src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
             "src": "/images/cat-breeds/scottish-fold-outdoor.jpg",
-            "alt": "戶外蘇格蘭摺耳貓"
+            "alt": "\u6236\u5916\u8607\u683c\u862d\u647a\u8033\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "棕色虎斑摺耳近拍",
+            "target_feature": "\u68d5\u8272\u864e\u6591\u647a\u8033\u8fd1\u62cd",
             "local_src": "/images/cat-breeds/scottish-fold-tabby.jpg",
             "src": "/images/cat-breeds/scottish-fold-tabby.jpg",
-            "alt": "虎斑蘇格蘭摺耳貓"
+            "alt": "\u864e\u6591\u8607\u683c\u862d\u647a\u8033\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "白色摺耳大叔坐姿",
+            "target_feature": "\u767d\u8272\u647a\u8033\u5927\u53d4\u5750\u59ff",
             "local_src": "/images/cat-breeds/scottish-fold-white.jpg",
             "src": "/images/cat-breeds/scottish-fold-white.jpg",
-            "alt": "白色蘇格蘭摺耳貓"
+            "alt": "\u767d\u8272\u8607\u683c\u862d\u647a\u8033\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "居家休息的摺耳",
+            "target_feature": "\u5c45\u5bb6\u4f11\u606f\u7684\u647a\u8033",
             "local_src": "/images/cat-breeds/scottish-fold-cozy.jpg",
             "src": "/images/cat-breeds/scottish-fold-cozy.jpg",
-            "alt": "休息中的蘇格蘭摺耳貓"
+            "alt": "\u4f11\u606f\u4e2d\u7684\u8607\u683c\u862d\u647a\u8033\u8c93"
           }
         ]
       },
@@ -780,79 +780,79 @@
     {
       "breed_id": "siamese",
       "name_en": "Siamese",
-      "name_zh_hk": "暹羅貓",
+      "name_zh_hk": "\u66b9\u7f85\u8c93",
       "aliases": [],
-      "origin_summary": "泰國（暹羅）",
-      "lifespan": "15 - 20 歲",
-      "weight": "公 3.0–5.0 kg／母 2.5–4.0 kg",
-      "coat": "短毛",
-      "short_description": "重點色藍眼話霸；需要大量互動與陪伴。",
-      "full_description": "源自泰國皇室的古老貓種，擁有獨特重點色面罩、藍色杏仁眼與苗條優雅體型。牠們熱情且極度依賴主人，是個性最鮮明、最會「說話」的貓咪之一。",
+      "origin_summary": "\u6cf0\u570b（\u66b9\u7f85）",
+      "lifespan": "15 - 20 \u6b72",
+      "weight": "\u516c 3.0–5.0 kg／\u6bcd 2.5–4.0 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u91cd\u9ede\u8272\u85cd\u773c\u8a71\u9738；\u9700\u8981\u5927\u91cf\u4e92\u52d5\u8207\u966a\u4f34。",
+      "full_description": "\u6e90\u81ea\u6cf0\u570b\u7687\u5ba4\u7684\u53e4\u8001\u8c93\u7a2e，\u64c1\u6709\u7368\u7279\u91cd\u9ede\u8272\u9762\u7f69、\u85cd\u8272\u674f\u4ec1\u773c\u8207\u82d7\u689d\u512a\u96c5\u9ad4\u578b。\u7260\u5011\u71b1\u60c5\u4e14\u6975\u5ea6\u4f9d\u8cf4\u4e3b\u4eba，\u662f\u500b\u6027\u6700\u9bae\u660e、\u6700\u6703「\u8aaa\u8a71」\u7684\u8c93\u54aa\u4e4b\u4e00。",
       "personality": [
-        "熱情多話，喜歡與主人對話",
-        "極度黏人，分離焦慮風險較高",
-        "聰明警覺、好奇心旺盛",
-        "需要大量互動，不適合長期獨處"
+        "\u71b1\u60c5\u591a\u8a71，\u559c\u6b61\u8207\u4e3b\u4eba\u5c0d\u8a71",
+        "\u6975\u5ea6\u9ecf\u4eba，\u5206\u96e2\u7126\u616e\u98a8\u96aa\u8f03\u9ad8",
+        "\u8070\u660e\u8b66\u89ba、\u597d\u5947\u5fc3\u65fa\u76db",
+        "\u9700\u8981\u5927\u91cf\u4e92\u52d5，\u4e0d\u9069\u5408\u9577\u671f\u7368\u8655"
       ],
       "care_tips": [
-        "提供大量陪伴與益智遊戲，減少分離焦慮",
-        "怕冷，冬季準備暖床；短毛每週輕梳即可",
-        "定期牙科與健康檢查"
+        "\u63d0\u4f9b\u5927\u91cf\u966a\u4f34\u8207\u76ca\u667a\u904a\u6232，\u6e1b\u5c11\u5206\u96e2\u7126\u616e",
+        "\u6015\u51b7，\u51ac\u5b63\u6e96\u5099\u6696\u5e8a；\u77ed\u6bdb\u6bcf\u9031\u8f15\u68b3\u5373\u53ef",
+        "\u5b9a\u671f\u7259\u79d1\u8207\u5065\u5eb7\u6aa2\u67e5"
       ],
       "nutrition_advice": [
-        "高蛋白、適中脂肪，維持修長優雅體型",
-        "換糧需漸進；可用藏食玩具滿足心智需求",
-        "充足飲水與均衡主食"
+        "\u9ad8\u86cb\u767d、\u9069\u4e2d\u8102\u80aa，\u7dad\u6301\u4fee\u9577\u512a\u96c5\u9ad4\u578b",
+        "\u63db\u7ce7\u9700\u6f38\u9032；\u53ef\u7528\u85cf\u98df\u73a9\u5177\u6eff\u8db3\u5fc3\u667a\u9700\u6c42",
+        "\u5145\u8db3\u98f2\u6c34\u8207\u5747\u8861\u4e3b\u98df"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "siamese_hero",
-        "description": "海豹重點色暹羅（藍眼）",
+        "description": "\u6d77\u8c79\u91cd\u9ede\u8272\u66b9\u7f85（\u85cd\u773c）",
         "src": "/images/cat-breeds/siamese.jpg",
-        "alt": "海豹重點色暹羅貓",
+        "alt": "\u6d77\u8c79\u91cd\u9ede\u8272\u66b9\u7f85\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "海豹重點色暹羅（藍眼）",
+            "target_feature": "\u6d77\u8c79\u91cd\u9ede\u8272\u66b9\u7f85（\u85cd\u773c）",
             "local_src": "/images/cat-breeds/siamese.jpg",
             "src": "/images/cat-breeds/siamese.jpg",
-            "alt": "海豹重點色暹羅貓"
+            "alt": "\u6d77\u8c79\u91cd\u9ede\u8272\u66b9\u7f85\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "海豹點全身與面罩",
+            "target_feature": "\u6d77\u8c79\u9ede\u5168\u8eab\u8207\u9762\u7f69",
             "local_src": "/images/cat-breeds/siamese-seal.jpg",
             "src": "/images/cat-breeds/siamese-seal.jpg",
-            "alt": "海豹點暹羅貓全身"
+            "alt": "\u6d77\u8c79\u9ede\u66b9\u7f85\u8c93\u5168\u8eab"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "藍眼杏仁眼特寫",
+            "target_feature": "\u85cd\u773c\u674f\u4ec1\u773c\u7279\u5beb",
             "local_src": "/images/cat-breeds/siamese-portrait.jpg",
             "src": "/images/cat-breeds/siamese-portrait.jpg",
-            "alt": "暹羅貓藍眼特寫"
+            "alt": "\u66b9\u7f85\u8c93\u85cd\u773c\u7279\u5beb"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "優雅坐姿暹羅",
+            "target_feature": "\u512a\u96c5\u5750\u59ff\u66b9\u7f85",
             "local_src": "/images/cat-breeds/siamese-blue.jpg",
             "src": "/images/cat-breeds/siamese-blue.jpg",
-            "alt": "坐姿暹羅貓"
+            "alt": "\u5750\u59ff\u66b9\u7f85\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "經典雌暹羅",
+            "target_feature": "\u7d93\u5178\u96cc\u66b9\u7f85",
             "local_src": "/images/cat-breeds/siamese-classic.jpg",
             "src": "/images/cat-breeds/siamese-classic.jpg",
-            "alt": "經典暹羅貓"
+            "alt": "\u7d93\u5178\u66b9\u7f85\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "巧克力重點色",
+            "target_feature": "\u5de7\u514b\u529b\u91cd\u9ede\u8272",
             "local_src": "/images/cat-breeds/siamese-chocolate.jpg",
             "src": "/images/cat-breeds/siamese-chocolate.jpg",
-            "alt": "巧克力點暹羅貓"
+            "alt": "\u5de7\u514b\u529b\u9ede\u66b9\u7f85\u8c93"
           }
         ]
       },
@@ -862,79 +862,79 @@
     {
       "breed_id": "bengal",
       "name_en": "Bengal",
-      "name_zh_hk": "孟加拉貓",
+      "name_zh_hk": "\u5b5f\u52a0\u62c9\u8c93",
       "aliases": [],
-      "origin_summary": "美國",
-      "lifespan": "12 - 16 歲",
-      "weight": "公 4.5–7.5 kg／母 3.5–5.5 kg",
-      "coat": "短毛",
-      "short_description": "玫瑰斑豹紋、精力充沛；需要廣闊活動與每日遊戲。",
-      "full_description": "擁有如野生豹子般奢華的玫瑰斑紋與金屬光澤短毛，個性卻可親可訓。牠們是運動型貓咪的極致代表，最適合能提供大量遊戲與垂直空間的活躍家庭。",
+      "origin_summary": "\u7f8e\u570b",
+      "lifespan": "12 - 16 \u6b72",
+      "weight": "\u516c 4.5–7.5 kg／\u6bcd 3.5–5.5 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u73ab\u7470\u6591\u8c79\u7d0b、\u7cbe\u529b\u5145\u6c9b；\u9700\u8981\u5ee3\u95ca\u6d3b\u52d5\u8207\u6bcf\u65e5\u904a\u6232。",
+      "full_description": "\u64c1\u6709\u5982\u91ce\u751f\u8c79\u5b50\u822c\u5962\u83ef\u7684\u73ab\u7470\u6591\u7d0b\u8207\u91d1\u5c6c\u5149\u6fa4\u77ed\u6bdb，\u500b\u6027\u537b\u53ef\u89aa\u53ef\u8a13。\u7260\u5011\u662f\u904b\u52d5\u578b\u8c93\u54aa\u7684\u6975\u81f4\u4ee3\u8868，\u6700\u9069\u5408\u80fd\u63d0\u4f9b\u5927\u91cf\u904a\u6232\u8207\u5782\u76f4\u7a7a\u9593\u7684\u6d3b\u8e8d\u5bb6\u5ead。",
       "personality": [
-        "精力無限，熱愛探索與攀爬",
-        "自信勇敢，許多個體喜歡玩水",
-        "聰明可訓練，適合跑輪與點擊訓練",
-        "需要足夠活動出口，否則易搗蛋"
+        "\u7cbe\u529b\u7121\u9650，\u71b1\u611b\u63a2\u7d22\u8207\u6500\u722c",
+        "\u81ea\u4fe1\u52c7\u6562，\u8a31\u591a\u500b\u9ad4\u559c\u6b61\u73a9\u6c34",
+        "\u8070\u660e\u53ef\u8a13\u7df4，\u9069\u5408\u8dd1\u8f2a\u8207\u9ede\u64ca\u8a13\u7df4",
+        "\u9700\u8981\u8db3\u5920\u6d3b\u52d5\u51fa\u53e3，\u5426\u5247\u6613\u6417\u86cb"
       ],
       "care_tips": [
-        "每天至少 30-45 分鐘高強度逗貓遊戲",
-        "設置高大貓樹與跑輪；可提供安全玩水機會",
-        "短毛每週梳 1 次；定期心臟與眼睛相關檢查"
+        "\u6bcf\u5929\u81f3\u5c11 30-45 \u5206\u9418\u9ad8\u5f37\u5ea6\u9017\u8c93\u904a\u6232",
+        "\u8a2d\u7f6e\u9ad8\u5927\u8c93\u6a39\u8207\u8dd1\u8f2a；\u53ef\u63d0\u4f9b\u5b89\u5168\u73a9\u6c34\u6a5f\u6703",
+        "\u77ed\u6bdb\u6bcf\u9031\u68b3 1 \u6b21；\u5b9a\u671f\u5fc3\u81df\u8207\u773c\u775b\u76f8\u95dc\u6aa2\u67e5"
       ],
       "nutrition_advice": [
-        "高動物蛋白支持發達肌肉",
-        "補充牛磺酸與關節營養",
-        "控制零食熱量，避免因精力旺盛後靜下來發胖"
+        "\u9ad8\u52d5\u7269\u86cb\u767d\u652f\u6301\u767c\u9054\u808c\u8089",
+        "\u88dc\u5145\u725b\u78fa\u9178\u8207\u95dc\u7bc0\u71df\u990a",
+        "\u63a7\u5236\u96f6\u98df\u71b1\u91cf，\u907f\u514d\u56e0\u7cbe\u529b\u65fa\u76db\u5f8c\u975c\u4e0b\u4f86\u767c\u80d6"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "bengal_hero",
-        "description": "金底玫瑰斑孟加拉",
+        "description": "\u91d1\u5e95\u73ab\u7470\u6591\u5b5f\u52a0\u62c9",
         "src": "/images/cat-breeds/bengal.jpg",
-        "alt": "孟加拉豹貓",
+        "alt": "\u5b5f\u52a0\u62c9\u8c79\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "金底玫瑰斑孟加拉",
+            "target_feature": "\u91d1\u5e95\u73ab\u7470\u6591\u5b5f\u52a0\u62c9",
             "local_src": "/images/cat-breeds/bengal.jpg",
             "src": "/images/cat-breeds/bengal.jpg",
-            "alt": "孟加拉豹貓"
+            "alt": "\u5b5f\u52a0\u62c9\u8c79\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "清晰玫瑰斑特寫",
+            "target_feature": "\u6e05\u6670\u73ab\u7470\u6591\u7279\u5beb",
             "local_src": "/images/cat-breeds/bengal-rosette.jpg",
             "src": "/images/cat-breeds/bengal-rosette.jpg",
-            "alt": "玫瑰斑孟加拉貓"
+            "alt": "\u73ab\u7470\u6591\u5b5f\u52a0\u62c9\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "點斑豹紋",
+            "target_feature": "\u9ede\u6591\u8c79\u7d0b",
             "local_src": "/images/cat-breeds/bengal-spots.jpg",
             "src": "/images/cat-breeds/bengal-spots.jpg",
-            "alt": "點斑孟加拉貓"
+            "alt": "\u9ede\u6591\u5b5f\u52a0\u62c9\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "肌肉發達運動姿態",
+            "target_feature": "\u808c\u8089\u767c\u9054\u904b\u52d5\u59ff\u614b",
             "local_src": "/images/cat-breeds/bengal-athletic.jpg",
             "src": "/images/cat-breeds/bengal-athletic.jpg",
-            "alt": "運動中的孟加拉貓"
+            "alt": "\u904b\u52d5\u4e2d\u7684\u5b5f\u52a0\u62c9\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "金色金屬光澤被毛",
+            "target_feature": "\u91d1\u8272\u91d1\u5c6c\u5149\u6fa4\u88ab\u6bdb",
             "local_src": "/images/cat-breeds/bengal-golden.jpg",
             "src": "/images/cat-breeds/bengal-golden.jpg",
-            "alt": "金色孟加拉貓"
+            "alt": "\u91d1\u8272\u5b5f\u52a0\u62c9\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "全身斑紋展示",
+            "target_feature": "\u5168\u8eab\u6591\u7d0b\u5c55\u793a",
             "local_src": "/images/cat-breeds/bengal-full.jpg",
             "src": "/images/cat-breeds/bengal-full.jpg",
-            "alt": "孟加拉貓全身照"
+            "alt": "\u5b5f\u52a0\u62c9\u8c93\u5168\u8eab\u7167"
           }
         ]
       },
@@ -944,79 +944,79 @@
     {
       "breed_id": "sphynx",
       "name_en": "Sphynx",
-      "name_zh_hk": "斯芬克斯無毛貓",
+      "name_zh_hk": "\u65af\u82ac\u514b\u65af\u7121\u6bdb\u8c93",
       "aliases": [],
-      "origin_summary": "加拿大",
-      "lifespan": "12 - 15 歲",
-      "weight": "公 3.5–5.5 kg／母 2.5–4.5 kg",
-      "coat": "無毛 / 極短絨毛",
-      "short_description": "熱情黏人、怕冷；需每週洗澡護膚與保暖。",
-      "full_description": "斯芬克斯看似外星生物，觸感卻像溫暖柔軟的桃子皮。牠們極度熱情黏人，被稱為「貓界小外星人」，適合能細心護膚保暖、並給予大量陪伴的飼主。",
+      "origin_summary": "\u52a0\u62ff\u5927",
+      "lifespan": "12 - 15 \u6b72",
+      "weight": "\u516c 3.5–5.5 kg／\u6bcd 2.5–4.5 kg",
+      "coat": "\u7121\u6bdb / \u6975\u77ed\u7d68\u6bdb",
+      "short_description": "\u71b1\u60c5\u9ecf\u4eba、\u6015\u51b7；\u9700\u6bcf\u9031\u6d17\u6fa1\u8b77\u819a\u8207\u4fdd\u6696。",
+      "full_description": "\u65af\u82ac\u514b\u65af\u770b\u4f3c\u5916\u661f\u751f\u7269，\u89f8\u611f\u537b\u50cf\u6eab\u6696\u67d4\u8edf\u7684\u6843\u5b50\u76ae。\u7260\u5011\u6975\u5ea6\u71b1\u60c5\u9ecf\u4eba，\u88ab\u7a31\u70ba「\u8c93\u754c\u5c0f\u5916\u661f\u4eba」，\u9069\u5408\u80fd\u7d30\u5fc3\u8b77\u819a\u4fdd\u6696、\u4e26\u7d66\u4e88\u5927\u91cf\u966a\u4f34\u7684\u98fc\u4e3b。",
       "personality": [
-        "熱情如火、極度黏人",
-        "友善好客，常主動迎接訪客",
-        "智商高、愛玩，需要陪伴",
-        "喜歡鑽被窩取暖、貼身睡眠"
+        "\u71b1\u60c5\u5982\u706b、\u6975\u5ea6\u9ecf\u4eba",
+        "\u53cb\u5584\u597d\u5ba2，\u5e38\u4e3b\u52d5\u8fce\u63a5\u8a2a\u5ba2",
+        "\u667a\u5546\u9ad8、\u611b\u73a9，\u9700\u8981\u966a\u4f34",
+        "\u559c\u6b61\u947d\u88ab\u7aa9\u53d6\u6696、\u8cbc\u8eab\u7761\u7720"
       ],
       "care_tips": [
-        "每週溫水洗澡去油脂；每日擦耳與趾間",
-        "冬天穿衣／暖床，夏天防曬，避免受涼與曬傷",
-        "建議定期心臟檢查（HCM）"
+        "\u6bcf\u9031\u6eab\u6c34\u6d17\u6fa1\u53bb\u6cb9\u8102；\u6bcf\u65e5\u64e6\u8033\u8207\u8dbe\u9593",
+        "\u51ac\u5929\u7a7f\u8863／\u6696\u5e8a，\u590f\u5929\u9632\u66ec，\u907f\u514d\u53d7\u6dbc\u8207\u66ec\u50b7",
+        "\u5efa\u8b70\u5b9a\u671f\u5fc3\u81df\u6aa2\u67e5（HCM）"
       ],
       "nutrition_advice": [
-        "代謝高，需較高熱量優質飲食維持體溫",
-        "補充 Omega-3/6 與維生素 B 群強化皮膚屏障",
-        "高消化率配方，留意體態與皮脂平衡"
+        "\u4ee3\u8b1d\u9ad8，\u9700\u8f03\u9ad8\u71b1\u91cf\u512a\u8cea\u98f2\u98df\u7dad\u6301\u9ad4\u6eab",
+        "\u88dc\u5145 Omega-3/6 \u8207\u7dad\u751f\u7d20 B \u7fa4\u5f37\u5316\u76ae\u819a\u5c4f\u969c",
+        "\u9ad8\u6d88\u5316\u7387\u914d\u65b9，\u7559\u610f\u9ad4\u614b\u8207\u76ae\u8102\u5e73\u8861"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "sphynx_hero",
-        "description": "經典皺皮膚無毛貓",
+        "description": "\u7d93\u5178\u76ba\u76ae\u819a\u7121\u6bdb\u8c93",
         "src": "/images/cat-breeds/sphynx.jpg",
-        "alt": "斯芬克斯無毛貓",
+        "alt": "\u65af\u82ac\u514b\u65af\u7121\u6bdb\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "經典皺皮膚無毛貓",
+            "target_feature": "\u7d93\u5178\u76ba\u76ae\u819a\u7121\u6bdb\u8c93",
             "local_src": "/images/cat-breeds/sphynx.jpg",
             "src": "/images/cat-breeds/sphynx.jpg",
-            "alt": "斯芬克斯無毛貓"
+            "alt": "\u65af\u82ac\u514b\u65af\u7121\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "三花色塊皮膚",
+            "target_feature": "\u4e09\u82b1\u8272\u584a\u76ae\u819a",
             "local_src": "/images/cat-breeds/sphynx-calico.jpg",
             "src": "/images/cat-breeds/sphynx-calico.jpg",
-            "alt": "三花斯芬克斯"
+            "alt": "\u4e09\u82b1\u65af\u82ac\u514b\u65af"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "燕尾服色塊全身",
+            "target_feature": "\u71d5\u5c3e\u670d\u8272\u584a\u5168\u8eab",
             "local_src": "/images/cat-breeds/sphynx-tuxedo.jpg",
             "src": "/images/cat-breeds/sphynx-tuxedo.jpg",
-            "alt": "燕尾服色斯芬克斯"
+            "alt": "\u71d5\u5c3e\u670d\u8272\u65af\u82ac\u514b\u65af"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "大耳藍眼特寫",
+            "target_feature": "\u5927\u8033\u85cd\u773c\u7279\u5beb",
             "local_src": "/images/cat-breeds/sphynx-portrait.jpg",
             "src": "/images/cat-breeds/sphynx-portrait.jpg",
-            "alt": "斯芬克斯臉部特寫"
+            "alt": "\u65af\u82ac\u514b\u65af\u81c9\u90e8\u7279\u5beb"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "無毛幼貓",
+            "target_feature": "\u7121\u6bdb\u5e7c\u8c93",
             "local_src": "/images/cat-breeds/sphynx-kitten.jpg",
             "src": "/images/cat-breeds/sphynx-kitten.jpg",
-            "alt": "斯芬克斯幼貓"
+            "alt": "\u65af\u82ac\u514b\u65af\u5e7c\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "頸部皺褶側臉",
+            "target_feature": "\u9838\u90e8\u76ba\u8936\u5074\u81c9",
             "local_src": "/images/cat-breeds/sphynx-profile.jpg",
             "src": "/images/cat-breeds/sphynx-profile.jpg",
-            "alt": "斯芬克斯側臉"
+            "alt": "\u65af\u82ac\u514b\u65af\u5074\u81c9"
           }
         ]
       },
@@ -1026,79 +1026,79 @@
     {
       "breed_id": "devon_rex",
       "name_en": "Devon Rex",
-      "name_zh_hk": "德文卷毛貓",
+      "name_zh_hk": "\u5fb7\u6587\u5377\u6bdb\u8c93",
       "aliases": [],
-      "origin_summary": "英國（德文郡）",
-      "lifespan": "12 - 15 歲",
-      "weight": "公 3.0–4.5 kg／母 2.5–3.5 kg",
-      "coat": "短卷毛",
-      "short_description": "小精靈大耳卷毛、掉毛少；極適合都市公寓。",
-      "full_description": "擁有大耳朵、大眼睛與可愛波浪卷毛的德文卷毛貓，宛如童話小精靈。掉毛極少、性格活潑幽默，是室內都市生活絕佳的開心果。",
+      "origin_summary": "\u82f1\u570b（\u5fb7\u6587\u90e1）",
+      "lifespan": "12 - 15 \u6b72",
+      "weight": "\u516c 3.0–4.5 kg／\u6bcd 2.5–3.5 kg",
+      "coat": "\u77ed\u5377\u6bdb",
+      "short_description": "\u5c0f\u7cbe\u9748\u5927\u8033\u5377\u6bdb、\u6389\u6bdb\u5c11；\u6975\u9069\u5408\u90fd\u5e02\u516c\u5bd3。",
+      "full_description": "\u64c1\u6709\u5927\u8033\u6735、\u5927\u773c\u775b\u8207\u53ef\u611b\u6ce2\u6d6a\u5377\u6bdb\u7684\u5fb7\u6587\u5377\u6bdb\u8c93，\u5b9b\u5982\u7ae5\u8a71\u5c0f\u7cbe\u9748。\u6389\u6bdb\u6975\u5c11、\u6027\u683c\u6d3b\u6f51\u5e7d\u9ed8，\u662f\u5ba4\u5167\u90fd\u5e02\u751f\u6d3b\u7d55\u4f73\u7684\u958b\u5fc3\u679c。",
       "personality": [
-        "像小精靈：調皮活潑、喜感十足",
-        "極親人類，常跳上肩膀陪伴",
-        "聰明愛玩，適合互動玩具",
-        "掉毛少，適合在意貓毛的家庭"
+        "\u50cf\u5c0f\u7cbe\u9748：\u8abf\u76ae\u6d3b\u6f51、\u559c\u611f\u5341\u8db3",
+        "\u6975\u89aa\u4eba\u985e，\u5e38\u8df3\u4e0a\u80a9\u8180\u966a\u4f34",
+        "\u8070\u660e\u611b\u73a9，\u9069\u5408\u4e92\u52d5\u73a9\u5177",
+        "\u6389\u6bdb\u5c11，\u9069\u5408\u5728\u610f\u8c93\u6bdb\u7684\u5bb6\u5ead"
       ],
       "care_tips": [
-        "卷毛幾乎不掉，偶爾濕布擦拭即可，避免過度梳刷",
-        "大耳需定期檢查耳道；毛薄怕冷，提供暖處",
-        "室內飼養並給予足夠遊戲與陪伴"
+        "\u5377\u6bdb\u5e7e\u4e4e\u4e0d\u6389，\u5076\u723e\u6fd5\u5e03\u64e6\u62ed\u5373\u53ef，\u907f\u514d\u904e\u5ea6\u68b3\u5237",
+        "\u5927\u8033\u9700\u5b9a\u671f\u6aa2\u67e5\u8033\u9053；\u6bdb\u8584\u6015\u51b7，\u63d0\u4f9b\u6696\u8655",
+        "\u5ba4\u5167\u98fc\u990a\u4e26\u7d66\u4e88\u8db3\u5920\u904a\u6232\u8207\u966a\u4f34"
       ],
       "nutrition_advice": [
-        "高品質蛋白維持輕巧肌肉",
-        "適量鋅與生物素有助卷毛狀態",
-        "可搭配主食罐滿足好奇味蕾"
+        "\u9ad8\u54c1\u8cea\u86cb\u767d\u7dad\u6301\u8f15\u5de7\u808c\u8089",
+        "\u9069\u91cf\u92c5\u8207\u751f\u7269\u7d20\u6709\u52a9\u5377\u6bdb\u72c0\u614b",
+        "\u53ef\u642d\u914d\u4e3b\u98df\u7f50\u6eff\u8db3\u597d\u5947\u5473\u857e"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "devon_rex_hero",
-        "description": "藍色德文卷毛全身（大耳）",
+        "description": "\u85cd\u8272\u5fb7\u6587\u5377\u6bdb\u5168\u8eab（\u5927\u8033）",
         "src": "/images/cat-breeds/devon-rex.jpg",
-        "alt": "德文卷毛貓",
+        "alt": "\u5fb7\u6587\u5377\u6bdb\u8c93",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "藍色德文卷毛全身（大耳）",
+            "target_feature": "\u85cd\u8272\u5fb7\u6587\u5377\u6bdb\u5168\u8eab（\u5927\u8033）",
             "local_src": "/images/cat-breeds/devon-rex.jpg",
             "src": "/images/cat-breeds/devon-rex.jpg",
-            "alt": "德文卷毛貓"
+            "alt": "\u5fb7\u6587\u5377\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "黑白雙色德文",
+            "target_feature": "\u9ed1\u767d\u96d9\u8272\u5fb7\u6587",
             "local_src": "/images/cat-breeds/devon-rex-bicolor.jpg",
             "src": "/images/cat-breeds/devon-rex-bicolor.jpg",
-            "alt": "雙色德文卷毛貓"
+            "alt": "\u96d9\u8272\u5fb7\u6587\u5377\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "波浪卷毛近距離",
+            "target_feature": "\u6ce2\u6d6a\u5377\u6bdb\u8fd1\u8ddd\u96e2",
             "local_src": "/images/cat-breeds/devon-rex-coat.jpg",
             "src": "/images/cat-breeds/devon-rex-coat.jpg",
-            "alt": "德文卷毛特寫"
+            "alt": "\u5fb7\u6587\u5377\u6bdb\u7279\u5beb"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "奶油重點色",
+            "target_feature": "\u5976\u6cb9\u91cd\u9ede\u8272",
             "local_src": "/images/cat-breeds/devon-rex-cream.jpg",
             "src": "/images/cat-breeds/devon-rex-cream.jpg",
-            "alt": "奶油點德文卷毛貓"
+            "alt": "\u5976\u6cb9\u9ede\u5fb7\u6587\u5377\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "戶外卷毛細節",
+            "target_feature": "\u6236\u5916\u5377\u6bdb\u7d30\u7bc0",
             "local_src": "/images/cat-breeds/devon-rex-outdoor.jpg",
             "src": "/images/cat-breeds/devon-rex-outdoor.jpg",
-            "alt": "戶外德文卷毛貓"
+            "alt": "\u6236\u5916\u5fb7\u6587\u5377\u6bdb\u8c93"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "丁香重點色棚拍",
+            "target_feature": "\u4e01\u9999\u91cd\u9ede\u8272\u68da\u62cd",
             "local_src": "/images/cat-breeds/devon-rex-lilac.jpg",
             "src": "/images/cat-breeds/devon-rex-lilac.jpg",
-            "alt": "丁香點德文卷毛貓"
+            "alt": "\u4e01\u9999\u9ede\u5fb7\u6587\u5377\u6bdb\u8c93"
           }
         ]
       },
@@ -1108,79 +1108,79 @@
     {
       "breed_id": "mix_shorthair",
       "name_en": "Domestic Shorthair (Mix)",
-      "name_zh_hk": "唐貓 / 港短 (米克斯)",
+      "name_zh_hk": "\u5510\u8c93 / \u6e2f\u77ed (\u7c73\u514b\u65af)",
       "aliases": [],
-      "origin_summary": "香港／亞洲地區",
-      "lifespan": "15 - 20 歲",
-      "weight": "公 3.5–6.5 kg／母 2.5–5.0 kg",
-      "coat": "短毛",
-      "short_description": "花色多元、體質強健；香港最普遍的溫暖陪伴者。",
-      "full_description": "唐貓（米克斯／港短）包含虎斑、橘貓、黑貓、燕尾服與三花等豐富花色。牠們擁有極高智商與強健體質，是香港家庭中最受歡迎、最溫暖的靈魂伴侶。",
+      "origin_summary": "\u9999\u6e2f／\u4e9e\u6d32\u5730\u5340",
+      "lifespan": "15 - 20 \u6b72",
+      "weight": "\u516c 3.5–6.5 kg／\u6bcd 2.5–5.0 kg",
+      "coat": "\u77ed\u6bdb",
+      "short_description": "\u82b1\u8272\u591a\u5143、\u9ad4\u8cea\u5f37\u5065；\u9999\u6e2f\u6700\u666e\u904d\u7684\u6eab\u6696\u966a\u4f34\u8005。",
+      "full_description": "\u5510\u8c93（\u7c73\u514b\u65af／\u6e2f\u77ed）\u5305\u542b\u864e\u6591、\u6a58\u8c93、\u9ed1\u8c93、\u71d5\u5c3e\u670d\u8207\u4e09\u82b1\u7b49\u8c50\u5bcc\u82b1\u8272。\u7260\u5011\u64c1\u6709\u6975\u9ad8\u667a\u5546\u8207\u5f37\u5065\u9ad4\u8cea，\u662f\u9999\u6e2f\u5bb6\u5ead\u4e2d\u6700\u53d7\u6b61\u8fce、\u6700\u6eab\u6696\u7684\u9748\u9b42\u4f34\u4fb6。",
       "personality": [
-        "每隻個性獨一無二",
-        "聰明機靈、適應力極強",
-        "混種基因常帶來較佳整體健康",
-        "領養唐貓意義特別溫暖"
+        "\u6bcf\u96bb\u500b\u6027\u7368\u4e00\u7121\u4e8c",
+        "\u8070\u660e\u6a5f\u9748、\u9069\u61c9\u529b\u6975\u5f37",
+        "\u6df7\u7a2e\u57fa\u56e0\u5e38\u5e36\u4f86\u8f03\u4f73\u6574\u9ad4\u5065\u5eb7",
+        "\u9818\u990a\u5510\u8c93\u610f\u7fa9\u7279\u5225\u6eab\u6696"
       ],
       "care_tips": [
-        "短毛每週梳 1 次；室內飼養最安全",
-        "定期疫苗、驅蟲、絕育與健康檢查",
-        "提供跳台、窗景與日常互動建立信任"
+        "\u77ed\u6bdb\u6bcf\u9031\u68b3 1 \u6b21；\u5ba4\u5167\u98fc\u990a\u6700\u5b89\u5168",
+        "\u5b9a\u671f\u75ab\u82d7、\u9a45\u87f2、\u7d55\u80b2\u8207\u5065\u5eb7\u6aa2\u67e5",
+        "\u63d0\u4f9b\u8df3\u53f0、\u7a97\u666f\u8207\u65e5\u5e38\u4e92\u52d5\u5efa\u7acb\u4fe1\u4efb"
       ],
       "nutrition_advice": [
-        "均衡全價主食即可；多濕糧補水護泌尿",
-        "成貓定時定量，預防肥胖",
-        "可搭配益生菌維持腸道穩定"
+        "\u5747\u8861\u5168\u50f9\u4e3b\u98df\u5373\u53ef；\u591a\u6fd5\u7ce7\u88dc\u6c34\u8b77\u6ccc\u5c3f",
+        "\u6210\u8c93\u5b9a\u6642\u5b9a\u91cf，\u9810\u9632\u80a5\u80d6",
+        "\u53ef\u642d\u914d\u76ca\u751f\u83cc\u7dad\u6301\u8178\u9053\u7a69\u5b9a"
       ],
       "media_assets": {
         "status": "localized_gallery_sync",
         "local_path_pattern": "/images/cat-breeds/*.jpg",
         "tag": "mix_shorthair_hero",
-        "description": "經典虎斑唐貓",
+        "description": "\u7d93\u5178\u864e\u6591\u5510\u8c93",
         "src": "/images/cat-breeds/mix-shorthair.jpg",
-        "alt": "虎斑唐貓／港短",
+        "alt": "\u864e\u6591\u5510\u8c93／\u6e2f\u77ed",
         "gallery_images": [
           {
             "tag": "hero_main",
-            "target_feature": "經典虎斑唐貓",
+            "target_feature": "\u7d93\u5178\u864e\u6591\u5510\u8c93",
             "local_src": "/images/cat-breeds/mix-shorthair.jpg",
             "src": "/images/cat-breeds/mix-shorthair.jpg",
-            "alt": "虎斑唐貓／港短"
+            "alt": "\u864e\u6591\u5510\u8c93／\u6e2f\u77ed"
           },
           {
             "tag": "gallery_item_1",
-            "target_feature": "黑白燕尾服米克斯",
+            "target_feature": "\u9ed1\u767d\u71d5\u5c3e\u670d\u7c73\u514b\u65af",
             "local_src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
             "src": "/images/cat-breeds/mix-shorthair-tuxedo.jpg",
-            "alt": "燕尾服唐貓"
+            "alt": "\u71d5\u5c3e\u670d\u5510\u8c93"
           },
           {
             "tag": "gallery_item_2",
-            "target_feature": "開朗橘貓",
+            "target_feature": "\u958b\u6717\u6a58\u8c93",
             "local_src": "/images/cat-breeds/mix-shorthair-orange.jpg",
             "src": "/images/cat-breeds/mix-shorthair-orange.jpg",
-            "alt": "橘色唐貓"
+            "alt": "\u6a58\u8272\u5510\u8c93"
           },
           {
             "tag": "gallery_item_3",
-            "target_feature": "家貓臉部特寫",
+            "target_feature": "\u5bb6\u8c93\u81c9\u90e8\u7279\u5beb",
             "local_src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
             "src": "/images/cat-breeds/mix-shorthair-portrait.jpg",
-            "alt": "唐貓特寫"
+            "alt": "\u5510\u8c93\u7279\u5beb"
           },
           {
             "tag": "gallery_item_4",
-            "target_feature": "虎斑日常居家",
+            "target_feature": "\u864e\u6591\u65e5\u5e38\u5c45\u5bb6",
             "local_src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
             "src": "/images/cat-breeds/mix-shorthair-tabby.jpg",
-            "alt": "虎斑港短日常"
+            "alt": "\u864e\u6591\u6e2f\u77ed\u65e5\u5e38"
           },
           {
             "tag": "gallery_item_5",
-            "target_feature": "帥氣黑貓",
+            "target_feature": "\u5e25\u6c23\u9ed1\u8c93",
             "local_src": "/images/cat-breeds/mix-shorthair-black.jpg",
             "src": "/images/cat-breeds/mix-shorthair-black.jpg",
-            "alt": "黑色唐貓"
+            "alt": "\u9ed1\u8272\u5510\u8c93"
           }
         ]
       },

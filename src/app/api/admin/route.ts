@@ -20,7 +20,7 @@ const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stri
 const PRODUCT_COSTS_SETTING_KEY = "admin_product_costs";
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 4;
-const PRODUCT_PUBLISH_FIELDS = ["中文品名", "英文品名", "中文詳細敘述", "英文詳細敘述", "有效售價", "庫存（需大於 0）", "圖片 URL"];
+const PRODUCT_PUBLISH_FIELDS = ["\u4e2d\u6587\u54c1\u540d", "\u82f1\u6587\u54c1\u540d", "\u4e2d\u6587\u8a73\u7d30\u6558\u8ff0", "\u82f1\u6587\u8a73\u7d30\u6558\u8ff0", "\u6709\u6548\u552e\u50f9", "\u5eab\u5b58（\u9700\u5927\u65bc 0）", "\u5716\u7247 URL"];
 
 type ProductCost = { cost_jpy: number; shipping_hkd: number; markup_multiplier: number; exchange_rate: number };
 
@@ -83,25 +83,25 @@ type BannerPayload = {
 
 function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error?: string } {
   if (!Array.isArray(value)) return { banners: [], error: "invalid_banners" };
-  if (value.length > MAX_BANNERS) return { banners: [], error: `最多只可儲存 ${MAX_BANNERS} 組 Banner` };
+  if (value.length > MAX_BANNERS) return { banners: [], error: `\u6700\u591a\u53ea\u53ef\u5132\u5b58 ${MAX_BANNERS} \u7d44 Banner` };
 
   const banners: BannerPayload[] = [];
   const usedSortOrders = new Set<number>();
   for (const [index, valueAtIndex] of value.entries()) {
     if (!valueAtIndex || typeof valueAtIndex !== "object" || Array.isArray(valueAtIndex)) {
-      return { banners: [], error: `第 ${index + 1} 組 Banner 格式不正確` };
+      return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u683c\u5f0f\u4e0d\u6b63\u78ba` };
     }
 
     const row = valueAtIndex as Record<string, unknown>;
     const imageUrl = typeof row.image_url === "string" ? row.image_url.trim() : "";
-    if (!imageUrl) return { banners: [], error: `第 ${index + 1} 組 Banner 必須提供桌面版圖片` };
+    if (!imageUrl) return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u5fc5\u9808\u63d0\u4f9b\u684c\u9762\u7248\u5716\u7247` };
 
     const sortOrder = Number(row.sort_order);
     if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) {
-      return { banners: [], error: `第 ${index + 1} 組 Banner 的排序必須是 0 或以上的整數` };
+      return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u7684\u6392\u5e8f\u5fc5\u9808\u662f 0 \u6216\u4ee5\u4e0a\u7684\u6574\u6578` };
     }
     if (usedSortOrders.has(sortOrder)) {
-      return { banners: [], error: `Banner 排序不可重複（第 ${index + 1} 組）` };
+      return { banners: [], error: `Banner \u6392\u5e8f\u4e0d\u53ef\u91cd\u8907（\u7b2c ${index + 1} \u7d44）` };
     }
     usedSortOrders.add(sortOrder);
     banners.push({
@@ -118,13 +118,13 @@ function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error
 
 function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]; error?: string } {
   if (!Array.isArray(value)) return { pets: [], error: "invalid_featured_pets" };
-  if (value.length > MAX_FEATURED_PETS) return { pets: [], error: `最多只可儲存 ${MAX_FEATURED_PETS} 個精選寵物內容槽` };
+  if (value.length > MAX_FEATURED_PETS) return { pets: [], error: `\u6700\u591a\u53ea\u53ef\u5132\u5b58 ${MAX_FEATURED_PETS} \u500b\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9\u69fd` };
 
   const pets: FeaturedPetPayload[] = [];
   const usedSortOrders = new Set<number>();
   for (const [index, valueAtIndex] of value.entries()) {
     if (!valueAtIndex || typeof valueAtIndex !== "object" || Array.isArray(valueAtIndex)) {
-      return { pets: [], error: `第 ${index + 1} 個內容槽格式不正確` };
+      return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u683c\u5f0f\u4e0d\u6b63\u78ba` };
     }
 
     const row = valueAtIndex as Record<string, unknown>;
@@ -136,14 +136,14 @@ function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]
     const link = typeof row.link === "string" ? row.link.trim() : "";
     const sortOrder = Number(row.sort_order);
 
-    if (!/^https?:\/\//i.test(imageUrl)) return { pets: [], error: `第 ${index + 1} 個內容槽必須提供有效圖片網址` };
-    if (!title) return { pets: [], error: `第 ${index + 1} 個內容槽必須填寫標題` };
-    if (!description) return { pets: [], error: `第 ${index + 1} 個內容槽必須填寫詳細描述` };
+    if (!/^https?:\/\//i.test(imageUrl)) return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u5fc5\u9808\u63d0\u4f9b\u6709\u6548\u5716\u7247\u7db2\u5740` };
+    if (!title) return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u5fc5\u9808\u586b\u5beb\u6a19\u984c` };
+    if (!description) return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u5fc5\u9808\u586b\u5beb\u8a73\u7d30\u63cf\u8ff0` };
     if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) {
-      return { pets: [], error: `第 ${index + 1} 個內容槽的排序必須是 0 或以上的整數` };
+      return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u7684\u6392\u5e8f\u5fc5\u9808\u662f 0 \u6216\u4ee5\u4e0a\u7684\u6574\u6578` };
     }
-    if (usedSortOrders.has(sortOrder)) return { pets: [], error: `精選寵物排序不可重複（第 ${index + 1} 個內容槽）` };
-    if (link && !isFeaturedPetLink(link)) return { pets: [], error: `第 ${index + 1} 個內容槽的連結必須以 /、http:// 或 https:// 開頭` };
+    if (usedSortOrders.has(sortOrder)) return { pets: [], error: `\u7cbe\u9078\u5bf5\u7269\u6392\u5e8f\u4e0d\u53ef\u91cd\u8907（\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd）` };
+    if (link && !isFeaturedPetLink(link)) return { pets: [], error: `\u7b2c ${index + 1} \u500b\u5167\u5bb9\u69fd\u7684\u9023\u7d50\u5fc5\u9808\u4ee5 /、http:// \u6216 https:// \u958b\u982d` };
 
     usedSortOrders.add(sortOrder);
     pets.push({
@@ -279,7 +279,7 @@ async function validateProductForPublishing(
   let existing: Record<string, unknown> = {};
   if (id) {
     const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
-    if (error) throw new Error(`讀取產品發布資料失敗：${error.message}`);
+    if (error) throw new Error(`\u8b80\u53d6\u7522\u54c1\u767c\u5e03\u8cc7\u6599\u5931\u6557：${error.message}`);
     existing = data || {};
   }
   const candidate = { ...existing, ...payload };
@@ -288,16 +288,16 @@ async function validateProductForPublishing(
     let duplicateQuery = supabase.from("products").select("id,name,mofu_sku").eq("mofu_sku", sku).limit(10);
     if (id) duplicateQuery = duplicateQuery.neq("id", id);
     const { data: duplicates, error: duplicateError } = await duplicateQuery;
-    if (duplicateError) throw new Error(`檢查 SKU 是否重複時發生錯誤：${duplicateError.message}`);
+    if (duplicateError) throw new Error(`\u6aa2\u67e5 SKU \u662f\u5426\u91cd\u8907\u6642\u767c\u751f\u932f\u8aa4：${duplicateError.message}`);
     if (duplicates && duplicates.length > 0) {
       const names = duplicates.map((row) => String(row.name || row.id)).join("、");
-      throw new Error(`SKU「${sku}」已存在，與以下產品重複：${names}。請改用唯一 SKU 後再上架。`);
+      throw new Error(`SKU「${sku}」\u5df2\u5b58\u5728，\u8207\u4ee5\u4e0b\u7522\u54c1\u91cd\u8907：${names}。\u8acb\u6539\u7528\u552f\u4e00 SKU \u5f8c\u518d\u4e0a\u67b6。`);
     }
   }
   let localized: Record<string, unknown> = {};
   if (id) {
     const { data, error } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY).maybeSingle();
-    if (error) throw new Error(`讀取產品英文內容失敗：${error.message}`);
+    if (error) throw new Error(`\u8b80\u53d6\u7522\u54c1\u82f1\u6587\u5167\u5bb9\u5931\u6557：${error.message}`);
     localized = parseProductLocalizations(data?.value)[id] || {};
   }
   const submittedImages = normalizeProductImages(candidate.images);
@@ -310,7 +310,7 @@ async function validateProductForPublishing(
   if (!Number.isFinite(Number(candidate.price ?? existing.price)) || Number(candidate.price ?? existing.price) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[4]);
   if (!Number.isFinite(Number(candidate.stock ?? existing.stock)) || Number(candidate.stock ?? existing.stock) <= 0) missing.push(PRODUCT_PUBLISH_FIELDS[5]);
   if (!images.some(isValidImageUrl)) missing.push(PRODUCT_PUBLISH_FIELDS[6]);
-  if (missing.length) throw new Error(`產品未能上架，請先補齊：${missing.join("、")}`);
+  if (missing.length) throw new Error(`\u7522\u54c1\u672a\u80fd\u4e0a\u67b6，\u8acb\u5148\u88dc\u9f4a：${missing.join("、")}`);
 }
 
 export async function GET(request: Request) {
@@ -402,7 +402,7 @@ export async function POST(request: Request) {
     if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
 
     const { data, error } = await replaceFeaturedPets(supabase, pets);
-    if (error) return NextResponse.json({ error: `精選寵物內容儲存失敗：${error.message}` }, { status: 500 });
+    if (error) return NextResponse.json({ error: `\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9\u5132\u5b58\u5931\u6557：${error.message}` }, { status: 500 });
     return NextResponse.json({ data, count: pets.length });
   }
 
@@ -411,23 +411,23 @@ export async function POST(request: Request) {
     if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
 
     const { data, error } = await replaceBanners(supabase, banners);
-    if (error) return NextResponse.json({ error: `Banner 儲存失敗：${error.message}` }, { status: 500 });
+    if (error) return NextResponse.json({ error: `Banner \u5132\u5b58\u5931\u6557：${error.message}` }, { status: 500 });
     return NextResponse.json({ data, count: data?.length || 0 });
   }
 
   if (body.action === "set_banner_autoplay") {
-    if (typeof body.enabled !== "boolean") return NextResponse.json({ error: "banner_autoplay_enabled 必須是布林值" }, { status: 400 });
+    if (typeof body.enabled !== "boolean") return NextResponse.json({ error: "banner_autoplay_enabled \u5fc5\u9808\u662f\u5e03\u6797\u503c" }, { status: 400 });
     const { data, error } = await supabase.from("store_settings").upsert({
       key: "banner_autoplay_enabled",
       value: body.enabled ? "true" : "false",
       updated_at: new Date().toISOString(),
     }, { onConflict: "key" }).select("key,value,updated_at").single();
-    if (error) return NextResponse.json({ error: `Banner 輪播設定儲存失敗：${error.message}` }, { status: 500 });
+    if (error) return NextResponse.json({ error: `Banner \u8f2a\u64ad\u8a2d\u5b9a\u5132\u5b58\u5931\u6557：${error.message}` }, { status: 500 });
     return NextResponse.json({ data, enabled: body.enabled });
   }
 
   const table = String(body.table || ""); if (!tables.has(table)) return NextResponse.json({ error: "invalid_table" }, { status: 400 });
-  if (table === "banners") return NextResponse.json({ error: "請使用四格 Banner 批量儲存功能。" }, { status: 400 });
+  if (table === "banners") return NextResponse.json({ error: "\u8acb\u4f7f\u7528\u56db\u683c Banner \u6279\u91cf\u5132\u5b58\u529f\u80fd。" }, { status: 400 });
   const payload = { ...(body.row || {}) }; delete payload.id; delete payload.created_at; delete payload.updated_at;
   const productCost = table === "products" ? normalizeProductCost(payload) : null;
   if (table === "products") {
@@ -444,7 +444,7 @@ export async function POST(request: Request) {
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, null, payload); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
   }
   if (table === "products" && "name_en" in payload) delete payload.name_en;
   if (table === "products" && "description_en" in payload) delete payload.description_en;
@@ -460,7 +460,7 @@ export async function POST(request: Request) {
   }
   if (table === "products") {
     const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
-    if (costError) return NextResponse.json({ error: `成本資料儲存失敗：${costError.message}` }, { status: 500 });
+    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
   }
 
   return NextResponse.json({ data });
@@ -487,7 +487,7 @@ export async function PATCH(request: Request) {
   if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, id, payload); }
-    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "產品資料不完整，無法上架" }, { status: 422 }); }
+    catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
   }
   if (table === "products" && "name_en" in payload) delete payload.name_en;
   if (table === "products" && "description_en" in payload) delete payload.description_en;
@@ -504,7 +504,7 @@ export async function PATCH(request: Request) {
   }
   if (table === "products") {
     const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
-    if (costError) return NextResponse.json({ error: `成本資料儲存失敗：${costError.message}` }, { status: 500 });
+    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
   }
   return NextResponse.json({ data });
 }

@@ -104,10 +104,10 @@ export function paymentLabelFromIntent(
   // or custom PaymentMethod payload that returns the type by name.
   if (paymentType === "payme") return "PayMe";
   if (paymentMethod?.type === "alipay") {
-    return "Alipay（內地版）";
+    return "Alipay（\u5167\u5730\u7248）";
   }
   if (paymentMethod?.type === "card") {
-    return "信用卡／全球支付 (Stripe)";
+    return "\u4fe1\u7528\u5361／\u5168\u7403\u652f\u4ed8 (Stripe)";
   }
   if (intent.metadata?.paymentLabel) {
     return intent.metadata.paymentLabel;

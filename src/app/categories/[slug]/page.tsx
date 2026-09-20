@@ -36,13 +36,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const ingredientFilter = categorySlug === "dogs"
     ? (ingredient && DOG_INGREDIENTS.has(ingredient) ? ingredient : "chicken")
     : null;
-  const categoryName = categorySlug === "dogs" ? "狗狗專區" : categorySlug === "cats" ? "貓咪專區" : categorySlug === "supplies" ? "寵物用品" : "寵物商品分類";
+  const categoryName = categorySlug === "dogs" ? "\u72d7\u72d7\u5c08\u5340" : categorySlug === "cats" ? "\u8c93\u54aa\u5c08\u5340" : categorySlug === "supplies" ? "\u5bf5\u7269\u7528\u54c1" : "\u5bf5\u7269\u5546\u54c1\u5206\u985e";
   return <>
     <JsonLd data={{
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "首頁", item: "https://mofuhavenhk.com/" },
+        { "@type": "ListItem", position: 1, name: "\u9996\u9801", item: "https://mofuhavenhk.com/" },
         { "@type": "ListItem", position: 2, name: categoryName, item: `https://mofuhavenhk.com/categories/${categorySlug}` },
       ],
     }} />

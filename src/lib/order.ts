@@ -118,8 +118,8 @@ export function isPetBundleProduct(product: Product): boolean {
   ].filter(Boolean).join(" ").toLowerCase();
 
   if (product.categorySlug === "cats" || product.categorySlug === "dogs") return true;
-  if (/(supplies|lifestyle|用品|collar|harness|leash|牽引|項圈|胸背|玩具|睡窩|清潔|護理)/i.test(text)) return false;
-  return /(food|treat|snack|零食|小食|食品|食物|罐頭|乾糧|濕糧|肉乾|肉條|肉片|肉棒|肉鬆|魚介|seafood|鮮肉|原肉)/i.test(text);
+  if (/(supplies|lifestyle|\u7528\u54c1|collar|harness|leash|\u727d\u5f15|\u9805\u5708|\u80f8\u80cc|\u73a9\u5177|\u7761\u7aa9|\u6e05\u6f54|\u8b77\u7406)/i.test(text)) return false;
+  return /(food|treat|snack|\u96f6\u98df|\u5c0f\u98df|\u98df\u54c1|\u98df\u7269|\u7f50\u982d|\u4e7e\u7ce7|\u6fd5\u7ce7|\u8089\u4e7e|\u8089\u689d|\u8089\u7247|\u8089\u68d2|\u8089\u9b06|\u9b5a\u4ecb|seafood|\u9bae\u8089|\u539f\u8089)/i.test(text);
 }
 
 export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 | 10 | 15 {

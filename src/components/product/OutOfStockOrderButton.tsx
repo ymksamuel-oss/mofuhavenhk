@@ -21,13 +21,13 @@ export function OutOfStockOrderButton({
   className = "",
 }: OutOfStockOrderButtonProps) {
   const { locale, t } = useI18n();
-  const name = (locale === "en" ? productName.en : productName.zh) || productName.en || productName.zh || "商品";
+  const name = (locale === "en" ? productName.en : productName.zh) || productName.en || productName.zh || "\u5546\u54c1";
   const storeSku = mofuSku?.trim();
   const identifier = storeSku
     ? `${t("productSkuLabel")}: ${storeSku}`
     : `${t("productIdLabel")}: ${productId}`;
   const enquiryMessage = locale === "zh"
-    ? `你好，我想查詢以下暫時缺貨商品的訂貨安排：\n\n商品：${name}\n${identifier}\n\n請問預計補貨／代訂時間及訂購方式？謝謝。`
+    ? `\u4f60\u597d，\u6211\u60f3\u67e5\u8a62\u4ee5\u4e0b\u66ab\u6642\u7f3a\u8ca8\u5546\u54c1\u7684\u8a02\u8ca8\u5b89\u6392：\n\n\u5546\u54c1：${name}\n${identifier}\n\n\u8acb\u554f\u9810\u8a08\u88dc\u8ca8／\u4ee3\u8a02\u6642\u9593\u53ca\u8a02\u8cfc\u65b9\u5f0f？\u8b1d\u8b1d。`
     : `Hello, I would like to enquire about ordering this temporarily out-of-stock product:\n\nProduct: ${name}\n${identifier}\n\nCould you please advise the expected restock or special-order timing and ordering arrangement? Thank you.`;
   const href = getShopWhatsAppChatUrl(enquiryMessage);
 

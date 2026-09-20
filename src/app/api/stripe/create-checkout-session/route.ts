@@ -100,7 +100,7 @@ function checkoutPaymentLabel(method: string): string {
     case "applepay":
       return "Apple Pay";
     case "alipayhk":
-      return "AlipayHK（香港支付寶）";
+      return "AlipayHK（\u9999\u6e2f\u652f\u4ed8\u5bf6）";
     default:
       return "Stripe Checkout";
   }
@@ -276,7 +276,7 @@ export async function POST(request: Request) {
                 shipping_rate_data: {
                   type: "fixed_amount" as const,
                   fixed_amount: { amount: toStripeAmountHkd(shipping), currency: "hkd" },
-                  display_name: "香港本地配送",
+                  display_name: "\u9999\u6e2f\u672c\u5730\u914d\u9001",
                 },
               },
             ],

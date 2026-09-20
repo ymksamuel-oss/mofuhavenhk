@@ -44,27 +44,27 @@ function getVisualCategoryCards(categories: StoreCategory[]): VisualCategoryCard
 
   const candidates: Array<{ category?: StoreCategory; image: string; descriptionZh: string; descriptionEn: string }> = [
     {
-      category: findRoot(["cats", "cat", "貓"]),
+      category: findRoot(["cats", "cat", "\u8c93"]),
       image: "/images/mofu-visuals/category-cat-food.jpg",
-      descriptionZh: "每日營養，安心相伴",
+      descriptionZh: "\u6bcf\u65e5\u71df\u990a，\u5b89\u5fc3\u76f8\u4f34",
       descriptionEn: "Everyday nourishment, thoughtfully chosen.",
     },
     {
-      category: findRoot(["dogs", "dog", "狗"]),
+      category: findRoot(["dogs", "dog", "\u72d7"]),
       image: "/images/mofu-visuals/category-dog-food.jpg",
-      descriptionZh: "好好吃飯，活力每一天",
+      descriptionZh: "\u597d\u597d\u5403\u98ef，\u6d3b\u529b\u6bcf\u4e00\u5929",
       descriptionEn: "Good meals for a brighter, livelier day.",
     },
     {
-      category: findAny(["wet", "cans", "can", "濕糧", "罐頭", "罐罐"]),
+      category: findAny(["wet", "cans", "can", "\u6fd5\u7ce7", "\u7f50\u982d", "\u7f50\u7f50"]),
       image: "/images/mofu-visuals/category-wet-food.jpg",
-      descriptionZh: "每一口，都值得期待",
+      descriptionZh: "\u6bcf\u4e00\u53e3，\u90fd\u503c\u5f97\u671f\u5f85",
       descriptionEn: "A little moment worth looking forward to.",
     },
     {
-      category: findRoot(["lifestyle", "supplies", "accessor", "用品", "日用", "玩具"]),
+      category: findRoot(["lifestyle", "supplies", "accessor", "\u7528\u54c1", "\u65e5\u7528", "\u73a9\u5177"]),
       image: "/images/mofu-visuals/category-lifestyle-toys.jpg",
-      descriptionZh: "把每天，玩得更有趣",
+      descriptionZh: "\u628a\u6bcf\u5929，\u73a9\u5f97\u66f4\u6709\u8da3",
       descriptionEn: "Make every day a little more playful.",
     },
   ];
@@ -95,17 +95,17 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
     : false
       ? {
           eyebrow: "MOFU HAVEN コレクション",
-          title: "毎日のために選んだ、やさしい品々。",
-          body: "毎日のごはんから暮らしの小物まで、4つのコレクションから大切な家族に合うものをお選びください。",
-          kicker: "毎日のためのセレクト",
-          browse: "見る",
+          title: "\u6bce\u65e5のために\u9078んだ、やさしい\u54c1々。",
+          body: "\u6bce\u65e5のごはんから\u66aeらしの\u5c0f\u7269まで、4つのコレクションから\u5927\u5207な\u5bb6\u65cfに\u5408うものをお\u9078びください。",
+          kicker: "\u6bce\u65e5のためのセレクト",
+          browse: "\u898bる",
         }
       : {
-        eyebrow: "MOFU HAVEN 精選分類",
-        title: "精選好物，溫柔分類",
-        body: "由每日主糧到生活小物，從四個專區開始，慢慢挑選最適合毛孩的日常。",
-        kicker: "每日精選好物",
-        browse: "探索更多",
+        eyebrow: "MOFU HAVEN \u7cbe\u9078\u5206\u985e",
+        title: "\u7cbe\u9078\u597d\u7269，\u6eab\u67d4\u5206\u985e",
+        body: "\u7531\u6bcf\u65e5\u4e3b\u7ce7\u5230\u751f\u6d3b\u5c0f\u7269，\u5f9e\u56db\u500b\u5c08\u5340\u958b\u59cb，\u6162\u6162\u6311\u9078\u6700\u9069\u5408\u6bdb\u5b69\u7684\u65e5\u5e38。",
+        kicker: "\u6bcf\u65e5\u7cbe\u9078\u597d\u7269",
+        browse: "\u63a2\u7d22\u66f4\u591a",
       };
   if (cards.length === 0) return null;
 

@@ -4,24 +4,24 @@ import { canonicalCategorySlug } from "./categories";
 import { normalizeProductClassificationText } from "./product-classification-text";
 
 /**
- * Main child categories shown under 「貓咪商品」. These follow the user's
+ * Main child categories shown under 「\u8c93\u54aa\u5546\u54c1」. These follow the user's
  * requested navigation order; legacy food routes remain resolvable below.
  */
 export const CAT_SUBCATEGORIES = [
-  "貓罐罐",
-  "貓貓小食",
-  "冷凍脫水系列",
-  "貓砂及貓砂盆",
-  "貓咪玩具及攀爬設施",
+  "\u8c93\u7f50\u7f50",
+  "\u8c93\u8c93\u5c0f\u98df",
+  "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217",
+  "\u8c93\u7802\u53ca\u8c93\u7802\u76c6",
+  "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd",
 ] as const;
 
-const CAT_LEGACY_SUBCATEGORIES = ["貓乾糧", "投藥餵藥專用小食"] as const;
+const CAT_LEGACY_SUBCATEGORIES = ["\u8c93\u4e7e\u7ce7", "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df"] as const;
 
 export type CatSubcategory =
   | (typeof CAT_SUBCATEGORIES)[number]
   | (typeof CAT_LEGACY_SUBCATEGORIES)[number];
 
-/** Direct shopping collections under 貓咪商品; not children of dry food. */
+/** Direct shopping collections under \u8c93\u54aa\u5546\u54c1; not children of dry food. */
 export const CAT_LIFE_STAGES = ["kitten", "adult", "senior"] as const;
 export type CatLifeStage = (typeof CAT_LIFE_STAGES)[number];
 
@@ -38,17 +38,17 @@ export function resolveCatLifeStageSlug(value: string | undefined | null): CatLi
 
 const ALL_CAT_SUBCATEGORIES = [...CAT_SUBCATEGORIES, ...CAT_LEGACY_SUBCATEGORIES] as const;
 
-/** Main child categories shown under 「狗狗專區」. */
+/** Main child categories shown under 「\u72d7\u72d7\u5c08\u5340」. */
 export const DOG_SUBCATEGORIES = [
-  "狗狗乾糧",
-  "狗狗罐頭及濕糧",
-  "狗狗冷凍脫水食品",
-  "狗狗小食",
-  "狗狗廁所及尿墊",
-  "狗狗玩具",
+  "\u72d7\u72d7\u4e7e\u7ce7",
+  "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7",
+  "\u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1",
+  "\u72d7\u72d7\u5c0f\u98df",
+  "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a",
+  "\u72d7\u72d7\u73a9\u5177",
 ] as const;
 
-const DOG_LEGACY_SUBCATEGORIES = ["狗狗食品", "投藥餵藥專用小食"] as const;
+const DOG_LEGACY_SUBCATEGORIES = ["\u72d7\u72d7\u98df\u54c1", "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df"] as const;
 
 export type DogSubcategory =
   | (typeof DOG_SUBCATEGORIES)[number]
@@ -56,28 +56,28 @@ export type DogSubcategory =
 
 const ALL_DOG_SUBCATEGORIES = [...DOG_SUBCATEGORIES, ...DOG_LEGACY_SUBCATEGORIES] as const;
 
-/** Main child categories shown under 「小寵物用品」. */
+/** Main child categories shown under 「\u5c0f\u5bf5\u7269\u7528\u54c1」. */
 export const SMALL_PET_SUBCATEGORIES = [
-  "兔仔用品",
-  "倉鼠及沙鼠用品",
-  "天竺鼠及龍貓用品",
-  "小寵物主糧及零食",
-  "牧草及墊材",
-  "籠舍及居住用品",
-  "小寵物玩具及健康護理",
+  "\u5154\u4ed4\u7528\u54c1",
+  "\u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1",
+  "\u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1",
+  "\u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df",
+  "\u7267\u8349\u53ca\u588a\u6750",
+  "\u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1",
+  "\u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406",
 ] as const;
 
 export type SmallPetSubcategory = (typeof SMALL_PET_SUBCATEGORIES)[number];
 
-/** Main child categories shown under 「寵物生活用品」. */
+/** Main child categories shown under 「\u5bf5\u7269\u751f\u6d3b\u7528\u54c1」. */
 export const LIFESTYLE_SUBCATEGORIES = [
-  "食具及餵食",
-  "睡窩及家居",
-  "外出散步及旅行",
-  "清潔除臭及護理",
-  "梳毛洗護及美容",
-  "訓練安全及防護",
-  "收納及日常配件",
+  "\u98df\u5177\u53ca\u9935\u98df",
+  "\u7761\u7aa9\u53ca\u5bb6\u5c45",
+  "\u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c",
+  "\u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406",
+  "\u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9",
+  "\u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77",
+  "\u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6",
 ] as const;
 
 export type LifestyleSubcategory = (typeof LIFESTYLE_SUBCATEGORIES)[number];
@@ -124,34 +124,34 @@ export const PRODUCT_SUBCATEGORY_LABEL_KEY: Record<
   ProductSubcategory,
   ProductSubcategoryLabelKey
 > = {
-  貓罐罐: "catSubWetCans",
-  貓乾糧: "catSubDryFood",
-  冷凍脫水系列: "catSubFreezeDried",
-  貓貓小食: "catSubSnacks",
-  貓砂及貓砂盆: "catSubLitter",
-  貓咪玩具及攀爬設施: "catSubToysClimbing",
-  投藥餵藥專用小食: "pillTreatsSubcategory",
-  狗狗食品: "dogSubFood",
-  狗狗乾糧: "dogSubDryFood",
-  狗狗罐頭及濕糧: "dogSubWetCans",
-  狗狗冷凍脫水食品: "dogSubFreezeDried",
-  狗狗小食: "dogSubSnacks",
-  狗狗廁所及尿墊: "dogSubToiletPads",
-  狗狗玩具: "dogSubToys",
-  兔仔用品: "smallPetSubRabbits",
-  倉鼠及沙鼠用品: "smallPetSubHamsters",
-  天竺鼠及龍貓用品: "smallPetSubGuineaPigs",
-  小寵物主糧及零食: "smallPetSubFoodTreats",
-  牧草及墊材: "smallPetSubHayBedding",
-  籠舍及居住用品: "smallPetSubHabitats",
-  小寵物玩具及健康護理: "smallPetSubToysHealth",
-  食具及餵食: "lifestyleSubFeeding",
-  睡窩及家居: "lifestyleSubBedsHome",
-  外出散步及旅行: "lifestyleSubOutdoorTravel",
-  清潔除臭及護理: "lifestyleSubCleaningOdour",
-  梳毛洗護及美容: "lifestyleSubGrooming",
-  訓練安全及防護: "lifestyleSubTrainingSafety",
-  收納及日常配件: "lifestyleSubStorageAccessories",
+  \u8c93\u7f50\u7f50: "catSubWetCans",
+  \u8c93\u4e7e\u7ce7: "catSubDryFood",
+  \u51b7\u51cd\u812b\u6c34\u7cfb\u5217: "catSubFreezeDried",
+  \u8c93\u8c93\u5c0f\u98df: "catSubSnacks",
+  \u8c93\u7802\u53ca\u8c93\u7802\u76c6: "catSubLitter",
+  \u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd: "catSubToysClimbing",
+  \u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df: "pillTreatsSubcategory",
+  \u72d7\u72d7\u98df\u54c1: "dogSubFood",
+  \u72d7\u72d7\u4e7e\u7ce7: "dogSubDryFood",
+  \u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7: "dogSubWetCans",
+  \u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1: "dogSubFreezeDried",
+  \u72d7\u72d7\u5c0f\u98df: "dogSubSnacks",
+  \u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a: "dogSubToiletPads",
+  \u72d7\u72d7\u73a9\u5177: "dogSubToys",
+  \u5154\u4ed4\u7528\u54c1: "smallPetSubRabbits",
+  \u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1: "smallPetSubHamsters",
+  \u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1: "smallPetSubGuineaPigs",
+  \u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df: "smallPetSubFoodTreats",
+  \u7267\u8349\u53ca\u588a\u6750: "smallPetSubHayBedding",
+  \u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1: "smallPetSubHabitats",
+  \u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406: "smallPetSubToysHealth",
+  \u98df\u5177\u53ca\u9935\u98df: "lifestyleSubFeeding",
+  \u7761\u7aa9\u53ca\u5bb6\u5c45: "lifestyleSubBedsHome",
+  \u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c: "lifestyleSubOutdoorTravel",
+  \u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406: "lifestyleSubCleaningOdour",
+  \u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9: "lifestyleSubGrooming",
+  \u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77: "lifestyleSubTrainingSafety",
+  \u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6: "lifestyleSubStorageAccessories",
 };
 
 export function getProductSubcategoryLabelKey(
@@ -174,16 +174,16 @@ export type ProductVariant = {
 };
 
 export type CatSnackSeries =
-  | "無添加天然系列"
-  | "老貓零食"
-  | "去毛球配方"
-  | "bb貓零食";
+  | "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217"
+  | "\u8001\u8c93\u96f6\u98df"
+  | "\u53bb\u6bdb\u7403\u914d\u65b9"
+  | "bb\u8c93\u96f6\u98df";
 
 export const CAT_SNACK_SERIES = [
-  "無添加天然系列",
-  "老貓零食",
-  "去毛球配方",
-  "bb貓零食",
+  "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217",
+  "\u8001\u8c93\u96f6\u98df",
+  "\u53bb\u6bdb\u7403\u914d\u65b9",
+  "bb\u8c93\u96f6\u98df",
 ] as const satisfies readonly CatSnackSeries[];
 
 export type CatSnackSeriesLabelKey = Extract<
@@ -198,133 +198,133 @@ export const CAT_SNACK_SERIES_LABEL_KEY: Record<
   CatSnackSeries,
   CatSnackSeriesLabelKey
 > = {
-  無添加天然系列: "catSnackSeriesNatural",
-  老貓零食: "catSnackSeriesSenior",
-  去毛球配方: "catSnackSeriesHairball",
-  bb貓零食: "catSnackSeriesKitten",
+  \u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217: "catSnackSeriesNatural",
+  \u8001\u8c93\u96f6\u98df: "catSnackSeriesSenior",
+  \u53bb\u6bdb\u7403\u914d\u65b9: "catSnackSeriesHairball",
+  bb\u8c93\u96f6\u98df: "catSnackSeriesKitten",
 };
 
 export const CAT_SNACK_SERIES_LABEL: Record<
   CatSnackSeries,
   { zh: string; en: string }
 > = {
-  無添加天然系列: { zh: "無添加天然系列", en: "No-additive natural" },
-  老貓零食: { zh: "老貓零食", en: "Senior cat treats" },
-  去毛球配方: { zh: "去毛球配方", en: "Hairball-care formula" },
-  bb貓零食: { zh: "BB貓零食", en: "Kitten treats" },
+  \u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217: { zh: "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217", en: "No-additive natural" },
+  \u8001\u8c93\u96f6\u98df: { zh: "\u8001\u8c93\u96f6\u98df", en: "Senior cat treats" },
+  \u53bb\u6bdb\u7403\u914d\u65b9: { zh: "\u53bb\u6bdb\u7403\u914d\u65b9", en: "Hairball-care formula" },
+  bb\u8c93\u96f6\u98df: { zh: "BB\u8c93\u96f6\u98df", en: "Kitten treats" },
 };
 
 export const CAT_SNACK_SERIES_BY_SLUG: Record<string, CatSnackSeries> = {
-  natural: "無添加天然系列",
-  senior: "老貓零食",
-  hairball: "去毛球配方",
-  kitten: "bb貓零食",
+  natural: "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217",
+  senior: "\u8001\u8c93\u96f6\u98df",
+  hairball: "\u53bb\u6bdb\u7403\u914d\u65b9",
+  kitten: "bb\u8c93\u96f6\u98df",
 };
 
 export const CAT_SNACK_SERIES_SLUG: Record<CatSnackSeries, string> = {
-  無添加天然系列: "natural",
-  老貓零食: "senior",
-  去毛球配方: "hairball",
-  bb貓零食: "kitten",
+  \u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217: "natural",
+  \u8001\u8c93\u96f6\u98df: "senior",
+  \u53bb\u6bdb\u7403\u914d\u65b9: "hairball",
+  bb\u8c93\u96f6\u98df: "kitten",
 };
 
 export const CAT_SUBCATEGORY_BY_SLUG: Record<string, CatSubcategory> = {
-  "wet-cans": "貓罐罐",
-  snacks: "貓貓小食",
-  "freeze-dried": "冷凍脫水系列",
-  litter: "貓砂及貓砂盆",
-  "toys-climbing": "貓咪玩具及攀爬設施",
+  "wet-cans": "\u8c93\u7f50\u7f50",
+  snacks: "\u8c93\u8c93\u5c0f\u98df",
+  "freeze-dried": "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217",
+  litter: "\u8c93\u7802\u53ca\u8c93\u7802\u76c6",
+  "toys-climbing": "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd",
   // Existing Supabase child-category slugs. These map to the same canonical
   // collections used by the storefront navigation.
-  "cat-feezed-dried-food": "冷凍脫水系列",
-  "cat-freezed-dried-food": "冷凍脫水系列",
-  "cat-freeze-dried-series": "冷凍脫水系列",
-  "cat-dry-food": "貓乾糧",
-  "cat-snack-food": "貓貓小食",
-  "cat-litter": "貓砂及貓砂盆",
-  "cats-food-cans": "貓罐罐",
-  "cat-wet-food": "貓罐罐",
+  "cat-feezed-dried-food": "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217",
+  "cat-freezed-dried-food": "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217",
+  "cat-freeze-dried-series": "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217",
+  "cat-dry-food": "\u8c93\u4e7e\u7ce7",
+  "cat-snack-food": "\u8c93\u8c93\u5c0f\u98df",
+  "cat-litter": "\u8c93\u7802\u53ca\u8c93\u7802\u76c6",
+  "cats-food-cans": "\u8c93\u7f50\u7f50",
+  "cat-wet-food": "\u8c93\u7f50\u7f50",
   // Kept for existing shared links; deliberately omitted from the new Header list.
-  "dry-food": "貓乾糧",
-  "pill-treats": "投藥餵藥專用小食",
+  "dry-food": "\u8c93\u4e7e\u7ce7",
+  "pill-treats": "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df",
 };
 
 export const CAT_SUBCATEGORY_SLUG: Record<CatSubcategory, string> = {
-  貓罐罐: "wet-cans",
-  貓貓小食: "snacks",
-  冷凍脫水系列: "freeze-dried",
-  貓砂及貓砂盆: "litter",
-  貓咪玩具及攀爬設施: "toys-climbing",
-  貓乾糧: "dry-food",
-  投藥餵藥專用小食: "pill-treats",
+  \u8c93\u7f50\u7f50: "wet-cans",
+  \u8c93\u8c93\u5c0f\u98df: "snacks",
+  \u51b7\u51cd\u812b\u6c34\u7cfb\u5217: "freeze-dried",
+  \u8c93\u7802\u53ca\u8c93\u7802\u76c6: "litter",
+  \u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd: "toys-climbing",
+  \u8c93\u4e7e\u7ce7: "dry-food",
+  \u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df: "pill-treats",
 };
 
 export const DOG_SUBCATEGORY_BY_SLUG: Record<string, DogSubcategory> = {
-  "dry-food": "狗狗乾糧",
-  "wet-cans": "狗狗罐頭及濕糧",
-  "freeze-dried": "狗狗冷凍脫水食品",
-  snacks: "狗狗小食",
-  "toilet-pads": "狗狗廁所及尿墊",
-  toys: "狗狗玩具",
+  "dry-food": "\u72d7\u72d7\u4e7e\u7ce7",
+  "wet-cans": "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7",
+  "freeze-dried": "\u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1",
+  snacks: "\u72d7\u72d7\u5c0f\u98df",
+  "toilet-pads": "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a",
+  toys: "\u72d7\u72d7\u73a9\u5177",
   // Existing Supabase child-category slugs.
-  "dog-food-cans": "狗狗罐頭及濕糧",
-  "dog-dry-food": "狗狗乾糧",
-  "dog-snack-food": "狗狗小食",
+  "dog-food-cans": "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7",
+  "dog-dry-food": "\u72d7\u72d7\u4e7e\u7ce7",
+  "dog-snack-food": "\u72d7\u72d7\u5c0f\u98df",
   // Kept for existing shared links; deliberately omitted from the new Header list.
-  food: "狗狗食品",
-  "pill-treats": "投藥餵藥專用小食",
+  food: "\u72d7\u72d7\u98df\u54c1",
+  "pill-treats": "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df",
 };
 
 export const DOG_SUBCATEGORY_SLUG: Record<DogSubcategory, string> = {
-  狗狗乾糧: "dry-food",
-  狗狗罐頭及濕糧: "wet-cans",
-  狗狗冷凍脫水食品: "freeze-dried",
-  狗狗小食: "snacks",
-  狗狗廁所及尿墊: "toilet-pads",
-  狗狗玩具: "toys",
-  狗狗食品: "food",
-  投藥餵藥專用小食: "pill-treats",
+  \u72d7\u72d7\u4e7e\u7ce7: "dry-food",
+  \u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7: "wet-cans",
+  \u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1: "freeze-dried",
+  \u72d7\u72d7\u5c0f\u98df: "snacks",
+  \u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a: "toilet-pads",
+  \u72d7\u72d7\u73a9\u5177: "toys",
+  \u72d7\u72d7\u98df\u54c1: "food",
+  \u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df: "pill-treats",
 };
 
 export const SMALL_PET_SUBCATEGORY_BY_SLUG: Record<string, SmallPetSubcategory> = {
-  rabbits: "兔仔用品",
-  "hamsters-gerbils": "倉鼠及沙鼠用品",
-  "guinea-pigs-chinchillas": "天竺鼠及龍貓用品",
-  "food-treats": "小寵物主糧及零食",
-  "hay-bedding": "牧草及墊材",
-  habitats: "籠舍及居住用品",
-  "toys-health": "小寵物玩具及健康護理",
+  rabbits: "\u5154\u4ed4\u7528\u54c1",
+  "hamsters-gerbils": "\u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1",
+  "guinea-pigs-chinchillas": "\u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1",
+  "food-treats": "\u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df",
+  "hay-bedding": "\u7267\u8349\u53ca\u588a\u6750",
+  habitats: "\u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1",
+  "toys-health": "\u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406",
 };
 
 export const SMALL_PET_SUBCATEGORY_SLUG: Record<SmallPetSubcategory, string> = {
-  兔仔用品: "rabbits",
-  倉鼠及沙鼠用品: "hamsters-gerbils",
-  天竺鼠及龍貓用品: "guinea-pigs-chinchillas",
-  小寵物主糧及零食: "food-treats",
-  牧草及墊材: "hay-bedding",
-  籠舍及居住用品: "habitats",
-  小寵物玩具及健康護理: "toys-health",
+  \u5154\u4ed4\u7528\u54c1: "rabbits",
+  \u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1: "hamsters-gerbils",
+  \u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1: "guinea-pigs-chinchillas",
+  \u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df: "food-treats",
+  \u7267\u8349\u53ca\u588a\u6750: "hay-bedding",
+  \u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1: "habitats",
+  \u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406: "toys-health",
 };
 
 export const LIFESTYLE_SUBCATEGORY_BY_SLUG: Record<string, LifestyleSubcategory> = {
-  feeding: "食具及餵食",
-  "cat-food-platter": "食具及餵食",
-  "beds-home": "睡窩及家居",
-  "outdoor-travel": "外出散步及旅行",
-  "cleaning-odour": "清潔除臭及護理",
-  grooming: "梳毛洗護及美容",
-  "training-safety": "訓練安全及防護",
-  "storage-accessories": "收納及日常配件",
+  feeding: "\u98df\u5177\u53ca\u9935\u98df",
+  "cat-food-platter": "\u98df\u5177\u53ca\u9935\u98df",
+  "beds-home": "\u7761\u7aa9\u53ca\u5bb6\u5c45",
+  "outdoor-travel": "\u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c",
+  "cleaning-odour": "\u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406",
+  grooming: "\u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9",
+  "training-safety": "\u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77",
+  "storage-accessories": "\u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6",
 };
 
 export const LIFESTYLE_SUBCATEGORY_SLUG: Record<LifestyleSubcategory, string> = {
-  食具及餵食: "feeding",
-  睡窩及家居: "beds-home",
-  外出散步及旅行: "outdoor-travel",
-  清潔除臭及護理: "cleaning-odour",
-  梳毛洗護及美容: "grooming",
-  訓練安全及防護: "training-safety",
-  收納及日常配件: "storage-accessories",
+  \u98df\u5177\u53ca\u9935\u98df: "feeding",
+  \u7761\u7aa9\u53ca\u5bb6\u5c45: "beds-home",
+  \u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c: "outdoor-travel",
+  \u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406: "cleaning-odour",
+  \u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9: "grooming",
+  \u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77: "training-safety",
+  \u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6: "storage-accessories",
 };
 
 export type Product = {
@@ -382,7 +382,7 @@ export type Product = {
  * Product wording that identifies the small-pet shelf. Keep this broad enough
  * for future Stripe / sheet products while avoiding generic pet wording.
  */
-const SMALL_PET_KEYWORDS = /小動物|小动物|小寵物|小宠物|兔子?|兔用|倉鼠|仓鼠|天竺鼠|豚鼠|荷蘭豬|荷兰猪|刺蝟|刺猬|龍貓|龙猫|蜜袋鼯|飛鼠|飞鼠|雪貂|rabbit|bunny|hamster|guinea\s*pig|gerbil|chinchilla|hedgehog|ferret|small\s*[- ]?pet|small\s*animal|rodent/i;
+const SMALL_PET_KEYWORDS = /\u5c0f\u52d5\u7269|\u5c0f\u52a8\u7269|\u5c0f\u5bf5\u7269|\u5c0f\u5ba0\u7269|\u5154\u5b50?|\u5154\u7528|\u5009\u9f20|\u4ed3\u9f20|\u5929\u7afa\u9f20|\u8c5a\u9f20|\u8377\u862d\u8c6c|\u8377\u5170\u732a|\u523a\u875f|\u523a\u732c|\u9f8d\u8c93|\u9f99\u732b|\u871c\u888b\u9f2f|\u98db\u9f20|\u98de\u9f20|\u96ea\u8c82|rabbit|bunny|hamster|guinea\s*pig|gerbil|chinchilla|hedgehog|ferret|small\s*[- ]?pet|small\s*animal|rodent/i;
 
 export function isSmallPetProductText(...values: Array<string | undefined>): boolean {
   return SMALL_PET_KEYWORDS.test(values.filter(Boolean).join(" "));
@@ -391,63 +391,63 @@ export function isSmallPetProductText(...values: Array<string | undefined>): boo
 const CATEGORY_SLUG_BY_METADATA: Record<string, string> = {
   cats: "cats",
   cat: "cats",
-  "貓咪商品": "cats",
+  "\u8c93\u54aa\u5546\u54c1": "cats",
   dogs: "dogs",
   dog: "dogs",
-  "狗狗商品": "dogs",
+  "\u72d7\u72d7\u5546\u54c1": "dogs",
   "small-pets": "small-pets",
-  "小動物": "small-pets",
-  "小寵物": "small-pets",
+  "\u5c0f\u52d5\u7269": "small-pets",
+  "\u5c0f\u5bf5\u7269": "small-pets",
   lifestyle: "lifestyle",
-  "寵物生活用品": "lifestyle",
+  "\u5bf5\u7269\u751f\u6d3b\u7528\u54c1": "lifestyle",
   snacks: "snacks",
   snack: "snacks",
-  "寵物小食": "snacks",
+  "\u5bf5\u7269\u5c0f\u98df": "snacks",
   toys: "toys",
-  "寵物玩具": "toys",
+  "\u5bf5\u7269\u73a9\u5177": "toys",
   health: "health",
-  "營養保健": "health",
+  "\u71df\u990a\u4fdd\u5065": "health",
   cleaning: "cleaning",
-  "居家清潔": "cleaning",
+  "\u5c45\u5bb6\u6e05\u6f54": "cleaning",
   deals: "deals",
-  "限時優惠": "deals",
+  "\u9650\u6642\u512a\u60e0": "deals",
   bestsellers: "bestsellers",
-  "熱賣商品": "bestsellers",
+  "\u71b1\u8ce3\u5546\u54c1": "bestsellers",
   outdoor: "outdoor",
-  "外出用品": "outdoor",
+  "\u5916\u51fa\u7528\u54c1": "outdoor",
 };
 
 const SUBCATEGORY_PARENT_BY_METADATA: Record<
   string,
   { parent: string; subcategory: ProductSubcategory }
 > = {
-  "貓罐罐": { parent: "cats", subcategory: "貓罐罐" },
-  "貓乾糧": { parent: "cats", subcategory: "貓乾糧" },
-  "冷凍脫水系列": { parent: "cats", subcategory: "冷凍脫水系列" },
-  "貓貓小食": { parent: "cats", subcategory: "貓貓小食" },
-  "貓砂及貓砂盆": { parent: "cats", subcategory: "貓砂及貓砂盆" },
-  "貓咪玩具及攀爬設施": { parent: "cats", subcategory: "貓咪玩具及攀爬設施" },
-  "狗狗食品": { parent: "dogs", subcategory: "狗狗食品" },
-  "狗狗乾糧": { parent: "dogs", subcategory: "狗狗乾糧" },
-  "狗狗罐頭及濕糧": { parent: "dogs", subcategory: "狗狗罐頭及濕糧" },
-  "狗狗冷凍脫水食品": { parent: "dogs", subcategory: "狗狗冷凍脫水食品" },
-  "狗狗小食": { parent: "dogs", subcategory: "狗狗小食" },
-  "狗狗廁所及尿墊": { parent: "dogs", subcategory: "狗狗廁所及尿墊" },
-  "狗狗玩具": { parent: "dogs", subcategory: "狗狗玩具" },
-  "兔仔用品": { parent: "small-pets", subcategory: "兔仔用品" },
-  "倉鼠及沙鼠用品": { parent: "small-pets", subcategory: "倉鼠及沙鼠用品" },
-  "天竺鼠及龍貓用品": { parent: "small-pets", subcategory: "天竺鼠及龍貓用品" },
-  "小寵物主糧及零食": { parent: "small-pets", subcategory: "小寵物主糧及零食" },
-  "牧草及墊材": { parent: "small-pets", subcategory: "牧草及墊材" },
-  "籠舍及居住用品": { parent: "small-pets", subcategory: "籠舍及居住用品" },
-  "小寵物玩具及健康護理": { parent: "small-pets", subcategory: "小寵物玩具及健康護理" },
-  "食具及餵食": { parent: "lifestyle", subcategory: "食具及餵食" },
-  "睡窩及家居": { parent: "lifestyle", subcategory: "睡窩及家居" },
-  "外出散步及旅行": { parent: "lifestyle", subcategory: "外出散步及旅行" },
-  "清潔除臭及護理": { parent: "lifestyle", subcategory: "清潔除臭及護理" },
-  "梳毛洗護及美容": { parent: "lifestyle", subcategory: "梳毛洗護及美容" },
-  "訓練安全及防護": { parent: "lifestyle", subcategory: "訓練安全及防護" },
-  "收納及日常配件": { parent: "lifestyle", subcategory: "收納及日常配件" },
+  "\u8c93\u7f50\u7f50": { parent: "cats", subcategory: "\u8c93\u7f50\u7f50" },
+  "\u8c93\u4e7e\u7ce7": { parent: "cats", subcategory: "\u8c93\u4e7e\u7ce7" },
+  "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217": { parent: "cats", subcategory: "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217" },
+  "\u8c93\u8c93\u5c0f\u98df": { parent: "cats", subcategory: "\u8c93\u8c93\u5c0f\u98df" },
+  "\u8c93\u7802\u53ca\u8c93\u7802\u76c6": { parent: "cats", subcategory: "\u8c93\u7802\u53ca\u8c93\u7802\u76c6" },
+  "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd": { parent: "cats", subcategory: "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd" },
+  "\u72d7\u72d7\u98df\u54c1": { parent: "dogs", subcategory: "\u72d7\u72d7\u98df\u54c1" },
+  "\u72d7\u72d7\u4e7e\u7ce7": { parent: "dogs", subcategory: "\u72d7\u72d7\u4e7e\u7ce7" },
+  "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7": { parent: "dogs", subcategory: "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7" },
+  "\u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1": { parent: "dogs", subcategory: "\u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1" },
+  "\u72d7\u72d7\u5c0f\u98df": { parent: "dogs", subcategory: "\u72d7\u72d7\u5c0f\u98df" },
+  "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a": { parent: "dogs", subcategory: "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a" },
+  "\u72d7\u72d7\u73a9\u5177": { parent: "dogs", subcategory: "\u72d7\u72d7\u73a9\u5177" },
+  "\u5154\u4ed4\u7528\u54c1": { parent: "small-pets", subcategory: "\u5154\u4ed4\u7528\u54c1" },
+  "\u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1": { parent: "small-pets", subcategory: "\u5009\u9f20\u53ca\u6c99\u9f20\u7528\u54c1" },
+  "\u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1": { parent: "small-pets", subcategory: "\u5929\u7afa\u9f20\u53ca\u9f8d\u8c93\u7528\u54c1" },
+  "\u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df": { parent: "small-pets", subcategory: "\u5c0f\u5bf5\u7269\u4e3b\u7ce7\u53ca\u96f6\u98df" },
+  "\u7267\u8349\u53ca\u588a\u6750": { parent: "small-pets", subcategory: "\u7267\u8349\u53ca\u588a\u6750" },
+  "\u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1": { parent: "small-pets", subcategory: "\u7c60\u820d\u53ca\u5c45\u4f4f\u7528\u54c1" },
+  "\u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406": { parent: "small-pets", subcategory: "\u5c0f\u5bf5\u7269\u73a9\u5177\u53ca\u5065\u5eb7\u8b77\u7406" },
+  "\u98df\u5177\u53ca\u9935\u98df": { parent: "lifestyle", subcategory: "\u98df\u5177\u53ca\u9935\u98df" },
+  "\u7761\u7aa9\u53ca\u5bb6\u5c45": { parent: "lifestyle", subcategory: "\u7761\u7aa9\u53ca\u5bb6\u5c45" },
+  "\u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c": { parent: "lifestyle", subcategory: "\u5916\u51fa\u6563\u6b65\u53ca\u65c5\u884c" },
+  "\u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406": { parent: "lifestyle", subcategory: "\u6e05\u6f54\u9664\u81ed\u53ca\u8b77\u7406" },
+  "\u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9": { parent: "lifestyle", subcategory: "\u68b3\u6bdb\u6d17\u8b77\u53ca\u7f8e\u5bb9" },
+  "\u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77": { parent: "lifestyle", subcategory: "\u8a13\u7df4\u5b89\u5168\u53ca\u9632\u8b77" },
+  "\u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6": { parent: "lifestyle", subcategory: "\u6536\u7d0d\u53ca\u65e5\u5e38\u914d\u4ef6" },
 };
 
 /** Classify an Mofu SKU by its required pet-family prefix. */
@@ -473,7 +473,7 @@ export function subcategoryFromMetadata(category: string | undefined): ProductSu
   if (!value) return null;
   return (
     SUBCATEGORY_PARENT_BY_METADATA[value]?.subcategory ??
-    (value === "投藥餵藥專用小食" ? "投藥餵藥專用小食" : null)
+    (value === "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df" ? "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df" : null)
   );
 }
 
@@ -538,14 +538,14 @@ export function getCatProductsBySubcategory(
   const cats = getProductsByCategory("cats", products);
   if (!subcategory) return cats;
   const bySub = cats.filter((product) => productSubcategory(product) === subcategory);
-  if (!snackSeries || subcategory !== "貓貓小食") return bySub;
+  if (!snackSeries || subcategory !== "\u8c93\u8c93\u5c0f\u98df") return bySub;
   return bySub.filter((product) => product.snackSeries === snackSeries);
 }
 
 const CAT_LIFE_STAGE_PATTERNS: Record<CatLifeStage, RegExp> = {
-  kitten: /幼貓|kitten|成長期|0\s*[-~至]\s*12\s*(?:個月|个月|months?)/i,
-  adult: /成貓|adult|室內成貓|室内成猫|adult\s*cat/i,
-  senior: /老貓|高齡|高龄|senior|(?:7|10|11|14|15)\s*(?:歲|岁|歳|才)\s*(?:起|以上|\+)/i,
+  kitten: /\u5e7c\u8c93|kitten|\u6210\u9577\u671f|0\s*[-~\u81f3]\s*12\s*(?:\u500b\u6708|\u4e2a\u6708|months?)/i,
+  adult: /\u6210\u8c93|adult|\u5ba4\u5167\u6210\u8c93|\u5ba4\u5185\u6210\u732b|adult\s*cat/i,
+  senior: /\u8001\u8c93|\u9ad8\u9f61|\u9ad8\u9f84|senior|(?:7|10|11|14|15)\s*(?:\u6b72|\u5c81|\u6b73|\u624d)\s*(?:\u8d77|\u4ee5\u4e0a|\+)/i,
 };
 
 /**

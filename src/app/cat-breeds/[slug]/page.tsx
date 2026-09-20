@@ -21,11 +21,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const breed = getCatBreedBySlug(slug);
   if (!breed) {
-    return { title: "貓咪品種圖鑑｜Mofu Haven HK" };
+    return { title: "\u8c93\u54aa\u54c1\u7a2e\u5716\u9451｜Mofu Haven HK" };
   }
 
   return {
-    title: `${breed.name}｜貓咪品種圖鑑｜Mofu Haven HK`,
+    title: `${breed.name}｜\u8c93\u54aa\u54c1\u7a2e\u5716\u9451｜Mofu Haven HK`,
     description: breed.shortDescription,
   };
 }

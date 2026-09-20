@@ -72,13 +72,13 @@ function variantGroupKey(product: Product): string {
     .map((key) => metadata[key]?.trim()).find(Boolean);
   if (explicit) return `group:${explicit.toLocaleLowerCase()}`;
   const source = [product.name.zh, product.name.en, metadata.japanese_name, metadata.name_ja].filter(Boolean).join(" ");
-  if (/強韌(?:透氣)?防暴衝胸背帶|防暴衝牽引帶|防暴衝胸背帶|ハーネス|リード|牽引帶|項圈|頸圈|collar|leash|harness/i.test(source)) {
-    const style = /牽引帶|リード|lead|leash/i.test(source)
+  if (/\u5f37\u97cc(?:\u900f\u6c23)?\u9632\u66b4\u885d\u80f8\u80cc\u5e36|\u9632\u66b4\u885d\u727d\u5f15\u5e36|\u9632\u66b4\u885d\u80f8\u80cc\u5e36|ハーネス|リード|\u727d\u5f15\u5e36|\u9805\u5708|\u9838\u5708|collar|leash|harness/i.test(source)) {
+    const style = /\u727d\u5f15\u5e36|リード|lead|leash/i.test(source)
       ? "leash"
-      : /項圈|頸圈|collar/i.test(source) ? "collar" : "harness";
+      : /\u9805\u5708|\u9838\u5708|collar/i.test(source) ? "collar" : "harness";
     const normalized = source
       .toLocaleLowerCase()
-      .replace(/\b(?:xxs?|xs|s|m|l|xl|xxl)\b|(?:尺寸|size|顏色|颜色|color)\s*[:：-]?\s*[a-z0-9一二三四五六七八九十]+/gi, "")
+      .replace(/\b(?:xxs?|xs|s|m|l|xl|xxl)\b|(?:\u5c3a\u5bf8|size|\u984f\u8272|\u989c\u8272|color)\s*[:：-]?\s*[a-z0-9\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u5341]+/gi, "")
       .replace(/[\s|｜()（）【】\[\]_-]+/g, " ")
       .trim();
     return `style:${style}:${normalized}`;
@@ -102,7 +102,7 @@ function mergeVariantProducts(products: readonly Product[]): Product[] {
         key: `product-${product.id}`,
         priceId: product.priceId,
         price: product.price,
-        label: { zh: product.name.zh || product.name.en || "選項", en: product.name.en || product.name.zh || "Option", ...(japaneseName ? { ja: japaneseName } : {}) },
+        label: { zh: product.name.zh || product.name.en || "\u9078\u9805", en: product.name.en || product.name.zh || "Option", ...(japaneseName ? { ja: japaneseName } : {}) },
         ...(product.originalPrice ? { originalPrice: product.originalPrice } : {}),
         ...(product.images?.[0] ? { image: product.images[0] } : {}),
       });
@@ -149,7 +149,7 @@ function resolveManagedCategoryAssignment(
 /** Internal marker handled by ProductImage as a CSS-only missing-image state. */
 const CATALOG_IMAGE_FALLBACK = "catalog-placeholder";
 const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
-const FREEZE_DRY_TEXT_MARK = /冷凍脫水|冷冻脱水|凍乾|凍干|freeze[\s-]?dried|freeze[\s-]?dry/i;
+const FREEZE_DRY_TEXT_MARK = /\u51b7\u51cd\u812b\u6c34|\u51b7\u51bb\u8131\u6c34|\u51cd\u4e7e|\u51cd\u5e72|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const IMAGE_METADATA_KEY = /(^|[_.-])images?($|[_.-])|image[_-]?(url|urls|cdn)|source[_-]?image/i;
 
 /**
@@ -294,7 +294,7 @@ function categoryFromProduct(product: Stripe.Product): string {
   const skuCategory = categorySlugFromMofuSku(metadata.mofu_sku);
   if (skuCategory) return skuCategory;
   const metadataCategory =
-    metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["主分類代碼"];
+    metadata.category ?? metadata.category_slug ?? metadata.category_code ?? metadata["\u4e3b\u5206\u985e\u4ee3\u78bc"];
   const metadataText = normalizeProductClassificationText(Object.values(metadata).join(" "));
   const explicitCategory = categorySlugFromMetadata(metadataCategory);
   if (explicitCategory === "small-pets" || explicitCategory === "lifestyle") {
@@ -316,8 +316,8 @@ function categoryFromProduct(product: Stripe.Product): string {
   // imported from earlier catalog versions. Only override metadata when the
   // name/description clearly identifies exactly one pet type.
   const productText = normalizeProductClassificationText(`${product.name ?? ""} ${product.description ?? ""}`);
-  const isDogProduct = /狗|犬|dog|canine/i.test(productText);
-  const isCatProduct = /貓|猫|cat|feline/i.test(productText);
+  const isDogProduct = /\u72d7|\u72ac|dog|canine/i.test(productText);
+  const isCatProduct = /\u8c93|\u732b|cat|feline/i.test(productText);
   if (isDogProduct && !isCatProduct) return "dogs";
   if (isCatProduct && !isDogProduct) return "cats";
 
@@ -333,31 +333,31 @@ function subcategoryFromProduct(
     metadata.subcategory ?? metadata.sub_category ?? metadata.child_category ?? metadata["SubCategory"];
   const fromMetadata = subcategoryFromMetadata(raw) ?? resolveCategorySubSlug(categorySlug, raw);
   // An explicit, granular metadata value remains authoritative. The legacy
-  // generic value「狗狗食品」is refined below so dry food and wet food never
+  // generic value「\u72d7\u72d7\u98df\u54c1」is refined below so dry food and wet food never
   // share the new Header collections. This also prevents an import filename
   // such as "cat-litter-and-dry-food" from overriding a declared dry-food slug.
-  if (fromMetadata && fromMetadata !== "狗狗食品") return fromMetadata;
+  if (fromMetadata && fromMetadata !== "\u72d7\u72d7\u98df\u54c1") return fromMetadata;
 
   const text = normalizeProductClassificationText(`${product.name ?? ""} ${product.description ?? ""} ${Object.values(metadata).join(" ")}`).toLowerCase();
-  if (text.includes("投藥") || text.includes("餵藥") || text.includes("pill")) {
-    return "投藥餵藥專用小食";
+  if (text.includes("\u6295\u85e5") || text.includes("\u9935\u85e5") || text.includes("pill")) {
+    return "\u6295\u85e5\u9935\u85e5\u5c08\u7528\u5c0f\u98df";
   }
   if (categorySlug === "cats") {
-    if (/(貓砂|litter|砂盆|cat\s*box)/i.test(text)) return "貓砂及貓砂盆";
-    if (/(攀爬|貓爬|cat\s*tree|cat\s*toy|玩具|toy)/i.test(text)) return "貓咪玩具及攀爬設施";
-    if (FREEZE_DRY_TEXT_MARK.test(text)) return "冷凍脫水系列";
-    if (text.includes("罐頭") || text.includes("罐罐") || text.includes("濕糧") || text.includes("濕食")) return "貓罐罐";
-    if (text.includes("乾糧") || text.includes("飼料")) return "貓乾糧";
-    if (text.includes("小食") || text.includes("零食") || text.includes("脆餅") || text.includes("肉泥")) return "貓貓小食";
+    if (/(\u8c93\u7802|litter|\u7802\u76c6|cat\s*box)/i.test(text)) return "\u8c93\u7802\u53ca\u8c93\u7802\u76c6";
+    if (/(\u6500\u722c|\u8c93\u722c|cat\s*tree|cat\s*toy|\u73a9\u5177|toy)/i.test(text)) return "\u8c93\u54aa\u73a9\u5177\u53ca\u6500\u722c\u8a2d\u65bd";
+    if (FREEZE_DRY_TEXT_MARK.test(text)) return "\u51b7\u51cd\u812b\u6c34\u7cfb\u5217";
+    if (text.includes("\u7f50\u982d") || text.includes("\u7f50\u7f50") || text.includes("\u6fd5\u7ce7") || text.includes("\u6fd5\u98df")) return "\u8c93\u7f50\u7f50";
+    if (text.includes("\u4e7e\u7ce7") || text.includes("\u98fc\u6599")) return "\u8c93\u4e7e\u7ce7";
+    if (text.includes("\u5c0f\u98df") || text.includes("\u96f6\u98df") || text.includes("\u8106\u9905") || text.includes("\u8089\u6ce5")) return "\u8c93\u8c93\u5c0f\u98df";
   }
   if (categorySlug === "dogs") {
-    if (/(尿墊|尿布|狗廁|toilet|training\s*pad|pee\s*pad)/i.test(text)) return "狗狗廁所及尿墊";
-    if (/(狗玩具|dog\s*toy|玩具|toy)/i.test(text)) return "狗狗玩具";
-    if (/(乾糧|狗糧|kibble|dry\s*food)/i.test(text)) return "狗狗乾糧";
-    if (FREEZE_DRY_TEXT_MARK.test(text)) return "狗狗冷凍脫水食品";
-    if (/(罐頭|罐罐|濕糧|濕食|wet\s*food|canned|\bcan\b|pouch)/i.test(text)) return "狗狗罐頭及濕糧";
-    if (text.includes("小食") || text.includes("零食") || text.includes("肉條") || text.includes("肉卷") || text.includes("肉片") || text.includes("肉乾") || text.includes("肉粒") || text.includes("鹿肉") || text.includes("紫薯") || /treat|snack|jerky|sweet\s*potato/i.test(text)) return "狗狗小食";
-    return "狗狗食品";
+    if (/(\u5c3f\u588a|\u5c3f\u5e03|\u72d7\u5ec1|toilet|training\s*pad|pee\s*pad)/i.test(text)) return "\u72d7\u72d7\u5ec1\u6240\u53ca\u5c3f\u588a";
+    if (/(\u72d7\u73a9\u5177|dog\s*toy|\u73a9\u5177|toy)/i.test(text)) return "\u72d7\u72d7\u73a9\u5177";
+    if (/(\u4e7e\u7ce7|\u72d7\u7ce7|kibble|dry\s*food)/i.test(text)) return "\u72d7\u72d7\u4e7e\u7ce7";
+    if (FREEZE_DRY_TEXT_MARK.test(text)) return "\u72d7\u72d7\u51b7\u51cd\u812b\u6c34\u98df\u54c1";
+    if (/(\u7f50\u982d|\u7f50\u7f50|\u6fd5\u7ce7|\u6fd5\u98df|wet\s*food|canned|\bcan\b|pouch)/i.test(text)) return "\u72d7\u72d7\u7f50\u982d\u53ca\u6fd5\u7ce7";
+    if (text.includes("\u5c0f\u98df") || text.includes("\u96f6\u98df") || text.includes("\u8089\u689d") || text.includes("\u8089\u5377") || text.includes("\u8089\u7247") || text.includes("\u8089\u4e7e") || text.includes("\u8089\u7c92") || text.includes("\u9e7f\u8089") || text.includes("\u7d2b\u85af") || /treat|snack|jerky|sweet\s*potato/i.test(text)) return "\u72d7\u72d7\u5c0f\u98df";
+    return "\u72d7\u72d7\u98df\u54c1";
   }
   return undefined;
 }
@@ -367,19 +367,19 @@ function snackSeriesFromProduct(
   categorySlug: string,
   subcategory: ProductSubcategory | undefined,
 ): CatSnackSeries | undefined {
-  if (categorySlug !== "cats" || subcategory !== "貓貓小食") return undefined;
+  if (categorySlug !== "cats" || subcategory !== "\u8c93\u8c93\u5c0f\u98df") return undefined;
   const metadata = productMetadata(product);
   const explicit = [
     metadata.snackSeries,
     metadata.snack_series,
     metadata.series,
-    metadata["小食系列"],
+    metadata["\u5c0f\u98df\u7cfb\u5217"],
   ].find(Boolean)?.trim();
   const bySlug: Record<string, CatSnackSeries> = {
-    natural: "無添加天然系列",
-    senior: "老貓零食",
-    hairball: "去毛球配方",
-    kitten: "bb貓零食",
+    natural: "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217",
+    senior: "\u8001\u8c93\u96f6\u98df",
+    hairball: "\u53bb\u6bdb\u7403\u914d\u65b9",
+    kitten: "bb\u8c93\u96f6\u98df",
   };
   if (explicit) {
     const matched =
@@ -390,10 +390,10 @@ function snackSeriesFromProduct(
   const text = normalizeProductClassificationText([product.name, product.description, ...Object.values(metadata)]
     .filter(Boolean)
     .join(" "));
-  if (/去毛球|毛玉|hairball/i.test(text)) return "去毛球配方";
-  if (/老貓|高齡|senior|11\s*\+|11歲|14歲/i.test(text)) return "老貓零食";
-  if (/bb\s*貓|幼貓|kitten|junior/i.test(text)) return "bb貓零食";
-  if (/無添加|天然|natural|no[- ]?additive/i.test(text)) return "無添加天然系列";
+  if (/\u53bb\u6bdb\u7403|\u6bdb\u7389|hairball/i.test(text)) return "\u53bb\u6bdb\u7403\u914d\u65b9";
+  if (/\u8001\u8c93|\u9ad8\u9f61|senior|11\s*\+|11\u6b72|14\u6b72/i.test(text)) return "\u8001\u8c93\u96f6\u98df";
+  if (/bb\s*\u8c93|\u5e7c\u8c93|kitten|junior/i.test(text)) return "bb\u8c93\u96f6\u98df";
+  if (/\u7121\u6dfb\u52a0|\u5929\u7136|natural|no[- ]?additive/i.test(text)) return "\u7121\u6dfb\u52a0\u5929\u7136\u7cfb\u5217";
   return undefined;
 }
 
@@ -416,30 +416,30 @@ function englishSafeText(value: string | null | undefined, fallback: string): st
 }
 
 function bestPartnerChineseName(value: string, supplierBrand: string | null | undefined, sourceValue?: string | null): string {
-  const source = /^日本產天然寵物食品｜Best Partner 商品 \d+$/.test(value.trim())
+  const source = /^\u65e5\u672c\u7522\u5929\u7136\u5bf5\u7269\u98df\u54c1｜Best Partner \u5546\u54c1 \d+$/.test(value.trim())
     ? sourceValue?.trim() || ""
     : value;
   if (supplierBrand !== "Best Partner" && source === value) return value;
   const name = (source.replace(/[　]/g, " ").split(/[｜|]/).at(-1) || source)
-    .replace(/^日本(?:原裝|直送|製品?)\s*/i, "")
+    .replace(/^\u65e5\u672c(?:\u539f\u88dd|\u76f4\u9001|\u88fd\u54c1?)\s*/i, "")
     .replace(/^Best Partner\s*/i, "")
-    .replace(/^天然寵物(?:零食|食品|用品)\s*[：:]?\s*/i, "")
+    .replace(/^\u5929\u7136\u5bf5\u7269(?:\u96f6\u98df|\u98df\u54c1|\u7528\u54c1)\s*[：:]?\s*/i, "")
     .trim();
   const size = name.match(/(?:\s|^)([SML]|ＬＬ|Ｌ|Ｍ|Ｓ)(?:\s|$)/i)?.[1];
   const sizeLabel = size ? `（${size.replace("Ｌ", "L").replace("Ｍ", "M").replace("Ｓ", "S")}）` : "";
-  if (/ハーネス/i.test(name)) return `強韌透氣防暴衝胸背帶${sizeLabel}`;
-  if (/リード/i.test(name)) return `強韌防暴衝牽引帶${sizeLabel}`;
-  if (/カラー/i.test(name)) return `雙色半鏈防暴衝頸圈${sizeLabel}`;
+  if (/ハーネス/i.test(name)) return `\u5f37\u97cc\u900f\u6c23\u9632\u66b4\u885d\u80f8\u80cc\u5e36${sizeLabel}`;
+  if (/リード/i.test(name)) return `\u5f37\u97cc\u9632\u66b4\u885d\u727d\u5f15\u5e36${sizeLabel}`;
+  if (/カラー/i.test(name)) return `\u96d9\u8272\u534a\u93c8\u9632\u66b4\u885d\u9838\u5708${sizeLabel}`;
   const translated = name
-    .replace(/猫の?/g, "貓用 ").replace(/塩無添加/g, "無鹽添加")
-    .replace(/まぐろ|マグロ/g, "金槍魚").replace(/かつお/g, "柴魚")
-    .replace(/ささみ/g, "雞胸肉").replace(/鶏/g, "雞")
-    .replace(/にぼし/g, "小魚乾").replace(/きびなご/g, "丁香魚")
-    .replace(/わかさぎ|ひめたら/g, "姬鱈魚").replace(/スライス/g, "薄片")
-    .replace(/フレーク/g, "肉鬆").replace(/ふりかけ/g, "拌飯粉")
-    .replace(/ちっぷす/g, "脆片").replace(/キューブ/g, "粒")
-    .replace(/スティック/g, "棒").replace(/\s+/g, " ").trim();
-  return translated || name || "未命名產品";
+    .replace(/\u732bの?/g, "\u8c93\u7528 ").replace(/\u5869\u7121\u6dfb\u52a0/g, "\u7121\u9e7d\u6dfb\u52a0")
+    .replace(/まぐろ|マグロ/g, "\u91d1\u69cd\u9b5a").replace(/かつお/g, "\u67f4\u9b5a")
+    .replace(/ささみ/g, "\u96de\u80f8\u8089").replace(/\u9d8f/g, "\u96de")
+    .replace(/にぼし/g, "\u5c0f\u9b5a\u4e7e").replace(/きびなご/g, "\u4e01\u9999\u9b5a")
+    .replace(/わかさぎ|ひめたら/g, "\u59ec\u9c48\u9b5a").replace(/スライス/g, "\u8584\u7247")
+    .replace(/フレーク/g, "\u8089\u9b06").replace(/ふりかけ/g, "\u62cc\u98ef\u7c89")
+    .replace(/ちっぷす/g, "\u8106\u7247").replace(/キューブ/g, "\u7c92")
+    .replace(/スティック/g, "\u68d2").replace(/\s+/g, " ").trim();
+  return translated || name || "\u672a\u547d\u540d\u7522\u54c1";
 }
 
 function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
@@ -511,8 +511,8 @@ function parseBilingualSpecs(
     "specifications_zh",
     "specs.zh",
     "specifications.zh",
-    "規格",
-    "中文規格",
+    "\u898f\u683c",
+    "\u4e2d\u6587\u898f\u683c",
   ]);
   const enValue = firstMetadataValue(metadata, [
     "specs_en",
@@ -520,7 +520,7 @@ function parseBilingualSpecs(
     "specifications_en",
     "specs.en",
     "specifications.en",
-    "英文規格",
+    "\u82f1\u6587\u898f\u683c",
   ]);
   const sharedValue = firstMetadataValue(metadata, ["specs", "specifications"]);
   const parseList = (value: string | undefined) =>
@@ -561,7 +561,7 @@ function inStockFromMetadata(metadata: Record<string, string>): boolean {
     .join(" ");
   const explicit = metadata.in_stock?.trim().toLowerCase();
   if (explicit === "false" || explicit === "0" || explicit === "no") return false;
-  return !/缺貨|缺货|out\s*of\s*stock|sold\s*out/i.test(availability);
+  return !/\u7f3a\u8ca8|\u7f3a\u8d27|out\s*of\s*stock|sold\s*out/i.test(availability);
 }
 
 async function listAllActiveProducts(stripe: Stripe): Promise<Stripe.Product[]> {
@@ -622,7 +622,7 @@ function productVariantsFromPrices(
         { ...productMetadata, ...price.metadata },
         price.amount,
       );
-      const variantLabelZh = price.metadata.variant_label_zh || (isGeneralChoice ? "選項" : `${packCount}罐裝`);
+      const variantLabelZh = price.metadata.variant_label_zh || (isGeneralChoice ? "\u9078\u9805" : `${packCount}\u7f50\u88dd`);
       const variantLabelEn = price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`);
       const variantImage = isUsableCatalogImage(price.metadata.variant_image_url)
         ? price.metadata.variant_image_url.trim()
@@ -639,7 +639,7 @@ function productVariantsFromPrices(
         ...(Number.isFinite(perCan) && perCan > 0
           ? {
               unitLabel: {
-                zh: `每罐 HK$${perCan.toFixed(2)}`,
+                zh: `\u6bcf\u7f50 HK$${perCan.toFixed(2)}`,
                 en: `HK$${perCan.toFixed(2)} each`,
               },
             }
@@ -711,8 +711,8 @@ function stripeProductToCatalogProduct(
   const snackSeries = snackSeriesFromProduct(product, categorySlug, subcategory);
   const metadataName = bilingualMetadataValue(
     metadata,
-    ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
-    ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
+    ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "\u4e2d\u6587\u540d\u7a31", "\u4e2d\u6587\u5546\u54c1\u540d\u7a31"],
+    ["name_en", "title_en", "product_name_en", "name.en", "title.en", "\u82f1\u6587\u540d\u7a31", "\u82f1\u6587\u5546\u54c1\u540d\u7a31"],
     "",
   );
   const localizedName = metadataName
@@ -726,8 +726,8 @@ function stripeProductToCatalogProduct(
         };
   const metadataDescription = bilingualMetadataValue(
     metadata,
-    ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
-    ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+    ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "\u4e2d\u6587\u63cf\u8ff0", "\u4e2d\u6587\u4ecb\u7d39"],
+    ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "\u82f1\u6587\u63cf\u8ff0", "\u82f1\u6587\u4ecb\u7d39"],
     "",
   );
   const localizedDescription = metadataDescription
@@ -743,13 +743,13 @@ function stripeProductToCatalogProduct(
       : undefined;
   const localizedTexture = bilingualMetadataValue(
     metadata,
-    ["texture_zh", "texture.zh", "mouthfeel_zh", "口感", "口感特點"],
-    ["texture_en", "texture.en", "mouthfeel_en", "口感英文"],
+    ["texture_zh", "texture.zh", "mouthfeel_zh", "\u53e3\u611f", "\u53e3\u611f\u7279\u9ede"],
+    ["texture_en", "texture.en", "mouthfeel_en", "\u53e3\u611f\u82f1\u6587"],
     "",
   );
   const localizedAvailability = bilingualMetadataValue(
     metadata,
-    ["availability_display_zh", "stock_status_zh", "規格狀態"],
+    ["availability_display_zh", "stock_status_zh", "\u898f\u683c\u72c0\u614b"],
     ["availability_display_en", "stock_status_en"],
     "",
   );
@@ -961,14 +961,14 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         : {};
       const stripeName = bilingualMetadataValue(
         stripeMetadata,
-        ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "中文名稱", "中文商品名稱"],
-        ["name_en", "title_en", "product_name_en", "name.en", "title.en", "英文名稱", "英文商品名稱"],
+        ["name_zh", "title_zh", "product_name_zh", "name.zh", "title.zh", "\u4e2d\u6587\u540d\u7a31", "\u4e2d\u6587\u5546\u54c1\u540d\u7a31"],
+        ["name_en", "title_en", "product_name_en", "name.en", "title.en", "\u82f1\u6587\u540d\u7a31", "\u82f1\u6587\u5546\u54c1\u540d\u7a31"],
         "",
       );
       const stripeDescription = bilingualMetadataValue(
         stripeMetadata,
-        ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "中文描述", "中文介紹"],
-        ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "英文描述", "英文介紹"],
+        ["description_zh", "detail_zh", "intro_zh", "description.zh", "detail.zh", "intro.zh", "\u4e2d\u6587\u63cf\u8ff0", "\u4e2d\u6587\u4ecb\u7d39"],
+        ["description_en", "detail_en", "intro_en", "description.en", "detail.en", "intro.en", "\u82f1\u6587\u63cf\u8ff0", "\u82f1\u6587\u4ecb\u7d39"],
         "",
       );
       const productLocalization = productLocalizations[String(row.id)];
@@ -991,7 +991,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
     const categorySlug = categoryAssignment.categorySlug;
     const subcategory = categoryAssignment.subcategory;
-    const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "未命名產品"), row.supplier_brand, row.name);
+    const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "\u672a\u547d\u540d\u7522\u54c1"), row.supplier_brand, row.name);
     const databaseNameEn = resolveEnglishProductName({
       id: row.id,
       sourceId: row.source_product_id,
@@ -1007,10 +1007,10 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       descriptionEn: productLocalization?.description_en || row.description_en || stripeDescription?.en,
     });
     const rawSourceName = String(row.name || "").trim();
-    const nameJa = ["name_ja", "name_jp", "product_name_ja", "原商品名", "商品名_日本語", "source_name_ja"]
+    const nameJa = ["name_ja", "name_jp", "product_name_ja", "\u539f\u5546\u54c1\u540d", "\u5546\u54c1\u540d_\u65e5\u672c\u8a9e", "source_name_ja"]
       .map((key) => stripeMetadata[key]?.trim()).find(Boolean)
       || (/[\u3040-\u30ff]/.test(rawSourceName) ? rawSourceName : undefined);
-    const descriptionJa = ["description_ja", "detail_ja", "intro_ja", "日本語説明", "原文説明"]
+    const descriptionJa = ["description_ja", "detail_ja", "intro_ja", "\u65e5\u672c\u8a9e\u8aac\u660e", "\u539f\u6587\u8aac\u660e"]
       .map((key) => stripeMetadata[key]?.trim()).find(Boolean);
     return {
       id: String(row.id),
@@ -1034,7 +1034,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       inStock: Number(row.stock || 0) > 0,
       description: databaseDescriptionZh || databaseDescriptionEn
         ? {
-            zh: String(databaseDescriptionZh || "商品說明稍後更新。"),
+            zh: String(databaseDescriptionZh || "\u5546\u54c1\u8aaa\u660e\u7a0d\u5f8c\u66f4\u65b0。"),
             en: databaseDescriptionEn,
           }
         : undefined,

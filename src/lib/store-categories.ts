@@ -47,9 +47,9 @@ export function categoryIconForSlug(slug: string): CategoryIconName {
   const normalized = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
   if (normalized.includes("cat")) return "cat";
   if (normalized.includes("dog")) return "dog";
-  if (/(toy|玩具)/.test(normalized)) return "toy";
-  if (/(clean|清潔|除臭)/.test(normalized)) return "cleaning";
-  if (/(health|護理|健康)/.test(normalized)) return "health";
+  if (/(toy|\u73a9\u5177)/.test(normalized)) return "toy";
+  if (/(clean|\u6e05\u6f54|\u9664\u81ed)/.test(normalized)) return "cleaning";
+  if (/(health|\u8b77\u7406|\u5065\u5eb7)/.test(normalized)) return "health";
   if (/(bed|home|lifestyle|outdoor|travel|house|sleep)/.test(normalized)) return "bag";
   return DEFAULT_ICON;
 }

@@ -30,12 +30,12 @@ function productAudienceText(product: Product) {
 
 function isCatMarqueeProduct(product: Product) {
   const text = productAudienceText(product);
-  return product.categorySlug === "cats" || /貓|猫|cat|ねこ|ネコ/.test(text);
+  return product.categorySlug === "cats" || /\u8c93|\u732b|cat|ねこ|ネコ/.test(text);
 }
 
 function isDogMarqueeProduct(product: Product) {
   const text = productAudienceText(product);
-  return !/貓|猫|cat|ねこ|ネコ/.test(text) && (product.categorySlug === "dogs" || /狗|犬|dog/.test(text));
+  return !/\u8c93|\u732b|cat|ねこ|ネコ/.test(text) && (product.categorySlug === "dogs" || /\u72d7|\u72ac|dog/.test(text));
 }
 
 function ProductRow({ label, products, speed }: ProductRowProps) {

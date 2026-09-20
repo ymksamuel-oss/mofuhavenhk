@@ -25,7 +25,7 @@ export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "
       ];
 
   return (
-    <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-2 py-1.5 sm:px-6 sm:py-4`} aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven 服務承諾"}>
+    <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-2 py-1.5 sm:px-6 sm:py-4`} aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven \u670d\u52d9\u627f\u8afe"}>
       <div className="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-[#dfccba] sm:divide-x">
         {labels.map((item) => (
           <Link key={item.title} href={item.href} className="flex min-w-0 items-center justify-center gap-1 px-1 py-1 transition hover:bg-[#fffaf4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] sm:gap-3 sm:px-5 sm:py-0">

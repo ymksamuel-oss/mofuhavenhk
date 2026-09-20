@@ -8,17 +8,17 @@ const MAX_ROWS = 5000;
 const MAX_IMAGES = 8;
 const CSV_HEADERS = [
   "id",
-  "產品名稱",
+  "\u7522\u54c1\u540d\u7a31",
   "SKU",
-  "成本價 JPY",
-  "零售價 HKD",
-  "庫存",
-  "圖片 URL",
-  "描述",
-  "分類 ID",
-  "品牌",
-  "狀態",
-  "已發布",
+  "\u6210\u672c\u50f9 JPY",
+  "\u96f6\u552e\u50f9 HKD",
+  "\u5eab\u5b58",
+  "\u5716\u7247 URL",
+  "\u63cf\u8ff0",
+  "\u5206\u985e ID",
+  "\u54c1\u724c",
+  "\u72c0\u614b",
+  "\u5df2\u767c\u5e03",
 ] as const;
 
 type ProductRow = Record<string, unknown>;
@@ -101,7 +101,7 @@ function exportXlsx(rows: ProductRow[]) {
   const sheet = XLSX.utils.aoa_to_sheet(values);
   sheet["!cols"] = [{ wch: 28 }, { wch: 34 }, { wch: 20 }, { wch: 14 }, { wch: 14 }, { wch: 10 }, { wch: 52 }];
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, sheet, "產品");
+  XLSX.utils.book_append_sheet(workbook, sheet, "\u7522\u54c1");
   return XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
 }
 
@@ -111,15 +111,15 @@ function firstValue(row: Record<string, string>, names: string[]) {
 }
 
 function parseNumber(value: string, label: string, required = false) {
-  if (!value) { if (required) throw new Error(`${label}不可為空`); return undefined; }
+  if (!value) { if (required) throw new Error(`${label}\u4e0d\u53ef\u70ba\u7a7a`); return undefined; }
   const number = Number(value);
-  if (!Number.isFinite(number) || number < 0) throw new Error(`${label}必須是有效的非負數字`);
+  if (!Number.isFinite(number) || number < 0) throw new Error(`${label}\u5fc5\u9808\u662f\u6709\u6548\u7684\u975e\u8ca0\u6578\u5b57`);
   return number;
 }
 
 function parseBoolean(value: string, fallback: boolean) {
   if (!value) return fallback;
-  return ["true", "1", "yes", "y", "是", "已發布", "published"].includes(value.toLowerCase());
+  return ["true", "1", "yes", "y", "\u662f", "\u5df2\u767c\u5e03", "published"].includes(value.toLowerCase());
 }
 
 function findMatch(rows: ProductRow[], id: string, sku: string, name: string) {
@@ -158,16 +158,16 @@ export async function POST(request: Request) {
   if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   const form = await request.formData();
   const file = form.get("file");
-  if (!(file instanceof File)) return NextResponse.json({ error: "請選擇 CSV 或 Excel 檔案" }, { status: 400 });
-  if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: "檔案不可大於 10MB" }, { status: 400 });
+  if (!(file instanceof File)) return NextResponse.json({ error: "\u8acb\u9078\u64c7 CSV \u6216 Excel \u6a94\u6848" }, { status: 400 });
+  if (file.size > 10 * 1024 * 1024) return NextResponse.json({ error: "\u6a94\u6848\u4e0d\u53ef\u5927\u65bc 10MB" }, { status: 400 });
   const fileName = file.name || "upload.csv";
-  if (!/\.(csv|xlsx|xls)$/i.test(fileName)) return NextResponse.json({ error: "只支援 .csv、.xlsx 或 .xls 檔案" }, { status: 400 });
+  if (!/\.(csv|xlsx|xls)$/i.test(fileName)) return NextResponse.json({ error: "\u53ea\u652f\u63f4 .csv、.xlsx \u6216 .xls \u6a94\u6848" }, { status: 400 });
   const parsed = parseSpreadsheet(await file.arrayBuffer(), fileName);
-  if (parsed.length < 2) return NextResponse.json({ error: "檔案必須包含標題列及至少一項產品" }, { status: 400 });
+  if (parsed.length < 2) return NextResponse.json({ error: "\u6a94\u6848\u5fc5\u9808\u5305\u542b\u6a19\u984c\u5217\u53ca\u81f3\u5c11\u4e00\u9805\u7522\u54c1" }, { status: 400 });
   const headers = parsed[0].map((header) => header.trim());
-  const requiredHeader = headers.find((header) => ["產品名稱", "name", "名稱"].includes(header));
-  if (!requiredHeader) return NextResponse.json({ error: "檔案必須包含「產品名稱」欄位" }, { status: 400 });
-  if (parsed.length - 1 > MAX_ROWS) return NextResponse.json({ error: `單次最多匯入 ${MAX_ROWS} 項產品` }, { status: 400 });
+  const requiredHeader = headers.find((header) => ["\u7522\u54c1\u540d\u7a31", "name", "\u540d\u7a31"].includes(header));
+  if (!requiredHeader) return NextResponse.json({ error: "\u6a94\u6848\u5fc5\u9808\u5305\u542b「\u7522\u54c1\u540d\u7a31」\u6b04\u4f4d" }, { status: 400 });
+  if (parsed.length - 1 > MAX_ROWS) return NextResponse.json({ error: `\u55ae\u6b21\u6700\u591a\u532f\u5165 ${MAX_ROWS} \u9805\u7522\u54c1` }, { status: 400 });
   const { data: existing, error: readError } = await supabase.from("products").select("*");
   if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });
   const rows = existing || [];
@@ -178,15 +178,15 @@ export async function POST(request: Request) {
   for (let index = 1; index < parsed.length; index += 1) {
     const values = parsed[index];
     const input = Object.fromEntries(headers.map((header, column) => [header, values[column] ?? ""]));
-    const name = firstValue(input, ["產品名稱", "名稱", "name"]);
+    const name = firstValue(input, ["\u7522\u54c1\u540d\u7a31", "\u540d\u7a31", "name"]);
     const sku = firstValue(input, ["SKU", "sku", "mofu_sku"]);
     try {
-      if (!name) throw new Error("產品名稱不可為空");
-      const cost = parseNumber(firstValue(input, ["成本價 JPY", "來貨價 JPY", "來貨價 CNY", "來貨價 RMB", "cost_price_rmb", "cost_price_jpy"]), "成本價", true)!;
-      if (cost <= 0) throw new Error("成本價必須大於 0");
-      const retailPrice = parseNumber(firstValue(input, ["零售價 HKD", "售價 HKD", "price"]), "零售價 HKD", true)!;
-      if (retailPrice <= 0) throw new Error("零售價 HKD 必須大於 0");
-      const originalPrice = parseNumber(firstValue(input, ["原價 HKD", "original_price"]), "原價 HKD") ?? retailPrice;
+      if (!name) throw new Error("\u7522\u54c1\u540d\u7a31\u4e0d\u53ef\u70ba\u7a7a");
+      const cost = parseNumber(firstValue(input, ["\u6210\u672c\u50f9 JPY", "\u4f86\u8ca8\u50f9 JPY", "\u4f86\u8ca8\u50f9 CNY", "\u4f86\u8ca8\u50f9 RMB", "cost_price_rmb", "cost_price_jpy"]), "\u6210\u672c\u50f9", true)!;
+      if (cost <= 0) throw new Error("\u6210\u672c\u50f9\u5fc5\u9808\u5927\u65bc 0");
+      const retailPrice = parseNumber(firstValue(input, ["\u96f6\u552e\u50f9 HKD", "\u552e\u50f9 HKD", "price"]), "\u96f6\u552e\u50f9 HKD", true)!;
+      if (retailPrice <= 0) throw new Error("\u96f6\u552e\u50f9 HKD \u5fc5\u9808\u5927\u65bc 0");
+      const originalPrice = parseNumber(firstValue(input, ["\u539f\u50f9 HKD", "original_price"]), "\u539f\u50f9 HKD") ?? retailPrice;
       const matched = findMatch(rows, firstValue(input, ["id"]), sku, name);
       const payload: Record<string, unknown> = {
         name,
@@ -196,25 +196,25 @@ export async function POST(request: Request) {
         original_price: originalPrice,
         current_hkd: retailPrice,
       };
-      const stock = parseNumber(firstValue(input, ["庫存", "stock"]), "庫存");
+      const stock = parseNumber(firstValue(input, ["\u5eab\u5b58", "stock"]), "\u5eab\u5b58");
       if (stock !== undefined) payload.stock = Math.trunc(stock);
-      const images = firstValue(input, ["圖片 URL", "圖片 URL（以 | 分隔）", "images", "image_url"]);
+      const images = firstValue(input, ["\u5716\u7247 URL", "\u5716\u7247 URL（\u4ee5 | \u5206\u9694）", "images", "image_url"]);
       if (images) payload.images = images.split(/[|\r\n,;]+/).map((value) => value.trim()).filter(Boolean).slice(0, MAX_IMAGES);
-      for (const [field, names] of Object.entries({ description: ["描述", "description"], category_id: ["分類 ID", "category_id"], brand: ["品牌", "brand"], status: ["狀態", "status"] })) {
+      for (const [field, names] of Object.entries({ description: ["\u63cf\u8ff0", "description"], category_id: ["\u5206\u985e ID", "category_id"], brand: ["\u54c1\u724c", "brand"], status: ["\u72c0\u614b", "status"] })) {
         const value = firstValue(input, names);
         if (value) payload[field] = value;
       }
-      const published = firstValue(input, ["已發布", "is_published"]);
+      const published = firstValue(input, ["\u5df2\u767c\u5e03", "is_published"]);
       if (published) payload.is_published = parseBoolean(published, true);
       const wantsPublished = payload.status === "published" || payload.is_published === true;
       if (wantsPublished) {
         const missing: string[] = [];
-        if (!firstValue(input, ["英文品名", "name_en"])) missing.push("英文品名");
-        if (!firstValue(input, ["描述", "description"])) missing.push("中文詳細敘述");
-        if (!firstValue(input, ["英文描述", "description_en"])) missing.push("英文詳細敘述");
-        if (stock === undefined || stock <= 0) missing.push("庫存（需大於 0）");
-        if (!images || !images.split(/[|\r\n,;]+/).some((value) => /^https?:\/\/\S+$/i.test(value.trim()))) missing.push("圖片 URL");
-        if (missing.length) throw new Error(`產品未能上架，請先補齊：${missing.join("、")}`);
+        if (!firstValue(input, ["\u82f1\u6587\u54c1\u540d", "name_en"])) missing.push("\u82f1\u6587\u54c1\u540d");
+        if (!firstValue(input, ["\u63cf\u8ff0", "description"])) missing.push("\u4e2d\u6587\u8a73\u7d30\u6558\u8ff0");
+        if (!firstValue(input, ["\u82f1\u6587\u63cf\u8ff0", "description_en"])) missing.push("\u82f1\u6587\u8a73\u7d30\u6558\u8ff0");
+        if (stock === undefined || stock <= 0) missing.push("\u5eab\u5b58（\u9700\u5927\u65bc 0）");
+        if (!images || !images.split(/[|\r\n,;]+/).some((value) => /^https?:\/\/\S+$/i.test(value.trim()))) missing.push("\u5716\u7247 URL");
+        if (missing.length) throw new Error(`\u7522\u54c1\u672a\u80fd\u4e0a\u67b6，\u8acb\u5148\u88dc\u9f4a：${missing.join("、")}`);
       }
       if (matched) {
         const { error } = await supabase.from("products").update(payload).eq("id", matched.id);
@@ -228,7 +228,7 @@ export async function POST(request: Request) {
         created += 1;
       }
     } catch (error) {
-      errors.push(`第 ${index + 1} 行：${error instanceof Error ? error.message : "格式錯誤"}`);
+      errors.push(`\u7b2c ${index + 1} \u884c：${error instanceof Error ? error.message : "\u683c\u5f0f\u932f\u8aa4"}`);
     }
   }
   return NextResponse.json({ created, updated, failed: errors.length, errors });

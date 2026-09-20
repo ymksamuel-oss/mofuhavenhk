@@ -94,7 +94,7 @@ export async function notifyPaidPaymentIntent({
   const customerName =
     nonEmpty(metadata.customerName) ||
     nonEmpty(paymentMethod?.billing_details?.name) ||
-    "顧客";
+    "\u9867\u5ba2";
   const detectedPaymentLabel = paymentLabelFromIntent(paymentIntent, paymentMethod);
   const paymentLabel =
     detectedPaymentLabel !== "Stripe"

@@ -50,8 +50,8 @@ const PAYMENT_LABELS: Record<string, string> = {
   applepay: "Apple Pay",
   googlepay: "Google Pay",
   payme: "PayMe",
-  card: "信用卡／全球支付 (Stripe)",
-  alipayhk: "AlipayHK（香港支付寶）",
+  card: "\u4fe1\u7528\u5361／\u5168\u7403\u652f\u4ed8 (Stripe)",
+  alipayhk: "AlipayHK（\u9999\u6e2f\u652f\u4ed8\u5bf6）",
 };
 
 function isNonEmptyString(value: unknown): value is string {

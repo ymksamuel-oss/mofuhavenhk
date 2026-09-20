@@ -15,7 +15,7 @@ export function CollectionsNav({ mobile = false, onNavigate }: { mobile?: boolea
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const label = locale === "en" ? "Collections" : "商品專區";
+  const label = locale === "en" ? "Collections" : "\u5546\u54c1\u5c08\u5340";
   const isActive = pathname.startsWith("/collections/");
 
   if (mobile) {

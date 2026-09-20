@@ -7,7 +7,7 @@ import { CAT_BREED_GALLERY_IMAGES } from "@/lib/catBreedGallery";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 /**
- * Homepage-only gallery for the 「探索寵物世界」 story section.
+ * Homepage-only gallery for the 「\u63a2\u7d22\u5bf5\u7269\u4e16\u754c」 story section.
  * Product catalog data and product image URLs are intentionally not used here.
  */
 export function ExploreCatBreedGallery() {

@@ -112,9 +112,9 @@ function parseStock(value: string): boolean | undefined {
       "y",
       "in stock",
       "instock",
-      "有貨",
-      "在售",
-      "上架",
+      "\u6709\u8ca8",
+      "\u5728\u552e",
+      "\u4e0a\u67b6",
     ].includes(normalized)
   ) {
     return true;
@@ -127,10 +127,10 @@ function parseStock(value: string): boolean | undefined {
       "n",
       "out of stock",
       "outofstock",
-      "售罄",
-      "缺貨",
-      "停售",
-      "下架",
+      "\u552e\u7f44",
+      "\u7f3a\u8ca8",
+      "\u505c\u552e",
+      "\u4e0b\u67b6",
     ].includes(normalized)
   ) {
     return false;
@@ -179,14 +179,14 @@ function parseImage(
  * Sheet may keep a title row above the actual columns.
  *
  * Supported columns:
- * - id / productId / sku / 商品 ID
- * - categorySlug / 主分類代碼
- * - image / 本地圖片路徑 / 來源圖片 URL
- * - title / 中文商品名稱 / 英文商品名稱
- * - description / 中文描述 / 英文描述
- * - price / salePrice / 售價 (HKD)
- * - originalPrice / compareAtPrice / 原價 (HKD) (optional)
- * - inStock / availability / 庫存狀態
+ * - id / productId / sku / \u5546\u54c1 ID
+ * - categorySlug / \u4e3b\u5206\u985e\u4ee3\u78bc
+ * - image / \u672c\u5730\u5716\u7247\u8def\u5f91 / \u4f86\u6e90\u5716\u7247 URL
+ * - title / \u4e2d\u6587\u5546\u54c1\u540d\u7a31 / \u82f1\u6587\u5546\u54c1\u540d\u7a31
+ * - description / \u4e2d\u6587\u63cf\u8ff0 / \u82f1\u6587\u63cf\u8ff0
+ * - price / salePrice / \u552e\u50f9 (HKD)
+ * - originalPrice / compareAtPrice / \u539f\u50f9 (HKD) (optional)
+ * - inStock / availability / \u5eab\u5b58\u72c0\u614b
  *
  * Invalid data rows are ignored. Duplicate IDs invalidate the complete Sheet
  * so callers do not serve an ambiguous catalog.
@@ -217,25 +217,25 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
       "id",
       "productid",
       "sku",
-      "商品id",
-      "商品編號",
-      "產品id",
-      "產品編號",
+      "\u5546\u54c1id",
+      "\u5546\u54c1\u7de8\u865f",
+      "\u7522\u54c1id",
+      "\u7522\u54c1\u7de8\u865f",
     ]);
     const candidateCategoryColumn = findColumn(headers, [
       "categoryslug",
-      "主分類代碼",
-      "主分类代码",
+      "\u4e3b\u5206\u985e\u4ee3\u78bc",
+      "\u4e3b\u5206\u7c7b\u4ee3\u7801",
     ]);
     const candidatePriceColumn = findColumn(headers, [
       "price",
       "saleprice",
-      "售價",
-      "售價hkd",
-      "價格",
-      "價格hkd",
-      "價錢",
-      "價錢hkd",
+      "\u552e\u50f9",
+      "\u552e\u50f9hkd",
+      "\u50f9\u683c",
+      "\u50f9\u683chkd",
+      "\u50f9\u9322",
+      "\u50f9\u9322hkd",
     ]);
 
     if (
@@ -254,75 +254,75 @@ export function parseProductCatalogCsv(csv: string): ParsedProductCatalog {
       "originalprice",
       "compareatprice",
       "regularprice",
-      "原價",
-      "原價hkd",
+      "\u539f\u50f9",
+      "\u539f\u50f9hkd",
     ]);
     stockColumn = findColumn(headers, [
       "instock",
       "available",
       "availability",
-      "庫存",
-      "庫存狀態",
-      "存貨",
-      "存貨狀態",
+      "\u5eab\u5b58",
+      "\u5eab\u5b58\u72c0\u614b",
+      "\u5b58\u8ca8",
+      "\u5b58\u8ca8\u72c0\u614b",
     ]);
     localImageColumn = findColumn(headers, [
       "image",
       "imagepath",
       "imageurl",
-      "產品圖片",
-      "商品圖片",
-      "圖片",
-      "本地圖片",
-      "本地圖片路徑",
+      "\u7522\u54c1\u5716\u7247",
+      "\u5546\u54c1\u5716\u7247",
+      "\u5716\u7247",
+      "\u672c\u5730\u5716\u7247",
+      "\u672c\u5730\u5716\u7247\u8def\u5f91",
     ]);
     sourceImageColumn = findColumn(headers, [
       "sourceimage",
       "sourceimageurl",
-      "來源圖片",
-      "來源圖片url",
-      "原始圖片",
-      "原始圖片url",
+      "\u4f86\u6e90\u5716\u7247",
+      "\u4f86\u6e90\u5716\u7247url",
+      "\u539f\u59cb\u5716\u7247",
+      "\u539f\u59cb\u5716\u7247url",
     ]);
     zhTitleColumn = findColumn(headers, [
       "title",
       "name",
       "producttitle",
       "productname",
-      "產品名稱",
-      "商品名稱",
-      "中文商品名稱",
-      "中文名稱",
+      "\u7522\u54c1\u540d\u7a31",
+      "\u5546\u54c1\u540d\u7a31",
+      "\u4e2d\u6587\u5546\u54c1\u540d\u7a31",
+      "\u4e2d\u6587\u540d\u7a31",
     ]);
     enTitleColumn = findColumn(headers, [
       "titleen",
       "nameen",
       "englishtitle",
       "englishname",
-      "英文商品名稱",
-      "英文名稱",
+      "\u82f1\u6587\u5546\u54c1\u540d\u7a31",
+      "\u82f1\u6587\u540d\u7a31",
     ]);
     zhDescriptionColumn = findColumn(headers, [
       "description",
       "productdescription",
-      "產品介紹",
-      "商品介紹",
-      "詳細介紹",
-      "中文描述",
-      "中文介紹",
+      "\u7522\u54c1\u4ecb\u7d39",
+      "\u5546\u54c1\u4ecb\u7d39",
+      "\u8a73\u7d30\u4ecb\u7d39",
+      "\u4e2d\u6587\u63cf\u8ff0",
+      "\u4e2d\u6587\u4ecb\u7d39",
     ]);
     enDescriptionColumn = findColumn(headers, [
       "descriptionen",
       "englishdescription",
-      "英文描述",
-      "英文介紹",
+      "\u82f1\u6587\u63cf\u8ff0",
+      "\u82f1\u6587\u4ecb\u7d39",
     ]);
     break;
   }
 
   if (headerRowIndex < 0) {
     throw new Error(
-      "Google Sheet requires 商品 ID, 主分類代碼, and 售價 (HKD) columns within the first 20 non-empty rows",
+      "Google Sheet requires \u5546\u54c1 ID, \u4e3b\u5206\u985e\u4ee3\u78bc, and \u552e\u50f9 (HKD) columns within the first 20 non-empty rows",
     );
   }
   if (
