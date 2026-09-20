@@ -8,11 +8,13 @@ import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
 import { ProductImage } from "@/components/product/ProductImage";
+import QRCode from "qrcode";
 
 export type PetMatcherWizardProps = { variant: "home" | "floating" };
 type Pet = "dog" | "cat";
 type Age = "young" | "adult" | "senior";
 type Need = "chew" | "dental" | "walk" | "sensitive" | "picky-cat" | "urinary";
+type SpecialCare = "allergy" | "joints" | "strong-chewer";
 
 type Choice = { zh: string; en: string };
 
@@ -79,17 +81,47 @@ const AGE_LABELS: Record<Age, Choice> = {
   senior: { zh: "熟齡期（7歲+）", en: "Senior (7+ years)" },
 };
 
+const SPECIAL_CARE: Array<{ id: SpecialCare; label: Choice; hint: Choice; keywords: string[] }> = [
+  { id: "allergy", label: { zh: "🌿 容易過敏（避開常見禽肉）", en: "🌿 Sensitive / avoid common poultry" }, hint: { zh: "優先鹿肉乾及低敏馬肉", en: "Prioritise venison and gentle horse meat" }, keywords: ["venison", "horse", "鹿肉", "馬肉", "低敏"] },
+  { id: "joints", label: { zh: "🦴 關節與骨骼保健", en: "🦴 Joint and bone support" }, hint: { zh: "優先天然軟骨素來源", en: "Prioritise natural chondroitin sources" }, keywords: ["cartilage", "trachea", "joint", "bone", "軟骨", "喉氣管", "關節"] },
+  { id: "strong-chewer", label: { zh: "🦷 強烈咬合・防拆家", en: "🦷 Strong chewer / home protection" }, hint: { zh: "優先牛蹄及特長牛大筋", en: "Prioritise hooves and long beef tendons" }, keywords: ["hoof", "tendon", "chew", "牛蹄", "牛大筋", "耐咬"] },
+];
+
 function searchableProductText(product: Product): string {
   return [product.name.en, product.name.zh, product.description?.en, product.description?.zh, product.categorySlug, product.metadata?.category, product.metadata?.subcategory, product.brandName, product.brand, ...(product.tags ?? [])].filter(Boolean).join(" ").toLowerCase();
 }
 
-function scoreProduct(product: Product, need: Need, pet: Pet): number {
+function scoreProduct(product: Product, need: Need, pet: Pet, specialCare: SpecialCare[]): number {
   const text = searchableProductText(product);
   const selectedNeed = NEEDS[pet].find((candidate) => candidate.id === need);
   const keywordScore = selectedNeed?.keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 8 : 0), 0) ?? 0;
   const petScore = pet === "cat" && /cat|feline|貓|ciao/.test(text) ? 12 : pet === "dog" && /dog|canine|犬|狗|walk|chew/.test(text) ? 8 : 0;
   const inStockScore = product.inStock !== false ? 2 : -100;
-  return keywordScore + petScore + inStockScore;
+  const specialScore = specialCare.reduce((score, careId) => {
+    const care = SPECIAL_CARE.find((candidate) => candidate.id === careId);
+    return score + (care?.keywords.reduce((careScore, keyword) => careScore + (text.includes(keyword.toLowerCase()) ? 18 : 0), 0) ?? 0);
+  }, 0);
+  return keywordScore + petScore + specialScore + inStockScore;
+}
+
+function drawWrappedText(context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): number {
+  const words = Array.from(text);
+  let line = "";
+  for (const word of words) {
+    const next = `${line}${word}`;
+    if (context.measureText(next).width > maxWidth && line) {
+      context.fillText(line, x, y);
+      y += lineHeight;
+      line = word;
+    } else {
+      line = next;
+    }
+  }
+  if (line) {
+    context.fillText(line, x, y);
+    y += lineHeight;
+  }
+  return y;
 }
 
 function localize(choice: Choice, locale: "zh" | "en") {
@@ -107,6 +139,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   const [age, setAge] = useState<Age | null>(null);
   const [breed, setBreed] = useState<Choice | null>(null);
   const [need, setNeed] = useState<Need | null>(null);
+  const [specialCare, setSpecialCare] = useState<SpecialCare[]>([]);
   const [addedIds, setAddedIds] = useState<string[]>([]);
 
   const recommendations = useMemo(() => {
@@ -114,9 +147,9 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     const excluded = new Set(lines.map((line) => line.id));
     return products
       .filter((product) => product.inStock !== false && !excluded.has(product.id))
-      .sort((a, b) => scoreProduct(b, need, pet) - scoreProduct(a, need, pet) || a.price - b.price)
+      .sort((a, b) => scoreProduct(b, need, pet, specialCare) - scoreProduct(a, need, pet, specialCare) || a.price - b.price)
       .slice(0, 3);
-  }, [lines, need, pet, products]);
+  }, [lines, need, pet, products, specialCare]);
 
   const total = recommendations.reduce((sum, product) => sum + product.price, 0);
   const openWizard = () => {
@@ -131,6 +164,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     setAge(null);
     setBreed(null);
     setNeed(null);
+    setSpecialCare([]);
     setAddedIds([]);
   };
   const canContinue = step === 1 ? Boolean(pet) : step === 2 ? Boolean(age) : step === 3 ? Boolean(breed) : Boolean(need);
@@ -147,6 +181,68 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     recommendations.forEach((product) => addItem(product.id));
     setAddedIds(recommendations.map((product) => product.id));
     window.setTimeout(() => window.dispatchEvent(new Event("mofu:open-cart")), 80);
+  };
+  const toggleSpecialCare = (careId: SpecialCare) => {
+    setSpecialCare((current) => current.includes(careId) ? current.filter((item) => item !== careId) : [...current, careId]);
+  };
+  const shareProposal = async () => {
+    if (!pet || !need) return;
+    const shareUrl = `${window.location.origin}/?matcher=${encodeURIComponent([pet, age ?? "", breed?.en ?? "", need, ...specialCare].join("|"))}`;
+    const qrDataUrl = await QRCode.toDataURL(shareUrl, { width: 180, margin: 1, color: { dark: "#704525", light: "#FAF7F2" } });
+    const canvas = document.createElement("canvas");
+    canvas.width = 900;
+    canvas.height = 1180;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    context.fillStyle = "#FAF7F2";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#8A5836";
+    context.fillRect(0, 0, canvas.width, 18);
+    context.fillStyle = "#704525";
+    context.font = "bold 42px sans-serif";
+    context.fillText("Mofu Haven HK", 70, 105);
+    context.font = "24px sans-serif";
+    context.fillStyle = "#A36B42";
+    context.fillText(isZh ? "毛孩專屬日系好物配對" : "A tailored Japanese pet-care match", 72, 145);
+    let y = 225;
+    context.fillStyle = "#3f342d";
+    context.font = "bold 34px sans-serif";
+    y = drawWrappedText(context, isZh ? `為你的${breed?.zh ?? "毛孩"}推薦` : `Recommended for your ${breed?.en ?? "companion"}`, 72, y, 750, 48);
+    context.font = "24px sans-serif";
+    context.fillStyle = "#6f6258";
+    y = drawWrappedText(context, isZh ? `年齡：${age ? AGE_LABELS[age].zh : "未指定"}` : `Life stage: ${age ? AGE_LABELS[age].en : "Not specified"}`, 72, y + 12, 750, 34);
+    const careLabels = specialCare.map((careId) => SPECIAL_CARE.find((care) => care.id === careId)).filter(Boolean).map((care) => localize(care!.label, locale)).join(isZh ? "、" : ", ");
+    if (careLabels) y = drawWrappedText(context, isZh ? `特別關注：${careLabels}` : `Special care: ${careLabels}`, 72, y + 12, 750, 34);
+    y += 28;
+    context.font = "bold 26px sans-serif";
+    context.fillStyle = "#704525";
+    context.fillText(isZh ? "推薦好物" : "Recommended essentials", 72, y);
+    y += 45;
+    context.font = "22px sans-serif";
+    context.fillStyle = "#3f342d";
+    recommendations.forEach((product, index) => {
+      y = drawWrappedText(context, `${index + 1}. ${getLocalizedProductName(product, locale)}  ·  ${formatMoney(product.price, locale)}`, 82, y, 700, 32) + 10;
+    });
+    const qrImage = new Image();
+    qrImage.src = qrDataUrl;
+    await new Promise<void>((resolve) => { qrImage.onload = () => resolve(); qrImage.onerror = () => resolve(); });
+    if (qrImage.complete) context.drawImage(qrImage, 640, 850, 180, 180);
+    context.font = "20px sans-serif";
+    context.fillStyle = "#A36B42";
+    context.fillText(isZh ? "為毛孩挑選 100% 日本天然好物" : "100% natural Japanese essentials for your pet", 72, 925);
+    context.font = "18px sans-serif";
+    context.fillStyle = "#8f8175";
+    context.fillText("mofuhavenhk.vercel.app", 72, 970);
+    context.fillText(isZh ? "掃描 QR Code 分享你的專屬提案" : "Scan to share your tailored proposal", 72, 1010);
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (!blob) return;
+    const downloadUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = downloadUrl;
+    anchor.download = "mofu-haven-pet-match.png";
+    anchor.click();
+    URL.revokeObjectURL(downloadUrl);
+    try { await navigator.clipboard.writeText(shareUrl); } catch { /* clipboard permissions are optional */ }
   };
 
   useEffect(() => {
@@ -180,11 +276,11 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
               {step === 1 ? <div className="mt-5 grid grid-cols-2 gap-3">{(["cat", "dog"] as Pet[]).map((item) => <button key={item} type="button" onClick={() => setPet(item)} className={`flex min-h-28 flex-col items-center justify-center rounded-2xl border-2 bg-white text-3xl transition ${pet === item ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span>{item === "cat" ? "🐱" : "🐶"}</span><span className="mt-2 text-sm font-bold text-stone-700">{item === "cat" ? (isZh ? "貓咪" : "Cat") : (isZh ? "狗狗" : "Dog")}</span>{pet === item ? <span className="text-xs text-[#8a5836]">✓</span> : null}</button>)}</div> : null}
               {step === 2 ? <div className="mt-5 grid gap-3">{(Object.keys(AGE_LABELS) as Age[]).map((item) => <button key={item} type="button" onClick={() => setAge(item)} className={`rounded-full border-2 px-4 py-3 text-left text-sm font-semibold transition ${age === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700"}`}>{localize(AGE_LABELS[item], locale)}</button>)}</div> : null}
               {step === 3 && pet ? <div className="mt-5"><label htmlFor="pet-matcher-breed" className="sr-only">{isZh ? "選擇品種" : "Select a breed"}</label><div className="relative"><select id="pet-matcher-breed" value={breed?.en ?? ""} onChange={(event) => setBreed(BREEDS[pet].find((item) => item.en === event.target.value) ?? null)} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇品種..." : "Select a breed..."}</option>{BREEDS[pet].map((item) => <option key={item.en} value={item.en}>{localize(item, locale)}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{isZh ? "熱門品種" : "Popular breeds"}</p><div className="mt-2 flex flex-wrap gap-2">{QUICK_BREEDS[pet].map((item) => <button key={item.en} type="button" onClick={() => setBreed(BREEDS[pet].find((candidate) => candidate.en === item.en) ?? item)} className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${breed?.en === item.en ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item, locale)}</button>)}</div></div> : null}
-              {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}</div> : null}
+              {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}<div className="mt-2 rounded-2xl border border-[#ead8c8] bg-white/70 p-4"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a36b42]">{isZh ? "特殊照護關注（可多選）" : "Special care focus (choose all that apply)"}</p><div className="mt-3 flex flex-wrap gap-2">{SPECIAL_CARE.map((item) => <button key={item.id} type="button" onClick={() => toggleSpecialCare(item.id)} aria-pressed={specialCare.includes(item.id)} className={`rounded-full border px-3 py-2 text-left text-xs font-semibold transition ${specialCare.includes(item.id) ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item.label, locale)}</button>)}</div><p className="mt-2 text-xs text-stone-500">{isZh ? "我們會優先配對店內王牌商品。" : "We will prioritise the strongest matches from our catalog."}</p></div></div> : null}
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
               <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你的${age ? ` ${AGE_LABELS[age].zh}` : ""} ${breed?.zh ?? "毛孩"} 定制的提案：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : "日常配搭合適的天然好物，讓毛孩吃得開心、玩得安心。"}` : `A tailored proposal for your ${breed?.en ?? "companion"}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : "a thoughtful mix of Japanese essentials for happier play, care and everyday moments."}`}</div>
               <div className="mt-4 grid gap-3">{recommendations.length ? recommendations.map((product) => <article key={product.id} className="flex items-center gap-3 rounded-2xl border border-white bg-white p-3"><div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[#FAF7F2]"><ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={getLocalizedProductName(product, locale)} sizes="64px" className="object-contain mix-blend-multiply p-1" /></div><div className="min-w-0 flex-1"><p className="line-clamp-2 text-sm font-semibold text-stone-800">{getLocalizedProductName(product, locale)}</p><p className="mt-1 text-sm font-bold text-[#8a5836]">{formatMoney(product.price, locale)}</p></div><button type="button" onClick={() => addOne(product)} disabled={addedIds.includes(product.id)} className="shrink-0 rounded-full bg-[#8a5836] px-3 py-2 text-xs font-bold text-white disabled:bg-emerald-700">{addedIds.includes(product.id) ? "✓" : isZh ? "+ 加購" : "+ Add"}</button></article>) : <p className="rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}</div>
-              {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
+              {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
           </div>
         </div>
       </div> : null}
