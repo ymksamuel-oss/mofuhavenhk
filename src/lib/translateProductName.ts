@@ -35,6 +35,24 @@ function translateJapaneseName(value: string, locale: "zh" | "en"): string {
     .replace(/[　]+/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 
+function translateChineseName(value: string): string {
+  const replacements = [
+    [/日本製造|日本產|日本原裝|日本直送/g, "Made in Japan"],
+    [/天然/g, "Natural"], [/無添加/g, "Additive-Free"], [/無著色/g, "No Artificial Colours"],
+    [/牛大筋|牛筋/g, "Beef Tendon"], [/牛蹄筋|牛蹄/g, "Beef Hoof"], [/牛肉/g, "Beef"],
+    [/鹿肉/g, "Venison"], [/馬肉/g, "Horse Meat"], [/雞胸肉|雞肉/g, "Chicken"],
+    [/魚肉/g, "Fish"], [/鮪魚/g, "Tuna"], [/鰹魚/g, "Bonito"], [/小魚乾/g, "Dried Fish"],
+    [/潔齒|耐咬/g, "Dental Chew"], [/零食/g, "Treats"], [/肉乾/g, "Jerky"],
+    [/薄片/g, "Slices"], [/肉捲/g, "Meat Rolls"], [/芝士棒/g, "Cheese Sticks"],
+    [/挑食/g, "Picky Eater"], [/拌糧/g, "Meal Topper"], [/胸背帶/g, "Harness"],
+    [/牽引繩/g, "Lead"], [/拾便袋/g, "Waste Bags"], [/套裝|件套/g, "Bundle"],
+    [/特長/g, "Long"], [/低敏/g, "Sensitive-Friendly"], [/軟/g, "Soft"], [/硬/g, "Hard"],
+    [/日本/g, "Japan"], [/狗狗|狗/g, "Dog"], [/貓咪|貓/g, "Cat"],
+  ] as const;
+  return replacements.reduce((result, [pattern, replacement]) => result.replace(pattern, replacement), value)
+    .replace(/[｜|・]/g, " · ").replace(/\s{2,}/g, " ").trim();
+}
+
 export function getLocalizedProductName(product: Product, locale: Locale): string {
   const metadata = product.metadata ?? {};
   const cleanName = (value?: string) => {
@@ -46,7 +64,7 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
       .replace(/^天然寵物(?:零食|食品|用品)\s*[：:]?\s*/i, "")
       .trim();
   };
-  const metadataName = ["name_zh", "title_zh", "product_name_zh", "中文名稱", "中文商品名稱", "name_en", "title_en", "product_name_en"]
+  const metadataName = ["name_en", "title_en", "product_name_en", "english_name", "name_zh", "title_zh", "product_name_zh", "中文名稱", "中文商品名稱"]
     .map((key) => cleanName(metadata[key])).find(Boolean);
   const zhName = cleanName(product.name.zh);
   const enName = cleanName(product.name.en);
@@ -60,7 +78,7 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
     : translatedJapaneseZh || (!isPlaceholder(enName) && !isBarcodePlaceholder(enName) && !isGeneratedEnglish(enName) && !containsJapanese(enName) ? enName : metadataName);
   if (locale !== "en") return realName || "未命名商品";
   if (!isPlaceholder(enName) && !isGeneratedEnglish(enName) && !containsJapanese(enName) && enName !== zhName) return enName;
-  return translatedJapaneseEn || realName || "Unnamed product";
+  return translatedJapaneseEn || (realName && !containsJapanese(realName) ? translateChineseName(realName) : realName) || "Unnamed product";
 }
 
 function cleanChineseProductSubtitle(value: string): string {
@@ -84,8 +102,7 @@ export function getLocalizedProductDescription(product: Product, locale: Locale)
     ? ["short_description_en", "feature_en", "selling_point_en", "特色_en"]
     : ["short_description_zh", "feature_zh", "selling_point_zh", "特色", "產品特色"];
   const candidate = featureKeys.map((key) => metadata[key]?.trim()).find(Boolean)
-    || product.description?.[locale]?.trim()
-    || (locale === "en" ? product.description?.zh?.trim() : product.description?.en?.trim());
+    || product.description?.en?.trim();
   if (!candidate) return undefined;
   if (/^(?:best partner\s*)?(?:日本製|日本原裝|日本直送)?(?:天然)?寵物(?:產品|用品|零食)|best partner.*pet products|japanese.*pet supplies/i.test(candidate)) return undefined;
   if (/規格\s*\d|詳情請見|請參閱包裝|產品規格/i.test(candidate)) return undefined;

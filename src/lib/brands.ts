@@ -24,7 +24,10 @@ export function brandHref(slug: string): string {
 }
 
 export function brandDescription(brand: Brand): string {
-  return brand.description?.trim() || `探索 ${brand.name} 的日本直送寵物食品及用品。`;
+  const description = brand.description?.trim();
+  return description && !/[\u3400-\u9fff]/.test(description)
+    ? description
+    : `Curated Japanese pet food and everyday essentials from ${brand.name}.`;
 }
 
 export function normalizeBrandSlug(value: string): string {
@@ -63,10 +66,10 @@ export function brandProfile(brand: Brand): BrandProfile {
 export function brandProfileLocalized(brand: Brand, locale: BrandLocale): BrandProfile {
   if (locale === "zh") return brandProfile(brand);
   const key = brand.name.trim().toLocaleLowerCase();
-  if (key === "ciao") return { displayName: "CIAO (チャオ)", origin: "🇯🇵 Direct from Japan", audience: "🐱 Cat Only", specialty: "Human-grade ingredients · Irresistible taste", introduction: "CIAO is Japan's renowned pet treat brand by INABA, celebrated for high-palatability purees and holistic wellness recipes that pets love." };
-  if (key === "inaba") return { displayName: "INABA (いなば)", origin: "🇯🇵 Japanese brand", audience: "🐱🐶 All Life Stages", specialty: "Natural ingredients · Reliable recipes", introduction: "INABA is a trusted Japanese pet food brand known for carefully selected ingredients, enjoyable textures and everyday recipes that help pets stay happy and well hydrated." };
-  if (key === "combo") return { displayName: "COMBO (コンボ)", origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 All Life Stages", specialty: "Balanced Nutrition · Daily Care", introduction: "COMBO is a popular Japanese pet food brand known for balanced daily meals and treats, carefully crafted to satisfy taste while supporting pets across every stage of growth." };
-  if (key === "doggyman") return { displayName: "DoggyMan (ドギーマン)", origin: "🇯🇵 Japanese brand", audience: "🐶 Dog Only", specialty: "Treats · Lifestyle supplies", introduction: "DoggyMan offers high-quality treats and lifestyle supplies crafted in Japan to bring comfort and vitality to your dogs." };
-  if (key === "d.b.f") return { displayName: "d.b.f (デビフ)", origin: "🇯🇵 Direct from Japan", audience: "🐶 Dog Only", specialty: "Nutritional support · Urinary care recipes", introduction: "d.b.f is a Japanese dog food brand focused on thoughtful nutrition for different ages and lifestyles, with wet food and supplement recipes made for everyday care." };
+  if (key === "ciao") return { displayName: "CIAO", origin: "🇯🇵 Direct from Japan", audience: "🐱 Cat Only", specialty: "Human-grade ingredients · Irresistible taste", introduction: "CIAO is Japan's renowned pet treat brand by INABA, celebrated for high-palatability purees and holistic wellness recipes that pets love." };
+  if (key === "inaba") return { displayName: "INABA", origin: "🇯🇵 Japanese brand", audience: "🐱🐶 All Life Stages", specialty: "Natural ingredients · Reliable recipes", introduction: "INABA is a trusted Japanese pet food brand known for carefully selected ingredients, enjoyable textures and everyday recipes that help pets stay happy and well hydrated." };
+  if (key === "combo") return { displayName: "COMBO", origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 All Life Stages", specialty: "Balanced Nutrition · Daily Care", introduction: "COMBO is a popular Japanese pet food brand known for balanced daily meals and treats, carefully crafted to satisfy taste while supporting pets across every stage of growth." };
+  if (key === "doggyman") return { displayName: "DoggyMan", origin: "🇯🇵 Japanese brand", audience: "🐶 Dog Only", specialty: "Treats · Lifestyle supplies", introduction: "DoggyMan offers high-quality treats and lifestyle supplies crafted in Japan to bring comfort and vitality to your dogs." };
+  if (key === "d.b.f") return { displayName: "d.b.f", origin: "🇯🇵 Direct from Japan", audience: "🐶 Dog Only", specialty: "Nutritional support · Urinary care recipes", introduction: "d.b.f is a Japanese dog food brand focused on thoughtful nutrition for different ages and lifestyles, with wet food and supplement recipes made for everyday care." };
   return { displayName: brand.name, origin: "🇯🇵 Direct from Japan", audience: "🐱🐶 Cats & dogs", specialty: "Carefully selected · Reliable quality", introduction: "Carefully selected genuine Japanese brand, dedicated to providing high-quality and reliable daily meals and delicious treats for your beloved pets." };
 }

@@ -25,27 +25,25 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mofuhavenhk.com"),
   alternates: { canonical: "/" },
   title: {
-    default: "毛毛港 Mofu Haven HK | 日本直送優質寵物糧食及用品",
-    template: "%s | 毛毛港 Mofu Haven",
+    default: "Mofu Haven HK | Japanese Pet Essentials",
+    template: "%s | Mofu Haven",
   },
   description:
-  "毛毛港 Mofu Haven 專營日本優質寵物糧食、凍乾肉食及精選生活用品。現貨商品一般於 1–2 個工作天寄出，整體 5–7 個工作天收到；全店購物滿 HK$450 即享免運費，並提供 7 日退換貨保障。",
+  "Mofu Haven curates Japanese pet food, treats and everyday essentials for Hong Kong. In-stock orders usually ship within 1–2 business days, with free local delivery over HK$450.",
   keywords: [
     "Mofu Haven",
-    "毛毛港",
-    "日本寵物用品",
-    "香港寵物網店",
-    "日本貓糧",
-    "日本狗糧",
-    "寵物凍乾",
-    "貓咪零食",
-    "狗狗零食",
-    "1–2日寄出・5–7日收貨",
-    "免運費",
+    "Japanese pet supplies",
+    "Hong Kong pet shop",
+    "Japanese cat food",
+    "Japanese dog food",
+    "freeze-dried pet treats",
+    "cat treats",
+    "dog treats",
+    "free Hong Kong delivery",
   ],
-  authors: [{ name: "毛毛港 Mofu Haven" }],
-  creator: "毛毛港 Mofu Haven",
-  publisher: "毛毛港 Mofu Haven",
+  authors: [{ name: "Mofu Haven" }],
+  creator: "Mofu Haven",
+  publisher: "Mofu Haven",
   formatDetection: {
     email: false,
     address: false,
@@ -53,26 +51,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "zh_HK",
+    locale: "en_HK",
     url: "https://mofuhavenhk.com",
-    title: "毛毛港 Mofu Haven HK | 日本直送優質寵物糧食及用品",
-    description:
-      "專營日本優質寵物糧食及用品。現貨商品一般 1–2 個工作天寄出，整體 5–7 個工作天收到；滿 HK$450 免運費！",
-    siteName: "毛毛港 Mofu Haven",
+    title: "Mofu Haven HK | Japanese Pet Essentials",
+    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$450.",
+    siteName: "Mofu Haven",
     images: [
       {
         url: "/images/best-partner-plain-pack-series.png",
         width: 1194,
         height: 671,
-        alt: "Best Partner 日本天然寵物食品官方海報",
+        alt: "Japanese natural pet food collection",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "毛毛港 Mofu Haven HK | 日本直送優質寵物糧食及用品",
-    description:
-      "專營日本優質寵物糧食與用品，現貨商品一般 1–2 個工作天寄出，整體 5–7 個工作天收到；滿 HK$450 免運費！",
+    title: "Mofu Haven HK | Japanese Pet Essentials",
+    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$450.",
     images: ["/images/best-partner-plain-pack-series.png"],
   },
   robots: {
@@ -122,7 +118,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="zh-HK" className="bg-[color:var(--background)]">
+    <html lang="en-HK" className="bg-[color:var(--background)]">
       <head>
         <GoogleAnalytics />
         <MetaPixel />

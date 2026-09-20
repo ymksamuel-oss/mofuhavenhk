@@ -23,12 +23,20 @@ export type StoreCategory = StoreCategoryRow & {
 
 const DEFAULT_ICON: CategoryIconName = "bone";
 
+const ENGLISH_CATEGORY_FALLBACKS: Record<string, string> = {
+  cats: "Cats", dogs: "Dogs", "small-pets": "Small Pets", supplies: "Pet Supplies", lifestyle: "Lifestyle",
+  snacks: "Treats", toys: "Toys", health: "Health & Wellness", cleaning: "Cleaning & Care", deals: "Deals",
+  bestsellers: "Best Sellers", outdoor: "Outdoor & Travel", feeding: "Feeding", "dry-food": "Dry Food",
+  "wet-cans": "Wet Food", "freeze-dried": "Freeze-Dried", litter: "Litter", grooming: "Grooming",
+  "training-safety": "Training & Safety", "beds-home": "Beds & Home", "outdoor-travel": "Outdoor & Travel",
+};
+
 export function categoryDisplayName(
   category: StoreCategory,
   locale: Locale,
 ): string {
   const localized = locale === "en" ? category.name_en : category.name_zh;
-  return localized?.trim() || category.name.trim();
+  return localized?.trim() || ENGLISH_CATEGORY_FALLBACKS[category.slug] || category.name.trim();
 }
 
 const KNOWN_ICONS = new Set<CategoryIconName>([

@@ -23,11 +23,11 @@ const HERO_SLIDES: readonly HeroSlide[] = [
   {
     id: "natural-meat",
     eyebrow: "100% NATURAL & PURE",
-    badge: "日本在地嚴選・純粹原肉",
-    title: "純粹肉香・100% 無添加的天然賞賜",
-    subtitle: "嚴選北海道野生鹿肉與低敏馬肉｜低溫慢火烘乾，鎖住極致鮮味",
+    badge: "JAPAN-SELECTED・PURE MEAT",
+    title: "Pure Meat Goodness・100% Natural Treats",
+    subtitle: "Wild Hokkaido venison and gentle horse meat｜slow-dried to preserve every layer of flavour",
     href: "/collections/venison",
-    cta: "探索天然原肉系列",
+    cta: "Explore Natural Treats",
     image: "/images/hero-natural-meat.jpg",
     mobileImage: "/images/hero-natural-meat.jpg",
     tone: "from-[#3b2418]/90 via-[#704a31]/62 to-transparent",
@@ -36,11 +36,11 @@ const HERO_SLIDES: readonly HeroSlide[] = [
   {
     id: "dental-chews",
     eyebrow: "DENTAL CARE & CHEW",
-    badge: "物理潔齒提案・釋放精力",
-    title: "告別拆家困擾！天然耐咬潔齒系列",
-    subtitle: "原隻牛蹄・特長牛大筋・犛牛芝士棒｜自然咀嚼刮除齒垢，日常口腔護理首選",
+    badge: "DENTAL CARE・ENERGY RELEASE",
+    title: "Natural Dental Chews for Happier Days",
+    subtitle: "Whole hooves・beef tendons・yak cheese sticks｜daily chewing support for cleaner teeth and calm energy",
     href: "/collections/dental-chews",
-    cta: "選購耐咬潔齒好物",
+    cta: "Shop Dental Chews",
     image: "/images/hero-dental-chew.jpg",
     mobileImage: "/images/hero-dental-chew.jpg",
     tone: "from-[#30221b]/90 via-[#73503b]/58 to-transparent",
@@ -49,11 +49,11 @@ const HERO_SLIDES: readonly HeroSlide[] = [
   {
     id: "outdoor-walk",
     eyebrow: "ERGONOMIC OUTDOOR GEAR",
-    badge: "日系機能美學・舒適同行",
-    title: "人寵同行的輕量美學｜優雅漫步提案",
-    subtitle: "Y 型減壓胸背帶・防勒牽引繩｜全方位分擔拉扯受力，告別暴衝勒喉",
+    badge: "JAPANESE FUNCTION・COMFORT IN MOTION",
+    title: "Lightweight Design for Better Walks",
+    subtitle: "Y-shaped harnesses・pressure-friendly leads｜balanced support for comfortable everyday adventures",
     href: "/collections/outdoor-gear",
-    cta: "探索散步機能選品",
+    cta: "Explore Outdoor Gear",
     image: "/images/hero-outdoor-walk.jpg",
     mobileImage: "/images/hero-outdoor-walk.jpg",
     tone: "from-[#243b34]/90 via-[#4f6a5d]/58 to-transparent",
@@ -113,7 +113,7 @@ export function HomeBannerCarousel() {
   };
 
   return (
-    <section aria-label="首頁主題 Banner 輪播" className="relative w-full px-3 sm:px-6 lg:px-10">
+    <section aria-label="Homepage hero carousel" className="relative w-full px-3 sm:px-6 lg:px-10">
       <div
         className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[1.35rem] bg-[#ead8c8] shadow-[0_22px_48px_-28px_rgba(73,48,31,0.48)]"
         onMouseEnter={() => setIsPaused(true)}
@@ -139,11 +139,11 @@ export function HomeBannerCarousel() {
             </Link>
           </div>
 
-          <button type="button" aria-label="上一張 Banner" onClick={goPrevious} className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/25 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:h-12 sm:w-12"><Arrow direction="previous" /></button>
-          <button type="button" aria-label="下一張 Banner" onClick={goNext} className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/25 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:h-12 sm:w-12"><Arrow direction="next" /></button>
+          <button type="button" aria-label="Previous banner" onClick={goPrevious} className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/25 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-5 sm:h-12 sm:w-12"><Arrow direction="previous" /></button>
+          <button type="button" aria-label="Next banner" onClick={goNext} className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/45 bg-black/25 text-white backdrop-blur-sm transition hover:bg-black/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-5 sm:h-12 sm:w-12"><Arrow direction="next" /></button>
 
-          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label="選擇首頁 Banner">
-            {HERO_SLIDES.map((slide, index) => <button key={slide.id} type="button" role="tab" aria-selected={index === activeIndex} aria-label={`前往第 ${index + 1} 張 Banner`} onClick={() => goTo(index)} className={`h-2.5 rounded-full border border-white/90 transition-all ${index === activeIndex ? "w-9 bg-white" : "w-2.5 bg-white/45 hover:bg-white/75"}`} />)}
+          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2" role="tablist" aria-label="Select homepage banner">
+            {HERO_SLIDES.map((slide, index) => <button key={slide.id} type="button" role="tab" aria-selected={index === activeIndex} aria-label={`Go to banner ${index + 1}`} onClick={() => goTo(index)} className={`h-2.5 rounded-full border border-white/90 transition-all ${index === activeIndex ? "w-9 bg-white" : "w-2.5 bg-white/45 hover:bg-white/75"}`} />)}
           </div>
         </div>
       </div>

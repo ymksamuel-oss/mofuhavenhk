@@ -140,4 +140,32 @@ export function getCollectionLabel(collection: CollectionConfig, locale: Locale)
   return locale === "en" ? collection.title_en : collection.title_zh;
 }
 
+const ENGLISH_COLLECTION_DESCRIPTIONS: Record<string, string> = {
+  dogs: "Japanese food, functional treats and everyday essentials curated for dogs.",
+  cats: "A focused selection of Japanese essentials made for cats.",
+  "outdoor-gear": "Harnesses, leads and walking accessories for comfortable adventures.",
+  "dental-chews": "Natural chewing options to support everyday dental care.",
+  "meal-toppers": "Aromatic meal toppers to make everyday bowls more inviting.",
+  "training-treats": "Small, convenient rewards for training and adventures outside.",
+  "joint-care": "Functional choices for everyday mobility and joint care.",
+  "skin-coat": "Daily nutrition selected to support healthy skin and a glossy coat.",
+  "senior-puppy": "Soft, easy-to-eat treats for puppies and senior dogs.",
+  "horse-meat": "Hypoallergenic horse-meat treats for sensitive dogs.",
+  venison: "Natural venison treats featuring wild Hokkaido venison.",
+  "beef-tendon": "Chewy Japanese beef and tendon treats with rich meaty flavour.",
+  "chicken-poultry": "Japanese chicken and poultry treats for everyday rewards.",
+  "seafood-fish": "Natural fish and seafood treats for dogs.",
+  "pork-specialty": "Japanese pork and specialty meat treats.",
+  "cheese-bakery": "Cheese and Japanese-style baked treats for satisfying rewards.",
+  harnesses: "Comfortable harnesses designed for daily walks.",
+  leashes: "Reliable leads for everyday walking and travel.",
+  collars: "Practical collars and half-chain walking gear.",
+  "walk-accessories": "Waste bags, outdoor bags and thoughtful walking accessories.",
+  "value-bundles": "Official value bundles that bring everyday essentials together.",
+};
+
+export function getCollectionDescription(collection: CollectionConfig): string {
+  return ENGLISH_COLLECTION_DESCRIPTIONS[collection.slug] || "Curated Japanese pet essentials for everyday life.";
+}
+
 export { CAT_SKUS };

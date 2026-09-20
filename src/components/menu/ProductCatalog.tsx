@@ -8,7 +8,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, resolveCategorySubSlug } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
-import { getCollection, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
+import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -245,7 +245,7 @@ export function ProductCatalog({
       <div className={isCollectionPage ? "mb-7" : ""}>
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {collection ? <>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{collection.description}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
           <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "款商品"}</p>
         </> : null}
       </div>

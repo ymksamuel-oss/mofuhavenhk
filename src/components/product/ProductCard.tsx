@@ -23,7 +23,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className={`block min-w-0 ${showPurchaseControls ? "" : "h-full"}`}>
         <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-3 sm:p-4">
           <ProductStatusBadges product={product} className="right-2 top-2" />
-          {hasDiscount ? <span className="absolute left-2 top-2 z-10 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-2 py-0.5 text-[10px] font-bold leading-4 text-[#a2382e]">優惠</span> : null}
+          {hasDiscount ? <span className="absolute left-2 top-2 z-10 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-2 py-0.5 text-[10px] font-bold leading-4 text-[#a2382e]">LIMITED OFFER</span> : null}
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}
             alt={displayName}

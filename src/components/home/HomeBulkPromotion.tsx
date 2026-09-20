@@ -18,7 +18,7 @@ export function HomeBulkPromotion() {
         {t("promoSubline")}
       </p>
       <Link href="/collections/value-bundles" className="mt-2 inline-flex items-center rounded-full border border-[#d7a56f] bg-white/70 px-3 py-1 text-xs font-bold text-[#7b3f2b] transition hover:bg-white">
-        🎁 促銷組合
+        🎁 Value Bundles
       </Link>
     </aside>
   );

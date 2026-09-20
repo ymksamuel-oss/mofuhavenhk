@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { COLLECTIONS, getCollection } from "@/lib/collections";
+import { COLLECTIONS, getCollection, getCollectionDescription } from "@/lib/collections";
 
 export const revalidate = 300;
 // Collection pages are public storefront routes; unknown slugs still resolve to notFound below.
@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const { slug } = await params;
   const collection = getCollection(slug.trim().toLowerCase());
   if (!collection) return { title: "Collection not found | Mofu Haven HK" };
-  const title = `${collection.title_zh}｜日本天然寵物用品推薦｜毛毛港 MofuHaven`;
-  const description = `${collection.description} 按毛孩需要選擇合適產品，查看規格、用法及香港配送資訊，方便安心選購。`;
+  const title = `${collection.title_en} | Japanese Pet Essentials | Mofu Haven`;
+  const description = `${getCollectionDescription(collection)} Shop product details, usage guidance and Hong Kong delivery information.`;
   return {
     title,
     description,
@@ -41,8 +41,8 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        name: collection.title_zh,
-        description: collection.description,
+        name: collection.title_en,
+        description: getCollectionDescription(collection),
         url: `https://mofuhavenhk.com/collections/${collection.slug}`,
         isPartOf: { "@type": "WebSite", name: "Mofu Haven HK", url: "https://mofuhavenhk.com/" },
       }} />

@@ -5,13 +5,12 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { categoryDisplayName, pruneEmptyCategories, type StoreCategory } from "@/lib/store-categories";
-import type { Locale } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { brandHref, getCoreBrands } from "@/lib/brands";
@@ -154,7 +153,7 @@ function renderDesktopCategoryChildren(
 }
 
 export function Header() {
-  const { locale, setLocale, t } = useI18n();
+  const { locale, t } = useI18n();
   const { categories, products, brands } = useCatalog();
   const coreBrands = getCoreBrands(brands);
   // Only database rows with an empty parent_id are rendered in the bar.
@@ -165,7 +164,6 @@ export function Header() {
   const visibleCategories = pruneEmptyCategories(categories, activeCategoryIds, activeCategorySlugs);
   const topLevelCategories = visibleCategories.filter((category) => category.parent_id === null);
   const pathname = usePathname();
-  const router = useRouter();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
@@ -177,19 +175,6 @@ export function Header() {
   const mobileCategoriesId = useId();
   const desktopCategoriesId = useId();
   const desktopCategoryRef = useRef<HTMLElement>(null);
-
-  const switchLocale = (next: Locale) => {
-    setLocale(next);
-
-    // Category pages use a shareable language query so SSR metadata, canonical,
-    // Open Graph tags, and visible labels always describe the same language.
-    if (pathname.startsWith("/categories")) {
-      const query = new URLSearchParams(window.location.search);
-      query.set("lang", next);
-      const suffix = query.toString();
-      router.replace(`${pathname}${suffix ? `?${suffix}` : ""}`);
-    }
-  };
 
   useEffect(() => {
     setPortalReady(true);
@@ -547,17 +532,7 @@ export function Header() {
               role="group"
               aria-label={t("headerLanguageLabel")}
             >
-              {(["zh", "en"] as const).map((option) => (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => switchLocale(option)}
-                  className={`h-10 rounded-full px-2 text-[10px] font-medium tracking-wide transition sm:px-2.5 sm:text-xs ${locale === option ? "bg-[color:var(--ink)] text-[color:var(--surface)] shadow-sm" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}
-                  aria-pressed={locale === option}
-                >
-                  {option === "zh" ? "繁中" : "English"}
-                </button>
-              ))}
+              <span className="rounded-full bg-[color:var(--ink)] px-2.5 py-2 text-[10px] font-medium tracking-wide text-[color:var(--surface)] sm:text-xs">English</span>
             </div>
 
             <button
