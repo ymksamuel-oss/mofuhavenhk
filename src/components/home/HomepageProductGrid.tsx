@@ -38,11 +38,10 @@ function homepageFamilyKey(product: Product): string {
   return product.id;
 }
 
-function homepageGroup(product: Product): "cat" | "meat" | "gear" | "other" {
-  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""}`.toLowerCase();
-  if (/\u8c93|\u732b|cat/.test(text) && /\u9b5a|\u9baa|\u541e\u62ff\u9b5a|\u9c39|fish|tuna|bonito|\u9c48|\u6c99\u4e01|\u5c0f\u9b5a/.test(text)) return "cat";
-  if (/\u9e7f|\u99ac|\u725b|\u7f8a|\u9bca\u9b5a|\u9e7f\u8089|\u99ac\u8089|beef|venison|horse|shark/.test(text)) return "meat";
-  if (/\u80f8\u80cc|\u727d\u5f15|\u9838\u5708|harness|leash|collar|タフ[・\s-]*ブレイド/.test(text)) return "gear";
+function homepageGroup(product: Product): "food" | "other" | "gear" {
+  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""} ${product.categorySlug} ${product.subcategory ?? ""}`.toLowerCase();
+  if (/\u80f8\u80cc|\u727d\u5f15|\u9838\u5708|\u6563\u6b65|\u5916\u51fa|harness|leash|lead|collar|walking|outdoor|gear|タフ[・\s-]*ブレイド/.test(text)) return "gear";
+  if (/\u8089\u4e7e|\u96f6\u98df|\u51cd\u4e7e|\u6f54\u9f52|\u6f54\u7259|\u725b\u8e44|\u725b\u7b4b|\u9e7f\u8089|\u99ac\u8089|\u9b5a|\u9baa|\u541e\u62ff\u9b5a|\u7d2b\u85af|\u96de\u8089|\u725b\u8089|\u7f8a\u8089|\u539f\u8089|\u9bae\u7ce7|\u5957\u88dd|\u7d44\u5408|treat|snack|food|jerky|freeze.?dried|dental|chew|beef|venison|horse|chicken|fish|tuna|bonito|meat|bundle/.test(text)) return "food";
   return "other";
 }
 
@@ -54,13 +53,13 @@ function homepageProducts(products: Product[]): Product[] {
     const current = representatives.get(key);
     if (!current || (product.createdAt ?? 0) > (current.createdAt ?? 0)) representatives.set(key, product);
   }
-  const groups: Record<ReturnType<typeof homepageGroup>, Product[]> = { cat: [], meat: [], gear: [], other: [] };
+  const groups: Record<ReturnType<typeof homepageGroup>, Product[]> = { food: [], other: [], gear: [] };
   for (const product of representatives.values()) groups[homepageGroup(product)].push(product);
   for (const group of Object.values(groups)) {
     group.sort((left, right) => (right.createdAt ?? 0) - (left.createdAt ?? 0) || left.id.localeCompare(right.id, undefined, { numeric: true }));
   }
   const result: Product[] = [];
-  const order: Array<keyof typeof groups> = ["cat", "meat", "gear", "other"];
+  const order: Array<keyof typeof groups> = ["food", "other", "gear"];
   let added = true;
   while (added) {
     added = false;
