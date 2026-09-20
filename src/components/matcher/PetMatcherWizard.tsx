@@ -159,6 +159,13 @@ function localize(choice: Choice, locale: "zh" | "en") {
   return choice[locale];
 }
 
+function isUsableRecommendation(product: Product): boolean {
+  const localizedNames = [getLocalizedProductName(product, "zh"), getLocalizedProductName(product, "en")];
+  const hasUnavailableName = localizedNames.some((name) => /product name unavailable|product details coming soon|japanese pet essential/i.test(name));
+  const imageSource = product.images?.[0] || product.image || "";
+  return Boolean(product.id && imageSource && !/placeholder|unavailable/i.test(imageSource) && !hasUnavailableName);
+}
+
 export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   const { locale } = useI18n();
   const { products } = useCatalog();
@@ -180,7 +187,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     const excluded = new Set(lines.map((line) => line.id));
     return products
       .filter((product) => {
-        if (product.inStock === false || excluded.has(product.id)) return false;
+        if (product.inStock === false || excluded.has(product.id) || !isUsableRecommendation(product)) return false;
         if (pet === "cat") {
           const text = searchableProductText(product);
           return !CAT_DISCONTINUED_TERMS.some((term) => text.includes(term));
