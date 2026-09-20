@@ -10,6 +10,7 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductImage } from "@/components/product/ProductImage";
 import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
+import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -44,7 +45,6 @@ function parseDescription(text: string, product: Product): RichContent {
 
 function RichProductContent({ product, locale, sku, firstImage }: { product: Product; locale: "zh" | "en" | "ja"; sku: string; firstImage: string }) {
   const [tab, setTab] = useState<"details" | "notes">("details");
-  const [open, setOpen] = useState(true);
   const text = product.description?.en || "";
   const rich = useMemo(() => parseDescription(text, product), [text, product]);
   const nutrition = rich.nutrition.length ? rich.nutrition : [
@@ -56,12 +56,10 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
     `Barcode: ${sku}`,
   ];
   return <div className="mt-8 space-y-5">
-    <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ Product Features</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
-      {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5"><p className="text-xs font-semibold tracking-wide text-stone-400">Product code: {sku}</p><ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">{rich.highlights.map((item, index) => <li key={`${item}-${index}`}>{/^[🐟🚫🦴✨🍲🥣🐾✂️✔️❌]/.test(item) ? item : `✨ ${item}`}</li>)}</ul>{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="font-bold">{rich.spotlight.split("\n")[0]}</p>{rich.spotlight.split("\n").slice(1).length ? <p className="mt-2 text-sm leading-6 text-stone-600">{rich.spotlight.split("\n").slice(1).join(" ")}</p> : null}</div> : null}</div> : null}
-    </section>
+    <YouMayAlsoLike cartProductIds={[product.id]} />
     <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label="Product content tabs"><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Details</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>Shopping notes</button></div>
     {tab === "details" ? <div className="space-y-5">
+      <p className="px-1 text-xs text-stone-400">Product code: {sku}</p>
       <section className="relative overflow-hidden rounded-2xl border border-stone-100 bg-white p-3 shadow-sm sm:p-4"><span className="absolute right-5 top-5 z-10 rounded-full bg-stone-900/70 px-3 py-1 text-[11px] font-bold text-white backdrop-blur">🇯🇵 Made in Japan・Additive-Free</span><div className="relative aspect-square overflow-hidden rounded-xl bg-[#f5f0e9]"><ProductImage src={firstImage} alt={product.name.zh} sizes="(min-width: 1024px) 700px, 100vw" priority className="object-contain p-3" /></div></section>
       {rich.texture ? <section className="rounded-2xl border border-stone-200 bg-white p-4"><div className="flex items-center justify-between gap-3"><h2 className="font-bold">🐾 Texture & hardness</h2></div><p className="mt-2 text-sm leading-6 text-stone-600">{rich.texture}</p></section> : null}
       {rich.feeding.length ? <section><h2 className="mb-3 text-lg font-bold">🍽️ Feeding instructions</h2><div className="grid gap-3 sm:grid-cols-2">{rich.feeding.map((item, index) => <article key={`${item}-${index}`} className="rounded-2xl border border-stone-200 bg-[#fffdf9] p-4"><p className="text-sm font-bold leading-6">{item}</p></article>)}</div></section> : null}
