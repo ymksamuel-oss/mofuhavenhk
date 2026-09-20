@@ -12,7 +12,7 @@ import QRCode from "qrcode";
 
 export type PetMatcherWizardProps = { variant: "home" | "floating" };
 type Pet = "dog" | "cat";
-type Age = "young" | "adult" | "senior";
+type Age = number;
 type Size = "small" | "medium" | "large";
 type Need = "chew" | "dental" | "walk" | "sensitive" | "picky-cat" | "urinary";
 type SpecialCare = "allergy" | "joints" | "strong-chewer";
@@ -78,11 +78,31 @@ const NEEDS: Record<Pet, Array<{ id: Need; label: Choice; hint: Choice; keywords
 
 const CAT_DISCONTINUED_TERMS = ["ciao", "churu", "scallop lips", "帆立貝唇", "魚肉條", "fish strips"];
 
-const AGE_LABELS: Record<Age, Choice> = {
-  young: { zh: "幼年期（0–1歲）", en: "Young (0–1 year)" },
-  adult: { zh: "成年期（1–7歲）", en: "Adult (1–7 years)" },
-  senior: { zh: "熟齡期（7歲+）", en: "Senior (7+ years)" },
-};
+const AGE_OPTIONS: Array<{ value: Age; zh: string; en: string }> = [
+  { value: 0, zh: "未滿 1 歲（幼年換牙／發育期）", en: "Under 1 year" },
+  ...Array.from({ length: 14 }, (_, index) => {
+    const value = index + 1;
+    return { value, zh: `${value} 歲`, en: `${value} ${value === 1 ? "year" : "years"} old` };
+  }),
+  { value: 15, zh: "15 歲以上（高齡長壽寶貝）", en: "15+ years old" },
+];
+
+function ageLabel(age: Age | null, locale: "zh" | "en"): string {
+  if (age === null) return locale === "zh" ? "未指定" : "Not specified";
+  return AGE_OPTIONS.find((option) => option.value === age)?.[locale] ?? (locale === "zh" ? `${age} 歲` : `${age} years old`);
+}
+
+function ageResultLabel(age: Age | null, locale: "zh" | "en"): string {
+  if (age === null) return locale === "zh" ? "未指定歲數" : "an unspecified age";
+  if (locale === "zh") return age === 0 ? "未滿 1 歲" : age === 15 ? "15 歲以上" : `${age} 歲`;
+  return age === 0 ? "under 1 year old" : age === 15 ? "15+ years old" : `${age}-year-old`;
+}
+
+function ageKeywords(age: Age): string[] {
+  if (age === 0) return ["puppy", "kitten", "growth", "soft", "bone", "puppy", "幼犬", "幼貓", "發育", "換牙"];
+  if (age <= 6) return ["energy", "protein", "active", "chew", "高蛋白", "活力", "耐咬"];
+  return ["senior", "joint", "low fat", "gentle", "高齡", "關節", "低脂", "低負擔"];
+}
 
 const SIZE_LABELS: Record<Size, Choice & { keywords: string[] }> = {
   small: { zh: "小型（約 10kg 以下）", en: "Small (under 10kg)", keywords: ["small", "toy", "mini", "small breed", "小型", "迷你", "幼犬", "幼貓"] },
@@ -100,18 +120,19 @@ function searchableProductText(product: Product): string {
   return [product.name.en, product.name.zh, product.description?.en, product.description?.zh, product.categorySlug, product.metadata?.category, product.metadata?.subcategory, product.brandName, product.brand, ...(product.tags ?? [])].filter(Boolean).join(" ").toLowerCase();
 }
 
-function scoreProduct(product: Product, need: Need, pet: Pet, size: Size, specialCare: SpecialCare[]): number {
+function scoreProduct(product: Product, need: Need, pet: Pet, age: Age, size: Size, specialCare: SpecialCare[]): number {
   const text = searchableProductText(product);
   const selectedNeed = NEEDS[pet].find((candidate) => candidate.id === need);
   const keywordScore = selectedNeed?.keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 8 : 0), 0) ?? 0;
   const petScore = pet === "cat" && /cat|feline|貓|ciao/.test(text) ? 12 : pet === "dog" && /dog|canine|犬|狗|walk|chew/.test(text) ? 8 : 0;
   const sizeScore = SIZE_LABELS[size].keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 5 : 0), 0);
+  const ageScore = ageKeywords(age).reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 4 : 0), 0);
   const inStockScore = product.inStock !== false ? 2 : -100;
   const specialScore = specialCare.reduce((score, careId) => {
     const care = SPECIAL_CARE.find((candidate) => candidate.id === careId);
     return score + (care?.keywords.reduce((careScore, keyword) => careScore + (text.includes(keyword.toLowerCase()) ? 18 : 0), 0) ?? 0);
   }, 0);
-  return keywordScore + petScore + sizeScore + specialScore + inStockScore;
+  return keywordScore + petScore + sizeScore + ageScore + specialScore + inStockScore;
 }
 
 function drawWrappedText(context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): number {
@@ -166,9 +187,9 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
         }
         return true;
       })
-      .sort((a, b) => scoreProduct(b, need, pet, size ?? "medium", specialCare) - scoreProduct(a, need, pet, size ?? "medium", specialCare) || a.price - b.price)
+      .sort((a, b) => scoreProduct(b, need, pet, age ?? 1, size ?? "medium", specialCare) - scoreProduct(a, need, pet, age ?? 1, size ?? "medium", specialCare) || a.price - b.price)
       .slice(0, 3);
-  }, [lines, need, pet, products, size, specialCare]);
+  }, [age, lines, need, pet, products, size, specialCare]);
 
   const total = recommendations.reduce((sum, product) => sum + product.price, 0);
   const openWizard = () => {
@@ -232,7 +253,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     y = drawWrappedText(context, isZh ? `為你的${breed?.zh ?? "毛孩"}推薦` : `Recommended for your ${breed?.en ?? "companion"}`, 72, y, 750, 48);
     context.font = "24px sans-serif";
     context.fillStyle = "#6f6258";
-    y = drawWrappedText(context, isZh ? `年齡：${age ? AGE_LABELS[age].zh : "未指定"}` : `Life stage: ${age ? AGE_LABELS[age].en : "Not specified"}`, 72, y + 12, 750, 34);
+    y = drawWrappedText(context, isZh ? `年齡：${ageLabel(age, "zh")}` : `Age: ${ageLabel(age, "en")}`, 72, y + 12, 750, 34);
     y = drawWrappedText(context, isZh ? `體型：${size ? SIZE_LABELS[size].zh : "未指定"}` : `Size: ${size ? SIZE_LABELS[size].en : "Not specified"}`, 72, y, 750, 34);
     const careLabels = specialCare.map((careId) => SPECIAL_CARE.find((care) => care.id === careId)).filter(Boolean).map((care) => localize(care!.label, locale)).join(isZh ? "、" : ", ");
     if (careLabels) y = drawWrappedText(context, isZh ? `特別關注：${careLabels}` : `Special care: ${careLabels}`, 72, y + 12, 750, 34);
@@ -319,11 +340,11 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
           <div className="px-5 pb-6 pt-4 sm:px-7">
             {step < 5 ? <><div className="mb-5 flex items-center gap-1.5" aria-label={isZh ? `第 ${step} 步，共 4 步` : `Step ${step} of 4`}>{[1, 2, 3, 4].map((item) => <span key={item} className={`h-1.5 flex-1 rounded-full ${item <= step ? "bg-[#8a5836]" : "bg-[#ead8c8]"}`} />)}</div><p className="text-xs font-semibold text-[#a36b42]">{isZh ? `第 ${step} 步／4` : `Step ${step} of 4`}</p><h3 className="mt-2 text-xl font-bold leading-tight text-stone-800">{stepTitle}</h3>
               {step === 1 ? <div className="mt-5 grid grid-cols-2 gap-3">{(["cat", "dog"] as Pet[]).map((item) => <button key={item} type="button" onClick={() => setPet(item)} className={`flex min-h-28 flex-col items-center justify-center rounded-2xl border-2 bg-white text-3xl transition ${pet === item ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span>{item === "cat" ? "🐱" : "🐶"}</span><span className="mt-2 text-sm font-bold text-stone-700">{item === "cat" ? (isZh ? "貓咪" : "Cat") : (isZh ? "狗狗" : "Dog")}</span>{pet === item ? <span className="text-xs text-[#8a5836]">✓</span> : null}</button>)}</div> : null}
-              {step === 2 ? <div className="mt-5 grid gap-3"><p className="text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "年齡階段" : "Life stage"}</p>{(Object.keys(AGE_LABELS) as Age[]).map((item) => <button key={item} type="button" onClick={() => setAge(item)} className={`rounded-full border-2 px-4 py-3 text-left text-sm font-semibold transition ${age === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700"}`}>{localize(AGE_LABELS[item], locale)}</button>)}<p className="mt-3 text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "寵物體型" : "Pet size"}</p><div className="grid grid-cols-3 gap-2">{(Object.keys(SIZE_LABELS) as Size[]).map((item) => <button key={item} type="button" onClick={() => setSize(item)} className={`rounded-xl border-2 px-2 py-3 text-center text-xs font-semibold transition sm:text-sm ${size === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700"}`}>{localize(SIZE_LABELS[item], locale)}</button>)}</div></div> : null}
+              {step === 2 ? <div className="mt-5 grid gap-3"><label htmlFor="pet-matcher-age" className="text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "毛孩歲數" : "Pet age"}</label><div className="relative"><select id="pet-matcher-age" value={age === null ? "" : String(age)} onChange={(event) => setAge(event.target.value === "" ? null : Number(event.target.value))} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-[#FAF7F2] px-3.5 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇毛孩歲數..." : "Select pet age..."}</option>{AGE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{isZh ? option.zh : option.en}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "寵物體型" : "Pet size"}</p><div className="grid grid-cols-3 gap-2">{(Object.keys(SIZE_LABELS) as Size[]).map((item) => <button key={item} type="button" onClick={() => setSize(item)} className={`rounded-full border px-2.5 py-2 text-center text-xs font-semibold transition sm:text-sm ${size === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700"}`}>{localize(SIZE_LABELS[item], locale)}</button>)}</div></div> : null}
               {step === 3 && pet ? <div className="mt-5"><label htmlFor="pet-matcher-breed" className="sr-only">{isZh ? "選擇品種" : "Select a breed"}</label><div className="relative"><select id="pet-matcher-breed" value={breed?.en ?? ""} onChange={(event) => setBreed(BREEDS[pet].find((item) => item.en === event.target.value) ?? null)} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇品種..." : "Select a breed..."}</option>{BREEDS[pet].map((item) => <option key={item.en} value={item.en}>{localize(item, locale)}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{isZh ? "熱門品種" : "Popular breeds"}</p><div className="mt-2 flex flex-wrap gap-2">{QUICK_BREEDS[pet].map((item) => <button key={item.en} type="button" onClick={() => setBreed(BREEDS[pet].find((candidate) => candidate.en === item.en) ?? item)} className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${breed?.en === item.en ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item, locale)}</button>)}</div></div> : null}
               {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}<div className="mt-2 rounded-2xl border border-[#ead8c8] bg-white/70 p-4"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a36b42]">{isZh ? "特殊照護關注（可多選）" : "Special care focus (choose all that apply)"}</p><div className="mt-3 flex flex-wrap gap-2">{SPECIAL_CARE.map((item) => <button key={item.id} type="button" onClick={() => toggleSpecialCare(item.id)} aria-pressed={specialCare.includes(item.id)} className={`rounded-full border px-3 py-2 text-left text-xs font-semibold transition ${specialCare.includes(item.id) ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item.label, locale)}</button>)}</div><p className="mt-2 text-xs text-stone-500">{isZh ? "我們會優先配對店內王牌商品。" : "We will prioritise the strongest matches from our catalog."}</p></div></div> : null}
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
-              <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你的${age ? ` ${AGE_LABELS[age].zh}` : ""}${size ? ` ${SIZE_LABELS[size].zh}` : ""} ${breed?.zh ?? "毛孩"} 定制的提案：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : "日常配搭合適的天然好物，讓毛孩吃得開心、玩得安心。"}` : `A tailored proposal for your ${size ? `${SIZE_LABELS[size].en.toLowerCase()} ` : ""}${breed?.en ?? "companion"}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : "a thoughtful mix of Japanese essentials for happier play, care and everyday moments."}`}</div>
+              <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你 ${ageResultLabel(age, "zh")} 的 ${breed?.zh ?? "毛孩"} 量身定制的日系提案${size ? `（${SIZE_LABELS[size].zh}）` : ""}：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : age === 0 ? "幼年期優先選擇易消化、適合發育及換牙需要的溫和好物。" : age !== null && age >= 7 ? "熟齡期優先選擇低脂低負擔、兼顧關節保護的日常好物。" : "成年期配搭高蛋白及適度耐咬好物，讓毛孩吃得開心、玩得安心。"}` : `Tailored Japanese plan for your ${ageResultLabel(age, "en")} ${breed?.en ?? "companion"}${size ? ` (${SIZE_LABELS[size].en.toLowerCase()})` : ""}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : age === 0 ? "choose easy-to-digest essentials suited to growth and teething." : age !== null && age >= 7 ? "prioritise gentle, lower-fat essentials with thoughtful joint support." : "a thoughtful mix of high-protein and active-lifestyle essentials for happier everyday moments."}`}</div>
               <div className="mt-4 grid gap-3">{recommendations.length ? recommendations.map((product) => <article key={product.id} className="flex items-center gap-3 rounded-2xl border border-white bg-white p-3"><div className="relative h-16 w-16 min-w-[64px] shrink-0 overflow-hidden rounded-xl bg-[#FAF7F2] p-1"><ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={getLocalizedProductName(product, locale)} sizes="64px" className="h-full w-full object-contain mix-blend-multiply" /></div><div className="min-w-0 flex-1"><p className="line-clamp-2 text-sm font-semibold text-stone-800">{getLocalizedProductName(product, locale)}</p><p className="mt-1 text-sm font-bold text-[#8a5836]">{formatMoney(product.price, locale)}</p></div><button type="button" onClick={() => addOne(product)} disabled={addedIds.includes(product.id)} className="shrink-0 rounded-full bg-[#8a5836] px-3 py-2 text-xs font-bold text-white disabled:bg-emerald-700">{addedIds.includes(product.id) ? "✓" : isZh ? "+ 加購" : "+ Add"}</button></article>) : <p className="rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}</div>
               {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}{recommendations.length ? <div className="mt-3 grid grid-cols-2 gap-2"><button type="button" onClick={shareToWhatsApp} className="rounded-2xl bg-[#25D366] px-3 py-3 text-xs font-bold text-white transition hover:brightness-95">{isZh ? "WhatsApp 分享" : "Share to WhatsApp"}</button><button type="button" onClick={() => { void shareProposal("instagram"); }} className="rounded-2xl bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] px-3 py-3 text-xs font-bold text-white transition hover:brightness-105">{isZh ? "Instagram 動態" : "Instagram Stories"}</button></div> : null}{shareNotice ? <p className="mt-3 rounded-xl bg-[#ead8c8]/55 px-3 py-2 text-center text-xs text-[#704525]" role="status">{shareNotice}</p> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
           </div>
