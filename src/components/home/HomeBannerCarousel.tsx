@@ -7,53 +7,57 @@ const AUTO_PLAY_MS = 4000;
 
 type HeroSlide = {
   id: string;
+  eyebrow: string;
   badge: string;
   title: string;
   subtitle: string;
-  detail: string;
   href: string;
   cta: string;
   image: string;
   mobileImage: string;
   tone: string;
+  imagePosition: string;
 };
 
 const HERO_SLIDES: readonly HeroSlide[] = [
   {
     id: "natural-meat",
-    badge: "日本在地嚴選・天然原肉",
-    title: "100% 天然原肉零食",
-    subtitle: "北海道野生鹿肉・低敏馬肉",
-    detail: "為挑剔毛孩選擇純粹肉香，無需複雜添加，安心獎勵每一日。",
+    eyebrow: "100% NATURAL & PURE",
+    badge: "日本在地嚴選・純粹原肉",
+    title: "純粹肉香・100% 無添加的天然賞賜",
+    subtitle: "嚴選北海道野生鹿肉與低敏馬肉｜低溫慢火烘乾，鎖住極致鮮味",
     href: "/collections/venison",
-    cta: "探索天然肉源",
-    image: "/images/hero-sleeping-shiba-taupe.jpg",
-    mobileImage: "/images/hero-mobile-clean-pet-lifestyle.jpg",
-    tone: "from-[#3d2d25]/85 via-[#5c4030]/48 to-transparent",
+    cta: "探索天然原肉系列",
+    image: "/images/hero-natural-meat.jpg",
+    mobileImage: "/images/hero-natural-meat.jpg",
+    tone: "from-[#3b2418]/90 via-[#704a31]/62 to-transparent",
+    imagePosition: "object-[68%_center]",
   },
   {
     id: "dental-chews",
-    badge: "狗狗日常護理・物理潔齒",
-    title: "告別拆家！物理刮除牙結石天花板",
-    subtitle: "原隻牛蹄・特長牛大筋・犛牛芝士棒",
-    detail: "讓自然咀嚼成為每日習慣，陪伴狗狗消耗精力，同時照顧口腔清潔。",
+    eyebrow: "DENTAL CARE & CHEW",
+    badge: "物理潔齒提案・釋放精力",
+    title: "告別拆家困擾！天然耐咬潔齒系列",
+    subtitle: "原隻牛蹄・特長牛大筋・犛牛芝士棒｜自然咀嚼刮除齒垢，日常口腔護理首選",
     href: "/collections/dental-chews",
-    cta: "選購潔齒耐咬",
-    image: "/images/explore-japanese-pet-lifestyle.jpg",
-    mobileImage: "/images/hero-mobile-pet-products.jpg",
-    tone: "from-[#4c3528]/88 via-[#815d43]/52 to-transparent",
+    cta: "選購耐咬潔齒好物",
+    image: "/images/hero-dental-chew.jpg",
+    mobileImage: "/images/hero-dental-chew.jpg",
+    tone: "from-[#30221b]/90 via-[#73503b]/58 to-transparent",
+    imagePosition: "object-[72%_center]",
   },
   {
     id: "outdoor-walk",
-    badge: "日系機能美學・舒適散步",
-    title: "防暴衝優雅漫步",
-    subtitle: "Y 型減壓胸背帶・防勒牽引繩",
-    detail: "貼合身形、減少拉扯，將每日外出變成毛孩與家長都享受的時光。",
+    eyebrow: "ERGONOMIC OUTDOOR GEAR",
+    badge: "日系機能美學・舒適同行",
+    title: "人寵同行的輕量美學｜優雅漫步提案",
+    subtitle: "Y 型減壓胸背帶・防勒牽引繩｜全方位分擔拉扯受力，告別暴衝勒喉",
     href: "/collections/outdoor-gear",
-    cta: "探索戶外裝備",
-    image: "/images/hero-mobile-clean-pet-lifestyle.jpg",
-    mobileImage: "/images/hero-mobile-mofu-haven.jpg",
-    tone: "from-[#243b3b]/88 via-[#49645e]/52 to-transparent",
+    cta: "探索散步機能選品",
+    image: "/images/hero-outdoor-walk.jpg",
+    mobileImage: "/images/hero-outdoor-walk.jpg",
+    tone: "from-[#243b34]/90 via-[#4f6a5d]/58 to-transparent",
+    imagePosition: "object-[62%_center]",
   },
 ];
 
@@ -120,17 +124,17 @@ export function HomeBannerCarousel() {
         <div key={activeSlide.id} className={`relative isolate min-h-[390px] overflow-hidden sm:min-h-[430px] ${direction === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"}`}>
           <picture>
             <source media="(max-width: 639px)" srcSet={activeSlide.mobileImage} />
-            <img src={activeSlide.image} alt="" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+            <img src={activeSlide.image} alt="" aria-hidden="true" className={`absolute inset-0 -z-20 h-full w-full object-cover ${activeSlide.imagePosition}`} />
           </picture>
           <div className={`absolute inset-0 -z-10 bg-gradient-to-r ${activeSlide.tone}`} />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2d211b]/55 via-transparent to-transparent" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#241912]/45 via-transparent to-transparent" />
 
-          <div className="flex min-h-[390px] max-w-2xl flex-col justify-center px-14 py-14 text-white sm:min-h-[430px] sm:px-20 sm:py-16">
-            <span className="mb-4 w-fit rounded-full border border-white/45 bg-white/15 px-3.5 py-1.5 text-xs font-semibold tracking-[0.12em] backdrop-blur-sm sm:text-sm">{activeSlide.badge}</span>
-            <h1 className="max-w-xl text-3xl font-bold leading-[1.15] tracking-tight drop-shadow-md sm:text-5xl">{activeSlide.title}</h1>
-            <p className="mt-4 max-w-xl text-lg font-semibold leading-snug text-[#fff8ee] drop-shadow sm:text-2xl">{activeSlide.subtitle}</p>
-            <p className="mt-3 max-w-lg text-sm leading-6 text-white/85 sm:text-base">{activeSlide.detail}</p>
-            <Link href={activeSlide.href} className="mt-7 inline-flex w-fit items-center gap-2 rounded-full bg-[#fffaf2] px-5 py-3 text-sm font-bold text-[#5b3d2c] shadow-lg transition hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#5b3d2c]">
+          <div className="flex min-h-[500px] max-w-2xl flex-col justify-center px-10 py-14 text-white sm:min-h-[430px] sm:px-20 sm:py-16">
+            <span className="mb-3 w-fit text-[10px] font-bold tracking-[0.24em] text-[#f7d7b8] sm:text-xs">{activeSlide.eyebrow}</span>
+            <span className="mb-4 w-fit rounded-full border border-white/35 bg-white/15 px-3.5 py-1.5 text-xs font-semibold tracking-[0.08em] shadow-sm backdrop-blur-md sm:text-sm">{activeSlide.badge}</span>
+            <h1 className="max-w-xl text-[clamp(2rem,7vw,3.25rem)] font-bold leading-[1.12] tracking-[-0.035em] drop-shadow-md">{activeSlide.title}</h1>
+            <p className="mt-4 max-w-xl text-base font-semibold leading-7 text-[#fff8ee] drop-shadow sm:text-xl sm:leading-8">{activeSlide.subtitle}</p>
+            <Link href={activeSlide.href} className="mt-7 inline-flex w-fit items-center gap-2 rounded-full bg-[#8a5836] px-5 py-3 text-sm font-bold text-white shadow-[0_12px_24px_-12px_rgba(39,20,10,0.8)] transition duration-200 hover:scale-[1.02] hover:bg-[#a66d46] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f8dfc4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#5b3d2c]">
               {activeSlide.cta}<span aria-hidden="true">→</span>
             </Link>
           </div>
