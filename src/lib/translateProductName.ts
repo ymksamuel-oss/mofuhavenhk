@@ -28,6 +28,10 @@ function cleanName(value?: string): string {
   if (!value || /\\u[0-9a-fA-F]{4}/.test(value) || CJK_RE.test(value)) return "";
   return (value.split(/[|｜]/).at(-1) || value).replace(/^\s*(?:Made in Japan|Japan-made|Best Partner)\s*/i, "").replace(/\s{2,}/g, " ").trim();
 }
+function cleanChineseName(value?: string): string {
+  if (!value || /\\u[0-9a-fA-F]{4}/.test(value)) return "";
+  return (value.split(/[|｜]/).at(-1) || value).replace(/\s{2,}/g, " ").trim();
+}
 export function getJapaneseProductName(product: Product): string | undefined {
   const metadata = product.metadata ?? {};
   return ["name_ja", "name_jp", "japanese_name", "name_japanese", "product_name_ja", "product_name_jp"].map((key) => metadata[key]?.trim()).find(Boolean);
@@ -41,7 +45,7 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
     const english = ["name_en", "title_en", "product_name_en", "english_name"].map((key) => cleanName(metadata[key])).find(Boolean) || cleanName(product.name.en);
     return english && !CJK_RE.test(english) ? english : `Japanese Pet Essential ${sku || product.id.slice(0, 8)}`;
   }
-  return cleanName(product.name.zh) || cleanName(product.name.en) || "未命名商品";
+  return cleanChineseName(product.name.zh) || cleanChineseName(metadata.name_zh) || `日本寵物用品 ${sku || product.id.slice(0, 8)}`;
 }
 export function getJapaneseProductSubtitle(product: Product): string { return getLocalizedProductName(product, "en"); }
 export function getLocalizedProductDescription(product: Product, locale: Locale): string | undefined {

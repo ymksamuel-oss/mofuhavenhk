@@ -22,9 +22,9 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
     <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className={`block min-w-0 ${showPurchaseControls ? "" : "h-full"}`}>
         <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-3 sm:p-4">
-          <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-between gap-1">
+          <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-start gap-1.5">
             {hasDiscount ? <span className="max-w-full shrink-0 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-1.5 py-0.5 text-[9px] font-bold leading-4 text-[#a2382e] sm:px-2 sm:text-[10px]">{locale === "zh" ? "限時特惠" : "LIMITED OFFER"}</span> : null}
-            <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-1 justify-end" />
+            <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-none justify-start gap-1.5" />
           </div>
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}

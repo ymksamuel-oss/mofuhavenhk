@@ -79,7 +79,7 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
       <div className="mx-auto max-w-6xl">
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
-            <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">MOFU HAVEN SELECT</span>
+            <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">{isZh ? "毛毛港精選" : "MOFU HAVEN SELECT"}</span>
             <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">{isZh ? "日系主題策展" : "Curated Collections"}</h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">{isZh ? "按毛孩日常需要，精選日本寵物好物。" : "Browse Japanese pet essentials organised around everyday needs."}</p>
           </div>
@@ -99,7 +99,7 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
                 </div>
                 {shelfProducts.length > 0 ? (
                   <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
-                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0"><div className="relative">{shelf.id === "bestsellers" && index < 3 ? <span className="absolute left-2 top-2 z-20 rounded-full bg-[#8b573f] px-2 py-1 text-[10px] font-bold text-white shadow-sm">{isZh ? `第 ${index + 1} 名` : `${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : "rd"}`}</span> : null}<ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></div></li>)}
+                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0">{shelf.id === "bestsellers" && index < 3 ? <span className="mb-1.5 inline-flex rounded-full bg-[#8b573f] px-2 py-1 text-[10px] font-bold text-white shadow-sm">{isZh ? `第 ${index + 1} 名` : `${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : "rd"}`}</span> : null}<ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></li>)}
                   </ul>
                 ) : (
                   <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">{isZh ? "商品目錄正在更新，請稍後再來。" : "Our product catalogue is updating. Please check back soon."}</p>
