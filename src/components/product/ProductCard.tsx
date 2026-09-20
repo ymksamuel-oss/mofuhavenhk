@@ -9,7 +9,7 @@ import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
 
-export function ProductCard({ product, priority = false, showPurchaseControls = true }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
+export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
   const hasBrand = Boolean(product.brand?.trim() || product.brandName?.trim());
   const name = getLocalizedProductName(product, locale);

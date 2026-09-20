@@ -17,7 +17,6 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getLocalizedProductName } from "@/lib/translateProductName";
-import { formatMoney } from "@/lib/i18n/translations";
 import { productHref } from "@/lib/products";
 import { searchProducts, type ProductSearchHit } from "@/lib/searchProducts";
 
@@ -269,9 +268,6 @@ function SearchField({
                           {getLocalizedProductName(hit, locale)}
                         </span>
                         <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[color:var(--muted)]">
-                          <span className="font-semibold tabular-nums text-[color:var(--accent)]">
-                            {formatMoney(hit.price, locale)}
-                          </span>
                           {(locale === "en" ? hit.series?.en : hit.series?.zh) ? (
                             <span>{locale === "en" ? hit.series?.en : hit.series?.zh}</span>
                           ) : hit.brand ? (
