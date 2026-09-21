@@ -218,7 +218,7 @@ export function MobileCartDrawer({
                 ))}
               </ul>
 
-              <YouMayAlsoLike cartProductIds={items.map((item) => item.id)} className="mt-6" />
+              <YouMayAlsoLike cartProductIds={items.map((item) => item.id)} onProductClick={onClose} className="mt-6" />
             </>
           )}
         </div>

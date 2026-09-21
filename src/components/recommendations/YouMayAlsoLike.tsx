@@ -14,11 +14,28 @@ type YouMayAlsoLikeProps = {
   cartProductIds: string[];
   className?: string;
   onAdded?: (productId: string) => void;
+  onProductClick?: () => void;
 };
 
-function recommendationScore(product: Product, firstProduct?: Product): number {
+type Species = "cat" | "dog" | null;
+
+function productSpecies(product?: Product): Species {
+  if (!product) return null;
+  const text = [product.name.en, product.name.zh, product.description?.en, product.description?.zh, product.categorySlug, product.metadata?.category, product.metadata?.subcategory, product.brandName, product.brand, ...(product.tags ?? [])].filter(Boolean).join(" ").toLowerCase();
+  if (/cat|feline|貓|貓咪|貓用|貓糧|貓零食/.test(text) || product.categorySlug === "cats") return "cat";
+  if (/dog|canine|狗|狗狗|犬|犬用|狗零食|幼犬/.test(text) || product.categorySlug === "dogs") return "dog";
+  return null;
+}
+
+function cleanRecommendationName(name: string): string {
+  return name.replace(/\bBestPartner\b/gi, "").replace(/\s{2,}/g, " ").replace(/\s+([｜|・])/g, "$1").trim();
+}
+
+function recommendationScore(product: Product, firstProduct?: Product, targetSpecies: Species = null): number {
   let score = 0;
   if (firstProduct?.categorySlug && product.categorySlug === firstProduct.categorySlug) score += 50;
+  if (targetSpecies && productSpecies(product) === targetSpecies) score += 70;
+  if (targetSpecies && productSpecies(product) && productSpecies(product) !== targetSpecies) score -= 100;
   if (product.price < 90) score += 30;
   if (product.inStock !== false) score += 10;
   if (product.metadata?.featured === "true" || product.metadata?.is_featured === "true") score += 8;
@@ -26,7 +43,7 @@ function recommendationScore(product: Product, firstProduct?: Product): number {
   return score;
 }
 
-export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouMayAlsoLikeProps) {
+export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProductClick }: YouMayAlsoLikeProps) {
   const { locale } = useI18n();
   const { products } = useCatalog();
   const { addItem } = useCart();
@@ -36,10 +53,14 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouM
   const [canScrollRight, setCanScrollRight] = useState(false);
   const excludedIds = useMemo(() => new Set(cartProductIds), [cartProductIds]);
   const firstProduct = products.find((product) => product.id === cartProductIds[0]);
+  const targetSpecies: Species = products
+    .filter((product) => excludedIds.has(product.id))
+    .map((product) => productSpecies(product))
+    .find((species): species is "cat" | "dog" => species !== null) ?? null;
   const recommendations = useMemo(() => products
-    .filter((product) => product.inStock !== false && !excludedIds.has(product.id))
-    .sort((a, b) => recommendationScore(b, firstProduct) - recommendationScore(a, firstProduct) || a.price - b.price)
-    .slice(0, 10), [excludedIds, firstProduct, products]);
+    .filter((product) => product.inStock !== false && !excludedIds.has(product.id) && (!targetSpecies || productSpecies(product) === targetSpecies))
+    .sort((a, b) => recommendationScore(b, firstProduct, targetSpecies) - recommendationScore(a, firstProduct, targetSpecies) || a.price - b.price)
+    .slice(0, 10), [excludedIds, firstProduct, products, targetSpecies]);
 
   const updateScrollState = useCallback(() => {
     const element = carouselRef.current;
@@ -96,12 +117,12 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouM
       </div>
       <ul ref={carouselRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
         {recommendations.map((product) => {
-          const name = getLocalizedProductName(product, locale);
+          const name = cleanRecommendationName(getLocalizedProductName(product, locale));
           const isAdded = addedId === product.id;
           return (
             <li key={product.id} className="w-[140px] min-w-[140px] snap-start sm:w-[160px] sm:min-w-[160px]">
               <div className="h-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white p-2.5">
-                <Link href={productHref(product.id)} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${name}` : `View product: ${name}`}>
+                <Link href={productHref(product.id)} onClick={onProductClick} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${name}` : `View product: ${name}`}>
                   <div className="relative aspect-square overflow-hidden rounded-xl bg-[#FAF7F2] ring-1 ring-[color:var(--line)]">
                     <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="160px" className="object-contain mix-blend-multiply p-1" />
                   </div>
