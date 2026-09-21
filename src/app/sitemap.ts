@@ -14,7 +14,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/products`, changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/categories/dogs`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/categories/cats`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/blog/dog-food-venison-benefits`, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/knowledge`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/blog/dog-food-venison-benefits`, changeFrequency: "monthly", priority: 0.8 },
+    ...["venison-benefits", "picky-eater-toppings", "can-cats-eat-dog-food", "hypoallergenic-red-meat", "soft-vs-hard-treats"].map((slug) => ({ url: `${SITE_URL}/blog/${slug}`, changeFrequency: "monthly" as const, priority: 0.8 })),
   ];
   const collectionRoutes: MetadataRoute.Sitemap = COLLECTIONS.map((collection) => ({
     url: `${SITE_URL}/collections/${collection.slug}`,

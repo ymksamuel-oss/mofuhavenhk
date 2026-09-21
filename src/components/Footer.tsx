@@ -184,10 +184,10 @@ export function Footer() {
               {t("footerTagline")}
             </p>
             <Link
-              href="/blog/dog-food-venison-benefits"
+              href="/knowledge"
               className="inline-flex rounded-full border border-[#a97858] bg-[#fff8ef]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#fff8ef]"
             >
-              毛拔麻健康教室 →
+              知識庫文章專區 →
             </Link>
           </div>
 
