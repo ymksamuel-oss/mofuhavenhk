@@ -7,6 +7,7 @@ import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
+import { WishlistProvider } from "@/lib/shop/wishlist";
 import { CartDrawerHost } from "@/components/cart/CartDrawerHost";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
@@ -141,7 +142,8 @@ export default async function RootLayout({
         <I18nProvider>
           <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
             <CartProvider>
-              <Header />
+              <WishlistProvider>
+                <Header />
               <CartDrawerHost />
               <BrandServiceStrip />
               <ShopFlowNav>
@@ -149,7 +151,8 @@ export default async function RootLayout({
                   {children}
                 </main>
               </ShopFlowNav>
-              <Footer />
+                <Footer />
+              </WishlistProvider>
             </CartProvider>
           </CatalogProvider>
         </I18nProvider>

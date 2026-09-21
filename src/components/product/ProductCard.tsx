@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AddToCartButton } from "@/components/menu/AddToCartButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
+import { WishlistButton } from "@/components/product/WishlistButton";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
@@ -19,7 +20,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
-    <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
+    <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className={`block min-w-0 ${showPurchaseControls ? "" : "h-full"}`}>
         <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-2.5 sm:p-3">
           <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-start gap-1.5">
@@ -38,6 +39,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
           <h3 className="line-clamp-2 min-h-10 break-words text-left text-xs font-medium leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">{displayName}</h3>
         </div>
       </Link>
+      <div className="absolute right-2 top-2 z-20"><WishlistButton productId={product.id} /></div>
       {showPurchaseControls ? (
         <div className="mt-auto flex items-end justify-between gap-2 px-3 pb-3 pt-2 sm:px-4 sm:pb-4">
           <div className="min-w-0 tabular-nums">

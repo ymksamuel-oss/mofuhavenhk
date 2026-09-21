@@ -12,6 +12,7 @@ import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { categoryDisplayName, pruneEmptyCategories, type StoreCategory } from "@/lib/store-categories";
 import { useCart } from "@/lib/shop/cart";
+import { useWishlist } from "@/lib/shop/wishlist";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { brandHref, getCoreBrands } from "@/lib/brands";
 import { CollectionsNav } from "@/components/CollectionsNav";
@@ -168,6 +169,7 @@ export function Header() {
   );
   const pathname = usePathname();
   const { itemCount } = useCart();
+  const { count: wishlistCount } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
   const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<string | null>(null);
@@ -540,6 +542,10 @@ export function Header() {
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}
+            </Link>
+            <Link href="/wishlist" className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#fff7f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
+              <span aria-hidden="true">{wishlistCount > 0 ? "♥" : "♡"}</span>
+              {wishlistCount > 0 ? <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
             </Link>
 
             <div className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11" role="group" aria-label={t("headerLanguageLabel")}>
