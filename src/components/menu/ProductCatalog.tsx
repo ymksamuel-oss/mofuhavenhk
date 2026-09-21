@@ -43,7 +43,7 @@ type ProductCatalogProps = {
   specialFilter?: "cat-zone" | null;
   ingredientFilter?: string | null;
   audienceFilter?: string | null;
-  productCategory?: "treats" | "supplies" | null;
+  productCategory?: "treats" | null;
   collectionSlug?: string | null;
 };
 
@@ -82,10 +82,6 @@ function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
   const text = productFilterText(product);
   return !/\u7528\u54c1|\u80f8\u80cc\u5e36|\u727d\u5f15\u5e36|\u9805\u5708|\u73a9\u5177|\u8c93\u7802|\u7802\u76c6|\u5c3f\u588a|\u98df\u5668|\u9935\u98df\u5668|grooming|harness|leash|collar|toy|litter|pad|bowl|supply/i.test(text) &&
     /supplier_category:(?:chicken|duck|beef|pork|boar|kangaroo|deer|horse|sheep|roll|chips-jerky|seafood|produce|snacks|dairy|seasoning|side-dish|frozen|food)|\u98df\u54c1|\u98df\u7269|\u5c0f\u98df|\u96f6\u98df|\u4e7e\u7ce7|\u7f50\u982d|\u51cd\u4e7e|\u8089\u6ce5|\u8089\u7247|\u8089\u4e7e|\u8089\u689d|\u8089\u7c92|\u9e7f\u8089|\u7d2b\u85af|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
-}
-
-function isSupplyProduct(product: Parameters<typeof productFilterText>[0]) {
-  return /supplies|\u7528\u54c1|collar|harness|leash|lead|\u80f8\u80cc\u5e36|\u80f8\u80cc|\u9805\u5708|\u9838\u5708|\u727d\u5f15\u7e69|\u727d\u5f15\u5e36|\u6563\u6b65|\u65e5\u5e38\u7528\u54c1/i.test(productFilterText(product));
 }
 
 function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
@@ -161,9 +157,7 @@ export function ProductCatalog({
     ? catalogProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
     : categorySlug === "cats"
       ? catalogProducts.filter((product) => matchesAudience(product, "cat"))
-      : categorySlug === "supplies"
-        ? catalogProducts.filter(isSupplyProduct)
-        : [];
+      : [];
   // A category route must never fall back to the complete catalog. When the
   // child slug is recognised, match the resolved database subcategory exactly;
   // an unrecognised child route is deliberately empty rather than overbroad.
@@ -179,14 +173,11 @@ export function ProductCatalog({
   const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
-  const suppliesCategorySelected = productCategory === "supplies";
   const ingredientEnabled = (foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat"))
     || (categorySlug === "dogs" && isDedicatedCategoryPage);
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
-    (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product) && !isSupplyProduct(product))) &&
-    (categorySlug !== "supplies" || isSupplyProduct(product)) &&
-    (!suppliesCategorySelected || isSupplyProduct(product)) &&
+    (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product))) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
     (!ingredientEnabled || matchesIngredient(product, ingredientFilter)) &&
     matchesAudience(product, audienceFilter),
@@ -237,9 +228,7 @@ export function ProductCatalog({
     ? (locale === "en" ? "For Dogs" : "\u72d7\u72d7\u5c08\u5340")
     : categorySlug === "cats" || specialFilter === "cat-zone"
       ? (locale === "en" ? "For Cats" : "\u8c93\u54aa\u5c08\u5340")
-      : categorySlug === "supplies"
-        ? (locale === "en" ? "Pet Supplies" : "\u5bf5\u7269\u7528\u54c1")
-        : t("menuTitle");
+      : t("menuTitle");
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <div className={isCollectionPage ? "mb-7" : ""}>
@@ -272,11 +261,11 @@ export function ProductCatalog({
         })}
       </nav> : null}
       {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Product categories" : "\u5546\u54c1\u985e\u5225"} className="mb-3 flex gap-7 border-b border-[color:var(--line)] px-1">
-        {["treats", "supplies"].map((slug) => {
+        {(["treats"] as const).map((slug) => {
           const active = productCategory === slug;
           const href = `/menu?category=${slug}${audienceFilter ? `&audience=${audienceFilter}` : ""}`;
           return <CategoryNavLink key={slug} href={href} className={`relative shrink-0 pb-2.5 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[color:var(--accent)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
-            {locale === "en" ? (slug === "treats" ? "Natural meat treats" : "Outdoors & daily supplies") : (slug === "treats" ? "\u5929\u7136\u8089\u98df\u5c0f\u98df" : "\u5916\u51fa\u53ca\u65e5\u5e38\u7528\u54c1")}
+            {locale === "en" ? "Natural meat treats" : "\u5929\u7136\u8089\u98df\u5c0f\u98df"}
           </CategoryNavLink>;
         })}
       </nav> : null}

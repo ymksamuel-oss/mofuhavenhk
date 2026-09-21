@@ -40,11 +40,11 @@ const PRODUCT_LINES = [
     cta: "Explore Cat Treats",
   },
   {
-    eyebrow: "SUPPLIES",
-    title: "Everyday Supplies",
-    body: "Natural-care essentials and outdoor accessories selected for safety, comfort and everyday practicality.",
-    href: "/categories/supplies",
-    cta: "View Everyday Essentials",
+    eyebrow: "VALUE BUNDLES",
+    title: "Official Food Bundles",
+    body: "Curated Japanese food and treat combinations for everyday nourishment, dental care and variety.",
+    href: "/collections/value-bundles",
+    cta: "View Food Bundles",
   },
 ] as const;
 

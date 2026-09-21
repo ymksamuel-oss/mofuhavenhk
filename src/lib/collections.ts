@@ -1,7 +1,7 @@
 import type { Product } from "@/lib/products";
 import type { Locale } from "@/lib/i18n/translations";
 
-export type CollectionGroup = "species" | "dog-function" | "dog-meat" | "outdoor" | "promotions";
+export type CollectionGroup = "species" | "dog-function" | "dog-meat" | "promotions";
 
 type CollectionMatcher = (product: Product) => boolean;
 
@@ -89,22 +89,13 @@ const MEAT_PATTERNS: Record<string, RegExp[]> = {
   "cheese-bakery": [/芝士|乳酪|起司|チーズ|cheese|bakery|烘焙|餅乾/i],
 };
 
-const OUTDOOR_PATTERNS: Record<string, RegExp[]> = {
-  harnesses: [/胸背|胸帶|harness|ハーネス/i],
-  leashes: [/牽引|牽繩|牽引帶|leash|lead|リード/i],
-  collars: [/頸圈|項圈|半鏈|collar|チェーン/i],
-  "walk-accessories": [/拾便|外出包|散步袋|便袋|walk|walking|poop|outdoor bag/i],
-};
-
 const DOG = (product: Product) => isDogProduct(product);
 const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
 const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.has(productSku(product));
-const OUTDOOR = (product: Product) => matchesAny(product, [/胸背|牽引|牽繩|頸圈|項圈|半鏈|拾便|外出|散步|harness|leash|lead|collar|walk|outdoor/i]);
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "dogs", title_zh: "🐶 狗狗全系列", title_en: "🐶 All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
   { slug: "cats", title_zh: "🐱 貓咪專區", title_en: "🐱 Cat Collection", description: "精選日本貓咪商品及貓狗通用天然小食，讓愛貓享受安心日常。", seo_title: "貓咪專區｜日本貓咪精選商品及天然小食", group: "species", targetCount: 12, match: CAT },
-  { slug: "outdoor-gear", title_zh: "🦺 戶外漫步裝備", title_en: "🦺 Outdoor Walking Gear", description: "從胸背帶到外出配件，為每次散步做好準備。", seo_title: "戶外漫步裝備｜寵物胸背帶、牽引帶及外出用品", group: "species", targetCount: 45, match: OUTDOOR },
   { slug: "dental-chews", title_zh: "物理潔齒耐咬", title_en: "Dental Chews", description: "以自然咀嚼與適口口感陪伴狗狗日常潔齒。", seo_title: "物理潔齒耐咬｜狗狗潔牙零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["dental-chews"]) },
   { slug: "meal-toppers", title_zh: "挑食拌糧神粉", title_en: "Meal Toppers", description: "為挑食狗狗增添香氣與食慾的日常拌糧選擇。", seo_title: "挑食拌糧神粉｜狗狗天然拌飯粉", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["meal-toppers"]) },
   { slug: "training-treats", title_zh: "隨身訓練一口丁", title_en: "Training Treats", description: "細小方便、適合外出訓練與即時獎勵的狗狗小食。", seo_title: "隨身訓練一口丁｜狗狗訓練零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["training-treats"]) },
@@ -118,18 +109,13 @@ export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "seafood-fish", title_zh: "深海海鮮全魚", title_en: "Deep-Sea Fish & Seafood", description: "以魚類及海鮮為主題的天然狗狗小食。", seo_title: "深海海鮮全魚｜狗狗魚類海鮮零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["seafood-fish"]) },
   { slug: "pork-specialty", title_zh: "黑豚與特選肉", title_en: "Specialty Pork & Meats", description: "黑豚及特選肉源的日本狗狗零食。", seo_title: "黑豚與特選肉｜日本狗狗豬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["pork-specialty"]) },
   { slug: "cheese-bakery", title_zh: "芝士與和風烘焙", title_en: "Cheese & Japanese Bakery", description: "芝士、乳酪與和風烘焙點心，為狗狗帶來香脆獎勵。", seo_title: "芝士與和風烘焙｜狗狗芝士及烘焙零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["cheese-bakery"]) },
-  { slug: "harnesses", title_zh: "胸背帶", title_en: "Harnesses", description: "舒適穩妥的狗狗胸背帶，陪伴每日散步。", seo_title: "寵物胸背帶｜戶外漫步裝備", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS.harnesses) },
-  { slug: "leashes", title_zh: "牽引帶", title_en: "Leashes", description: "適合日常散步與外出的牽引帶選擇。", seo_title: "寵物牽引帶｜戶外漫步裝備", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS.leashes) },
-  { slug: "collars", title_zh: "頸圈／半鏈", title_en: "Collars & Half Chains", description: "實用耐用的頸圈及半鏈外出裝備。", seo_title: "寵物頸圈半鏈｜戶外漫步裝備", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS.collars) },
-  { slug: "walk-accessories", title_zh: "拾便袋與外出包", title_en: "Walk Accessories", description: "拾便袋、外出包及散步時不可缺少的貼心配件。", seo_title: "拾便袋與外出包｜寵物散步配件", group: "outdoor", match: (p) => OUTDOOR(p) && matchesAny(p, OUTDOOR_PATTERNS["walk-accessories"]) },
   { slug: "value-bundles", title_zh: "🎁 促銷組合", title_en: "🎁 Value Bundles", description: "官方特惠套裝，一次配齊毛孩日常所需。", seo_title: "促銷組合｜Mofu Haven 官方寵物套裝優惠", group: "promotions", match: VALUE_BUNDLES },
 ] as const;
 
 export const COLLECTION_NAV_GROUPS: readonly { key: CollectionGroup; title_zh: string; title_en: string; slugs: readonly string[] }[] = [
-  { key: "species", title_zh: "物種專區", title_en: "By Pet", slugs: ["dogs", "cats", "outdoor-gear"] },
-  { key: "dog-function", title_zh: "狗狗機能分類", title_en: "Dog Functions", slugs: ["dental-chews", "meal-toppers", "training-treats", "joint-care", "skin-coat", "senior-puppy"] },
-  { key: "dog-meat", title_zh: "狗狗肉源分類", title_en: "Dog Ingredients", slugs: ["horse-meat", "venison", "beef-tendon", "chicken-poultry", "seafood-fish", "pork-specialty", "cheese-bakery"] },
-  { key: "outdoor", title_zh: "戶外裝備", title_en: "Outdoor Gear", slugs: ["harnesses", "leashes", "collars", "walk-accessories"] },
+  { key: "species", title_zh: "物種專區", title_en: "By Pet", slugs: ["dogs", "cats"] },
+  { key: "dog-function", title_zh: "狗狗機能分類", title_en: "Dog Functions", slugs: ["dental-chews"] },
+  { key: "dog-meat", title_zh: "天然原肉", title_en: "Natural Meat", slugs: ["horse-meat"] },
   { key: "promotions", title_zh: "促銷專區", title_en: "Promotions", slugs: ["value-bundles"] },
 ] as const;
 

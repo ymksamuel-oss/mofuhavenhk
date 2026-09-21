@@ -51,20 +51,6 @@ const HERO_SLIDES: readonly HeroSlide[] = [
     tone: "from-[#30221b]/90 via-[#73503b]/58 to-transparent",
     imagePosition: "object-[72%_center]",
   },
-  {
-    id: "outdoor-walk",
-    eyebrow: { zh: "日系機能戶外裝備", en: "ERGONOMIC OUTDOOR GEAR" },
-    badge: { zh: "日系機能美學・舒適同行", en: "JAPANESE FUNCTION・COMFORT IN MOTION" },
-    title: { zh: "人寵同行的輕量美學｜優雅漫步提案", en: "Lightweight Design for Better Walks" },
-    subtitle: { zh: "Y 型減壓胸背帶・防勒牽引繩｜全方位分擔拉扯受力，告別暴衝勒喉", en: "Y-shaped harnesses・pressure-friendly leads｜balanced support for comfortable everyday adventures" },
-    mobileSubtitle: { zh: "Y 型均分減壓胸背帶，貼合身形告別勒喉暴衝", en: "Y-shaped harnesses that balance pressure for comfortable walks" },
-    href: "/collections/outdoor-gear",
-    cta: { zh: "探索散步機能選品", en: "Explore Outdoor Gear" },
-    image: "/images/hero-outdoor-walk.jpg",
-    mobileImage: "/images/hero-outdoor-walk.jpg",
-    tone: "from-[#243b34]/90 via-[#4f6a5d]/58 to-transparent",
-    imagePosition: "object-[62%_center]",
-  },
 ];
 
 function Arrow({ direction }: { direction: "previous" | "next" }) {

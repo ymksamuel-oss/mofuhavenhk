@@ -61,12 +61,6 @@ function getVisualCategoryCards(categories: StoreCategory[]): VisualCategoryCard
       descriptionZh: "\u6bcf\u4e00\u53e3，\u90fd\u503c\u5f97\u671f\u5f85",
       descriptionEn: "A little moment worth looking forward to.",
     },
-    {
-      category: findRoot(["lifestyle", "supplies", "accessor", "\u7528\u54c1", "\u65e5\u7528", "\u73a9\u5177"]),
-      image: "/images/mofu-visuals/category-lifestyle-toys.jpg",
-      descriptionZh: "\u628a\u6bcf\u5929，\u73a9\u5f97\u66f4\u6709\u8da3",
-      descriptionEn: "Make every day a little more playful.",
-    },
   ];
 
   const usedIds = new Set<string>();

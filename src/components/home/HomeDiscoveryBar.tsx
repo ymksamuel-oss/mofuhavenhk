@@ -7,7 +7,6 @@ const ITEMS = [
   { href: "/collections/dental-chews", icon: "🐶", zh: "潔齒耐咬", en: "Dental Chews" },
   { href: "/collections/horse-meat", icon: "🥩", zh: "天然原肉", en: "Natural Jerky" },
   { href: "/collections/cats", icon: "🐱", zh: "貓咪凍乾", en: "Cat Treats" },
-  { href: "/collections/outdoor-gear", icon: "🦮", zh: "散步機能", en: "Walking Gear" },
   { href: "/collections/value-bundles", icon: "🎁", zh: "超值套裝", en: "Value Bundles" },
   { href: "/brand/best-partner", icon: "🇯🇵", zh: "日本原裝", en: "Japan Direct" },
 ] as const;

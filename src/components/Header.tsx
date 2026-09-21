@@ -162,7 +162,10 @@ export function Header() {
   const activeCategoryIds = new Set(activeProducts.map((product) => product.categoryId).filter(Boolean) as string[]);
   const activeCategorySlugs = new Set(activeProducts.map((product) => product.categorySlug));
   const visibleCategories = pruneEmptyCategories(categories, activeCategoryIds, activeCategorySlugs);
-  const topLevelCategories = visibleCategories.filter((category) => category.parent_id === null);
+  const hiddenCategorySlugs = new Set(["supplies", "pet-supplies", "lifestyle", "outdoor", "outdoor-gear", "gear"]);
+  const topLevelCategories = visibleCategories.filter(
+    (category) => category.parent_id === null && !hiddenCategorySlugs.has(category.slug.toLowerCase()),
+  );
   const pathname = usePathname();
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -250,13 +253,13 @@ export function Header() {
   }, [menuOpen]);
 
   const mobileNavItems = [
-    { href: "/", label: locale === "zh" ? "\u9996\u9801" : t("navHome"), active: pathname === "/" },
+    { href: "/", label: locale === "zh" ? "首頁" : t("navHome"), active: pathname === "/" },
+    { href: "/products", label: locale === "zh" ? "全部商品" : "All Products", active: pathname === "/products" },
   ] as const;
 
   const primaryCategoryLinks = [
-    { slug: "dogs", label: locale === "zh" ? "\u72d7\u72d7\u5c08\u5340" : t("navCategoriesDogs") },
-    { slug: "cats", label: locale === "zh" ? "\u8c93\u8c93\u5c08\u5340" : t("navCategoriesCats") },
-    { slug: "supplies", label: locale === "zh" ? "\u5bf5\u7269\u7528\u54c1" : t("navHeaderLifestyle") },
+    { slug: "dogs", label: locale === "zh" ? "狗狗專區" : t("navCategoriesDogs") },
+    { slug: "cats", label: locale === "zh" ? "貓貓專區" : t("navCategoriesCats") },
   ] as const;
   const secondaryTopLevelCategories = topLevelCategories.filter(
     (category) => !primaryCategoryLinks.some((link) => link.slug === category.slug),
@@ -420,7 +423,10 @@ export function Header() {
             aria-label={t("headerPrimaryNavLabel")}
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
-              {locale === "zh" ? "\u9996\u9801" : t("navHome")}
+              {locale === "zh" ? "首頁" : t("navHome")}
+            </Link>
+            <Link href="/products" className={navLinkClassName(pathname === "/products")}>
+              {locale === "zh" ? "全部商品" : "All Products"}
             </Link>
             {primaryCategoryLinks.map((item) => (
               <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>

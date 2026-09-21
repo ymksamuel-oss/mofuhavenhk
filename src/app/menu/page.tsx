@@ -18,13 +18,17 @@ function MenuRedirectOrCatalog() {
   const ingredient = searchParams.get("ingredient");
   const audience = searchParams.get("audience");
   const categoryParam = searchParams.get("category");
-  const productCategory: "treats" | "supplies" | null = categoryParam === "supplies" || categoryParam === "treats" ? categoryParam : null;
+  const productCategory: "treats" | null = categoryParam === "treats" ? categoryParam : null;
 
   useEffect(() => {
+    if (categoryParam === "supplies" || categoryParam === "gear" || categoryParam === "outdoor") {
+      window.location.replace("/products");
+      return;
+    }
     if (!legacySlug) return;
     document.body.style.overflow = "";
     window.location.replace(categoryHref(legacySlug));
-  }, [legacySlug]);
+  }, [categoryParam, legacySlug]);
 
   return <ProductCatalog categorySlug={legacySlug} subcategory={null} specialFilter={catZone ? "cat-zone" : null} ingredientFilter={ingredient} audienceFilter={audience} productCategory={productCategory} />;
 }
