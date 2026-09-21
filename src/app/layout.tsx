@@ -1,17 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { BrandServiceStrip } from "@/components/BrandServiceStrip";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { WishlistProvider } from "@/lib/shop/wishlist";
-import { CartDrawerHost } from "@/components/cart/CartDrawerHost";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
+import { SiteShell } from "@/components/SiteShell";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
 import type { Brand } from "@/lib/brands";
@@ -144,15 +140,7 @@ export default async function RootLayout({
           <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
             <CartProvider>
               <WishlistProvider>
-                <Header />
-              <CartDrawerHost />
-              <BrandServiceStrip />
-              <ShopFlowNav>
-                <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">
-                  {children}
-                </main>
-              </ShopFlowNav>
-                <Footer />
+                <SiteShell>{children}</SiteShell>
               </WishlistProvider>
             </CartProvider>
           </CatalogProvider>

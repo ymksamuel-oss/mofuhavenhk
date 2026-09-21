@@ -133,15 +133,15 @@ function getProductImageUrls(row: Row): string[] {
 }
 
 const tabs: { id: Tab; label: string }[] = [
-  { id: "products", label: "\u7522\u54c1\u7ba1\u7406" },
-  { id: "draft_products", label: "\u672a\u4e0a\u67b6\u7522\u54c1" },
-  { id: "brands", label: "\u54c1\u724c\u7ba1\u7406" },
-  { id: "categories", label: "\u5206\u985e\u5361\u7247" },
-  { id: "banners", label: "Banner \u8f2a\u64ad" },
-  { id: "featured_pets", label: "\u7cbe\u9078\u5bf5\u7269\u5c08\u5340" },
-  { id: "coupons", label: "\u512a\u60e0\u78bc" },
-  { id: "orders", label: "\u8a02\u55ae\u7ba1\u7406" },
-  { id: "store_settings", label: "\u7cfb\u7d71\u8207 API" },
+  { id: "products", label: "產品管理" },
+  { id: "draft_products", label: "未上架產品" },
+  { id: "brands", label: "品牌管理" },
+  { id: "categories", label: "分類卡片" },
+  { id: "banners", label: "Banner 輪播" },
+  { id: "featured_pets", label: "精選寵物專區" },
+  { id: "coupons", label: "優惠碼" },
+  { id: "orders", label: "訂單管理" },
+  { id: "store_settings", label: "系統與 API" },
 ];
 
 async function call(method: string, body?: Row, table?: string) {
@@ -151,7 +151,7 @@ async function call(method: string, body?: Row, table?: string) {
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
   const json = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(json.error || `\u64cd\u4f5c\u5931\u6557（HTTP ${response.status}）`);
+  if (!response.ok) throw new Error(json.error || `操作失敗（HTTP ${response.status}）`);
   return json;
 }
 
@@ -252,8 +252,15 @@ function getPageNumbers(current: number, total: number): (number | "ellipsis")[]
   return result;
 }
 
-const ORDER_STATUSES = [["pending", "\u5f85\u8655\u7406"], ["processing", "\u5099\u8ca8\u4e2d"], ["shipped", "\u5df2\u5bc4\u51fa"], ["completed", "\u5df2\u5b8c\u6210"], ["cancelled", "\u5df2\u53d6\u6d88"]] as const;
-function parseJsonValue(value: unknown): any { if (typeof value !== "string") return value || {}; try { return JSON.parse(value); } catch { return {}; } }
+const ORDER_STATUSES = [["pending", "待處理"], ["processing", "備貨中"], ["shipped", "已寄出"], ["completed", "已完成"], ["cancelled", "已取消"]] as const;
+function parseJsonValue(value: unknown): any {
+  if (typeof value !== "string") return normalizeAdminValue(value) || {};
+  try {
+    return normalizeAdminValue(JSON.parse(decodeAdminUnicode(value)));
+  } catch {
+    return normalizeAdminValue(value) || {};
+  }
+}
 function orderCustomer(value: unknown): Record<string, any> { const parsed = parseJsonValue(value); return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {}; }
 function orderItems(value: unknown): any[] { const parsed = parseJsonValue(value); return Array.isArray(parsed) ? parsed : []; }
 function orderDate(value: unknown): string { if (!value) return "—"; const date = new Date(String(value)); if (Number.isNaN(date.getTime())) return String(value); return new Intl.DateTimeFormat("zh-HK", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(date).replaceAll("/", "-"); }
@@ -379,7 +386,7 @@ export default function AdminPage() {
       if (tab === "categories") {
         normalized.parent_id = normalized.parent_id || null;
         if (normalized.parent_id === normalized.id) {
-          setError("\u5206\u985e\u4e0d\u53ef\u8a2d\u70ba\u81ea\u8eab\u7684\u7236\u5206\u985e");
+          setError("分類不可設為自身的父分類");
           return;
         }
       }
@@ -392,9 +399,9 @@ export default function AdminPage() {
       setForm(null);
       await load();
     } catch (e: any) {
-      const message = e?.message || "\u5132\u5b58\u5931\u6557，\u8acb\u6aa2\u67e5\u7522\u54c1\u8cc7\u6599\u5f8c\u518d\u8a66。";
-      setError(`\u5132\u5b58\u5931\u6557：${message}`);
-      window.alert(`\u5132\u5b58\u5931\u6557\n\n${message}`);
+      const message = e?.message || "儲存失敗，請檢查產品資料後再試。";
+      setError(`儲存失敗：${message}`);
+      window.alert(`儲存失敗\n\n${message}`);
     }
   }
 
@@ -405,7 +412,7 @@ export default function AdminPage() {
       const response = await fetch("/api/admin/products/csv");
       if (!response.ok) {
         const result = await response.json().catch(() => ({}));
-        throw new Error(result.error || "CSV \u532f\u51fa\u5931\u6557");
+        throw new Error(result.error || "CSV 匯出失敗");
       }
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -416,9 +423,9 @@ export default function AdminPage() {
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(url);
-      setCsvNotice(`\u5df2\u532f\u51fa ${rows.length} \u9805\u7522\u54c1`);
+      setCsvNotice(`已匯出 ${rows.length} 項產品`);
     } catch (e: any) {
-      setCsvNotice(e.message || "CSV \u532f\u51fa\u5931\u6557");
+      setCsvNotice(e.message || "CSV 匯出失敗");
     } finally {
       setCsvBusy(false);
     }
@@ -431,7 +438,7 @@ export default function AdminPage() {
       const response = await fetch("/api/admin/products/csv?format=xlsx");
       if (!response.ok) {
         const result = await response.json().catch(() => ({}));
-        throw new Error(result.error || "Excel \u532f\u51fa\u5931\u6557");
+        throw new Error(result.error || "Excel 匯出失敗");
       }
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -442,9 +449,9 @@ export default function AdminPage() {
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(url);
-      setCsvNotice(`\u5df2\u4e0b\u8f09 Excel，\u5305\u542b ${rows.length} \u9805\u7522\u54c1，\u53ef\u76f4\u63a5\u4fee\u6539\u5f8c\u91cd\u65b0\u532f\u5165`);
+      setCsvNotice(`已下載 Excel，包含 ${rows.length} 項產品，可直接修改後重新匯入`);
     } catch (e: any) {
-      setCsvNotice(e.message || "Excel \u532f\u51fa\u5931\u6557");
+      setCsvNotice(e.message || "Excel 匯出失敗");
     } finally {
       setCsvBusy(false);
     }
@@ -455,7 +462,7 @@ export default function AdminPage() {
     event.target.value = "";
     if (!file) return;
     if (!/\.(csv|xlsx|xls)$/i.test(file.name)) {
-      setCsvNotice("\u8acb\u9078\u64c7 .csv、.xlsx \u6216 .xls \u6a94\u6848");
+      setCsvNotice("請選擇 .csv、.xlsx 或 .xls 檔案");
       return;
     }
     setCsvBusy(true);
@@ -465,12 +472,12 @@ export default function AdminPage() {
       body.append("file", file);
       const response = await fetch("/api/admin/products/csv", { method: "POST", body });
       const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Excel／CSV \u532f\u5165\u5931\u6557");
-      const summary = `\u532f\u5165\u5b8c\u6210：\u65b0\u589e ${result.created} \u9805、\u66f4\u65b0 ${result.updated} \u9805${result.failed ? `、\u5931\u6557 ${result.failed} \u9805` : ""}`;
+      if (!response.ok) throw new Error(result.error || "Excel／CSV 匯入失敗");
+      const summary = `匯入完成：新增 ${result.created} 項、更新 ${result.updated} 項${result.failed ? `、失敗 ${result.failed} 項` : ""}`;
       setCsvNotice(result.errors?.length ? `${summary}。${result.errors.slice(0, 3).join("；")}` : summary);
       await load("products");
     } catch (e: any) {
-      setCsvNotice(e.message || "CSV \u532f\u5165\u5931\u6557");
+      setCsvNotice(e.message || "CSV 匯入失敗");
     } finally {
       setCsvBusy(false);
     }
@@ -483,7 +490,7 @@ export default function AdminPage() {
       return !hasImage && hasOtherContent;
     });
     if (hasIncompleteSlot) {
-      setError("\u5982\u67d0\u4e00\u500b\u5167\u5bb9\u69fd\u5df2\u586b\u5beb\u6a19\u984c、\u63cf\u8ff0\u6216\u9023\u7d50，\u5fc5\u9808\u540c\u6642\u63d0\u4f9b\u5716\u7247。");
+      setError("如某一個內容槽已填寫標題、描述或連結，必須同時提供圖片。");
       return;
     }
 
@@ -501,11 +508,11 @@ export default function AdminPage() {
       }));
     const sortOrders = pets.map((pet) => pet.sort_order);
     if (sortOrders.some((sortOrder) => sortOrder < 0) || new Set(sortOrders).size !== sortOrders.length) {
-      setError("\u5df2\u586b\u5beb\u7684\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9\u5fc5\u9808\u4f7f\u7528\u4e0d\u91cd\u8907\u4e14\u70ba 0 \u6216\u4ee5\u4e0a\u7684\u6574\u6578\u6392\u5e8f。");
+      setError("已填寫的精選寵物內容必須使用不重複且為 0 或以上的整數排序。");
       return;
     }
     if (pets.some((pet) => !pet.title || !pet.description)) {
-      setError("\u6bcf\u500b\u5df2\u586b\u5beb\u5716\u7247\u7684\u5167\u5bb9\u69fd\u5fc5\u9808\u540c\u6642\u63d0\u4f9b\u6a19\u984c\u53ca\u8a73\u7d30\u63cf\u8ff0。");
+      setError("每個已填寫圖片的內容槽必須同時提供標題及詳細描述。");
       return;
     }
 
@@ -514,10 +521,10 @@ export default function AdminPage() {
     setFeaturedPetNotice("");
     try {
       const result = await call("POST", { action: "replace_featured_pets", pets });
-      setFeaturedPetNotice(result.count === 0 ? "\u5df2\u6e05\u7a7a\u7cbe\u9078\u5bf5\u7269\u5c08\u5340，\u9996\u9801\u4e0d\u6703\u986f\u793a\u4efb\u4f55\u5beb\u771f。" : `\u5df2\u5132\u5b58 ${result.count} \u500b\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9，\u9996\u9801\u6703\u5373\u6642\u66f4\u65b0。`);
+      setFeaturedPetNotice(result.count === 0 ? "已清空精選寵物專區，首頁不會顯示任何寫真。" : `已儲存 ${result.count} 個精選寵物內容，首頁會即時更新。`);
       await load("featured_pets");
     } catch (e: any) {
-      setError(e.message || "\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9\u5132\u5b58\u5931\u6557");
+      setError(e.message || "精選寵物內容儲存失敗");
     } finally {
       setFeaturedPetSaving(false);
     }
@@ -530,7 +537,7 @@ export default function AdminPage() {
       return !hasDesktopImage && hasOtherContent;
     });
     if (hasIncompleteSlot) {
-      setError("\u5982\u67d0\u4e00\u683c\u5df2\u586b\u5beb\u624b\u6a5f\u5716\u7247、\u9023\u7d50\u6216\u6a19\u984c，\u5fc5\u9808\u540c\u6642\u63d0\u4f9b\u684c\u9762\u7248\u5716\u7247。");
+      setError("如某一格已填寫手機圖片、連結或標題，必須同時提供桌面版圖片。");
       return;
     }
 
@@ -545,7 +552,7 @@ export default function AdminPage() {
       }));
     const sortOrders = banners.map((banner) => banner.sort_order);
     if (sortOrders.some((sortOrder) => sortOrder < 0) || new Set(sortOrders).size !== sortOrders.length) {
-      setError("\u5df2\u586b\u5beb\u7684 Banner \u5fc5\u9808\u4f7f\u7528\u4e0d\u91cd\u8907\u4e14\u70ba 0 \u6216\u4ee5\u4e0a\u7684\u6574\u6578\u6392\u5e8f。");
+      setError("已填寫的 Banner 必須使用不重複且為 0 或以上的整數排序。");
       return;
     }
 
@@ -554,10 +561,10 @@ export default function AdminPage() {
     setBannerNotice("");
     try {
       const result = await call("POST", { action: "replace_banners", banners });
-      setBannerNotice(result.count === 0 ? "\u5df2\u6e05\u7a7a\u6240\u6709 Banner \u8cc7\u6599。" : `\u5df2\u5132\u5b58 ${result.count} \u7d44 Banner，\u524d\u53f0\u8f2a\u64ad\u5df2\u4f9d\u6392\u5e8f\u66f4\u65b0。`);
+      setBannerNotice(result.count === 0 ? "已清空所有 Banner 資料。" : `已儲存 ${result.count} 組 Banner，前台輪播已依排序更新。`);
       await load("banners");
     } catch (e: any) {
-      setError(e.message || "Banner \u5132\u5b58\u5931\u6557");
+      setError(e.message || "Banner 儲存失敗");
     } finally {
       setBannerSaving(false);
     }
@@ -569,16 +576,16 @@ export default function AdminPage() {
     try {
       await call("POST", { action: "set_banner_autoplay", enabled });
       setBannerAutoplayEnabled(enabled);
-      setBannerNotice(enabled ? "\u5df2\u958b\u555f Banner \u81ea\u52d5\u8f2a\u64ad。" : "\u5df2\u505c\u7528 Banner \u81ea\u52d5\u8f2a\u64ad，\u524d\u53f0\u53ea\u986f\u793a\u7b2c\u4e00\u7d44 Banner。" );
+      setBannerNotice(enabled ? "已開啟 Banner 自動輪播。" : "已停用 Banner 自動輪播，前台只顯示第一組 Banner。" );
     } catch (e: any) {
-      setError(e.message || "Banner \u8f2a\u64ad\u8a2d\u5b9a\u5132\u5b58\u5931\u6557");
+      setError(e.message || "Banner 輪播設定儲存失敗");
     } finally {
       setBannerAutoplaySaving(false);
     }
   }
 
   async function remove(row: Row) {
-    if (!row.id || !confirm("\u78ba\u5b9a\u522a\u9664\u6b64\u9805\u76ee？")) return;
+    if (!row.id || !confirm("確定刪除此項目？")) return;
     try {
       await call("DELETE", { table: tab, id: row.id });
       await load();
@@ -610,7 +617,7 @@ export default function AdminPage() {
       )));
       setOpenQuickCategoryProductId(null);
     } catch (e: any) {
-      setCategoryQuickError(e.message || "\u5206\u985e\u66f4\u65b0\u5931\u6557");
+      setCategoryQuickError(e.message || "分類更新失敗");
     } finally {
       setCategorySavingProductId(null);
     }
@@ -672,7 +679,7 @@ export default function AdminPage() {
       setOpenQuickEditProductId(null);
       setQuickEditDraft(null);
     } catch (e: any) {
-      setQuickEditError(e.message || "\u5feb\u901f\u5132\u5b58\u5931\u6557");
+      setQuickEditError(e.message || "快速儲存失敗");
     } finally {
       setQuickEditSaving(false);
     }
@@ -737,22 +744,22 @@ export default function AdminPage() {
       setBarcodeProduct(null);
       setBarcodeDraft(null);
     } catch (e: any) {
-      setBarcodeNotice(e.message || "\u689d\u78bc\u7522\u54c1\u5132\u5b58\u5931\u6557");
+      setBarcodeNotice(e.message || "條碼產品儲存失敗");
     } finally {
       setBarcodeSaving(false);
     }
   }
 
   function categoryName(categoryId: unknown) {
-    return categories.find((category) => String(category.id) === String(categoryId))?.name || "\u672a\u5206\u985e";
+    return categories.find((category) => String(category.id) === String(categoryId))?.name || "未分類";
   }
 
   const barcodeTags = barcodeProduct && Array.isArray(barcodeProduct.feature_tags)
     ? barcodeProduct.feature_tags.filter((tag: unknown): tag is string => typeof tag === "string")
     : [];
-  const barcodeChineseName = String(barcodeProduct?.name_zh || barcodeProduct?.name || "\u7522\u54c1")
+  const barcodeChineseName = String(barcodeProduct?.name_zh || barcodeProduct?.name || "產品")
     .split(/[｜|]/)[0]
-    .replace(/^\u65e5\u672c\u539f\u88dd\s*Best Partner\s*/i, "")
+    .replace(/^日本原裝\s*Best Partner\s*/i, "")
     .trim();
   const barcodeJapaneseName = String(barcodeProduct?.name || "").split(/[｜|]/).at(-1)?.trim() || "—";
   const barcodeCostJpy = Number(barcodeDraft?.cost_jpy) || 0;
@@ -762,23 +769,23 @@ export default function AdminPage() {
   const barcodePriceHkd = Number(barcodeDraft?.price) || 0;
   const barcodeMargin = barcodePriceHkd > 0 ? ((barcodePriceHkd - barcodeCostHkd) / barcodePriceHkd) * 100 : 0;
   const barcodeAudience = String(barcodeProduct?.pet_species || "").toLowerCase().includes("cat")
-    ? "\u8c93\u54aa\u5c08\u5340"
-    : String(barcodeProduct?.pet_species || "").toLowerCase().includes("dog") ? "\u72d7\u72d7\u5c08\u5340" : "\u8c93\u72d7\u517c\u7528";
+    ? "貓咪專區"
+    : String(barcodeProduct?.pet_species || "").toLowerCase().includes("dog") ? "狗狗專區" : "貓狗兼用";
   const barcodeCategory = barcodeProduct?.category_id
     ? categoryName(barcodeProduct.category_id)
-    : barcodeTags.filter((tag: string) => tag.startsWith("supplier_category:")).map((tag: string) => tag.split(":")[1]).join("／") || "\u672a\u5206\u985e";
+    : barcodeTags.filter((tag: string) => tag.startsWith("supplier_category:")).map((tag: string) => tag.split(":")[1]).join("／") || "未分類";
   const barcodeStatus = barcodeProduct?.is_published === false || barcodeProduct?.status === "draft"
-    ? "\u96b1\u85cf"
-    : Number(barcodeDraft?.stock) > 0 ? "\u5728\u552e\u4e2d" : "\u7f3a\u8ca8\u4e2d";
+    ? "隱藏"
+    : Number(barcodeDraft?.stock) > 0 ? "在售中" : "缺貨中";
 
   return (
     <div className="min-h-screen bg-[#f6f2eb] text-[#27231f]">
       <header className="flex items-center justify-between border-b border-[#e5ddd3] bg-white px-5 py-4 md:px-10">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#a36b42]">Mofu Haven HK</p>
-          <h1 className="text-xl font-semibold">\u5167\u5bb9\u7ba1\u7406\u4e2d\u5fc3</h1>
+          <h1 className="text-xl font-semibold">內容管理中心</h1>
         </div>
-        <button onClick={logout} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">\u767b\u51fa</button>
+        <button onClick={logout} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">登出</button>
       </header>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-6 md:flex-row md:px-10">
@@ -788,46 +795,46 @@ export default function AdminPage() {
               {item.label}
             </button>
           ))}
-          <button onClick={() => router.push("/admin/image-ops")} className="mt-3 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">\u5716\u7247\u81ea\u52d5\u88dc\u5716</button>
+          <button onClick={() => router.push("/admin/image-ops")} className="mt-3 w-full rounded-xl border border-white/20 px-4 py-3 text-left text-sm text-white/90 transition hover:bg-white/10">圖片自動補圖</button>
         </aside>
 
         <main className="min-w-0 flex-1">
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm text-[#8b7c70]">\u7db2\u7ad9\u5167\u5bb9</p>
+              <p className="text-sm text-[#8b7c70]">網站內容</p>
               <h2 className="text-3xl font-semibold">{title}</h2>
             </div>
             {tab !== "orders" && tab !== "banners" && tab !== "draft_products" && tab !== "featured_pets" && (
-              <button onClick={() => setForm(defaultRow(tab))} className="shrink-0 rounded-xl bg-[#a36b42] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">\u65b0\u589e</button>
+              <button onClick={() => setForm(defaultRow(tab))} className="shrink-0 rounded-xl bg-[#a36b42] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">新增</button>
             )}
           </div>
 
-          {error && <div role="alert" aria-live="assertive" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium leading-6 text-red-800 shadow-sm"><strong className="mr-1">⚠ \u5132\u5b58\u5931\u6557：</strong>{error.replace(/^\u5132\u5b58\u5931\u6557：/, "")}</div>}
+          {error && <div role="alert" aria-live="assertive" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium leading-6 text-red-800 shadow-sm"><strong className="mr-1">⚠ 儲存失敗：</strong>{error.replace(/^儲存失敗：/, "")}</div>}
 
           {isProductTab(tab) && (
             <section className="mb-5 rounded-2xl bg-white p-4 shadow-sm md:p-5">
               <div className="flex flex-col gap-3 lg:flex-row">
                 <label className="relative min-w-0 flex-1">
-                  <span className="sr-only">\u641c\u5c0b\u7522\u54c1</span>
+                  <span className="sr-only">搜尋產品</span>
                   <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a89587]" />
                   <input
                     value={productQuery}
                     onChange={(event) => setProductQuery(event.target.value)}
                     onKeyDown={(event) => { if (event.key === "Enter" && /^\d{8,14}$/.test(productQuery.trim())) { event.preventDefault(); void handleBarcode(productQuery); } }}
-                    placeholder="\u641c\u5c0b\u7522\u54c1\u540d\u7a31、\u95dc\u9375\u5b57、SKU \u6216\u7522\u54c1 ID…"
+                    placeholder="搜尋產品名稱、關鍵字、SKU 或產品 ID…"
                     className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] py-3 pl-10 pr-10 text-sm outline-none transition focus:border-[#a36b42] focus:ring-2 focus:ring-[#a36b42]/10"
                   />
-                  {productQuery && <button aria-label="\u6e05\u9664\u641c\u5c0b" onClick={() => setProductQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b7c70] hover:text-[#2f4a3c]"><X className="h-4 w-4" /></button>}
+                  {productQuery && <button aria-label="清除搜尋" onClick={() => setProductQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b7c70] hover:text-[#2f4a3c]"><X className="h-4 w-4" /></button>}
                 </label>
                 <label className="lg:w-56">
-                  <span className="sr-only">\u6309\u5206\u985e\u7be9\u9078</span>
+                  <span className="sr-only">按分類篩選</span>
                   <select value={productCategory} onChange={(event) => setProductCategory(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] px-3 py-3 text-sm outline-none transition focus:border-[#a36b42]">
-                    <option value="all">\u5168\u90e8\u5206\u985e</option>
+                    <option value="all">全部分類</option>
                     {categoryGroups(categories).map(({ root, entries }) => (
                       <optgroup key={root.id} label={root.name}>
                         {entries.map(({ category, depth }) => (
                           <option key={category.id} value={category.id}>
-                            {depth === 0 ? `${category.name}（\u5168\u90e8\u5b50\u5206\u985e）` : categoryOptionLabel(category.name, depth)}
+                            {depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}
                           </option>
                         ))}
                       </optgroup>
@@ -836,28 +843,28 @@ export default function AdminPage() {
                 </label>
               </div>
               <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#eaded5] pt-4">
-                <button type="button" onClick={() => setScannerOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#2f4a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d]"><Camera className="h-4 w-4" />\u6383\u78bc\u6536\u8ca8／\u67e5\u8ca8</button>
+                <button type="button" onClick={() => setScannerOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#2f4a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d]"><Camera className="h-4 w-4" />掃碼收貨／查貨</button>
                 <div className="relative">
                   <button type="button" onClick={() => setProductToolsOpen((open) => !open)} aria-expanded={productToolsOpen} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef]">
-                    <Download className="h-4 w-4" />\u532f\u5165／\u532f\u51fa <ChevronDown className={`h-4 w-4 transition-transform ${productToolsOpen ? "rotate-180" : ""}`} />
+                    <Download className="h-4 w-4" />匯入／匯出 <ChevronDown className={`h-4 w-4 transition-transform ${productToolsOpen ? "rotate-180" : ""}`} />
                   </button>
                   {productToolsOpen && (
                     <div className="absolute left-0 top-full z-20 mt-2 min-w-44 rounded-xl border border-[#ded5cc] bg-white p-1.5 shadow-lg">
-                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsCsv(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />\u532f\u51fa CSV</button>
-                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsExcel(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />\u4e0b\u8f09 Excel</button>
-                      <label className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a36b42] hover:bg-[#f6f2eb] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />\u532f\u5165 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={(event) => { setProductToolsOpen(false); void importProductsCsv(event); }} disabled={csvBusy} /></label>
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsCsv(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />匯出 CSV</button>
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsExcel(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />下載 Excel</button>
+                      <label className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a36b42] hover:bg-[#f6f2eb] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={(event) => { setProductToolsOpen(false); void importProductsCsv(event); }} disabled={csvBusy} /></label>
                     </div>
                   )}
                 </div>
                 <details className="basis-full text-xs text-[#806b5d] md:basis-auto">
-                  <summary className="inline-flex cursor-pointer select-none items-center gap-1 rounded-lg px-1 py-1 font-medium hover:text-[#2f4a3c]">ⓘ \u532f\u5165欄位與發布規則</summary>
-                  <div className="mt-2 max-w-2xl rounded-xl bg-[#fffaf4] px-3 py-2 leading-5">\u652f\u63f4 Excel／CSV；\u6b04\u4f4d：\u7522\u54c1\u540d\u7a31／SKU／\u6210\u672c\u50f9 JPY／\u96f6\u552e\u50f9 HKD／\u5716\u7247 URL。\u524d\u53f0\u53ea\u986f\u793a published、\u5df2\u767c\u5e03\u4e14\u5eab\u5b58\u5927\u65bc 0 \u7684\u7522\u54c1。</div>
+                  <summary className="inline-flex cursor-pointer select-none items-center gap-1 rounded-lg px-1 py-1 font-medium hover:text-[#2f4a3c]">ⓘ 匯入欄位與發布規則</summary>
+                  <div className="mt-2 max-w-2xl rounded-xl bg-[#fffaf4] px-3 py-2 leading-5">支援 Excel／CSV；欄位：產品名稱／SKU／成本價 JPY／零售價 HKD／圖片 URL。前台只顯示 published、已發布且庫存大於 0 的產品。</div>
                 </details>
               </div>
               {csvNotice && <div className="mt-3 rounded-xl bg-[#f7efe7] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
-                <span>{productQuery || productCategory !== "all" ? `\u7be9\u9078\u7d50\u679c：${filteredProductRows.length} \u9805` : `\u5171 ${rows.length} \u9805\u7522\u54c1`}</span>
-                {(productQuery || productCategory !== "all") && <button onClick={() => { setProductQuery(""); setProductCategory("all"); }} className="font-medium text-[#a36b42] hover:underline">\u6e05\u9664\u7be9\u9078</button>}
+                <span>{productQuery || productCategory !== "all" ? `篩選結果：${filteredProductRows.length} 項` : `共 ${rows.length} 項產品`}</span>
+                {(productQuery || productCategory !== "all") && <button onClick={() => { setProductQuery(""); setProductCategory("all"); }} className="font-medium text-[#a36b42] hover:underline">清除篩選</button>}
               </div>
             </section>
           )}
@@ -884,10 +891,10 @@ export default function AdminPage() {
           ) : form && <Editor tab={tab} form={form} setForm={setForm} categories={categories} brands={brands} onSave={save} onCancel={() => setForm(null)} />}
 
           {tab !== "featured_pets" && (loading ? (
-            <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">\u8f09\u5165\u4e2d…</div>
+            <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">載入中…</div>
           ) : visibleRows.length === 0 && !form ? (
             <div className="rounded-2xl bg-white p-10 text-center text-[#8b7c70]">
-              {isProductTab(tab) && (productQuery || productCategory !== "all") ? "\u627e\u4e0d\u5230\u7b26\u5408\u689d\u4ef6\u7684\u7522\u54c1。" : "\u5c1a\u672a\u6709\u8cc7\u6599，\u8acb\u6309「\u65b0\u589e」。"}
+              {isProductTab(tab) && (productQuery || productCategory !== "all") ? "找不到符合條件的產品。" : "尚未有資料，請按「新增」。"}
             </div>
           ) : (
             <>
@@ -901,27 +908,27 @@ export default function AdminPage() {
                         <div className="flex min-w-0 items-center gap-4">
                           {tab === "brands" && (
                             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-2">
-                              {row.logo_url ? <img src={row.logo_url} alt={`${row.name || "\u54c1\u724c"} logo`} className="h-full w-full object-contain" loading="lazy" /> : <span className="flex h-full items-center justify-center text-center text-xs text-[#8b7c70]">\u7121 Logo</span>}
+                              {row.logo_url ? <img src={row.logo_url} alt={`${row.name || "品牌"} logo`} className="h-full w-full object-contain" loading="lazy" /> : <span className="flex h-full items-center justify-center text-center text-xs text-[#8b7c70]">無 Logo</span>}
                             </div>
                           )}
                           {isProductTab(tab) && (
                             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
                               {thumbnailUrl ? (
-                                <img src={thumbnailUrl} alt={`${row.name || "\u7522\u54c1"}\u7e2e\u5716`} className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} />
+                                <img src={thumbnailUrl} alt={`${row.name || "產品"}縮圖`} className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} />
                               ) : (
-                                <div className="flex h-full items-center justify-center px-1 text-center text-[10px] leading-4 text-[#a89587]">\u7121\u5716\u7247</div>
+                                <div className="flex h-full items-center justify-center px-1 text-center text-[10px] leading-4 text-[#a89587]">無圖片</div>
                               )}
                             </div>
                           )}
                           {tab === "banners" && (
                             <div data-banner-list="true" className="grid h-16 w-36 shrink-0 grid-cols-2 gap-1 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-1">
                               <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
-                                {row.image_url ? <img src={row.image_url} alt={`${row.title || "Banner"} \u684c\u9762\u7248`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">\u684c\u9762\u7248</span>}
-                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">\u684c\u9762</span>
+                                {row.image_url ? <img src={row.image_url} alt={`${row.title || "Banner"} 桌面版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">桌面版</span>}
+                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">桌面</span>
                               </div>
                               <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
-                                {row.mobile_image_url || row.image_url ? <img src={row.mobile_image_url || row.image_url} alt={`${row.title || "Banner"} \u624b\u6a5f\u7248`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">\u624b\u6a5f\u7248</span>}
-                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">\u624b\u6a5f</span>
+                                {row.mobile_image_url || row.image_url ? <img src={row.mobile_image_url || row.image_url} alt={`${row.title || "Banner"} 手機版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">手機版</span>}
+                                <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">手機</span>
                               </div>
                             </div>
                           )}
@@ -929,28 +936,28 @@ export default function AdminPage() {
                             <p className="font-semibold">{isProductTab(tab) ? row.name : tab === "store_settings" ? row.key : row.title || row.name || row.code || row.status}</p>
                             <p className="mt-1 truncate text-sm text-[#8b7c70]">
                               {tab === "products"
-                                ? `HK$${row.price ?? 0} · \u5eab\u5b58 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
+                                ? `HK$${row.price ?? 0} · 庫存 ${row.stock ?? 0} · ${categoryName(row.category_id)}`
                                 : tab === "brands"
-                                  ? `\u5546\u54c1 ${row.product_count ?? 0} \u9805 · \u6392\u5e8f ${row.sort_order ?? 0} · ${row.is_active ? "\u555f\u7528\u4e2d" : "\u5df2\u505c\u7528"}`
+                                  ? `商品 ${row.product_count ?? 0} 項 · 排序 ${row.sort_order ?? 0} · ${row.is_active ? "啟用中" : "已停用"}`
                                 : (tab as Tab) === "orders"
                                   ? `${row.total ?? 0} · ${row.created_at || ""}`
                                   : tab === "store_settings"
                                     ? (String(row.value).length > 20 ? "••••••••" : row.value)
                                     : tab === "banners"
-                                      ? `\u6392\u5e8f ${row.sort_order ?? 0} · ${row.mobile_image_url ? "\u684c\u9762／\u624b\u6a5f\u5716\u7247\u5df2\u8a2d\u5b9a" : "\u624b\u6a5f\u7248\u6cbf\u7528\u684c\u9762\u7248"}`
+                                      ? `排序 ${row.sort_order ?? 0} · ${row.mobile_image_url ? "桌面／手機圖片已設定" : "手機版沿用桌面版"}`
                                       : row.image_url || row.slug || row.discount_type || ""}
                             </p>
-                            {isProductTab(tab) && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "\u524d\u53f0\u986f\u793a\u4e2d" : `\u672a\u4e0a\u67b6：${row.status || "draft"}`}</span></>}
+                            {isProductTab(tab) && <><p className="mt-1 truncate text-xs text-[#b09f92]">ID：{row.id}{row.mofu_sku ? ` · SKU：${row.mofu_sku}` : row.sku ? ` · SKU：${row.sku}` : ""}</p><span className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${row.status === "published" && row.is_published !== false ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{row.status === "published" && row.is_published !== false ? "前台顯示中" : `未上架：${row.status || "draft"}`}</span></>}
                           </div>
                         </div>
                         <div className="flex shrink-0 gap-2">
                           {isProductTab(tab) ? (
                             <div className="relative">
                               <div className="flex">
-                                  <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">\u5b8c\u6574\u7de8\u8f2f</button>
+                                  <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">完整編輯</button>
                                 <button
                                   type="button"
-                                    aria-label={`\u5feb\u901f\u7de8\u8f2f ${row.name || "\u7522\u54c1"}`}
+                                    aria-label={`快速編輯 ${row.name || "產品"}`}
                                     aria-expanded={openQuickEditProductId === String(row.id)}
                                     onClick={() => toggleQuickEdit(row)}
                                   className="rounded-r-lg border border-[#ded5cc] px-2 py-2 text-sm transition hover:bg-[#f6f2eb]"
@@ -960,36 +967,36 @@ export default function AdminPage() {
                               </div>
                             </div>
                           ) : tab === "banners" ? (
-                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">\u8acb\u65bc\u4e0a\u65b9\u56db\u683c\u7ba1\u7406</span>
+                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">請於上方四格管理</span>
                           ) : (tab as Tab) === "orders" ? (
-                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">\u53ef\u76f4\u63a5\u65bc\u5361\u7247\u64cd\u4f5c</span>
+                            <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">可直接於卡片操作</span>
                           ) : (
-                            <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">\u7de8\u8f2f</button>
+                            <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
                           )}
-                          {(tab as Tab) !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">\u522a\u9664</button>}
+                          {(tab as Tab) !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
                       {isProductTab(tab) && openQuickEditProductId === String(row.id) && quickEditDraft && (
-                        <div className="mt-4 border-t border-[#eaded5] pt-4" role="region" aria-label={`${row.name || "\u7522\u54c1"} \u5feb\u901f\u7de8\u8f2f`}>
+                        <div className="mt-4 border-t border-[#eaded5] pt-4" role="region" aria-label={`${row.name || "產品"} 快速編輯`}>
                           <div className="mb-3 flex items-center justify-between gap-3">
                             <div>
-                              <p className="text-sm font-semibold text-[#2f4a3c]">\u5feb\u901f\u7de8\u8f2f</p>
-                              <p className="mt-0.5 text-xs text-[#8b7c70]">\u4e0d\u96e2\u958b\u7522\u54c1\u5217\u8868\u5373\u53ef\u66f4\u65b0\u6838\u5fc3\u8cc7\u6599</p>
+                              <p className="text-sm font-semibold text-[#2f4a3c]">快速編輯</p>
+                              <p className="mt-0.5 text-xs text-[#8b7c70]">不離開產品列表即可更新核心資料</p>
                             </div>
-                            <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">\u5373\u6642\u5132\u5b58</span>
+                            <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
                           </div>
                           <div className="grid gap-3 sm:grid-cols-3">
-                            <label className="text-sm"><span className="mb-1 block font-medium">\u6210\u672c\u50f9（JPY）</span><input type="number" min="0" step="1" value={quickEditDraft.cost_jpy ?? ""} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_jpy: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="\u4f8b\u5982 380" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">\u552e\u50f9（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="\u624b\u52d5\u8f38\u5165" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">\u539f\u50f9（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="\u53ef\u9078" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">\u5eab\u5b58（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">\u662f\u5426\u5c07\u8ca8\u54c1\u4e0a\u67b6</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（\u4e0a\u67b6）</option><option value="draft">Draft（\u8349\u7a3f）</option></select></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="1" value={quickEditDraft.cost_jpy ?? ""} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_jpy: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="手動輸入" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">原價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="可選" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
                           </div>
                           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#fffaf4] px-3 py-2 text-xs text-[#806b5d]">
-                            <span>\u6210\u672c\u8cc7\u6599\u50c5\u9650 Admin；\u5b8c\u6574\u7de8\u8f2f\u53ef\u9032\u884c\u532f\u7387、\u904b\u8cbb、\u500d\u7387\u53ca\u6bdb\u5229\u8a66\u7b97。</span>
+                            <span>成本資料僅限 Admin；完整編輯可進行匯率、運費、倍率及毛利試算。</span>
                             {quickEditError && <span className="text-red-600">{quickEditError}</span>}
                           </div>
-                          <div className="mt-3 flex justify-end"><button type="button" onClick={saveQuickEdit} disabled={quickEditSaving} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{quickEditSaving ? "\u5132\u5b58\u4e2d…" : "\u5373\u6642\u5132\u5b58"}</button></div>
+                          <div className="mt-3 flex justify-end"><button type="button" onClick={saveQuickEdit} disabled={quickEditSaving} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{quickEditSaving ? "儲存中…" : "即時儲存"}</button></div>
                         </div>
                       )}
                     </div>
@@ -998,11 +1005,11 @@ export default function AdminPage() {
               </div>
 
               {isProductTab(tab) && filteredProductRows.length > 0 && productPageCount > 1 && (
-                <nav aria-label="\u7522\u54c1\u5206\u9801" className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                  <button disabled={productPage === 1} onClick={() => setProductPage((page) => Math.max(1, page - 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />\u4e0a\u4e00\u9801</button>
+                <nav aria-label="產品分頁" className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                  <button disabled={productPage === 1} onClick={() => setProductPage((page) => Math.max(1, page - 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />上一頁</button>
                   {getPageNumbers(productPage, productPageCount).map((page, index) => page === "ellipsis" ? <span key={`ellipsis-${index}`} className="px-1 text-[#8b7c70]">…</span> : <button key={page} onClick={() => setProductPage(page)} aria-current={page === productPage ? "page" : undefined} className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${page === productPage ? "bg-[#2f4a3c] text-white" : "border border-[#ded5cc] bg-white hover:bg-[#f6f2eb]"}`}>{page}</button>)}
-                  <button disabled={productPage === productPageCount} onClick={() => setProductPage((page) => Math.min(productPageCount, page + 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40">\u4e0b\u4e00\u9801<ChevronRight className="h-4 w-4" /></button>
-                  <span className="basis-full text-center text-xs text-[#8b7c70]">\u986f\u793a\u7b2c {firstVisibleProduct}–{lastVisibleProduct} \u9805，\u5171 {filteredProductRows.length} \u9805</span>
+                  <button disabled={productPage === productPageCount} onClick={() => setProductPage((page) => Math.min(productPageCount, page + 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40">下一頁<ChevronRight className="h-4 w-4" /></button>
+                  <span className="basis-full text-center text-xs text-[#8b7c70]">顯示第 {firstVisibleProduct}–{lastVisibleProduct} 項，共 {filteredProductRows.length} 項</span>
                 </nav>
               )}
             </>
@@ -1015,35 +1022,35 @@ export default function AdminPage() {
           <section className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-product-title">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#a36b42]">\u689d\u78bc\u5339\u914d\u6210\u529f</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#a36b42]">條碼匹配成功</p>
                 <h2 id="barcode-product-title" className="mt-1 text-xl font-semibold">{barcodeChineseName}</h2>
-                <p className="mt-1 text-sm text-[#756962]">\u539f\u5ee0\u65e5\u6587：{barcodeJapaneseName}</p>
-                <p className="mt-1 text-xs text-[#8b7c70]">JAN／\u5e97\u5167\u8ca8\u865f：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p>
+                <p className="mt-1 text-sm text-[#756962]">原廠日文：{barcodeJapaneseName}</p>
+                <p className="mt-1 text-xs text-[#8b7c70]">JAN／店內貨號：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p>
               </div>
-              <button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="\u95dc\u9589"><X className="h-5 w-5" /></button>
+              <button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
               <span className="rounded-full bg-[#e8f3ec] px-3 py-1.5 text-[#2f4a3c]">{barcodeStatus}</span>
               <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">{barcodeAudience}／{barcodeCategory}</span>
-              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">\u898f\u683c：{barcodeProduct.product_spec || "—"}</span>
+              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">規格：{barcodeProduct.product_spec || "—"}</span>
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">\u76ee\u524d\u5eab\u5b58<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div>
-              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">\u6298\u5408\u6e2f\u5e63\u6210\u672c<strong className="mt-1 block text-2xl text-[#805536]">HK${barcodeCostHkd.toFixed(2)}</strong><span className="text-xs text-[#8b7c70]">\u532f\u7387 {barcodeExchangeRate}</span></div>
+              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div>
+              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">折合港幣成本<strong className="mt-1 block text-2xl text-[#805536]">HK${barcodeCostHkd.toFixed(2)}</strong><span className="text-xs text-[#8b7c70]">匯率 {barcodeExchangeRate}</span></div>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <label className="text-sm"><span className="mb-1 block font-medium">\u65e5\u5143\u4f86\u8ca8\u50f9（JPY）</span><input type="number" min="0" step="1" value={barcodeDraft.cost_jpy ?? ""} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, cost_jpy: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" placeholder="\u4f8b\u5982 380" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">\u76ee\u524d\u552e\u50f9（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
-              <div className="rounded-xl border border-[#ded5cc] bg-[#fffdfa] p-3 text-sm"><span className="block font-medium">\u9810\u4f30\u6bdb\u5229\u7387</span><strong className={`mt-2 block text-xl ${barcodeMargin < 30 ? "text-[#b34d36]" : "text-[#2f4a3c]"}`}>{barcodeMargin.toFixed(1)}%</strong></div>
+              <label className="text-sm"><span className="mb-1 block font-medium">日元來貨價（JPY）</span><input type="number" min="0" step="1" value={barcodeDraft.cost_jpy ?? ""} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, cost_jpy: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" placeholder="例如 380" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">目前售價（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
+              <div className="rounded-xl border border-[#ded5cc] bg-[#fffdfa] p-3 text-sm"><span className="block font-medium">預估毛利率</span><strong className={`mt-2 block text-xl ${barcodeMargin < 30 ? "text-[#b34d36]" : "text-[#2f4a3c]"}`}>{barcodeMargin.toFixed(1)}%</strong></div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3"><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 10 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+10 \u5165\u5eab</button><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 20 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+20 \u5165\u5eab</button></div>
-            <label className="mt-4 block text-sm"><span className="mb-1 block font-medium">\u8abf\u6574\u5f8c\u5eab\u5b58</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
-            {barcodeMargin < 30 && <p className="mt-3 rounded-lg bg-[#fff1ed] px-3 py-2 text-sm text-[#b34d36]">\u6298\u5f8c\u5229\u6f64\u904e\u4f4e，\u8acb\u6aa2\u67e5\u65e5\u5143\u6210\u672c\u6216\u552e\u50f9。</p>}
-            {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "\u5132\u5b58\u4e2d…" : "\u5132\u5b58\u5eab\u5b58／\u552e\u50f9／\u65e5\u5143\u6210\u672c"}</button>
+            <div className="mt-4 grid grid-cols-2 gap-3"><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 10 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+10 入庫</button><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 20 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+20 入庫</button></div>
+            <label className="mt-4 block text-sm"><span className="mb-1 block font-medium">調整後庫存</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
+            {barcodeMargin < 30 && <p className="mt-3 rounded-lg bg-[#fff1ed] px-3 py-2 text-sm text-[#b34d36]">折後利潤過低，請檢查日元成本或售價。</p>}
+            {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "儲存中…" : "儲存庫存／售價／日元成本"}</button>
           </section>
         </div>
       )}
@@ -1068,7 +1075,7 @@ function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) =>
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         const Detector = (window as Window & { BarcodeDetector?: BarcodeDetectorLike }).BarcodeDetector;
-        if (!Detector) { setScannerError("\u6b64\u700f\u89bd\u5668\u672a\u652f\u63f4\u539f\u751f\u689d\u78bc\u8fa8\u8b58，\u8acb\u4f7f\u7528\u4e0b\u65b9\u624b\u52d5\u8f38\u5165\u6216\u6383\u78bc\u69cd。"); return; }
+        if (!Detector) { setScannerError("此瀏覽器未支援原生條碼辨識，請使用下方手動輸入或掃碼槍。"); return; }
         const detector = new Detector({ formats: ["ean_13", "code_128"] });
         const scan = async () => {
           if (!active || !videoRef.current) return;
@@ -1076,12 +1083,12 @@ function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) =>
           frame = requestAnimationFrame(scan);
         };
         frame = requestAnimationFrame(scan);
-      } catch (error) { setScannerError(error instanceof DOMException && error.name === "NotAllowedError" ? "\u8acb\u5141\u8a31\u700f\u89bd\u5668\u4f7f\u7528\u76f8\u6a5f，\u6216\u6539\u7528\u4e0b\u65b9\u624b\u52d5\u8f38\u5165。" : "\u7121\u6cd5\u958b\u555f\u5f8c\u7f6e\u93e1\u982d，\u8acb\u6539\u7528\u624b\u52d5\u8f38\u5165\u6216\u6383\u78bc\u69cd。"); }
+      } catch (error) { setScannerError(error instanceof DOMException && error.name === "NotAllowedError" ? "請允許瀏覽器使用相機，或改用下方手動輸入。" : "無法開啟後置鏡頭，請改用手動輸入或掃碼槍。"); }
     }
     void start();
     return () => { active = false; cancelAnimationFrame(frame); stream?.getTracks().forEach((track) => track.stop()); };
   }, [onDetected]);
-  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">\u6383\u63cf JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="\u95dc\u9589"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">\u8acb\u5c07\u689d\u78bc\u653e\u5165\u756b\u9762\u4e2d\u592e，\u624b\u6a5f\u6703\u512a\u5148\u4f7f\u7528\u5f8c\u7f6e\u93e1\u982d。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#fff4ed] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="\u624b\u52d5\u8f38\u5165\u689d\u78bc" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">\u67e5\u8a62</button></form></section></div>;
+  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#fff4ed] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
 }
 
 function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => void }) {
@@ -1094,25 +1101,25 @@ function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => voi
   const [copied, setCopied] = useState(false);
   const total = Number(order.total ?? order.total_hkd ?? 0) || 0;
   const shipping = Number(order.shipping ?? order.shipping_hkd ?? 0) || 0;
-  const name = String(customer.name || customer.customerName || "\u672a\u63d0\u4f9b\u59d3\u540d");
-  const phone = String(customer.phone || customer.phoneNumber || "\u672a\u63d0\u4f9b\u96fb\u8a71");
-  const address = [customer.district, customer.address, customer.addressLine2, customer.sfStationCode ? `\u9806\u8c50\u7ad9／\u667a\u80fd\u6ac3：${customer.sfStationCode}` : ""].filter(Boolean).join("，");
+  const name = String(customer.name || customer.customerName || "未提供姓名");
+  const phone = String(customer.phone || customer.phoneNumber || "未提供電話");
+  const address = [customer.district, customer.address, customer.addressLine2, customer.sfStationCode ? `順豐站／智能櫃：${customer.sfStationCode}` : ""].filter(Boolean).join("，");
   const statusLabel = ORDER_STATUSES.find(([key]) => key === status)?.[1] || status;
   const saveOrder = async (patch: Row) => {
     if (!order.id) return;
     setSaving(true); setNotice("");
     try { const result = await call("PATCH", { table: "orders", id: order.id, row: patch }); onSaved({ ...patch, ...(result.data || {}) }); }
-    catch (error: any) { setNotice(error.message || "\u8a02\u55ae\u66f4\u65b0\u5931\u6557"); }
+    catch (error: any) { setNotice(error.message || "訂單更新失敗"); }
     finally { setSaving(false); }
   };
   const copyDelivery = async () => {
-    try { await navigator.clipboard.writeText([name, phone, address || "\u672a\u63d0\u4f9b\u5730\u5740"].join("\n")); setCopied(true); window.setTimeout(() => setCopied(false), 1800); }
-    catch { setNotice("\u7121\u6cd5\u5b58\u53d6\u526a\u8cbc\u7c3f，\u8acb\u624b\u52d5\u9078\u53d6\u6587\u5b57\u8907\u88fd。"); }
+    try { await navigator.clipboard.writeText([name, phone, address || "未提供地址"].join("\n")); setCopied(true); window.setTimeout(() => setCopied(false), 1800); }
+    catch { setNotice("無法存取剪貼簿，請手動選取文字複製。"); }
   };
   return <article className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md md:p-5">
-    <header className="flex flex-col gap-3 border-b border-[#eaded5] pb-4 sm:flex-row sm:items-start sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h3 className="text-lg font-semibold">\u8a02\u55ae {order.order_number || order.orderNumber || String(order.id || "").slice(0, 8)}</h3><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status === "cancelled" ? "bg-red-50 text-red-700" : status === "completed" ? "bg-emerald-50 text-emerald-700" : status === "shipped" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>{statusLabel}</span></div><p className="mt-1 text-sm text-[#8b7c70]">{orderDate(order.created_at || order.createdAt)}</p></div><div className="text-left sm:text-right"><p className="text-xs text-[#8b7c70]">\u8a02\u55ae\u7e3d\u984d</p><p className="text-2xl font-bold text-[#2f4a3c]">{orderMoney(total)}</p></div></header>
-    <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]"><section className="rounded-xl bg-[#fffaf4] p-4"><div className="mb-3 flex items-center justify-between gap-2"><h4 className="font-semibold text-[#2f4a3c]">\u51fa\u8ca8\u8cc7\u6599</h4><button type="button" onClick={copyDelivery} className="rounded-lg border border-[#cdb9a8] px-2.5 py-1.5 text-xs font-medium text-[#805536] hover:bg-white">{copied ? "\u5df2\u8907\u88fd" : "\u8907\u88fd\u9001\u8ca8\u8cc7\u6599"}</button></div><dl className="space-y-2 text-sm"><div><dt className="text-xs text-[#8b7c70]">\u9867\u5ba2\u59d3\u540d</dt><dd className="font-medium">{name}</dd></div><div><dt className="text-xs text-[#8b7c70]">\u806f\u7d61\u96fb\u8a71</dt><dd>{phone}</dd></div><div><dt className="text-xs text-[#8b7c70]">\u914d\u9001\u5730\u5740</dt><dd className="leading-6">{address || "\u672a\u63d0\u4f9b\u5730\u5740"}</dd></div></dl></section><section><h4 className="mb-2 font-semibold text-[#2f4a3c]">\u63c0\u8ca8\u6e05\u55ae</h4><div className="overflow-x-auto rounded-xl border border-[#eaded5]"><table className="w-full min-w-[420px] text-sm"><thead className="bg-[#fffaf4] text-left text-xs text-[#8b7c70]"><tr><th className="px-3 py-2">\u5546\u54c1</th><th className="px-3 py-2 text-center">\u6578\u91cf</th><th className="px-3 py-2 text-right">\u55ae\u50f9</th><th className="px-3 py-2 text-right">\u5c0f\u8a08</th></tr></thead><tbody className="divide-y divide-[#eaded5]">{items.map((item, index) => { const itemName = typeof item.name === "object" ? item.name?.zh || item.name?.en || item.name?.ja : item.name || item.title || "\u672a\u547d\u540d\u5546\u54c1"; const qty = Number(item.qty ?? item.quantity ?? 1) || 1; const price = Number(item.price ?? item.unit_price ?? 0) || 0; const bundle = getBundleComponents(String(item.mofuSku || item.mofu_sku || item.sku || "")); return <Fragment key={`${item.id || itemName}-${index}`}><tr><td className="px-3 py-2.5">{itemName}</td><td className="px-3 py-2.5 text-center font-bold text-[#2f4a3c]">x {qty}</td><td className="px-3 py-2.5 text-right">{orderMoney(price)}</td><td className="px-3 py-2.5 text-right font-medium">{orderMoney(price * qty)}</td></tr>{bundle.length ? <tr key={`${item.id || itemName}-${index}-picking`}><td colSpan={4} className="bg-[#fffaf4] px-3 py-2.5"><p className="font-semibold text-[#805536]">📦 揀貨明細清單｜{String(item.mofuSku || item.mofu_sku || item.sku)} × {qty}</p><ul className="mt-1 space-y-1 text-xs text-[#6d5a4e]">{bundle.map((component) => <li key={component.sku}>・{component.nameZh}｜{component.nameJa}｜{component.weight}｜JAN {component.sku} × {qty}</li>)}</ul></td></tr> : null}</Fragment>; })}</tbody></table></div><div className="mt-3 ml-auto max-w-xs space-y-1 text-sm"><div className="flex justify-between text-[#8b7c70]"><span>\u904b\u8cbb</span><span>{orderMoney(shipping)}</span></div><div className="flex justify-between border-t border-[#eaded5] pt-2 text-base font-bold"><span>\u8a02\u55ae\u7e3d\u984d</span><span className="text-[#2f4a3c]">{orderMoney(total)}</span></div></div></section></div>
-    <footer className="mt-4 flex flex-col gap-3 border-t border-[#eaded5] pt-4 sm:flex-row sm:items-end sm:justify-between"><div className="grid w-full gap-3 sm:max-w-xl sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">\u8a02\u55ae\u72c0\u614b</span><select value={status} onChange={(event) => { const next = event.target.value; setStatus(next); void saveOrder({ status: next }); }} disabled={saving} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="pending">\u5f85\u8655\u7406</option><option value="processing">\u5099\u8ca8\u4e2d</option><option value="shipped">\u5df2\u5bc4\u51fa</option><option value="completed">\u5df2\u5b8c\u6210</option><option value="cancelled">\u5df2\u53d6\u6d88</option></select></label><label className="text-sm"><span className="mb-1 block font-medium">\u9806\u8c50\u904b\u55ae\u7de8\u865f</span><div className="flex gap-2"><input value={tracking} onChange={(event) => setTracking(event.target.value)} placeholder="\u8f38\u5165 Waybill No." className="min-w-0 flex-1 rounded-lg border border-[#ded5cc] px-3 py-2" /><button type="button" onClick={() => void saveOrder({ customer_info: JSON.stringify({ ...customer, _admin_tracking_number: tracking.trim() }) })} disabled={saving} className="rounded-lg bg-[#2f4a3c] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">\u5132\u5b58</button></div></label></div>{notice && <span className="text-sm text-red-600">{notice}</span>}</footer>
+    <header className="flex flex-col gap-3 border-b border-[#eaded5] pb-4 sm:flex-row sm:items-start sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h3 className="text-lg font-semibold">訂單 {order.order_number || order.orderNumber || String(order.id || "").slice(0, 8)}</h3><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status === "cancelled" ? "bg-red-50 text-red-700" : status === "completed" ? "bg-emerald-50 text-emerald-700" : status === "shipped" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>{statusLabel}</span></div><p className="mt-1 text-sm text-[#8b7c70]">{orderDate(order.created_at || order.createdAt)}</p></div><div className="text-left sm:text-right"><p className="text-xs text-[#8b7c70]">訂單總額</p><p className="text-2xl font-bold text-[#2f4a3c]">{orderMoney(total)}</p></div></header>
+    <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]"><section className="rounded-xl bg-[#fffaf4] p-4"><div className="mb-3 flex items-center justify-between gap-2"><h4 className="font-semibold text-[#2f4a3c]">出貨資料</h4><button type="button" onClick={copyDelivery} className="rounded-lg border border-[#cdb9a8] px-2.5 py-1.5 text-xs font-medium text-[#805536] hover:bg-white">{copied ? "已複製" : "複製送貨資料"}</button></div><dl className="space-y-2 text-sm"><div><dt className="text-xs text-[#8b7c70]">顧客姓名</dt><dd className="font-medium">{name}</dd></div><div><dt className="text-xs text-[#8b7c70]">聯絡電話</dt><dd>{phone}</dd></div><div><dt className="text-xs text-[#8b7c70]">配送地址</dt><dd className="leading-6">{address || "未提供地址"}</dd></div></dl></section><section><h4 className="mb-2 font-semibold text-[#2f4a3c]">揀貨清單</h4><div className="overflow-x-auto rounded-xl border border-[#eaded5]"><table className="w-full min-w-[560px] table-fixed text-sm"><thead className="bg-[#fffaf4] text-left text-xs text-[#8b7c70]"><tr><th className="px-3 py-2">商品</th><th className="px-3 py-2 text-center">數量</th><th className="px-3 py-2 text-right">單價</th><th className="px-3 py-2 text-right">小計</th></tr></thead><tbody className="divide-y divide-[#eaded5]">{items.map((item, index) => { const itemName = typeof item.name === "object" ? item.name?.zh || item.name?.en || item.name?.ja : item.name || item.title || "未命名商品"; const qty = Number(item.qty ?? item.quantity ?? 1) || 1; const price = Number(item.price ?? item.unit_price ?? 0) || 0; const bundle = getBundleComponents(String(item.mofuSku || item.mofu_sku || item.sku || "")); return <Fragment key={`${item.id || itemName}-${index}`}><tr><td className="max-w-[260px] break-words px-3 py-2.5 align-top leading-5">{itemName}</td><td className="whitespace-nowrap px-3 py-2.5 text-center align-top font-bold text-[#2f4a3c]">x {qty}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top">{orderMoney(price)}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top font-medium">{orderMoney(price * qty)}</td></tr>{bundle.length ? <tr key={`${item.id || itemName}-${index}-picking`}><td colSpan={4} className="bg-[#fffaf4] px-3 py-2.5"><p className="break-words font-semibold leading-5 text-[#805536]">📦 揀貨明細清單｜{String(item.mofuSku || item.mofu_sku || item.sku)} × {qty}</p><ul className="mt-1 space-y-1 text-xs text-[#6d5a4e]">{bundle.map((component) => <li key={component.sku} className="break-words leading-5">・{component.nameZh}｜{component.nameJa}｜{component.weight}｜JAN {component.sku} × {qty}</li>)}</ul></td></tr> : null}</Fragment>; })}</tbody></table></div><div className="mt-3 ml-auto max-w-xs space-y-1 text-sm"><div className="flex justify-between text-[#8b7c70]"><span>運費</span><span>{orderMoney(shipping)}</span></div><div className="flex justify-between border-t border-[#eaded5] pt-2 text-base font-bold"><span>訂單總額</span><span className="text-[#2f4a3c]">{orderMoney(total)}</span></div></div></section></div>
+    <footer className="mt-4 flex flex-col gap-3 border-t border-[#eaded5] pt-4 sm:flex-row sm:items-end sm:justify-between"><div className="grid w-full gap-3 sm:max-w-xl sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">訂單狀態</span><select value={status} onChange={(event) => { const next = event.target.value; setStatus(next); void saveOrder({ status: next }); }} disabled={saving} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="pending">待處理</option><option value="processing">備貨中</option><option value="shipped">已寄出</option><option value="completed">已完成</option><option value="cancelled">已取消</option></select></label><label className="text-sm"><span className="mb-1 block font-medium">順豐運單編號</span><div className="flex gap-2"><input value={tracking} onChange={(event) => setTracking(event.target.value)} placeholder="輸入 Waybill No." className="min-w-0 flex-1 rounded-lg border border-[#ded5cc] px-3 py-2" /><button type="button" onClick={() => void saveOrder({ customer_info: JSON.stringify({ ...customer, _admin_tracking_number: tracking.trim() }) })} disabled={saving} className="rounded-lg bg-[#2f4a3c] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">儲存</button></div></label></div>{notice && <span className="text-sm text-red-600">{notice}</span>}</footer>
   </article>;
 }
 
@@ -1128,12 +1135,12 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
     const current = parseImageUrls(form.images);
     const remaining = MAX_PRODUCT_IMAGES - current.length;
     if (remaining <= 0) {
-      setUploadNotice(`\u7522\u54c1\u6700\u591a\u53ea\u80fd\u8a2d\u5b9a ${MAX_PRODUCT_IMAGES} \u5f35\u5716\u7247，\u8acb\u5148\u79fb\u9664\u73fe\u6709\u5716\u7247。`);
+      setUploadNotice(`產品最多只能設定 ${MAX_PRODUCT_IMAGES} 張圖片，請先移除現有圖片。`);
       return;
     }
 
     const selectedFiles = files.slice(0, remaining);
-    setUploadNotice(files.length > remaining ? `\u5df2\u9054\u4e0a\u9650，\u53ea\u6703\u4e0a\u50b3\u524d ${remaining} \u5f35\u5716\u7247。` : "");
+    setUploadNotice(files.length > remaining ? `已達上限，只會上傳前 ${remaining} 張圖片。` : "");
     setUploading(true);
     try {
       const urls: string[] = [];
@@ -1142,12 +1149,12 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
         data.append("file", file);
         const response = await fetch("/api/admin/upload", { method: "POST", body: data });
         const result = await response.json();
-        if (!response.ok) throw new Error(result.error || "\u4e0a\u50b3\u5931\u6557");
+        if (!response.ok) throw new Error(result.error || "上傳失敗");
         if (typeof result.url === "string" && result.url.trim()) urls.push(result.url.trim());
       }
       setForm({ ...form, images: parseImageUrls([...current, ...urls]) });
     } catch (error) {
-      setUploadNotice(error instanceof Error ? error.message : "\u5716\u7247\u4e0a\u50b3\u5931\u6557，\u8acb\u7a0d\u5f8c\u518d\u8a66。");
+      setUploadNotice(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploading(false);
     }
@@ -1164,10 +1171,10 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
       data.append("file", file);
       const response = await fetch("/api/admin/upload", { method: "POST", body: data });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "\u4e0a\u50b3\u5931\u6557");
+      if (!response.ok) throw new Error(result.error || "上傳失敗");
       setForm({ ...form, [key]: result.url });
     } catch (error) {
-      setUploadNotice(error instanceof Error ? error.message : "\u5716\u7247\u4e0a\u50b3\u5931\u6557，\u8acb\u7a0d\u5f8c\u518d\u8a66。");
+      setUploadNotice(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploading(false);
     }
@@ -1191,82 +1198,82 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
 
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
-      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">\u65b0\u589e Banner \u9810\u8a2d\u6703\u52a0\u5165\u73fe\u6709 slider。\u5982\u8981\u53ea\u4fdd\u7559\u9019\u4e00\u5f35 Banner，\u8acb\u52fe\u9078「\u8986\u84cb\u73fe\u6709 Banner」\u518d\u5132\u5b58。</div>}
+      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">新增 Banner 預設會加入現有 slider。如要只保留這一張 Banner，請勾選「覆蓋現有 Banner」再儲存。</div>}
       <div className="grid gap-4 md:grid-cols-2">
         {isProductTab(tab) && <>
-          {field("name", "\u7522\u54c1\u540d\u7a31")}
+          {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
           <div className="md:col-span-2 rounded-2xl border border-[#d9c4b3] bg-[#fffaf4] p-4">
             <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-              <div><h3 className="font-semibold text-[#2f4a3c]">\u5b9a\u50f9\u8207\u6210\u672c\u8a66\u7b97</h3><p className="mt-1 text-xs text-[#8b7c70]">\u53ea\u9650 Admin \u67e5\u770b；\u6210\u672c\u6703\u5b58\u653e\u65bc\u53d7\u4fdd\u8b77\u8a2d\u5b9a，\u4e0d\u6703\u9032\u5165\u516c\u958b\u5546\u54c1 API。</p></div>
+              <div><h3 className="font-semibold text-[#2f4a3c]">定價與成本試算</h3><p className="mt-1 text-xs text-[#8b7c70]">只限 Admin 查看；成本會存放於受保護設定，不會進入公開商品 API。</p></div>
               <span className="rounded-full bg-[#f0e3d6] px-2.5 py-1 text-xs font-medium text-[#805536]">JPY → HKD</span>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <label className="text-sm"><span className="mb-1 block font-medium">\u4f86\u8ca8\u6210\u672c（JPY）</span><input type="number" min="0" step="1" value={form.cost_jpy ?? ""} onChange={setNumeric("cost_jpy")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="\u4f8b\u5982 380" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">\u5e73\u6524\u904b\u8cbb（HKD）</span><input type="number" min="0" step="0.01" value={form.shipping_hkd ?? DEFAULT_SHIPPING_HKD} onChange={setNumeric("shipping_hkd")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">\u5b9a\u50f9\u500d\u7387</span><input type="number" min="0.1" step="0.1" value={form.markup_multiplier ?? DEFAULT_MARKUP_MULTIPLIER} onChange={setNumeric("markup_multiplier")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">JPY/HKD \u532f\u7387</span><input type="number" min="0.0001" step="0.0001" value={form.exchange_rate ?? DEFAULT_JPY_TO_HKD} onChange={setNumeric("exchange_rate")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">來貨成本（JPY）</span><input type="number" min="0" step="1" value={form.cost_jpy ?? ""} onChange={setNumeric("cost_jpy")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">平攤運費（HKD）</span><input type="number" min="0" step="0.01" value={form.shipping_hkd ?? DEFAULT_SHIPPING_HKD} onChange={setNumeric("shipping_hkd")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">定價倍率</span><input type="number" min="0.1" step="0.1" value={form.markup_multiplier ?? DEFAULT_MARKUP_MULTIPLIER} onChange={setNumeric("markup_multiplier")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">JPY/HKD 匯率</span><input type="number" min="0.0001" step="0.0001" value={form.exchange_rate ?? DEFAULT_JPY_TO_HKD} onChange={setNumeric("exchange_rate")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
             </div>
-            <div className="mt-3 grid gap-2 text-sm sm:grid-cols-3"><div className="rounded-lg bg-white px-3 py-2">\u6210\u672c\u6e2f\u5e63：<strong>HK${preview.costHkd.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">\u5efa\u8b70\u96f6\u552e\u50f9：<strong>HK${preview.suggestedPrice.toFixed(0)}</strong></div><button type="button" onClick={() => setForm({ ...form, price: preview.suggestedPrice })} className="rounded-lg bg-[#2f4a3c] px-3 py-2 font-semibold text-white transition hover:bg-[#22372d]">\u4e00\u9375\u5957\u7528\u5efa\u8b70\u552e\u50f9</button></div>
+            <div className="mt-3 grid gap-2 text-sm sm:grid-cols-3"><div className="rounded-lg bg-white px-3 py-2">成本港幣：<strong>HK${preview.costHkd.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">建議零售價：<strong>HK${preview.suggestedPrice.toFixed(0)}</strong></div><button type="button" onClick={() => setForm({ ...form, price: preview.suggestedPrice })} className="rounded-lg bg-[#2f4a3c] px-3 py-2 font-semibold text-white transition hover:bg-[#22372d]">一鍵套用建議售價</button></div>
           </div>
           <div className="md:col-span-2 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
-            <label className="block text-sm"><span className="mb-1 block font-medium">\u552e\u50f9（HKD）</span><input type="number" min="0" step="0.01" value={form.price ?? ""} onChange={setNumeric("price")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-            <div className="rounded-xl border border-[#eaded5] bg-[#fffaf4] p-3 text-xs"><p className="mb-2 font-semibold text-[#2f4a3c]">\u6298\u6263\u6bdb\u5229\u8a66\u7b97</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4"><span>\u55ae\u4ef6<br /><strong>{preview.margin(preview.retailPrice).toFixed(1)}%</strong></span><span>4\u4ef6 95\u6298<br /><strong>{preview.margin(preview.retailPrice * .95).toFixed(1)}%</strong></span><span>8\u4ef6 9\u6298<br /><strong>{preview.margin(preview.retailPrice * .9).toFixed(1)}%</strong></span><span className={preview.margin(preview.retailPrice * .85) < 30 ? "font-bold text-red-600" : ""}>12\u4ef6 85\u6298<br /><strong>{preview.margin(preview.retailPrice * .85).toFixed(1)}%</strong></span></div>{preview.margin(preview.retailPrice * .85) < 30 ? <p className="mt-2 font-semibold text-red-600">\u6298\u5f8c\u5229\u6f64\u904e\u4f4e</p> : null}</div>
+            <label className="block text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={form.price ?? ""} onChange={setNumeric("price")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+            <div className="rounded-xl border border-[#eaded5] bg-[#fffaf4] p-3 text-xs"><p className="mb-2 font-semibold text-[#2f4a3c]">折扣毛利試算</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4"><span>單件<br /><strong>{preview.margin(preview.retailPrice).toFixed(1)}%</strong></span><span>4件 95折<br /><strong>{preview.margin(preview.retailPrice * .95).toFixed(1)}%</strong></span><span>8件 9折<br /><strong>{preview.margin(preview.retailPrice * .9).toFixed(1)}%</strong></span><span className={preview.margin(preview.retailPrice * .85) < 30 ? "font-bold text-red-600" : ""}>12件 85折<br /><strong>{preview.margin(preview.retailPrice * .85).toFixed(1)}%</strong></span></div>{preview.margin(preview.retailPrice * .85) < 30 ? <p className="mt-2 font-semibold text-red-600">折後利潤過低</p> : null}</div>
           </div>
-          {field("original_price", "\u539f\u50f9", "number")}
-          {field("stock", "\u5eab\u5b58", "number")}
+          {field("original_price", "原價", "number")}
+          {field("stock", "庫存", "number")}
           <div className="md:col-span-2">
             <label className="block text-sm">
-              <span className="mb-1 block font-medium">\u5716\u7247 URL（\u6700\u591a {MAX_PRODUCT_IMAGES} \u5f35，\u6bcf\u884c\u4e00\u500b）</span>
+              <span className="mb-1 block font-medium">圖片 URL（最多 {MAX_PRODUCT_IMAGES} 張，每行一個）</span>
               <textarea
                 rows={4}
                 value={Array.isArray(form.images) ? form.images.join("\n") : String(form.images || "")}
                 onChange={(event) => setForm({ ...form, images: event.target.value })}
-                placeholder="\u53ef\u8cbc\u4e0a\u5716\u7247\u7db2\u5740，\u6bcf\u884c\u4e00\u500b"
+                placeholder="可貼上圖片網址，每行一個"
                 className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]"
               />
             </label>
             <div className="mt-2 flex items-center justify-between gap-3 text-xs text-[#8b7c70]">
-              <span>\u5df2\u8a2d\u5b9a {productImages.length} / {MAX_PRODUCT_IMAGES} \u5f35</span>
-              <span>\u4e0a\u50b3\u5f8c\u7db2\u5740\u6703\u81ea\u52d5\u586b\u5165\u4e0a\u65b9\u6b04\u4f4d</span>
+              <span>已設定 {productImages.length} / {MAX_PRODUCT_IMAGES} 張</span>
+              <span>上傳後網址會自動填入上方欄位</span>
             </div>
             {productImages.length > 0 && (
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {productImages.map((url, index) => (
                   <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
-                    <img src={url} alt={`\u7522\u54c1\u5716\u7247 ${index + 1}`} className="aspect-square w-full object-cover" loading="lazy" />
-                    <button type="button" onClick={() => removeProductImage(index)} className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-2 py-1 text-xs text-red-600 shadow-sm transition hover:bg-white">\u79fb\u9664</button>
-                    <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">\u5716\u7247 {index + 1}</p>
+                    <img src={url} alt={`產品圖片 ${index + 1}`} className="aspect-square w-full object-cover" loading="lazy" />
+                    <button type="button" onClick={() => removeProductImage(index)} className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-2 py-1 text-xs text-red-600 shadow-sm transition hover:bg-white">移除</button>
+                    <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">圖片 {index + 1}</p>
                   </div>
                 ))}
               </div>
             )}
           </div>
           <label className="block text-sm md:col-span-2">
-            <span className="mb-1 block font-medium">\u4e0a\u50b3\u7522\u54c1\u5716\u7247</span>
-            <span className="mb-2 block text-xs text-[#8b7c70]">\u53ef\u4e00\u6b21\u9078\u64c7\u591a\u5f35\u5716\u7247，\u6216\u7a0d\u5f8c\u91cd\u8907\u4e0a\u8f09；\u6700\u591a {MAX_PRODUCT_IMAGES} \u5f35，\u6bcf\u5f35\u4e0a\u9650 8 MB。</span>
+            <span className="mb-1 block font-medium">上傳產品圖片</span>
+            <span className="mb-2 block text-xs text-[#8b7c70]">可一次選擇多張圖片，或稍後重複上載；最多 {MAX_PRODUCT_IMAGES} 張，每張上限 8 MB。</span>
             <input type="file" accept="image/*" multiple onChange={uploadFiles} disabled={uploading || productImages.length >= MAX_PRODUCT_IMAGES} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50" />
-            {uploading && <span className="mt-1 block text-xs text-[#a36b42]">\u4e0a\u50b3\u4e2d…</span>}
+            {uploading && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}
             {uploadNotice && <span className="mt-1 block text-xs text-[#a36b42]">{uploadNotice}</span>}
           </label>
-          {field("description", "\u7522\u54c1\u63cf\u8ff0（\u4e2d\u6587）")}
-          {field("name_en", "English product name（\u82f1\u6587\u524d\u53f0\u8207 Checkout \u986f\u793a）")}
-          {field("description_en", "English product description（\u82f1\u6587\u524d\u53f0\u986f\u793a）")}
-          {field("seo_title", "SEO \u6a19\u984c")}
-          {field("seo_description", "SEO \u63cf\u8ff0")}
-          <label className="block text-sm"><span className="mb-1 block font-medium">\u5206\u985e</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">\u672a\u5206\u985e</option>{categoryGroups(categories).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{depth === 0 ? `${category.name}（\u5168\u90e8\u5b50\u5206\u985e）` : categoryOptionLabel(category.name, depth)}</option>)}</optgroup>)}</select></label>
-          <label className="block text-sm"><span className="mb-1 block font-medium">\u6240\u5c6c\u54c1\u724c</span><select value={form.brand_id || ""} onChange={(event) => setForm({ ...form, brand_id: event.target.value || null })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">\u672a\u6307\u5b9a\u54c1\u724c</option>{brands.filter((brand) => brand.is_active || String(brand.id) === String(form.brand_id)).map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></label>
-          <label className="block text-sm"><span className="mb-1 block font-medium">\u7522\u54c1\u72c0\u614b</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（\u4e0a\u67b6）</option><option value="draft">draft（\u8349\u7a3f）</option><option value="archived">archived（\u6b78\u6a94）</option></select></label>
-          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />\u5df2\u767c\u5e03\u5230\u524d\u53f0</label>
+          {field("description", "產品描述（中文）")}
+          {field("name_en", "English product name（英文前台與 Checkout 顯示）")}
+          {field("description_en", "English product description（英文前台顯示）")}
+          {field("seo_title", "SEO 標題")}
+          {field("seo_description", "SEO 描述")}
+          <label className="block text-sm"><span className="mb-1 block font-medium">分類</span><select value={form.category_id || ""} onChange={(event) => setForm({ ...form, category_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未分類</option>{categoryGroups(categories).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{depth === 0 ? `${category.name}（全部子分類）` : categoryOptionLabel(category.name, depth)}</option>)}</optgroup>)}</select></label>
+          <label className="block text-sm"><span className="mb-1 block font-medium">所屬品牌</span><select value={form.brand_id || ""} onChange={(event) => setForm({ ...form, brand_id: event.target.value || null })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">未指定品牌</option>{brands.filter((brand) => brand.is_active || String(brand.id) === String(form.brand_id)).map((brand) => <option key={brand.id} value={brand.id}>{brand.name}</option>)}</select></label>
+          <label className="block text-sm"><span className="mb-1 block font-medium">產品狀態</span><select value={form.status || "draft"} onChange={(event) => setForm({ ...form, status: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="published">published（上架）</option><option value="draft">draft（草稿）</option><option value="archived">archived（歸檔）</option></select></label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_published !== false} onChange={(event) => setForm({ ...form, is_published: event.target.checked })} />已發布到前台</label>
         </>}
-        {tab === "brands" && <>{field("name", "\u54c1\u724c\u540d\u7a31")}{field("slug", "Slug")}{field("logo_url", "Logo \u5716\u7247 URL")}{field("description", "\u54c1\u724c\u7c21\u4ecb")}{field("sort_order", "\u6392\u5e8f", "number")}<label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_active !== false} onChange={(event) => setForm({ ...form, is_active: event.target.checked })} />\u524d\u53f0\u555f\u7528</label><label className="block text-sm md:col-span-2"><span className="mb-1 block font-medium">\u4e0a\u50b3\u54c1\u724c Logo</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "logo_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">\u4e0a\u50b3\u4e2d…</span>}</label></>}
-        {tab === "categories" && <>{field("name", "\u5206\u985e\u540d\u7a31（\u5f8c\u53f0\u7cfb\u7d71\u540d\u7a31）")}{field("name_zh", "\u4e2d\u6587\u5206\u985e\u540d\u7a31（\u4e2d\u6587\u9801\u9762\u986f\u793a）")}{field("name_en", "English category name（\u82f1\u6587\u9801\u9762\u986f\u793a）")}{field("slug", "Slug")}          <label className="block text-sm"><span className="mb-1 block font-medium">\u7236\u5206\u985e</span><select value={form.parent_id || ""} onChange={(event) => setForm({ ...form, parent_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">\u9802\u5c64\u5206\u985e</option>{categoryGroups(categories, String(form.id || "")).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{categoryOptionLabel(category.name, depth + 1)}</option>)}</optgroup>)}</select></label>{field("image_url", "\u5c01\u9762\u5716\u7247 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">\u4e0a\u50b3\u5c01\u9762</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">\u4e0a\u50b3\u4e2d…</span>}</label>{field("sort_order", "\u6392\u5e8f", "number")}</>}
-        {tab === "banners" && <>{field("image_url", "\u684c\u9762\u7248\u5716\u7247 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">\u4e0a\u50b3\u684c\u9762\u7248 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">\u4e0a\u50b3\u4e2d…</span>}</label>{field("mobile_image_url", "\u624b\u6a5f\u7248\u5716\u7247 URL（\u9078\u586b）")}<label className="block text-sm"><span className="mb-1 block font-medium">\u4e0a\u50b3\u624b\u6a5f\u7248 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">\u5efa\u8b70\u76f4\u5411\u69cb\u5716（\u7d04 4:5）；\u7559\u7a7a\u6642\u624b\u6a5f\u6703\u6cbf\u7528\u684c\u9762\u7248\u5716\u7247。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">\u4e0a\u50b3\u4e2d…</span>}</label>{field("link", "\u9ede\u64ca\u9023\u7d50")}{field("title", "\u6a19\u984c")}{field("sort_order", "\u6392\u5e8f", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing === true} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />\u8986\u84cb\u73fe\u6709 Banner（\u52fe\u9078\u5f8c\u624d\u6703\u6e05\u9664\u820a slider）</label>}</>}
-        {tab === "coupons" && <>{field("code", "\u512a\u60e0\u78bc")}{field("discount_amount", "\u6298\u6263\u91d1\u984d／\u767e\u5206\u6bd4", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">\u6298\u6263\u985e\u578b</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">\u56fa\u5b9a\u91d1\u984d HKD</option><option value="percentage">\u767e\u5206\u6bd4</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />\u555f\u7528\u512a\u60e0\u78bc</label></>}
-        {tab === "store_settings" && <>{field("key", "\u8a2d\u5b9a Key")}{field("value", "\u8a2d\u5b9a\u503c（Secret Key \u5132\u5b58\u5f8c\u6703\u906e\u7f69）")}</>}
-        {tab === "orders" && <p className="rounded-xl bg-[#fffaf4] p-4 text-sm text-[#806b5d]">\u8a02\u55ae\u5df2\u6539\u7528\u7d50\u69cb\u5316\u51fa\u8ca8\u5361\u7247，\u8acb\u76f4\u63a5\u5728\u8a02\u55ae\u5361\u7247\u5167\u66f4\u65b0\u72c0\u614b、\u63c0\u8ca8\u53ca\u9806\u8c50\u904b\u55ae。</p>}
+        {tab === "brands" && <>{field("name", "品牌名稱")}{field("slug", "Slug")}{field("logo_url", "Logo 圖片 URL")}{field("description", "品牌簡介")}{field("sort_order", "排序", "number")}<label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.is_active !== false} onChange={(event) => setForm({ ...form, is_active: event.target.checked })} />前台啟用</label><label className="block text-sm md:col-span-2"><span className="mb-1 block font-medium">上傳品牌 Logo</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "logo_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label></>}
+        {tab === "categories" && <>{field("name", "分類名稱（後台系統名稱）")}{field("name_zh", "中文分類名稱（中文頁面顯示）")}{field("name_en", "English category name（英文頁面顯示）")}{field("slug", "Slug")}          <label className="block text-sm"><span className="mb-1 block font-medium">父分類</span><select value={form.parent_id || ""} onChange={(event) => setForm({ ...form, parent_id: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="">頂層分類</option>{categoryGroups(categories, String(form.id || "")).map(({ root, entries }) => <optgroup key={root.id} label={root.name}>{entries.map(({ category, depth }) => <option key={category.id} value={category.id}>{categoryOptionLabel(category.name, depth + 1)}</option>)}</optgroup>)}</select></label>{field("image_url", "封面圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳封面</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("sort_order", "排序", "number")}</>}
+        {tab === "banners" && <>{field("image_url", "桌面版圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳桌面版 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("mobile_image_url", "手機版圖片 URL（選填）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳手機版 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">建議直向構圖（約 4:5）；留空時手機會沿用桌面版圖片。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing === true} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（勾選後才會清除舊 slider）</label>}</>}
+        {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
+        {tab === "store_settings" && <>{field("key", "設定 Key")}{field("value", "設定值（Secret Key 儲存後會遮罩）")}</>}
+        {tab === "orders" && <p className="rounded-xl bg-[#fffaf4] p-4 text-sm text-[#806b5d]">訂單已改用結構化出貨卡片，請直接在訂單卡片內更新狀態、揀貨及順豐運單。</p>}
       </div>
-      <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">\u5132\u5b58</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#f6f2eb]">\u53d6\u6d88</button></div>
+      <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">儲存</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#f6f2eb]">取消</button></div>
     </section>
   );
 }
@@ -1311,11 +1318,11 @@ function BannerBatchEditor({
       const response = await fetch("/api/admin/upload", { method: "POST", body: data });
       const result = await response.json();
       if (!response.ok || typeof result.url !== "string" || !result.url.trim()) {
-        throw new Error(result.error || "\u5716\u7247\u4e0a\u50b3\u5931\u6557");
+        throw new Error(result.error || "圖片上傳失敗");
       }
       updateSlot(index, { [field]: result.url.trim() });
     } catch (error) {
-      setUploadError(error instanceof Error ? error.message : "\u5716\u7247\u4e0a\u50b3\u5931\u6557，\u8acb\u7a0d\u5f8c\u518d\u8a66。" );
+      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。" );
     } finally {
       setUploadingSlot(null);
     }
@@ -1324,14 +1331,14 @@ function BannerBatchEditor({
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
       <div className="mb-5 max-w-3xl">
-        <p className="text-sm font-semibold text-[#2f4a3c]">\u56db\u7d44 Banner \u6279\u91cf\u7ba1\u7406</p>
-        <p className="mt-1 text-sm leading-6 text-[#806b5d]">\u4e00\u6b21\u904e\u8a2d\u5b9a\u6700\u591a\u56db\u7d44 Banner。\u505c\u7528\u81ea\u52d5\u8f2a\u64ad\u6642，\u524d\u53f0\u53ea\u986f\u793a\u6392\u5e8f\u6700\u524d\u7684\u4e00\u7d44；\u958b\u555f\u5f8c\u624d\u6703\u6309\u8a2d\u5b9a\u81ea\u52d5\u5207\u63db。\u5132\u5b58\u5168\u90e8 Banner \u6703\u4ee5\u672c\u9801\u6709\u684c\u9762\u7248\u5716\u7247\u7684\u6b04\u4f4d\u4f5c\u70ba\u5b8c\u6574\u65b0\u8f2a\u64ad。</p>
+        <p className="text-sm font-semibold text-[#2f4a3c]">四組 Banner 批量管理</p>
+        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過設定最多四組 Banner。停用自動輪播時，前台只顯示排序最前的一組；開啟後才會按設定自動切換。儲存全部 Banner 會以本頁有桌面版圖片的欄位作為完整新輪播。</p>
       </div>
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3">
         <div>
-          <p className="text-sm font-semibold text-[#2f4a3c]">\u524d\u53f0 Banner \u81ea\u52d5\u8f2a\u64ad</p>
-          <p className="mt-1 text-xs text-[#8b7c70]">\u76ee\u524d：{autoplayEnabled ? "\u958b\u555f" : "\u95dc\u9589（\u53ea\u986f\u793a\u7b2c\u4e00\u7d44）"}</p>
+          <p className="text-sm font-semibold text-[#2f4a3c]">前台 Banner 自動輪播</p>
+          <p className="mt-1 text-xs text-[#8b7c70]">目前：{autoplayEnabled ? "開啟" : "關閉（只顯示第一組）"}</p>
         </div>
         <button
           type="button"
@@ -1342,7 +1349,7 @@ function BannerBatchEditor({
           className={`relative inline-flex h-8 w-14 items-center rounded-full p-1 transition ${autoplayEnabled ? "bg-[#2f4a3c]" : "bg-[#c9b8a8]"} disabled:cursor-wait disabled:opacity-60`}
         >
           <span className={`h-6 w-6 rounded-full bg-white shadow-sm transition ${autoplayEnabled ? "translate-x-6" : "translate-x-0"}`} />
-          <span className="sr-only">{autoplayEnabled ? "\u95dc\u9589 Banner \u81ea\u52d5\u8f2a\u64ad" : "\u958b\u555f Banner \u81ea\u52d5\u8f2a\u64ad"}</span>
+          <span className="sr-only">{autoplayEnabled ? "關閉 Banner 自動輪播" : "開啟 Banner 自動輪播"}</span>
         </button>
       </div>
 
@@ -1355,9 +1362,9 @@ function BannerBatchEditor({
               <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">Banner {index + 1}</legend>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">\u684c\u9762\u7248\u5716\u7247 <span className="text-red-600">*</span></label>
+                  <label className="block text-sm font-medium">桌面版圖片 <span className="text-red-600">*</span></label>
                   <div className="aspect-[16/9] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
-                    {slot.image_url ? <img src={slot.image_url} alt={`Banner ${index + 1} \u684c\u9762\u7248\u9810\u89bd`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">\u5efa\u8b70\u4f7f\u7528 16:9 \u6216\u66f4\u5bec\u7684\u6a6b\u5411\u5716\u7247</div>}
+                    {slot.image_url ? <img src={slot.image_url} alt={`Banner ${index + 1} 桌面版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 16:9 或更寬的橫向圖片</div>}
                   </div>
                   <input
                     type="file"
@@ -1366,20 +1373,20 @@ function BannerBatchEditor({
                     disabled={Boolean(uploadingSlot)}
                     className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
                   />
-                  {desktopUploading && <p className="text-xs text-[#a36b42]">\u684c\u9762\u7248\u4e0a\u50b3\u4e2d…</p>}
+                  {desktopUploading && <p className="text-xs text-[#a36b42]">桌面版上傳中…</p>}
                   <input
-                    aria-label={`Banner ${index + 1} \u684c\u9762\u7248\u5716\u7247 URL`}
+                    aria-label={`Banner ${index + 1} 桌面版圖片 URL`}
                     value={slot.image_url}
                     onChange={(event) => updateSlot(index, { image_url: event.target.value })}
-                    placeholder="\u6216\u8cbc\u4e0a\u684c\u9762\u7248\u5716\u7247 URL"
+                    placeholder="或貼上桌面版圖片 URL"
                     className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">\u624b\u6a5f\u7248\u5716\u7247 <span className="font-normal text-[#8b7c70]">（\u9078\u586b）</span></label>
+                  <label className="block text-sm font-medium">手機版圖片 <span className="font-normal text-[#8b7c70]">（選填）</span></label>
                   <div className="aspect-[4/5] max-h-56 overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
-                    {slot.mobile_image_url || slot.image_url ? <img src={slot.mobile_image_url || slot.image_url} alt={`Banner ${index + 1} \u624b\u6a5f\u7248\u9810\u89bd`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">\u5efa\u8b70\u4f7f\u7528 4:5 \u76f4\u5411\u5716\u7247；\u7559\u7a7a\u6703\u6cbf\u7528\u684c\u9762\u7248</div>}
+                    {slot.mobile_image_url || slot.image_url ? <img src={slot.mobile_image_url || slot.image_url} alt={`Banner ${index + 1} 手機版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 4:5 直向圖片；留空會沿用桌面版</div>}
                   </div>
                   <input
                     type="file"
@@ -1388,26 +1395,26 @@ function BannerBatchEditor({
                     disabled={Boolean(uploadingSlot)}
                     className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
                   />
-                  {mobileUploading && <p className="text-xs text-[#a36b42]">\u624b\u6a5f\u7248\u4e0a\u50b3\u4e2d…</p>}
+                  {mobileUploading && <p className="text-xs text-[#a36b42]">手機版上傳中…</p>}
                   <input
-                    aria-label={`Banner ${index + 1} \u624b\u6a5f\u7248\u5716\u7247 URL`}
+                    aria-label={`Banner ${index + 1} 手機版圖片 URL`}
                     value={slot.mobile_image_url}
                     onChange={(event) => updateSlot(index, { mobile_image_url: event.target.value })}
-                    placeholder="\u6216\u8cbc\u4e0a\u624b\u6a5f\u7248\u5716\u7247 URL"
+                    placeholder="或貼上手機版圖片 URL"
                     className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
                   />
                 </div>
 
                 <label className="block text-sm sm:col-span-2">
-                  <span className="mb-1 block font-medium">\u9ede\u64ca\u9023\u7d50 <span className="font-normal text-[#8b7c70]">（\u9078\u586b）</span></span>
-                  <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="\u4f8b\u5982：/menu \u6216 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                  <span className="mb-1 block font-medium">點擊連結 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                  <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="例如：/menu 或 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                 </label>
                 <label className="block text-sm">
-                  <span className="mb-1 block font-medium">\u6a19\u984c <span className="font-normal text-[#8b7c70]">（\u9078\u586b）</span></span>
-                  <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="\u4f9b\u7121\u969c\u7919\u6a19\u793a\u53ca\u5716\u7247\u63cf\u8ff0\u4f7f\u7528" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                  <span className="mb-1 block font-medium">標題 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                  <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="供無障礙標示及圖片描述使用" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                 </label>
                 <label className="block text-sm">
-                  <span className="mb-1 block font-medium">\u6392\u5e8f</span>
+                  <span className="mb-1 block font-medium">排序</span>
                   <input type="number" min="0" step="1" value={slot.sort_order} onChange={(event) => updateSlot(index, { sort_order: Number(event.target.value) })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                 </label>
               </div>
@@ -1419,8 +1426,8 @@ function BannerBatchEditor({
       {uploadError && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{uploadError}</p>}
       {notice && <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{notice}</p>}
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <button onClick={onSave} disabled={saving || Boolean(uploadingSlot)} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "\u5132\u5b58\u4e2d…" : "\u5132\u5b58\u5168\u90e8 Banner"}</button>
-        <span className="text-xs text-[#8b7c70]">\u6709\u684c\u9762\u7248\u5716\u7247\u7684\u6b04\u4f4d\u6703\u4f9d「\u6392\u5e8f」\u7531\u5c0f\u81f3\u5927\u986f\u793a；\u5df2\u586b\u5beb\u7684 Banner \u4e0d\u53ef\u4f7f\u7528\u76f8\u540c\u6392\u5e8f。</span>
+        <button onClick={onSave} disabled={saving || Boolean(uploadingSlot)} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存全部 Banner"}</button>
+        <span className="text-xs text-[#8b7c70]">有桌面版圖片的欄位會依「排序」由小至大顯示；已填寫的 Banner 不可使用相同排序。</span>
       </div>
     </section>
   );
@@ -1460,11 +1467,11 @@ function FeaturedPetBatchEditor({
       const response = await fetch("/api/admin/upload", { method: "POST", body: data });
       const result = await response.json();
       if (!response.ok || typeof result.url !== "string" || !result.url.trim()) {
-        throw new Error(result.error || "\u5716\u7247\u4e0a\u50b3\u5931\u6557");
+        throw new Error(result.error || "圖片上傳失敗");
       }
       updateSlot(index, { image_url: result.url.trim() });
     } catch (error) {
-      setUploadError(error instanceof Error ? error.message : "\u5716\u7247\u4e0a\u50b3\u5931\u6557，\u8acb\u7a0d\u5f8c\u518d\u8a66。");
+      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploadingSlot(null);
     }
@@ -1473,8 +1480,8 @@ function FeaturedPetBatchEditor({
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
       <div className="mb-5 max-w-3xl">
-        <p className="text-sm font-semibold text-[#2f4a3c]">\u7cbe\u9078\u5bf5\u7269\u5c08\u5340\u5167\u5bb9\u7ba1\u7406</p>
-        <p className="mt-1 text-sm leading-6 text-[#806b5d]">\u4e00\u6b21\u904e\u7ba1\u7406\u6700\u591a {MAX_FEATURED_PETS} \u500b\u9996\u9801\u5167\u5bb9\u69fd。\u6bcf\u500b\u5df2\u4f7f\u7528\u7684\u69fd\u4f4d\u5747\u9700\u586b\u5beb\u9ad8\u6e05\u5716\u7247、\u6a19\u984c\u53ca\u8a73\u7d30\u63cf\u8ff0；\u9023\u7d50\u53ca\u662f\u5426\u986f\u793a\u5247\u6309\u9700\u8981\u8a2d\u5b9a。\u5132\u5b58\u5f8c，\u9996\u9801「\u7cbe\u9078\u5bf5\u7269\u5c08\u5340」\u6703\u76f4\u63a5\u4f7f\u7528\u672c\u9801\u7684\u5167\u5bb9。</p>
+        <p className="text-sm font-semibold text-[#2f4a3c]">精選寵物專區內容管理</p>
+        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過管理最多 {MAX_FEATURED_PETS} 個首頁內容槽。每個已使用的槽位均需填寫高清圖片、標題及詳細描述；連結及是否顯示則按需要設定。儲存後，首頁「精選寵物專區」會直接使用本頁的內容。</p>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">
@@ -1482,12 +1489,12 @@ function FeaturedPetBatchEditor({
           const uploading = uploadingSlot === index;
           return (
             <fieldset key={index} className="rounded-2xl border border-[#eaded5] bg-[#fffdfa] p-4">
-              <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">\u5167\u5bb9\u69fd {index + 1}</legend>
+              <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">內容槽 {index + 1}</legend>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">\u9ad8\u6e05\u5bf5\u7269\u5716\u7247 <span className="text-red-600">*</span></label>
+                  <label className="block text-sm font-medium">高清寵物圖片 <span className="text-red-600">*</span></label>
                   <div className="aspect-[4/3] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
-                    {slot.image_url ? <img src={slot.image_url} alt={`\u5167\u5bb9\u69fd ${index + 1} \u9810\u89bd`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-4 text-center text-xs leading-5 text-[#a89587]">\u5efa\u8b70\u4f7f\u7528\u9ad8\u756b\u8cea、\u5bec\u5e45\u6a6b\u5411\u5bf5\u7269\u76f8\u7247</div>}
+                    {slot.image_url ? <img src={slot.image_url} alt={`內容槽 ${index + 1} 預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-4 text-center text-xs leading-5 text-[#a89587]">建議使用高畫質、寬幅橫向寵物相片</div>}
                   </div>
                   <input
                     type="file"
@@ -1496,47 +1503,47 @@ function FeaturedPetBatchEditor({
                     disabled={uploadingSlot !== null}
                     className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
                   />
-                  {uploading && <p className="text-xs text-[#a36b42]">\u5716\u7247\u4e0a\u50b3\u4e2d…</p>}
+                  {uploading && <p className="text-xs text-[#a36b42]">圖片上傳中…</p>}
                   <input
-                    aria-label={`\u5167\u5bb9\u69fd ${index + 1} \u5716\u7247 URL`}
+                    aria-label={`內容槽 ${index + 1} 圖片 URL`}
                     value={slot.image_url}
                     onChange={(event) => updateSlot(index, { image_url: event.target.value })}
-                    placeholder="\u6216\u8cbc\u4e0a\u5716\u7247 URL"
+                    placeholder="或貼上圖片 URL"
                     className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <label className="block text-sm">
-                    <span className="mb-1 block font-medium">\u6a19\u984c <span className="text-red-600">*</span></span>
-                    <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="\u4f8b\u5982：\u5348\u5f8c\u967d\u5149\u4e0b\u7684\u5c0f\u5925\u4f34" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                    <span className="mb-1 block font-medium">標題 <span className="text-red-600">*</span></span>
+                    <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="例如：午後陽光下的小夥伴" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                   </label>
                   <label className="block text-sm">
-                    <span className="mb-1 block font-medium">English title <span className="font-normal text-[#8b7c70]">（\u9078\u586b；\u82f1\u6587\u7248\u986f\u793a）</span></span>
+                    <span className="mb-1 block font-medium">English title <span className="font-normal text-[#8b7c70]">（選填；英文版顯示）</span></span>
                     <input value={slot.title_en} onChange={(event) => updateSlot(index, { title_en: event.target.value })} placeholder="For example: A gentle afternoon nap" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                   </label>
                   <label className="block text-sm">
-                    <span className="mb-1 block font-medium">\u9ede\u64ca\u9023\u7d50 <span className="font-normal text-[#8b7c70]">（\u9078\u586b）</span></span>
-                    <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="\u4f8b\u5982：/menu \u6216 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
+                    <span className="mb-1 block font-medium">點擊連結 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
+                    <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="例如：/menu 或 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <label className="block text-sm">
-                      <span className="mb-1 block font-medium">\u6392\u5e8f</span>
+                      <span className="mb-1 block font-medium">排序</span>
                       <input type="number" min="0" step="1" value={slot.sort_order} onChange={(event) => updateSlot(index, { sort_order: Number(event.target.value) })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
                     </label>
                     <label className="flex items-end gap-2 pb-2 text-sm">
                       <input type="checkbox" checked={slot.is_published} onChange={(event) => updateSlot(index, { is_published: event.target.checked })} />
-                      \u524d\u53f0\u986f\u793a
+                      前台顯示
                     </label>
                   </div>
                 </div>
 
                 <label className="block text-sm sm:col-span-2">
-                  <span className="mb-1 block font-medium">\u8a73\u7d30\u63cf\u8ff0 <span className="text-red-600">*</span></span>
-                  <textarea value={slot.description} onChange={(event) => updateSlot(index, { description: event.target.value })} rows={4} placeholder="\u5beb\u4e0b\u9019\u4f4d\u6bdb\u5b69\u7684\u500b\u6027、\u65e5\u5e38\u6216\u63a8\u5ee3\u5167\u5bb9…" className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm leading-6 outline-none focus:border-[#a36b42]" />
+                  <span className="mb-1 block font-medium">詳細描述 <span className="text-red-600">*</span></span>
+                  <textarea value={slot.description} onChange={(event) => updateSlot(index, { description: event.target.value })} rows={4} placeholder="寫下這位毛孩的個性、日常或推廣內容…" className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm leading-6 outline-none focus:border-[#a36b42]" />
                 </label>
                 <label className="block text-sm sm:col-span-2">
-                  <span className="mb-1 block font-medium">English description <span className="font-normal text-[#8b7c70]">（\u9078\u586b；\u82f1\u6587\u7248\u986f\u793a）</span></span>
+                  <span className="mb-1 block font-medium">English description <span className="font-normal text-[#8b7c70]">（選填；英文版顯示）</span></span>
                   <textarea value={slot.description_en} onChange={(event) => updateSlot(index, { description_en: event.target.value })} rows={4} placeholder="Write the English story, personality, or promotion copy…" className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm leading-6 outline-none focus:border-[#a36b42]" />
                 </label>
               </div>
@@ -1548,8 +1555,8 @@ function FeaturedPetBatchEditor({
       {uploadError && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{uploadError}</p>}
       {notice && <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{notice}</p>}
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <button onClick={onSave} disabled={saving || uploadingSlot !== null} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "\u5132\u5b58\u4e2d…" : "\u5132\u5b58\u6240\u6709\u7cbe\u9078\u5167\u5bb9"}</button>
-        <span className="text-xs text-[#8b7c70]">\u6709\u5716\u7247\u7684\u5167\u5bb9\u69fd\u6703\u4f9d「\u6392\u5e8f」\u7531\u5c0f\u81f3\u5927\u5c55\u793a；\u6e05\u7a7a\u6240\u6709\u5716\u7247\u5f8c\u5132\u5b58，\u5373\u53ef\u5f9e\u9996\u9801\u79fb\u9664\u6574\u500b\u5167\u5bb9\u96c6。</span>
+        <button onClick={onSave} disabled={saving || uploadingSlot !== null} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存所有精選內容"}</button>
+        <span className="text-xs text-[#8b7c70]">有圖片的內容槽會依「排序」由小至大展示；清空所有圖片後儲存，即可從首頁移除整個內容集。</span>
       </div>
     </section>
   );
