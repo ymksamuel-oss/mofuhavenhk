@@ -501,10 +501,11 @@ export function uniqueProductsById(products: readonly Product[] = []): Product[]
 
 function productCategorySlug(product: Product): string {
   // The category relation persisted by Admin (category_id → categorySlug) is the
-  // ONLY authoritative assignment. Never re-classify a managed product from its
-  // name, description, tags or SKU wording: whatever category Admin picks is
-  // exactly where the product appears, and nowhere else.
-  return canonicalCategorySlug(product.categorySlug) ?? product.categorySlug;
+  // authoritative assignment. A legacy Stripe row may not have that relation,
+  // so an explicit canonical category metadata value is the only safe fallback.
+  return categorySlugFromMetadata(product.metadata?.category)
+    ?? canonicalCategorySlug(product.categorySlug)
+    ?? product.categorySlug;
 }
 
 function productSubcategory(product: Product): ProductSubcategory | undefined {

@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -93,14 +94,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const { products } = useCatalog();
   const [lines, setLines] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
+  const hydratedRef = useRef(false);
 
   useEffect(() => {
+    if (hydratedRef.current) return;
     try {
       const raw = window.localStorage.getItem(CART_STORAGE_KEY);
-      setLines(raw ? sanitizeLines(JSON.parse(raw), products) : []);
+      if (!raw) {
+        hydratedRef.current = true;
+        setLines([]);
+        setReady(true);
+        return;
+      }
+      // Wait for the live catalog before validating IDs and variant prices.
+      // Otherwise the initial empty SSR catalog would erase a valid basket.
+      if (products.length === 0) return;
+      const parsed: unknown = JSON.parse(raw);
+      setLines(sanitizeLines(parsed, products));
     } catch {
+      hydratedRef.current = true;
       setLines([]);
+      setReady(true);
+      return;
     }
+    hydratedRef.current = true;
     setReady(true);
   }, [products]);
 

@@ -14,7 +14,6 @@ import {
   type Product,
   type ProductSubcategory,
   type ProductVariant,
-  isStorefrontReadyProduct,
   categorySlugFromMofuSku,
 } from "@/lib/products";
 import type { Brand } from "@/lib/brands";
@@ -30,7 +29,7 @@ import {
 } from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
-import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
 import { databaseProductImageUrls } from "@/lib/catalog-images";
 import {
   applyCategoryLocalizations,

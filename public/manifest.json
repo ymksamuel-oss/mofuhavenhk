@@ -1,0 +1,27 @@
+{
+  "name": "Mofu Haven HK",
+  "short_name": "Mofu Haven",
+  "description": "Japanese pet food, treats and everyday essentials for Hong Kong.",
+  "lang": "zh-HK",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FBF7F5",
+  "theme_color": "#8B573F",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

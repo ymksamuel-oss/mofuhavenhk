@@ -34,24 +34,28 @@ export type RequestedOrderLine = {
 export const SHIPPING = 35;
 export const FREE_SHIPPING_THRESHOLD = 450;
 
+export function toMinorUnits(value: number): number {
+  return Number.isFinite(value) ? Math.round(value * 100) : 0;
+}
+
+export function fromMinorUnits(value: number): number {
+  return Math.max(0, Math.round(value)) / 100;
+}
+
 export function cartLineKey(productId: string, priceId?: string): string {
   return `${productId}::${priceId ?? "default"}`;
 }
 
 export function calcSubtotal(items: OrderItem[]): number {
-  return Number(items.reduce((sum, item) => sum + orderItemTotal(item), 0).toFixed(2));
+  return fromMinorUnits(items.reduce((sum, item) => sum + toMinorUnits(orderItemTotal(item)), 0));
 }
 
 export function calcOriginalSubtotal(items: OrderItem[]): number {
-  return Number(
-    items
-      .reduce((sum, item) => sum + orderItemPricing(item).itemOriginalTotal, 0)
-      .toFixed(2),
-  );
+  return fromMinorUnits(items.reduce((sum, item) => sum + toMinorUnits(orderItemPricing(item).itemOriginalTotal), 0));
 }
 
 export function calcBulkDiscount(items: OrderItem[]): number {
-  return Number(Math.max(0, calcOriginalSubtotal(items) - calcSubtotal(items)).toFixed(2));
+  return fromMinorUnits(Math.max(0, toMinorUnits(calcOriginalSubtotal(items)) - toMinorUnits(calcSubtotal(items))));
 }
 
 export type OrderItemPricing = {
@@ -67,12 +71,16 @@ export type OrderItemPricing = {
 
 /** Derives every price from the immutable base price and the current qty. */
 export function orderItemPricing(item: OrderItem): OrderItemPricing {
-  const basePrice = item.originalUnit ?? item.unit;
+  const basePrice = fromMinorUnits(toMinorUnits(item.originalUnit ?? item.unit));
   const discountPercent: 0 | 5 | 10 | 15 = item.qty >= 12 ? 15 : item.qty >= 8 ? 10 : item.qty >= 4 ? 5 : 0;
   const discountRate = discountPercent / 100;
-  const effectiveUnitPrice = Number((basePrice * (1 - discountRate)).toFixed(2));
-  const itemOriginalTotal = Number((basePrice * item.qty).toFixed(2));
-  const itemTotal = Number((basePrice * item.qty * (1 - discountRate)).toFixed(2));
+  const baseCents = toMinorUnits(basePrice);
+  const effectiveUnitCents = Math.round(baseCents * (100 - discountPercent) / 100);
+  const itemOriginalCents = baseCents * item.qty;
+  const itemTotalCents = effectiveUnitCents * item.qty;
+  const effectiveUnitPrice = fromMinorUnits(effectiveUnitCents);
+  const itemOriginalTotal = fromMinorUnits(itemOriginalCents);
+  const itemTotal = fromMinorUnits(itemTotalCents);
   return {
     basePrice,
     effectiveUnitPrice,
@@ -80,7 +88,7 @@ export function orderItemPricing(item: OrderItem): OrderItemPricing {
     discountPercent,
     itemTotal,
     itemOriginalTotal,
-    itemDiscountAmount: Number((itemOriginalTotal - itemTotal).toFixed(2)),
+    itemDiscountAmount: fromMinorUnits(itemOriginalCents - itemTotalCents),
     hasDiscount: discountPercent > 0,
   };
 }
@@ -132,12 +140,12 @@ export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 |
 
 export function discountedUnitPrice(product: Product, unit: number, qty: number): number {
   const percent = petBundleDiscountPercent(product, qty);
-  return Number((unit * (1 - percent / 100)).toFixed(2));
+  return fromMinorUnits(Math.round(toMinorUnits(unit) * (100 - percent) / 100));
 }
 
 export function getShippingCost(subtotal: number, hasItems = subtotal > 0): number {
   if (!hasItems) return 0;
-  return subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING;
+  return toMinorUnits(subtotal) >= toMinorUnits(FREE_SHIPPING_THRESHOLD) ? 0 : SHIPPING;
 }
 
 function selectedVariant(product: Product, requestedPriceId?: string): ProductVariant | undefined {
