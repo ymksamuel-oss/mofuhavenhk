@@ -21,6 +21,8 @@ import { useCatalog } from "@/lib/catalog-context";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref } from "@/lib/products";
 import { trackMetaEvent } from "@/components/MetaPixel";
+import { ShoppingCart } from "lucide-react";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 
 type ProductDetailProps = { product: Product };
 type RichContent = { highlights: string[]; spotlight: string; texture: string; feeding: string[]; nutrition: string[]; notes: string[] };
@@ -125,12 +127,50 @@ function PdpRecommendationCarousel({ products, locale }: { products: Product[]; 
   </section>;
 }
 
+function MobileStickyCartBar({ product, image, name, price, visible, basketCount, basketTotal, added, locale, onAdd }: {
+  product: Product;
+  image: string;
+  name: string;
+  price: number;
+  visible: boolean;
+  basketCount: number;
+  basketTotal: number;
+  added: boolean;
+  locale: "zh" | "en" | "ja";
+  onAdd: () => void;
+}) {
+  const reached = basketTotal >= FREE_SHIPPING_THRESHOLD;
+  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - basketTotal);
+  const shippingMessage = reached
+    ? (locale === "en" ? "🎉 Free shipping unlocked" : "🎉 已享免運費優惠")
+    : (locale === "en" ? `Add ${formatMoney(remaining, locale)} more for free shipping` : `再購買 ${formatMoney(remaining, locale)} 即享免運費`);
+  const openCart = () => window.dispatchEvent(new CustomEvent("mofu:open-cart"));
+  return <div className={`fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-stone-200 bg-white/95 px-3 pb-[max(0.65rem,env(safe-area-inset-bottom,0px))] pt-2 shadow-[0_-12px_30px_-18px_rgba(43,38,35,0.45)] backdrop-blur-md transition-all duration-300 sm:hidden ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"}`} aria-hidden={!visible}>
+    <p className={`mb-1.5 text-center text-[11px] font-semibold ${reached ? "text-emerald-700" : "text-stone-500"}`}>{shippingMessage}</p>
+    {added ? <div className="flex items-center gap-2">
+      <button type="button" onClick={openCart} className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-[#faf7f2] px-3 py-2 text-left ring-1 ring-stone-200" aria-label={locale === "en" ? "Open shopping cart" : "開啟購物籃"}>
+        <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8b573f] text-white"><ShoppingCart className="h-4 w-4" aria-hidden="true" /><span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-600 px-1 text-[10px] font-bold text-white">{basketCount}</span></span>
+        <span className="min-w-0"><span className="block truncate text-xs font-semibold text-stone-700">{locale === "en" ? `Basket: ${basketCount} item${basketCount === 1 ? "" : "s"}` : `購物籃已有 ${basketCount} 件商品`}</span><span className="block text-sm font-bold text-[#8b573f]">{formatMoney(basketTotal, locale)}</span></span>
+      </button>
+      <a href="/checkout" className="flex h-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 active:scale-95">{locale === "en" ? "Checkout 💳" : "立即結帳 💳"}</a>
+    </div> : <div className="flex items-center gap-2">
+      <button type="button" onClick={openCart} className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-stone-200 bg-[#faf7f2] text-[#8b573f]" aria-label={locale === "en" ? "Open shopping cart" : "開啟購物籃"}><ShoppingCart className="h-5 w-5" aria-hidden="true" />{basketCount > 0 ? <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8b573f] px-1 text-[10px] font-bold text-white">{basketCount}</span> : null}</button>
+      <div className="min-w-0 flex-1"><p className="truncate text-xs text-stone-500">{name}</p><p className="text-base font-bold text-[#8b573f]">{formatMoney(price, locale)}</p></div>
+      <button type="button" onClick={onAdd} disabled={product.inStock === false} className="h-12 shrink-0 rounded-xl bg-[#8b573f] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-[#6f432f] active:scale-95 disabled:opacity-50">{locale === "en" ? "+ Add to cart" : "加入購物車"}</button>
+    </div>}
+  </div>;
+}
+
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts } = useCatalog();
-  const { toOrderItems } = useCart();
+  const { toOrderItems, itemCount, addItem } = useCart();
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
   const [selectedQty, setSelectedQty] = useState(1);
+  const [purchaseVisible, setPurchaseVisible] = useState(true);
+  const [stickyAdded, setStickyAdded] = useState(false);
+  const purchaseRef = useRef<HTMLDivElement>(null);
+  const previousItemCount = useRef(itemCount);
   const selectedOption = product.variants?.[selectedSpecIndex] ?? product.variants?.[0];
   const selectedPrice = selectedOption?.price ?? product.price;
   const selectedPriceId = selectedOption?.priceId ?? product.priceId;
@@ -140,6 +180,17 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const sku = product.metadata?.mofu_sku?.trim() || product.id;
   const firstImage = selectedOption?.image || product.images?.[0] || product.image;
   const cartSubtotal = calcSubtotal(toOrderItems());
+  useEffect(() => {
+    const node = purchaseRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => setPurchaseVisible(entry.isIntersecting), { threshold: 0.15 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (itemCount > previousItemCount.current) setStickyAdded(true);
+    previousItemCount.current = itemCount;
+  }, [itemCount]);
   const isFood = isPetBundleProduct(product) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(product));
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
@@ -149,5 +200,5 @@ export function ProductDetail({ product }: ProductDetailProps) {
     return [...sameCategory, ...remaining].slice(0, 4);
   }, [catalogProducts, product.categorySlug, product.id]);
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [product.id], content_name: product.name.zh || product.name.en, value: product.price, currency: "HKD" }); }, [product.id, product.name.en, product.name.zh, product.price]);
-  return <div className="min-h-screen bg-[#faf7f2] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${product.id}-${selectedPriceId}`} images={selectedOption?.image ? [selectedOption.image] : product.images} fallbackImage={firstImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#b84d3d] px-3 py-1 text-xs font-bold text-white shadow">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><p className="text-xs font-semibold tracking-wide text-stone-400">SKU：{sku}</p><h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-4xl font-extrabold tabular-nums text-[#8b573f]">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-sm font-semibold text-[#b84d3d]">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={product.marketReferencePrice} asOf={product.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{product.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{product.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{product.variants.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-[#8b573f] bg-[#f7eee7]" : "border-stone-200 bg-white"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{product.inStock !== false ? <div className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-xl [&>button:last-child]:py-3.5" /></div> : <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><OutOfStockOrderButton productId={product.id} productName={product.name} mofuSku={sku} className="mt-3" /></div>}</section></div><RichProductContent product={product} locale={locale} sku={sku} firstImage={firstImage} />{recommendations.length ? <PdpRecommendationCarousel products={recommendations} locale={locale} /> : null}<FAQAccordion /><ProductFAQ /></main><div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex max-w-md items-center justify-between gap-3 border-t border-stone-200 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-md sm:hidden"><div className="flex min-w-0 flex-1 items-center gap-2.5"><div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-stone-100 bg-[#f5f0e9]"><ProductImage src={firstImage} alt={name} sizes="44px" className="object-contain p-1" /></div><div className="flex min-w-0 flex-1 flex-col justify-center"><p className="truncate text-xs font-normal text-stone-600">{name}</p><p className="text-sm font-bold text-stone-900">{formatMoney(selectedPrice, locale)}</p></div></div><div className="shrink-0"><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" showQuantity={false} quantity={selectedQty} unitPrice={selectedPrice} className="!mt-0 !gap-0 !flex-none [&>button:last-child]:!h-10 [&>button:last-child]:!w-auto [&>button:last-child]:!min-w-[8rem] [&>button:last-child]:!shrink-0 [&>button:last-child]:!rounded-full [&>button:last-child]:!bg-stone-900 [&>button:last-child]:!px-5 [&>button:last-child]:!py-0 [&>button:last-child]:!text-sm [&>button:last-child]:!font-medium [&>button:last-child]:!whitespace-nowrap [&>button:last-child]:shadow-sm [&>button:last-child]:hover:!bg-stone-800 [&>button:last-child]:active:!scale-95" /></div></div></div>;
+  return <div className="min-h-screen bg-[#faf7f2] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-24 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${product.id}-${selectedPriceId}`} images={selectedOption?.image ? [selectedOption.image] : product.images} fallbackImage={firstImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#b84d3d] px-3 py-1 text-xs font-bold text-white shadow">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><p className="text-xs font-semibold tracking-wide text-stone-400">SKU：{sku}</p><h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-4xl font-extrabold tabular-nums text-[#8b573f]">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-sm font-semibold text-[#b84d3d]">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={product.marketReferencePrice} asOf={product.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{product.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{product.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{product.variants.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-[#8b573f] bg-[#f7eee7]" : "border-stone-200 bg-white"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{product.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-xl [&>button:last-child]:py-3.5" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><OutOfStockOrderButton productId={product.id} productName={product.name} mofuSku={sku} className="mt-3" /></div>}</section></div><RichProductContent product={product} locale={locale} sku={sku} firstImage={firstImage} />{recommendations.length ? <PdpRecommendationCarousel products={recommendations} locale={locale} /> : null}<FAQAccordion /><ProductFAQ /></main><MobileStickyCartBar product={product} image={firstImage} name={name} price={selectedPrice} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} locale={locale} onAdd={() => { addItem(product.id, selectedQty, selectedPriceId); setStickyAdded(true); }} /></div>;
 }
