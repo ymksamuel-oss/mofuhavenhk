@@ -18,6 +18,7 @@ import {
 
 type OrderSummaryProps = {
   items: OrderItem[];
+  couponDiscount?: number;
   onQtyChange?: (id: string, qty: number) => void;
   /** Remove a line item entirely from the order. */
   onRemoveItem?: (id: string) => void;
@@ -63,6 +64,7 @@ function TrashIcon({ className = "" }: { className?: string }) {
 
 export function OrderSummary({
   items,
+  couponDiscount = 0,
   onQtyChange,
   onRemoveItem,
   qtyDisabled = false,
@@ -73,7 +75,8 @@ export function OrderSummary({
   const originalSubtotal = calcOriginalSubtotal(items);
   const bulkDiscount = calcBulkDiscount(items);
   const shipping = getShippingCost(subtotal, items.length > 0);
-  const total = subtotal + shipping;
+  const safeCouponDiscount = Math.min(subtotal, Math.max(0, Number(couponDiscount) || 0));
+  const total = Math.max(0, subtotal - safeCouponDiscount) + shipping;
   const editable = Boolean(onQtyChange) && !qtyDisabled;
   const canRemove = Boolean(onRemoveItem) && !qtyDisabled;
 
@@ -226,6 +229,12 @@ export function OrderSummary({
             <dd className="font-semibold tabular-nums text-emerald-700">
               - {formatMoney(bulkDiscount, locale)}
             </dd>
+          </div>
+        ) : null}
+        {safeCouponDiscount > 0 ? (
+          <div className="flex justify-between gap-4">
+            <dt className="tracking-[0.01em] text-emerald-700">{t("couponLabel")}</dt>
+            <dd className="font-semibold tabular-nums text-emerald-700">- {formatMoney(safeCouponDiscount, locale)}</dd>
           </div>
         ) : null}
         <div className="flex justify-between gap-4">

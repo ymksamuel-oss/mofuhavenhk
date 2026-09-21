@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
@@ -84,10 +85,10 @@ const hongKongShippingDetails = {
   },
   freeShippingThreshold: {
     "@type": "MonetaryAmount",
-    value: 399,
+    value: FREE_SHIPPING_THRESHOLD,
     currency: "HKD",
   },
-  description: "Hong Kong in-stock items are generally shipped within 1–2 business days via SF Express. Orders over HK$399 qualify for free local delivery.",
+  description: `Hong Kong in-stock items are generally shipped within 1–2 business days via SF Express. Orders over HK$${FREE_SHIPPING_THRESHOLD} qualify for free local delivery.`,
 };
 
 const japanDirectShippingDetails = {
@@ -119,7 +120,7 @@ const japanDirectShippingDetails = {
   },
   freeShippingThreshold: {
     "@type": "MonetaryAmount",
-    value: 399,
+    value: FREE_SHIPPING_THRESHOLD,
     currency: "HKD",
   },
   description: "Japan Pre-order and direct-shipping items usually arrive within 7–14 business days. Japanese public holidays may cause delays.",

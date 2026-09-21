@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
 import { WishlistProvider } from "@/lib/shop/wishlist";
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     template: "%s | Mofu Haven",
   },
   description:
-  "Mofu Haven curates Japanese pet food, treats and everyday essentials for Hong Kong. In-stock orders usually ship within 1–2 business days, with free local delivery over HK$399.",
+  `Mofu Haven curates Japanese pet food, treats and everyday essentials for Hong Kong. In-stock orders usually ship within 1–2 business days, with free local delivery over HK$${FREE_SHIPPING_THRESHOLD}.`,
   keywords: [
     "Mofu Haven",
     "Japanese pet supplies",
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
     locale: "en_HK",
     url: "https://mofuhavenhk.com",
     title: "Mofu Haven HK | Japanese Pet Essentials",
-    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$399.",
+    description: `Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$${FREE_SHIPPING_THRESHOLD}.`,
     siteName: "Mofu Haven",
     images: [
       {
@@ -83,7 +84,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mofu Haven HK | Japanese Pet Essentials",
-    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$399.",
+    description: `Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$${FREE_SHIPPING_THRESHOLD}.`,
     images: ["/images/best-partner-plain-pack-series.png"],
   },
   robots: {

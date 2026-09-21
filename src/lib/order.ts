@@ -72,7 +72,10 @@ export type OrderItemPricing = {
 /** Derives every price from the immutable base price and the current qty. */
 export function orderItemPricing(item: OrderItem): OrderItemPricing {
   const basePrice = fromMinorUnits(toMinorUnits(item.originalUnit ?? item.unit));
-  const discountPercent: 0 | 5 | 10 | 15 = item.qty >= 12 ? 15 : item.qty >= 8 ? 10 : item.qty >= 4 ? 5 : 0;
+  const isValueBundle = /^MOFU-BUNDLE-/i.test(item.mofuSku?.trim() ?? "");
+  const discountPercent: 0 | 5 | 10 | 15 = isValueBundle
+    ? 0
+    : item.qty >= 12 ? 15 : item.qty >= 8 ? 10 : item.qty >= 4 ? 5 : 0;
   const discountRate = discountPercent / 100;
   const baseCents = toMinorUnits(basePrice);
   const effectiveUnitCents = Math.round(baseCents * (100 - discountPercent) / 100);
@@ -106,6 +109,7 @@ export const PET_BUNDLE_QUANTITIES = [1, 2, 3, 4, 6, 8, 12] as const;
  */
 export function isPetBundleProduct(product: Product): boolean {
   const raw = product as unknown as Record<string, unknown>;
+  if (isValueBundleProduct(product)) return false;
   const rawFeatureTags = Array.isArray(raw.feature_tags)
     ? raw.feature_tags.filter((tag): tag is string => typeof tag === "string")
     : [];
@@ -130,7 +134,16 @@ export function isPetBundleProduct(product: Product): boolean {
   return /(food|treat|snack|\u96f6\u98df|\u5c0f\u98df|\u98df\u54c1|\u98df\u7269|\u7f50\u982d|\u4e7e\u7ce7|\u6fd5\u7ce7|\u8089\u4e7e|\u8089\u689d|\u8089\u7247|\u8089\u68d2|\u8089\u9b06|\u9b5a\u4ecb|seafood|\u9bae\u8089|\u539f\u8089)/i.test(text);
 }
 
+/** Value bundles already carry their promotional price and must never receive
+ * the storewide quantity discount a second time. */
+export function isValueBundleProduct(product: Product): boolean {
+  const sku = product.metadata?.mofu_sku?.trim() ?? "";
+  const tagged = product.tags?.some((tag) => /^MOFU-BUNDLE-/i.test(tag.trim())) ?? false;
+  return /^MOFU-BUNDLE-/i.test(sku) || tagged;
+}
+
 export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 | 10 | 15 {
+  if (isValueBundleProduct(product)) return 0;
   if (!isPetBundleProduct(product)) return 0;
   if (qty >= 12) return 15;
   if (qty >= 8) return 10;

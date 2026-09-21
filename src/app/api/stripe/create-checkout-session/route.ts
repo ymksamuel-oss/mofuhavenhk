@@ -178,7 +178,10 @@ export async function POST(request: Request) {
       })
       .filter((line): line is { id: string; qty: number; priceId?: string } => Boolean(line));
     const rebuilt = buildOrderItemsFromLines(lines, catalog.products);
-    if (rebuilt.length > 0) items = rebuilt;
+    if (rebuilt.length === 0) {
+      return NextResponse.json({ ok: false, error: "invalid_order_lines" }, { status: 400 });
+    }
+    items = rebuilt;
   }
 
   if (items.length === 0) {
@@ -210,7 +213,9 @@ export async function POST(request: Request) {
   }
   const subtotal = calcSubtotal(items);
   const coupon = await resolveCoupon(body.couponCode, subtotal);
-  const shipping = getShippingCost(subtotal - coupon.discount, items.length > 0);
+  // Free shipping is based on the merchandise subtotal, before coupon
+  // discounts, matching the cart progress bar and checkout summary.
+  const shipping = getShippingCost(subtotal, items.length > 0);
   const total = Math.max(0, subtotal - coupon.discount + shipping);
   const amount = toStripeAmountHkd(total);
   const origin = getSafeCheckoutOrigin(request);

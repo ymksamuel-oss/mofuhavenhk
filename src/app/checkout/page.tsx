@@ -65,7 +65,7 @@ function CheckoutContent() {
   const [couponError, setCouponError] = useState("");
   const subtotalHkd = calcSubtotal(items);
   const discountHkd = appliedCoupon?.discountAmount || 0;
-  const shippingHkd = getShippingCost(Math.max(0, subtotalHkd - discountHkd), items.length > 0);
+  const shippingHkd = getShippingCost(subtotalHkd, items.length > 0);
   const amountHkd = items.length > 0 ? Math.max(0, subtotalHkd - discountHkd) + shippingHkd : 0;
 
   // Keep the familiar Apple Pay default; Google Pay and PayMe use the
@@ -290,6 +290,8 @@ function CheckoutContent() {
         item.lineKey === lineKey ? { ...item, qty: nextQty } : item,
       ),
     );
+    setAppliedCoupon(null);
+    setCouponCode("");
     cart.setQty(lineKey, nextQty);
     if (clientSecret) {
       setClientSecret(null);
@@ -307,6 +309,8 @@ function CheckoutContent() {
       return;
     }
     setItems((current) => current.filter((item) => item.lineKey !== lineKey));
+    setAppliedCoupon(null);
+    setCouponCode("");
     cart.removeItem(lineKey);
     if (clientSecret) {
       setClientSecret(null);
@@ -601,6 +605,7 @@ function CheckoutContent() {
         <div className="milk-tea-card min-w-0 max-w-full space-y-6 p-5 sm:p-6">
           <OrderSummary
             items={items}
+            couponDiscount={discountHkd}
             onQtyChange={handleQtyChange}
             onRemoveItem={handleRemoveItem}
             qtyDisabled={qtyLocked}
