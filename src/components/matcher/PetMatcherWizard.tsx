@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useCatalog } from "@/lib/catalog-context";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -195,10 +195,12 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
         return true;
       })
       .sort((a, b) => scoreProduct(b, need, pet, age ?? 1, size ?? "medium", specialCare) - scoreProduct(a, need, pet, age ?? 1, size ?? "medium", specialCare) || a.price - b.price)
-      .slice(0, 3);
+      .slice(0, 8);
   }, [age, lines, need, pet, products, size, specialCare]);
 
   const total = recommendations.reduce((sum, product) => sum + product.price, 0);
+  const recommendationListRef = useRef<HTMLDivElement>(null);
+  const [recommendationScroll, setRecommendationScroll] = useState({ canUp: false, canDown: false });
   const openWizard = () => {
     setOpen(true);
     setStep(1);
@@ -325,6 +327,29 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     return () => { document.body.style.overflow = originalOverflow; };
   }, [open]);
 
+  useEffect(() => {
+    const element = recommendationListRef.current;
+    if (!element) return undefined;
+    const updateScrollState = () => {
+      const maxScrollTop = element.scrollHeight - element.clientHeight;
+      setRecommendationScroll({
+        canUp: element.scrollTop > 4,
+        canDown: maxScrollTop - element.scrollTop > 4,
+      });
+    };
+    updateScrollState();
+    element.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      element.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [open, recommendations.length, step]);
+
+  const scrollRecommendations = (amount: number) => {
+    recommendationListRef.current?.scrollBy({ top: amount, behavior: "smooth" });
+  };
+
   const title = isZh ? "30秒毛孩智能選品配對精靈" : "30-Second Pet Matcher";
   const stepTitle = step === 1 ? (isZh ? "先認識一下你的毛孩" : "Tell us about your companion") : step === 2 ? (isZh ? "毛孩的年齡與體型？" : "What are their age and size?") : step === 3 ? (isZh ? "牠是甚麼品種？" : "What breed are they?") : step === 4 ? (isZh ? "目前最想改善甚麼？" : "What would help most right now?") : (isZh ? "這是為毛孩度身訂造的提案" : "A tailored proposal for your companion");
 
@@ -352,7 +377,18 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
               {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}<div className="mt-2 rounded-2xl border border-[#ead8c8] bg-white/70 p-4"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a36b42]">{isZh ? "特殊照護關注（可多選）" : "Special care focus (choose all that apply)"}</p><div className="mt-3 flex flex-wrap gap-2">{SPECIAL_CARE.map((item) => <button key={item.id} type="button" onClick={() => toggleSpecialCare(item.id)} aria-pressed={specialCare.includes(item.id)} className={`rounded-full border px-3 py-2 text-left text-xs font-semibold transition ${specialCare.includes(item.id) ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item.label, locale)}</button>)}</div><p className="mt-2 text-xs text-stone-500">{isZh ? "我們會優先配對店內王牌商品。" : "We will prioritise the strongest matches from our catalog."}</p></div></div> : null}
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
               <div className="mt-4 rounded-2xl bg-[#ead8c8]/55 p-4 text-sm leading-6 text-stone-700">{isZh ? `為你 ${ageResultLabel(age, "zh")} 的 ${breed?.zh ?? "毛孩"} 量身定制的日系提案${size ? `（${SIZE_LABELS[size].zh}）` : ""}：${need === "walk" ? "出門散步建議搭配 Y 型胸背帶，分散拉扯受力，減少勒喉不適。" : need === "sensitive" ? "低敏單一肉源適合用作日常獎勵，溫柔照顧挑食及敏感腸胃。" : age === 0 ? "幼年期優先選擇易消化、適合發育及換牙需要的溫和好物。" : age !== null && age >= 7 ? "熟齡期優先選擇低脂低負擔、兼顧關節保護的日常好物。" : "成年期配搭高蛋白及適度耐咬好物，讓毛孩吃得開心、玩得安心。"}` : `Tailored Japanese plan for your ${ageResultLabel(age, "en")} ${breed?.en ?? "companion"}${size ? ` (${SIZE_LABELS[size].en.toLowerCase()})` : ""}: ${need === "walk" ? "pair a pressure-friendly Y-harness with everyday walks for a more comfortable fit." : need === "sensitive" ? "choose gentle single-protein treats for a calmer routine and happier appetites." : age === 0 ? "choose easy-to-digest essentials suited to growth and teething." : age !== null && age >= 7 ? "prioritise gentle, lower-fat essentials with thoughtful joint support." : "a thoughtful mix of high-protein and active-lifestyle essentials for happier everyday moments."}`}</div>
-              <div className="mt-4 grid gap-3">{recommendations.length ? recommendations.map((product) => <article key={product.id} className="flex items-center gap-3 rounded-2xl border border-white bg-white p-3"><div className="relative h-16 w-16 min-w-[64px] shrink-0 overflow-hidden rounded-xl bg-[#FAF7F2] p-1"><ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={getLocalizedProductName(product, locale)} sizes="64px" className="h-full w-full object-contain mix-blend-multiply" /></div><div className="min-w-0 flex-1"><p className="line-clamp-2 text-sm font-semibold text-stone-800">{getLocalizedProductName(product, locale)}</p><p className="mt-1 text-sm font-bold text-[#8a5836]">{formatMoney(product.price, locale)}</p></div><button type="button" onClick={() => addOne(product)} disabled={addedIds.includes(product.id)} className="shrink-0 rounded-full bg-[#8a5836] px-3 py-2 text-xs font-bold text-white disabled:bg-emerald-700">{addedIds.includes(product.id) ? "✓" : isZh ? "+ 加購" : "+ Add"}</button></article>) : <p className="rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}</div>
+              {recommendations.length ? <div className="mt-4">
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="text-xs font-semibold text-stone-500">{isZh ? "上下滑動挑選心水好物" : "Scroll vertically to explore more picks"}</p>
+                  <button type="button" onClick={() => scrollRecommendations(-130)} disabled={!recommendationScroll.canUp} aria-label={isZh ? "向上查看推薦商品" : "Scroll recommendations up"} className="rounded-full border border-[#d7b394] bg-white px-3 py-1.5 text-sm font-bold text-[#704525] transition hover:bg-[#fff5e9] active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">▲</button>
+                </div>
+                <div ref={recommendationListRef} className="max-h-[310px] space-y-3 overflow-y-auto scroll-smooth overscroll-contain pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {recommendations.map((product) => <article key={product.id} className="flex items-center gap-3 rounded-2xl border border-white bg-white p-3"><div className="relative h-16 w-16 min-w-[64px] shrink-0 overflow-hidden rounded-xl bg-[#FAF7F2] p-1"><ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={getLocalizedProductName(product, locale)} sizes="64px" className="h-full w-full object-contain mix-blend-multiply" /></div><div className="min-w-0 flex-1"><p className="line-clamp-2 text-sm font-semibold text-stone-800">{getLocalizedProductName(product, locale)}</p><p className="mt-1 text-sm font-bold text-[#8a5836]">{formatMoney(product.price, locale)}</p></div><button type="button" onClick={() => addOne(product)} disabled={addedIds.includes(product.id)} className="shrink-0 rounded-full bg-[#8a5836] px-3 py-2 text-xs font-bold text-white transition active:scale-95 disabled:bg-emerald-700">{addedIds.includes(product.id) ? "✓" : isZh ? "+ 加購" : "+ Add"}</button></article>)}
+                </div>
+                <div className="mt-2 flex justify-end">
+                  <button type="button" onClick={() => scrollRecommendations(130)} disabled={!recommendationScroll.canDown} aria-label={isZh ? "向下查看推薦商品" : "Scroll recommendations down"} className="rounded-full border border-[#d7b394] bg-white px-3 py-1.5 text-sm font-bold text-[#704525] transition hover:bg-[#fff5e9] active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">▼</button>
+                </div>
+              </div> : <p className="mt-4 rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}
               {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}{recommendations.length ? <div className="mt-3 grid grid-cols-2 gap-2"><button type="button" onClick={shareToWhatsApp} className="rounded-2xl bg-[#25D366] px-3 py-3 text-xs font-bold text-white transition hover:brightness-95">{isZh ? "WhatsApp 分享" : "Share to WhatsApp"}</button><button type="button" onClick={() => { void shareProposal("instagram"); }} className="rounded-2xl bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] px-3 py-3 text-xs font-bold text-white transition hover:brightness-105">{isZh ? "Instagram 動態" : "Instagram Stories"}</button></div> : null}{shareNotice ? <p className="mt-3 rounded-xl bg-[#ead8c8]/55 px-3 py-2 text-center text-xs text-[#704525]" role="status">{shareNotice}</p> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
           </div>
         </div>
