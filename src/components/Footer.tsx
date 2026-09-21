@@ -183,6 +183,12 @@ export function Footer() {
             <p className="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[#62493b]">
               {t("footerTagline")}
             </p>
+            <Link
+              href="/blog/dog-food-venison-benefits"
+              className="inline-flex rounded-full border border-[#a97858] bg-[#fff8ef]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#fff8ef]"
+            >
+              毛拔麻健康教室 →
+            </Link>
           </div>
 
           <FooterNavColumn title={t("footerQuickLinks")} links={QUICK_LINKS} />

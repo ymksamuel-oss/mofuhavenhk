@@ -43,6 +43,13 @@ const OFFICIAL_PRODUCT_IMAGE_OVERRIDES: Record<string, string[]> = {
   ],
 };
 
+const VENISON_SKUS = new Set(["4976064026545", "4976064026743", "4976064025081"]);
+
+function isVenisonProduct(product: Product, sku: string): boolean {
+  const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? [])].filter(Boolean).join(" ");
+  return VENISON_SKUS.has(sku) || /鹿肉|蝦夷鹿|venison|ezo deer/i.test(text);
+}
+
 function RichProductContent({ product, locale, sku, firstImage }: { product: Product; locale: "zh" | "en" | "ja"; sku: string; firstImage: string }) {
   const [tab, setTab] = useState<"details" | "notes">("details");
   const [open, setOpen] = useState(true);
@@ -54,6 +61,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
       <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ 商品特色</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
       {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5"><p className="text-xs font-semibold tracking-wide text-stone-400">商品編號：{safeProductText(sku, locale) || "—"}</p>{rich.highlights.length ? <ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">{rich.highlights.map((item, index) => <li key={`${item}-${index}`}>✨ {item}</li>)}</ul> : null}{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="whitespace-pre-line text-sm leading-6 text-stone-600">{rich.spotlight}</p></div> : null}</div> : null}
     </section>
+    {isVenisonProduct(product, sku) ? <Link href="/blog/dog-food-venison-benefits" className="flex items-center justify-between rounded-2xl border border-[#e2c4a8] bg-[#fff8ef] px-4 py-3 text-sm font-semibold text-[#8b573f] transition hover:border-[#b17a56] hover:bg-[#fff2e3]"><span>💡 想了解更多鹿肉營養？</span><span>閱讀【日本獸醫鹿肉解析專欄 →】</span></Link> : null}
     <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label="商品內容分頁"><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>詳細說明</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>商品推薦／購物須知</button></div>
     {tab === "details" ? <div className="space-y-5">
       <div className="my-6 grid grid-cols-1 items-start gap-6 md:grid-cols-2">
