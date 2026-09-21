@@ -21,7 +21,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   return (
     <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className={`block min-w-0 ${showPurchaseControls ? "" : "h-full"}`}>
-        <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-3 sm:p-4">
+        <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-2.5 sm:p-3">
           <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-start gap-1.5">
             {hasDiscount ? <span className="max-w-full shrink-0 rounded-full border border-[#c0483a]/25 bg-[#fff1ed] px-1.5 py-0.5 text-[9px] font-bold leading-4 text-[#a2382e] sm:px-2 sm:text-[10px]">{locale === "zh" ? "限時特惠" : "LIMITED OFFER"}</span> : null}
             <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-none justify-start gap-1.5" />
@@ -34,8 +34,8 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
             className="object-contain mix-blend-multiply transition-transform duration-300 ease-out group-hover:scale-[1.03]"
           />
         </div>
-        <div className="min-w-0 px-3 pt-3 sm:px-4 sm:pt-4">
-          <h3 className="line-clamp-3 min-h-[4.5rem] break-words text-left text-sm font-semibold leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">{displayName}</h3>
+        <div className="min-w-0 px-2.5 pt-2.5 sm:px-3 sm:pt-3">
+          <h3 className="line-clamp-2 min-h-10 break-words text-left text-xs font-medium leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">{displayName}</h3>
         </div>
       </Link>
       {showPurchaseControls ? (

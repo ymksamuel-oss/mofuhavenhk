@@ -291,7 +291,7 @@ export function ProductCatalog({
         </div>
       ) : (
         <>
-          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-4 pb-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-3 pb-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
         {visibleProducts.map((product, index) => {
               return (
                 <li key={product.id} className="min-w-0">

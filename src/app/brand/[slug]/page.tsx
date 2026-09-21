@@ -40,7 +40,7 @@ export default async function BrandPage({ params }: Props) {
   return (
     <main className="mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 sm:pt-8 lg:px-8">
       <BrandInfoCard brand={brand} />
-      {products.length === 0 ? <section className="py-12 text-center"><p className="text-neutral-500">This brand has no published products yet. Explore another brand.</p><Link href="/" className="mt-5 inline-block rounded-xl bg-[#7a4b31] px-5 py-3 font-semibold text-white">Explore other brands</Link></section> : <section aria-labelledby="brand-products-title"><h2 id="brand-products-title" className="sr-only">{brand.name} products</h2><ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{products.map((product) => <BrandProductCard key={product.id} product={product} />)}</ul></section>}
+      {products.length === 0 ? <section className="py-12 text-center"><p className="text-neutral-500">This brand has no published products yet. Explore another brand.</p><Link href="/" className="mt-5 inline-block rounded-xl bg-[#7a4b31] px-5 py-3 font-semibold text-white">Explore other brands</Link></section> : <section aria-labelledby="brand-products-title"><h2 id="brand-products-title" className="sr-only">{brand.name} products</h2><ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">{products.map((product) => <BrandProductCard key={product.id} product={product} />)}</ul></section>}
     </main>
   );
 }
