@@ -1,0 +1,6 @@
+{
+  "status": "not_verified",
+  "updated": [],
+  "attempted": 20,
+  "reason": "Supabase REST API returned successful HTTP responses but a direct read-back showed the original descriptions; database write permission or RLS policy must be resolved before applying."
+}
