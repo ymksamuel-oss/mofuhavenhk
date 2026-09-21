@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useCart } from "@/lib/shop/cart";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
-import type { Product } from "@/lib/products";
+import { productHref, type Product } from "@/lib/products";
 
 type YouMayAlsoLikeProps = {
   cartProductIds: string[];
@@ -100,10 +101,12 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded }: YouM
           return (
             <li key={product.id} className="w-[140px] min-w-[140px] snap-start sm:w-[160px] sm:min-w-[160px]">
               <div className="h-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white p-2.5">
-                <div className="relative aspect-square overflow-hidden rounded-xl bg-[#FAF7F2] ring-1 ring-[color:var(--line)]">
-                  <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="160px" className="object-contain mix-blend-multiply p-1" />
-                </div>
-                <p className="mt-2 line-clamp-2 min-h-8 text-xs font-medium leading-snug text-[color:var(--ink)]">{name}</p>
+                <Link href={productHref(product.id)} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${name}` : `View product: ${name}`}>
+                  <div className="relative aspect-square overflow-hidden rounded-xl bg-[#FAF7F2] ring-1 ring-[color:var(--line)]">
+                    <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="160px" className="object-contain mix-blend-multiply p-1" />
+                  </div>
+                  <p className="mt-2 line-clamp-2 min-h-8 text-xs font-medium leading-snug text-[color:var(--ink)]">{name}</p>
+                </Link>
                 <p className="mt-1 text-sm font-bold tabular-nums text-[color:var(--accent)]">{formatMoney(product.price, locale)}</p>
                 <button type="button" onClick={() => handleAdd(product.id)} disabled={isAdded} className="mt-2 w-full rounded-full bg-[color:var(--accent)] px-2 py-2 text-xs font-semibold text-white transition hover:bg-[color:var(--hero-deep)] disabled:cursor-default disabled:bg-emerald-700 active:scale-[0.97]">
                   {isAdded ? (locale === "zh" ? "已加入 ✓" : "Added ✓") : locale === "zh" ? "+ 加購" : "+ Add"}
