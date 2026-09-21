@@ -112,8 +112,8 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">{isZh ? "毛毛港精選" : "MOFU HAVEN SELECT"}</span>
-            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">{isZh ? "日系主題策展" : "Curated Collections"}</h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">{isZh ? "每個專區各有明確主題，精選商品不重複。" : "Clearly defined shelves with no repeated products."}</p>
+            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">{isZh ? "店長嚴選・毛孩人氣特輯" : "Shopkeeper's Picks for Happy Pets"}</h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">{isZh ? "針對挑食、潔齒磨牙、深海美毛等日常需求，為愛寵精選最安心的日本天然食品。" : "Thoughtfully selected Japanese natural foods for picky appetites, dental care, deep-sea nourishment and everyday pet needs."}</p>
           </div>
         </div>
 
