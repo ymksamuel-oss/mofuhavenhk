@@ -6,8 +6,6 @@ import { categoryHref } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
-const zenMaru = { className: "font-sans" };
-
 type Chapter = {
   titleKey: TranslationKey;
   bodyKey: TranslationKey;
@@ -61,7 +59,7 @@ export function AboutCatBook() {
 
   return (
     <div
-      className={`${zenMaru.className} min-h-[70vh] bg-[#FBF9F6] text-[#2B2623]`}
+      className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]"
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">

@@ -2,7 +2,6 @@
 
 import { useMemo, type SyntheticEvent } from "react";
 import Link from "next/link";
-import { Zen_Maru_Gothic } from "next/font/google";
 import { BreedGallery } from "@/components/about/BreedGallery";
 import {
   CAT_BREED_IMAGE_FALLBACK,
@@ -10,11 +9,6 @@ import {
 } from "@/lib/catBreeds";
 import { getLocalizedBreedView } from "@/lib/catBreedLocales";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-
-const zenMaru = Zen_Maru_Gothic({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 function handleBreedImageError(event: SyntheticEvent<HTMLImageElement>) {
   const image = event.currentTarget;
@@ -69,7 +63,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
 
   return (
     <div
-      className={`${zenMaru.className} min-h-[70vh] bg-[#FBF9F6] text-[#2B2623]`}
+      className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]"
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">

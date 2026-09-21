@@ -23,13 +23,13 @@ export const HOMEPAGE_HERO_BANNERS: HomepageHeroConfig[] = [
     "featuredSku": "4976064025333"
   },
   {
-    "id": "banner-outdoor-gear",
-    "title": "日系機能美學・防暴衝優雅漫步",
-    "subtitle": "Y型人體工學減壓胸背・潛水布防勒牽引繩・可沖馬桶環保拾便袋",
-    "badge": "日本原裝・出門不勒喉",
-    "ctaText": "選購漫步裝備",
-    "ctaLink": "/collections/outdoor-gear",
-    "featuredSku": "4976064026071"
+    "id": "banner-seafood",
+    "title": "北海道天然海鮮，為毛孩補充純粹鮮味",
+    "subtitle": "嚴選黑鮪魚、三文魚與姬鱈魚，日本低溫慢烘，天然蛋白與 Omega-3 一口滿足。",
+    "badge": "日本製造・天然魚介",
+    "ctaText": "探索天然海鮮系列",
+    "ctaLink": "/collections/seafood",
+    "featuredSku": "4976064026576"
   }
 ];
 
@@ -49,10 +49,6 @@ export const HOMEPAGE_QUICK_PILLS: HomepagePillConfig[] = [
   {
     "label": "✨ 挑食拌糧神粉",
     "link": "/collections/meal-toppers"
-  },
-  {
-    "label": "🦺 戶外防暴衝裝備",
-    "link": "/collections/outdoor-gear"
   },
   {
     "label": "🎁 促銷特惠組合",
@@ -175,42 +171,4 @@ export const HOMEPAGE_FEATURED_SECTIONS: HomepageFeaturedSectionConfig[] = [
       }
     ]
   },
-  {
-    "id": "outdoor_gear",
-    "title": "🦺 戶外漫步・防暴衝安全裝備",
-    "subtitle": "Y型減壓不壓迫氣管，日本五金扣具抗拉防爆衝",
-    "viewAllLink": "/collections/outdoor-gear",
-    "products": [
-      {
-        "sku": "4976064026071",
-        "badge": "Y型減壓",
-        "highlight": "雙色軟墊防暴衝胸背帶 SS號 酒紅"
-      },
-      {
-        "sku": "4976064026088",
-        "badge": "Y型減壓",
-        "highlight": "雙色軟墊防暴衝胸背帶 SS號 海軍藍"
-      },
-      {
-        "sku": "4976064026170",
-        "badge": "防勒手把",
-        "highlight": "雙色耐磨防暴衝牽引帶 S號 酒紅"
-      },
-      {
-        "sku": "4976064023322",
-        "badge": "攀岩圓繩",
-        "highlight": "攀岩級高密度編織牽引繩 S號 黑色"
-      },
-      {
-        "sku": "4976064015013",
-        "badge": "可沖馬桶",
-        "highlight": "水溶性環保拾便袋 100枚入"
-      },
-      {
-        "sku": "4976064026231",
-        "badge": "純棉帆布",
-        "highlight": "戶外漫步多口袋托特包 遛狗神器"
-      }
-    ]
-  }
 ];
