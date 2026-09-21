@@ -84,10 +84,10 @@ const hongKongShippingDetails = {
   },
   freeShippingThreshold: {
     "@type": "MonetaryAmount",
-    value: 450,
+    value: 399,
     currency: "HKD",
   },
-  description: "Hong Kong in-stock items are generally shipped within 1–2 business days via SF Express. Orders over HK$450 qualify for free local delivery.",
+  description: "Hong Kong in-stock items are generally shipped within 1–2 business days via SF Express. Orders over HK$399 qualify for free local delivery.",
 };
 
 const japanDirectShippingDetails = {
@@ -119,7 +119,7 @@ const japanDirectShippingDetails = {
   },
   freeShippingThreshold: {
     "@type": "MonetaryAmount",
-    value: 450,
+    value: 399,
     currency: "HKD",
   },
   description: "Japan Pre-order and direct-shipping items usually arrive within 7–14 business days. Japanese public holidays may cause delays.",

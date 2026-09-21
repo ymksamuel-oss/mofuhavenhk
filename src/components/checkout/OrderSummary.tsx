@@ -236,7 +236,7 @@ export function OrderSummary({
             </span>
           </dt>
           <dd className="tabular-nums tracking-[0.01em] text-[color:var(--ink)]">
-            {formatMoney(shipping, locale)}{shipping === 0 ? ` (${t("freeOverHk450")})` : ""}
+            {formatMoney(shipping, locale)}{shipping === 0 ? ` (${t("freeOverHk399")})` : ""}
           </dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-[color:var(--line)] pt-3.5 text-base font-semibold tracking-[-0.01em]">

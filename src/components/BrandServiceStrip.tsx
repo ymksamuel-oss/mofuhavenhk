@@ -15,7 +15,7 @@ export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "
   const labels = locale === "en"
     ? [
         { title: "Delivery Service", body: "Carefully packed and dispatched with care.", image: "/images/mofu-visuals/icons/delivery.jpg", href: "/shipping-policy" },
-        { title: "Free Shipping", body: "Enjoy free local shipping on orders from HK$450.", image: "/images/mofu-visuals/icons/free-shipping.jpg", href: "/categories/dogs" },
+        { title: "Free Shipping", body: "🎉 Spend HK$399 storewide for free SF pickup shipping · Original Japanese-imported pet treats", image: "/images/mofu-visuals/icons/free-shipping.jpg", href: "/categories/dogs" },
         { title: "Kind Support", body: "We are here whenever you need a hand.", image: "/images/mofu-visuals/icons/support.jpg", href: "https://wa.me/85298646585" },
       ]
     : [

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     template: "%s | Mofu Haven",
   },
   description:
-  "Mofu Haven curates Japanese pet food, treats and everyday essentials for Hong Kong. In-stock orders usually ship within 1–2 business days, with free local delivery over HK$450.",
+  "Mofu Haven curates Japanese pet food, treats and everyday essentials for Hong Kong. In-stock orders usually ship within 1–2 business days, with free local delivery over HK$399.",
   keywords: [
     "Mofu Haven",
     "Japanese pet supplies",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     locale: "en_HK",
     url: "https://mofuhavenhk.com",
     title: "Mofu Haven HK | Japanese Pet Essentials",
-    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$450.",
+    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$399.",
     siteName: "Mofu Haven",
     images: [
       {
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mofu Haven HK | Japanese Pet Essentials",
-    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$450.",
+    description: "Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$399.",
     images: ["/images/best-partner-plain-pack-series.png"],
   },
   robots: {

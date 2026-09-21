@@ -32,7 +32,7 @@ export type RequestedOrderLine = {
 };
 
 export const SHIPPING = 35;
-export const FREE_SHIPPING_THRESHOLD = 450;
+export const FREE_SHIPPING_THRESHOLD = 399;
 
 export function toMinorUnits(value: number): number {
   return Number.isFinite(value) ? Math.round(value * 100) : 0;
