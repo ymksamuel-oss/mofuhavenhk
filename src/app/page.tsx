@@ -1,15 +1,29 @@
 // Visual reference: warm Japanese editorial storefront — cream canvas, pet-and-packaging hero,
 // soft gold actions, mobile-first stacked storytelling, and no video CTA in the hero.
 import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
-import { HomeInteractiveSections } from "@/components/home/HomeInteractiveSections";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
-import { BestPartnerValues } from "@/components/home/BestPartnerValues";
-import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
-import { PetMatcherWizard } from "@/components/matcher/PetMatcherWizard";
+import dynamic from "next/dynamic";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
+
+const PetMatcherWizard = dynamic(
+  () => import("@/components/matcher/PetMatcherWizard").then((module) => module.PetMatcherWizard),
+  { loading: () => null },
+);
+const HomepageFeaturedShowcase = dynamic(
+  () => import("@/components/home/HomepageFeaturedShowcase").then((module) => module.HomepageFeaturedShowcase),
+  { loading: () => null },
+);
+const BestPartnerValues = dynamic(
+  () => import("@/components/home/BestPartnerValues").then((module) => module.BestPartnerValues),
+  { loading: () => null },
+);
+const HomeInteractiveSections = dynamic(
+  () => import("@/components/home/HomeInteractiveSections").then((module) => module.HomeInteractiveSections),
+  { loading: () => null },
+);
 
 export const revalidate = 300;
 
