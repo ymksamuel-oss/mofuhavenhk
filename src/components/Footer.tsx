@@ -59,31 +59,20 @@ function FooterNavColumn({
   links: FooterLink[];
 }) {
   return (
-    <div>
-      {/* Desktop: always-visible column */}
-      <div className="hidden md:block">
-        <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a]">
-          {title}
-        </p>
-        <LinkList links={links} />
-      </div>
-
-      {/* Mobile: accordion */}
-      <details className="group border-b border-[#c69e78] md:hidden">
-        <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden">
+    <details open className="group border-b border-[#c69e78] md:border-0">
+      <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden md:mb-3 md:cursor-default md:py-0">
           <span>{title}</span>
           <span
             aria-hidden
-            className="text-[#76533d] transition duration-200 group-open:rotate-180"
+            className="text-[#76533d] transition duration-200 group-open:rotate-180 md:hidden"
           >
             ▾
           </span>
-        </summary>
-        <div className="pb-4">
-          <LinkList links={links} />
-        </div>
-      </details>
-    </div>
+      </summary>
+      <div className="pb-4 md:pb-0">
+        <LinkList links={links} />
+      </div>
+    </details>
   );
 }
 
@@ -195,29 +184,17 @@ export function Footer() {
           <FooterNavColumn title={t("footerPolicies")} links={POLICY_LINKS} />
 
           {/* Contact */}
-          <div>
-            <div className="hidden md:block">
-              <p className="mb-3 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a]">
-                {t("footerContact")}
-              </p>
+          <details open className="group border-b border-[#c69e78] md:border-0">
+            <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden md:mb-3 md:cursor-default md:py-0">
+              <span>{t("footerContact")}</span>
+              <span aria-hidden className="text-[#76533d] transition duration-200 group-open:rotate-180 md:hidden">
+                ▾
+              </span>
+            </summary>
+            <div className="pb-4 md:pb-0">
               <ContactBlock waUrl={waUrl} email={SHOP_EMAIL} />
             </div>
-
-            <details className="group border-b border-[#c69e78] md:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden">
-                <span>{t("footerContact")}</span>
-                <span
-                  aria-hidden
-                  className="text-[#76533d] transition duration-200 group-open:rotate-180"
-                >
-                  ▾
-                </span>
-              </summary>
-              <div className="pb-4">
-                <ContactBlock waUrl={waUrl} email={SHOP_EMAIL} />
-              </div>
-            </details>
-          </div>
+          </details>
         </div>
       </div>
 

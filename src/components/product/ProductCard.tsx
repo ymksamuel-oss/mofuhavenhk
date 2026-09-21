@@ -35,8 +35,8 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
             className="object-contain mix-blend-multiply transition-transform duration-300 ease-out group-hover:scale-[1.03]"
           />
         </div>
-        <div className="flex min-h-[4.75rem] min-w-0 flex-1 items-start px-2.5 pb-3 pt-2.5 sm:min-h-[5rem] sm:px-3 sm:pb-3.5 sm:pt-3">
-          <h3 className="line-clamp-2 break-words text-left text-xs font-medium leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">{displayName}</h3>
+        <div className="h-[6.25rem] min-w-0 flex-1 items-start overflow-hidden px-2.5 pb-3 pt-2.5 sm:h-[6.5rem] sm:px-3 sm:pb-3.5 sm:pt-3">
+          <h3 className="line-clamp-3 break-words text-left text-xs font-medium leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">{displayName}</h3>
         </div>
       </Link>
       <div className="absolute right-2 top-2 z-20"><WishlistButton productId={product.id} /></div>
