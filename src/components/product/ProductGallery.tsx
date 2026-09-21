@@ -102,7 +102,7 @@ export function ProductGallery({
         onScroll={updateActiveFromScroll}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="scrollbar-none relative flex aspect-square w-full snap-x snap-mandatory overflow-x-auto rounded-3xl bg-white ring-1 ring-[color:var(--line)]"
+        className="scrollbar-none relative mx-auto flex h-[320px] w-full max-w-sm snap-x snap-mandatory overflow-x-auto rounded-2xl border border-[#ECE5D8] bg-[#FAF7F2] ring-1 ring-[color:var(--line)] sm:h-[350px]"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         {galleryImages.map((image, index) => (
@@ -124,7 +124,7 @@ export function ProductGallery({
 
       {hasMultipleImages ? (
         <>
-          <div className="pointer-events-none absolute inset-x-0 top-0 flex aspect-square items-center justify-between px-3 sm:px-4">
+          <div className="pointer-events-none absolute inset-x-0 top-0 flex h-[320px] items-center justify-between px-3 sm:h-[350px] sm:px-4">
             <button
               type="button"
               onClick={() => move("previous")}
