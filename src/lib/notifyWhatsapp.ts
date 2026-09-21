@@ -8,6 +8,7 @@
 
 import type { OrderItem } from "@/lib/order";
 import { readServerEnv } from "@/lib/serverEnv";
+import { getBundleComponents } from "@/lib/bundles";
 
 const SHOP_HANDLE = readServerEnv("SHOP_WHATSAPP_HANDLE") || "MofuHavenHK";
 const SITE_LABEL = readServerEnv("SHOP_SITE_LABEL") || "mofuhavenhk.com";
@@ -43,6 +44,17 @@ export type NotifyResult =
   | { ok: true; provider: NotifyProvider }
   | { ok: false; error: string };
 
+export function buildBundlePickingLines(items: OrderItem[]): string[] {
+  return items.flatMap((item) => {
+    const components = getBundleComponents(item.mofuSku);
+    if (!components.length) return [];
+    return [
+      `📦 揀貨明細｜${item.mofuSku} × ${item.qty}`,
+      ...components.map((component) => `  - ${component.nameZh}｜${component.nameJa}｜${component.weight}｜JAN ${component.sku} × ${item.qty}`),
+    ];
+  });
+}
+
 /**
  * Exact shop-owner notification template (must stay in this shape):
  *
@@ -76,6 +88,7 @@ export function buildNotifyMessage({
     const variant = item.variantLabel?.zh || item.variantLabel?.en;
     return `- ${identifier}${variant ? `（${variant}）` : ""} × ${item.qty}`;
   });
+  const pickingLines = buildBundlePickingLines(items);
 
   return [
     `🛒 Mofu Haven \u65b0\u8a02\u55ae\u901a\u77e5`,
@@ -83,7 +96,8 @@ export function buildNotifyMessage({
     `\u4ed8\u6b3e\u65b9\u5f0f：${paymentLabel}`,
     `\u61c9\u4ed8\u7e3d\u984d：${formattedTotal}`,
     `\u9867\u5ba2：${customerName}`,
-    ...(itemLines.length > 0 ? ["", "\u5546\u54c1：", ...itemLines] : []),
+    ...(itemLines.length > 0 ? ["", "商品：", ...itemLines] : []),
+    ...(pickingLines.length > 0 ? ["", ...pickingLines] : []),
     `\u8acb\u5230\u5f8c\u53f0 / Blobs \u6838\u5c0d\u5b8c\u6574\u8a02\u55ae\u8cc7\u6599。`,
     `— ${SITE_LABEL}`,
   ].join("\n");
