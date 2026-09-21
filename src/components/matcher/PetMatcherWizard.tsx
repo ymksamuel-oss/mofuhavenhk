@@ -110,6 +110,16 @@ const SIZE_LABELS: Record<Size, Choice & { keywords: string[] }> = {
   large: { zh: "大型（約 25kg 以上）", en: "Large (25kg+)", keywords: ["large", "giant", "large breed", "大型"] },
 };
 
+const CAT_SIZE_LABELS: Record<Size, Choice & { keywords: string[] }> = {
+  small: { zh: "幼貓（約 2kg 以下）", en: "Kitten (under 2kg)", keywords: ["kitten", "small cat", "幼貓", "小型貓"] },
+  medium: { zh: "成貓（約 2–5kg）", en: "Adult cat (2–5kg)", keywords: ["adult cat", "cat", "成貓"] },
+  large: { zh: "大型貓（約 5–8kg+）", en: "Large cat (5–8kg+)", keywords: ["large cat", "maine coon", "大型貓"] },
+};
+
+function sizeLabelsForPet(pet: Pet): Record<Size, Choice & { keywords: string[] }> {
+  return pet === "cat" ? CAT_SIZE_LABELS : SIZE_LABELS;
+}
+
 const SPECIAL_CARE: Array<{ id: SpecialCare; label: Choice; hint: Choice; keywords: string[] }> = [
   { id: "allergy", label: { zh: "🌿 容易過敏（避開常見禽肉）", en: "🌿 Sensitive / avoid common poultry" }, hint: { zh: "優先鹿肉乾及低敏馬肉", en: "Prioritise venison and gentle horse meat" }, keywords: ["venison", "horse", "鹿肉", "馬肉", "低敏"] },
   { id: "joints", label: { zh: "🦴 關節與骨骼保健", en: "🦴 Joint and bone support" }, hint: { zh: "優先天然軟骨素來源", en: "Prioritise natural chondroitin sources" }, keywords: ["cartilage", "trachea", "joint", "bone", "軟骨", "喉氣管", "關節"] },
@@ -125,7 +135,7 @@ function scoreProduct(product: Product, need: Need, pet: Pet, age: Age, size: Si
   const selectedNeed = NEEDS[pet].find((candidate) => candidate.id === need);
   const keywordScore = selectedNeed?.keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 8 : 0), 0) ?? 0;
   const petScore = pet === "cat" && /cat|feline|貓|ciao/.test(text) ? 12 : pet === "dog" && /dog|canine|犬|狗|walk|chew/.test(text) ? 8 : 0;
-  const sizeScore = SIZE_LABELS[size].keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 5 : 0), 0);
+  const sizeScore = sizeLabelsForPet(pet)[size].keywords.reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 5 : 0), 0);
   const ageScore = ageKeywords(age).reduce((score, keyword) => score + (text.includes(keyword.toLowerCase()) ? 4 : 0), 0);
   const inStockScore = product.inStock !== false ? 2 : -100;
   const specialScore = specialCare.reduce((score, careId) => {
@@ -166,6 +176,15 @@ function isUsableRecommendation(product: Product): boolean {
   return Boolean(product.id && imageSource && !/placeholder|unavailable/i.test(imageSource) && !hasUnavailableName);
 }
 
+function isPetSpecificRecommendation(product: Product, pet: Pet): boolean {
+  const text = searchableProductText(product);
+  if (/harness|leash|lead|collar|walking|outdoor|gear|胸背|牽引|頸圈|項圈|散步|用品|玩具|toy/i.test(text)) return false;
+  const catSignal = /cat|feline|貓|貓咪|貓用|貓糧|貓零食/i.test(text) || product.categorySlug === "cats";
+  const dogSignal = /dog|canine|狗|狗狗|犬|犬用|狗零食|幼犬/i.test(text) || product.categorySlug === "dogs";
+  if (pet === "cat") return catSignal && !/dog|canine|狗|犬|牛蹄|牛大筋|馬皮|chew bone/i.test(text);
+  return dogSignal && !/cat|feline|貓|貓咪|貓用/i.test(text);
+}
+
 export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   const { locale } = useI18n();
   const { products } = useCatalog();
@@ -187,7 +206,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     const excluded = new Set(lines.map((line) => line.id));
     return products
       .filter((product) => {
-        if (product.inStock === false || excluded.has(product.id) || !isUsableRecommendation(product)) return false;
+        if (product.inStock === false || excluded.has(product.id) || !isUsableRecommendation(product) || !isPetSpecificRecommendation(product, pet)) return false;
         if (pet === "cat") {
           const text = searchableProductText(product);
           return !CAT_DISCONTINUED_TERMS.some((term) => text.includes(term));
@@ -218,7 +237,7 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
     setAddedIds([]);
     setShareNotice("");
   };
-  const canContinue = step === 1 ? Boolean(pet) : step === 2 ? Boolean(age && size) : step === 3 ? Boolean(breed) : Boolean(need);
+  const canContinue = step === 1 ? Boolean(pet) : step === 2 ? Boolean(age !== null && size) : step === 3 ? Boolean(breed) : Boolean(need);
   const next = () => {
     if (!canContinue) return;
     if (step < 4) setStep((current) => current + 1);
@@ -367,12 +386,12 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
       )}
 
       {open ? <div className="fixed inset-0 z-[100] flex items-end justify-center bg-stone-950/55 p-0 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-labelledby="pet-matcher-title" onMouseDown={(event) => { if (event.target === event.currentTarget) closeWizard(); }}>
-        <div className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-t-3xl border border-[#ead8c8] bg-[#FAF7F2] shadow-2xl sm:rounded-3xl">
-          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#ead8c8] bg-[#FAF7F2]/95 px-5 py-4 backdrop-blur"><div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a36b42]">Mofu Haven</p><h2 id="pet-matcher-title" className="text-lg font-bold text-stone-800">{title}</h2></div><button type="button" onClick={closeWizard} aria-label={isZh ? "關閉配對" : "Close matcher"} className="rounded-full p-2 text-xl text-stone-500 hover:bg-white">×</button></div>
-          <div className="px-5 pb-6 pt-4 sm:px-7">
+        <div className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl border border-[#ead8c8] bg-[#FAF7F2] shadow-2xl sm:rounded-3xl">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#ead8c8] bg-[#FAF7F2]/95 px-5 py-4 backdrop-blur"><div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a36b42]">Mofu Haven</p><h2 id="pet-matcher-title" className="text-lg font-bold text-stone-800">{title}</h2></div><button type="button" onClick={closeWizard} aria-label={isZh ? "關閉配對" : "Close matcher"} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xl text-stone-500 transition hover:bg-stone-200 active:scale-95 text-stone-500 hover:bg-white">×</button></div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-6 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-7">
             {step < 5 ? <><div className="mb-5 flex items-center gap-1.5" aria-label={isZh ? `第 ${step} 步，共 4 步` : `Step ${step} of 4`}>{[1, 2, 3, 4].map((item) => <span key={item} className={`h-1.5 flex-1 rounded-full ${item <= step ? "bg-[#8a5836]" : "bg-[#ead8c8]"}`} />)}</div><p className="text-xs font-semibold text-[#a36b42]">{isZh ? `第 ${step} 步／4` : `Step ${step} of 4`}</p><h3 className="mt-2 text-xl font-bold leading-tight text-stone-800">{stepTitle}</h3>
-              {step === 1 ? <div className="mt-5 grid grid-cols-2 gap-3">{(["cat", "dog"] as Pet[]).map((item) => <button key={item} type="button" onClick={() => setPet(item)} className={`flex min-h-28 flex-col items-center justify-center rounded-2xl border-2 bg-white text-3xl transition ${pet === item ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span>{item === "cat" ? "🐱" : "🐶"}</span><span className="mt-2 text-sm font-bold text-stone-700">{item === "cat" ? (isZh ? "貓咪" : "Cat") : (isZh ? "狗狗" : "Dog")}</span>{pet === item ? <span className="text-xs text-[#8a5836]">✓</span> : null}</button>)}</div> : null}
-              {step === 2 ? <div className="mt-5 grid gap-3"><label htmlFor="pet-matcher-age" className="text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "毛孩歲數" : "Pet age"}</label><div className="relative"><select id="pet-matcher-age" value={age === null ? "" : String(age)} onChange={(event) => setAge(event.target.value === "" ? null : Number(event.target.value))} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-[#FAF7F2] px-3.5 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇毛孩歲數..." : "Select pet age..."}</option>{AGE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{isZh ? option.zh : option.en}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "寵物體型" : "Pet size"}</p><div className="grid grid-cols-3 gap-2">{(Object.keys(SIZE_LABELS) as Size[]).map((item) => <button key={item} type="button" onClick={() => setSize(item)} className={`rounded-full border px-2.5 py-2 text-center text-xs font-semibold transition sm:text-sm ${size === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700"}`}>{localize(SIZE_LABELS[item], locale)}</button>)}</div></div> : null}
+              {step === 1 ? <div className="mt-5 grid grid-cols-2 gap-3">{(["cat", "dog"] as Pet[]).map((item) => <button key={item} type="button" onClick={() => { setPet(item); setSize(null); setNeed(null); setSpecialCare([]); }} className={`flex min-h-28 flex-col items-center justify-center rounded-2xl border-2 bg-white text-3xl transition ${pet === item ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span>{item === "cat" ? "🐱" : "🐶"}</span><span className="mt-2 text-sm font-bold text-stone-700">{item === "cat" ? (isZh ? "貓咪" : "Cat") : (isZh ? "狗狗" : "Dog")}</span>{pet === item ? <span className="text-xs text-[#8a5836]">✓</span> : null}</button>)}</div> : null}
+              {step === 2 ? <div className="mt-5 grid gap-3"><label htmlFor="pet-matcher-age" className="text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "毛孩歲數" : "Pet age"}</label><div className="relative"><select id="pet-matcher-age" value={age === null ? "" : String(age)} onChange={(event) => setAge(event.target.value === "" ? null : Number(event.target.value))} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-[#FAF7F2] px-3.5 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇毛孩歲數..." : "Select pet age..."}</option>{AGE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{isZh ? option.zh : option.en}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-stone-400">{isZh ? "寵物體型" : "Pet size"}</p><div className="grid grid-cols-3 gap-2">{(Object.keys(SIZE_LABELS) as Size[]).map((item) => <button key={item} type="button" onClick={() => setSize(item)} className={`rounded-full border px-2.5 py-2 text-center text-xs font-semibold transition sm:text-sm ${size === item ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700"}`}>{localize(sizeLabelsForPet(pet)[item], locale)}</button>)}</div></div> : null}
               {step === 3 && pet ? <div className="mt-5"><label htmlFor="pet-matcher-breed" className="sr-only">{isZh ? "選擇品種" : "Select a breed"}</label><div className="relative"><select id="pet-matcher-breed" value={breed?.en ?? ""} onChange={(event) => setBreed(BREEDS[pet].find((item) => item.en === event.target.value) ?? null)} className="h-11 w-full appearance-none rounded-xl border border-stone-200 bg-white px-4 pr-10 text-sm font-semibold text-stone-700 outline-none transition focus:border-[#8a5836] focus:ring-2 focus:ring-[#8a5836]/15"><option value="" disabled>{isZh ? "請選擇品種..." : "Select a breed..."}</option>{BREEDS[pet].map((item) => <option key={item.en} value={item.en}>{localize(item, locale)}</option>)}</select><span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400">⌄</span></div><p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">{isZh ? "熱門品種" : "Popular breeds"}</p><div className="mt-2 flex flex-wrap gap-2">{QUICK_BREEDS[pet].map((item) => <button key={item.en} type="button" onClick={() => setBreed(BREEDS[pet].find((candidate) => candidate.en === item.en) ?? item)} className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${breed?.en === item.en ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-white bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item, locale)}</button>)}</div></div> : null}
               {step === 4 && pet ? <div className="mt-5 grid gap-3">{NEEDS[pet].map((item) => <button key={item.id} type="button" onClick={() => setNeed(item.id)} className={`rounded-2xl border-2 bg-white p-4 text-left transition ${need === item.id ? "border-[#8a5836] bg-[#fff5e9]" : "border-transparent"}`}><span className="block text-sm font-bold text-stone-800">{localize(item.label, locale)}</span><span className="mt-1 block text-xs text-stone-500">{localize(item.hint, locale)}</span></button>)}<div className="mt-2 rounded-2xl border border-[#ead8c8] bg-white/70 p-4"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a36b42]">{isZh ? "特殊照護關注（可多選）" : "Special care focus (choose all that apply)"}</p><div className="mt-3 flex flex-wrap gap-2">{SPECIAL_CARE.map((item) => <button key={item.id} type="button" onClick={() => toggleSpecialCare(item.id)} aria-pressed={specialCare.includes(item.id)} className={`rounded-full border px-3 py-2 text-left text-xs font-semibold transition ${specialCare.includes(item.id) ? "border-[#8a5836] bg-[#fff5e9] text-[#704525]" : "border-stone-200 bg-white text-stone-700 hover:border-[#d7b394]"}`}>{localize(item.label, locale)}</button>)}</div><p className="mt-2 text-xs text-stone-500">{isZh ? "我們會優先配對店內王牌商品。" : "We will prioritise the strongest matches from our catalog."}</p></div></div> : null}
               <div className="mt-7 flex justify-between gap-3"><button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1} className="rounded-full px-4 py-2.5 text-sm font-semibold text-stone-500 disabled:invisible">{isZh ? "返回" : "Back"}</button><button type="button" onClick={next} disabled={!canContinue} className="rounded-full bg-[#8a5836] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a66d46] disabled:cursor-not-allowed disabled:opacity-40">{step === 4 ? (isZh ? "🎯 立即配對專屬提案 →" : "🎯 Show my proposal →") : (isZh ? "下一步 →" : "Next →")}</button></div></> : <>
@@ -389,7 +408,25 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
                   <button type="button" onClick={() => scrollRecommendations(130)} disabled={!recommendationScroll.canDown} aria-label={isZh ? "向下查看推薦商品" : "Scroll recommendations down"} className="rounded-full border border-[#d7b394] bg-white px-3 py-1.5 text-sm font-bold text-[#704525] transition hover:bg-[#fff5e9] active:scale-95 disabled:cursor-not-allowed disabled:opacity-35">▼</button>
                 </div>
               </div> : <p className="mt-4 rounded-2xl bg-white p-4 text-sm text-stone-500">{isZh ? "商品目錄更新中，請稍後再試。" : "The product catalog is updating. Please try again shortly."}</p>}
-              {recommendations.length ? <button type="button" onClick={addBundle} className="mt-5 w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">{isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}</button> : null}{recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">{isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}</button> : null}{recommendations.length ? <div className="mt-3 grid grid-cols-2 gap-2"><button type="button" onClick={shareToWhatsApp} className="rounded-2xl bg-[#25D366] px-3 py-3 text-xs font-bold text-white transition hover:brightness-95">{isZh ? "WhatsApp 分享" : "Share to WhatsApp"}</button><button type="button" onClick={() => { void shareProposal("instagram"); }} className="rounded-2xl bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] px-3 py-3 text-xs font-bold text-white transition hover:brightness-105">{isZh ? "Instagram 動態" : "Instagram Stories"}</button></div> : null}{shareNotice ? <p className="mt-3 rounded-xl bg-[#ead8c8]/55 px-3 py-2 text-center text-xs text-[#704525]" role="status">{shareNotice}</p> : null}<button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button></>}
+              <div className="sticky bottom-0 z-10 -mx-1 mt-5 bg-[#FAF7F2]/95 pb-1 pt-2 backdrop-blur">
+                {recommendations.length ? <>
+                  <button type="button" onClick={addBundle} className="w-full rounded-2xl bg-[#8a5836] px-4 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46]">
+                    {isZh ? `🛒 一鍵打包加入購物車（共 ${formatMoney(total, locale)}）` : `🛒 Add the bundle to cart (${formatMoney(total, locale)})`}
+                  </button>
+                  <button type="button" onClick={closeWizard} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9] active:scale-[0.98]">
+                    {isZh ? "繼續逛逛・返回商城" : "Continue shopping · Back to store"}
+                  </button>
+                </> : null}
+                {recommendations.length ? <button type="button" onClick={() => { void shareProposal(); }} className="mt-3 w-full rounded-2xl border border-[#d7b394] bg-white px-4 py-3 text-sm font-semibold text-[#704525] transition hover:bg-[#fff5e9]">
+                  {isZh ? "📤 儲存／分享專屬提案卡片" : "📤 Save / share my proposal card"}
+                </button> : null}
+                {recommendations.length ? <div className="mt-3 grid grid-cols-2 gap-2">
+                  <button type="button" onClick={shareToWhatsApp} className="rounded-2xl bg-[#25D366] px-3 py-3 text-xs font-bold text-white transition hover:brightness-95">{isZh ? "WhatsApp 分享" : "Share to WhatsApp"}</button>
+                  <button type="button" onClick={() => { void shareProposal("instagram"); }} className="rounded-2xl bg-gradient-to-r from-[#833AB4] via-[#E1306C] to-[#F77737] px-3 py-3 text-xs font-bold text-white transition hover:brightness-105">{isZh ? "Instagram 動態" : "Instagram Stories"}</button>
+                </div> : null}
+                {shareNotice ? <p className="mt-3 rounded-xl bg-[#ead8c8]/55 px-3 py-2 text-center text-xs text-[#704525]" role="status">{shareNotice}</p> : null}
+                <button type="button" onClick={reset} className="mt-3 w-full rounded-full border border-[#d7b394] bg-white px-4 py-2.5 text-sm font-semibold text-stone-700">{isZh ? "重新測試" : "Retake"}</button>
+              </div></>}
           </div>
         </div>
       </div> : null}
