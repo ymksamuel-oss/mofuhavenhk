@@ -100,6 +100,30 @@ function parseImageUrls(value: unknown): string[] {
   ).slice(0, MAX_PRODUCT_IMAGES);
 }
 
+/** Decode legacy literal Unicode escapes returned by old catalog imports. */
+function decodeAdminUnicode(value: string): string {
+  return value.replace(/\\u([0-9a-fA-F]{4})/g, (_, code: string) =>
+    String.fromCharCode(Number.parseInt(code, 16)),
+  );
+}
+
+function normalizeAdminValue(value: unknown): unknown {
+  if (typeof value === "string") return decodeAdminUnicode(value);
+  if (Array.isArray(value)) return value.map(normalizeAdminValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, nested]) => [key, normalizeAdminValue(nested)]),
+    );
+  }
+  return value;
+}
+
+function normalizeAdminRows(value: unknown): Row[] {
+  return Array.isArray(value)
+    ? value.map((row) => normalizeAdminValue(row) as Row)
+    : [];
+}
+
 function getProductImageUrls(row: Row): string[] {
   for (const value of [row.images, row.image, row.image_url]) {
     const urls = parseImageUrls(value);
@@ -264,6 +288,7 @@ export default function AdminPage() {
   const [quickEditError, setQuickEditError] = useState<string | null>(null);
   const [csvBusy, setCsvBusy] = useState(false);
   const [csvNotice, setCsvNotice] = useState("");
+  const [productToolsOpen, setProductToolsOpen] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [barcodeProduct, setBarcodeProduct] = useState<Row | null>(null);
   const [barcodeDraft, setBarcodeDraft] = useState<Row | null>(null);
@@ -275,7 +300,7 @@ export default function AdminPage() {
     setError("");
     try {
       const result = await call("GET", undefined, selected === "draft_products" ? "products" : selected);
-      const loadedRows = result.data || [];
+      const loadedRows = normalizeAdminRows(result.data);
       setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
@@ -287,14 +312,14 @@ export default function AdminPage() {
         setFeaturedPetSlots(toFeaturedPetSlots(loadedRows));
       }
       if (selected === "categories") {
-        setCategories(result.data || []);
+        setCategories(normalizeAdminRows(result.data));
       } else if (selected === "brands") {
-        setBrands(result.data || []);
+        setBrands(normalizeAdminRows(result.data));
       } else if (selected === "products" || selected === "draft_products") {
         const c = await call("GET", undefined, "categories");
-        setCategories(c.data || []);
+        setCategories(normalizeAdminRows(c.data));
         const b = await call("GET", undefined, "brands");
-        setBrands(b.data || []);
+        setBrands(normalizeAdminRows(b.data));
       }
     } catch (e: any) {
       if (e.message === "unauthorized") router.replace("/admin/login");
@@ -812,13 +837,25 @@ export default function AdminPage() {
               </div>
               <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#eaded5] pt-4">
                 <button type="button" onClick={() => setScannerOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#2f4a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d]"><Camera className="h-4 w-4" />\u6383\u78bc\u6536\u8ca8／\u67e5\u8ca8</button>
-                <button type="button" onClick={exportProductsCsv} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />\u532f\u51fa CSV</button>
-                <button type="button" onClick={exportProductsExcel} disabled={csvBusy} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef] disabled:cursor-wait disabled:opacity-60"><Download className="h-4 w-4" />\u4e0b\u8f09 Excel</button>
-                <label className={`inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#a36b42] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#8f5b37] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />\u532f\u5165 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={importProductsCsv} disabled={csvBusy} /></label>
-                <span className="text-xs text-[#806b5d]">\u652f\u63f4 Excel／CSV；\u6b04\u4f4d：\u7522\u54c1\u540d\u7a31／SKU／\u6210\u672c\u50f9 JPY／\u96f6\u552e\u50f9 HKD／\u5716\u7247 URL；\u6210\u672c\u8207\u552e\u50f9\u5206\u958b\u5132\u5b58</span>
+                <div className="relative">
+                  <button type="button" onClick={() => setProductToolsOpen((open) => !open)} aria-expanded={productToolsOpen} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef]">
+                    <Download className="h-4 w-4" />\u532f\u5165／\u532f\u51fa <ChevronDown className={`h-4 w-4 transition-transform ${productToolsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {productToolsOpen && (
+                    <div className="absolute left-0 top-full z-20 mt-2 min-w-44 rounded-xl border border-[#ded5cc] bg-white p-1.5 shadow-lg">
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsCsv(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />\u532f\u51fa CSV</button>
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsExcel(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />\u4e0b\u8f09 Excel</button>
+                      <label className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a36b42] hover:bg-[#f6f2eb] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />\u532f\u5165 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={(event) => { setProductToolsOpen(false); void importProductsCsv(event); }} disabled={csvBusy} /></label>
+                    </div>
+                  )}
+                </div>
+                <details className="basis-full text-xs text-[#806b5d] md:basis-auto">
+                  <summary className="inline-flex cursor-pointer select-none items-center gap-1 rounded-lg px-1 py-1 font-medium hover:text-[#2f4a3c]">ⓘ \u532f\u5165欄位與發布規則</summary>
+                  <div className="mt-2 max-w-2xl rounded-xl bg-[#fffaf4] px-3 py-2 leading-5">\u652f\u63f4 Excel／CSV；\u6b04\u4f4d：\u7522\u54c1\u540d\u7a31／SKU／\u6210\u672c\u50f9 JPY／\u96f6\u552e\u50f9 HKD／\u5716\u7247 URL。\u524d\u53f0\u53ea\u986f\u793a published、\u5df2\u767c\u5e03\u4e14\u5eab\u5b58\u5927\u65bc 0 \u7684\u7522\u54c1。</div>
+                </details>
               </div>
               {csvNotice && <div className="mt-3 rounded-xl bg-[#f7efe7] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
-              <div className="mb-3 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3 text-xs leading-5 text-[#806b5d]">\u524d\u53f0\u53ea\u6703\u986f\u793a「\u72c0\u614b = published」、「\u5df2\u767c\u5e03」\u53ca「\u5eab\u5b58\u5927\u65bc 0」\u7684\u7522\u54c1。\u8981\u66ab\u505c\u7522\u54c1，\u8acb\u6539\u70ba draft／archived \u6216\u53d6\u6d88\u5df2\u767c\u5e03。</div><div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
                 <span>{productQuery || productCategory !== "all" ? `\u7be9\u9078\u7d50\u679c：${filteredProductRows.length} \u9805` : `\u5171 ${rows.length} \u9805\u7522\u54c1`}</span>
                 {(productQuery || productCategory !== "all") && <button onClick={() => { setProductQuery(""); setProductCategory("all"); }} className="font-medium text-[#a36b42] hover:underline">\u6e05\u9664\u7be9\u9078</button>}
               </div>
