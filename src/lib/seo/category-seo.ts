@@ -365,6 +365,26 @@ export type CategorySeoParams = {
   snackSeries?: CatSnackSeries | null;
 };
 
+const CATEGORY_EDITORIAL_INTRO: Record<string, { zh: string; en: string }> = {
+  cats: { zh: "嚴選日本貓糧、主食罐、凍乾與日常小食，按貓咪年齡、口味及生活需要整理，方便為挑食、幼貓與高齡貓找到合適的日常選擇。", en: "A considered selection of Japanese cat food, wet meals, freeze-dried treats and everyday essentials, organised around different ages, tastes and feline routines." },
+  dogs: { zh: "從日本主食、天然肉乾到耐咬零食，按狗狗的體型、咀嚼需要及日常活動整理，讓主人更容易比較成分、規格與餵食場景。", en: "Browse Japanese staple foods, natural meat treats and chew options organised by dog size, chewing needs and everyday routines, with clear product details for comparison." },
+  "small-pets": { zh: "為兔仔、倉鼠及其他小動物挑選日常主糧、牧草、墊材與生活用品，重視來源、規格及居家照顧時的實用性。", en: "Shop everyday food, hay, bedding and habitat essentials for rabbits, hamsters and other small pets, with practical details for comfortable home care." },
+  lifestyle: { zh: "由餵食器具、睡窩、清潔護理到外出用品，整理毛孩日常生活所需，讓家居照顧與外出安排都更順手。", en: "From feeding and comfort items to cleaning, grooming and travel essentials, this collection supports smoother pet routines at home and outdoors." },
+  snacks: { zh: "精選日本肉乾、凍乾、肉泥及獎勵小食，按口感、食材與餵食情境整理，適合日常互動、訓練及小量獎勵。", en: "Discover Japanese meat treats, freeze-dried bites, purees and reward snacks organised by ingredients, texture and everyday training or bonding moments." },
+  toys: { zh: "挑選適合貓狗互動、益智及日常玩樂的用品，讓毛孩在家中保持活動量，亦為主人提供更多陪伴方式。", en: "Explore interactive and enrichment toys for cats and dogs, offering more ways to keep pets engaged and share meaningful everyday play." },
+  health: { zh: "整理日常營養補充及護理用品，提供成分、用法與規格資訊；如毛孩有健康問題，請先向獸醫尋求專業意見。", en: "Browse everyday supplements and care products with clear ingredient and usage information. For health concerns, please consult a qualified veterinarian first." },
+  cleaning: { zh: "由居家清潔、除臭到日常護理，精選有助維持舒適整潔生活空間的用品，方便按家庭需要選擇。", en: "Find cleaning, odour-control and everyday care essentials selected to help maintain a comfortable, clean home for pets and people." },
+  deals: { zh: "集中展示限時精選優惠及套裝，清楚列出現價、原價及規格，方便主人按需要比較及安排補貨。", en: "A focused selection of limited-time offers and value bundles with clear current prices, reference prices and product details for easier restocking." },
+  bestsellers: { zh: "集合店內人氣日本寵物食品、零食及日常用品，從貓狗飲食到生活照顧，快速找到其他主人常回購的選擇。", en: "Discover popular Japanese pet food, treats and everyday essentials, from feeding to home care, in one convenient collection of customer favourites." },
+  outdoor: { zh: "整理散步、旅行及外出時常用的用品，從安全、收納到舒適度出發，讓主人更有條理地準備每次出門。", en: "Prepare for walks and trips with practical outdoor essentials selected around safety, portability and comfort for smoother adventures together." },
+};
+
+export function getCategoryEditorialIntro(locale: Locale, categorySlug: string): string {
+  const copy = CATEGORY_EDITORIAL_INTRO[categorySlug];
+  if (!copy) return locale === "en" ? "Explore carefully selected Japanese pet essentials for everyday life with your companion." : "探索嚴選日本寵物用品，為毛孩日常生活提供實用而安心的選擇。";
+  return locale === "en" ? copy.en : copy.zh;
+}
+
 export function getCategorySeoCopy(
   locale: Locale,
   { categorySlug, subcategory = null, snackSeries = null }: CategorySeoParams,

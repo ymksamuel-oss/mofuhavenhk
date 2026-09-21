@@ -32,7 +32,10 @@ function productSeoDescription(product: Product) {
     .trim()
     .slice(0, 140);
   const punctuation = /[.!?]$/.test(highlight) ? "" : ".";
-  return `${highlight}${punctuation} Made in Japan, with free Hong Kong delivery on qualifying orders.`;
+  const metadataText = Object.values(product.metadata ?? {}).join(" ");
+  const madeInJapan = /made\s*in\s*japan|日本製|日本國產|日本直送/i.test(`${product.description?.zh ?? ""} ${metadataText}`);
+  const origin = madeInJapan ? " Verified Japanese-origin selection." : " Carefully selected for everyday pet care.";
+  return `${highlight}${punctuation}${origin} Free Hong Kong delivery applies to qualifying orders.`;
 }
 
 function productImageUrl(image: string) {
@@ -170,6 +173,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const description = productSeoDescription(product);
   const image = product.images?.[0] || product.image;
   const imageUrl = productImageUrl(image);
+  const galleryImages = Array.from(new Set((product.images ?? [product.image]).filter(Boolean).map(productImageUrl)));
   const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
   const sku = productSku(product);
   const breadcrumbUrl = VALUE_BUNDLE_SKUS.has(sku)
@@ -182,7 +186,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
-    image: [imageUrl],
+    image: galleryImages.length ? galleryImages : [imageUrl],
     description,
     sku,
     url: canonical,
@@ -192,6 +196,22 @@ export default async function ProductPage({ params }: ProductPageProps) {
       url: canonical,
       price: product.price.toFixed(2),
       priceCurrency: "HKD",
+      priceSpecification: [
+        {
+          "@type": "UnitPriceSpecification",
+          price: product.price.toFixed(2),
+          priceCurrency: "HKD",
+          priceType: "https://schema.org/SalePrice",
+        },
+        ...(product.originalPrice && product.originalPrice > product.price
+          ? [{
+              "@type": "UnitPriceSpecification",
+              price: product.originalPrice.toFixed(2),
+              priceCurrency: "HKD",
+              priceType: "https://schema.org/ListPrice",
+            }]
+          : []),
+      ],
       availability: product.inStock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       hasMerchantReturnPolicy: merchantReturnPolicy,
