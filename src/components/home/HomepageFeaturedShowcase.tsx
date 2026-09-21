@@ -107,8 +107,18 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
                   <Link href={shelf.href} className="shrink-0 rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--accent)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]">{isZh ? "查看全部 →" : "View all →"}</Link>
                 </div>
                 {shelfProducts.length > 0 ? (
-                  <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
-                    {shelfProducts.map((product, index) => <li key={`${shelf.id}-${product.id}`} className="min-w-0">{shelf.id === "bestsellers" && index < 3 ? <span className="mb-1.5 inline-flex rounded-full bg-[#8b573f] px-2 py-1 text-[10px] font-bold text-white shadow-sm">{isZh ? `第 ${index + 1} 名` : `${index + 1}${index === 0 ? "st" : index === 1 ? "nd" : "rd"}`}</span> : null}<ProductCard product={product} priority={index === 0} showPurchaseControls={false} /></li>)}
+                  <ul className="grid grid-cols-2 items-start gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
+                    {shelfProducts.map((product, index) => {
+                      const rank = shelf.id === "bestsellers" && index < 3 ? index + 1 : null;
+                      return (
+                        <li key={`${shelf.id}-${product.id}`} className="flex min-w-0 flex-col">
+                          <div className="mb-1.5 flex h-7 items-start" aria-hidden={rank === null}>
+                            {rank !== null ? <span className="inline-flex rounded-full bg-[#8b573f] px-2 py-1 text-[10px] font-bold leading-4 text-white shadow-sm">{isZh ? `第 ${rank} 名` : `${rank}${rank === 1 ? "st" : rank === 2 ? "nd" : "rd"}`}</span> : null}
+                          </div>
+                          <ProductCard product={product} priority={index === 0} showPurchaseControls={false} />
+                        </li>
+                      );
+                    })}
                   </ul>
                 ) : (
                   <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">{isZh ? "商品目錄正在更新，請稍後再來。" : "Our product catalogue is updating. Please check back soon."}</p>
