@@ -16,7 +16,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { OutOfStockOrderButton } from "@/components/product/OutOfStockOrderButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { formatMoney } from "@/lib/i18n/translations";
+import { formatMoney, type Locale } from "@/lib/i18n/translations";
 import { calcSubtotal, isPetBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import type { Product } from "@/lib/products";
 import { useCart } from "@/lib/shop/cart";
@@ -48,7 +48,7 @@ function isVenisonProduct(product: Product, sku: string): boolean {
   return VENISON_SKUS.has(sku) || /鹿肉|蝦夷鹿|venison|ezo deer/i.test(text);
 }
 
-function RichProductContent({ product, locale, sku, firstImage }: { product: Product; locale: "zh" | "en" | "ja"; sku: string; firstImage: string }) {
+function RichProductContent({ product, locale, sku, firstImage }: { product: Product; locale: Locale; sku: string; firstImage: string }) {
   const [tab, setTab] = useState<"details" | "notes">("details");
   const [open, setOpen] = useState(true);
   const text = locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "";
@@ -72,7 +72,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
 }
 
 
-function PdpRecommendationCarousel({ products, locale }: { products: Product[]; locale: "zh" | "en" | "ja" }) {
+function PdpRecommendationCarousel({ products, locale }: { products: Product[]; locale: Locale }) {
   const scrollRef = useRef<HTMLUListElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -116,7 +116,7 @@ function MobileStickyCartBar({ product, name, price, visible, basketCount, baske
   basketCount: number;
   basketTotal: number;
   added: boolean;
-  locale: "zh" | "en" | "ja";
+  locale: Locale;
   onAdd: () => void;
 }) {
   const reached = basketTotal >= FREE_SHIPPING_THRESHOLD;
