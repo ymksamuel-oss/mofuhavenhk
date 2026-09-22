@@ -113,9 +113,11 @@ export function AddToCartButton({
       });
     }
     addItem(productId, qty, priceId);
+    const contentSku = product?.metadata?.mofu_sku?.trim() || productId;
     trackMetaEvent("AddToCart", {
       content_type: "product",
-      content_ids: [productId],
+      content_ids: [contentSku],
+      content_sku: contentSku,
       content_name: product?.name.zh || product?.name.en,
       value: Number(((unitPrice ?? product?.price ?? 0) * qty).toFixed(2)),
       currency: "HKD",

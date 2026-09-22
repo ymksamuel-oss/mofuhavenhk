@@ -15,6 +15,7 @@ import {
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 const SHOP_EMAIL =
   process.env.NEXT_PUBLIC_SHOP_EMAIL?.trim() || "MofuHavenHK@gmail.com";
@@ -226,6 +227,7 @@ export function Footer() {
             </a>
             <a
               href={waUrl ?? "https://wa.me/85298646585"}
+              onClick={() => trackMetaEvent("Contact", { content_name: "WhatsApp footer social link", content_category: "customer support" })}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
@@ -274,6 +276,7 @@ function ContactBlock({
         {waUrl ? (
           <a
             href={waUrl}
+            onClick={() => trackMetaEvent("Contact", { content_name: "WhatsApp footer contact link", content_category: "customer support" })}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm tracking-[0.01em] text-[#62493b] transition hover:text-[#7b4f37]"

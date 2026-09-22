@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "catalog-bottom" }) {
   const { locale, t } = useI18n();
@@ -28,7 +29,7 @@ export function BrandServiceStrip({ placement = "top" }: { placement?: "top" | "
     <aside className={`${placement === "catalog-bottom" ? "mt-10 border-y" : "border-y"} border-[#e0cfbf] bg-[#f4e8dc]/75 px-2 py-1.5 sm:px-6 sm:py-4`} aria-label={locale === "en" ? "Mofu Haven service promises" : "Mofu Haven \u670d\u52d9\u627f\u8afe"}>
       <div className="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-[#dfccba] sm:divide-x">
         {labels.map((item) => (
-          <Link key={item.title} href={item.href} className="flex min-w-0 items-center justify-center gap-1 px-1 py-1 transition hover:bg-[#fffaf4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] sm:gap-3 sm:px-5 sm:py-0">
+          <Link key={item.title} href={item.href} onClick={() => { if (item.href.startsWith("https://wa.me/")) trackMetaEvent("Contact", { content_name: "WhatsApp service support", content_category: "customer support" }); }} className="flex min-w-0 items-center justify-center gap-1 px-1 py-1 transition hover:bg-[#fffaf4]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] sm:gap-3 sm:px-5 sm:py-0">
             <div className="relative h-5 w-5 shrink-0 overflow-hidden rounded-md bg-[#fbf7f2] sm:h-14 sm:w-20 sm:rounded-xl">
               <Image src={item.image} alt="" fill sizes="80px" className="object-cover" />
             </div>

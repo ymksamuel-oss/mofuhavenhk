@@ -2,6 +2,7 @@
 
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { trackMetaEvent } from "@/components/MetaPixel";
 
 type OutOfStockOrderButtonProps = {
   productId: string;
@@ -36,6 +37,7 @@ export function OutOfStockOrderButton({
   return (
     <a
       href={href}
+      onClick={() => trackMetaEvent("Lead", { content_type: "product", content_ids: [storeSku || productId], content_name: name, content_sku: storeSku || productId })}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex min-h-11 w-full touch-manipulation items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366]/10 px-4 py-3 text-sm font-semibold text-[#128C7E] transition hover:bg-[#25D366]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 ${className}`}
