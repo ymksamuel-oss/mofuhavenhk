@@ -30,8 +30,10 @@ export function resolveEnglishProductName(source: ProductEnglishSource): string 
   const rawName = clean(source.name);
   if (isEnglishSafeCatalogText(rawName)) return rawName;
 
-  const reference = clean(source.sourceId || source.id);
-  return reference ? `Japanese Pet Product ${reference.slice(0, 12)}` : "Japanese Pet Product";
+  // Keep the real catalog name as the last resort. The storefront decides how
+  // to present it and will show the Chinese source name instead of inventing
+  // an inaccurate English category label.
+  return rawName;
 }
 
 /** Resolves EN description strictly from managed catalog data. */

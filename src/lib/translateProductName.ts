@@ -43,7 +43,9 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
   const metadata = product.metadata ?? {};
   if (locale === "en") {
     const english = ["name_en", "title_en", "product_name_en", "english_name"].map((key) => cleanName(metadata[key])).find(Boolean) || cleanName(product.name.en);
-    return english && !CJK_RE.test(english) ? english : `Japanese Pet Essential ${sku || product.id.slice(0, 8)}`;
+    return english && !CJK_RE.test(english)
+      ? english
+      : cleanChineseName(product.name.zh) || cleanChineseName(metadata.name_zh) || "商品";
   }
   return cleanChineseName(product.name.zh) || cleanChineseName(metadata.name_zh) || `日本天然食品 ${sku || product.id.slice(0, 8)}`;
 }
