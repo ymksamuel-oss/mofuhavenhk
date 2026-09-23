@@ -13,10 +13,12 @@ import { productHref, type Product } from "@/lib/products";
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
   const hasBrand = Boolean(product.brand?.trim() || product.brandName?.trim());
-  const name = getLocalizedProductName(product, locale);
+  // Never synthesize an English title from a generic category plus the pack size.
+  // The shared resolver rejects known placeholders and falls back to the real Chinese name.
+  const cardTitle = getLocalizedProductName(product, locale);
   const displayName = hasBrand
-    ? name.replace(/Best\s*Partner/gi, "").replace(/\s{2,}/g, " ").trim()
-    : name;
+    ? cardTitle.replace(/Best\s*Partner/gi, "").replace(/\s{2,}/g, " ").trim()
+    : cardTitle;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
