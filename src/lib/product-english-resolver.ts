@@ -8,6 +8,7 @@ export type ProductEnglishSource = {
 };
 
 const CJK_TEXT_RE = /[\u3400-\u9fff]/;
+const GENERIC_ENGLISH_RE = /\b(?:pet\s+lifestyle\s+accessory|japanese\s+natural\s+pet\s+treat|japanese\s+pet\s+essential)\b/i;
 const ENGLISH_DESCRIPTION_FALLBACK = "Product details coming soon.";
 
 function clean(value: string | null | undefined): string {
@@ -16,12 +17,13 @@ function clean(value: string | null | undefined): string {
 
 export function isEnglishSafeCatalogText(value: string | null | undefined): boolean {
   const normalized = clean(value);
-  return Boolean(normalized) && !CJK_TEXT_RE.test(normalized);
+  return Boolean(normalized) && !CJK_TEXT_RE.test(normalized) && !GENERIC_ENGLISH_RE.test(normalized);
 }
 
 /**
  * Resolves EN text strictly from the managed catalog row or Stripe metadata.
- * No product-ID/name dictionary is bundled into the storefront.
+ * Generic category-plus-pack-size placeholders are rejected; callers can then
+ * render the real Chinese catalog name rather than inventing an English title.
  */
 export function resolveEnglishProductName(source: ProductEnglishSource): string {
   const explicit = clean(source.nameEn);
@@ -30,9 +32,6 @@ export function resolveEnglishProductName(source: ProductEnglishSource): string 
   const rawName = clean(source.name);
   if (isEnglishSafeCatalogText(rawName)) return rawName;
 
-  // Keep the real catalog name as the last resort. The storefront decides how
-  // to present it and will show the Chinese source name instead of inventing
-  // an inaccurate English category label.
   return rawName;
 }
 

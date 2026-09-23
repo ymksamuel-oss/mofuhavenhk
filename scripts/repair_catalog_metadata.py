@@ -51,7 +51,7 @@ def chinese_excerpt(product):
 def english_name(product):
     value = (product.get("name_en") or "").strip()
     if not value or CJK_RE.search(value) or value.lower() == "product name unavailable":
-        value = "Japanese Natural Pet Treat"
+        value = (product.get("name_en") or product.get("name_zh") or product.get("name") or "Product details")
     return value
 
 

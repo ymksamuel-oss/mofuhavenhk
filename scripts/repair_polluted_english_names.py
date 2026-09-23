@@ -15,9 +15,7 @@ REPAIRS = {
     "4976064015013": "BestPartner Dog/Cat Flushable Water-Soluble Pet Waste Bags 100pcs",
 }
 POLLUTED = (
-    "Pet Lifestyle Accessory",
     "Product name unavailable",
-    "Japanese Natural Pet Treat",
     "Generic Pet",
 )
 
