@@ -101,7 +101,7 @@ function matchesIngredient(product: Parameters<typeof productFilterText>[0], fil
     duck: /\u9d28|\u9d28\u8089|duck|カモ/i,
     boar: /\u732a|\u91ce\u8c6c|boar/i,
     seafood: /\u6df1\u6d77\u6d77\u9bae|\u9b5a\u4ecb|\u9b5a|まぐろ|マグロ|かつお|\u9c39|きびなご|わかさぎ|たら|\u9c48|\u9bad|\u9bdb|\u9bf5|\u9bd6|\u9c67|うなぎ|\u5e06\u7acb|\u767d\u5b50|seafood|fish|tuna|bonito/i,
-    deer: /\u4f4e\u654f\u9e7f\u8089|\u9e7f\u8089|\u9e7f|ベニソン|venison|deer/i,
+    deer: /(?:\u4f4e\u654f\u9e7f\u8089|\u9e7f\u8089|\u8766\u5937\u9e7f|\u9e7f\u808b\u6392|\u9e7f\u9aa8|\u9e7f\u89d2)|ベニソン|venison|deer/i,
     horse: /\u4f4e\u654f\u99ac\u8089|\u99ac\u8089|\u99ac|horse/i,
     chicken: /\u7d14\u5929\u7136\u96de\u8089|\u96de\u80f8\u8089|\u96de\u8089|\u9d8f|チキン|ささみ|chicken/i,
     beef: /\u56b4\u9078\u725b\u8089|\u725b\u8089|\u725b|ビーフ|beef/i,
@@ -125,7 +125,7 @@ function matchesAudience(product: Parameters<typeof productFilterText>[0], filte
 
 function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
   const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
-  return /\u8c93|\u732b|cat|にぼし|まぐろ|マグロ|かつお|\u9c39|きびなご|ひめたら|わかさぎ|\u9b5a|fish|tuna|bonito|\u9c48|\u9e7f\u8089|\u99ac\u8089|\u9e7f|\u99ac|venison|horse/.test(text);
+  return /\u8c93|\u732b|cat|にぼし|まぐろ|マグロ|かつお|\u9c39|きびなご|ひめたら|わかさぎ|\u9b5a|fish|tuna|bonito|\u9c48|\u9e7f\u8089|\u8766\u5937\u9e7f|\u9e7f\u808b\u6392|\u9e7f\u9aa8|\u9e7f\u89d2|\u99ac\u8089|\u99ac|venison|horse/.test(text);
 }
 
 /**
@@ -214,6 +214,20 @@ export function ProductCatalog({
     setCurrentPage(1);
   }, [categorySlug, subcategory, audienceFilter, productCategory, ingredientFilter]);
 
+  const didMountPageRef = useRef(false);
+  useEffect(() => {
+    if (!didMountPageRef.current) {
+      didMountPageRef.current = true;
+      return;
+    }
+    const productSection = document.getElementById("products-section") || document.getElementById("products-grid");
+    if (productSection) {
+      productSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [safeCurrentPage]);
+
   const ingredientScrollerRef = useRef<HTMLElement | null>(null);
   const scrollIngredients = (direction: -1 | 1) => {
     ingredientScrollerRef.current?.scrollBy({ left: direction * 200, behavior: "smooth" });
@@ -293,6 +307,7 @@ export function ProductCatalog({
         </div>
       ) : (
         <>
+          <section id="products-section" className="min-h-[32rem]">
           <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-3 pb-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
         {visibleProducts.map((product, index) => {
               return (
@@ -302,6 +317,7 @@ export function ProductCatalog({
               );
             })}
           </ul>
+          </section>
 
           <nav
             className="mt-6 flex flex-wrap items-center justify-center gap-1.5"
@@ -340,7 +356,13 @@ export function ProductCatalog({
             )}
             <button
               type="button"
-              onClick={() => goToPage(safeCurrentPage + 1)}
+              onClick={(event) => {
+                if (safeCurrentPage === pageCount) {
+                  event.preventDefault();
+                  return;
+                }
+                goToPage(safeCurrentPage + 1);
+              }}
               disabled={safeCurrentPage === pageCount}
               aria-label={t("productPaginationNext")}
               className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"

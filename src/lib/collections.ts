@@ -81,7 +81,7 @@ const FUNCTION_PATTERNS: Record<string, RegExp[]> = {
 
 const MEAT_PATTERNS: Record<string, RegExp[]> = {
   "horse-meat": [/馬肉|horse|うま肉|馬/i],
-  venison: [/鹿肉|鹿|venison|deer|ベニソン/i],
+  venison: [/(?:鹿肉|蝦夷鹿|鹿肋排|鹿骨|鹿角)|venison|deer|ベニソン/i],
   "beef-tendon": [/牛肉|牛筋|牛腱|beef|tendon/i],
   "chicken-poultry": [/雞肉|雞胸|禽肉|鶏|chicken|poultry|duck|鴨/i],
   "seafood-fish": [/魚|海鮮|魚介|fish|seafood|tuna|bonito|鰹|鮪/i],
