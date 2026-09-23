@@ -8,7 +8,6 @@ export type ProductEnglishSource = {
 };
 
 const CJK_TEXT_RE = /[\u3400-\u9fff]/;
-const ENGLISH_PRODUCT_FALLBACK = "Product name unavailable";
 const ENGLISH_DESCRIPTION_FALLBACK = "Product details coming soon.";
 
 function clean(value: string | null | undefined): string {
@@ -31,7 +30,8 @@ export function resolveEnglishProductName(source: ProductEnglishSource): string 
   const rawName = clean(source.name);
   if (isEnglishSafeCatalogText(rawName)) return rawName;
 
-  return ENGLISH_PRODUCT_FALLBACK;
+  const reference = clean(source.sourceId || source.id);
+  return reference ? `Japanese Pet Product ${reference.slice(0, 12)}` : "Japanese Pet Product";
 }
 
 /** Resolves EN description strictly from managed catalog data. */
