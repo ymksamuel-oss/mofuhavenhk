@@ -9,6 +9,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
+import homepageEnglishNames from "@/data/mofu-homepage-featured.json";
 
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
@@ -17,8 +18,12 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const directEnglishName = typeof (product as Product & { name_en?: unknown }).name_en === "string"
     ? (product as Product & { name_en: string }).name_en.trim()
     : "";
-  const cardTitle = locale === "en" && directEnglishName && !/[\u3400-\u9fff]/.test(directEnglishName)
-    ? directEnglishName
+  const sku = product.metadata?.mofu_sku?.trim() || product.tags?.find((tag) => /^\d{8,14}$/.test(tag))?.trim() || "";
+  const homepageEnglishName = locale === "en" ? homepageEnglishNames[sku as keyof typeof homepageEnglishNames] : "";
+  const cardTitle = locale === "en" && homepageEnglishName
+    ? homepageEnglishName
+    : locale === "en" && directEnglishName && !/[\u3400-\u9fff]/.test(directEnglishName)
+      ? directEnglishName
     : getLocalizedProductName(product, locale);
   const displayName = cardTitle;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
