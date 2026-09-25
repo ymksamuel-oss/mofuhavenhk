@@ -9,22 +9,35 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
+import englishDictionary from "@/data/product-english-dictionary.json";
 import homepageEnglishNames from "@/data/mofu-homepage-featured.json";
 
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
-  // Prefer the database's name_en column explicitly for English storefront cards.
-  // Keep the shared resolver as a safe fallback for legacy catalog shapes.
   const directEnglishName = typeof (product as Product & { name_en?: unknown }).name_en === "string"
     ? (product as Product & { name_en: string }).name_en.trim()
     : "";
-  const sku = product.metadata?.mofu_sku?.trim() || product.tags?.find((tag) => /^\d{8,14}$/.test(tag))?.trim() || "";
-  const homepageEnglishName = locale === "en" ? homepageEnglishNames[sku as keyof typeof homepageEnglishNames] : "";
-  const cardTitle = locale === "en" && homepageEnglishName
-    ? homepageEnglishName
-    : locale === "en" && directEnglishName && !/[\u3400-\u9fff]/.test(directEnglishName)
-      ? directEnglishName
-    : getLocalizedProductName(product, locale);
+  const productSku = String(
+    (product as Product & { sku?: string | number }).sku
+      || product.metadata?.mofu_sku
+      || product.tags?.find((tag) => /^\d{8,14}$/.test(tag))
+      || "",
+  ).trim();
+  const dictName = locale === "en"
+    ? (englishDictionary as Record<string, string>)[productSku]
+    : "";
+  const homepageEnglishName = locale === "en"
+    ? (homepageEnglishNames as Record<string, string>)[productSku]
+    : "";
+  const getProductTitle = () => {
+    if (locale === "en") {
+      if (dictName) return dictName;
+      if (homepageEnglishName) return homepageEnglishName;
+      if (directEnglishName && !/[\u4e00-\u9fa5]/.test(directEnglishName)) return directEnglishName;
+    }
+    return getLocalizedProductName(product, locale) || "商品";
+  };
+  const cardTitle = getProductTitle();
   const displayName = cardTitle;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
