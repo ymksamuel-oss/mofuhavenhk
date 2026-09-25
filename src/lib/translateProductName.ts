@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
+import fullEnglishDictionary from "@/data/product-english-dictionary.json";
 
 const CJK_RE = /[\u3400-\u9fff]/;
 const JAPANESE_RE = /[\u3040-\u30ff]/;
@@ -25,6 +26,12 @@ const BUNDLE_NAMES: Record<string, { zh: string; en: string }> = {
 
 function skuFor(product: Product): string {
   return product.metadata?.mofu_sku?.trim() || product.tags?.find((tag) => /^MOFU-BUNDLE-/.test(tag))?.trim() || "";
+}
+
+function dictionaryEnglishName(product: Product): string {
+  const sku = product.metadata?.mofu_sku?.trim() || "";
+  const value = sku ? fullEnglishDictionary[sku as keyof typeof fullEnglishDictionary] : "";
+  return typeof value === "string" ? value : "";
 }
 
 function cleanName(value?: string): string {
@@ -88,9 +95,11 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
 
   const metadata = product.metadata ?? {};
   if (locale === "en") {
-    const english = ["name_en", "title_en", "product_name_en", "english_name"]
+    const english = [dictionaryEnglishName(product), ...["name_en", "title_en", "product_name_en", "english_name"]
       .map((key) => safeEnglishName(metadata[key]))
-      .find(Boolean) || englishNameCandidates(product).map(safeEnglishName).find(Boolean);
+      .filter(Boolean), englishNameCandidates(product).map(safeEnglishName).find(Boolean)]
+      .flat()
+      .find(Boolean);
     return english || chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
   }
   return chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
