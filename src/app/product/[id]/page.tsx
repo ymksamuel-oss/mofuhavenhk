@@ -187,6 +187,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
+    alternateName: product.name.zh && product.name.zh !== name ? product.name.zh : undefined,
     image: galleryImages.length ? galleryImages : [imageUrl],
     description,
     sku,
