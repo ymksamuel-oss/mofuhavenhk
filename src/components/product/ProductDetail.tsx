@@ -53,10 +53,30 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
   const [open, setOpen] = useState(true);
   const text = locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "";
   const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
+  const defaultEnglishFeatures = [
+    "🇯🇵 100% Made in Japan: Carefully selected natural Japanese ingredients with no artificial synthesis.",
+    "🌿 Zero Chemical Additives: Guaranteed free from artificial colorings, preservatives, and chemical flavourings.",
+    "🥩 Natural Slow-Dried Process: Gently dried at low temperatures to lock in pure nutrients and irresistible aroma.",
+    "🚚 Free SF Express Shipping: Storewide orders over HK$399 enjoy free local delivery to your door or SF lockers.",
+  ];
+  const displayFeatures = locale === "en" && rich.highlights.length === 0 ? defaultEnglishFeatures : rich.highlights;
+  const shoppingNotes = locale === "en"
+    ? [
+        "📦 Hong Kong in-stock items are generally dispatched via SF Express within 1–2 business days.",
+        "✈️ Japan direct items typically take 7–14 business days (may be extended during Japanese holidays).",
+        "🧺 Orders with both in-stock and pre-order items will be shipped together; orders of HK$399 or more enjoy free SF Express local delivery.",
+        "💬 For feeding advice, ingredient queries or storage guidelines, feel free to contact us anytime.",
+      ]
+    : [
+        "📦 香港現貨一般於下單後 1–2 個工作天內由順豐寄出。",
+        "✈️ 日本預訂／直送商品約需 7–14 個工作天，遇日本節假日或會順延。",
+        "🧺 同單含現貨與預訂品將一併發貨；全單滿 HK$399 享本地順豐免運。",
+        "💬 如對產品的餵食方式、食材或保存方法有疑問，歡迎聯絡我們。",
+      ];
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
       <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ {t("product_features")}</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
-      {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5">{rich.highlights.length ? <ul className="space-y-2 text-sm leading-6 text-stone-700">{rich.highlights.map((item, index) => <li key={`${item}-${index}`}>✨ {item}</li>)}</ul> : null}{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="whitespace-pre-line text-sm leading-6 text-stone-600">{rich.spotlight}</p></div> : null}</div> : null}
+      {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5">{displayFeatures.length ? <ul className="space-y-2 text-sm leading-6 text-stone-700">{displayFeatures.map((item, index) => <li key={`${item}-${index}`}>{locale === "en" ? item : `✨ ${item}`}</li>)}</ul> : null}{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="whitespace-pre-line text-sm leading-6 text-stone-600">{rich.spotlight}</p></div> : null}</div> : null}
     </section>
     {isVenisonProduct(product, sku) ? <Link href="/blog/dog-food-venison-benefits" className="flex items-center justify-between rounded-2xl border border-[#e2c4a8] bg-[#fff8ef] px-4 py-3 text-sm font-semibold text-[#8b573f] transition hover:border-[#b17a56] hover:bg-[#fff2e3]"><span>💡 想了解更多鹿肉營養？</span><span>閱讀【日本獸醫鹿肉解析專欄 →】</span></Link> : null}
     <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label={t("product_details")}><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>{t("product_details")}</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>{t("shopping_notes")}</button></div>
@@ -67,7 +87,7 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
       {rich.texture ? <section className="rounded-2xl border border-stone-200 bg-white p-4"><div className="flex items-center justify-between gap-3"><h2 className="font-bold">🐾 食感與硬度</h2></div><p className="mt-2 text-sm leading-6 text-stone-600">{rich.texture}</p></section> : null}
       {rich.feeding.length ? <section><h2 className="mb-3 text-lg font-bold">🍽️ 餵食／使用方式</h2><div className="grid gap-3 sm:grid-cols-2">{rich.feeding.map((item, index) => <article key={`${item}-${index}`} className="rounded-2xl border border-stone-200 bg-[#fffdf9] p-4"><p className="text-sm font-bold leading-6">{item}</p></article>)}</div></section> : null}
       {rich.notes.length ? <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><h2 className="font-bold text-amber-900">💛 貼心叮嚀</h2><ul className="mt-2 space-y-2 text-sm leading-6 text-amber-900/80">{rich.notes.map((note, index) => <li key={`${note}-${index}`}>・{note}</li>)}</ul></section> : null}
-    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ {t("shopping_notes")}</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600"><li>📦 香港現貨一般於下單後 1–2 個工作天內由順豐寄出。</li><li>✈️ 日本預訂／直送商品約需 7–14 個工作天，遇日本節假日或會順延。</li><li>🧺 同單含現貨與預訂品將一併發貨；全單滿 HK$399 享本地順豐免運。</li><li>💬 如對產品的餵食方式、食材或保存方法有疑問，歡迎聯絡我們。</li></ul></section>}
+    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ {t("shopping_notes")}</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600">{shoppingNotes.map((note, index) => <li key={`${note}-${index}`}>{note}</li>)}</ul></section>}
   </div>;
 }
 
