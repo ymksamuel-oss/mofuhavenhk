@@ -445,8 +445,11 @@ export async function POST(request: Request) {
     try { await validateProductForPublishing(supabase, null, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
   }
-  if (table === "products" && "name_en" in payload) delete payload.name_en;
-  if (table === "products" && "description_en" in payload) delete payload.description_en;
+  if (table === "products") {
+    // Legacy Japanese localization is stored separately and must not reach products writes.
+    delete payload.name_ja;
+    delete payload.description_ja;
+  }
   const { data, error } = await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
@@ -488,8 +491,11 @@ export async function PATCH(request: Request) {
     try { await validateProductForPublishing(supabase, id, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
   }
-  if (table === "products" && "name_en" in payload) delete payload.name_en;
-  if (table === "products" && "description_en" in payload) delete payload.description_en;
+  if (table === "products") {
+    // Legacy Japanese localization is stored separately and must not reach products writes.
+    delete payload.name_ja;
+    delete payload.description_ja;
+  }
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
   const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
