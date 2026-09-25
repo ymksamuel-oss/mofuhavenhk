@@ -8,7 +8,7 @@ const SOURCE_ORIGIN = "https://best-partner.co.jp";
 const STORAGE_BUCKET = "public-images";
 const RATE_LIMIT = 50;
 const REQUEST_TIMEOUT_MS = 20_000;
-const USER_AGENT = "MofuHavenHK official-product-image-sync/2.0 (+https://mofuhavenhk.com)";
+const USER_AGENT = "MofuHavenHK official-product-image-sync/2.0 (+https://www.mofuhavenhk.com)";
 
 type Product = {
   id: string;

@@ -3,7 +3,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { COLLECTIONS } from "@/lib/collections";
 
-const SITE_URL = "https://mofuhavenhk.com";
+const SITE_URL = "https://www.mofuhavenhk.com";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

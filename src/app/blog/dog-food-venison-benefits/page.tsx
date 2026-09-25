@@ -4,7 +4,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
-const SITE_URL = "https://mofuhavenhk.com";
+const SITE_URL = "https://www.mofuhavenhk.com";
 const VENISON_SKUS = ["4976064026545", "4976064026743", "4976064025081"] as const;
 
 export const metadata: Metadata = {

@@ -5,7 +5,7 @@ import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
 export const metadata: Metadata = {
   title: "毛拔麻知識庫｜寵物飲食與安全餵食指南",
   description: "Mofu Haven 毛拔麻知識庫：日本寵物飲食、低敏肉源、貓狗營養與安全餵食的實用衛教文章。",
-  alternates: { canonical: "https://mofuhavenhk.com/knowledge" },
+  alternates: { canonical: "https://www.mofuhavenhk.com/knowledge" },
 };
 
 export default function KnowledgeHubPage() {

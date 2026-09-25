@@ -8,6 +8,7 @@ import { WishlistProvider } from "@/lib/shop/wishlist";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { SiteShell } from "@/components/SiteShell";
+import { JsonLd } from "@/components/seo/JsonLd";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
 import type { Brand } from "@/lib/brands";
@@ -21,7 +22,7 @@ import "./globals.css";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mofuhavenhk.com"),
+  metadataBase: new URL("https://www.mofuhavenhk.com"),
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_HK",
-    url: "https://mofuhavenhk.com",
+    url: "https://www.mofuhavenhk.com",
     title: "Mofu Haven HK | Japanese Pet Essentials",
     description: `Curated Japanese pet food and everyday essentials, delivered across Hong Kong with free local shipping over HK$${FREE_SHIPPING_THRESHOLD}.`,
     siteName: "Mofu Haven",
@@ -107,6 +108,32 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+const siteStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.mofuhavenhk.com/#organization",
+      name: "Mofu Haven HK",
+      url: "https://www.mofuhavenhk.com/",
+      description: "Hong Kong pet shop curating Japanese pet food, treats and everyday essentials for cats and dogs.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.mofuhavenhk.com/#website",
+      name: "Mofu Haven HK",
+      url: "https://www.mofuhavenhk.com/",
+      inLanguage: ["zh-HK", "en-HK"],
+      publisher: { "@id": "https://www.mofuhavenhk.com/#organization" },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://www.mofuhavenhk.com/products?search={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ],
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -140,6 +167,7 @@ export default async function RootLayout({
           <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
             <CartProvider>
               <WishlistProvider>
+                <JsonLd data={siteStructuredData} />
                 <SiteShell>{children}</SiteShell>
               </WishlistProvider>
             </CartProvider>

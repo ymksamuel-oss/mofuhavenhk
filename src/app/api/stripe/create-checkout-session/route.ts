@@ -65,7 +65,7 @@ function getSafeCheckoutOrigin(request: Request): string {
     configured,
     request.headers.get("origin")?.trim(),
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL.trim()}` : undefined,
-    "https://mofuhavenhk.com",
+    "https://www.mofuhavenhk.com",
   ].filter((value): value is string => Boolean(value));
 
   for (const candidate of candidates) {
@@ -88,7 +88,7 @@ function getSafeCheckoutOrigin(request: Request): string {
     }
   }
 
-  return "https://mofuhavenhk.com";
+  return "https://www.mofuhavenhk.com";
 }
 
 function checkoutPaymentLabel(method: string): string {

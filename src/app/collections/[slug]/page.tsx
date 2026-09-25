@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   return {
     title,
     description,
-    alternates: { canonical: `https://mofuhavenhk.com/collections/${collection.slug}` },
-    openGraph: { title, description, type: "website", url: `https://mofuhavenhk.com/collections/${collection.slug}` },
+    alternates: { canonical: `https://www.mofuhavenhk.com/collections/${collection.slug}` },
+    openGraph: { title, description, type: "website", url: `https://www.mofuhavenhk.com/collections/${collection.slug}` },
     twitter: { card: "summary", title, description },
   };
 }
@@ -43,8 +43,8 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
         "@type": "CollectionPage",
         name: collection.title_en,
         description: getCollectionDescription(collection),
-        url: `https://mofuhavenhk.com/collections/${collection.slug}`,
-        isPartOf: { "@type": "WebSite", name: "Mofu Haven HK", url: "https://mofuhavenhk.com/" },
+        url: `https://www.mofuhavenhk.com/collections/${collection.slug}`,
+        isPartOf: { "@type": "WebSite", name: "Mofu Haven HK", url: "https://www.mofuhavenhk.com/" },
       }} />
       <ProductCatalog collectionSlug={collection.slug} categorySlug={null} subcategory={null} />
     </>

@@ -8,7 +8,7 @@ import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
-const SITE_URL = "https://mofuhavenhk.com";
+const SITE_URL = "https://www.mofuhavenhk.com";
 const SITE_NAME = "Mofu Haven HK";
 const VALUE_BUNDLE_SKUS = new Set([
   "MOFU-BUNDLE-PICKY-01",

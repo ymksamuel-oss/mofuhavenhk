@@ -43,9 +43,9 @@ export default async function CategorySubPage({ params }: CategorySubPageProps) 
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "\u9996\u9801", item: "https://mofuhavenhk.com/" },
-        { "@type": "ListItem", position: 2, name: categoryName, item: `https://mofuhavenhk.com/categories/${categorySlug}` },
-        { "@type": "ListItem", position: 3, name: subSlug, item: `https://mofuhavenhk.com/categories/${categorySlug}/${subSlug}` },
+        { "@type": "ListItem", position: 1, name: "\u9996\u9801", item: "https://www.mofuhavenhk.com/" },
+        { "@type": "ListItem", position: 2, name: categoryName, item: `https://www.mofuhavenhk.com/categories/${categorySlug}` },
+        { "@type": "ListItem", position: 3, name: subSlug, item: `https://www.mofuhavenhk.com/categories/${categorySlug}/${subSlug}` },
       ],
     }} />
     <ProductCatalog categorySlug={categorySlug} subcategory={subSlug} showProductSearch />

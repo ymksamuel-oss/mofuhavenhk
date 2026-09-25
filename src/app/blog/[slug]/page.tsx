@@ -6,7 +6,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { getKnowledgeArticle, KNOWLEDGE_ARTICLES, type KnowledgeArticle } from "@/lib/knowledge";
 import type { Product } from "@/lib/products";
 
-const SITE_URL = "https://mofuhavenhk.com";
+const SITE_URL = "https://www.mofuhavenhk.com";
 
 export function generateStaticParams() {
   return KNOWLEDGE_ARTICLES.map(({ slug }) => ({ slug }));
