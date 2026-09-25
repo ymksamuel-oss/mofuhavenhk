@@ -46,6 +46,34 @@ function safeEnglishName(value?: string): string {
   return candidate;
 }
 
+function rawProductField(product: Product, key: string): string | undefined {
+  const value = (product as unknown as Record<string, unknown>)[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+function englishNameCandidates(product: Product): Array<string | undefined> {
+  const rawName = (product as unknown as Record<string, unknown>).name;
+  const objectName = rawName && typeof rawName === "object" ? rawName as Record<string, unknown> : undefined;
+  return [
+    rawProductField(product, "name_en"),
+    rawProductField(product, "english_name"),
+    typeof objectName?.en === "string" ? objectName.en : undefined,
+    product.name?.en,
+    typeof rawName === "string" ? rawName : undefined,
+  ];
+}
+
+function chineseNameCandidates(product: Product): Array<string | undefined> {
+  const rawName = (product as unknown as Record<string, unknown>).name;
+  const objectName = rawName && typeof rawName === "object" ? rawName as Record<string, unknown> : undefined;
+  return [
+    rawProductField(product, "name_zh"),
+    typeof objectName?.zh === "string" ? objectName.zh : undefined,
+    product.name?.zh,
+    typeof rawName === "string" ? rawName : undefined,
+  ];
+}
+
 export function getJapaneseProductName(product: Product): string | undefined {
   const metadata = product.metadata ?? {};
   return ["name_ja", "name_jp", "japanese_name", "name_japanese", "product_name_ja", "product_name_jp"]
@@ -62,10 +90,10 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
   if (locale === "en") {
     const english = ["name_en", "title_en", "product_name_en", "english_name"]
       .map((key) => safeEnglishName(metadata[key]))
-      .find(Boolean) || safeEnglishName(product.name.en);
-    return english || cleanChineseName(product.name.zh) || cleanChineseName(metadata.name_zh) || "商品";
+      .find(Boolean) || englishNameCandidates(product).map(safeEnglishName).find(Boolean);
+    return english || chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
   }
-  return cleanChineseName(product.name.zh) || cleanChineseName(metadata.name_zh) || "商品";
+  return chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
 }
 
 export function getJapaneseProductSubtitle(product: Product): string {

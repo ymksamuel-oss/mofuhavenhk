@@ -347,7 +347,12 @@ export type Product = {
   image: string;
   /** Optional product gallery, populated from up to five usable Stripe product images. */
   images?: string[];
+  /** Normalized bilingual name used by the storefront components. */
   name: { zh: string; en: string; ja?: string };
+  /** Raw database aliases retained for compatibility with Supabase/API payloads. */
+  name_zh?: string;
+  name_en?: string;
+  english_name?: string;
   price: number;
   /** Active pack-size variants sourced from Stripe Prices, ordered by pack count. */
   variants?: ProductVariant[];

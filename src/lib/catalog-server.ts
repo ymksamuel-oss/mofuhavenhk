@@ -1027,6 +1027,9 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
         ...(productLocalization?.name_ja ? { ja: productLocalization.name_ja } : {}),
         en: databaseNameEn,
       },
+      // Preserve raw database aliases for client components and API payload compatibility.
+      name_zh: databaseNameZh,
+      name_en: databaseNameEn,
       ...(resolvedPriceId ? { priceId: resolvedPriceId } : {}),
       price: resolvedPriceRecord?.amount ?? Number(row.price || 0),
       ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
