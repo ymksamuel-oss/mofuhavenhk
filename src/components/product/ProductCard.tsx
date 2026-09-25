@@ -12,7 +12,6 @@ import { productHref, type Product } from "@/lib/products";
 
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
-  const hasBrand = Boolean(product.brand?.trim() || product.brandName?.trim());
   // Prefer the database's name_en column explicitly for English storefront cards.
   // Keep the shared resolver as a safe fallback for legacy catalog shapes.
   const directEnglishName = typeof (product as Product & { name_en?: unknown }).name_en === "string"
@@ -21,9 +20,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const cardTitle = locale === "en" && directEnglishName && !/[\u3400-\u9fff]/.test(directEnglishName)
     ? directEnglishName
     : getLocalizedProductName(product, locale);
-  const displayName = hasBrand
-    ? cardTitle.replace(/Best\s*Partner/gi, "").replace(/\s{2,}/g, " ").trim()
-    : cardTitle;
+  const displayName = cardTitle;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
