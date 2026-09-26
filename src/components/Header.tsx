@@ -18,7 +18,7 @@ import { brandHref, getCoreBrands } from "@/lib/brands";
 import { CollectionsNav } from "@/components/CollectionsNav";
 
 function navLinkClassName(active: boolean) {
-  return `relative truncate py-0.5 transition-colors ${
+  return `relative whitespace-nowrap py-0.5 transition-colors ${
     active
       ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[1px] after:left-0 after:h-[2px] after:w-full after:rounded-full after:bg-[color:var(--accent)] after:content-['']"
       : "hover:text-[color:var(--ink)]"
@@ -120,39 +120,6 @@ function renderMobileCategoryChildren(
   });
 }
 
-function renderDesktopCategoryChildren(
-  parent: StoreCategory,
-  pathname: string,
-  onNavigate: () => void,
-  labelForCategory: (category: StoreCategory) => string,
-  basePath = categoryRoute(parent),
-  depth = 0,
-): ReactNode[] {
-  return parent.children.map((child) => {
-    const childPath = `${basePath}/${child.slug}`;
-    const hasChildren = child.children.length > 0;
-    const active = pathname === childPath || pathname.startsWith(`${childPath}/`);
-    return (
-      <div key={child.id} className={depth > 0 ? "border-l border-[color:var(--line)] pl-2" : ""}>
-        <Link
-          href={childPath}
-          role="menuitem"
-          className={`group flex min-h-10 items-center justify-between rounded-xl px-3 py-2 text-sm transition hover:bg-[#f1ded1] hover:text-[#583827] ${active ? "font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)]"} ${hasChildren ? "font-medium" : ""}`}
-          onClick={onNavigate}
-        >
-          <span>{labelForCategory(child)}</span>
-          {hasChildren ? <CaretIcon /> : null}
-        </Link>
-        {hasChildren ? (
-          <div className="ml-3 grid gap-1 border-l border-[color:var(--line)] pl-1">
-            {renderDesktopCategoryChildren(child, pathname, onNavigate, labelForCategory, childPath, depth + 1)}
-          </div>
-        ) : null}
-      </div>
-    );
-  });
-}
-
 export function Header() {
   const { locale, setLocale, t } = useI18n();
   const { categories, products, brands } = useCatalog();
@@ -178,7 +145,6 @@ export function Header() {
   const [portalReady, setPortalReady] = useState(false);
   const drawerId = useId();
   const mobileCategoriesId = useId();
-  const desktopCategoriesId = useId();
   const desktopCategoryRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -409,7 +375,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-28 w-full max-w-7xl items-center gap-3 px-4 sm:h-32 sm:gap-3 sm:px-6">
+        <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-2 px-3 sm:h-24 sm:gap-3 sm:px-6">
           <Link
             href="/"
             className="brand-logo-link flex shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
@@ -418,88 +384,44 @@ export function Header() {
             <BrandLogo
               title={t("brand")}
               animateOnMount
-              className="h-24 w-auto sm:h-28"
+              className="h-16 w-auto sm:h-20"
             />
           </Link>
 
           <nav
             ref={desktopCategoryRef}
-            className="ml-2 hidden min-w-0 items-center gap-3 text-[13px] text-[color:var(--muted)] lg:flex xl:gap-4 xl:text-sm"
+            className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[13px] text-[color:var(--muted)] xl:flex xl:text-sm"
             aria-label={t("headerPrimaryNavLabel")}
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
               {locale === "zh" ? "首頁" : t("navHome")}
-            </Link>
-            <Link href="/products" className={navLinkClassName(pathname === "/products")}>
-              {locale === "zh" ? "全部商品" : "All Products"}
             </Link>
             {primaryCategoryLinks.map((item) => (
               <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>
                 {item.label}
               </Link>
             ))}
-            <CollectionsNav />
-            {coreBrands.length > 0 ? (
-              <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
-                <button type="button" className={`${navLinkClassName(desktopBrandOpen || coreBrands.some((brand) => pathname === brandHref(brand.slug)))} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} aria-controls="desktop-brand-menu" onPointerDown={(event) => { event.stopPropagation(); setDesktopBrandOpen((open) => !open); }} onFocus={() => setDesktopBrandOpen(true)}>
-                  {locale === "en" ? "Brands" : "\u54c1\u724c\u5c08\u5340"} <CaretIcon open={desktopBrandOpen} />
-                </button>
-                {desktopBrandOpen ? <div id="desktop-brand-menu" role="menu" className="absolute left-[-0.65rem] top-full z-[70] min-w-52 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]"><div className="grid gap-1">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{brand.name}</Link>)}</div></div> : null}
-              </div>
-            ) : null}
-            {secondaryTopLevelCategories.map((category) => {
-              const hasChildren = category.children.length > 0;
-              const isOpen = desktopCategoryOpen === category.id;
-              const panelId = `${desktopCategoriesId}-${category.id}`;
-              if (!hasChildren) {
-                return (
-                  <Link key={category.id} href={`/categories/${category.slug}`} className={navLinkClassName(isCategoryActive(category))}>
-                    {localizedCategoryName(category)}
-                  </Link>
-                );
-              }
-              return (
-                <div key={category.id} className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopCategoryOpen(category.id)}>
-                  <button
-                    type="button"
-                    className={`${navLinkClassName(isCategoryActive(category) || isOpen)} inline-flex items-center gap-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2`}
-                    aria-haspopup="menu"
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onPointerDown={(event) => { event.stopPropagation(); setDesktopCategoryOpen(category.id); }}
-                    onClick={() => setDesktopCategoryOpen((open) => open === category.id ? null : category.id)}
-                    onFocus={() => setDesktopCategoryOpen(category.id)}
-                  >
-                    {localizedCategoryName(category)}
-                    <CaretIcon open={isOpen} />
-                  </button>
-                  {isOpen ? (
-                    <div id={panelId} role="menu" className="absolute left-[-0.65rem] top-full z-[70] origin-top-left motion-safe:animate-[category-menu-in_180ms_cubic-bezier(0.23,1,0.32,1)]">
-                        <div className="grid min-w-64 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                        <Link href={`/categories/${category.slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm font-semibold text-[color:var(--ink)] hover:bg-[#f1ded1]" onClick={() => setDesktopCategoryOpen(null)}>
-                          {locale === "en" ? `All ${localizedCategoryName(category)}` : `\u5168\u90e8${localizedCategoryName(category)}`}
-                        </Link>
-                          <div className="grid gap-1">
-                            {renderDesktopCategoryChildren(category, pathname, () => setDesktopCategoryOpen(null), localizedCategoryName)}
-                          </div>
-                        </div>
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-            <Link href="/knowledge" className={navLinkClassName(pathname.startsWith("/knowledge") || pathname.startsWith("/blog/"))}>
-              📚 毛拔麻知識庫
+            <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
+              {locale === "en" ? "Value Bundles" : "促銷組合"}
             </Link>
-            <Link
-              href="/pet-guide"
-              className={navLinkClassName(pathname === "/pet-guide")}
-            >
-              {t("navHeaderExplore")}
-            </Link>
-            <Link href="/collections/cat-guide" className={navLinkClassName(pathname === "/collections/cat-guide")}>{t("navCatGuide")}</Link>
-            <Link href="/about" className={navLinkClassName(pathname === "/about")}>{t("navAbout")}</Link>
-            <Link href="/brand/best-partner" className={navLinkClassName(pathname === "/brand/best-partner")}>{t("navBrandStory")}</Link>
+            <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopCategoryOpen("knowledge")}>
+              <button type="button" className={`${navLinkClassName(desktopCategoryOpen === "knowledge" || pathname.startsWith("/knowledge") || pathname.startsWith("/blog/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopCategoryOpen === "knowledge"} onClick={() => setDesktopCategoryOpen((open) => open === "knowledge" ? null : "knowledge")} onFocus={() => setDesktopCategoryOpen("knowledge")}>
+                {locale === "en" ? "Knowledge Hub" : "毛拔麻知識庫"} <CaretIcon open={desktopCategoryOpen === "knowledge"} />
+              </button>
+              {desktopCategoryOpen === "knowledge" ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                <Link href="/knowledge" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopCategoryOpen(null)}>{locale === "en" ? "Explore pet world" : "探索寵物世界"}</Link>
+                <Link href="/collections/cat-guide" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopCategoryOpen(null)}>{locale === "en" ? "Cat fresh food guide" : "貓咪鮮食指南"}</Link>
+              </div> : null}
+            </div>
+            <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
+              <button type="button" className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} onClick={() => setDesktopBrandOpen((open) => !open)} onFocus={() => setDesktopBrandOpen(true)}>
+                {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
+              </button>
+              {desktopBrandOpen ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "About Mofu Haven" : "認識毛毛港"}</Link>
+                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}</Link>
+              </div> : null}
+            </div>
           </nav>
 
           {/* Search, cart and language controls remain visually separate from category navigation. */}
@@ -561,7 +483,7 @@ export function Header() {
 
             <button
               type="button"
-              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 lg:hidden"
+              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 xl:hidden"
               aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
               aria-expanded={menuOpen}
               aria-controls={drawerId}
