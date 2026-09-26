@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
@@ -139,6 +140,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value ?? cookieStore.get("mofuhavenhk-locale")?.value;
+  const initialLocale = cookieLocale === "en" || cookieLocale === "en-HK" ? "en" : "zh";
   let products: Product[] = [];
   let categories: StoreCategory[] = [];
   let brands: Brand[] = [];
@@ -157,13 +161,13 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en-HK" className="bg-[color:var(--background)]">
+    <html lang={initialLocale === "zh" ? "zh-HK" : "en-HK"} className="bg-[color:var(--background)]">
       <head>
         <GoogleAnalytics />
         <MetaPixel />
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
-        <I18nProvider>
+        <I18nProvider initialLocale={initialLocale}>
           <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
             <CartProvider>
               <WishlistProvider>

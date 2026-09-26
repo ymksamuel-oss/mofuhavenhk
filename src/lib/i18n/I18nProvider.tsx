@@ -15,25 +15,30 @@ type I18nContextValue = {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
-function readStoredLocale(): SupportedLocale {
-  if (typeof window === "undefined") return "en";
+function readStoredLocale(fallback: SupportedLocale): SupportedLocale {
+  if (typeof window === "undefined") return fallback;
+  const cookie = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/)?.[1];
+  if (cookie === "zh-HK" || cookie === "zh") return "zh";
+  if (cookie === "en" || cookie === "en-HK") return "en";
   const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-  return stored === "zh" || stored === "zh-HK" ? "zh" : "en";
+  return stored === "zh" || stored === "zh-HK" ? "zh" : stored === "en" ? "en" : fallback;
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<SupportedLocale>("en");
+export function I18nProvider({ children, initialLocale = "zh" }: { children: ReactNode; initialLocale?: SupportedLocale }) {
+  const [locale, setLocaleState] = useState<SupportedLocale>(initialLocale);
   const [hydrated, setHydrated] = useState(false);
 
   const applyLocale = useCallback((next: SupportedLocale) => {
     setLocaleState(next);
     window.localStorage.setItem(LOCALE_STORAGE_KEY, next === "zh" ? "zh-HK" : "en");
+    const cookieValue = next === "zh" ? "zh-HK" : "en";
+    document.cookie = `NEXT_LOCALE=${cookieValue};path=/;max-age=31536000;samesite=lax`;
     document.cookie = `${LOCALE_STORAGE_KEY}=${next};path=/;max-age=31536000;samesite=lax`;
     document.documentElement.lang = next === "zh" ? "zh-HK" : "en";
   }, []);
 
   useEffect(() => {
-    const next = readStoredLocale();
+    const next = readStoredLocale(initialLocale);
     applyLocale(next);
     setHydrated(true);
   }, [applyLocale]);
