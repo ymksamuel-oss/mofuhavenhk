@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const SEEN_KEY = "mofu_has_seen_entrance";
+const FACTORY_MAP_URL = "https://www.google.com/maps/search/?api=1&query=ベストパートナー株式会社+愛知県豊橋市下地町長池36番地";
+const FACTORY_MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent("ベストパートナー株式会社 愛知県豊橋市下地町長池36番地")}&output=embed`;
 
 export function WelcomeEntranceOverlay() {
   const { locale } = useI18n();
@@ -54,6 +57,10 @@ export function WelcomeEntranceOverlay() {
         brandSub: "毛毛港・日本寵物選品",
         title: "給最重要的家人，一份純淨無瑕的日本原味。",
         description: "嚴選 100% 日本在地純肉，低溫慢烘保留原始鮮美。專為挑食、敏感與日常潔齒而生。",
+        factoryCaption: "🏢 日本愛知縣豐橋市・Best Partner 本社廠房實景",
+        factoryHistory: "1926年創業（昭和元年，近百年歷史）｜自社低溫慢烘廠區",
+        factoryAddress: "〒440-0086 愛知県豊橋市下地町長池36番地",
+        openMaps: "📍 在 Google Maps 中開啟實體廠址導航 ❯",
         badgeOne: "🥩 100% 國產天然原肉",
         badgeTwo: "🌿 愛知縣職人慢烘",
         badgeThree: "🚚 滿 HK$399 順豐免運",
@@ -69,6 +76,10 @@ export function WelcomeEntranceOverlay() {
         brandSub: "Japanese pet selections from Mofu Haven",
         title: "A pure taste of Japan, for the family members who matter most.",
         description: "Carefully selected 100% Japanese natural meat, gently slow-dried to preserve its original flavour. Made for picky eaters, sensitive tummies and everyday dental care.",
+        factoryCaption: "🏢 Best Partner head office and factory · Toyohashi, Aichi, Japan",
+        factoryHistory: "Founded in 1926 · Nearly a century of in-house slow-drying craft",
+        factoryAddress: "36 Nagaike, Shimoji-cho, Toyohashi, Aichi 440-0086, Japan",
+        openMaps: "📍 Open the physical factory in Google Maps ❯",
         badgeOne: "🥩 100% Domestic Natural Meat",
         badgeTwo: "🌿 Aichi Artisan Slow-Dried",
         badgeThree: "🚚 Free SF Shipping over HK$399",
@@ -92,7 +103,7 @@ export function WelcomeEntranceOverlay() {
       <div className="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full border border-[#d8c8b5]/50 sm:h-96 sm:w-96" />
       <div className="pointer-events-none absolute -bottom-36 -left-24 h-80 w-80 rounded-full border border-[#d8c8b5]/40 sm:h-[28rem] sm:w-[28rem]" />
 
-      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col px-5 py-5 sm:px-9 sm:py-8 lg:px-14">
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col px-5 pb-12 pt-5 sm:px-9 sm:pb-12 sm:pt-8 lg:px-14">
         <header className="flex items-center justify-between gap-4 border-b border-[#d9cbbb]/70 pb-4 text-[11px] font-semibold tracking-[0.12em] text-[#765e50] sm:text-xs">
           <p className="animate-[fadeInUp_500ms_ease-out_both]">{copy.status}</p>
           <button
@@ -117,9 +128,33 @@ export function WelcomeEntranceOverlay() {
               <div className="mt-10 animate-[fadeInUp_600ms_160ms_ease-out_both] sm:mt-14">
                 <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#C86A4B]">Mofu Haven · Best Partner selections</p>
                 <h1 className="max-w-xl font-[family-name:var(--font-display)] text-[clamp(2.25rem,10vw,4.8rem)] font-semibold leading-[1.08] tracking-[-0.055em] text-[#2C2523]">
-                  {copy.title}
+                  {isZh ? <>給最重要的家人，<br />一份純淨無瑕的日本原味。</> : copy.title}
                 </h1>
                 <p className="mt-6 max-w-xl text-sm leading-7 text-[#705b50] sm:text-base sm:leading-8">{copy.description}</p>
+              </div>
+
+              <div className="my-4 space-y-4 animate-[fadeInUp_700ms_200ms_ease-out_both]" aria-label={isZh ? "日本供應商實體廠房與地圖" : "Japanese supplier factory and map"}>
+                <div className="overflow-hidden rounded-2xl bg-[#eee4d7] shadow-sm">
+                  <div className="relative aspect-video w-full">
+                    <Image src="/images/best-partner-factory.jpg" alt={copy.factoryCaption} fill sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" />
+                  </div>
+                  <div className="px-4 py-3 text-xs leading-5 text-[#694c3d] sm:px-5">
+                    <p className="font-semibold">{copy.factoryCaption}</p>
+                    <p className="mt-1 text-[#896f61]">{copy.factoryHistory}</p>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-2xl border border-[#d9cbbb] bg-[#fffdf9] shadow-sm">
+                  <div className="pointer-events-none h-40 sm:pointer-events-auto sm:h-48">
+                    <iframe title={isZh ? "Best Partner 實體廠址地圖" : "Best Partner factory map"} src={FACTORY_MAP_EMBED_URL} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                  </div>
+                  <div className="px-4 py-3 sm:px-5">
+                    <p className="text-xs leading-5 text-[#694c3d]">{copy.factoryAddress}</p>
+                    <a href={FACTORY_MAP_URL} target="_blank" rel="noopener noreferrer" className="mt-3 flex min-h-11 w-full items-center justify-center rounded-xl bg-[#7a4b31] px-4 py-2.5 text-center text-xs font-semibold leading-5 text-white transition hover:bg-[#5e3928] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2">
+                      {copy.openMaps}
+                    </a>
+                  </div>
+                </div>
               </div>
 
               <div className="mt-7 flex flex-wrap gap-2.5 animate-[fadeInUp_600ms_240ms_ease-out_both]">
