@@ -4,6 +4,7 @@ import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
+import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import dynamic from "next/dynamic";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
@@ -43,6 +44,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <WelcomeEntranceOverlay />
       <HomeBannerCarousel />
       <HomeDiscoveryBar />
       <HomeBulkPromotion />
