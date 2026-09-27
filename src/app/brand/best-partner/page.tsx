@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SupplierProfileSection } from "@/components/SupplierProfileSection";
 
 export const metadata: Metadata = {
   title: "Best Partner Brand Story | Mofu Haven HK",
@@ -82,6 +83,8 @@ export default function BestPartnerConceptPage() {
           </div>
         </div>
       </section>
+
+      <SupplierProfileSection />
 
       <section className="border-y border-[#eadbcb] bg-[#f5eadf] px-5 py-14 sm:px-8 sm:py-20 lg:px-12" aria-labelledby="product-lines-title">
         <div className="mx-auto max-w-6xl">
