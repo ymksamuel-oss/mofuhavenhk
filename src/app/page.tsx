@@ -6,6 +6,7 @@ import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -30,6 +31,8 @@ export const revalidate = 300;
 
 
 export default async function HomePage() {
+  const cookieStore = await cookies();
+  const hasSeenEntrance = cookieStore.get("mofu_seen_entrance")?.value === "1";
   let products: Product[] = [];
   try {
     const catalog = await getCatalogSnapshot();
@@ -44,7 +47,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <WelcomeEntranceOverlay />
+      {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeBannerCarousel />
       <HomeDiscoveryBar />
       <HomeBulkPromotion />

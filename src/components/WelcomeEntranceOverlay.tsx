@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
-const SEEN_KEY = "mofu_has_seen_entrance";
+const SEEN_COOKIE = "mofu_seen_entrance";
 const FACTORY_MAP_URL = "https://www.google.com/maps/search/?api=1&query=ベストパートナー株式会社+愛知県豊橋市下地町長池36番地";
 const FACTORY_MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent("ベストパートナー株式会社 愛知県豊橋市下地町長池36番地")}&output=embed`;
 
@@ -49,22 +49,13 @@ function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierPro
 
 export function WelcomeEntranceOverlay() {
   const { locale } = useI18n();
-  const [isVisible, setIsVisible] = useState(() => {
-    if (typeof window === "undefined") return true;
-    try {
-      return sessionStorage.getItem(SEEN_KEY) !== "true";
-    } catch {
-      return true;
-    }
-  });
+  // The server decides whether this component is rendered from mofu_seen_entrance.
+  // Keep the client state visible so the SSR overlay is never hidden during hydration.
+  const [isVisible, setIsVisible] = useState(true);
   const [leaving, setLeaving] = useState(false);
 
   const dismiss = (afterDismiss?: () => void) => {
-    try {
-      sessionStorage.setItem(SEEN_KEY, "true");
-    } catch {
-      // The overlay still dismisses when storage is blocked by the browser.
-    }
+    document.cookie = `${SEEN_COOKIE}=1; Path=/; Max-Age=31536000; SameSite=Lax${window.location.protocol === "https:" ? "; Secure" : ""}`;
     setLeaving(true);
     window.setTimeout(() => {
       setIsVisible(false);
