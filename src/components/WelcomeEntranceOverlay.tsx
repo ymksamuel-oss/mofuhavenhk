@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const SEEN_KEY = "mofu_has_seen_entrance";
@@ -49,22 +49,15 @@ function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierPro
 
 export function WelcomeEntranceOverlay() {
   const { locale } = useI18n();
-  const [mounted, setMounted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [leaving, setLeaving] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === "undefined") return true;
     try {
-      const hasSeen = sessionStorage.getItem(SEEN_KEY);
-      if (!hasSeen) {
-        setIsVisible(true);
-      }
+      return sessionStorage.getItem(SEEN_KEY) !== "true";
     } catch {
-      // If storage is unavailable, keep the welcome moment available for this visit.
-      setIsVisible(true);
+      return true;
     }
-  }, []);
+  });
+  const [leaving, setLeaving] = useState(false);
 
   const dismiss = (afterDismiss?: () => void) => {
     try {
@@ -76,7 +69,7 @@ export function WelcomeEntranceOverlay() {
     window.setTimeout(() => {
       setIsVisible(false);
       afterDismiss?.();
-    }, 600);
+    }, 500);
   };
 
   const enterStore = () => {
@@ -85,7 +78,7 @@ export function WelcomeEntranceOverlay() {
     });
   };
 
-  if (!mounted || !isVisible) return null;
+  if (!isVisible) return null;
 
   const isZh = locale === "zh";
   const copy = isZh
@@ -132,8 +125,8 @@ export function WelcomeEntranceOverlay() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] overflow-y-auto bg-[#F8F6F0] text-[#2C2523] transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
-        leaving ? "scale-[1.04] opacity-0" : "scale-100 opacity-100"
+      className={`fixed inset-0 z-[9999] overflow-y-auto bg-[#F8F6F0] text-[#2C2523] opacity-100 transition-opacity duration-500 ease-out ${
+        leaving ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
       role="dialog"
       aria-modal="true"
