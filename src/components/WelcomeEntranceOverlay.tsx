@@ -124,7 +124,6 @@ export function WelcomeEntranceOverlay() {
       aria-label={isZh ? "毛毛港迎賓頁" : "Welcome to Mofu Haven"}
     >
       <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(circle_at_12%_12%,rgba(200,106,75,0.13),transparent_26%),radial-gradient(circle_at_88%_82%,rgba(161,126,94,0.14),transparent_30%)]" />
-      <div className="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full border border-[#d8c8b5]/50 sm:h-96 sm:w-96" />
       <div className="pointer-events-none absolute -bottom-36 -left-24 h-80 w-80 rounded-full border border-[#d8c8b5]/40 sm:h-[28rem] sm:w-[28rem]" />
 
       <div className="relative mx-auto flex min-h-[100svh] w-full max-w-7xl flex-col px-5 pb-12 pt-5 sm:px-9 sm:pb-12 sm:pt-8 lg:px-14">
