@@ -142,7 +142,7 @@ function PaymentMarks() {
  * accordion sections on mobile. Payment marks match the checkout allowlist.
  */
 export function Footer() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const waUrl = getShopWhatsAppChatUrl(
     `${t("brand")} — ${t("footerWhatsapp")}`,
   );
@@ -177,7 +177,7 @@ export function Footer() {
               href="/knowledge"
               className="inline-flex rounded-full border border-[#a97858] bg-[#fff8ef]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#fff8ef]"
             >
-              知識庫文章專區 →
+              {locale === "en" ? "Explore Knowledge Hub →" : "知識庫文章專區 →"}
             </Link>
           </div>
 

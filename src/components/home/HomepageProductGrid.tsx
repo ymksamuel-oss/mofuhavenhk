@@ -14,9 +14,7 @@ type HomepageProductGridProps = {
 };
 
 function getPageNumbers(current: number, total: number): PageItem[] {
-  const pages = new Set<number>([1, total, current, current - 1, current + 1]);
-  if (current <= 3) [2, 3, 4].forEach((page) => pages.add(page));
-  if (current >= total - 2) [total - 3, total - 2, total - 1].forEach((page) => pages.add(page));
+  const pages = new Set<number>([1, total, current - 1, current, current + 1]);
 
   const sorted = Array.from(pages)
     .filter((page) => page >= 1 && page <= total)
@@ -138,7 +136,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
             </ul>
 
             <nav
-              className="mt-6 flex flex-wrap items-center justify-center gap-1.5"
+              className="mt-6 flex flex-nowrap items-center justify-center gap-1.5 overflow-x-auto px-1"
               aria-label={t("productPaginationLabel")}
             >
               <button
@@ -148,7 +146,8 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                 aria-label={t("productPaginationPrevious")}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {t("productPaginationPrevious")}
+                <span className="sm:hidden">← Prev</span>
+                <span className="hidden sm:inline">{t("productPaginationPrevious")}</span>
               </button>
               {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
                 page === "ellipsis" ? (
@@ -179,7 +178,8 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
                 aria-label={t("productPaginationNext")}
                 className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {t("productPaginationNext")}
+                <span className="sm:hidden">Next →</span>
+                <span className="hidden sm:inline">{t("productPaginationNext")}</span>
               </button>
             </nav>
           </>

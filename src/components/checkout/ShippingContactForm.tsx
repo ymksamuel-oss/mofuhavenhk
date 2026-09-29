@@ -361,6 +361,9 @@ export function ShippingContactForm({
               : undefined
           }
         />
+        <p className="-mt-1 text-xs leading-relaxed text-[color:var(--muted)]">
+          {t("sfStationHint")}
+        </p>
         <Field
           id="shipping-address-2"
           label={t("shippingAddressLine2Label")}
@@ -384,9 +387,6 @@ export function ShippingContactForm({
             disabled={disabled}
             maxLength={32}
           />
-          <p className="text-xs leading-relaxed text-[color:var(--muted)]">
-            {t("sfStationHint")}
-          </p>
         </div>
       </div>
     </section>

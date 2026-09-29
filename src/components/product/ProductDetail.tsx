@@ -62,10 +62,10 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
   const displayFeatures = locale === "en" && rich.highlights.length === 0 ? defaultEnglishFeatures : rich.highlights;
   const shoppingNotes = locale === "en"
     ? [
-        "📦 Hong Kong in-stock items are generally dispatched via SF Express within 1–2 business days.",
+        "📦 Hong Kong in-stock items are dispatched via SF Express within 1–2 business days.",
         "✈️ Japan direct items typically take 7–14 business days (may be extended during Japanese holidays).",
-        "🧺 Orders with both in-stock and pre-order items will be shipped together; orders of HK$399 or more enjoy free SF Express local delivery.",
-        "💬 For feeding advice, ingredient queries or storage guidelines, feel free to contact us anytime.",
+        "🧺 Orders with in-stock & pre-order items ship together; storewide orders of HK$399+ enjoy free SF local shipping.",
+        "💬 For feeding advice, ingredient queries, or storage guidelines, feel free to contact us anytime.",
       ]
     : [
         "📦 香港現貨一般於下單後 1–2 個工作天內由順豐寄出。",
