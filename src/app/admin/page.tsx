@@ -1147,6 +1147,7 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
       for (const file of selectedFiles) {
         const data = new FormData();
         data.append("file", file);
+        data.append("prefix", String(form.mofu_sku || form.sku || form.id || "product"));
         const response = await fetch("/api/admin/upload", { method: "POST", body: data });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "上傳失敗");

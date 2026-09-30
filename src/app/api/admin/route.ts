@@ -266,6 +266,37 @@ function normalizeProductImages(value: unknown): string[] {
   ).slice(0, MAX_PRODUCT_IMAGES);
 }
 
+function syncProductImageColumns(payload: Record<string, any>) {
+  if (!("images" in payload)) return;
+  payload.images = normalizeProductImages(payload.images);
+  // `images` is canonical in the current schema. Older deployments may still
+  // expose image_url, so keep it aligned when that legacy column exists.
+  payload.image_url = payload.images[0] || null;
+}
+
+async function writeProductRow(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  operation: "insert" | "update",
+  id: string | null,
+  payload: Record<string, any>,
+) {
+  const run = (row: Record<string, any>) => {
+    const query = operation === "insert"
+      ? supabase.from("products").insert(row)
+      : supabase.from("products").update(row).eq("id", id as string);
+    return query.select().single();
+  };
+  let result = await run(payload);
+  // The checked-in schema has no image_url column. Retry only for the known
+  // legacy-column/schema-cache error so a modern database still writes once.
+  if (result.error && "image_url" in payload && /image_url|column|schema cache/i.test(result.error.message)) {
+    const fallback = { ...payload };
+    delete fallback.image_url;
+    result = await run(fallback);
+  }
+  return result;
+}
+
 function isValidImageUrl(value: unknown) {
   return typeof value === "string" && /^https?:\/\/\S+$/i.test(value.trim());
 }
@@ -440,7 +471,7 @@ export async function POST(request: Request) {
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { /* Keep English fields until publish validation completes. */ }
-  if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
+  if (table === "products") syncProductImageColumns(payload);
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, null, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
@@ -450,7 +481,9 @@ export async function POST(request: Request) {
     delete payload.name_ja;
     delete payload.description_ja;
   }
-  const { data, error } = await supabase.from(table).insert(payload).select().single();
+  const { data, error } = table === "products"
+    ? await writeProductRow(supabase, "insert", null, payload)
+    : await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
@@ -486,7 +519,7 @@ export async function PATCH(request: Request) {
   const productLocalization = table === "products" ? normalizeProductLocalization(payload) : null;
   if (table === "categories") { delete payload.name_zh; delete payload.name_en; }
   if (table === "products") { /* Keep English fields until publish validation completes. */ }
-  if (table === "products" && "images" in payload) payload.images = normalizeProductImages(payload.images);
+  if (table === "products") syncProductImageColumns(payload);
   if (table === "products" && (payload.status === "published" || payload.is_published === true)) {
     try { await validateProductForPublishing(supabase, id, payload); }
     catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "\u7522\u54c1\u8cc7\u6599\u4e0d\u5b8c\u6574，\u7121\u6cd5\u4e0a\u67b6" }, { status: 422 }); }
@@ -497,7 +530,9 @@ export async function PATCH(request: Request) {
     delete payload.description_ja;
   }
   if (table === "store_settings" && secretKeys.has(String(payload.key)) && payload.value === "••••••••") delete payload.value;
-  const base = supabase.from(table).update(payload); const filtered = table === "store_settings" ? base.eq("key", key) : base.eq("id", id); const { data, error } = await filtered.select().single();
+  const { data, error } = table === "products"
+    ? await writeProductRow(supabase, "update", id, payload)
+    : await (table === "store_settings" ? supabase.from(table).update(payload).eq("key", key) : supabase.from(table).update(payload).eq("id", id)).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);

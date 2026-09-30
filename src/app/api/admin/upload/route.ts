@@ -9,7 +9,10 @@ export async function POST(request: Request) {
   const form = await request.formData(); const file = form.get("file");
   if (!(file instanceof File)) return NextResponse.json({ error: "file_required" }, { status: 400 });
   if (!file.type.startsWith("image/") || file.size > 8 * 1024 * 1024) return NextResponse.json({ error: "invalid_image" }, { status: 400 });
-  const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, "-"); const path = `${Date.now()}-${safeName}`;
+  const requestedPrefix = String(form.get("prefix") || "product");
+  const safePrefix = requestedPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, "-").slice(0, 80) || "product";
+  const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, "-");
+  const path = `${safePrefix}-${Date.now()}-${crypto.randomUUID()}-${safeName}`;
   const { error } = await supabase.storage.from("public-images").upload(path, file, { contentType: file.type, upsert: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   const { data } = supabase.storage.from("public-images").getPublicUrl(path); return NextResponse.json({ url: data.publicUrl });
