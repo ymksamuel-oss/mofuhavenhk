@@ -1,7 +1,7 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { BrandLogo } from "@/components/BrandLogo";
+import { SupplierBrandLogos } from "@/components/home/SupplierBrandLogos";
 
 type LocalizedCopy = { zh: string; en: string };
 type LocalizedValue = { icon: string; title: LocalizedCopy; body: LocalizedCopy };
@@ -35,21 +35,14 @@ export function BestPartnerValues() {
       className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-6 sm:px-8 sm:py-8 lg:px-10"
     >
       <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-6 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-8 lg:px-14">
-        <div className="mb-6 flex items-center justify-start flex-wrap gap-y-2">
-          <BrandLogo
-            title="Mofu Haven 毛毛港"
-            className="h-16 md:h-20 lg:h-24 w-auto object-contain max-w-[200px] md:max-w-[240px]"
-          />
-          <span className="text-stone-300 text-3xl md:text-4xl font-light mx-4 select-none" aria-hidden="true">✕</span>
-          <div className="flex h-12 md:h-16 lg:h-18 w-auto max-w-[180px] md:max-w-[220px] items-center gap-2 text-stone-700" role="img" aria-label="BestPartner">
-            <span className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-stone-700 font-serif text-xl md:text-2xl font-semibold tracking-tight">BP</span>
-            <span className="font-serif text-lg md:text-2xl font-semibold tracking-[0.08em]">BestPartner</span>
-          </div>
-          <p className="w-full text-xs md:text-sm text-stone-600 font-medium tracking-wide mt-2">
+        <div className="mb-6">
+          <SupplierBrandLogos />
+          <p className="text-center text-xs font-medium tracking-wide text-stone-600 sm:text-sm">
             {isZh ? "日本愛知縣百年本社 (創業1926年) × 毛毛港香港官方專營直送" : "Aichi, Japan heritage since 1926 × Mofu Haven official Hong Kong delivery"}
           </p>
         </div>
         <div className="mx-auto max-w-3xl text-center">
+          <SupplierBrandLogos />
           <span className="inline-flex items-center gap-2 rounded-full border border-[#d9c0a8] bg-[#f4e5d6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#7c5841]">
             <span aria-hidden="true">✦</span> {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
           </span>
