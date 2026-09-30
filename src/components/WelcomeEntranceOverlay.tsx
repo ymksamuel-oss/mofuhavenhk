@@ -151,31 +151,31 @@ export function WelcomeEntranceOverlay() {
 
             <section className="order-1 max-w-3xl lg:order-2">
               <div className="animate-[fadeInUp_600ms_80ms_ease-out_both]">
-                <div className="mb-6">
-                  <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6">
-                    <div className="flex h-[90px] w-[180px] items-center justify-center rounded-2xl border border-stone-200/60 bg-white/70 p-3 shadow-sm md:h-[110px] md:w-[220px] lg:h-[130px] lg:w-[260px]">
+                <div className="mb-6 w-full max-w-[480px]">
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
+                    <div className="flex h-20 items-center justify-center sm:h-24">
                       <Image
                         src="/logo.png"
                         alt="Mofu Haven 毛毛港"
                         width={160}
                         height={50}
                         priority
-                        className="h-full w-full object-contain"
+                        className="max-h-full max-w-full object-contain mix-blend-multiply"
                       />
                     </div>
-                    <span className="select-none px-1 text-3xl font-light text-stone-300 md:px-2 md:text-4xl" aria-hidden="true">✕</span>
-                    <div className="flex h-[90px] w-[180px] items-center justify-center rounded-2xl border border-stone-200/60 bg-white/70 p-3 shadow-sm md:h-[110px] md:w-[220px] lg:h-[130px] lg:w-[260px]">
+                    <span className="select-none px-2 text-2xl font-light text-stone-300 sm:text-3xl" aria-hidden="true">✕</span>
+                    <div className="flex h-20 items-center justify-center sm:h-24">
                       <Image
                         src="/images/brands/best-partner-logo.svg"
-                        alt="BestPartner Japan"
+                        alt="Best Partner Japan"
                         width={180}
                         height={50}
                         priority
-                        className="h-full w-full object-contain"
+                        className="max-h-full max-w-full object-contain mix-blend-multiply"
                       />
                     </div>
                   </div>
-                  <p className="mt-3 text-xs font-medium tracking-wide text-stone-600 md:text-sm">{copy.coBrandNote}</p>
+                  <p className="mt-3 text-center text-xs font-medium tracking-wide text-stone-600 sm:text-left sm:text-sm">{copy.coBrandNote}</p>
                 </div>
               </div>
 
