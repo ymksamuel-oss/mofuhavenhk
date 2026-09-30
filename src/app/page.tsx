@@ -47,6 +47,7 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* SSR-first storefront hero: factory proof, map and brand promise render before every banner and product section. */}
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeBannerCarousel />
       <HomeDiscoveryBar />

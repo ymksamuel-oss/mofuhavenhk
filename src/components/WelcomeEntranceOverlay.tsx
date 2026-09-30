@@ -151,27 +151,26 @@ export function WelcomeEntranceOverlay() {
 
             <section className="order-1 max-w-3xl lg:order-2">
               <div className="animate-[fadeInUp_600ms_80ms_ease-out_both]">
-                <div className="mb-6 w-full max-w-[480px]">
-                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
-                    <div className="flex h-20 items-center justify-center sm:h-24">
+                <div className="mb-6 w-full">
+                  <div className="flex items-center justify-start gap-6 sm:gap-10">
+                    <div className="flex h-20 shrink-0 items-center justify-center sm:h-24 md:h-28">
                       <Image
                         src="/logo.png"
                         alt="Mofu Haven 毛毛港"
                         width={160}
                         height={50}
                         priority
-                        className="max-h-full max-w-full object-contain mix-blend-multiply"
+                        className="h-full w-auto max-w-[200px] scale-[1.65] object-contain mix-blend-multiply sm:max-w-[240px] md:max-w-[280px]"
                       />
                     </div>
-                    <span className="select-none px-2 text-2xl font-light text-stone-300 sm:text-3xl" aria-hidden="true">✕</span>
-                    <div className="flex h-20 items-center justify-center sm:h-24">
+                    <div className="flex h-16 shrink-0 items-center justify-center sm:h-20 md:h-[88px]">
                       <Image
                         src="/images/brands/best-partner-logo.svg"
                         alt="Best Partner Japan"
                         width={180}
                         height={50}
                         priority
-                        className="max-h-full max-w-full object-contain mix-blend-multiply"
+                        className="h-full w-auto max-w-[180px] object-contain mix-blend-multiply sm:max-w-[220px] md:max-w-[250px]"
                       />
                     </div>
                   </div>
