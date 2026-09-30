@@ -382,6 +382,7 @@ export default function AdminPage() {
       delete normalized.replace_existing;
       if (isProductTab(tab)) {
         normalized.images = parseImageUrls(normalized.images);
+        normalized.image_url = normalized.images[0] || null;
       }
       if (tab === "categories") {
         normalized.parent_id = normalized.parent_id || null;
@@ -1183,7 +1184,28 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
 
   function removeProductImage(index: number) {
     const urls = parseImageUrls(form.images).filter((_, urlIndex) => urlIndex !== index);
-    setForm({ ...form, images: urls });
+    setForm({ ...form, images: urls, image_url: urls[0] || null });
+  }
+
+  function setProductImages(value: unknown) {
+    const urls = parseImageUrls(value);
+    setForm({ ...form, images: urls, image_url: urls[0] || null });
+  }
+
+  function moveProductImage(index: number, direction: -1 | 1) {
+    const urls = parseImageUrls(form.images);
+    const nextIndex = index + direction;
+    if (nextIndex < 0 || nextIndex >= urls.length) return;
+    [urls[index], urls[nextIndex]] = [urls[nextIndex], urls[index]];
+    setProductImages(urls);
+  }
+
+  function makeProductImageCover(index: number) {
+    if (index <= 0) return;
+    const urls = parseImageUrls(form.images);
+    const [cover] = urls.splice(index, 1);
+    if (cover) urls.unshift(cover);
+    setProductImages(urls);
   }
 
   const productImages = parseImageUrls(form.images);
@@ -1228,8 +1250,8 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
               <span className="mb-1 block font-medium">圖片 URL（最多 {MAX_PRODUCT_IMAGES} 張，每行一個）</span>
               <textarea
                 rows={4}
-                value={Array.isArray(form.images) ? form.images.join("\n") : String(form.images || "")}
-                onChange={(event) => setForm({ ...form, images: event.target.value })}
+                value={productImages.join("\n")}
+                onChange={(event) => setProductImages(event.target.value)}
                 placeholder="可貼上圖片網址，每行一個"
                 className="w-full resize-y rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]"
               />
@@ -1244,7 +1266,12 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
                   <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
                     <img src={url} alt={`產品圖片 ${index + 1}`} className="aspect-square w-full object-cover" loading="lazy" />
                     <button type="button" onClick={() => removeProductImage(index)} className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-2 py-1 text-xs text-red-600 shadow-sm transition hover:bg-white">移除</button>
-                    <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">圖片 {index + 1}</p>
+                    <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">{index === 0 ? "圖片 1 · 封面" : `圖片 ${index + 1}`}</p>
+                    <div className="flex flex-wrap gap-1.5 border-t border-[#eaded5] px-2 pb-2 pt-2">
+                      {index > 0 && <button type="button" onClick={() => makeProductImageCover(index)} className="rounded-md bg-[#f0e3d6] px-2 py-1 text-[10px] font-semibold text-[#805536] hover:bg-[#e7d6c6]">★ 設為封面</button>}
+                      <button type="button" onClick={() => moveProductImage(index, -1)} disabled={index === 0} className="rounded-md border border-[#ded5cc] px-2 py-1 text-[10px] text-[#6f6258] hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">◀ 向前</button>
+                      <button type="button" onClick={() => moveProductImage(index, 1)} disabled={index === productImages.length - 1} className="rounded-md border border-[#ded5cc] px-2 py-1 text-[10px] text-[#6f6258] hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">向後 ▶</button>
+                    </div>
                   </div>
                 ))}
               </div>

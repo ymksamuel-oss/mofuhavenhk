@@ -6,7 +6,7 @@ create table if not exists public.categories (
 );
 create table if not exists public.products (
   id uuid primary key default gen_random_uuid(), name text not null, price numeric(12,2) not null default 0,
-  original_price numeric(12,2), stock integer not null default 0, description text, images jsonb not null default '[]'::jsonb,
+  original_price numeric(12,2), stock integer not null default 0, description text, images jsonb not null default '[]'::jsonb, image_url text,
   category_id uuid references public.categories(id) on delete set null, seo_title text, seo_description text,
   created_at timestamptz not null default now(),
   is_published boolean not null default true,
@@ -28,6 +28,8 @@ alter table public.banners
   add column if not exists mobile_image_url text;
 alter table public.products
   add column if not exists cost_price_rmb numeric(12,4);
+alter table public.products
+  add column if not exists image_url text;
 create table if not exists public.coupons (
   id uuid primary key default gen_random_uuid(), code text not null unique, discount_amount numeric(12,2) not null default 0,
   discount_type text not null default 'fixed' check (discount_type in ('fixed','percentage')), active boolean not null default true,

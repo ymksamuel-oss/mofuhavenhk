@@ -47,7 +47,7 @@ export default function ImageOpsPage() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
 
-  async function run(apply: boolean) {
+  async function run(apply: boolean, mode: "official-sync" | "normalize" = "official-sync") {
     setBusy(true);
     setError("");
     setResult(null);
@@ -55,7 +55,7 @@ export default function ImageOpsPage() {
       const response = await fetch("/api/admin/image-ops", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ limit: Number(limit), apply, overwrite }),
+        body: JSON.stringify({ limit: Number(limit), apply, overwrite, mode }),
       });
       const data = await response.json().catch(() => ({}));
       if (response.status === 401) {
@@ -84,13 +84,21 @@ export default function ImageOpsPage() {
           </div>
 
           <div className="mt-7 grid gap-4 rounded-2xl border border-[#eaded5] bg-[#fffaf4] p-4 md:grid-cols-[180px_1fr] md:items-end">
-            <label className="text-sm"><span className="mb-2 block font-medium">最多處理數量（最多 50）</span><input type="number" min="1" max="50" value={limit} onChange={(event) => setLimit(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-white px-3 py-3 outline-none focus:border-[#a36b42]" /></label>
+            <label className="text-sm"><span className="mb-2 block font-medium">最多處理數量（官方最多 50；格式修復最多 5000）</span><input type="number" min="1" max="5000" value={limit} onChange={(event) => setLimit(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-white px-3 py-3 outline-none focus:border-[#a36b42]" /></label>
             <label className="flex items-center gap-3 pb-3 text-sm"><input type="checkbox" checked={overwrite} onChange={(event) => setOverwrite(event.target.checked)} className="h-4 w-4 accent-[#a36b42]" />覆蓋已有圖片（會保留舊圖作為後備）</label>
           </div>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <button type="button" onClick={() => run(false)} disabled={busy} className={`${buttonClass} border border-[#2f4a3c] bg-[#f8fbf8] text-[#2f4a3c] hover:bg-[#edf5ef]`}>{busy ? "處理中…" : "先預覽官方匹配"}</button>
             <button type="button" onClick={() => run(true)} disabled={busy} className={`${buttonClass} bg-[#a36b42] text-white hover:bg-[#8f5b37]`}>{busy ? "下載及更新中…" : "一鍵批次補圖並更新"}</button>
+          </div>
+          <div className="mt-6 rounded-2xl border border-[#d9c4b3] bg-[#fffaf4] p-4">
+            <h2 className="font-semibold text-[#2f4a3c]">全站圖片格式與封面修復</h2>
+            <p className="mt-1 text-xs leading-5 text-[#806b5d]">將以管道符號、換行或逗號保存的歷史圖片值統一轉成標準陣列，並按現行包裝圖優先規則重排；同時同步第一張圖片至 legacy 主圖欄位（若資料庫存在）。</p>
+            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+              <button type="button" onClick={() => run(false, "normalize")} disabled={busy} className={`${buttonClass} border border-[#a36b42] bg-white text-[#805536] hover:bg-[#f7efe7]`}>{busy ? "處理中…" : "預覽全站格式修復"}</button>
+              <button type="button" onClick={() => run(true, "normalize")} disabled={busy} className={`${buttonClass} bg-[#2f4a3c] text-white hover:bg-[#22372d]`}>{busy ? "標準化中…" : "一鍵標準化全站圖片"}</button>
+            </div>
           </div>
           <p className="mt-3 text-xs leading-5 text-[#8b7c70]">來源：<a href="https://best-partner.co.jp/" target="_blank" rel="noreferrer" className="underline">best-partner.co.jp</a>。建議先預覽，確認 JAN／日文品名及官方縮圖後，再執行批次更新。</p>
           {error && <div className="mt-5 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}

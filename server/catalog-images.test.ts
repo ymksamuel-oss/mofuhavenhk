@@ -24,4 +24,16 @@ describe("database product image mapping", () => {
       image_url: "https://storage.supabase.co/valid.jpg",
     })).toEqual(["https://storage.supabase.co/valid.jpg"]);
   });
+
+  it("preserves the deliberate admin cover order on the storefront", () => {
+    expect(databaseProductImageUrls({
+      images: [
+        "https://storage.supabase.co/custom-cover.jpg",
+        "https://storage.supabase.co/official-4976064025470-0.jpg",
+      ],
+    })).toEqual([
+      "https://storage.supabase.co/custom-cover.jpg",
+      "https://storage.supabase.co/official-4976064025470-0.jpg",
+    ]);
+  });
 });

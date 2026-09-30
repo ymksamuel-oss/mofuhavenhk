@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { orderProductImages } from "@/lib/catalog-images";
 import crypto from "node:crypto";
 
 const SOURCE_ORIGIN = "https://best-partner.co.jp";
@@ -79,10 +80,36 @@ function hasUsableImages(value: unknown) {
   return Array.isArray(value) && value.some((item) => typeof item === "string" && /^https?:\/\//i.test(item.trim()));
 }
 
-function existingImages(value: unknown) {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string" && /^https?:\/\//i.test(item.trim()))
-    : [];
+function existingImages(value: unknown): string[] {
+  const values = Array.isArray(value) ? value : [value];
+  return orderProductImages(values.flatMap((item) => {
+    if (typeof item !== "string") return [];
+    const trimmed = item.trim();
+    if (!trimmed) return [];
+    try {
+      const parsed = JSON.parse(trimmed);
+      return Array.isArray(parsed) ? existingImages(parsed) : [trimmed];
+    } catch {
+      return trimmed.split(/[|\r\n,;]+/).map((candidate) => candidate.trim());
+    }
+  }).filter((item): item is string => /^https?:\/\//i.test(item))).slice(0, 8);
+}
+
+function needsImageNormalization(value: unknown) {
+  return !Array.isArray(value) || JSON.stringify(existingImages(value)) !== JSON.stringify(value);
+}
+
+async function updateProductImages(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  id: string,
+  images: string[],
+) {
+  const payload = { images, image_url: images[0] || null };
+  let result = await supabase.from("products").update(payload).eq("id", id);
+  if (result.error && /image_url|column|schema cache/i.test(result.error.message)) {
+    result = await supabase.from("products").update({ images }).eq("id", id);
+  }
+  return result;
 }
 
 async function fetchWithTimeout(url: string, options: RequestInit = {}) {
@@ -203,9 +230,12 @@ export async function POST(request: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const supabase = getSupabaseAdmin();
   if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
-  const body = await request.json().catch(() => ({})) as { limit?: unknown; apply?: unknown; overwrite?: unknown };
+  const body = await request.json().catch(() => ({})) as { limit?: unknown; apply?: unknown; overwrite?: unknown; mode?: unknown };
+  const mode = body.mode === "normalize" ? "normalize" : "official-sync";
   const requestedLimit = Number(body.limit);
-  const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(Math.trunc(requestedLimit), 1), RATE_LIMIT) : 10;
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.min(Math.max(Math.trunc(requestedLimit), 1), mode === "normalize" ? 5_000 : RATE_LIMIT)
+    : mode === "normalize" ? 5_000 : 10;
   const apply = body.apply === true;
   const overwrite = body.overwrite === true;
   const { data, error } = await supabase
@@ -213,7 +243,9 @@ export async function POST(request: Request) {
     .select("id,name,mofu_sku,images")
     .order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: `\u8b80\u53d6\u7522\u54c1\u5931\u6557：${error.message}` }, { status: 500 });
-  const products = ((data || []) as Product[]).filter((product) => overwrite || !hasUsableImages(product.images)).slice(0, limit);
+  const products = ((data || []) as Product[])
+    .filter((product) => mode === "normalize" ? needsImageNormalization(product.images) : (overwrite || !hasUsableImages(product.images)))
+    .slice(0, limit);
   const items: SyncItem[] = [];
   let matched = 0;
   let uploaded = 0;
@@ -225,6 +257,22 @@ export async function POST(request: Request) {
     const displayName = typeof product.name === "string" ? product.name : JSON.stringify(product.name);
     const item: SyncItem = { id: product.id, name: displayName, status: "pending" };
     try {
+      if (mode === "normalize") {
+        const normalizedImages = existingImages(product.images);
+        if (!apply) {
+          item.status = "would_update";
+          item.imageUrl = normalizedImages[0];
+          items.push(item);
+          continue;
+        }
+        const { error: updateError } = await updateProductImages(supabase, product.id, normalizedImages);
+        if (updateError) throw new Error(`產品圖片標準化失敗：${updateError.message}`);
+        updated += 1;
+        item.status = "updated";
+        item.imageUrl = normalizedImages[0];
+        items.push(item);
+        continue;
+      }
       const match = await findExactSourceProduct(product.name, product.mofu_sku);
       if (!match) {
         item.status = "no_match";
@@ -245,8 +293,8 @@ export async function POST(request: Request) {
       }
       const publicUrl = await uploadImage(match.imageUrl, product.id, supabase);
       uploaded += 1;
-      const mergedImages = [publicUrl, ...existingImages(product.images).filter((image) => image !== publicUrl)].slice(0, 8);
-      const { error: updateError } = await supabase.from("products").update({ images: mergedImages }).eq("id", product.id);
+      const mergedImages = [publicUrl, ...existingImages(product.images).filter((image: string) => image !== publicUrl)].slice(0, 8);
+      const { error: updateError } = await updateProductImages(supabase, product.id, mergedImages);
       if (updateError) throw new Error(`\u7522\u54c1\u66f4\u65b0\u5931\u6557：${updateError.message}`);
       updated += 1;
       item.status = "updated";
@@ -260,5 +308,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ mode: apply ? "apply" : "dry-run", limit, overwrite, source: SOURCE_ORIGIN, totalCandidates: products.length, matched, uploaded, updated, skipped, failed, items });
+  return NextResponse.json({ mode: `${mode}-${apply ? "apply" : "dry-run"}`, limit, overwrite, source: mode === "normalize" ? "database" : SOURCE_ORIGIN, totalCandidates: products.length, matched, uploaded, updated, skipped, failed, items });
 }

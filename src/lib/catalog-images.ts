@@ -49,9 +49,12 @@ export function databaseProductImageUrls(row: {
   image?: unknown;
   image_url?: unknown;
 }): string[] {
-  return orderProductImages(
+  // The admin editor is the source of truth for deliberate image order. Do
+  // not re-sort here, otherwise a saved cover image would silently change
+  // again when the storefront reads the row.
+  return Array.from(new Set(
     [row.images, row.image, row.image_url]
       .flatMap(parseImageField)
       .filter(isUsableCatalogImage),
-  ).slice(0, MAX_CATALOG_IMAGES);
+  )).slice(0, MAX_CATALOG_IMAGES);
 }
