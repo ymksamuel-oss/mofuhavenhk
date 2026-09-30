@@ -1,0 +1,197 @@
+{
+  "mode": "dry-run",
+  "source": "https://best-partner.co.jp",
+  "min_side": 800,
+  "total_published": 210,
+  "selected": 11,
+  "service_key_available": false,
+  "items": [
+    {
+      "sku": "4976064013897",
+      "product_id": "f9adf018-fec1-4c7e-92e1-df3d8b1979d6",
+      "title": "猫のまぐろぶしスライス (30g)",
+      "current_first": "https://hkuxxgduymkztkmyhhot.supabase.co/storage/v1/object/public/public-images/best-partner/f9adf018-fec1-4c7e-92e1-df3d8b1979d6-13eb6ef200f2.jpg",
+      "current_dimensions": [
+        428,
+        628
+      ],
+      "status": "unresolved_no_official_hd_match"
+    },
+    {
+      "sku": "4976064022530",
+      "product_id": "7ab6628c-e564-43a8-a7fa-1904cdeb713f",
+      "title": "塩無添加きびなご (50g)",
+      "current_first": "https://hkuxxgduymkztkmyhhot.supabase.co/storage/v1/object/public/public-images/best-partner/4976064022530-1.jpg",
+      "current_dimensions": [
+        97,
+        157
+      ],
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3554/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064022530-943x1536.jpg",
+        "dimensions": [
+          943,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064023209",
+      "product_id": "647ce75e-3030-42fb-a5b8-cc4f05c8042d",
+      "title": "フカヒレの姿干し 細切り (40g)",
+      "current_first": "https://hkuxxgduymkztkmyhhot.supabase.co/storage/v1/object/public/public-images/best-partner/4976064023209-1.jpg",
+      "current_dimensions": [
+        105,
+        157
+      ],
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3595/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064023209-1016x1536.jpg",
+        "dimensions": [
+          1016,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064023599",
+      "product_id": "ed5e4d03-8ea2-4c81-9245-1da825740995",
+      "title": "馬の干し肉 薄切り (20g)",
+      "current_first": "/images/products/bp-4976064023599.jpg",
+      "current_dimensions": null,
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3349/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064023599-897x1536.jpg",
+        "dimensions": [
+          897,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064024336",
+      "product_id": "616e8149-5eb0-49d0-a549-2546f0c053d5",
+      "title": "猫の鶏ささみフレーク (50g)",
+      "current_first": "/images/products/bp-4976064024336.jpg",
+      "current_dimensions": null,
+      "status": "unresolved_no_official_hd_match"
+    },
+    {
+      "sku": "4976064024718",
+      "product_id": "df59b07c-f328-471c-9c6c-2d7b62717a80",
+      "title": "猫のささみ細切り ミニ (50g)",
+      "current_first": "/images/products/bp-4976064024718.jpg",
+      "current_dimensions": null,
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/4047/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024077-1-806x1024.jpg",
+        "dimensions": [
+          806,
+          1024
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064024893",
+      "product_id": "731da8a2-779c-4867-931b-caccf78dfb5e",
+      "title": "まぐろフレーク (45g)",
+      "current_first": "/images/products/bp-4976064024893.jpg",
+      "current_dimensions": null,
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3487/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024893-1-966x1024.jpg",
+        "dimensions": [
+          966,
+          1024
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064025081",
+      "product_id": "f4ba2af6-4309-458f-bb05-0e618eb6caf3",
+      "title": "鹿肉キューブ (30g)",
+      "current_first": "/images/products/bp-4976064025081.jpg",
+      "current_dimensions": null,
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/4846/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025081-963x1536.jpg",
+        "dimensions": [
+          963,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064025197",
+      "product_id": "b5f4a2d4-0554-4a3a-99b7-3b1e3c109f64",
+      "title": "まぐろ ミニキューブ (35g)",
+      "current_first": "https://hkuxxgduymkztkmyhhot.supabase.co/storage/v1/object/public/public-images/best-partner/4976064025197-1.jpg",
+      "current_dimensions": [
+        99,
+        157
+      ],
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3564/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025197-958x1536.jpg",
+        "dimensions": [
+          958,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064026583",
+      "product_id": "14cc644f-d570-46f8-983b-b5b12d1af64c",
+      "title": "北海ひめたら (35g)",
+      "current_first": "https://hkuxxgduymkztkmyhhot.supabase.co/storage/v1/object/public/public-images/best-partner/4976064026583-1.jpg",
+      "current_dimensions": [
+        91,
+        157
+      ],
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/3574/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026583-914x1536.jpg",
+        "dimensions": [
+          914,
+          1536
+        ]
+      },
+      "status": "would_update"
+    },
+    {
+      "sku": "4976064026750",
+      "product_id": "4340b688-6bda-40d8-b1cc-1fce8f0403d0",
+      "title": "京丹波産 鹿の干し肉 薄切り (35g)",
+      "current_first": "/images/products/bp-4976064026750.jpg",
+      "current_dimensions": null,
+      "official_match": {
+        "page_url": "https://best-partner.co.jp/archives/5654/",
+        "image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026750-918x1536.jpg",
+        "dimensions": [
+          918,
+          1536
+        ]
+      },
+      "status": "would_update"
+    }
+  ],
+  "counts": {
+    "already_hd": 0,
+    "updated": 0,
+    "would_update": 9,
+    "unresolved": 2,
+    "failed": 0
+  },
+  "homepage_json": {
+    "status": "verified_no_image_fields",
+    "path": "/home/ubuntu/mofuhavenhk/src/data/mofu-homepage-featured.json",
+    "entries": 7
+  }
+}
