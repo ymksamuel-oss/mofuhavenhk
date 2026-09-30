@@ -87,6 +87,7 @@ export function WelcomeEntranceOverlay() {
         badgeOne: "🥩 100% 國產天然原肉",
         badgeTwo: "🌿 愛知縣職人慢烘",
         badgeThree: "🚚 滿 HK$399 順豐免運",
+        coBrandNote: "日本愛知縣百年本社（創業1926年） × 毛毛港香港官方專營直送",
         enter: "踏入毛毛港・探索純肉選品 →",
         dogs: "🐶 進入狗狗專區",
         cats: "🐱 進入貓咪鮮食",
@@ -107,6 +108,7 @@ export function WelcomeEntranceOverlay() {
         badgeOne: "🥩 100% Domestic Natural Meat",
         badgeTwo: "🌿 Aichi Artisan Slow-Dried",
         badgeThree: "🚚 Free SF Shipping over HK$399",
+        coBrandNote: "A century-old Aichi headquarters (founded 1926) × Mofu Haven official Hong Kong direct shipping",
         enter: "Enter Mofu Haven · Explore the pure-meat edit →",
         dogs: "🐶 Shop for Dogs",
         cats: "🐱 Explore Cat Fresh Food",
@@ -149,14 +151,29 @@ export function WelcomeEntranceOverlay() {
 
             <section className="order-1 max-w-2xl lg:order-2">
               <div className="animate-[fadeInUp_600ms_80ms_ease-out_both]">
-                <p className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.05em] text-[#2C2523] sm:text-4xl lg:text-3xl">
-                  Mofu Haven
-                </p>
-                <p className="mt-1 text-[11px] font-medium tracking-[0.2em] text-[#9a7764]">{copy.brandSub}</p>
+                <div className="flex items-center justify-start gap-2 sm:gap-3 lg:justify-start">
+                  <Image
+                    src="/logo.png"
+                    alt="Mofu Haven"
+                    width={160}
+                    height={50}
+                    priority
+                    className="h-8 w-24 object-contain sm:h-10 sm:w-32 md:h-12 md:w-40"
+                  />
+                  <span className="select-none px-1 text-2xl font-light text-stone-300 sm:px-2 sm:text-3xl" aria-hidden="true">✕</span>
+                  <Image
+                    src="/images/brands/best-partner-logo.svg"
+                    alt="Best Partner Japan"
+                    width={180}
+                    height={50}
+                    priority
+                    className="h-8 w-28 object-contain sm:h-10 sm:w-36 md:h-12 md:w-44"
+                  />
+                </div>
+                <p className="mt-1 max-w-xl text-[10px] font-medium uppercase leading-5 tracking-[0.12em] text-stone-500 sm:text-xs sm:tracking-[0.16em]">{copy.coBrandNote}</p>
               </div>
 
               <div className="mt-7 animate-[fadeInUp_600ms_160ms_ease-out_both] sm:mt-10 lg:mt-7">
-                <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#C86A4B]">Mofu Haven · Best Partner selections</p>
                 <h1 className="max-w-xl font-[family-name:var(--font-display)] text-[clamp(2.25rem,10vw,4.8rem)] font-semibold leading-[1.08] tracking-[-0.055em] text-[#2C2523] lg:text-3xl lg:leading-[1.15]">
                   {isZh ? <>給最重要的家人，<br />一份純淨無瑕的日本原味。</> : copy.title}
                 </h1>
