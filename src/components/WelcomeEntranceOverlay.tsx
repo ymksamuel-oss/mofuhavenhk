@@ -155,12 +155,12 @@ export function WelcomeEntranceOverlay() {
                   <div className="flex items-center justify-start gap-6 sm:gap-10">
                     <div className="flex h-24 w-auto shrink-0 items-center justify-center md:h-28">
                       <Image
-                        src="/logo.png"
+                        src="/images/brands/mofu-haven-normalized.png"
                         alt="Mofu Haven 毛毛港"
-                        width={160}
-                        height={50}
+                        width={740}
+                        height={600}
                         priority
-                        className="h-full w-auto max-w-[200px] scale-[1.65] object-contain mix-blend-multiply sm:max-w-[240px] md:max-w-[280px]"
+                        className="max-h-full w-auto max-w-[200px] object-contain mix-blend-multiply sm:max-w-[240px] md:max-w-[280px]"
                       />
                     </div>
                     <div className="flex h-24 w-auto shrink-0 items-center justify-center md:h-28">
