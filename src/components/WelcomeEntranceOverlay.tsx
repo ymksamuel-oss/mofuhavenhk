@@ -153,7 +153,7 @@ export function WelcomeEntranceOverlay() {
               <div className="animate-[fadeInUp_600ms_80ms_ease-out_both]">
                 <div className="mb-6 w-full">
                   <div className="flex items-center justify-start gap-6 sm:gap-10">
-                    <div className="flex h-20 shrink-0 items-center justify-center sm:h-24 md:h-28">
+                    <div className="flex h-24 w-auto shrink-0 items-center justify-center md:h-28">
                       <Image
                         src="/logo.png"
                         alt="Mofu Haven 毛毛港"
@@ -163,14 +163,14 @@ export function WelcomeEntranceOverlay() {
                         className="h-full w-auto max-w-[200px] scale-[1.65] object-contain mix-blend-multiply sm:max-w-[240px] md:max-w-[280px]"
                       />
                     </div>
-                    <div className="flex h-16 shrink-0 items-center justify-center sm:h-20 md:h-[88px]">
+                    <div className="flex h-24 w-auto shrink-0 items-center justify-center md:h-28">
                       <Image
                         src="/images/brands/best-partner-logo.svg"
                         alt="Best Partner Japan"
                         width={180}
                         height={50}
                         priority
-                        className="h-full w-auto max-w-[180px] object-contain mix-blend-multiply sm:max-w-[220px] md:max-w-[250px]"
+                        className="h-full w-auto max-w-[180px] -translate-y-1 object-contain mix-blend-multiply sm:max-w-[220px] md:max-w-[250px]"
                       />
                     </div>
                   </div>
