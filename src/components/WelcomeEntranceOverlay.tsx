@@ -87,7 +87,7 @@ export function WelcomeEntranceOverlay() {
         badgeOne: "🥩 100% 國產天然原肉",
         badgeTwo: "🌿 愛知縣職人慢烘",
         badgeThree: "🚚 滿 HK$399 順豐免運",
-        coBrandNote: "日本愛知縣百年本社（創業1926年） × 毛毛港香港官方專營直送",
+        coBrandNote: "日本愛知縣百年本社 (創業1926年) × 毛毛港香港官方專營直送",
         enter: "踏入毛毛港・探索純肉選品 →",
         dogs: "🐶 進入狗狗專區",
         cats: "🐱 進入貓咪鮮食",
@@ -144,33 +144,39 @@ export function WelcomeEntranceOverlay() {
         </header>
 
         <main className="flex flex-1 items-center py-8 sm:py-12 lg:py-5">
-          <div className="mx-auto grid w-full max-w-5xl items-center gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="mx-auto grid w-full max-w-[1400px] items-center gap-8 lg:grid-cols-2 lg:gap-12">
             <aside className="order-2 lg:order-1">
               <SupplierProofCards copy={copy} isZh={isZh} desktop />
             </aside>
 
-            <section className="order-1 max-w-2xl lg:order-2">
+            <section className="order-1 max-w-3xl lg:order-2">
               <div className="animate-[fadeInUp_600ms_80ms_ease-out_both]">
-                <div className="flex items-center justify-start gap-2 sm:gap-3 lg:justify-start">
-                  <Image
-                    src="/logo.png"
-                    alt="Mofu Haven"
-                    width={160}
-                    height={50}
-                    priority
-                    className="h-8 w-24 object-contain sm:h-10 sm:w-32 md:h-12 md:w-40"
-                  />
-                  <span className="select-none px-1 text-2xl font-light text-stone-300 sm:px-2 sm:text-3xl" aria-hidden="true">✕</span>
-                  <Image
-                    src="/images/brands/best-partner-logo.svg"
-                    alt="Best Partner Japan"
-                    width={180}
-                    height={50}
-                    priority
-                    className="h-8 w-28 object-contain sm:h-10 sm:w-36 md:h-12 md:w-44"
-                  />
+                <div className="mb-6">
+                  <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6">
+                    <div className="flex h-[90px] w-[180px] items-center justify-center rounded-2xl border border-stone-200/60 bg-white/70 p-3 shadow-sm md:h-[110px] md:w-[220px] lg:h-[130px] lg:w-[260px]">
+                      <Image
+                        src="/logo.png"
+                        alt="Mofu Haven 毛毛港"
+                        width={160}
+                        height={50}
+                        priority
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                    <span className="select-none px-1 text-3xl font-light text-stone-300 md:px-2 md:text-4xl" aria-hidden="true">✕</span>
+                    <div className="flex h-[90px] w-[180px] items-center justify-center rounded-2xl border border-stone-200/60 bg-white/70 p-3 shadow-sm md:h-[110px] md:w-[220px] lg:h-[130px] lg:w-[260px]">
+                      <Image
+                        src="/images/brands/best-partner-logo.svg"
+                        alt="BestPartner Japan"
+                        width={180}
+                        height={50}
+                        priority
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs font-medium tracking-wide text-stone-600 md:text-sm">{copy.coBrandNote}</p>
                 </div>
-                <p className="mt-1 max-w-xl text-[10px] font-medium uppercase leading-5 tracking-[0.12em] text-stone-500 sm:text-xs sm:tracking-[0.16em]">{copy.coBrandNote}</p>
               </div>
 
               <div className="mt-7 animate-[fadeInUp_600ms_160ms_ease-out_both] sm:mt-10 lg:mt-7">
