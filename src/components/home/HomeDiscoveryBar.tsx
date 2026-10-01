@@ -8,7 +8,7 @@ const ITEMS = [
   { href: "/collections/horse-meat", icon: "🥩", zh: "天然原肉", en: "Natural Jerky" },
   { href: "/collections/cats", icon: "🐱", zh: "貓咪凍乾", en: "Cat Treats" },
   { href: "/collections/value-bundles", icon: "🎁", zh: "超值套裝", en: "Value Bundles" },
-  { href: "/brand/best-partner", icon: "🇯🇵", zh: "日本原裝", en: "Japan Direct" },
+  { href: "/supplier-profile", icon: "🇯🇵", zh: "日本原裝", en: "Japan Direct" },
 ] as const;
 
 const TRUST_ITEMS = [

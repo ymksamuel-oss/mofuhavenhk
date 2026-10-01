@@ -1,7 +1,7 @@
 "use client";
 
-import type { MouseEvent } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { PetMatcherWizard } from "@/components/matcher/PetMatcherWizard";
 
 const topics = [
   { zh: "🐶 物理潔齒耐咬", en: "🐶 Dental chews" },
@@ -14,20 +14,9 @@ export function CareMatchCard() {
   const { locale } = useI18n();
   const isEn = locale === "en";
 
-  const handleScrollToProducts = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    const target = document.getElementById("products") ?? document.querySelector('[data-section="products"]');
-
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-
-    window.scrollBy({ top: 650, behavior: "smooth" });
-  };
-
   return (
-    <section className="my-8 w-full max-w-6xl mx-auto px-4" aria-labelledby="care-match-title">
+    <>
+      <section className="my-8 w-full max-w-6xl mx-auto px-4" aria-labelledby="care-match-title">
       <div className="relative overflow-hidden rounded-3xl border border-amber-200/60 bg-gradient-to-r from-amber-50/80 via-orange-50/60 to-stone-50 p-6 shadow-sm sm:p-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="max-w-2xl">
@@ -51,16 +40,20 @@ export function CareMatchCard() {
             </div>
           </div>
           <div className="w-full shrink-0 md:w-auto">
-            <a
-              href="#products"
-              onClick={handleScrollToProducts}
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new Event("mofu:open-matcher"));
+              }}
               className="inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-amber-800 active:scale-[0.98] sm:text-base md:w-auto"
             >
               <span>{isEn ? "Explore Matching Treats →" : "開始食品速配 →"}</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
-    </section>
+      </section>
+      <PetMatcherWizard variant="home" showTrigger={false} />
+    </>
   );
 }

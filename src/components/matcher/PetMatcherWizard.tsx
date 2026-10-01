@@ -10,7 +10,7 @@ import { useCart } from "@/lib/shop/cart";
 import { ProductImage } from "@/components/product/ProductImage";
 import QRCode from "qrcode";
 
-export type PetMatcherWizardProps = { variant: "home" | "floating" };
+export type PetMatcherWizardProps = { variant: "home" | "floating"; showTrigger?: boolean };
 type Pet = "dog" | "cat";
 type Age = number;
 type Size = "small" | "medium" | "large";
@@ -185,7 +185,7 @@ function isPetSpecificRecommendation(product: Product, pet: Pet): boolean {
   return dogSignal && !/cat|feline|貓|貓咪|貓用/i.test(text);
 }
 
-export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
+export function PetMatcherWizard({ variant, showTrigger = true }: PetMatcherWizardProps) {
   const { locale } = useI18n();
   const { products } = useCatalog();
   const { lines, addItem } = useCart();
@@ -340,6 +340,12 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
   };
 
   useEffect(() => {
+    const handleExternalOpen = () => openWizard();
+    window.addEventListener("mofu:open-matcher", handleExternalOpen);
+    return () => window.removeEventListener("mofu:open-matcher", handleExternalOpen);
+  }, []);
+
+  useEffect(() => {
     if (!open) return undefined;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -374,16 +380,16 @@ export function PetMatcherWizard({ variant }: PetMatcherWizardProps) {
 
   return (
     <>
-      {variant === "home" ? (
+      {showTrigger && variant === "home" ? (
         <section className="mx-auto my-5 max-w-6xl px-3 sm:px-6 lg:px-10">
           <div className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-[#ead8c8] bg-[#FAF7F2] p-5 shadow-[0_18px_40px_-30px_rgba(73,48,31,0.5)] sm:flex-row sm:items-center sm:p-6">
             <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a36b42]">{isZh ? "MOFU HAVEN CARE MATCH" : "MOFU HAVEN CARE MATCH"}</p><h2 className="mt-1 text-xl font-bold tracking-tight text-stone-800 sm:text-2xl">{isZh ? "🐾 不知道買什麼？30 秒測出毛孩專屬日系好物" : "🐾 Not sure what to choose? Find their Japanese essentials in 30 seconds"}</h2><p className="mt-1 text-sm text-stone-500">{isZh ? "告訴我們毛孩的品種與需求，為牠量身定制照護組合" : "Tell us their breed and needs for a tailored care bundle."}</p></div>
             <button type="button" onClick={openWizard} className="shrink-0 rounded-full bg-[#8a5836] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46] active:scale-[0.97]">{isZh ? "開始配對 →" : "Start matching →"}</button>
           </div>
         </section>
-      ) : (
+      ) : showTrigger ? (
         <button type="button" onClick={openWizard} className="fixed bottom-5 right-4 z-40 flex items-center gap-2 rounded-full border border-white/70 bg-[#8a5836] px-3.5 py-2.5 text-xs font-bold text-white shadow-[0_12px_30px_-12px_rgba(73,48,31,0.75)] transition hover:bg-[#a66d46] active:scale-[0.97] sm:bottom-6 sm:right-6"><span className="text-base">🐾</span><span>{isZh ? "30秒配對" : "Pet Matcher"}</span></button>
-      )}
+      ) : null}
 
       {open ? <div className="fixed inset-0 z-[100] flex items-end justify-center bg-stone-950/55 p-0 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-labelledby="pet-matcher-title" onMouseDown={(event) => { if (event.target === event.currentTarget) closeWizard(); }}>
         <div className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl border border-[#ead8c8] bg-[#FAF7F2] shadow-2xl sm:rounded-3xl">
