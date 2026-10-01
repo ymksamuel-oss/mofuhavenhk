@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const CANONICAL_HOST = "www.mofuhavenhk.com";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.split(":")[0].toLowerCase();
   const legacyPath = request.nextUrl.pathname.replace(/\/+$/, "").toLowerCase();
   if ([
