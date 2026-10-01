@@ -65,7 +65,7 @@ export function WelcomeEntranceOverlay() {
 
   const enterStore = () => {
     dismiss(() => {
-      document.getElementById("homepage-products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
 

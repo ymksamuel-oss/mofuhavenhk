@@ -11,10 +11,6 @@ import { cookies } from "next/headers";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
-const PetMatcherWizard = dynamic(
-  () => import("@/components/matcher/PetMatcherWizard").then((module) => module.PetMatcherWizard),
-  { loading: () => null },
-);
 const HomepageFeaturedShowcase = dynamic(
   () => import("@/components/home/HomepageFeaturedShowcase").then((module) => module.HomepageFeaturedShowcase),
   { loading: () => null },
@@ -54,7 +50,6 @@ export default async function HomePage() {
       <HomeDiscoveryBar />
       <CareMatchCard />
       <HomeBulkPromotion />
-      <PetMatcherWizard variant="home" />
       <HomepageProductGrid products={products} />
       <HomepageFeaturedShowcase products={products} />
       <BestPartnerValues />

@@ -90,7 +90,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
 
   return (
     <section
-      id="homepage-products"
+      id="products"
       aria-labelledby="homepage-products-title"
       className="border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-6 sm:px-10 sm:py-8"
     >

@@ -40,10 +40,10 @@ export function CareMatchCard() {
           </div>
           <div className="w-full shrink-0 md:w-auto">
             <Link
-              href="/collections/bestsellers"
+              href="/#products"
               className="inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-amber-800 active:scale-[0.98] sm:text-base md:w-auto"
             >
-              {isEn ? "Start Care Match →" : "開始食品速配 →"}
+              <span>{isEn ? "Explore Matching Treats →" : "開始食品速配 →"}</span>
             </Link>
           </div>
         </div>
