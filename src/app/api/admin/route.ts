@@ -265,7 +265,7 @@ function normalizeProductImages(value: unknown): string[] {
   )).slice(0, MAX_PRODUCT_IMAGES);
 }
 
-function syncProductImageColumns(payload: Record<string, any>) {
+function syncProductImageColumns(payload: Record<string, unknown>) {
   if (!("images" in payload)) return;
   payload.images = normalizeProductImages(payload.images);
   // `images` is canonical in the current schema. Older deployments may still
@@ -277,9 +277,9 @@ async function writeProductRow(
   supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
   operation: "insert" | "update",
   id: string | null,
-  payload: Record<string, any>,
+  payload: Record<string, unknown>,
 ) {
-  const run = (row: Record<string, any>) => {
+  const run = (row: Record<string, unknown>) => {
     const query = operation === "insert"
       ? supabase.from("products").insert(row)
       : supabase.from("products").update(row).eq("id", id as string);
