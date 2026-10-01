@@ -347,7 +347,7 @@ export function Header() {
                   </li>
                 ))}
                 <li className="block w-full">
-                  <Link href="/knowledge" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname.startsWith("/knowledge") || pathname.startsWith("/blog/") ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>📚 {locale === "en" ? "Pet Care Knowledge Hub" : "毛拔麻知識庫"}</Link>
+                  <Link href="/explore-pets" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === "/explore-pets" || pathname.startsWith("/explore-pets/") || pathname.startsWith("/blog/") ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>🐾 {locale === "en" ? "Explore Pets" : "探索寵物世界"}</Link>
                 </li>
                 <li className="block w-full">
                   <Link href="/pet-guide" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>{t("navHeaderExplore")}</Link>
@@ -399,7 +399,7 @@ export function Header() {
             <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
               {locale === "en" ? "Value Bundles" : "促銷組合"}
             </Link>
-            <Link href="/knowledge" className={navLinkClassName(pathname.startsWith("/knowledge") || pathname.startsWith("/blog/"))}>
+            <Link href="/explore-pets" className={navLinkClassName(pathname === "/explore-pets" || pathname.startsWith("/explore-pets/") || pathname.startsWith("/blog/"))}>
               {locale === "en" ? "Explore Pets" : "探索寵物世界"}
             </Link>
             <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
