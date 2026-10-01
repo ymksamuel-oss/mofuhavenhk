@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
@@ -62,7 +63,7 @@ export function PetGuidePage() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {GUIDE_CARDS.map((guide) => (
-                <CategoryNavLink
+                <Link
                   key={guide.href}
                   href={guide.href}
                   className="group overflow-hidden rounded-2xl border border-[#ECE5D8] bg-white p-0 shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] transition hover:-translate-y-1 hover:border-[#DCCBB8]"
@@ -79,7 +80,7 @@ export function PetGuidePage() {
                       <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                     </span>
                   </div>
-                </CategoryNavLink>
+                </Link>
               ))}
             </div>
           </div>

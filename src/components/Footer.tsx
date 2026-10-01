@@ -174,10 +174,10 @@ export function Footer() {
               {t("footerTagline")}
             </p>
             <Link
-              href="/#explore-pets"
+              href={locale === "en" ? "/en/pet-guide" : "/pet-guide"}
               className="inline-flex rounded-full border border-[#a97858] bg-[#fff8ef]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#fff8ef]"
             >
-              {locale === "en" ? "Explore Pet World →" : "探索寵物世界 →"}
+              {locale === "en" ? "Explore Pet World Guide →" : "探索寵物世界圖鑑 →"}
             </Link>
           </div>
 

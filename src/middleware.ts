@@ -24,10 +24,18 @@ export function middleware(request: NextRequest) {
     url.protocol = "https:";
     return NextResponse.redirect(url, 308);
   }
-  const response = NextResponse.next();
+  const response = request.nextUrl.pathname === "/en/pet-guide"
+    ? NextResponse.rewrite(new URL("/pet-guide", request.url))
+    : NextResponse.next();
   const nextLocale = request.cookies.get("NEXT_LOCALE")?.value;
   const legacyLocale = request.cookies.get("mofuhavenhk-locale")?.value;
-  if (nextLocale !== "zh-HK" && nextLocale !== "en") {
+  if (request.nextUrl.pathname === "/en/pet-guide") {
+    response.cookies.set("NEXT_LOCALE", "en", {
+      path: "/",
+      maxAge: 31536000,
+      sameSite: "lax",
+    });
+  } else if (nextLocale !== "zh-HK" && nextLocale !== "en") {
     response.cookies.set("NEXT_LOCALE", legacyLocale === "en" ? "en" : "zh-HK", {
       path: "/",
       maxAge: 31536000,

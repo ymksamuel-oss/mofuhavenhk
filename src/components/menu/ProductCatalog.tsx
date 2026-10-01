@@ -350,8 +350,7 @@ export function ProductCatalog({
               aria-label={t("productPaginationPrevious")}
               className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <span className="sm:hidden">← Prev</span>
-              <span className="hidden sm:inline">{t("productPaginationPrevious")}</span>
+              {locale === "zh" ? "← 上一頁" : "← Prev"}
             </button>
             {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
               page === "ellipsis" ? (
@@ -388,8 +387,7 @@ export function ProductCatalog({
               aria-label={t("productPaginationNext")}
               className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <span className="sm:hidden">Next →</span>
-              <span className="hidden sm:inline">{t("productPaginationNext")}</span>
+              {locale === "zh" ? "下一頁 →" : "Next →"}
             </button>
           </nav>
           <BrandServiceStrip placement="catalog-bottom" />

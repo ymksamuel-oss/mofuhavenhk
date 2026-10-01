@@ -13,7 +13,6 @@ import styles from "./HomeProductMarquee.module.css";
 type ProductRowProps = {
   label: string;
   products: Product[];
-  speed: "regular" | "slow";
 };
 
 function productAudienceText(product: Product) {
@@ -38,18 +37,16 @@ function isDogMarqueeProduct(product: Product) {
   return !/\u8c93|\u732b|cat|ねこ|ネコ/.test(text) && (product.categorySlug === "dogs" || /\u72d7|\u72ac|dog/.test(text));
 }
 
-function ProductRow({ label, products, speed }: ProductRowProps) {
+function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
-  const repeatedProducts = [...products, ...products];
 
   return (
     <div className={styles.rowWrap} aria-label={label}>
       <div
-        className={`${styles.track} ${speed === "slow" ? styles.trackSlow : styles.trackRegular}`}
+        className={styles.track}
         title={t("homeMarqueePause")}
       >
-        {repeatedProducts.map((product, index) => {
-          const duplicate = index >= products.length;
+        {products.map((product) => {
           const href = productHref(product.id);
           const discountPercent = product.originalPrice
             ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -57,14 +54,11 @@ function ProductRow({ label, products, speed }: ProductRowProps) {
 
           return (
             <article
-              key={`${product.id}-${index}`}
-              aria-hidden={duplicate || undefined}
-              data-marquee-copy={duplicate ? "duplicate" : "source"}
+              key={product.id}
               className={styles.card}
             >
               <CategoryNavLink
                 href={href}
-                tabIndex={duplicate ? -1 : undefined}
                 aria-label={`${t("viewProductAria")}: ${getLocalizedProductName(product, locale)}`}
                 className={styles.cardLink}
               >
@@ -149,7 +143,7 @@ export function HomeProductMarquee() {
               {t("homeMarqueeCats")}
             </p>
           </div>
-          <ProductRow label={t("homeMarqueeCats")} products={catProducts} speed="regular" />
+          <ProductRow label={t("homeMarqueeCats")} products={catProducts} />
         </> : null}
         {dogProducts.length > 0 ? <>
           <div className="mx-auto max-w-7xl px-6 pt-1 sm:px-10 lg:px-12">
@@ -157,7 +151,7 @@ export function HomeProductMarquee() {
               {t("homeMarqueeDogs")}
             </p>
           </div>
-          <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} speed="slow" />
+          <ProductRow label={t("homeMarqueeDogs")} products={dogProducts} />
         </> : null}
       </div>
     </section>

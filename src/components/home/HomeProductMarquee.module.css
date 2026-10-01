@@ -1,5 +1,7 @@
 .rowWrap {
-  overflow: hidden;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
   width: 100%;
   padding: 0.35rem 0;
 }
@@ -9,23 +11,7 @@
   width: max-content;
   gap: 1rem;
   padding: 0 0.75rem;
-  animation-name: home-product-marquee;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
-}
-
-.trackRegular {
-  animation-duration: 46s;
-}
-
-.trackSlow {
-  animation-duration: 58s;
-}
-
-.track:hover,
-.track:focus-within {
-  animation-play-state: paused;
+  animation: none;
 }
 
 .card {
@@ -121,16 +107,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-@keyframes home-product-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
 @media (min-width: 640px) {
   .track {
     gap: 1.15rem;
@@ -166,17 +142,7 @@
     scrollbar-width: thin;
   }
 
-  .track {
-    width: max-content;
-    animation: none;
-    padding-bottom: 0.55rem;
-  }
-
   .card {
     scroll-snap-align: start;
-  }
-
-  .card[data-marquee-copy="duplicate"] {
-    display: none;
   }
 }
