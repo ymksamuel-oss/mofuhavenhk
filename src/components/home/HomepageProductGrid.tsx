@@ -91,8 +91,10 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
   return (
     <section
       id="products"
+      data-section="products"
       aria-labelledby="homepage-products-title"
-      className="border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-6 sm:px-10 sm:py-8"
+      className="scroll-mt-24 border-t border-[color:var(--line)] bg-[color:var(--background)] px-6 py-6 sm:px-10 sm:py-8"
+      aria-labelledby="homepage-products-title"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-5 flex items-end justify-between gap-5 sm:mb-6">

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import type { MouseEvent } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const topics = [
@@ -13,6 +13,18 @@ const topics = [
 export function CareMatchCard() {
   const { locale } = useI18n();
   const isEn = locale === "en";
+
+  const handleScrollToProducts = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const target = document.getElementById("products") ?? document.querySelector('[data-section="products"]');
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    window.scrollBy({ top: 650, behavior: "smooth" });
+  };
 
   return (
     <section className="my-8 w-full max-w-6xl mx-auto px-4" aria-labelledby="care-match-title">
@@ -39,12 +51,13 @@ export function CareMatchCard() {
             </div>
           </div>
           <div className="w-full shrink-0 md:w-auto">
-            <Link
-              href="/#products"
+            <a
+              href="#products"
+              onClick={handleScrollToProducts}
               className="inline-flex w-full items-center justify-center rounded-2xl bg-stone-900 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-amber-800 active:scale-[0.98] sm:text-base md:w-auto"
             >
               <span>{isEn ? "Explore Matching Treats →" : "開始食品速配 →"}</span>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
