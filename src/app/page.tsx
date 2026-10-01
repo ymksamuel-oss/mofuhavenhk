@@ -4,6 +4,7 @@ import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
+import { CareMatchCard } from "@/components/home/CareMatchCard";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
@@ -51,6 +52,7 @@ export default async function HomePage() {
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeBannerCarousel />
       <HomeDiscoveryBar />
+      <CareMatchCard />
       <HomeBulkPromotion />
       <PetMatcherWizard variant="home" />
       <HomepageProductGrid products={products} />

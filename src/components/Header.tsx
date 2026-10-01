@@ -139,7 +139,6 @@ export function Header() {
   const { count: wishlistCount } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null);
-  const [desktopCategoryOpen, setDesktopCategoryOpen] = useState<string | null>(null);
   const [mobileBrandOpen, setMobileBrandOpen] = useState(false);
   const [desktopBrandOpen, setDesktopBrandOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
@@ -154,7 +153,6 @@ export function Header() {
   useEffect(() => {
     setMenuOpen(false);
     setMobileCategoryOpen(null);
-    setDesktopCategoryOpen(null);
     setMobileBrandOpen(false);
     setDesktopBrandOpen(false);
   }, [pathname]);
@@ -165,17 +163,15 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!desktopCategoryOpen && !desktopBrandOpen) return;
+    if (!desktopBrandOpen) return;
 
     const closeWhenOutside = (event: PointerEvent) => {
       if (!desktopCategoryRef.current?.contains(event.target as Node)) {
-        setDesktopCategoryOpen(null);
         setDesktopBrandOpen(false);
       }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setDesktopCategoryOpen(null);
         setDesktopBrandOpen(false);
       }
     };
@@ -186,7 +182,7 @@ export function Header() {
       window.removeEventListener("pointerdown", closeWhenOutside);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [desktopCategoryOpen, desktopBrandOpen]);
+  }, [desktopBrandOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -403,14 +399,9 @@ export function Header() {
             <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
               {locale === "en" ? "Value Bundles" : "促銷組合"}
             </Link>
-            <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopCategoryOpen("knowledge")}>
-              <button type="button" className={`${navLinkClassName(desktopCategoryOpen === "knowledge" || pathname.startsWith("/knowledge") || pathname.startsWith("/blog/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopCategoryOpen === "knowledge"} onClick={() => setDesktopCategoryOpen((open) => open === "knowledge" ? null : "knowledge")} onFocus={() => setDesktopCategoryOpen("knowledge")}>
-                {locale === "en" ? "Knowledge Hub" : "毛拔麻知識庫"} <CaretIcon open={desktopCategoryOpen === "knowledge"} />
-              </button>
-              {desktopCategoryOpen === "knowledge" ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                <Link href="/knowledge" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopCategoryOpen(null)}>{locale === "en" ? "Explore pet world" : "探索寵物世界"}</Link>
-              </div> : null}
-            </div>
+            <Link href="/knowledge" className={navLinkClassName(pathname.startsWith("/knowledge") || pathname.startsWith("/blog/"))}>
+              {locale === "en" ? "Explore Pets" : "探索寵物世界"}
+            </Link>
             <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
               <button type="button" className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} onClick={() => setDesktopBrandOpen((open) => !open)} onFocus={() => setDesktopBrandOpen(true)}>
                 {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
