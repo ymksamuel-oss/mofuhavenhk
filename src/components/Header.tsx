@@ -390,7 +390,7 @@ export function Header() {
 
           <nav
             ref={desktopCategoryRef}
-            className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[13px] text-[color:var(--muted)] xl:flex xl:text-sm"
+            className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[12px] text-[color:var(--muted)] md:flex lg:gap-8 lg:text-sm"
             aria-label={t("headerPrimaryNavLabel")}
           >
             <Link href="/" className={navLinkClassName(pathname === "/")}>
@@ -483,7 +483,7 @@ export function Header() {
 
             <button
               type="button"
-              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 xl:hidden"
+              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
               aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
               aria-expanded={menuOpen}
               aria-controls={drawerId}

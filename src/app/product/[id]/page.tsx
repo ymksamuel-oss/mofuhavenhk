@@ -191,6 +191,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     image: galleryImages.length ? galleryImages : [imageUrl],
     description,
     sku,
+    ...( /^\d{13}$/.test(sku) ? { gtin13: sku } : {}),
     url: canonical,
     brand: product.brand || product.brandName ? { "@type": "Brand", name: product.brand || product.brandName } : undefined,
     offers: {
