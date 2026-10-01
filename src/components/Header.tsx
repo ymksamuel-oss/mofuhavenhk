@@ -292,7 +292,7 @@ export function Header() {
                 ))}
                 {primaryCategoryLinks.map((item) => (
                   <li key={item.slug} className="block w-full">
-                    <Link href={`/categories/${item.slug}`} className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
+                    <Link href={`/collections/${item.slug}`} className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
                       {item.label}
                     </Link>
                   </li>
@@ -357,7 +357,6 @@ export function Header() {
                   <Link href="/pet-guide" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>{t("navHeaderExplore")}</Link>
                 </li>
                 <li className="block w-full">
-                  <Link href="/collections/cat-guide" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === "/collections/cat-guide" ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>{t("navCatGuide")}</Link>
                 </li>
                 <li className="block w-full">
                   <Link href="/about" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>{t("navAbout")}</Link>
@@ -397,7 +396,7 @@ export function Header() {
               {locale === "zh" ? "首頁" : t("navHome")}
             </Link>
             {primaryCategoryLinks.map((item) => (
-              <Link key={item.slug} href={`/categories/${item.slug}`} className={navLinkClassName(isCategoryActive(item))}>
+               <Link key={item.slug} href={`/collections/${item.slug}`} className={navLinkClassName(pathname === `/collections/${item.slug}` || pathname.startsWith(`/collections/${item.slug}/`))}>
                 {item.label}
               </Link>
             ))}
@@ -410,7 +409,6 @@ export function Header() {
               </button>
               {desktopCategoryOpen === "knowledge" ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
                 <Link href="/knowledge" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopCategoryOpen(null)}>{locale === "en" ? "Explore pet world" : "探索寵物世界"}</Link>
-                <Link href="/collections/cat-guide" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopCategoryOpen(null)}>{locale === "en" ? "Cat fresh food guide" : "貓咪鮮食指南"}</Link>
               </div> : null}
             </div>
             <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>

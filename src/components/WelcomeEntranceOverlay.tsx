@@ -205,14 +205,14 @@ export function WelcomeEntranceOverlay() {
                 </button>
                 <div className="grid grid-cols-2 gap-3 sm:max-w-[22rem]">
                   <Link
-                    href="/categories/dogs"
+                    href="/collections/dogs"
                     onClick={() => dismiss()}
                     className="flex min-h-12 items-center justify-center rounded-xl bg-[#ebe6de] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#e1d8cc] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
                   >
                     {copy.dogs}
                   </Link>
                   <Link
-                    href="/categories/cats"
+                    href="/collections/cats"
                     onClick={() => dismiss()}
                     className="flex min-h-12 items-center justify-center rounded-xl bg-[#ebe6de] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#e1d8cc] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
                   >
