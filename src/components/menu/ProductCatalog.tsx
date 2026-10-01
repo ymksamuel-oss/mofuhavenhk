@@ -10,6 +10,7 @@ import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
+import FloatingPageNav from "@/components/menu/FloatingPageNav";
 
 const PAGE_SIZE = 12;
 type PageItem = number | "ellipsis";
@@ -390,6 +391,7 @@ export function ProductCatalog({
               {locale === "zh" ? "下一頁 →" : "Next →"}
             </button>
           </nav>
+          <FloatingPageNav currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} />
           <BrandServiceStrip placement="catalog-bottom" />
         </>
       )}
