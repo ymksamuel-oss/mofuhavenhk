@@ -84,25 +84,25 @@ export function HomeBannerCarousel({ banners, products }: Props) {
             <div className="absolute inset-0 bg-cover bg-center opacity-35" style={{ backgroundImage: `url(${activeBanner.customImageUrl})` }} aria-hidden="true" />
           ) : null}
 
-          <div className="absolute inset-0 grid grid-cols-3 gap-2 p-3 opacity-65 sm:grid-cols-6 sm:grid-rows-4 sm:gap-3 sm:p-5 lg:grid-cols-8 lg:grid-rows-3 lg:gap-4 lg:p-8" aria-hidden="true">
+          <div className="absolute inset-0 grid grid-cols-3 gap-2 p-3 opacity-30 sm:grid-cols-6 sm:grid-rows-4 sm:gap-3 sm:p-5 lg:grid-cols-8 lg:grid-rows-3 lg:gap-4 lg:p-8" aria-hidden="true">
             {Array.from({ length: 24 }, (_, index) => {
               const product = matrixProducts[index % Math.max(matrixProducts.length, 1)];
               return (
                 <div key={`${product?.id ?? "empty"}-${index}`} className="relative overflow-hidden rounded-2xl border border-white/75 bg-white/70 shadow-[0_10px_24px_-18px_rgba(82,58,42,0.55)]">
-                  {product ? <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt="" fill sizes="(min-width: 1024px) 12vw, 18vw" className="object-contain p-3 mix-blend-multiply blur-[0.2px]" /> : <div className="h-full w-full bg-[#eee4d9]" />}
+                  {product ? <ProductImage src={product.images?.[0] ?? "catalog-placeholder"} alt="" fill sizes="(min-width: 1024px) 12vw, 18vw" className="object-contain p-3 mix-blend-multiply" /> : <div className="h-full w-full bg-[#eee4d9]" />}
                 </div>
               );
             })}
           </div>
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,253,250,.98)_0%,rgba(255,253,250,.88)_33%,rgba(255,253,250,.55)_62%,rgba(255,253,250,.78)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-white/80" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,253,250,.92)_0%,rgba(255,253,250,.72)_44%,rgba(255,253,250,.42)_100%)]" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#f4e9df]/65" />
 
           <div className="relative z-10 mx-auto flex min-h-[430px] max-w-3xl flex-col items-center justify-center px-9 py-16 text-center sm:min-h-[470px] sm:px-16 lg:min-h-[500px]">
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#8b6b55] sm:text-xs">{activeBanner.tagEn}</span>
-            <div className="mt-4 h-px w-12 bg-[#b99678]" />
-            <h1 className="mt-5 max-w-3xl font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight tracking-tight text-[#493526] sm:text-5xl lg:text-6xl">{locale === "en" ? activeBanner.titleEn : activeBanner.titleZh}</h1>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#765d49] sm:text-base sm:leading-8">{locale === "en" ? activeBanner.subtitleEn : activeBanner.subtitleZh}</p>
-            <Link href={activeBanner.linkUrl} className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#493526] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-15px_rgba(73,53,38,.8)] transition hover:bg-[#7a543b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#493526] focus-visible:ring-offset-2">
+            <h1 className="mt-6 max-w-3xl whitespace-pre-line font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.2] tracking-tight text-[#493526] sm:text-5xl lg:text-6xl">{locale === "en" ? activeBanner.titleEn : activeBanner.titleZh}</h1>
+            <p className="mt-6 max-w-2xl whitespace-pre-line text-sm leading-8 text-[#765d49] sm:text-base sm:leading-9">{locale === "en" ? activeBanner.subtitleEn : activeBanner.subtitleZh}</p>
+            <Link href={activeBanner.linkUrl} className="mt-9 inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-15px_rgba(24,24,27,.8)] transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
               {locale === "en" ? activeBanner.buttonTextEn : activeBanner.buttonTextZh}
             </Link>
           </div>
