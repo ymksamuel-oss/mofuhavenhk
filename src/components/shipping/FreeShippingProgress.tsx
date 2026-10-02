@@ -88,7 +88,7 @@ export function FreeShippingProgress({
       >
         <div
           className={`h-full rounded-full transition-[width] duration-500 ease-out ${
-            reached ? "bg-emerald-500" : "bg-[color:var(--accent)]"
+            reached ? "bg-[color:var(--accent-strong)]" : "bg-[color:var(--accent)]"
           }`}
           style={{ width: `${percentage}%` }}
         />

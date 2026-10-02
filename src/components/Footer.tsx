@@ -142,7 +142,7 @@ function PaymentMarks() {
  * accordion sections on mobile. Payment marks match the checkout allowlist.
  */
 export function Footer() {
-  const { locale, t } = useI18n();
+  const { locale, setLocale, t } = useI18n();
   const waUrl = getShopWhatsAppChatUrl(
     `${t("brand")} — ${t("footerWhatsapp")}`,
   );
@@ -179,6 +179,11 @@ export function Footer() {
             >
               {locale === "en" ? "Explore Pet World Guide →" : "探索寵物世界圖鑑 →"}
             </Link>
+            <div className="flex items-center gap-2 pt-1 text-xs text-[#62493b]" role="group" aria-label={t("headerLanguageLabel")}>
+              <span className="font-medium">{locale === "en" ? "Language" : "語言"}</span>
+              <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "zh" ? "bg-[#7b4f37] text-white" : "hover:bg-[#fff8ef]"}`}>中文</button>
+              <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "en" ? "bg-[#7b4f37] text-white" : "hover:bg-[#fff8ef]"}`}>English</button>
+            </div>
           </div>
 
           <FooterNavColumn title={t("footerQuickLinks")} links={QUICK_LINKS} />

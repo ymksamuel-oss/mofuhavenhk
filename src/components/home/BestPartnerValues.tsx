@@ -42,7 +42,7 @@ export function BestPartnerValues() {
           </p>
         </div>
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9c0a8] bg-[#f4e5d6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#7c5841]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#b7c9b1] bg-[#e9f0e6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#3d5a40]">
             <span aria-hidden="true">✦</span> {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
           </span>
           <h2

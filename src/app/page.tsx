@@ -5,6 +5,7 @@ import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
 import { CareMatchCard } from "@/components/home/CareMatchCard";
+import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
@@ -52,6 +53,7 @@ export default async function HomePage() {
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
       <HomepageFeaturedShowcase products={products} />
+      <HomeSupplierStory />
       <BestPartnerValues />
       <HomeInteractiveSections />
     </>

@@ -8,13 +8,13 @@ const SITE_URL = "https://www.mofuhavenhk.com";
 const VENISON_SKUS = ["4976064026545", "4976064026743", "4976064025081"] as const;
 
 export const metadata: Metadata = {
-  title: "【毛拔麻健康教室】日本獸醫鹿肉營養解析｜Mofu Haven",
+  title: "【毛孩健康教室】日本獸醫鹿肉營養解析｜Mofu Haven",
   description: "由低脂高蛋白、天然 DHA 到低敏單一肉源，一次了解日本製鹿肉零食如何成為狗狗日常飲食的安心選擇。",
   alternates: { canonical: `${SITE_URL}/blog/dog-food-venison-benefits` },
   openGraph: {
     type: "article",
     url: `${SITE_URL}/blog/dog-food-venison-benefits`,
-    title: "【毛拔麻健康教室】點解日本獸醫大力推薦「鹿肉」？",
+    title: "【毛孩健康教室】點解日本獸醫大力推薦「鹿肉」？",
     description: "低脂防肥、罕見 DHA 護腦與低敏紅肉全解析。",
     images: [{ url: `${SITE_URL}/images/hero-natural-meat.jpg`, width: 1600, height: 900, alt: "狗狗天然原肉飲食專欄" }],
   },
@@ -42,7 +42,7 @@ export default async function VenisonBenefitsPage() {
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "【毛拔麻健康教室】點解日本獸醫大力推薦「鹿肉」？低脂防肥、罕見DHA護腦與低敏紅肉全解析",
+    headline: "【毛孩健康教室】點解日本獸醫大力推薦「鹿肉」？低脂防肥、罕見DHA護腦與低敏紅肉全解析",
     description: "由低脂高蛋白、天然 DHA 到低敏單一肉源，一次了解日本製鹿肉零食。",
     image: `${SITE_URL}/images/hero-natural-meat.jpg`,
     datePublished: "2026-09-21",
@@ -61,7 +61,7 @@ export default async function VenisonBenefitsPage() {
           <div className="relative mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:py-24">
             <div className="max-w-2xl text-white">
               <Link href="/" className="text-xs font-bold tracking-[0.18em] text-white/80 hover:text-white">毛毛港健康知識庫　/　DOG NUTRITION</Link>
-              <p className="mt-8 inline-flex rounded-full border border-white/30 bg-white/15 px-3 py-1.5 text-xs font-bold tracking-[0.14em] backdrop-blur">毛拔麻健康教室 · 專業飲食筆記</p>
+              <p className="mt-8 inline-flex rounded-full border border-white/30 bg-white/15 px-3 py-1.5 text-xs font-bold tracking-[0.14em] backdrop-blur">毛孩健康教室 · 專業飲食筆記</p>
               <h1 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.13] tracking-tight sm:text-5xl lg:text-6xl">點解日本獸醫大力推薦「鹿肉」？</h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/90 sm:text-xl">低脂防肥、罕見 DHA 護腦與低敏紅肉全解析，幫你為毛孩揀一款更清爽、更安心的日常肉源。</p>
               <div className="mt-7 flex flex-wrap gap-2">
@@ -83,12 +83,12 @@ export default async function VenisonBenefitsPage() {
 
           <section className="mt-14" aria-labelledby="benefit-protein">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#8b573f] text-xl text-white">01</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">LEAN & LIGHT</p><h2 id="benefit-protein" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-[#4b352a]">高蛋白、極低脂：絕育與減肥犬的清爽肉香</h2></div></div>
-            <div className="grid gap-6 md:grid-cols-[1.1fr_.9fr] md:items-center"><p className="text-base leading-8 text-[#634b3d]">鹿肉通常屬於較瘦的紅肉，蛋白質密度高、脂肪相對低，對需要留意體態的狗狗尤其吸引。把高油脂零食換成小份量鹿肉乾，不代表可以無上限食；重點仍然是將零食熱量計入每日總攝取，並按體重、活動量和獸醫建議調整。</p><aside className="rounded-3xl bg-[#f2e4d5] p-6"><p className="text-sm font-bold text-[#87583d]">毛拔麻小貼士</p><p className="mt-2 text-sm leading-7 text-[#634b3d]">以「小份量、慢慢轉、觀察便便與皮膚」為原則，比一次過換晒全餐更穩妥。</p></aside></div>
+            <div className="grid gap-6 md:grid-cols-[1.1fr_.9fr] md:items-center"><p className="text-base leading-8 text-[#634b3d]">鹿肉通常屬於較瘦的紅肉，蛋白質密度高、脂肪相對低，對需要留意體態的狗狗尤其吸引。把高油脂零食換成小份量鹿肉乾，不代表可以無上限食；重點仍然是將零食熱量計入每日總攝取，並按體重、活動量和獸醫建議調整。</p><aside className="rounded-3xl bg-[#f2e4d5] p-6"><p className="text-sm font-bold text-[#87583d]">毛孩小貼士</p><p className="mt-2 text-sm leading-7 text-[#634b3d]">以「小份量、慢慢轉、觀察便便與皮膚」為原則，比一次過換晒全餐更穩妥。</p></aside></div>
           </section>
 
           <section className="mt-14" aria-labelledby="benefit-brain">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#a76443] text-xl text-white">02</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">BRAIN & COAT</p><h2 id="benefit-brain" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-[#4b352a]">罕見陸地肉含天然 DHA 與高鐵質：由腦部到毛色的日常支援</h2></div></div>
-            <div className="overflow-hidden rounded-3xl border border-[#ead9cb] bg-white"><div className="grid md:grid-cols-2"><img src="/images/products/bp-4976064026545.jpg" alt="北海道天然蝦夷鹿肉乾" className="h-full min-h-64 w-full object-cover" /><div className="p-6 sm:p-8"><p className="text-base leading-8 text-[#634b3d]">鹿肉的脂肪酸與礦物質組合，令它成為不少毛拔麻用來輪替蛋白質的選擇。DHA 與鐵質是營養討論中常見的關鍵字，但真正重要的是整體配方、攝取量和毛孩本身需要：不要將零食當成治療品，亦不要用單一食材取代完整主食。</p><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">DHA</p><p className="mt-1 text-xs leading-5 text-[#76594a]">日常腦部與認知營養討論</p></div><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">Fe</p><p className="mt-1 text-xs leading-5 text-[#76594a]">高鐵質紅肉的營養亮點</p></div></div></div></div></div>
+            <div className="overflow-hidden rounded-3xl border border-[#ead9cb] bg-white"><div className="grid md:grid-cols-2"><img src="/images/products/bp-4976064026545.jpg" alt="北海道天然蝦夷鹿肉乾" className="h-full min-h-64 w-full object-cover" /><div className="p-6 sm:p-8"><p className="text-base leading-8 text-[#634b3d]">鹿肉的脂肪酸與礦物質組合，令它成為不少毛孩家長用來輪替蛋白質的選擇。DHA 與鐵質是營養討論中常見的關鍵字，但真正重要的是整體配方、攝取量和毛孩本身需要：不要將零食當成治療品，亦不要用單一食材取代完整主食。</p><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">DHA</p><p className="mt-1 text-xs leading-5 text-[#76594a]">日常腦部與認知營養討論</p></div><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">Fe</p><p className="mt-1 text-xs leading-5 text-[#76594a]">高鐵質紅肉的營養亮點</p></div></div></div></div></div>
           </section>
 
           <section className="mt-14" aria-labelledby="benefit-sensitive">

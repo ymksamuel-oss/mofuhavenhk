@@ -1,18 +1,18 @@
 @import "tailwindcss" source("..");
 
 :root {
-  /* Warm editorial palette — Japanese deep caramel / coffee */
+  /* Warm editorial palette with a clearer caramel CTA hierarchy. */
   --background: #fbf7f5;
   --surface: #fbf7f5;
   --product-image-surface: #f6eee8;
   --ink: #2b2623;
   --muted: #756962;
   --line: #eaded5;
-  --accent: #6d4c3d;
-  --accent-strong: #7a4b31;
-  --accent-hover: #54392d;
+  --accent: #c86a2b;
+  --accent-strong: #d97438;
+  --accent-hover: #b25b20;
   --accent-soft: #f3e8e0;
-  --hero-deep: #54392d;
+  --hero-deep: #b25b20;
   --foreground: var(--ink);
   --category-bg: #f3e8e0;
   --category-bg-light: #fbf7f5;

@@ -272,6 +272,19 @@ export function Header() {
                 </button>
               </div>
               <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-[max(1.5rem,calc(env(safe-area-inset-bottom,0px)+1rem))] pt-3 [-webkit-overflow-scrolling:touch]">
+                <li className="block w-full">
+                  <Link href="/wishlist" className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
+                    <span>{locale === "en" ? "My wishlist" : "我的最愛"}</span>
+                    {wishlistCount > 0 ? <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c0483a] px-1 text-xs font-bold text-white">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
+                  </Link>
+                </li>
+                <li className="flex items-center justify-between rounded-xl bg-white/65 px-4 py-2.5">
+                  <span className="text-sm font-medium text-[color:var(--muted)]">{t("headerLanguageLabel")}</span>
+                  <div className="flex h-10 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5" role="group" aria-label={t("headerLanguageLabel")}>
+                    <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`min-h-9 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>中文</button>
+                    <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`min-h-9 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>English</button>
+                  </div>
+                </li>
                 {mobileNavItems.slice(0, 1).map((item) => (
                   <li key={item.href} className="block w-full">
                     <Link
@@ -456,12 +469,12 @@ export function Header() {
                 </span>
               ) : null}
             </Link>
-            <Link href="/wishlist" className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#fff7f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
+            <Link href="/wishlist" className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#fff7f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 md:flex" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
               <span aria-hidden="true">{wishlistCount > 0 ? "♥" : "♡"}</span>
               {wishlistCount > 0 ? <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
             </Link>
 
-            <div className="flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11" role="group" aria-label={t("headerLanguageLabel")}>
+            <div className="hidden h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11 md:flex" role="group" aria-label={t("headerLanguageLabel")}>
               <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "中文" : "Chinese"}</button>
               <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "英文" : "English"}</button>
             </div>

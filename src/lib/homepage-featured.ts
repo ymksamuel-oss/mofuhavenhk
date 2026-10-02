@@ -59,7 +59,7 @@ export const HOMEPAGE_QUICK_PILLS: HomepagePillConfig[] = [
 export const HOMEPAGE_FEATURED_SECTIONS: HomepageFeaturedSectionConfig[] = [
   {
     "id": "bestsellers",
-    "title": "🏆 毛拔麻回購熱銷榜（Best Sellers）",
+    "title": "🏆 毛毛港回購熱銷榜（Best Sellers）",
     "subtitle": "全店轉化率第一、回購率最高的台柱級單品",
     "viewAllLink": "/collections/bestsellers",
     "products": [
