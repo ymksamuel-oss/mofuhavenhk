@@ -1013,6 +1013,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       .map((key) => stripeMetadata[key]?.trim()).find(Boolean);
     return {
       id: String(row.id),
+      mofuSku: row.mofu_sku?.trim() || undefined,
       ...(isStripeProductId(sourceProductId) ? { stripeProductId: sourceProductId } : {}),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
       categoryId: row.category_id ? String(row.category_id) : undefined,
