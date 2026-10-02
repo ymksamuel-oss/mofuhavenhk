@@ -1,7 +1,7 @@
 "use client";
 
 import { CategoryNavLink } from "@/components/CategoryNavLink";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, isStorefrontReadyProduct, type Product } from "@/lib/products";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -58,6 +58,7 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
     .filter(isStorefrontReadyProduct)
   );
   const [currentPage, setCurrentPage] = useState(1);
+  const didChangePage = useRef(false);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
   const visibleProducts = products.slice(
@@ -68,6 +69,15 @@ export function HomepageProductGrid({ products: catalogProducts }: HomepageProdu
   useEffect(() => {
     setCurrentPage((current) => Math.min(current, pageCount));
   }, [pageCount]);
+
+  useEffect(() => {
+    if (!didChangePage.current) {
+      didChangePage.current = true;
+      return;
+    }
+    const target = document.getElementById("homepage-products-title") || document.getElementById("products");
+    if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 88, behavior: "smooth" });
+  }, [safeCurrentPage]);
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));

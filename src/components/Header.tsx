@@ -281,8 +281,8 @@ export function Header() {
                 <li className="flex items-center justify-between rounded-xl bg-white/65 px-4 py-2.5">
                   <span className="text-sm font-medium text-[color:var(--muted)]">{t("headerLanguageLabel")}</span>
                   <div className="flex h-10 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5" role="group" aria-label={t("headerLanguageLabel")}>
-                    <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`min-h-9 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>中文</button>
-                    <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`min-h-9 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>English</button>
+                    <button type="button" onClick={() => { setLocale("zh"); setMenuOpen(false); }} aria-pressed={locale === "zh"} className={`min-h-11 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>中文</button>
+                    <button type="button" onClick={() => { setLocale("en"); setMenuOpen(false); }} aria-pressed={locale === "en"} className={`min-h-11 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>English</button>
                   </div>
                 </li>
                 {mobileNavItems.slice(0, 1).map((item) => (

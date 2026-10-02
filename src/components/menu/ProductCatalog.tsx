@@ -192,9 +192,15 @@ export function ProductCatalog({
   const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
   const ingredientEnabled = !isCollectionPage && productsByRoute.some(isFoodProduct);
+  const categoryScopedProducts = productsByRoute.filter((product) =>
+    categorySlug === "dogs" ? matchesAudience(product, "dog") && isFoodProduct(product)
+      : categorySlug === "cats" || specialFilter === "cat-zone" ? matchesAudience(product, "cat") && isFoodProduct(product)
+        : isFoodProduct(product),
+  );
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
     (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product))) &&
+    (categorySlug !== "cats" && specialFilter !== "cat-zone" || (matchesAudience(product, "cat") && isFoodProduct(product))) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
     (!ingredientEnabled || productMatchesIngredient(product, selectedIngredients)) &&
     matchesAudience(product, audienceFilter),
@@ -292,7 +298,7 @@ export function ProductCatalog({
       {ingredientEnabled ? <IngredientFilterPanel
         locale={locale}
         selected={selectedIngredients}
-        products={productsByRoute}
+        products={categoryScopedProducts}
         onSelect={updateIngredientSelection}
         onToggle={toggleIngredient}
         onQuickSelect={(event, href, slug) => shallowSelectIngredient(event, href, slug)}

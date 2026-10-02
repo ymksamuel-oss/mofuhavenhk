@@ -17,6 +17,7 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
   const { products } = useCatalog();
   const { addItem } = useCart();
   const [addedId, setAddedId] = useState<string | null>(null);
+  const [addingId, setAddingId] = useState<string | null>(null);
   const suggestions = useMemo(() => {
     if (subtotal >= 399) return [];
     const excluded = new Set(cartProductIds);
@@ -36,6 +37,7 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
         {suggestions.map((product) => {
           const name = locale === "en" ? product.name.en : product.name.zh;
           const isAdded = addedId === product.id;
+          const isAdding = addingId === product.id;
           return (
             <div key={product.id} className="flex min-w-0 items-center gap-2 rounded-xl border border-[#eaded5] bg-white p-2">
               <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-[#faf7f2]">
@@ -43,8 +45,8 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
               </div>
               <div className="min-w-0 flex-1">
                 <p className="line-clamp-2 text-[11px] font-semibold leading-snug text-stone-700">{name}</p>
-                <button type="button" disabled={isAdded} onClick={() => { addItem(product.id); setAddedId(product.id); }} className="mt-1.5 min-h-7 rounded-full bg-[#C86A2B] px-2.5 text-[10px] font-bold text-white transition hover:bg-[#9d4f20] active:scale-95 disabled:bg-[#3D5A40]">
-                  {isAdded ? (locale === "en" ? "Added ✓" : "已加入 ✓") : locale === "en" ? "+ Add" : "+ 加購"}
+                <button type="button" disabled={isAdded || isAdding} onClick={() => { if (isAdded || isAdding) return; setAddingId(product.id); addItem(product.id); setAddedId(product.id); window.setTimeout(() => setAddingId(null), 350); }} className="mt-1.5 min-h-7 rounded-full bg-[#C86A2B] px-2.5 text-[10px] font-bold text-white transition hover:bg-[#9d4f20] active:scale-95 disabled:bg-[#3D5A40]">
+                  {isAdded ? (locale === "en" ? "Added ✓" : "已加入 ✓") : isAdding ? (locale === "en" ? "Adding…" : "加入中…") : locale === "en" ? "+ Add" : "+ 加購"}
                 </button>
               </div>
             </div>
