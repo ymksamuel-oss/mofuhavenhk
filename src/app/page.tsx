@@ -10,6 +10,7 @@ import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getHomepageBanners } from "@/lib/banner-server";
 import type { Product } from "@/lib/products";
 
 const HomepageFeaturedShowcase = dynamic(
@@ -32,6 +33,7 @@ export default async function HomePage() {
   const cookieStore = await cookies();
   const hasSeenEntrance = cookieStore.get("mofu_seen_entrance")?.value === "1";
   let products: Product[] = [];
+  const banners = await getHomepageBanners();
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products;
@@ -47,7 +49,7 @@ export default async function HomePage() {
     <>
       {/* SSR-first storefront hero: factory proof, map and brand promise render before every banner and product section. */}
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
-      <HomeBannerCarousel />
+      <HomeBannerCarousel banners={banners} products={products} />
       <HomeDiscoveryBar />
       <CareMatchCard />
       <HomeBulkPromotion />

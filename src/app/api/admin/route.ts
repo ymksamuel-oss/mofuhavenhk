@@ -19,7 +19,7 @@ const tables = new Set(["categories", "products", "brands", "banners", "coupons"
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
 const PRODUCT_COSTS_SETTING_KEY = "admin_product_costs";
 const MAX_PRODUCT_IMAGES = 8;
-const MAX_BANNERS = 4;
+const MAX_BANNERS = 12;
 const PRODUCT_PUBLISH_FIELDS = ["\u4e2d\u6587\u54c1\u540d", "\u82f1\u6587\u54c1\u540d", "\u4e2d\u6587\u8a73\u7d30\u6558\u8ff0", "\u82f1\u6587\u8a73\u7d30\u6558\u8ff0", "\u6709\u6548\u552e\u50f9", "\u5eab\u5b58（\u9700\u5927\u65bc 0）", "\u5716\u7247 URL"];
 
 type ProductCost = { cost_jpy: number; shipping_hkd: number; markup_multiplier: number; exchange_rate: number };
@@ -74,48 +74,63 @@ type FeaturedPetPayload = {
 };
 
 type BannerPayload = {
-  image_url: string;
-  mobile_image_url: string | null;
-  link: string | null;
-  title: string | null;
+  id?: string;
+  tag_en: string;
+  title_zh: string;
+  title_en: string;
+  subtitle_zh: string | null;
+  subtitle_en: string | null;
+  button_text_zh: string;
+  button_text_en: string;
+  link_url: string;
+  bg_type: "product_grid" | "custom_image";
+  custom_image_url: string | null;
   sort_order: number;
+  is_active: boolean;
 };
+
+function isBannerLink(value: string): boolean {
+  return value.startsWith("/") || /^https?:\/\//i.test(value);
+}
 
 function normalizeBannerBatch(value: unknown): { banners: BannerPayload[]; error?: string } {
   if (!Array.isArray(value)) return { banners: [], error: "invalid_banners" };
-  if (value.length > MAX_BANNERS) return { banners: [], error: `\u6700\u591a\u53ea\u53ef\u5132\u5b58 ${MAX_BANNERS} \u7d44 Banner` };
-
+  if (value.length > MAX_BANNERS) return { banners: [], error: `最多只可儲存 ${MAX_BANNERS} 組 Banner` };
   const banners: BannerPayload[] = [];
   const usedSortOrders = new Set<number>();
   for (const [index, valueAtIndex] of value.entries()) {
     if (!valueAtIndex || typeof valueAtIndex !== "object" || Array.isArray(valueAtIndex)) {
-      return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u683c\u5f0f\u4e0d\u6b63\u78ba` };
+      return { banners: [], error: `第 ${index + 1} 組 Banner 格式不正確` };
     }
-
     const row = valueAtIndex as Record<string, unknown>;
-    const imageUrl = typeof row.image_url === "string" ? row.image_url.trim() : "";
-    if (!imageUrl) return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u5fc5\u9808\u63d0\u4f9b\u684c\u9762\u7248\u5716\u7247` };
-
+    const titleZh = typeof row.title_zh === "string" ? row.title_zh.trim() : "";
+    const titleEn = typeof row.title_en === "string" ? row.title_en.trim() : "";
+    if (!titleZh || !titleEn) return { banners: [], error: `第 ${index + 1} 組 Banner 必須填寫中英文主標題` };
     const sortOrder = Number(row.sort_order);
-    if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) {
-      return { banners: [], error: `\u7b2c ${index + 1} \u7d44 Banner \u7684\u6392\u5e8f\u5fc5\u9808\u662f 0 \u6216\u4ee5\u4e0a\u7684\u6574\u6578` };
-    }
-    if (usedSortOrders.has(sortOrder)) {
-      return { banners: [], error: `Banner \u6392\u5e8f\u4e0d\u53ef\u91cd\u8907（\u7b2c ${index + 1} \u7d44）` };
-    }
+    if (!Number.isFinite(sortOrder) || !Number.isInteger(sortOrder) || sortOrder < 0) return { banners: [], error: `第 ${index + 1} 組 Banner 排序必須是 0 或以上的整數` };
+    if (usedSortOrders.has(sortOrder)) return { banners: [], error: `Banner 排序不可重複（第 ${index + 1} 組）` };
+    const linkUrl = typeof row.link_url === "string" && row.link_url.trim() ? row.link_url.trim() : "/collections/all";
+    if (!isBannerLink(linkUrl)) return { banners: [], error: `第 ${index + 1} 組 Banner 連結必須以 /、http:// 或 https:// 開頭` };
+    const bgType = row.bg_type === "custom_image" ? "custom_image" : "product_grid";
     usedSortOrders.add(sortOrder);
     banners.push({
-      image_url: imageUrl,
-      mobile_image_url: typeof row.mobile_image_url === "string" && row.mobile_image_url.trim() ? row.mobile_image_url.trim() : null,
-      link: typeof row.link === "string" && row.link.trim() ? row.link.trim() : null,
-      title: typeof row.title === "string" && row.title.trim() ? row.title.trim() : null,
+      id: typeof row.id === "string" && row.id.trim() ? row.id.trim() : undefined,
+      tag_en: typeof row.tag_en === "string" && row.tag_en.trim() ? row.tag_en.trim().slice(0, 120) : "BEST PARTNER SELECT",
+      title_zh: titleZh.slice(0, 240),
+      title_en: titleEn.slice(0, 240),
+      subtitle_zh: typeof row.subtitle_zh === "string" && row.subtitle_zh.trim() ? row.subtitle_zh.trim().slice(0, 1_000) : null,
+      subtitle_en: typeof row.subtitle_en === "string" && row.subtitle_en.trim() ? row.subtitle_en.trim().slice(0, 1_000) : null,
+      button_text_zh: typeof row.button_text_zh === "string" && row.button_text_zh.trim() ? row.button_text_zh.trim().slice(0, 80) : "探索更多 ➔",
+      button_text_en: typeof row.button_text_en === "string" && row.button_text_en.trim() ? row.button_text_en.trim().slice(0, 80) : "Explore More ➔",
+      link_url: linkUrl.slice(0, 2_000),
+      bg_type: bgType,
+      custom_image_url: typeof row.custom_image_url === "string" && row.custom_image_url.trim() ? row.custom_image_url.trim().slice(0, 2_000) : null,
       sort_order: sortOrder,
+      is_active: row.is_active !== false,
     });
   }
-
   return { banners };
 }
-
 function normalizeFeaturedPetBatch(value: unknown): { pets: FeaturedPetPayload[]; error?: string } {
   if (!Array.isArray(value)) return { pets: [], error: "invalid_featured_pets" };
   if (value.length > MAX_FEATURED_PETS) return { pets: [], error: `\u6700\u591a\u53ea\u53ef\u5132\u5b58 ${MAX_FEATURED_PETS} \u500b\u7cbe\u9078\u5bf5\u7269\u5167\u5bb9\u69fd` };
@@ -239,20 +254,13 @@ async function replaceBanners(
     const { error } = await supabase.from("banners").delete().not("id", "is", null);
     return { data: [], error };
   }
-
-  // Insert the complete new set first so a transient insert failure never clears the current slider.
-  const { data: inserted, error: insertError } = await supabase.from("banners").insert(banners).select();
-  if (insertError || !inserted) return { data: null, error: insertError || new Error("banner_insert_failed") };
-
-  const insertedIds = inserted.map((banner) => String(banner.id)).filter(Boolean);
-  const { error: cleanupError } = await supabase
-    .from("banners")
-    .delete()
-    .not("id", "in", `(${insertedIds.join(",")})`);
-
-  return { data: inserted, error: cleanupError };
+  const payload = banners.map(({ id, ...banner }) => ({ ...(id ? { id } : {}), ...banner, updated_at: new Date().toISOString() }));
+  const { data, error } = await supabase.from("banners").upsert(payload, { onConflict: "id" }).select();
+  if (error || !data) return { data: null, error: error || new Error("banner_upsert_failed") };
+  const ids = data.map((banner) => String(banner.id)).filter(Boolean);
+  const { error: cleanupError } = await supabase.from("banners").delete().not("id", "in", `(${ids.join(",")})`);
+  return { data, error: cleanupError };
 }
-
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
 function normalizeProductImages(value: unknown): string[] {

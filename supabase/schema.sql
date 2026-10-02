@@ -19,13 +19,29 @@ create table if not exists public.products (
   source_price_id text
 );
 create table if not exists public.banners (
-  id uuid primary key default gen_random_uuid(), image_url text not null, mobile_image_url text, link text, title text,
-  sort_order integer not null default 0, created_at timestamptz not null default now()
+  id uuid primary key default gen_random_uuid(), image_url text not null default '', mobile_image_url text, link text, title text,
+  tag_en text not null default 'concept', title_zh text not null default '', title_en text, subtitle_zh text, subtitle_en text,
+  button_text_zh text not null default '探索更多 ➔', button_text_en text default 'Explore More ➔', link_url text not null default '/collections/all',
+  bg_type text not null default 'product_grid', custom_image_url text, sort_order integer not null default 0,
+  is_active boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
 );
 
 -- Existing databases pick up the optional mobile Banner column via the migration below.
 alter table public.banners
   add column if not exists mobile_image_url text;
+alter table public.banners
+  add column if not exists tag_en text not null default 'concept',
+  add column if not exists title_zh text not null default '',
+  add column if not exists title_en text,
+  add column if not exists subtitle_zh text,
+  add column if not exists subtitle_en text,
+  add column if not exists button_text_zh text not null default '探索更多 ➔',
+  add column if not exists button_text_en text default 'Explore More ➔',
+  add column if not exists link_url text not null default '/collections/all',
+  add column if not exists bg_type text not null default 'product_grid',
+  add column if not exists custom_image_url text,
+  add column if not exists is_active boolean not null default true,
+  add column if not exists updated_at timestamptz not null default now();
 alter table public.products
   add column if not exists cost_price_rmb numeric(12,4);
 alter table public.products

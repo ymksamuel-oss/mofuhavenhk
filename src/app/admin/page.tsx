@@ -13,7 +13,6 @@ type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" |
 const PAGE_SIZE = 20;
 function isProductTab(tab: Tab) { return tab === "products" || tab === "draft_products"; }
 const MAX_PRODUCT_IMAGES = 8;
-const BANNER_SLOT_COUNT = 4;
 const DEFAULT_JPY_TO_HKD = 0.052;
 const DEFAULT_SHIPPING_HKD = 8;
 const DEFAULT_MARKUP_MULTIPLIER = 2.2;
@@ -63,29 +62,54 @@ function toFeaturedPetSlots(rows: Row[]): FeaturedPetSlot[] {
 }
 
 type BannerSlot = {
-  image_url: string;
-  mobile_image_url: string;
-  link: string;
-  title: string;
+  id?: string;
+  tag_en: string;
+  title_zh: string;
+  title_en: string;
+  subtitle_zh: string;
+  subtitle_en: string;
+  button_text_zh: string;
+  button_text_en: string;
+  link_url: string;
+  bg_type: "product_grid" | "custom_image";
+  custom_image_url: string;
   sort_order: number;
+  is_active: boolean;
 };
 
 function emptyBannerSlot(sortOrder: number): BannerSlot {
-  return { image_url: "", mobile_image_url: "", link: "", title: "", sort_order: sortOrder };
+  return {
+    tag_en: "BEST PARTNER SELECT",
+    title_zh: "",
+    title_en: "",
+    subtitle_zh: "",
+    subtitle_en: "",
+    button_text_zh: "探索更多 ➔",
+    button_text_en: "Explore More ➔",
+    link_url: "/collections/all",
+    bg_type: "product_grid",
+    custom_image_url: "",
+    sort_order: sortOrder,
+    is_active: true,
+  };
 }
 
 function toBannerSlots(rows: Row[]): BannerSlot[] {
-  const slots = Array.from({ length: BANNER_SLOT_COUNT }, (_, index) => emptyBannerSlot(index + 1));
-  rows.slice(0, BANNER_SLOT_COUNT).forEach((row, index) => {
-    slots[index] = {
-      image_url: String(row.image_url || ""),
-      mobile_image_url: String(row.mobile_image_url || ""),
-      link: String(row.link || ""),
-      title: String(row.title || ""),
-      sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index + 1,
-    };
-  });
-  return slots;
+  return rows.map((row, index) => ({
+    id: row.id ? String(row.id) : undefined,
+    tag_en: String(row.tag_en || "BEST PARTNER SELECT"),
+    title_zh: String(row.title_zh || row.title || ""),
+    title_en: String(row.title_en || row.title || ""),
+    subtitle_zh: String(row.subtitle_zh || ""),
+    subtitle_en: String(row.subtitle_en || ""),
+    button_text_zh: String(row.button_text_zh || "探索更多 ➔"),
+    button_text_en: String(row.button_text_en || "Explore More ➔"),
+    link_url: String(row.link_url || row.link || "/collections/all"),
+    bg_type: row.bg_type === "custom_image" ? "custom_image" : "product_grid",
+    custom_image_url: String(row.custom_image_url || row.image_url || ""),
+    sort_order: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : index,
+    is_active: row.is_active !== false,
+  }));
 }
 
 function parseImageUrls(value: unknown): string[] {
@@ -275,8 +299,6 @@ export default function AdminPage() {
   const [form, setForm] = useState<Row | null>(null);
   const [bannerSlots, setBannerSlots] = useState<BannerSlot[]>(() => toBannerSlots([]));
   const [bannerSaving, setBannerSaving] = useState(false);
-  const [bannerAutoplayEnabled, setBannerAutoplayEnabled] = useState(false);
-  const [bannerAutoplaySaving, setBannerAutoplaySaving] = useState(false);
   const [bannerNotice, setBannerNotice] = useState("");
   const [featuredPetSlots, setFeaturedPetSlots] = useState<FeaturedPetSlot[]>(() => toFeaturedPetSlots([]));
   const [featuredPetSaving, setFeaturedPetSaving] = useState(false);
@@ -311,9 +333,6 @@ export default function AdminPage() {
       setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
-        const settings = await call("GET", undefined, "store_settings");
-        const autoplay = (settings.data || []).find((row: Row) => row.key === "banner_autoplay_enabled")?.value;
-        setBannerAutoplayEnabled(String(autoplay || "false").toLowerCase() === "true");
       }
       if (selected === "featured_pets") {
         setFeaturedPetSlots(toFeaturedPetSlots(loadedRows));
@@ -532,23 +551,25 @@ export default function AdminPage() {
   }
 
   async function saveBannerBatch() {
-    const hasIncompleteSlot = bannerSlots.some((slot) => {
-      const hasDesktopImage = slot.image_url.trim().length > 0;
-      const hasOtherContent = Boolean(slot.mobile_image_url.trim() || slot.link.trim() || slot.title.trim());
-      return !hasDesktopImage && hasOtherContent;
-    });
-    if (hasIncompleteSlot) {
-      setError("如某一格已填寫手機圖片、連結或標題，必須同時提供桌面版圖片。");
+    if (bannerSlots.some((slot) => !slot.title_zh.trim() || !slot.title_en.trim())) {
+      setError("每組啟用中的 Banner 必須填寫中文及英文主標題。");
       return;
     }
 
     const banners = bannerSlots
-      .filter((slot) => slot.image_url.trim())
       .map((slot) => ({
-        image_url: slot.image_url.trim(),
-        mobile_image_url: slot.mobile_image_url.trim(),
-        link: slot.link.trim(),
-        title: slot.title.trim(),
+        id: slot.id,
+        tag_en: slot.tag_en.trim() || "BEST PARTNER SELECT",
+        title_zh: slot.title_zh.trim(),
+        title_en: slot.title_en.trim(),
+        subtitle_zh: slot.subtitle_zh.trim(),
+        subtitle_en: slot.subtitle_en.trim(),
+        button_text_zh: slot.button_text_zh.trim() || "探索更多 ➔",
+        button_text_en: slot.button_text_en.trim() || "Explore More ➔",
+        link_url: slot.link_url.trim() || "/collections/all",
+        bg_type: slot.bg_type,
+        custom_image_url: slot.custom_image_url.trim(),
+        is_active: slot.is_active,
         sort_order: Number.isFinite(slot.sort_order) ? Math.trunc(slot.sort_order) : 0,
       }));
     const sortOrders = banners.map((banner) => banner.sort_order);
@@ -562,7 +583,7 @@ export default function AdminPage() {
     setBannerNotice("");
     try {
       const result = await call("POST", { action: "replace_banners", banners });
-      setBannerNotice(result.count === 0 ? "已清空所有 Banner 資料。" : `已儲存 ${result.count} 組 Banner，前台輪播已依排序更新。`);
+      setBannerNotice(result.count === 0 ? "已清空所有 Banner 資料。" : `已儲存 ${result.count} 組 Banner，前台輪播已依排序及上下架狀態更新。`);
       await load("banners");
     } catch (e: any) {
       setError(e.message || "Banner 儲存失敗");
@@ -571,19 +592,6 @@ export default function AdminPage() {
     }
   }
 
-  async function saveBannerAutoplay(enabled: boolean) {
-    setBannerAutoplaySaving(true);
-    setError("");
-    try {
-      await call("POST", { action: "set_banner_autoplay", enabled });
-      setBannerAutoplayEnabled(enabled);
-      setBannerNotice(enabled ? "已開啟 Banner 自動輪播。" : "已停用 Banner 自動輪播，前台只顯示第一組 Banner。" );
-    } catch (e: any) {
-      setError(e.message || "Banner 輪播設定儲存失敗");
-    } finally {
-      setBannerAutoplaySaving(false);
-    }
-  }
 
   async function remove(row: Row) {
     if (!row.id || !confirm("確定刪除此項目？")) return;
@@ -877,9 +885,6 @@ export default function AdminPage() {
               onSave={saveBannerBatch}
               saving={bannerSaving}
               notice={bannerNotice}
-              autoplayEnabled={bannerAutoplayEnabled}
-              autoplaySaving={bannerAutoplaySaving}
-              onAutoplayChange={saveBannerAutoplay}
             />
           ) : tab === "featured_pets" ? (
             <FeaturedPetBatchEditor
@@ -1313,44 +1318,52 @@ function BannerBatchEditor({
   onSave,
   saving,
   notice,
-  autoplayEnabled,
-  autoplaySaving,
-  onAutoplayChange,
 }: {
   slots: BannerSlot[];
   onChange: (slots: BannerSlot[]) => void;
   onSave: () => void;
   saving: boolean;
   notice: string;
-  autoplayEnabled: boolean;
-  autoplaySaving: boolean;
-  onAutoplayChange: (enabled: boolean) => void;
 }) {
-  const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
+  const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const [uploadError, setUploadError] = useState("");
 
   function updateSlot(index: number, patch: Partial<BannerSlot>) {
     onChange(slots.map((slot, slotIndex) => (slotIndex === index ? { ...slot, ...patch } : slot)));
   }
 
-  async function uploadBannerImage(event: React.ChangeEvent<HTMLInputElement>, index: number, field: "image_url" | "mobile_image_url") {
+  function addSlot() {
+    onChange([...slots, emptyBannerSlot(slots.length)]);
+  }
+
+  function removeSlot(index: number) {
+    if (!window.confirm("確定刪除這組 Banner？儲存後才會正式移除。")) return;
+    onChange(slots.filter((_, slotIndex) => slotIndex !== index).map((slot, slotIndex) => ({ ...slot, sort_order: slotIndex })));
+  }
+
+  function moveSlot(index: number, direction: -1 | 1) {
+    const nextIndex = index + direction;
+    if (nextIndex < 0 || nextIndex >= slots.length) return;
+    const next = [...slots];
+    [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+    onChange(next.map((slot, slotIndex) => ({ ...slot, sort_order: slotIndex })));
+  }
+
+  async function uploadBannerImage(event: React.ChangeEvent<HTMLInputElement>, index: number) {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
-
     setUploadError("");
-    setUploadingSlot(`${index}-${field}`);
+    setUploadingSlot(index);
     try {
       const data = new FormData();
       data.append("file", file);
       const response = await fetch("/api/admin/upload", { method: "POST", body: data });
       const result = await response.json();
-      if (!response.ok || typeof result.url !== "string" || !result.url.trim()) {
-        throw new Error(result.error || "圖片上傳失敗");
-      }
-      updateSlot(index, { [field]: result.url.trim() });
+      if (!response.ok || typeof result.url !== "string" || !result.url.trim()) throw new Error(result.error || "圖片上傳失敗");
+      updateSlot(index, { custom_image_url: result.url.trim(), bg_type: "custom_image" });
     } catch (error) {
-      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。" );
+      setUploadError(error instanceof Error ? error.message : "圖片上傳失敗，請稍後再試。");
     } finally {
       setUploadingSlot(null);
     }
@@ -1358,105 +1371,47 @@ function BannerBatchEditor({
 
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
-      <div className="mb-5 max-w-3xl">
-        <p className="text-sm font-semibold text-[#2f4a3c]">四組 Banner 批量管理</p>
-        <p className="mt-1 text-sm leading-6 text-[#806b5d]">一次過設定最多四組 Banner。停用自動輪播時，前台只顯示排序最前的一組；開啟後才會按設定自動切換。儲存全部 Banner 會以本頁有桌面版圖片的欄位作為完整新輪播。</p>
-      </div>
-
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#eaded5] bg-[#fffaf4] px-4 py-3">
-        <div>
-          <p className="text-sm font-semibold text-[#2f4a3c]">前台 Banner 自動輪播</p>
-          <p className="mt-1 text-xs text-[#8b7c70]">目前：{autoplayEnabled ? "開啟" : "關閉（只顯示第一組）"}</p>
+      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold text-[#2f4a3c]">首頁 Hero Banner 動態管理</p>
+          <p className="mt-1 text-sm leading-6 text-[#806b5d]">Banner 獨立儲存在 banners 表，不會修改任何產品資料。可新增、編輯、刪除、拖曳式上下移排序及上下架；產品矩陣背景會由前台即時載入現有產品圖片。</p>
         </div>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={autoplayEnabled}
-          disabled={autoplaySaving}
-          onClick={() => onAutoplayChange(!autoplayEnabled)}
-          className={`relative inline-flex h-8 w-14 items-center rounded-full p-1 transition ${autoplayEnabled ? "bg-[#2f4a3c]" : "bg-[#c9b8a8]"} disabled:cursor-wait disabled:opacity-60`}
-        >
-          <span className={`h-6 w-6 rounded-full bg-white shadow-sm transition ${autoplayEnabled ? "translate-x-6" : "translate-x-0"}`} />
-          <span className="sr-only">{autoplayEnabled ? "關閉 Banner 自動輪播" : "開啟 Banner 自動輪播"}</span>
-        </button>
+        <button type="button" onClick={addSlot} className="rounded-xl bg-[#a36b42] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#8f5b37]">＋新增 Banner</button>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        {slots.map((slot, index) => {
-          const desktopUploading = uploadingSlot === `${index}-image_url`;
-          const mobileUploading = uploadingSlot === `${index}-mobile_image_url`;
-          return (
-            <fieldset key={index} className="rounded-2xl border border-[#eaded5] bg-[#fffdfa] p-4">
-              <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">Banner {index + 1}</legend>
-              <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium">桌面版圖片 <span className="text-red-600">*</span></label>
-                  <div className="aspect-[16/9] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
-                    {slot.image_url ? <img src={slot.image_url} alt={`Banner ${index + 1} 桌面版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 16:9 或更寬的橫向圖片</div>}
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => uploadBannerImage(event, index, "image_url")}
-                    disabled={Boolean(uploadingSlot)}
-                    className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
-                  />
-                  {desktopUploading && <p className="text-xs text-[#a36b42]">桌面版上傳中…</p>}
-                  <input
-                    aria-label={`Banner ${index + 1} 桌面版圖片 URL`}
-                    value={slot.image_url}
-                    onChange={(event) => updateSlot(index, { image_url: event.target.value })}
-                    placeholder="或貼上桌面版圖片 URL"
-                    className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium">手機版圖片 <span className="font-normal text-[#8b7c70]">（選填）</span></label>
-                  <div className="aspect-[4/5] max-h-56 overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
-                    {slot.mobile_image_url || slot.image_url ? <img src={slot.mobile_image_url || slot.image_url} alt={`Banner ${index + 1} 手機版預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-3 text-center text-xs text-[#a89587]">建議使用 4:5 直向圖片；留空會沿用桌面版</div>}
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => uploadBannerImage(event, index, "mobile_image_url")}
-                    disabled={Boolean(uploadingSlot)}
-                    className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:cursor-wait disabled:opacity-60"
-                  />
-                  {mobileUploading && <p className="text-xs text-[#a36b42]">手機版上傳中…</p>}
-                  <input
-                    aria-label={`Banner ${index + 1} 手機版圖片 URL`}
-                    value={slot.mobile_image_url}
-                    onChange={(event) => updateSlot(index, { mobile_image_url: event.target.value })}
-                    placeholder="或貼上手機版圖片 URL"
-                    className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-xs outline-none focus:border-[#a36b42]"
-                  />
-                </div>
-
-                <label className="block text-sm sm:col-span-2">
-                  <span className="mb-1 block font-medium">點擊連結 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
-                  <input value={slot.link} onChange={(event) => updateSlot(index, { link: event.target.value })} placeholder="例如：/menu 或 https://example.com" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
-                </label>
-                <label className="block text-sm">
-                  <span className="mb-1 block font-medium">標題 <span className="font-normal text-[#8b7c70]">（選填）</span></span>
-                  <input value={slot.title} onChange={(event) => updateSlot(index, { title: event.target.value })} placeholder="供無障礙標示及圖片描述使用" className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
-                </label>
-                <label className="block text-sm">
-                  <span className="mb-1 block font-medium">排序</span>
-                  <input type="number" min="0" step="1" value={slot.sort_order} onChange={(event) => updateSlot(index, { sort_order: Number(event.target.value) })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm outline-none focus:border-[#a36b42]" />
-                </label>
+        {slots.map((slot, index) => (
+          <fieldset key={slot.id || `new-${index}`} className={`rounded-2xl border p-4 ${slot.is_active ? "border-[#eaded5] bg-[#fffdfa]" : "border-dashed border-[#c9b8a8] bg-[#f8f5f0] opacity-75"}`}>
+            <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">Banner {index + 1}</legend>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-b border-[#eaded5] pb-3">
+              <label className="flex items-center gap-2 text-sm font-semibold text-[#2f4a3c]"><input type="checkbox" checked={slot.is_active} onChange={(event) => updateSlot(index, { is_active: event.target.checked })} />前台上架</label>
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => moveSlot(index, -1)} disabled={index === 0} className="rounded-lg border border-[#ded5cc] px-2 py-1 text-xs disabled:opacity-35">↑ 上移</button>
+                <button type="button" onClick={() => moveSlot(index, 1)} disabled={index === slots.length - 1} className="rounded-lg border border-[#ded5cc] px-2 py-1 text-xs disabled:opacity-35">↓ 下移</button>
+                <button type="button" onClick={() => removeSlot(index)} className="rounded-lg border border-red-200 px-2 py-1 text-xs text-red-700 hover:bg-red-50">刪除</button>
               </div>
-            </fieldset>
-          );
-        })}
+            </div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <label className="block text-sm sm:col-span-2"><span className="mb-1 block font-medium">英文小標 tag_en</span><input value={slot.tag_en} onChange={(event) => updateSlot(index, { tag_en: event.target.value })} placeholder="REASON TO CHOOSE" className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">中文主標題 *</span><textarea value={slot.title_zh} onChange={(event) => updateSlot(index, { title_zh: event.target.value })} rows={2} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">英文主標題 *</span><textarea value={slot.title_en} onChange={(event) => updateSlot(index, { title_en: event.target.value })} rows={2} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">中文副標題</span><textarea value={slot.subtitle_zh} onChange={(event) => updateSlot(index, { subtitle_zh: event.target.value })} rows={3} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">英文副標題</span><textarea value={slot.subtitle_en} onChange={(event) => updateSlot(index, { subtitle_en: event.target.value })} rows={3} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">中文按鈕文字</span><input value={slot.button_text_zh} onChange={(event) => updateSlot(index, { button_text_zh: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">英文按鈕文字</span><input value={slot.button_text_en} onChange={(event) => updateSlot(index, { button_text_en: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm sm:col-span-2"><span className="mb-1 block font-medium">連結 link_url</span><input value={slot.link_url} onChange={(event) => updateSlot(index, { link_url: event.target.value })} placeholder="/collections/natural-meat-treats" className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">背景模式</span><select value={slot.bg_type} onChange={(event) => updateSlot(index, { bg_type: event.target.value as BannerSlot["bg_type"] })} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="product_grid">產品矩陣＋白霧</option><option value="custom_image">自訂圖片＋白霧</option></select></label>
+              <label className="block text-sm"><span className="mb-1 block font-medium">自訂背景圖片 URL</span><input value={slot.custom_image_url} onChange={(event) => updateSlot(index, { custom_image_url: event.target.value })} placeholder="選填" className="w-full rounded-lg border border-[#ded5cc] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="block text-sm sm:col-span-2"><span className="mb-1 block font-medium">上傳自訂背景圖片</span><input type="file" accept="image/*" onChange={(event) => uploadBannerImage(event, index)} disabled={uploadingSlot !== null} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-xs disabled:opacity-60" />{uploadingSlot === index && <span className="mt-1 block text-xs text-[#a36b42]">上傳中…</span>}</label>
+            </div>
+          </fieldset>
+        ))}
       </div>
 
+      {slots.length === 0 && <div className="rounded-xl border border-dashed border-[#c9b8a8] p-8 text-center text-sm text-[#8b7c70]">尚未有 Banner，請按「新增 Banner」。</div>}
       {uploadError && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{uploadError}</p>}
       {notice && <p className="mt-4 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{notice}</p>}
-      <div className="mt-5 flex flex-wrap items-center gap-3">
-        <button onClick={onSave} disabled={saving || Boolean(uploadingSlot)} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存全部 Banner"}</button>
-        <span className="text-xs text-[#8b7c70]">有桌面版圖片的欄位會依「排序」由小至大顯示；已填寫的 Banner 不可使用相同排序。</span>
-      </div>
+      <div className="mt-5 flex flex-wrap items-center gap-3"><button type="button" onClick={onSave} disabled={saving || uploadingSlot !== null} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:cursor-wait disabled:opacity-60">{saving ? "儲存中…" : "儲存全部 Banner"}</button><span className="text-xs text-[#8b7c70]">排序會按上移／下移即時調整；只有「前台上架」的 Banner 會在首頁顯示。</span></div>
     </section>
   );
 }
