@@ -12,6 +12,7 @@ import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import FloatingPageNav from "@/components/menu/FloatingPageNav";
+import { IngredientFilterPanel, parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
 
 const PAGE_SIZE = 12;
 type ProductCatalogProps = {
@@ -130,26 +131,37 @@ export function ProductCatalog({
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
-  const [activeIngredientFilter, setActiveIngredientFilter] = useState(ingredientFilter);
+  const [selectedIngredients, setSelectedIngredients] = useState<IngredientKey[]>(() => parseIngredientSelection(ingredientFilter));
   useEffect(() => {
-    setActiveIngredientFilter(ingredientFilter);
+    setSelectedIngredients(parseIngredientSelection(ingredientFilter));
   }, [ingredientFilter]);
   useEffect(() => {
     const handlePopState = () => {
       const ingredient = new URLSearchParams(window.location.search).get("ingredient");
-      setActiveIngredientFilter(ingredient || (categorySlug === "dogs" ? "chicken" : null));
+      setSelectedIngredients(parseIngredientSelection(ingredient));
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, [categorySlug]);
-  const shallowSelectIngredient = (event: MouseEvent<HTMLAnchorElement>, href: string, slug: string) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    setActiveIngredientFilter(slug);
-    const url = new URL(href, window.location.origin);
+  const updateIngredientSelection = (next: IngredientKey[]) => {
+    const unique = Array.from(new Set(next));
+    setSelectedIngredients(unique);
+    const url = new URL(window.location.href);
+    if (unique.length) url.searchParams.set("ingredient", unique.join(","));
+    else url.searchParams.delete("ingredient");
     url.hash = "products";
     window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     requestAnimationFrame(() => document.getElementById("products-section")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+  const shallowSelectIngredient = (event: MouseEvent<HTMLAnchorElement>, href: string, slug: IngredientKey) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    updateIngredientSelection([slug]);
+  };
+  const toggleIngredient = (slug: IngredientKey) => {
+    updateIngredientSelection(selectedIngredients.includes(slug)
+      ? selectedIngredients.filter((item) => item !== slug)
+      : [...selectedIngredients, slug]);
   };
   const liveChildCategory = typeof subcategory === "string"
     ? findCategoryBySlug(categories, subcategory.trim().toLowerCase())
@@ -179,13 +191,12 @@ export function ProductCatalog({
   const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
-  const ingredientEnabled = (foodCategorySelected && (audienceFilter === "dog" || audienceFilter === "cat"))
-    || (categorySlug === "dogs" && isDedicatedCategoryPage);
+  const ingredientEnabled = !isCollectionPage && productsByRoute.some(isFoodProduct);
   const products = productsByRoute.filter((product) =>
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
     (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product))) &&
     (!foodCategorySelected || isFoodProduct(product)) &&
-    (!ingredientEnabled || matchesIngredient(product, activeIngredientFilter)) &&
+    (!ingredientEnabled || productMatchesIngredient(product, selectedIngredients)) &&
     matchesAudience(product, audienceFilter),
   ).sort((left, right) => categorySlug === "dogs" ? Number(isFoodProduct(right)) - Number(isFoodProduct(left)) : 0);
 
@@ -193,7 +204,7 @@ export function ProductCatalog({
     console.log("[catalog-filter]", {
       audience: audienceFilter ?? "all",
       category: productCategory ?? "all",
-      ingredient: ingredientFilter ?? "all",
+      ingredient: selectedIngredients.join(",") || "all",
       sourceCount: productsByRoute.length,
       matchedCount: products.length,
       matchedProducts: products.slice(0, 20).map((product) => ({
@@ -202,7 +213,7 @@ export function ProductCatalog({
         tags: product.tags,
       })),
     });
-  }, [audienceFilter, activeIngredientFilter, productCategory, products.length, productsByRoute.length]);
+  }, [audienceFilter, selectedIngredients, productCategory, products.length, productsByRoute.length]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, pageCount);
@@ -217,7 +228,7 @@ export function ProductCatalog({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [categorySlug, subcategory, audienceFilter, productCategory, activeIngredientFilter]);
+  }, [categorySlug, subcategory, audienceFilter, productCategory, selectedIngredients]);
 
   const didMountPageRef = useRef(false);
   useEffect(() => {
@@ -259,19 +270,6 @@ export function ProductCatalog({
           <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "\u6b3e\u5546\u54c1"}</p>
         </> : null}
       </div>
-      {categorySlug === "dogs" && isDedicatedCategoryPage ? <div className="relative mb-7 px-8">
-        <button type="button" aria-label={locale === "en" ? "Scroll ingredients left" : "\u5411\u5de6\u6ed1\u52d5\u5206\u985e"} onClick={() => scrollIngredients(-1)} className="absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">‹</button>
-        <nav ref={ingredientScrollerRef} aria-label={locale === "en" ? "Dog food ingredients" : "\u72d7\u72d7\u8089\u985e\u98df\u6750"} className="scroll-smooth flex flex-nowrap touch-pan-x gap-2 overflow-x-auto whitespace-nowrap border-b border-[color:var(--line)] pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
-          {INGREDIENT_FILTERS.map(([slug, zh, , en]) => {
-            const active = (activeIngredientFilter ?? "chicken") === slug;
-            const href = `/categories/dogs?ingredient=${slug}`;
-            return <CategoryNavLink key={slug} href={href} onClick={(event) => shallowSelectIngredient(event, href, slug)} className={`relative inline-flex shrink-0 items-center whitespace-nowrap rounded-xl border px-3.5 py-2 text-sm transition ${active ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)] after:absolute after:-bottom-[7px] after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--accent)]" : "border-[color:var(--line)] bg-white text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]"}`}>
-              {locale === "en" ? en : zh}
-            </CategoryNavLink>;
-          })}
-        </nav>
-        <button type="button" aria-label={locale === "en" ? "Scroll ingredients right" : "\u5411\u53f3\u6ed1\u52d5\u5206\u985e"} onClick={() => scrollIngredients(1)} className="absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--line)] bg-white px-2 py-1 text-lg leading-none text-[color:var(--ink)] shadow-sm">›</button>
-      </div> : null}
       {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Audience" : "\u5c0d\u8c61\u5206\u985e"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
           const href = `/menu?audience=${slug}${productCategory ? `&category=${productCategory}` : ""}`;
@@ -290,26 +288,25 @@ export function ProductCatalog({
           </CategoryNavLink>;
         })}
       </nav> : null}
-      {!isDedicatedCategoryPage && !isCollectionPage && ingredientEnabled ? <div className="relative mb-5">
-        <nav aria-label={locale === "en" ? "Ingredient filters" : "\u8089\u6e90\u5206\u985e\u7be9\u9078"} className="flex flex-nowrap gap-2 overflow-x-auto pb-2 pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {INGREDIENT_FILTERS.map(([slug, zh, ja, en]) => {
-            const active = (activeIngredientFilter ?? "all") === slug;
-            const href = `/menu?audience=${audienceFilter}&category=treats&ingredient=${slug}`;
-            return <CategoryNavLink key={slug} href={href} onClick={(event) => shallowSelectIngredient(event, href, slug)} className={`relative inline-flex shrink-0 items-center whitespace-nowrap px-3 py-2 text-sm transition ${active ? "font-semibold text-[color:var(--ink)] after:absolute after:-bottom-1 after:left-1/2 after:h-0 after:w-0 after:-translate-x-1/2 after:border-x-[6px] after:border-t-[6px] after:border-x-transparent after:border-t-[color:var(--ink)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>
-              {locale === "en" ? en : locale === "zh" ? zh : ja}
-            </CategoryNavLink>;
-          })}
-        </nav>
-      </div> : null}
+      <div className={ingredientEnabled ? "lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-8" : ""}>
+      {ingredientEnabled ? <IngredientFilterPanel
+        locale={locale}
+        selected={selectedIngredients}
+        products={productsByRoute}
+        onSelect={updateIngredientSelection}
+        onToggle={toggleIngredient}
+        onQuickSelect={(event, href, slug) => shallowSelectIngredient(event, href, slug)}
+        isFoodProduct={isFoodProduct}
+      /> : null}
+      <div className="min-w-0">
       {products.length === 0 ? (
         <div className="flex flex-col items-start gap-3 py-6">
-          <p className="text-sm text-[color:var(--muted)]">{t("menuEmpty")}</p>
-          <CategoryNavLink
-            href={audienceFilter ? `/menu?audience=${audienceFilter}${productCategory ? `&category=${productCategory}` : ""}` : "/menu"}
-            className="inline-flex rounded-full border border-[color:var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]"
-          >
-            {locale === "en" ? "Clear ingredient filter" : "\u6e05\u9664\u7be9\u9078，\u8fd4\u56de\u5168\u90e8\u5546\u54c1"}
-          </CategoryNavLink>
+          <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-5 py-8 text-center">
+            <p className="text-3xl" aria-hidden="true">🌿</p>
+            <p className="mt-3 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "This ingredient is being restocked from Japan." : "此食材商品正火速從日本補貨中"}</p>
+            <p className="mt-1 text-sm text-[color:var(--muted)]">{locale === "en" ? "Explore other delicious protein sources for now." : "先看看其他美味肉源吧！"}</p>
+            <CategoryNavLink href="/menu" className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#C86A2B] px-5 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Explore all products" : "探索全部商品"}</CategoryNavLink>
+          </div>
         </div>
       ) : (
         <>
@@ -330,6 +327,8 @@ export function ProductCatalog({
           <BrandServiceStrip placement="catalog-bottom" />
         </>
       )}
+      </div>
+      </div>
     </div>
   );
 }
