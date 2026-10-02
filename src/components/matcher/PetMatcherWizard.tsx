@@ -388,7 +388,7 @@ export function PetMatcherWizard({ variant, showTrigger = true }: PetMatcherWiza
           </div>
         </section>
       ) : showTrigger ? (
-        <button type="button" onClick={openWizard} className="fixed bottom-5 right-4 z-40 flex items-center gap-2 rounded-full border border-white/70 bg-[#8a5836] px-3.5 py-2.5 text-xs font-bold text-white shadow-[0_12px_30px_-12px_rgba(73,48,31,0.75)] transition hover:bg-[#a66d46] active:scale-[0.97] sm:bottom-6 sm:right-6"><span className="text-base">🐾</span><span>{isZh ? "30秒配對" : "Pet Matcher"}</span></button>
+        <button type="button" onClick={openWizard} className="mofu-floating-action fixed bottom-5 right-4 z-40 flex items-center gap-2 rounded-full border border-white/70 bg-[#8a5836] px-3.5 py-2.5 text-xs font-bold text-white shadow-[0_12px_30px_-12px_rgba(73,48,31,0.75)] transition hover:bg-[#a66d46] active:scale-[0.97] sm:bottom-6 sm:right-6"><span className="text-base">🐾</span><span>{isZh ? "30秒配對" : "Pet Matcher"}</span></button>
       ) : null}
 
       {open ? <div className="fixed inset-0 z-[100] flex items-end justify-center bg-stone-950/55 p-0 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-labelledby="pet-matcher-title" onMouseDown={(event) => { if (event.target === event.currentTarget) closeWizard(); }}>

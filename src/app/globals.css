@@ -121,6 +121,16 @@ h3 {
   padding-bottom: max(6rem, calc(env(safe-area-inset-bottom, 0px) + 3rem));
 }
 
+@media (max-width: 639px) {
+  .mofu-floating-action {
+    transition: bottom 220ms cubic-bezier(0.23, 1, 0.32, 1), transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body.sticky-cart-visible .mofu-floating-action {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (min-width: 640px) {
   .footer-payment-safe-area {
     padding-bottom: 0.875rem;

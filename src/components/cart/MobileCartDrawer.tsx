@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ProductImage } from "@/components/product/ProductImage";
@@ -10,6 +10,50 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { calcBulkDiscount, calcOriginalSubtotal, calcSubtotal, MAX_QTY, MIN_QTY, orderItemPricing, orderItemTotal } from "@/lib/order";
 import { formatMoney } from "@/lib/i18n/translations";
 import { useCart } from "@/lib/shop/cart";
+import { useCatalog } from "@/lib/catalog-context";
+
+function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartProductIds: string[] }) {
+  const { locale } = useI18n();
+  const { products } = useCatalog();
+  const { addItem } = useCart();
+  const [addedId, setAddedId] = useState<string | null>(null);
+  const suggestions = useMemo(() => {
+    if (subtotal >= 399) return [];
+    const excluded = new Set(cartProductIds);
+    return products
+      .filter((product) => product.inStock !== false && !excluded.has(product.id) && product.price >= 49 && product.price <= 69)
+      .sort((a, b) => Number(b.metadata?.featured === "true") - Number(a.metadata?.featured === "true") || a.price - b.price)
+      .slice(0, 2);
+  }, [cartProductIds, products, subtotal]);
+  if (!suggestions.length) return null;
+  return (
+    <section className="mb-5 rounded-2xl border border-[#ead7c8] bg-[#fff9f3] p-3.5" aria-label={locale === "en" ? "Quick add snacks" : "湊單小零食推薦"}>
+      <div className="mb-2.5 flex items-center justify-between gap-2">
+        <p className="text-xs font-bold tracking-wide text-[#8f4d27]">{locale === "en" ? "Quick add to unlock free shipping" : "湊單小零食・一鍵享免運"}</p>
+        <span className="text-[10px] text-stone-500">{locale === "en" ? "HK$49–69" : "HK$49–69"}</span>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {suggestions.map((product) => {
+          const name = locale === "en" ? product.name.en : product.name.zh;
+          const isAdded = addedId === product.id;
+          return (
+            <div key={product.id} className="flex min-w-0 items-center gap-2 rounded-xl border border-[#eaded5] bg-white p-2">
+              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-[#faf7f2]">
+                <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="44px" className="object-contain" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="line-clamp-2 text-[11px] font-semibold leading-snug text-stone-700">{name}</p>
+                <button type="button" disabled={isAdded} onClick={() => { addItem(product.id); setAddedId(product.id); }} className="mt-1.5 min-h-7 rounded-full bg-[#C86A2B] px-2.5 text-[10px] font-bold text-white transition hover:bg-[#9d4f20] active:scale-95 disabled:bg-[#3D5A40]">
+                  {isAdded ? (locale === "en" ? "Added ✓" : "已加入 ✓") : locale === "en" ? "+ Add" : "+ 加購"}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 
 function CloseIcon() {
   return (
@@ -137,6 +181,7 @@ export function MobileCartDrawer({
           ) : (
             <>
               <FreeShippingProgress subtotal={subtotal} className="mb-5" />
+              <QuickAddSnacks subtotal={subtotal} cartProductIds={items.map((item) => item.id)} />
               <ul className="space-y-3">
                 {items.map((item) => (
                   <li
