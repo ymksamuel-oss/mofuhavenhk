@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductCard } from "@/components/product/ProductCard";
+import { Pagination } from "@/components/Pagination";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, resolveCategorySubSlug } from "@/lib/products";
@@ -13,22 +14,6 @@ import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import FloatingPageNav from "@/components/menu/FloatingPageNav";
 
 const PAGE_SIZE = 12;
-type PageItem = number | "ellipsis";
-
-function getPageNumbers(current: number, total: number): PageItem[] {
-  const pages = new Set<number>([1, total, current - 1, current, current + 1]);
-
-  const sorted = Array.from(pages)
-    .filter((page) => page >= 1 && page <= total)
-    .sort((a, b) => a - b);
-  const result: PageItem[] = [];
-  sorted.forEach((page, index) => {
-    if (index > 0 && page - sorted[index - 1] > 1) result.push("ellipsis");
-    result.push(page);
-  });
-  return result;
-}
-
 type ProductCatalogProps = {
   /** `null` = full catalog (`/menu`); otherwise a category slug page. */
   categorySlug: string | null;
@@ -340,57 +325,7 @@ export function ProductCatalog({
           </ul>
           </section>
 
-          <nav
-            className="mt-6 flex flex-nowrap items-center justify-center gap-1.5 overflow-x-auto px-1"
-            aria-label={t("productPaginationLabel")}
-          >
-            <button
-              type="button"
-              onClick={() => goToPage(safeCurrentPage - 1)}
-              disabled={safeCurrentPage === 1}
-              aria-label={t("productPaginationPrevious")}
-              className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {locale === "zh" ? "← 上一頁" : "← Prev"}
-            </button>
-            {getPageNumbers(safeCurrentPage, pageCount).map((page, index) =>
-              page === "ellipsis" ? (
-                <span key={`ellipsis-${index}`} className="px-1 text-sm text-[color:var(--muted)]" aria-hidden="true">
-                  …
-                </span>
-              ) : (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => goToPage(page)}
-                  aria-current={page === safeCurrentPage ? "page" : undefined}
-                  aria-label={t("productPaginationPage").replace("{page}", String(page))}
-                  className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${
-                    page === safeCurrentPage
-                      ? "bg-[color:var(--ink)] text-white"
-                      : "border border-[color:var(--line)] hover:bg-[color:var(--surface)]"
-                  }`}
-                >
-                  {page}
-                </button>
-              ),
-            )}
-            <button
-              type="button"
-              onClick={(event) => {
-                if (safeCurrentPage === pageCount) {
-                  event.preventDefault();
-                  return;
-                }
-                goToPage(safeCurrentPage + 1);
-              }}
-              disabled={safeCurrentPage === pageCount}
-              aria-label={t("productPaginationNext")}
-              className="rounded-lg border border-[color:var(--line)] px-3 py-2 text-sm transition hover:bg-[color:var(--surface)] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {locale === "zh" ? "下一頁 →" : "Next →"}
-            </button>
-          </nav>
+          <Pagination currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} className="mt-2" />
           <FloatingPageNav currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} />
           <BrandServiceStrip placement="catalog-bottom" />
         </>
