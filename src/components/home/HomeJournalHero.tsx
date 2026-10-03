@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { HOMEPAGE_HERO_BANNERS } from "@/lib/homepage-featured";
 import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
 type HeroPick = {
@@ -24,6 +26,12 @@ const HERO_PICKS: readonly HeroPick[] = [
   { sku: "4976064025661", zh: "高山犛牛芝士", en: "Himalayan yak cheese" },
 ];
 
+const HERO_BANNER_IMAGES: Record<string, string> = {
+  "banner-natural-meat": "/images/hero-natural-meat.jpg",
+  "banner-dental-chews": "/images/hero-dental-chew.jpg",
+  "banner-seafood": "/images/hero-outdoor-walk.jpg",
+};
+
 function productSku(product: Product): string {
   return String(
     product.mofuSku ??
@@ -36,6 +44,33 @@ function productSku(product: Product): string {
 export function HomeJournalHero({ products }: { products: Product[] }) {
   const { locale } = useI18n();
   const isEn = locale === "en";
+  const [activeBanner, setActiveBanner] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  const moveBanner = (direction: 1 | -1) => {
+    setActiveBanner((current) => (current + direction + HOMEPAGE_HERO_BANNERS.length) % HOMEPAGE_HERO_BANNERS.length);
+  };
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveBanner((current) => (current + 1) % HOMEPAGE_HERO_BANNERS.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartX.current;
+    const end = event.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+    if (start === null || end === undefined) return;
+    const delta = end - start;
+    if (Math.abs(delta) < 40) return;
+    moveBanner(delta < 0 ? 1 : -1);
+  };
 
   const featuredProducts = useMemo(() => {
     const bySku = new Map(
@@ -52,6 +87,32 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-[#FFFFFF] text-[#2D2926]">
+      <div
+        className="relative mx-auto aspect-[16/8] w-full max-w-7xl overflow-hidden bg-white sm:aspect-[16/7]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        aria-label={isEn ? "Mofu Haven promotional banners" : "Mofu Haven 精選推廣 Banner"}
+      >
+        {HOMEPAGE_HERO_BANNERS.map((banner, index) => (
+          <div key={banner.id} className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${index === activeBanner ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+            <Image src={HERO_BANNER_IMAGES[banner.id] ?? "/images/hero-natural-meat.jpg"} alt={banner.title} fill priority={index === 0} sizes="100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/20 to-transparent" />
+            <div className="absolute inset-y-0 left-0 flex max-w-2xl flex-col justify-center px-6 py-8 text-white sm:px-12 lg:px-16">
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 sm:text-xs">{banner.badge}</p>
+              <h2 className="max-w-xl text-2xl font-bold leading-tight sm:text-4xl lg:text-5xl">{banner.title}</h2>
+              <p className="mt-3 max-w-lg text-xs leading-relaxed text-white/85 sm:text-sm lg:text-base">{banner.subtitle}</p>
+              <Link href={banner.ctaLink} className="mt-5 inline-flex w-fit items-center rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-stone-900 shadow-sm transition hover:bg-stone-100 sm:text-sm">
+                {banner.ctaText} <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+          </div>
+        ))}
+        <button type="button" onClick={() => moveBanner(-1)} aria-label={isEn ? "Previous banner" : "上一幅 Banner"} className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B]">‹</button>
+        <button type="button" onClick={() => moveBanner(1)} aria-label={isEn ? "Next banner" : "下一幅 Banner"} className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B]">›</button>
+        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5" aria-label={isEn ? "Banner pagination" : "Banner 分頁"}>
+          {HOMEPAGE_HERO_BANNERS.map((banner, index) => <button key={banner.id} type="button" onClick={() => setActiveBanner(index)} aria-label={`${isEn ? "Go to banner" : "前往 Banner"} ${index + 1}`} className={`h-1.5 rounded-full transition-all ${index === activeBanner ? "w-6 bg-white" : "w-1.5 bg-white/60"}`} />)}
+        </div>
+      </div>
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-3 py-8 sm:px-6 md:grid-cols-12 md:py-16">
         <div className="col-span-12 min-w-0 md:col-span-5">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">

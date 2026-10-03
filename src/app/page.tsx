@@ -2,6 +2,7 @@
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
+import { HomePetParade } from "@/components/home/HomePetParade";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import { cookies } from "next/headers";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
@@ -31,6 +32,7 @@ export default async function HomePage() {
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeJournalHero products={products} />
       <HomeSupplierStory />
+      <HomePetParade products={products} />
       <HomepageFeaturedShowcase products={products} />
       <FAQAccordion />
     </>

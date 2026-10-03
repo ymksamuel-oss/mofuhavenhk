@@ -82,6 +82,21 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+@keyframes mofu-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 0.375rem)); }
+}
+
+.animate-marquee {
+  animation: mofu-marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover,
+.marquee-track:active {
+  animation-play-state: paused;
+}
+
 h1,
 h2,
 h3 {
