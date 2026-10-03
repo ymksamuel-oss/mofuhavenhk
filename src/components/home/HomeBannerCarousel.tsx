@@ -53,6 +53,20 @@ function uniqueProducts(products: Product[]): Product[] {
   });
 }
 
+function productShortLabel(product: Product, locale: "zh" | "en") {
+  const text = `${product.name.zh} ${product.name.en}`.toLowerCase();
+  if (/鹿肉|鹿|venison|deer/.test(text)) return locale === "en" ? "Hokkaido venison" : "北海道蝦夷鹿肉";
+  if (/馬肉|馬|horse/.test(text)) return locale === "en" ? "Sensitive horse meat" : "低敏純馬肉棒";
+  if (/鮪|金槍魚|柴魚|tuna|bonito/.test(text)) return locale === "en" ? "Kyoto tuna flakes" : "京都金槍魚薄片";
+  if (/牛蹄|牛筋|牛舌|beef|hoof|tendon/.test(text)) return locale === "en" ? "Natural beef hoof" : "天然原隻牛蹄";
+  if (/雞|鷄|chicken|ささみ/.test(text)) return locale === "en" ? "Freeze-dried chicken" : "凍乾純雞里肌";
+  if (/芋|地瓜|sweet potato/.test(text)) return locale === "en" ? "Anno sweet potato" : "安納芋蜜甘藷";
+  if (/鴨|duck/.test(text)) return locale === "en" ? "Cherry duck jerky" : "櫻桃鴨肉乾";
+  if (/鯊魚|shark/.test(text)) return locale === "en" ? "Shark skin dental chew" : "鯊魚皮潔齒棒";
+  if (/芝士|乳酪|犛牛|cheese|yak/.test(text)) return locale === "en" ? "Highland yak cheese" : "高山犛牛芝士";
+  return locale === "en" ? product.name.en : product.name.zh;
+}
+
 export function HomeBannerCarousel({ banners, products }: Props) {
   const { locale, t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -137,11 +151,11 @@ export function HomeBannerCarousel({ banners, products }: Props) {
 
           <div key={activeBanner.id} className={`relative z-10 mx-auto grid min-h-[640px] w-full max-w-7xl grid-cols-1 items-center gap-6 px-6 py-12 sm:min-h-[700px] sm:px-10 sm:py-14 md:min-h-[430px] md:grid-cols-12 md:gap-6 md:px-12 md:py-8 lg:min-h-[500px] lg:gap-8 ${slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"}`}>
             <div className="col-span-12 min-w-0 text-left md:col-span-6 lg:col-span-5">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8b6b55] sm:text-xs">{activeBanner.tagEn}</span>
-              <h1 className="mt-3 max-w-xl whitespace-pre-line font-[family-name:var(--font-display)] text-2xl font-bold leading-[1.15] tracking-tight text-[#2D2926] md:text-3xl lg:text-4xl">{locale === "en" ? activeBanner.titleEn : activeBanner.titleZh}</h1>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-[#765d49] sm:text-base sm:leading-7">{locale === "en" ? activeBanner.subtitleEn : activeBanner.subtitleZh}</p>
-              <Link href={activeBanner.linkUrl} className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-6 py-3 font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B] focus-visible:ring-offset-2">
-                {locale === "en" ? activeBanner.buttonTextEn : activeBanner.buttonTextZh}
+              <span className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">MOFU JOURNAL · ISSUE 01</span>
+              <h1 className="mb-4 max-w-xl whitespace-pre-line font-[family-name:var(--font-display)] text-3xl font-bold leading-[1.2] tracking-tight text-[#2D2926] sm:text-4xl lg:text-5xl">{locale === "en" ? "The Purest Good for Your Furry Friends\nStarting with Peace of Mind in Every Bite" : "給毛孩最純粹的好\n從一口安心開始"}</h1>
+              <p className="mb-6 max-w-md text-sm leading-relaxed text-stone-600 sm:text-base">{locale === "en" ? "Direct from a century-old Aichi workshop · 100% natural meat · No chemical preservatives" : "日本愛知縣百年工坊原裝直送・100% 在地天然純肉・0化學防腐劑"}</p>
+              <Link href="/menu" className="inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B] focus-visible:ring-offset-2">
+                {locale === "en" ? "Explore natural meat treats" : "探索天然原肉系列"}
                 <span aria-hidden="true">→</span>
               </Link>
             </div>
@@ -151,8 +165,11 @@ export function HomeBannerCarousel({ banners, products }: Props) {
                 {featuredProducts.map((product) => {
                   const name = locale === "en" ? product.name.en : product.name.zh;
                   return (
-                    <Link key={product.id} href={`/product/${product.id}`} title={name} aria-label={name} className="group relative aspect-square flex items-center justify-center overflow-hidden rounded-xl border border-stone-100 bg-white p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-transform duration-200 hover:scale-105 sm:p-2">
-                      <ProductImage src={product.images?.[0] ?? product.image} alt={name} fill sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain p-1.5 mix-blend-multiply sm:p-2" />
+                    <Link key={product.id} href={`/product/${product.id}`} title={name} aria-label={name} className="group relative flex aspect-square flex-col items-center justify-between overflow-hidden rounded-xl border border-stone-100 bg-white p-2 shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-2.5">
+                      <div className="relative min-h-0 w-full flex-1">
+                        <ProductImage src={product.images?.[0] ?? product.image} alt={name} fill sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain p-1 mix-blend-multiply" />
+                      </div>
+                      <span className="mt-1 w-full truncate text-center text-[10px] font-medium leading-4 text-stone-700 sm:text-[11px]">{productShortLabel(product, locale)}</span>
                     </Link>
                   );
                 })}

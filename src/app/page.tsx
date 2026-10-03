@@ -51,13 +51,13 @@ export default async function HomePage() {
       {/* SSR-first storefront hero: factory proof, map and brand promise render before every banner and product section. */}
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeBannerCarousel banners={banners} products={products} />
+      <HomeSupplierStory />
       <HomeDiscoveryBar />
       <ProteinPills />
       <CareMatchCard />
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />
       <HomepageFeaturedShowcase products={products} />
-      <HomeSupplierStory />
       <BestPartnerValues />
       <HomeInteractiveSections />
     </>
