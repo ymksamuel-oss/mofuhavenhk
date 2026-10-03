@@ -1,17 +1,28 @@
 .rowWrap {
-  overflow-x: auto;
+  overflow: hidden;
   overscroll-behavior-x: contain;
-  scrollbar-width: thin;
   width: 100%;
   padding: 0.35rem 0;
+  -webkit-touch-callout: none;
 }
 
 .track {
   display: flex;
   width: max-content;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+.track:hover,
+.rowWrap:active .track {
+  animation-play-state: paused;
+}
+
+.trackGroup {
+  display: flex;
+  flex: 0 0 auto;
   gap: 1rem;
   padding: 0 0.75rem;
-  animation: none;
 }
 
 .card {
@@ -107,8 +118,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @media (min-width: 640px) {
-  .track {
+  .trackGroup {
     gap: 1.15rem;
     padding: 0 1rem;
   }
@@ -134,15 +150,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rowWrap {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scrollbar-color: rgba(122, 84, 59, 0.45) transparent;
-    scrollbar-width: thin;
-  }
-
-  .card {
-    scroll-snap-align: start;
+  .track {
+    animation: none;
   }
 }

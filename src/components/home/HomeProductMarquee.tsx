@@ -40,54 +40,46 @@ function isDogMarqueeProduct(product: Product) {
 function ProductRow({ label, products }: ProductRowProps) {
   const { locale, t } = useI18n();
 
-  return (
-    <div className={styles.rowWrap} aria-label={label}>
-      <div
-        className={styles.track}
-        title={t("homeMarqueePause")}
-      >
-        {products.map((product) => {
-          const href = productHref(product.id);
-          const discountPercent = product.originalPrice
-            ? Math.round((1 - product.price / product.originalPrice) * 100)
-            : null;
+  const renderProduct = (product: Product, copy: "primary" | "duplicate") => {
+    const href = productHref(product.id);
+    const discountPercent = product.originalPrice
+      ? Math.round((1 - product.price / product.originalPrice) * 100)
+      : null;
 
-          return (
-            <article
-              key={product.id}
-              className={styles.card}
-            >
-              <CategoryNavLink
-                href={href}
-                aria-label={`${t("viewProductAria")}: ${getLocalizedProductName(product, locale)}`}
-                className={styles.cardLink}
-              >
-                <div className={styles.imageWrap}>
-                  <ProductImage
-                    src={product.images?.[0] ?? "catalog-placeholder"}
-                    alt={getLocalizedProductName(product, locale)}
-                    sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
-                    className="object-contain p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.045]"
-                  />
-                  {discountPercent ? (
-                    <span className={styles.discount}>-{discountPercent}%</span>
-                  ) : null}
-                </div>
-                <div className={styles.cardBody}>
-                  <p className={styles.name}>{getLocalizedProductName(product, locale)}</p>
-                  <div className={styles.priceLine}>
-                    <span className={styles.price}>{formatMoney(product.price, locale)}</span>
-                    {product.originalPrice ? (
-                      <span className={styles.originalPrice}>
-                        {formatMoney(product.originalPrice, locale)}
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              </CategoryNavLink>
-            </article>
-          );
-        })}
+    return (
+      <article key={`${copy}-${product.id}`} className={styles.card}>
+        <CategoryNavLink
+          href={href}
+          aria-label={`${t("viewProductAria")}: ${getLocalizedProductName(product, locale)}`}
+          tabIndex={copy === "duplicate" ? -1 : undefined}
+          className={styles.cardLink}
+        >
+          <div className={styles.imageWrap}>
+            <ProductImage
+              src={product.images?.[0] ?? "catalog-placeholder"}
+              alt={copy === "duplicate" ? "" : getLocalizedProductName(product, locale)}
+              sizes="(min-width: 1024px) 210px, (min-width: 640px) 190px, 156px"
+              className="object-contain p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.045]"
+            />
+            {discountPercent ? <span className={styles.discount}>-{discountPercent}%</span> : null}
+          </div>
+          <div className={styles.cardBody}>
+            <p className={styles.name}>{getLocalizedProductName(product, locale)}</p>
+            <div className={styles.priceLine}>
+              <span className={styles.price}>{formatMoney(product.price, locale)}</span>
+              {product.originalPrice ? <span className={styles.originalPrice}>{formatMoney(product.originalPrice, locale)}</span> : null}
+            </div>
+          </div>
+        </CategoryNavLink>
+      </article>
+    );
+  };
+
+  return (
+    <div className={styles.rowWrap} aria-label={label} title={t("homeMarqueePause")}>
+      <div className={styles.track}>
+        <div className={styles.trackGroup}>{products.map((product) => renderProduct(product, "primary"))}</div>
+        <div className={styles.trackGroup} aria-hidden="true">{products.map((product) => renderProduct(product, "duplicate"))}</div>
       </div>
     </div>
   );

@@ -11,7 +11,6 @@ import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
-import FloatingPageNav from "@/components/menu/FloatingPageNav";
 import { IngredientFilterPanel, parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
 
 const PAGE_SIZE = 12;
@@ -329,7 +328,6 @@ export function ProductCatalog({
           </section>
 
           <Pagination currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} className="mt-2" />
-          <FloatingPageNav currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} />
           <BrandServiceStrip placement="catalog-bottom" />
         </>
       )}

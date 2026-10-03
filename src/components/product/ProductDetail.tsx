@@ -94,37 +94,12 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
 
 
 function PdpRecommendationCarousel({ products, locale }: { products: Product[]; locale: Locale }) {
-  const scrollRef = useRef<HTMLUListElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-  const updateScrollState = () => {
-    const element = scrollRef.current;
-    if (!element) return;
-    setCanScrollLeft(element.scrollLeft > 4);
-    setCanScrollRight(element.scrollLeft + element.clientWidth < element.scrollWidth - 4);
-  };
-  useEffect(() => {
-    updateScrollState();
-    const element = scrollRef.current;
-    if (!element) return;
-    element.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      element.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [products.length]);
-  const scrollByCards = (direction: -1 | 1) => scrollRef.current?.scrollBy({ left: direction * 260, behavior: "smooth" });
   return <section className="mt-8" aria-labelledby="pdp-recommendations">
     <div className="mb-4 flex items-end justify-between gap-3">
       <div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">MOFU HAVEN PICKS</p><h2 id="pdp-recommendations" className="mt-1 text-xl font-bold">{locale === "zh" ? "你可能會喜歡" : "You May Also Like"}</h2></div>
-      <div className="flex shrink-0 gap-1.5" aria-label={locale === "zh" ? "推薦商品導航" : "Recommendation navigation"}>
-        <button type="button" onClick={() => scrollByCards(-1)} disabled={!canScrollLeft} aria-label={locale === "zh" ? "查看上一批推薦" : "Show previous recommendations"} className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-200 bg-white text-xl leading-none text-stone-700 shadow-sm transition hover:border-[#a76443] disabled:cursor-not-allowed disabled:opacity-35">‹</button>
-        <button type="button" onClick={() => scrollByCards(1)} disabled={!canScrollRight} aria-label={locale === "zh" ? "查看下一批推薦" : "Show more recommendations"} className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-200 bg-white text-xl leading-none text-stone-700 shadow-sm transition hover:border-[#a76443] disabled:cursor-not-allowed disabled:opacity-35">›</button>
-      </div>
     </div>
-    <ul ref={scrollRef} onScroll={updateScrollState} className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
-      {products.map((recommendation) => { const recommendationName = getLocalizedProductName(recommendation, locale); return <li key={recommendation.id} className="w-[168px] min-w-[168px] snap-start sm:w-[190px] sm:min-w-[190px]"><article className="h-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm"><Link href={productHref(recommendation.id)} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${recommendationName}` : `View product: ${recommendationName}`}><div className="relative aspect-square bg-[#f5f0e9]"><ProductImage src={recommendation.images?.[0] ?? recommendation.image} alt={recommendationName} sizes="190px" className="object-contain p-2" /></div><h3 className="line-clamp-2 min-h-10 px-3 pt-3 text-sm font-semibold leading-5">{recommendationName}</h3></Link><div className="flex items-center justify-between gap-2 px-3 pb-3 pt-2"><span className="text-sm font-bold text-[color:var(--accent)]">{formatMoney(recommendation.price, locale)}</span><AddToCartButton productId={recommendation.id} priceId={recommendation.priceId} size="card" showQuantity={false} compact /></div></article></li>; })}
+    <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
+      {products.map((recommendation) => { const recommendationName = getLocalizedProductName(recommendation, locale); return <li key={recommendation.id} className="w-[60%] min-w-[60%] shrink-0 snap-start sm:w-[45%] sm:min-w-[45%] md:w-[280px] md:min-w-[280px]"><article className="h-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm"><Link href={productHref(recommendation.id)} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${recommendationName}` : `View product: ${recommendationName}`}><div className="relative aspect-square bg-[#f5f0e9]"><ProductImage src={recommendation.images?.[0] ?? recommendation.image} alt={recommendationName} sizes="(min-width: 768px) 280px, 60vw" className="object-contain p-2" /></div><h3 className="line-clamp-2 min-h-10 px-3 pt-3 text-sm font-semibold leading-5">{recommendationName}</h3></Link><div className="flex items-center justify-between gap-2 px-3 pb-3 pt-2"><span className="text-sm font-bold text-[color:var(--accent)]">{formatMoney(recommendation.price, locale)}</span><AddToCartButton productId={recommendation.id} priceId={recommendation.priceId} size="card" showQuantity={false} compact /></div></article></li>; })}
     </ul>
   </section>;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useCatalog } from "@/lib/catalog-context";
@@ -47,10 +47,7 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
   const { locale } = useI18n();
   const { products } = useCatalog();
   const { addItem } = useCart();
-  const carouselRef = useRef<HTMLUListElement>(null);
   const [addedId, setAddedId] = useState<string | null>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
   const excludedIds = useMemo(() => new Set(cartProductIds), [cartProductIds]);
   const firstProduct = products.find((product) => product.id === cartProductIds[0]);
   const targetSpecies: Species = products
@@ -62,25 +59,6 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
     .sort((a, b) => recommendationScore(b, firstProduct, targetSpecies) - recommendationScore(a, firstProduct, targetSpecies) || a.price - b.price)
     .slice(0, 10), [excludedIds, firstProduct, products, targetSpecies]);
 
-  const updateScrollState = useCallback(() => {
-    const element = carouselRef.current;
-    if (!element) return;
-    setCanScrollLeft(element.scrollLeft > 4);
-    setCanScrollRight(element.scrollLeft + element.clientWidth < element.scrollWidth - 4);
-  }, []);
-
-  useEffect(() => {
-    updateScrollState();
-    const element = carouselRef.current;
-    if (!element) return;
-    element.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      element.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [recommendations.length, updateScrollState]);
-
   useEffect(() => {
     if (!addedId) return;
     const timer = window.setTimeout(() => setAddedId(null), 1400);
@@ -88,10 +66,6 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
   }, [addedId]);
 
   if (!recommendations.length) return null;
-
-  const scrollByCards = (direction: -1 | 1) => {
-    carouselRef.current?.scrollBy({ left: direction * 240, behavior: "smooth" });
-  };
 
   const handleAdd = (productId: string) => {
     addItem(productId);
@@ -110,17 +84,13 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
             {locale === "zh" ? "挑選更多熱門搭配好物・一鍵加入購物車" : "Popular additions before checkout"}
           </p>
         </div>
-        <div className="flex shrink-0 gap-1.5" aria-label={locale === "zh" ? "推薦商品導航" : "Recommendation navigation"}>
-          <button type="button" onClick={() => scrollByCards(-1)} disabled={!canScrollLeft} aria-label={locale === "zh" ? "查看上一批推薦" : "Show previous recommendations"} className="flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-lg leading-none text-[color:var(--ink)] transition hover:border-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40">‹</button>
-          <button type="button" onClick={() => scrollByCards(1)} disabled={!canScrollRight} aria-label={locale === "zh" ? "查看下一批推薦" : "Show more recommendations"} className="flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-lg leading-none text-[color:var(--ink)] transition hover:border-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40">›</button>
-        </div>
       </div>
-      <ul ref={carouselRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
+      <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
         {recommendations.map((product) => {
           const name = cleanRecommendationName(getLocalizedProductName(product, locale));
           const isAdded = addedId === product.id;
           return (
-            <li key={product.id} className="w-[140px] min-w-[140px] snap-start sm:w-[160px] sm:min-w-[160px]">
+            <li key={product.id} className="w-[60%] min-w-[60%] shrink-0 snap-start sm:w-[45%] sm:min-w-[45%] md:w-[280px] md:min-w-[280px]">
               <div className="h-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white p-2.5">
                 <Link href={productHref(product.id)} onClick={onProductClick} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${name}` : `View product: ${name}`}>
                   <div className="relative aspect-square overflow-hidden rounded-xl bg-[#FAF7F2] ring-1 ring-[color:var(--line)]">
