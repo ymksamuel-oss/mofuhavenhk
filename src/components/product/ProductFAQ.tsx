@@ -56,7 +56,7 @@ export function ProductFAQ() {
     <section className="my-10 w-full px-4 sm:my-12 sm:px-6 lg:px-8" aria-labelledby="product-faq-title">
       <div className="mx-auto max-w-3xl rounded-3xl border border-[color:var(--line)] bg-white p-4 shadow-[0_20px_44px_-34px_rgba(43,38,35,0.3)] sm:p-8">
         <div className="mb-5 text-center sm:mb-7">
-          <span className="mb-2 inline-flex rounded-xl border border-[color:var(--line)] bg-[color:var(--accent-soft)] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
+          <span className="mb-2 inline-flex rounded-xl border border-[color:var(--line)] bg-[#FAFAFA] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-600">
             {t("productFaqEyebrow")}
           </span>
           <h2 id="product-faq-title" className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
@@ -76,17 +76,17 @@ export function ProductFAQ() {
                 <button
                   type="button"
                   onClick={() => setOpenIndex((current) => (current === index ? null : index))}
-                  className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold text-[color:var(--ink)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--accent)] sm:px-5 sm:text-base"
+                  className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold text-[color:var(--ink)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stone-400 sm:px-5 sm:text-base"
                   aria-expanded={isOpen}
                   aria-controls={answerId}
                 >
                   <span className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-[11px] font-bold text-[color:var(--accent)]">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FAFAFA] text-[11px] font-bold text-stone-600">
                       {t("productFaqQuestionMark")}
                     </span>
                     <span className="leading-snug">{item.question}</span>
                   </span>
-                  <span aria-hidden="true" className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--accent)] transition duration-200 ${isOpen ? "rotate-180 bg-[color:var(--accent)] text-white" : ""}`}>
+                  <span aria-hidden="true" className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-stone-600 transition duration-200 ${isOpen ? "rotate-180 bg-[#111111] text-white" : ""}`}>
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>

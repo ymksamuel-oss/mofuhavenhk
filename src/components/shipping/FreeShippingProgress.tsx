@@ -39,11 +39,7 @@ export function FreeShippingProgress({
 
   return (
     <section
-      className={`rounded-2xl border px-4 py-3.5 ${
-        reached
-          ? "border-emerald-200 bg-emerald-50/80"
-          : "border-[color:var(--accent)]/20 bg-[color:var(--accent-soft)]/65"
-      } ${className}`}
+      className={`rounded-2xl border border-stone-200/80 bg-[#FAFAFA] p-4 text-stone-800 ${className}`}
       aria-label={t("freeShippingProgressLabel")}
     >
       <div className="flex items-start justify-between gap-3">
@@ -53,33 +49,27 @@ export function FreeShippingProgress({
         {showContinueShoppingLink ? (
           <Link
             href="/menu"
-            className={`min-w-0 flex-1 text-sm font-semibold leading-snug underline decoration-current/35 underline-offset-2 transition hover:opacity-75 ${
-              reached ? "text-emerald-800" : "text-[color:var(--ink)]"
-            }`}
+          className="min-w-0 flex-1 text-xs font-medium leading-snug text-stone-700 underline decoration-current/35 underline-offset-2 transition hover:opacity-75 sm:text-sm"
             aria-label={`${message} ${t("navContinueShopping")}`}
           >
             {message}
           </Link>
         ) : (
           <p
-            className={`min-w-0 flex-1 text-sm font-semibold leading-snug ${
-            reached ? "text-emerald-800" : "text-[color:var(--ink)]"
-            }`}
+            className="min-w-0 flex-1 text-xs font-medium leading-snug text-stone-700 sm:text-sm"
           >
             {message}
           </p>
         )}
         <span
-          className={`shrink-0 text-xs font-bold tabular-nums ${
-            reached ? "text-emerald-700" : "text-[color:var(--accent)]"
-          }`}
+          className="shrink-0 text-xs font-semibold tabular-nums text-stone-700"
         >
           {percentage}%
         </span>
       </div>
 
       <div
-        className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-white/75 ring-1 ring-black/5"
+        className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-stone-200"
         role="progressbar"
         aria-label={t("freeShippingProgressLabel")}
         aria-valuemin={0}
@@ -87,17 +77,13 @@ export function FreeShippingProgress({
         aria-valuenow={Math.min(safeSubtotal, FREE_SHIPPING_THRESHOLD)}
       >
         <div
-          className={`h-full rounded-full transition-[width] duration-500 ease-out ${
-            reached ? "bg-[color:var(--accent-strong)]" : "bg-[color:var(--accent)]"
-          }`}
+          className="h-full rounded-full bg-[#111111] transition-[width] duration-500 ease-out"
           style={{ width: `${percentage}%` }}
         />
       </div>
 
       <p
-        className={`mt-2 text-[11px] leading-relaxed ${
-          reached ? "text-emerald-700" : "text-[color:var(--muted)]"
-        }`}
+        className="mt-2 text-[11px] leading-relaxed text-stone-500"
       >
         {t("freeShippingThreshold")}
       </p>

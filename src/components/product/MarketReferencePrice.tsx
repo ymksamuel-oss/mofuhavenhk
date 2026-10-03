@@ -33,7 +33,7 @@ export function MarketReferencePrice({
       className={`flex flex-wrap items-baseline gap-x-1.5 text-[10px] leading-relaxed text-[color:var(--muted)] ${className}`}
       title={hint}
     >
-      <span className={`font-semibold tracking-wide text-[color:var(--accent)] ${compact ? "" : "uppercase"}`}>
+      <span className={`font-semibold tracking-wide text-stone-500 ${compact ? "" : "uppercase"}`}>
         {t("productMarketReferencePrice")}
       </span>
       <span className="tabular-nums">{formatMoney(price, locale)}</span>

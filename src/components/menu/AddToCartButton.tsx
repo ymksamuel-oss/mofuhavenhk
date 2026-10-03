@@ -154,10 +154,10 @@ export function AddToCartButton({
           type="button"
           onClick={() => setSafeQty(option)}
           disabled={!purchasable}
-          className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-2 text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white shadow-[0_8px_18px_-12px_rgba(122,75,49,0.7)]" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"}`}
+          className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-3 text-center text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-2 border-[#111111] bg-white font-bold text-[#111111] shadow-sm" : "border-stone-200 bg-[#FAFAFA] text-stone-700 hover:border-[#111111]"}`}
         >
           <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} \u4ef6`}</span>
-          <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-white/90" : "text-[#b04f40]"}`}>
+          <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-stone-600" : "text-stone-500"}`}>
             {option === 4
               ? (locale === "en" ? "5% off" : "95\u6298\u512a\u60e0")
               : option >= 12
@@ -221,19 +221,19 @@ export function AddToCartButton({
     <div className={`flex flex-col ${compact ? "mt-0.5 gap-1.5" : size === "modal" ? "mt-6 gap-3" : "mt-1 gap-2"} ${className}`}>
       {showQuantity ? <div className="flex flex-col items-center gap-2" onClick={stop}>
         {stepper}
-        {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-amber-200 bg-amber-50 p-3">
-          <p className="mb-2 text-center text-xs font-bold tracking-wide text-[color:var(--accent)]">{locale === "en" ? "Bulk savings" : "\u91cf\u8ca9\u512a\u60e0"}</p>
+        {isPetProduct && showBulkShortcuts ? <div className="w-full rounded-2xl border border-stone-200 bg-white p-4 text-stone-800 sm:p-5">
+          <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wider text-stone-500">{locale === "en" ? "Bulk savings" : "\u91cf\u8ca9\u512a\u60e0"}</p>
           {quickChoices}
         </div> : null}
-        {isPetProduct && showBulkShortcuts ? <p className={`text-center font-semibold leading-5 text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
+        {isPetProduct && showBulkShortcuts ? <p className={`text-center font-medium leading-5 text-stone-500 ${compact ? "text-[10px]" : "text-xs"}`} role="note">{promotionHint}</p> : null}
       </div> : null}
-      {discountMessage ? <p className={`text-center font-semibold text-[#c0483a] ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
+      {discountMessage ? <p className={`text-center font-semibold text-stone-500 ${compact ? "text-[10px]" : "text-xs"}`} role="status">{discountMessage}</p> : null}
       {showTotal ? <div className="space-y-1 text-center" aria-live="polite">
-        <p className="text-lg font-bold tabular-nums text-[color:var(--accent)]">{t("total")}：{formatMoney(currentTotal, locale)}</p>
-        {currentSavings > 0 ? <p className="text-xs font-semibold text-emerald-700">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `\u5df2\u7701 ${formatMoney(currentSavings, locale)}`}</p> : null}
-        {currentTotal >= FREE_SHIPPING_THRESHOLD ? <p className="text-xs font-semibold text-emerald-700">{freeShippingMessage}</p> : null}
+        <p className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{t("total")}：{formatMoney(currentTotal, locale)}</p>
+        {currentSavings > 0 ? <p className="text-xs font-medium text-stone-500">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `\u5df2\u7701 ${formatMoney(currentSavings, locale)}`}</p> : null}
+        {currentTotal >= FREE_SHIPPING_THRESHOLD ? <p className="text-xs font-medium text-stone-500">{freeShippingMessage}</p> : null}
       </div> : null}
-      <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-2xl font-semibold text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 disabled:shadow-none ${added ? "bg-emerald-600 hover:bg-emerald-600 animate-[fadeUp_0.25s_ease_both]" : "bg-[color:var(--accent)] hover:-translate-y-0.5 hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)]"} ${size === "modal" ? "px-4 py-3 text-sm" : "px-4 py-2.5 text-xs"}`}>
+      <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-sm transition-all active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 disabled:shadow-none ${size === "modal" ? (added ? "bg-[#111111] hover:bg-black animate-[fadeUp_0.25s_ease_both]" : "bg-[#111111] hover:bg-black") : (added ? "bg-emerald-600 hover:bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]")} ${size === "modal" ? "px-4 py-4 text-base" : "px-4 py-2.5 text-xs"}`}>
         {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>
     </div>
