@@ -29,22 +29,29 @@ export function ProteinPills({ audience = "all" }: { audience?: ProteinAudience 
   const { locale } = useI18n();
   const isZh = locale === "zh";
   const base = audience === "all" ? "/menu" : `/categories/${audience}`;
+
   return (
     <section className="border-y border-[#eaded3] bg-[#fffaf5] px-4 py-4 sm:px-6" aria-label={isZh ? "按肉種選購" : "Shop by protein"}>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-2 flex items-end justify-between gap-3">
-          <div>
+        <div className="mb-3 flex items-end justify-between gap-3">
+          <div className="min-w-0">
             <p className="text-[10px] font-bold tracking-[0.18em] text-[#a76443]">{isZh ? "按蛋白質來源選購" : "SHOP BY PROTEIN"}</p>
             <h2 className="mt-0.5 text-base font-bold text-[#493526] sm:text-lg">{isZh ? "揀選毛孩最合適的肉種" : "Find the right protein for your pet"}</h2>
           </div>
           <Link href={base} className="shrink-0 text-xs font-semibold text-[#a76443] hover:underline">{isZh ? "查看全部 →" : "View all →"}</Link>
         </div>
-        <nav className="flex gap-2 overflow-x-auto py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={isZh ? "肉種快捷導航" : "Protein shortcuts"}>
+        <nav className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4" aria-label={isZh ? "肉種快捷導航" : "Protein shortcuts"}>
           {PROTEINS.map((item) => (
-            <Link key={item.key} href={`${base}?ingredient=${item.key}`} className="group w-[132px] shrink-0 rounded-2xl border border-[#eaded3] bg-white px-3 py-2.5 transition hover:-translate-y-0.5 hover:border-[#c79573] hover:shadow-sm sm:w-[150px]">
-              <span className="text-xl" aria-hidden="true">{item.icon}</span>
-              <span className="mt-1 block whitespace-nowrap text-xs font-bold text-[#493526]">{isZh ? item.zh : item.en}</span>
-              <span className="mt-0.5 block line-clamp-2 text-[10px] leading-4 text-[#806759]">{isZh ? item.descZh : item.descEn}</span>
+            <Link
+              key={item.key}
+              href={`${base}?ingredient=${item.key}`}
+              className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#eaded3] bg-white px-3 py-2.5 transition hover:-translate-y-0.5 hover:border-[#c79573] hover:shadow-sm sm:px-4"
+            >
+              <span className="shrink-0 text-xl" aria-hidden="true">{item.icon}</span>
+              <span className="min-w-0">
+                <span className="block text-xs font-bold leading-5 text-[#493526] sm:text-sm">{isZh ? item.zh : item.en}</span>
+                <span className="mt-0.5 block line-clamp-2 text-[10px] leading-4 text-[#806759] sm:text-xs">{isZh ? item.descZh : item.descEn}</span>
+              </span>
             </Link>
           ))}
         </nav>

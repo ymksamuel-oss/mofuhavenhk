@@ -2,10 +2,10 @@
 
 :root {
   /* Warm editorial palette with a clearer caramel CTA hierarchy. */
-  --background: #fbf7f5;
-  --surface: #fbf7f5;
+  --background: #FAF8F5;
+  --surface: #FAF8F5;
   --product-image-surface: #f6eee8;
-  --ink: #2b2623;
+  --ink: #2D2926;
   --muted: #756962;
   --line: #eaded5;
   --accent: #c86a2b;
@@ -15,9 +15,9 @@
   --hero-deep: #b25b20;
   --foreground: var(--ink);
   --category-bg: #f3e8e0;
-  --category-bg-light: #fbf7f5;
+  --category-bg-light: #FAF8F5;
   --category-bg-hover: #e8d5cc;
-  --category-ink: #2b2623;
+  --category-ink: #2D2926;
   --font-body: var(--font-sans);
 }
 
@@ -68,8 +68,8 @@ body {
   background-color: var(--background);
   background-image:
     radial-gradient(1200px 500px at 10% -10%, #f3e8e0 0%, transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, #fbf7f5 0%, transparent 50%),
-    linear-gradient(180deg, #fbf7f5 0%, #f8f1ec 45%, #fbf7f5 100%);
+    radial-gradient(900px 420px at 90% 0%, #FAF8F5 0%, transparent 50%),
+    linear-gradient(180deg, #FAF8F5 0%, #f8f1ec 45%, #FAF8F5 100%);
   background-repeat: no-repeat;
   background-attachment: scroll;
   color: var(--ink);
@@ -107,7 +107,7 @@ h3 {
     background-color: var(--background);
     background-image:
       radial-gradient(34rem 14rem at 100% 0%, rgba(234, 215, 191, 0.42) 0%, transparent 72%),
-      linear-gradient(180deg, #fbf7f5 0%, #f9f2ed 55%, #fbf7f5 100%);
+      linear-gradient(180deg, #FAF8F5 0%, #f9f2ed 55%, #FAF8F5 100%);
   }
 }
 

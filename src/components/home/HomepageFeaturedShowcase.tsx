@@ -1,153 +1,120 @@
 "use client";
 
 import Link from "next/link";
-import { ProductCard } from "@/components/product/ProductCard";
+import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import type { Product } from "@/lib/products";
+import { formatMoney } from "@/lib/i18n/translations";
+import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
-type Shelf = {
-  id: string;
-  title: { zh: string; en: string };
-  description: { zh: string; en: string };
-  href: string;
-  /** Explicit catalog SKU allowlist. Homepage shelves must never infer membership from copy. */
-  skus: readonly string[];
+type CuratedPick = {
+  sku: string;
+  zh: string;
+  en: string;
 };
 
-/**
- * Homepage merchandising is intentionally whitelist-driven. Product names, tags and
- * descriptions are not reliable category boundaries: a bundle can mention every
- * component it contains and would otherwise leak into several shelves.
- */
-const SHELVES: readonly Shelf[] = [
-  {
-    id: "bundles",
-    title: { zh: "🎁 限時超值套裝", en: "🎁 Value Bundles" },
-    description: { zh: "四款精選套裝，一次配齊日常所需，送禮自用都更划算。", en: "Four curated bundles for easy gifting and better everyday value." },
-    href: "/collections/value-bundles",
-    skus: [
-      "MOFU-BUNDLE-PICKY-01",
-      "MOFU-BUNDLE-DENTAL-02",
-      "MOFU-BUNDLE-SEAFOOD-03",
-      "MOFU-BUNDLE-WALK-04",
-    ],
-  },
-  {
-    id: "meat",
-    title: { zh: "🥩 天然原肉與低敏零食", en: "🥩 Pure Meat Treats" },
-    description: { zh: "單一肉源、純粹肉香，精選日本原肉乾照顧挑食與敏感毛孩。", en: "Single-protein Japanese treats for sensitive appetites." },
-    href: "/collections/horse-meat",
-    skus: [
-      "4976064026545",
-      "4976064025623",
-      "4976064025791",
-      "4976064025210",
-    ],
-  },
-  {
-    id: "dental",
-    title: { zh: "🦷 物理潔齒・耐咬解悶防拆家專區", en: "🦷 Dental & Chews" },
-    description: { zh: "天然耐咬單品，支援日常口腔護理並釋放毛孩旺盛精力。", en: "Natural chews for daily oral care and calmer energy." },
-    href: "/collections/dental-chews",
-    skus: [
-      "4976064025333",
-      "4976064026446",
-      "4976064025661",
-      "4976064022301",
-    ],
-  },
-  {
-    id: "cats",
-    title: { zh: "🐱 貓咪專屬・挑食與美毛專區", en: "🐱 Cat Picks for Picky Appetites & Shine" },
-    description: { zh: "貓咪專屬單品，為挑食與日常美毛補充鮮味。", en: "Cat-only treats for picky appetites and healthy-looking coats." },
-    href: "/collections/cats",
-    skus: [
-      "4976064013897",
-      "4976064024725",
-      "4976064015747",
-      "4976064024688",
-    ],
-  },
+const CURATED_PICKS: readonly CuratedPick[] = [
+  { sku: "4976064024442", zh: "純鹿肉鬆拌糧粉", en: "Wild venison floss topper" },
+  { sku: "4976064023162", zh: "蒙古馬蹄筋細切條", en: "Mongolian horse-tendon strips" },
+  { sku: "4976064013897", zh: "貓用金槍魚薄片", en: "Yellowfin tuna flakes for cats" },
+  { sku: "4976064024497", zh: "天然純馬肉脆片", en: "Natural horse-meat crisps" },
+  { sku: "4976064023766", zh: "枕崎產鰹魚厚切片", en: "Makurazaki bonito slices" },
+  { sku: "4976064025388", zh: "手撕雞里肌肉絲", en: "Hand-pulled chicken shreds" },
+  { sku: "4976064025630", zh: "天然馬皮潔齒棒", en: "Natural horse-hide dental sticks" },
+  { sku: "4976064025760", zh: "日本國產仔牛肉鬆", en: "Japanese veal floss" },
 ];
 
 function productSku(product: Product): string {
   return String(
-    product.metadata?.mofu_sku ??
-      product.tags?.find((tag) => /^MOFU-|^\d{8,14}$/.test(tag)) ??
+    product.mofuSku ??
+      product.metadata?.mofu_sku ??
+      product.tags?.find((tag) => /^\d{8,14}$/.test(tag)) ??
       "",
   ).trim();
-}
-
-/**
- * Resolve each shelf only from its allowlist, then enforce a second global identity
- * guard so a future catalog mistake cannot render a product twice on the homepage.
- */
-function productsForShelves(products: Product[]): Map<string, Product[]> {
-  const claimedSkus = new Set<string>();
-  const result = new Map<string, Product[]>();
-
-  for (const shelf of SHELVES) {
-    const allowed = new Set(shelf.skus);
-    const shelfProducts: Product[] = [];
-    for (const product of products) {
-      const sku = productSku(product);
-      if (!sku || !allowed.has(sku) || claimedSkus.has(sku)) continue;
-      claimedSkus.add(sku);
-      shelfProducts.push(product);
-    }
-    result.set(shelf.id, shelfProducts);
-  }
-
-  return result;
 }
 
 export function HomepageFeaturedShowcase({ products }: { products: Product[] }) {
   const { locale } = useI18n();
   const isZh = locale === "zh";
-  const shelfProducts = productsForShelves(products);
+  const productBySku = new Map(
+    products
+      .filter((product) => isStorefrontReadyProduct(product) && product.images?.[0])
+      .map((product) => [productSku(product), product]),
+  );
+  const featured = CURATED_PICKS.flatMap((pick) => {
+    const product = productBySku.get(pick.sku);
+    return product ? [{ ...pick, product }] : [];
+  });
 
   return (
-    <section aria-labelledby="homepage-featured-showcase-title" className="bg-[#fbf7f3] px-5 py-6 sm:px-10 sm:py-8">
+    <section id="curated-picks" aria-labelledby="curated-picks-title" className="bg-[#FAF8F5] px-3 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <span className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">{isZh ? "毛毛港精選" : "MOFU HAVEN SELECT"}</span>
-            <h2 id="homepage-featured-showcase-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-4xl">{isZh ? "店長嚴選・毛孩人氣特輯" : "Shopkeeper's Picks for Happy Pets"}</h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base">{isZh ? "針對挑食、潔齒磨牙、深海美毛等日常需求，為愛寵精選最安心的日本天然食品。" : "Thoughtfully selected Japanese natural foods for picky appetites, dental care, deep-sea nourishment and everyday pet needs."}</p>
-          </div>
-        </div>
+        <header className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
+          <p className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">
+            CURATED PICKS
+          </p>
+          <h2
+            id="curated-picks-title"
+            className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[#2D2926] sm:text-4xl"
+          >
+            {isZh ? "今期店長嚴選" : "This Season’s Shopkeeper Picks"}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-stone-600 sm:text-base">
+            {isZh
+              ? "從天然原肉、海味拌糧到耐咬潔齒，精選八款各有特色的日本寵物零食。"
+              : "Eight distinctive Japanese treats, from pure meat and seafood toppers to natural dental chews."}
+          </p>
+        </header>
 
-        <div className="grid gap-6">
-          {SHELVES.map((shelf) => {
-            const products = shelfProducts.get(shelf.id) ?? [];
-            return (
-              <section key={shelf.id} aria-labelledby={`${shelf.id}-title`}>
-                <div className="mb-3 flex items-end justify-between gap-3">
-                  <div>
-                    <h3 id={`${shelf.id}-title`} className="text-xl font-bold text-[color:var(--ink)] sm:text-2xl">{isZh ? shelf.title.zh : shelf.title.en}</h3>
-                    <p className="mt-1 text-sm text-[color:var(--muted)]">{isZh ? shelf.description.zh : shelf.description.en}</p>
-                  </div>
-                  <Link href={shelf.href} className="shrink-0 rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-xs font-semibold text-[color:var(--accent)] transition hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-soft)]">{isZh ? "查看全部 →" : "View all →"}</Link>
-                </div>
-                {products.length > 0 ? (
-                  <ul className="grid grid-cols-2 items-start gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
-                    {products.map((product, index) => (
-                      <li key={`${shelf.id}-${product.id}`} className="flex min-w-0 flex-col">
-                        <div className="mb-1.5 h-7" aria-hidden="true" />
-                        <ProductCard product={product} priority={index === 0} showPurchaseControls={false} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="rounded-2xl border border-dashed border-[color:var(--line)] bg-white/60 px-4 py-6 text-sm text-[color:var(--muted)]">{isZh ? "商品目錄正在更新，請稍後再來。" : "Our product catalogue is updating. Please check back soon."}</p>
-                )}
-              </section>
-            );
-          })}
+        {featured.length > 0 ? (
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+            {featured.map(({ product, zh, en }, index) => {
+              const label = isZh ? zh : en;
+              return (
+                <li key={product.id} className="min-w-0">
+                  <Link
+                    href={productHref(product.id)}
+                    aria-label={`${isZh ? "查看商品" : "View product"}：${label}`}
+                    className="group block h-full overflow-hidden rounded-2xl border border-[#ECE5D8] bg-white shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B]"
+                  >
+                    <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-2.5 sm:p-3">
+                      <ProductImage
+                        src={product.images?.[0] ?? product.image}
+                        alt={label}
+                        priority={index < 2}
+                        sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                        className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                      />
+                    </div>
+                    <div className="min-w-0 px-3 pb-4 pt-3 sm:px-4">
+                      <h3 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-[#2D2926] sm:text-base">
+                        {label}
+                      </h3>
+                      <p className="mt-2 text-sm font-bold tabular-nums text-[#49372c]">
+                        {formatMoney(product.price, locale)}
+                      </p>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="rounded-2xl border border-dashed border-stone-300 bg-white/70 px-4 py-8 text-center text-sm text-stone-600">
+            {isZh ? "商品目錄正在更新，請稍後再來。" : "Our product catalogue is updating. Please check back soon."}
+          </p>
+        )}
+
+        <div className="mt-8 text-center sm:mt-10">
+          <Link
+            href="/menu"
+            className="inline-flex min-h-12 max-w-full items-center justify-center gap-2 rounded-full bg-[#C86A2B] px-6 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#B25B20] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B] focus-visible:ring-offset-2 sm:px-8"
+          >
+            {isZh
+              ? "查看完整商品目錄（全 11 款肉源食材專業篩選）→"
+              : "Explore the full catalogue and 11 protein-source filters →"}
+          </Link>
         </div>
       </div>
     </section>
   );
 }
-
-export { SHELVES, productSku, productsForShelves };
