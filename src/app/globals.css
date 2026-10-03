@@ -41,9 +41,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Noto Sans HK", "PingFang HK", "Microsoft JhengHei", -apple-system,
+  --font-sans: var(--font-noto-sans-tc), "Noto Sans TC", "PingFang HK", "Microsoft JhengHei", -apple-system,
     BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-  --font-display: "Noto Sans HK", "PingFang HK", "Microsoft JhengHei", -apple-system,
+  --font-serif: var(--font-noto-serif-tc), "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-display: var(--font-noto-sans-tc), "Noto Sans TC", "PingFang HK", "Microsoft JhengHei", -apple-system,
     BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 

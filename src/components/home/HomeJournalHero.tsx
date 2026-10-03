@@ -138,9 +138,9 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
           });
           return (
             <div key={issue.label} className={`absolute inset-0 grid grid-cols-1 items-center gap-8 px-3 py-8 transition-opacity duration-500 ease-in-out sm:px-6 sm:py-12 md:grid-cols-12 md:py-16 ${issueIndex === activeIssue ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-              <div className="col-span-12 min-w-0 md:col-span-5">
+              <div className="col-span-12 min-w-0 pl-12 sm:pl-16 md:col-span-5 md:pl-16">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{issue.label}</p>
-                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className="mb-4 max-w-xl whitespace-pre-line font-[family-name:var(--font-display)] text-3xl font-bold leading-[1.25] tracking-tight text-[#111111] sm:text-4xl lg:text-5xl">{isEn ? issue.titleEn : issue.titleZh}</h1>
+                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className="mb-4 max-w-lg whitespace-pre-line text-balance font-serif text-3xl font-semibold leading-[1.35] tracking-[0.03em] text-[#111111] sm:text-4xl lg:text-5xl">{isEn ? issue.titleEn : issue.titleZh}</h1>
                 <p className="mb-6 max-w-md text-sm leading-relaxed text-stone-600 sm:text-base">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
                 <Link href={issue.ctaLink} className="inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98]">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
               </div>
