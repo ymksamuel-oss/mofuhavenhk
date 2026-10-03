@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
+import { getFreeShippingProgress } from "@/lib/shipping-progress";
 
 type FreeShippingProgressProps = {
   subtotal: number;
@@ -23,13 +24,7 @@ export function FreeShippingProgress({
   showContinueShoppingLink = false,
 }: FreeShippingProgressProps) {
   const { locale, t } = useI18n();
-  const safeSubtotal = Number.isFinite(subtotal) ? Math.max(0, subtotal) : 0;
-  const reached = safeSubtotal >= FREE_SHIPPING_THRESHOLD;
-  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - safeSubtotal);
-  const percentage = Math.min(
-    100,
-    Math.round((safeSubtotal / FREE_SHIPPING_THRESHOLD) * 100),
-  );
+  const { reached, remaining, percentage, currentAmount } = getFreeShippingProgress(subtotal);
   const message = reached
     ? t("freeShippingReached")
     : t("freeShippingRemaining").replace(
@@ -39,7 +34,7 @@ export function FreeShippingProgress({
 
   return (
     <section
-      className={`rounded-2xl border border-stone-200/80 bg-[#FAFAFA] p-4 text-stone-800 ${className}`}
+      className={`rounded-2xl border p-4 text-stone-800 ${reached ? "border-emerald-200 bg-emerald-50/80" : "border-stone-200/80 bg-[#FAFAFA]"} ${className}`}
       aria-label={t("freeShippingProgressLabel")}
     >
       <div className="flex items-start justify-between gap-3">
@@ -62,22 +57,22 @@ export function FreeShippingProgress({
           </p>
         )}
         <span
-          className="shrink-0 text-xs font-semibold tabular-nums text-stone-700"
+          className={`shrink-0 text-xs font-semibold tabular-nums ${reached ? "text-emerald-700" : "text-stone-700"}`}
         >
           {percentage}%
         </span>
       </div>
 
       <div
-        className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-stone-200"
+        className={`mt-2.5 h-2.5 w-full overflow-hidden rounded-full ${reached ? "bg-emerald-100" : "bg-stone-200"}`}
         role="progressbar"
         aria-label={t("freeShippingProgressLabel")}
         aria-valuemin={0}
         aria-valuemax={FREE_SHIPPING_THRESHOLD}
-        aria-valuenow={Math.min(safeSubtotal, FREE_SHIPPING_THRESHOLD)}
+        aria-valuenow={currentAmount}
       >
         <div
-          className="h-full rounded-full bg-[#111111] transition-[width] duration-500 ease-out"
+          className={`h-full rounded-full transition-[width] duration-500 ease-out ${reached ? "bg-emerald-600" : "bg-[#111111]"}`}
           style={{ width: `${percentage}%` }}
         />
       </div>

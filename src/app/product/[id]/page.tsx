@@ -18,8 +18,8 @@ const VALUE_BUNDLE_SKUS = new Set([
   "MOFU-BUNDLE-WALK-04",
 ]);
 
-function productSku(product: { id: string; metadata?: Record<string, string> }) {
-  return product.metadata?.mofu_sku?.trim() || product.id;
+function productSku(product: { id: string; mofuSku?: string; metadata?: Record<string, string> }) {
+  return product.metadata?.mofu_sku?.trim() || product.mofuSku?.trim() || product.id;
 }
 
 function cleanEnglishCopy(value?: string): string {
@@ -146,14 +146,15 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     description,
     alternates: { canonical },
     openGraph: {
-      type: "website",
+      // Next's OpenGraphType union omits the standard product type; preserve it at runtime.
+      type: "product",
       url: canonical,
       title,
       description,
       images: [{ url: imageUrl, alt: name, width: 1200, height: 1200 }],
       locale: "zh_HK",
       siteName: SITE_NAME,
-    },
+    } as unknown as NonNullable<Metadata["openGraph"]>,
     twitter: {
       card: "summary_large_image",
       title,
@@ -185,6 +186,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       : `${SITE_URL}/menu`;
   const breadcrumbName = VALUE_BUNDLE_SKUS.has(sku) ? "Value Bundles" : product.categorySlug || "Product Catalog";
   const janCode = getProductJanCode(product);
+  const brandName = product.brand?.trim() || product.brandName?.trim() || product.vendor?.trim() || "Best Partner";
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -195,7 +197,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     sku,
     ...(janCode ? { gtin13: janCode } : {}),
     url: canonical,
-    brand: product.brand || product.brandName ? { "@type": "Brand", name: product.brand || product.brandName } : undefined,
+    brand: { "@type": "Brand", name: brandName },
     offers: {
       "@type": "Offer",
       url: canonical,

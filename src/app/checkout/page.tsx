@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import {
   PAYMENT_METHODS,
@@ -569,6 +570,8 @@ function CheckoutContent() {
           </p>
         </div>
       </header>
+
+      {items.length > 0 ? <FreeShippingProgress subtotal={subtotalHkd} className="mb-6" /> : null}
 
       <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
         {/* Mobile-first: wallets / pay methods first for one-tap checkout */}
