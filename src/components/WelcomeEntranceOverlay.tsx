@@ -19,7 +19,7 @@ type SupplierProofCopy = {
 function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierProofCopy; isZh: boolean; desktop?: boolean }) {
   return (
     <div className={`${desktop ? "hidden lg:block" : "lg:hidden"} space-y-3`} aria-label={isZh ? "日本供應商實體廠房與地圖" : "Japanese supplier factory and map"}>
-      <div className="overflow-hidden rounded-2xl bg-[#eee4d7] shadow-sm">
+      <div className="overflow-hidden rounded-2xl bg-[#FFFFFF] shadow-sm">
         <div className="relative aspect-video w-full lg:h-[210px] lg:aspect-auto">
           <Image src="/images/best-partner-factory.jpg" alt={copy.factoryCaption} fill sizes={desktop ? "(min-width: 1024px) 44vw, 100vw" : "100vw"} className="object-cover" />
         </div>
@@ -29,7 +29,7 @@ function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierPro
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-[#d9cbbb] bg-[#fffdf9] shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-[#d9cbbb] bg-[#FFFFFF] shadow-sm">
         <div className="pointer-events-none h-40 sm:pointer-events-auto lg:h-[180px]">
           <iframe title={isZh ? "Best Partner 實體廠址地圖" : "Best Partner factory map"} src={FACTORY_MAP_EMBED_URL} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </div>
@@ -135,7 +135,7 @@ export function WelcomeEntranceOverlay() {
             type="button"
             onClick={() => dismiss()}
             aria-label={copy.close}
-            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-[#d2c1b1] bg-[#fffdf9]/70 text-[#694c3d] transition hover:border-[#a9785f] hover:bg-white active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-[#d2c1b1] bg-[#FFFFFF]/70 text-[#694c3d] transition hover:border-[#a9785f] hover:bg-white active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
           >
             <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -189,7 +189,7 @@ export function WelcomeEntranceOverlay() {
 
               <div className="mt-6 flex flex-wrap gap-2.5 animate-[fadeInUp_600ms_240ms_ease-out_both] lg:justify-center">
                 {[copy.badgeOne, copy.badgeTwo, copy.badgeThree].map((badge) => (
-                  <span key={badge} className="rounded-full border border-[#ddcdbd] bg-[#fffdf9]/75 px-3.5 py-2 text-[11px] font-semibold leading-4 text-[#694c3d] shadow-[0_8px_20px_-18px_rgba(44,37,35,0.6)] sm:text-xs">
+                  <span key={badge} className="rounded-full border border-[#ddcdbd] bg-[#FFFFFF]/75 px-3.5 py-2 text-[11px] font-semibold leading-4 text-[#694c3d] shadow-[0_8px_20px_-18px_rgba(44,37,35,0.6)] sm:text-xs">
                     {badge}
                   </span>
                 ))}
@@ -207,14 +207,14 @@ export function WelcomeEntranceOverlay() {
                   <Link
                     href="/collections/dogs"
                     onClick={() => dismiss()}
-                    className="flex min-h-12 items-center justify-center rounded-xl bg-[#ebe6de] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#e1d8cc] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
+                    className="flex min-h-12 items-center justify-center rounded-xl bg-[#FFFFFF] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#F5F5F5] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
                   >
                     {copy.dogs}
                   </Link>
                   <Link
                     href="/collections/cats"
                     onClick={() => dismiss()}
-                    className="flex min-h-12 items-center justify-center rounded-xl bg-[#ebe6de] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#e1d8cc] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
+                    className="flex min-h-12 items-center justify-center rounded-xl bg-[#FFFFFF] px-3 text-center text-xs font-semibold text-[#5b4940] transition hover:bg-[#F5F5F5] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2"
                   >
                     {copy.cats}
                   </Link>

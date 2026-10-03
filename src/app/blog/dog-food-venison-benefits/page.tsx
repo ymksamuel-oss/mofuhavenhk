@@ -56,7 +56,7 @@ export default async function VenisonBenefitsPage() {
     <main className="min-h-screen bg-[#fbf7f3] text-[#4b352a]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <article>
-        <header className="relative isolate overflow-hidden bg-[#ead6c4]">
+        <header className="relative isolate overflow-hidden bg-[#FFFFFF]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,.72),transparent_38%),linear-gradient(115deg,rgba(91,55,37,.72),rgba(91,55,37,.16))]" />
           <div className="relative mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:py-24">
             <div className="max-w-2xl text-white">
@@ -65,10 +65,10 @@ export default async function VenisonBenefitsPage() {
               <h1 className="mt-5 font-[family-name:var(--font-display)] text-4xl font-semibold leading-[1.13] tracking-tight sm:text-5xl lg:text-6xl">點解日本獸醫大力推薦「鹿肉」？</h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-white/90 sm:text-xl">低脂防肥、罕見 DHA 護腦與低敏紅肉全解析，幫你為毛孩揀一款更清爽、更安心的日常肉源。</p>
               <div className="mt-7 flex flex-wrap gap-2">
-                {tags.map((tag) => <span key={tag} className="rounded-full bg-[#fffaf4]/90 px-3 py-1.5 text-xs font-bold text-[#7d5037] shadow-sm">{tag}</span>)}
+                {tags.map((tag) => <span key={tag} className="rounded-full bg-[#FFFFFF]/90 px-3 py-1.5 text-xs font-bold text-[#7d5037] shadow-sm">{tag}</span>)}
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/50 bg-[#c99f7d] shadow-[0_24px_60px_-30px_rgba(60,37,25,.65)]">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/50 bg-[#FFFFFF] shadow-[0_24px_60px_-30px_rgba(60,37,25,.65)]">
               <img src="/images/hero-natural-meat.jpg" alt="天然鹿肉與日本原肉零食" className="aspect-[4/3] w-full object-cover" />
               <div className="absolute bottom-4 left-4 rounded-2xl bg-white/90 px-4 py-3 text-sm font-semibold text-[#634331] shadow-lg backdrop-blur">日本製造・產地透明・無添加</div>
             </div>
@@ -76,7 +76,7 @@ export default async function VenisonBenefitsPage() {
         </header>
 
         <div className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-14">
-          <div className="rounded-3xl border border-[#ead9cb] bg-[#fffdf9] p-6 shadow-[0_20px_50px_-38px_rgba(84,57,45,.5)] sm:p-9">
+          <div className="rounded-3xl border border-[#F1F1F1] bg-[#FFFFFF] p-6 shadow-[0_20px_50px_-38px_rgba(84,57,45,.5)] sm:p-9">
             <p className="text-lg leading-8 text-[#634b3d] sm:text-xl">如果你家狗狗已絕育、容易增磅，或者食雞肉牛肉後成日抓癢，鹿肉可能是值得認真了解的替代肉源。它不是「神奇治療」；但以清晰來源、單一配方和適量餵食為前提，確實能成為日常獎勵與拌糧的漂亮選擇。</p>
             <p className="mt-5 text-sm leading-7 text-[#8a7163]">以下內容是一般寵物營養教育，不能代替獸醫診斷。若毛孩有慢性病、腎臟問題或已知食物過敏，轉糧前請先向主診獸醫確認。</p>
           </div>
@@ -88,16 +88,16 @@ export default async function VenisonBenefitsPage() {
 
           <section className="mt-14" aria-labelledby="benefit-brain">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#a76443] text-xl text-white">02</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">BRAIN & COAT</p><h2 id="benefit-brain" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-[#4b352a]">罕見陸地肉含天然 DHA 與高鐵質：由腦部到毛色的日常支援</h2></div></div>
-            <div className="overflow-hidden rounded-3xl border border-[#ead9cb] bg-white"><div className="grid md:grid-cols-2"><img src="/images/products/bp-4976064026545.jpg" alt="北海道天然蝦夷鹿肉乾" className="h-full min-h-64 w-full object-cover" /><div className="p-6 sm:p-8"><p className="text-base leading-8 text-[#634b3d]">鹿肉的脂肪酸與礦物質組合，令它成為不少毛孩家長用來輪替蛋白質的選擇。DHA 與鐵質是營養討論中常見的關鍵字，但真正重要的是整體配方、攝取量和毛孩本身需要：不要將零食當成治療品，亦不要用單一食材取代完整主食。</p><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">DHA</p><p className="mt-1 text-xs leading-5 text-[#76594a]">日常腦部與認知營養討論</p></div><div className="rounded-2xl bg-[#fbf2e7] p-4"><p className="text-2xl font-bold text-[#8b573f]">Fe</p><p className="mt-1 text-xs leading-5 text-[#76594a]">高鐵質紅肉的營養亮點</p></div></div></div></div></div>
+            <div className="overflow-hidden rounded-3xl border border-[#F1F1F1] bg-white"><div className="grid md:grid-cols-2"><img src="/images/products/bp-4976064026545.jpg" alt="北海道天然蝦夷鹿肉乾" className="h-full min-h-64 w-full object-cover" /><div className="p-6 sm:p-8"><p className="text-base leading-8 text-[#634b3d]">鹿肉的脂肪酸與礦物質組合，令它成為不少毛孩家長用來輪替蛋白質的選擇。DHA 與鐵質是營養討論中常見的關鍵字，但真正重要的是整體配方、攝取量和毛孩本身需要：不要將零食當成治療品，亦不要用單一食材取代完整主食。</p><div className="mt-5 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-[#FFFFFF] p-4"><p className="text-2xl font-bold text-[#8b573f]">DHA</p><p className="mt-1 text-xs leading-5 text-[#76594a]">日常腦部與認知營養討論</p></div><div className="rounded-2xl bg-[#FFFFFF] p-4"><p className="text-2xl font-bold text-[#8b573f]">Fe</p><p className="mt-1 text-xs leading-5 text-[#76594a]">高鐵質紅肉的營養亮點</p></div></div></div></div></div>
           </section>
 
           <section className="mt-14" aria-labelledby="benefit-sensitive">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#c17b52] text-xl text-white">03</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">SINGLE PROTEIN</p><h2 id="benefit-sensitive" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-[#4b352a]">終極低敏單一肉源：告別雞肉牛肉過敏抓癢？</h2></div></div>
             <p className="text-base leading-8 text-[#634b3d]">對正在做飲食排查的狗狗，單一肉源、配料表簡潔的鹿肉零食較容易記錄反應。不過「低敏」不等於「零過敏」；每隻狗狗的觸發物都不同。選擇時要看完整配料、避免混合多種肉類，並在獸醫指導下保持觀察期的一致性。</p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-3">{[["看清配料", "Single protein"], ["記錄反應", "Observe 7–14 days"], ["循序轉換", "Go gently"]].map(([title, label]) => <div key={title} className="rounded-2xl border border-[#ead9cb] bg-[#fffdf9] p-5"><p className="text-xs font-bold tracking-[0.12em] text-[#a76443]">{label}</p><p className="mt-2 font-bold text-[#634b3d]">{title}</p></div>)}</div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">{[["看清配料", "Single protein"], ["記錄反應", "Observe 7–14 days"], ["循序轉換", "Go gently"]].map(([title, label]) => <div key={title} className="rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5"><p className="text-xs font-bold tracking-[0.12em] text-[#a76443]">{label}</p><p className="mt-2 font-bold text-[#634b3d]">{title}</p></div>)}</div>
           </section>
 
-          <section className="mt-14 rounded-3xl bg-[#5c4638] p-7 text-[#fffaf4] sm:p-9" aria-labelledby="selection-standard">
+          <section className="mt-14 rounded-3xl bg-[#5c4638] p-7 text-[#FFFFFF] sm:p-9" aria-labelledby="selection-standard">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#d9a87f] text-xl font-bold text-[#5c4638]">04</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#eac4a5]">JAPAN EXPERT CHECKLIST</p><h2 id="selection-standard" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold">日本專家傳授：揀鹿肉，先看這三件事</h2></div></div>
             <div className="grid gap-4 md:grid-cols-3">{[["產地透明", "清楚標示製造國、原料來源與製造商，拒絕只寫「天然」但來源含糊。"], ["無鉛檢驗", "野生鹿肉更要重視來源管理與檢驗資訊，選擇願意交代安全標準的品牌。"], ["100% 無添加", "配料越簡潔越易觀察，優先選擇不加人工色素、防腐劑與多餘調味的產品。"]].map(([title, copy]) => <div key={title} className="rounded-2xl border border-white/15 bg-white/10 p-5"><p className="text-lg font-bold text-[#f7d8bc]">{title}</p><p className="mt-2 text-sm leading-7 text-white/80">{copy}</p></div>)}</div>
           </section>

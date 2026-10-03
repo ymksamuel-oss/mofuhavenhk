@@ -30,7 +30,7 @@ export function HomeDiscoveryBar() {
           <Link
             key={item.href}
             href={item.href}
-            className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full bg-stone-100 px-3 py-2 text-center text-xs font-medium text-stone-700 transition hover:bg-[#FAF7F2] hover:text-[#8b573f] sm:px-3.5 sm:py-1.5 sm:text-sm"
+            className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full bg-stone-100 px-3 py-2 text-center text-xs font-medium text-stone-700 transition hover:bg-[#FFFFFF] hover:text-[#8b573f] sm:px-3.5 sm:py-1.5 sm:text-sm"
           >
             <span aria-hidden="true" className="shrink-0">{item.icon}</span>
             <span className="min-w-0">{isZh ? item.zh : item.en}</span>
@@ -39,7 +39,7 @@ export function HomeDiscoveryBar() {
       </nav>
       <ul aria-label={isZh ? "品質保障" : "Store assurances"} className="grid grid-cols-3 gap-2 border-y border-stone-200/70 py-2 sm:gap-3">
         {TRUST_ITEMS.map((item) => (
-          <li key={item.en} className="flex min-w-0 items-center gap-2 rounded-xl bg-[#FAF7F2] px-2 py-2 text-[10px] leading-4 text-stone-600 sm:justify-center sm:px-2.5 sm:text-xs">
+          <li key={item.en} className="flex min-w-0 items-center gap-2 rounded-xl bg-[#FFFFFF] px-2 py-2 text-[10px] leading-4 text-stone-600 sm:justify-center sm:px-2.5 sm:text-xs">
             <span aria-hidden="true" className="shrink-0 text-base">{item.icon}</span>
             <span className="min-w-0">{isZh ? item.zh : item.en}</span>
           </li>

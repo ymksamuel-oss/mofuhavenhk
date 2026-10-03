@@ -51,7 +51,7 @@ export function SupplierProfileSection() {
     : ["🥩 100% Japanese natural meat", "🌿 Zero chemical preservatives or attractants", "🚚 Official Mofu Haven direct shipping"];
 
   return (
-    <section className="border-y border-[#e6e0d6] bg-[#fbf9f5]" aria-labelledby="supplier-profile-title">
+    <section className="border-y border-[#F1F1F1] bg-[#FFFFFF]" aria-labelledby="supplier-profile-title">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[10px] font-bold tracking-[0.28em] text-[#a36b42] sm:text-xs">{copy.eyebrow}</p>
@@ -76,7 +76,7 @@ export function SupplierProfileSection() {
                 </div>
                 <span className="text-xs text-[#9a8170]">Aichi · Japan</span>
               </div>
-              <div className="h-56 overflow-hidden rounded-2xl border border-[#E6E0D6] bg-[#eee9e1] sm:h-64 sm:pointer-events-auto pointer-events-none">
+              <div className="h-56 overflow-hidden rounded-2xl border border-[#E6E0D6] bg-[#FFFFFF] sm:h-64 sm:pointer-events-auto pointer-events-none">
                 <iframe title={copy.mapTitle} src={MAP_EMBED_URL} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               </div>
               <p className="mt-3 text-xs leading-5 text-[#806b5d]">{copy.mapHint}</p>
@@ -86,7 +86,7 @@ export function SupplierProfileSection() {
 
           <div className="space-y-8">
             <div className="overflow-hidden rounded-2xl border border-[#E6E0D6] bg-white shadow-[0_18px_42px_-32px_rgba(93,67,48,0.55)]">
-              <div className="border-b border-[#E6E0D6] bg-[#f1eadf] px-5 py-4 sm:px-6">
+              <div className="border-b border-[#E6E0D6] bg-[#FFFFFF] px-5 py-4 sm:px-6">
                 <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">COMPANY PROFILE</p>
                 <h3 className="mt-1 text-xl font-semibold text-[#49372c]">{copy.profileTitle}</h3>
               </div>
@@ -100,7 +100,7 @@ export function SupplierProfileSection() {
               </dl>
             </div>
 
-            <div className="rounded-2xl border border-[#e1cbb7] bg-[#f7ede3] p-5 sm:p-6">
+            <div className="rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 sm:p-6">
               <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">MOFU HAVEN PROMISE</p>
               <h3 className="mt-1 text-xl font-semibold text-[#49372c]">{copy.promiseTitle}</h3>
               <ul className="mt-5 space-y-3">

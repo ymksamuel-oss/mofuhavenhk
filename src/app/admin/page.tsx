@@ -788,13 +788,13 @@ export default function AdminPage() {
     : Number(barcodeDraft?.stock) > 0 ? "在售中" : "缺貨中";
 
   return (
-    <div className="min-h-screen bg-[#f6f2eb] text-[#27231f]">
+    <div className="min-h-screen bg-[#FFFFFF] text-[#27231f]">
       <header className="flex items-center justify-between border-b border-[#e5ddd3] bg-white px-5 py-4 md:px-10">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#a36b42]">Mofu Haven HK</p>
           <h1 className="text-xl font-semibold">內容管理中心</h1>
         </div>
-        <button onClick={logout} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">登出</button>
+        <button onClick={logout} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#FFFFFF]">登出</button>
       </header>
 
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-6 md:flex-row md:px-10">
@@ -831,13 +831,13 @@ export default function AdminPage() {
                     onChange={(event) => setProductQuery(event.target.value)}
                     onKeyDown={(event) => { if (event.key === "Enter" && /^\d{8,14}$/.test(productQuery.trim())) { event.preventDefault(); void handleBarcode(productQuery); } }}
                     placeholder="搜尋產品名稱、關鍵字、SKU 或產品 ID…"
-                    className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] py-3 pl-10 pr-10 text-sm outline-none transition focus:border-[#a36b42] focus:ring-2 focus:ring-[#a36b42]/10"
+                    className="w-full rounded-xl border border-[#ded5cc] bg-[#FFFFFF] py-3 pl-10 pr-10 text-sm outline-none transition focus:border-[#a36b42] focus:ring-2 focus:ring-[#a36b42]/10"
                   />
                   {productQuery && <button aria-label="清除搜尋" onClick={() => setProductQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b7c70] hover:text-[#2f4a3c]"><X className="h-4 w-4" /></button>}
                 </label>
                 <label className="lg:w-56">
                   <span className="sr-only">按分類篩選</span>
-                  <select value={productCategory} onChange={(event) => setProductCategory(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-[#fffdfa] px-3 py-3 text-sm outline-none transition focus:border-[#a36b42]">
+                  <select value={productCategory} onChange={(event) => setProductCategory(event.target.value)} className="w-full rounded-xl border border-[#ded5cc] bg-[#FFFFFF] px-3 py-3 text-sm outline-none transition focus:border-[#a36b42]">
                     <option value="all">全部分類</option>
                     {categoryGroups(categories).map(({ root, entries }) => (
                       <optgroup key={root.id} label={root.name}>
@@ -851,26 +851,26 @@ export default function AdminPage() {
                   </select>
                 </label>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#eaded5] pt-4">
+              <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-[#F1F1F1] pt-4">
                 <button type="button" onClick={() => setScannerOpen(true)} className="inline-flex items-center gap-2 rounded-xl bg-[#2f4a3c] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d]"><Camera className="h-4 w-4" />掃碼收貨／查貨</button>
                 <div className="relative">
-                  <button type="button" onClick={() => setProductToolsOpen((open) => !open)} aria-expanded={productToolsOpen} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#f8fbf8] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#edf5ef]">
+                  <button type="button" onClick={() => setProductToolsOpen((open) => !open)} aria-expanded={productToolsOpen} className="inline-flex items-center gap-2 rounded-xl border border-[#2f4a3c] bg-[#FFFFFF] px-3 py-2 text-sm font-semibold text-[#2f4a3c] transition hover:bg-[#FFFFFF]">
                     <Download className="h-4 w-4" />匯入／匯出 <ChevronDown className={`h-4 w-4 transition-transform ${productToolsOpen ? "rotate-180" : ""}`} />
                   </button>
                   {productToolsOpen && (
                     <div className="absolute left-0 top-full z-20 mt-2 min-w-44 rounded-xl border border-[#ded5cc] bg-white p-1.5 shadow-lg">
-                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsCsv(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />匯出 CSV</button>
-                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsExcel(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#f6f2eb] disabled:opacity-60"><Download className="h-4 w-4" />下載 Excel</button>
-                      <label className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a36b42] hover:bg-[#f6f2eb] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={(event) => { setProductToolsOpen(false); void importProductsCsv(event); }} disabled={csvBusy} /></label>
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsCsv(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#FFFFFF] disabled:opacity-60"><Download className="h-4 w-4" />匯出 CSV</button>
+                      <button type="button" onClick={() => { setProductToolsOpen(false); void exportProductsExcel(); }} disabled={csvBusy} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[#2f4a3c] hover:bg-[#FFFFFF] disabled:opacity-60"><Download className="h-4 w-4" />下載 Excel</button>
+                      <label className={`flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a36b42] hover:bg-[#FFFFFF] ${csvBusy ? "pointer-events-none opacity-60" : ""}`}><Upload className="h-4 w-4" />匯入 Excel／CSV<input type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" className="sr-only" onChange={(event) => { setProductToolsOpen(false); void importProductsCsv(event); }} disabled={csvBusy} /></label>
                     </div>
                   )}
                 </div>
                 <details className="basis-full text-xs text-[#806b5d] md:basis-auto">
                   <summary className="inline-flex cursor-pointer select-none items-center gap-1 rounded-lg px-1 py-1 font-medium hover:text-[#2f4a3c]">ⓘ 匯入欄位與發布規則</summary>
-                  <div className="mt-2 max-w-2xl rounded-xl bg-[#fffaf4] px-3 py-2 leading-5">支援 Excel／CSV；欄位：產品名稱／SKU／成本價 JPY／零售價 HKD／圖片 URL。前台只顯示 published、已發布且庫存大於 0 的產品。</div>
+                  <div className="mt-2 max-w-2xl rounded-xl bg-[#FFFFFF] px-3 py-2 leading-5">支援 Excel／CSV；欄位：產品名稱／SKU／成本價 JPY／零售價 HKD／圖片 URL。前台只顯示 published、已發布且庫存大於 0 的產品。</div>
                 </details>
               </div>
-              {csvNotice && <div className="mt-3 rounded-xl bg-[#f7efe7] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
+              {csvNotice && <div className="mt-3 rounded-xl bg-[#FFFFFF] px-3 py-2 text-xs leading-5 text-[#805536]" role="status">{csvNotice}</div>}
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#8b7c70]">
                 <span>{productQuery || productCategory !== "all" ? `篩選結果：${filteredProductRows.length} 項` : `共 ${rows.length} 項產品`}</span>
                 {(productQuery || productCategory !== "all") && <button onClick={() => { setProductQuery(""); setProductCategory("all"); }} className="font-medium text-[#a36b42] hover:underline">清除篩選</button>}
@@ -913,12 +913,12 @@ export default function AdminPage() {
                       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div className="flex min-w-0 items-center gap-4">
                           {tab === "brands" && (
-                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-2">
+                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#F1F1F1] bg-[#FFFFFF] p-2">
                               {row.logo_url ? <img src={row.logo_url} alt={`${row.name || "品牌"} logo`} className="h-full w-full object-contain" loading="lazy" /> : <span className="flex h-full items-center justify-center text-center text-xs text-[#8b7c70]">無 Logo</span>}
                             </div>
                           )}
                           {isProductTab(tab) && (
-                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
+                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#F1F1F1] bg-[#FFFFFF]">
                               {thumbnailUrl ? (
                                 <img src={thumbnailUrl} alt={`${row.name || "產品"}縮圖`} className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.style.display = "none"; }} />
                               ) : (
@@ -927,12 +927,12 @@ export default function AdminPage() {
                             </div>
                           )}
                           {tab === "banners" && (
-                            <div data-banner-list="true" className="grid h-16 w-36 shrink-0 grid-cols-2 gap-1 overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4] p-1">
-                              <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
+                            <div data-banner-list="true" className="grid h-16 w-36 shrink-0 grid-cols-2 gap-1 overflow-hidden rounded-xl border border-[#F1F1F1] bg-[#FFFFFF] p-1">
+                              <div className="relative overflow-hidden rounded-md bg-[#F1F1F1]">
                                 {row.image_url ? <img src={row.image_url} alt={`${row.title || "Banner"} 桌面版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">桌面版</span>}
                                 <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">桌面</span>
                               </div>
-                              <div className="relative overflow-hidden rounded-md bg-[#eaded5]">
+                              <div className="relative overflow-hidden rounded-md bg-[#F1F1F1]">
                                 {row.mobile_image_url || row.image_url ? <img src={row.mobile_image_url || row.image_url} alt={`${row.title || "Banner"} 手機版`} className="h-full w-full object-cover" loading="lazy" /> : <span className="flex h-full items-center justify-center text-[9px] text-[#a89587]">手機版</span>}
                                 <span className="absolute inset-x-0 bottom-0 bg-black/55 px-1 py-0.5 text-center text-[8px] text-white">手機</span>
                               </div>
@@ -960,13 +960,13 @@ export default function AdminPage() {
                           {isProductTab(tab) ? (
                             <div className="relative">
                               <div className="flex">
-                                  <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">完整編輯</button>
+                                  <button onClick={() => setForm({ ...row })} className="rounded-l-lg border border-r-0 border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#FFFFFF]">完整編輯</button>
                                 <button
                                   type="button"
                                     aria-label={`快速編輯 ${row.name || "產品"}`}
                                     aria-expanded={openQuickEditProductId === String(row.id)}
                                     onClick={() => toggleQuickEdit(row)}
-                                  className="rounded-r-lg border border-[#ded5cc] px-2 py-2 text-sm transition hover:bg-[#f6f2eb]"
+                                  className="rounded-r-lg border border-[#ded5cc] px-2 py-2 text-sm transition hover:bg-[#FFFFFF]"
                                 >
                                     <ChevronDown className={`h-4 w-4 transition-transform ${openQuickEditProductId === String(row.id) ? "rotate-180" : ""}`} />
                                 </button>
@@ -977,28 +977,28 @@ export default function AdminPage() {
                           ) : (tab as Tab) === "orders" ? (
                             <span className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm text-[#8b7c70]">可直接於卡片操作</span>
                           ) : (
-                            <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#f6f2eb]">編輯</button>
+                            <button onClick={() => setForm({ ...row })} className="rounded-lg border border-[#ded5cc] px-3 py-2 text-sm transition hover:bg-[#FFFFFF]">編輯</button>
                           )}
                           {(tab as Tab) !== "orders" && tab !== "banners" && tab !== "draft_products" && <button onClick={() => remove(row)} className="rounded-lg border border-red-200 px-3 py-2 text-sm text-red-600 transition hover:bg-red-50">刪除</button>}
                         </div>
                       </div>
                       {isProductTab(tab) && openQuickEditProductId === String(row.id) && quickEditDraft && (
-                        <div className="mt-4 border-t border-[#eaded5] pt-4" role="region" aria-label={`${row.name || "產品"} 快速編輯`}>
+                        <div className="mt-4 border-t border-[#F1F1F1] pt-4" role="region" aria-label={`${row.name || "產品"} 快速編輯`}>
                           <div className="mb-3 flex items-center justify-between gap-3">
                             <div>
                               <p className="text-sm font-semibold text-[#2f4a3c]">快速編輯</p>
                               <p className="mt-0.5 text-xs text-[#8b7c70]">不離開產品列表即可更新核心資料</p>
                             </div>
-                            <span className="rounded-full bg-[#f7efe7] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
+                            <span className="rounded-full bg-[#FFFFFF] px-2.5 py-1 text-xs font-medium text-[#805536]">即時儲存</span>
                           </div>
                           <div className="grid gap-3 sm:grid-cols-3">
-                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="1" value={quickEditDraft.cost_jpy ?? ""} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_jpy: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="手動輸入" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">原價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="可選" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-                            <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#fffdfa] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">成本價（JPY）</span><input type="number" min="0" step="1" value={quickEditDraft.cost_jpy ?? ""} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, cost_jpy: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#FFFFFF] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#FFFFFF] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="手動輸入" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">原價（HKD）</span><input type="number" min="0" step="0.01" value={quickEditDraft.original_price} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, original_price: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#FFFFFF] px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="可選" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">庫存（Stock）</span><input type="number" min="0" step="1" value={quickEditDraft.stock} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, stock: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] bg-[#FFFFFF] px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+                            <label className="text-sm"><span className="mb-1 block font-medium">是否將貨品上架</span><select value={quickEditDraft.status} onChange={(event) => setQuickEditDraft({ ...quickEditDraft, status: event.target.value, is_published: event.target.value === "published" })} className="w-full rounded-lg border border-[#ded5cc] bg-[#FFFFFF] px-3 py-2 outline-none focus:border-[#a36b42]"><option value="published">Publish（上架）</option><option value="draft">Draft（草稿）</option></select></label>
                           </div>
-                          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#fffaf4] px-3 py-2 text-xs text-[#806b5d]">
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#FFFFFF] px-3 py-2 text-xs text-[#806b5d]">
                             <span>成本資料僅限 Admin；完整編輯可進行匯率、運費、倍率及毛利試算。</span>
                             {quickEditError && <span className="text-red-600">{quickEditError}</span>}
                           </div>
@@ -1012,9 +1012,9 @@ export default function AdminPage() {
 
               {isProductTab(tab) && filteredProductRows.length > 0 && productPageCount > 1 && (
                 <nav aria-label="產品分頁" className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                  <button disabled={productPage === 1} onClick={() => setProductPage((page) => Math.max(1, page - 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />上一頁</button>
-                  {getPageNumbers(productPage, productPageCount).map((page, index) => page === "ellipsis" ? <span key={`ellipsis-${index}`} className="px-1 text-[#8b7c70]">…</span> : <button key={page} onClick={() => setProductPage(page)} aria-current={page === productPage ? "page" : undefined} className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${page === productPage ? "bg-[#2f4a3c] text-white" : "border border-[#ded5cc] bg-white hover:bg-[#f6f2eb]"}`}>{page}</button>)}
-                  <button disabled={productPage === productPageCount} onClick={() => setProductPage((page) => Math.min(productPageCount, page + 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#f6f2eb] disabled:cursor-not-allowed disabled:opacity-40">下一頁<ChevronRight className="h-4 w-4" /></button>
+                  <button disabled={productPage === 1} onClick={() => setProductPage((page) => Math.max(1, page - 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#FFFFFF] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" />上一頁</button>
+                  {getPageNumbers(productPage, productPageCount).map((page, index) => page === "ellipsis" ? <span key={`ellipsis-${index}`} className="px-1 text-[#8b7c70]">…</span> : <button key={page} onClick={() => setProductPage(page)} aria-current={page === productPage ? "page" : undefined} className={`min-w-9 rounded-lg px-3 py-2 text-sm transition ${page === productPage ? "bg-[#2f4a3c] text-white" : "border border-[#ded5cc] bg-white hover:bg-[#FFFFFF]"}`}>{page}</button>)}
+                  <button disabled={productPage === productPageCount} onClick={() => setProductPage((page) => Math.min(productPageCount, page + 1))} className="inline-flex items-center gap-1 rounded-lg border border-[#ded5cc] bg-white px-3 py-2 text-sm transition hover:bg-[#FFFFFF] disabled:cursor-not-allowed disabled:opacity-40">下一頁<ChevronRight className="h-4 w-4" /></button>
                   <span className="basis-full text-center text-xs text-[#8b7c70]">顯示第 {firstVisibleProduct}–{lastVisibleProduct} 項，共 {filteredProductRows.length} 項</span>
                 </nav>
               )}
@@ -1033,29 +1033,29 @@ export default function AdminPage() {
                 <p className="mt-1 text-sm text-[#756962]">原廠日文：{barcodeJapaneseName}</p>
                 <p className="mt-1 text-xs text-[#8b7c70]">JAN／店內貨號：{barcodeProduct.barcode || barcodeProduct.mofu_sku || barcodeProduct.sku || "—"}</p>
               </div>
-              <button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button>
+              <button type="button" onClick={() => { setBarcodeProduct(null); setBarcodeDraft(null); }} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#FFFFFF]" aria-label="關閉"><X className="h-5 w-5" /></button>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
               <span className="rounded-full bg-[#e8f3ec] px-3 py-1.5 text-[#2f4a3c]">{barcodeStatus}</span>
-              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">{barcodeAudience}／{barcodeCategory}</span>
-              <span className="rounded-full bg-[#f6f2eb] px-3 py-1.5 text-[#756962]">規格：{barcodeProduct.product_spec || "—"}</span>
+              <span className="rounded-full bg-[#FFFFFF] px-3 py-1.5 text-[#756962]">{barcodeAudience}／{barcodeCategory}</span>
+              <span className="rounded-full bg-[#FFFFFF] px-3 py-1.5 text-[#756962]">規格：{barcodeProduct.product_spec || "—"}</span>
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div>
-              <div className="rounded-xl bg-[#fffaf4] p-3 text-sm">折合港幣成本<strong className="mt-1 block text-2xl text-[#805536]">HK${barcodeCostHkd.toFixed(2)}</strong><span className="text-xs text-[#8b7c70]">匯率 {barcodeExchangeRate}</span></div>
+              <div className="rounded-xl bg-[#FFFFFF] p-3 text-sm">目前庫存<strong className="mt-1 block text-2xl text-[#2f4a3c]">{barcodeDraft.stock}</strong></div>
+              <div className="rounded-xl bg-[#FFFFFF] p-3 text-sm">折合港幣成本<strong className="mt-1 block text-2xl text-[#805536]">HK${barcodeCostHkd.toFixed(2)}</strong><span className="text-xs text-[#8b7c70]">匯率 {barcodeExchangeRate}</span></div>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <label className="text-sm"><span className="mb-1 block font-medium">日元來貨價（JPY）</span><input type="number" min="0" step="1" value={barcodeDraft.cost_jpy ?? ""} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, cost_jpy: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" placeholder="例如 380" /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">目前售價（HKD）</span><input type="number" min="0" step="0.01" value={barcodeDraft.price ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, price: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
-              <div className="rounded-xl border border-[#ded5cc] bg-[#fffdfa] p-3 text-sm"><span className="block font-medium">預估毛利率</span><strong className={`mt-2 block text-xl ${barcodeMargin < 30 ? "text-[#b34d36]" : "text-[#2f4a3c]"}`}>{barcodeMargin.toFixed(1)}%</strong></div>
+              <div className="rounded-xl border border-[#ded5cc] bg-[#FFFFFF] p-3 text-sm"><span className="block font-medium">預估毛利率</span><strong className={`mt-2 block text-xl ${barcodeMargin < 30 ? "text-[#b34d36]" : "text-[#2f4a3c]"}`}>{barcodeMargin.toFixed(1)}%</strong></div>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3"><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 10 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+10 入庫</button><button type="button" onClick={() => setBarcodeDraft({ ...barcodeDraft, stock: Number(barcodeDraft.stock || 0) + 20 })} className="rounded-xl border border-[#2f4a3c] px-4 py-3 font-semibold text-[#2f4a3c]">+20 入庫</button></div>
             <label className="mt-4 block text-sm"><span className="mb-1 block font-medium">調整後庫存</span><input type="number" min="0" value={barcodeDraft.stock ?? 0} onChange={(event) => setBarcodeDraft({ ...barcodeDraft, stock: event.target.value })} className="w-full rounded-xl border border-[#ded5cc] px-3 py-3" /></label>
-            {barcodeMargin < 30 && <p className="mt-3 rounded-lg bg-[#fff1ed] px-3 py-2 text-sm text-[#b34d36]">折後利潤過低，請檢查日元成本或售價。</p>}
+            {barcodeMargin < 30 && <p className="mt-3 rounded-lg bg-[#FFFFFF] px-3 py-2 text-sm text-[#b34d36]">折後利潤過低，請檢查日元成本或售價。</p>}
             {barcodeNotice && <p className="mt-3 text-sm text-red-600">{barcodeNotice}</p>}<button type="button" onClick={saveBarcodeProduct} disabled={barcodeSaving} className="mt-5 w-full rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white disabled:opacity-50">{barcodeSaving ? "儲存中…" : "儲存庫存／售價／日元成本"}</button>
           </section>
         </div>
@@ -1094,7 +1094,7 @@ function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) =>
     void start();
     return () => { active = false; cancelAnimationFrame(frame); stream?.getTracks().forEach((track) => track.stop()); };
   }, [onDetected]);
-  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#f6f2eb]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#fff4ed] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
+  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#FFFFFF]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#FFFFFF] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
 }
 
 function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => void }) {
@@ -1123,9 +1123,9 @@ function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => voi
     catch { setNotice("無法存取剪貼簿，請手動選取文字複製。"); }
   };
   return <article className="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md md:p-5">
-    <header className="flex flex-col gap-3 border-b border-[#eaded5] pb-4 sm:flex-row sm:items-start sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h3 className="text-lg font-semibold">訂單 {order.order_number || order.orderNumber || String(order.id || "").slice(0, 8)}</h3><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status === "cancelled" ? "bg-red-50 text-red-700" : status === "completed" ? "bg-emerald-50 text-emerald-700" : status === "shipped" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>{statusLabel}</span></div><p className="mt-1 text-sm text-[#8b7c70]">{orderDate(order.created_at || order.createdAt)}</p></div><div className="text-left sm:text-right"><p className="text-xs text-[#8b7c70]">訂單總額</p><p className="text-2xl font-bold text-[#2f4a3c]">{orderMoney(total)}</p></div></header>
-    <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]"><section className="rounded-xl bg-[#fffaf4] p-4"><div className="mb-3 flex items-center justify-between gap-2"><h4 className="font-semibold text-[#2f4a3c]">出貨資料</h4><button type="button" onClick={copyDelivery} className="rounded-lg border border-[#cdb9a8] px-2.5 py-1.5 text-xs font-medium text-[#805536] hover:bg-white">{copied ? "已複製" : "複製送貨資料"}</button></div><dl className="space-y-2 text-sm"><div><dt className="text-xs text-[#8b7c70]">顧客姓名</dt><dd className="font-medium">{name}</dd></div><div><dt className="text-xs text-[#8b7c70]">聯絡電話</dt><dd>{phone}</dd></div><div><dt className="text-xs text-[#8b7c70]">配送地址</dt><dd className="leading-6">{address || "未提供地址"}</dd></div></dl></section><section><h4 className="mb-2 font-semibold text-[#2f4a3c]">揀貨清單</h4><div className="overflow-x-auto rounded-xl border border-[#eaded5]"><table className="w-full min-w-[560px] table-fixed text-sm"><thead className="bg-[#fffaf4] text-left text-xs text-[#8b7c70]"><tr><th className="px-3 py-2">商品</th><th className="px-3 py-2 text-center">數量</th><th className="px-3 py-2 text-right">單價</th><th className="px-3 py-2 text-right">小計</th></tr></thead><tbody className="divide-y divide-[#eaded5]">{items.map((item, index) => { const itemName = typeof item.name === "object" ? item.name?.zh || item.name?.en || item.name?.ja : item.name || item.title || "未命名商品"; const qty = Number(item.qty ?? item.quantity ?? 1) || 1; const price = Number(item.price ?? item.unit_price ?? 0) || 0; const bundle = getBundleComponents(String(item.mofuSku || item.mofu_sku || item.sku || "")); return <Fragment key={`${item.id || itemName}-${index}`}><tr><td className="max-w-[260px] break-words px-3 py-2.5 align-top leading-5">{itemName}</td><td className="whitespace-nowrap px-3 py-2.5 text-center align-top font-bold text-[#2f4a3c]">x {qty}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top">{orderMoney(price)}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top font-medium">{orderMoney(price * qty)}</td></tr>{bundle.length ? <tr key={`${item.id || itemName}-${index}-picking`}><td colSpan={4} className="bg-[#fffaf4] px-3 py-2.5"><p className="break-words font-semibold leading-5 text-[#805536]">📦 揀貨明細清單｜{String(item.mofuSku || item.mofu_sku || item.sku)} × {qty}</p><ul className="mt-1 space-y-1 text-xs text-[#6d5a4e]">{bundle.map((component) => <li key={component.sku} className="break-words leading-5">・{component.nameZh}｜{component.nameJa}｜{component.weight}｜JAN {component.sku} × {qty}</li>)}</ul></td></tr> : null}</Fragment>; })}</tbody></table></div><div className="mt-3 ml-auto max-w-xs space-y-1 text-sm"><div className="flex justify-between text-[#8b7c70]"><span>運費</span><span>{orderMoney(shipping)}</span></div><div className="flex justify-between border-t border-[#eaded5] pt-2 text-base font-bold"><span>訂單總額</span><span className="text-[#2f4a3c]">{orderMoney(total)}</span></div></div></section></div>
-    <footer className="mt-4 flex flex-col gap-3 border-t border-[#eaded5] pt-4 sm:flex-row sm:items-end sm:justify-between"><div className="grid w-full gap-3 sm:max-w-xl sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">訂單狀態</span><select value={status} onChange={(event) => { const next = event.target.value; setStatus(next); void saveOrder({ status: next }); }} disabled={saving} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="pending">待處理</option><option value="processing">備貨中</option><option value="shipped">已寄出</option><option value="completed">已完成</option><option value="cancelled">已取消</option></select></label><label className="text-sm"><span className="mb-1 block font-medium">順豐運單編號</span><div className="flex gap-2"><input value={tracking} onChange={(event) => setTracking(event.target.value)} placeholder="輸入 Waybill No." className="min-w-0 flex-1 rounded-lg border border-[#ded5cc] px-3 py-2" /><button type="button" onClick={() => void saveOrder({ customer_info: JSON.stringify({ ...customer, _admin_tracking_number: tracking.trim() }) })} disabled={saving} className="rounded-lg bg-[#2f4a3c] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">儲存</button></div></label></div>{notice && <span className="text-sm text-red-600">{notice}</span>}</footer>
+    <header className="flex flex-col gap-3 border-b border-[#F1F1F1] pb-4 sm:flex-row sm:items-start sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><h3 className="text-lg font-semibold">訂單 {order.order_number || order.orderNumber || String(order.id || "").slice(0, 8)}</h3><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status === "cancelled" ? "bg-red-50 text-red-700" : status === "completed" ? "bg-emerald-50 text-emerald-700" : status === "shipped" ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>{statusLabel}</span></div><p className="mt-1 text-sm text-[#8b7c70]">{orderDate(order.created_at || order.createdAt)}</p></div><div className="text-left sm:text-right"><p className="text-xs text-[#8b7c70]">訂單總額</p><p className="text-2xl font-bold text-[#2f4a3c]">{orderMoney(total)}</p></div></header>
+    <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]"><section className="rounded-xl bg-[#FFFFFF] p-4"><div className="mb-3 flex items-center justify-between gap-2"><h4 className="font-semibold text-[#2f4a3c]">出貨資料</h4><button type="button" onClick={copyDelivery} className="rounded-lg border border-[#F1F1F1] px-2.5 py-1.5 text-xs font-medium text-[#805536] hover:bg-white">{copied ? "已複製" : "複製送貨資料"}</button></div><dl className="space-y-2 text-sm"><div><dt className="text-xs text-[#8b7c70]">顧客姓名</dt><dd className="font-medium">{name}</dd></div><div><dt className="text-xs text-[#8b7c70]">聯絡電話</dt><dd>{phone}</dd></div><div><dt className="text-xs text-[#8b7c70]">配送地址</dt><dd className="leading-6">{address || "未提供地址"}</dd></div></dl></section><section><h4 className="mb-2 font-semibold text-[#2f4a3c]">揀貨清單</h4><div className="overflow-x-auto rounded-xl border border-[#F1F1F1]"><table className="w-full min-w-[560px] table-fixed text-sm"><thead className="bg-[#FFFFFF] text-left text-xs text-[#8b7c70]"><tr><th className="px-3 py-2">商品</th><th className="px-3 py-2 text-center">數量</th><th className="px-3 py-2 text-right">單價</th><th className="px-3 py-2 text-right">小計</th></tr></thead><tbody className="divide-y divide-[#F1F1F1]">{items.map((item, index) => { const itemName = typeof item.name === "object" ? item.name?.zh || item.name?.en || item.name?.ja : item.name || item.title || "未命名商品"; const qty = Number(item.qty ?? item.quantity ?? 1) || 1; const price = Number(item.price ?? item.unit_price ?? 0) || 0; const bundle = getBundleComponents(String(item.mofuSku || item.mofu_sku || item.sku || "")); return <Fragment key={`${item.id || itemName}-${index}`}><tr><td className="max-w-[260px] break-words px-3 py-2.5 align-top leading-5">{itemName}</td><td className="whitespace-nowrap px-3 py-2.5 text-center align-top font-bold text-[#2f4a3c]">x {qty}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top">{orderMoney(price)}</td><td className="whitespace-nowrap px-3 py-2.5 text-right align-top font-medium">{orderMoney(price * qty)}</td></tr>{bundle.length ? <tr key={`${item.id || itemName}-${index}-picking`}><td colSpan={4} className="bg-[#FFFFFF] px-3 py-2.5"><p className="break-words font-semibold leading-5 text-[#805536]">📦 揀貨明細清單｜{String(item.mofuSku || item.mofu_sku || item.sku)} × {qty}</p><ul className="mt-1 space-y-1 text-xs text-[#6d5a4e]">{bundle.map((component) => <li key={component.sku} className="break-words leading-5">・{component.nameZh}｜{component.nameJa}｜{component.weight}｜JAN {component.sku} × {qty}</li>)}</ul></td></tr> : null}</Fragment>; })}</tbody></table></div><div className="mt-3 ml-auto max-w-xs space-y-1 text-sm"><div className="flex justify-between text-[#8b7c70]"><span>運費</span><span>{orderMoney(shipping)}</span></div><div className="flex justify-between border-t border-[#F1F1F1] pt-2 text-base font-bold"><span>訂單總額</span><span className="text-[#2f4a3c]">{orderMoney(total)}</span></div></div></section></div>
+    <footer className="mt-4 flex flex-col gap-3 border-t border-[#F1F1F1] pt-4 sm:flex-row sm:items-end sm:justify-between"><div className="grid w-full gap-3 sm:max-w-xl sm:grid-cols-2"><label className="text-sm"><span className="mb-1 block font-medium">訂單狀態</span><select value={status} onChange={(event) => { const next = event.target.value; setStatus(next); void saveOrder({ status: next }); }} disabled={saving} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2"><option value="pending">待處理</option><option value="processing">備貨中</option><option value="shipped">已寄出</option><option value="completed">已完成</option><option value="cancelled">已取消</option></select></label><label className="text-sm"><span className="mb-1 block font-medium">順豐運單編號</span><div className="flex gap-2"><input value={tracking} onChange={(event) => setTracking(event.target.value)} placeholder="輸入 Waybill No." className="min-w-0 flex-1 rounded-lg border border-[#ded5cc] px-3 py-2" /><button type="button" onClick={() => void saveOrder({ customer_info: JSON.stringify({ ...customer, _admin_tracking_number: tracking.trim() }) })} disabled={saving} className="rounded-lg bg-[#2f4a3c] px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">儲存</button></div></label></div>{notice && <span className="text-sm text-red-600">{notice}</span>}</footer>
   </article>;
 }
 
@@ -1226,15 +1226,15 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
 
   return (
     <section className="mb-5 rounded-2xl bg-white p-5 shadow-sm">
-      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#f7efe7] px-4 py-3 text-sm text-[#805536]">新增 Banner 預設會加入現有 slider。如要只保留這一張 Banner，請勾選「覆蓋現有 Banner」再儲存。</div>}
+      {tab === "banners" && !form.id && <div className="mb-4 rounded-xl bg-[#FFFFFF] px-4 py-3 text-sm text-[#805536]">新增 Banner 預設會加入現有 slider。如要只保留這一張 Banner，請勾選「覆蓋現有 Banner」再儲存。</div>}
       <div className="grid gap-4 md:grid-cols-2">
         {isProductTab(tab) && <>
           {field("name", "產品名稱")}
           {field("mofu_sku", "Mofu SKU")}
-          <div className="md:col-span-2 rounded-2xl border border-[#d9c4b3] bg-[#fffaf4] p-4">
+          <div className="md:col-span-2 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-4">
             <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
               <div><h3 className="font-semibold text-[#2f4a3c]">定價與成本試算</h3><p className="mt-1 text-xs text-[#8b7c70]">只限 Admin 查看；成本會存放於受保護設定，不會進入公開商品 API。</p></div>
-              <span className="rounded-full bg-[#f0e3d6] px-2.5 py-1 text-xs font-medium text-[#805536]">JPY → HKD</span>
+              <span className="rounded-full bg-[#FFFFFF] px-2.5 py-1 text-xs font-medium text-[#805536]">JPY → HKD</span>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <label className="text-sm"><span className="mb-1 block font-medium">來貨成本（JPY）</span><input type="number" min="0" step="1" value={form.cost_jpy ?? ""} onChange={setNumeric("cost_jpy")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
@@ -1246,7 +1246,7 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
           </div>
           <div className="md:col-span-2 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
             <label className="block text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={form.price ?? ""} onChange={setNumeric("price")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-            <div className="rounded-xl border border-[#eaded5] bg-[#fffaf4] p-3 text-xs"><p className="mb-2 font-semibold text-[#2f4a3c]">折扣毛利試算</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4"><span>單件<br /><strong>{preview.margin(preview.retailPrice).toFixed(1)}%</strong></span><span>4件 95折<br /><strong>{preview.margin(preview.retailPrice * .95).toFixed(1)}%</strong></span><span>8件 9折<br /><strong>{preview.margin(preview.retailPrice * .9).toFixed(1)}%</strong></span><span className={preview.margin(preview.retailPrice * .85) < 30 ? "font-bold text-red-600" : ""}>12件 85折<br /><strong>{preview.margin(preview.retailPrice * .85).toFixed(1)}%</strong></span></div>{preview.margin(preview.retailPrice * .85) < 30 ? <p className="mt-2 font-semibold text-red-600">折後利潤過低</p> : null}</div>
+            <div className="rounded-xl border border-[#F1F1F1] bg-[#FFFFFF] p-3 text-xs"><p className="mb-2 font-semibold text-[#2f4a3c]">折扣毛利試算</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4"><span>單件<br /><strong>{preview.margin(preview.retailPrice).toFixed(1)}%</strong></span><span>4件 95折<br /><strong>{preview.margin(preview.retailPrice * .95).toFixed(1)}%</strong></span><span>8件 9折<br /><strong>{preview.margin(preview.retailPrice * .9).toFixed(1)}%</strong></span><span className={preview.margin(preview.retailPrice * .85) < 30 ? "font-bold text-red-600" : ""}>12件 85折<br /><strong>{preview.margin(preview.retailPrice * .85).toFixed(1)}%</strong></span></div>{preview.margin(preview.retailPrice * .85) < 30 ? <p className="mt-2 font-semibold text-red-600">折後利潤過低</p> : null}</div>
           </div>
           {field("original_price", "原價", "number")}
           {field("stock", "庫存", "number")}
@@ -1268,12 +1268,12 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
             {productImages.length > 0 && (
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {productImages.map((url, index) => (
-                  <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[#eaded5] bg-[#fffaf4]">
+                  <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xl border border-[#F1F1F1] bg-[#FFFFFF]">
                     <img src={url} alt={`產品圖片 ${index + 1}`} className="aspect-square w-full object-cover" loading="lazy" />
                     <button type="button" onClick={() => removeProductImage(index)} className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-2 py-1 text-xs text-red-600 shadow-sm transition hover:bg-white">移除</button>
                     <p className="truncate px-2 py-1.5 text-[10px] text-[#8b7c70]">{index === 0 ? "圖片 1 · 封面" : `圖片 ${index + 1}`}</p>
-                    <div className="flex flex-wrap gap-1.5 border-t border-[#eaded5] px-2 pb-2 pt-2">
-                      {index > 0 && <button type="button" onClick={() => makeProductImageCover(index)} className="rounded-md bg-[#f0e3d6] px-2 py-1 text-[10px] font-semibold text-[#805536] hover:bg-[#e7d6c6]">★ 設為封面</button>}
+                    <div className="flex flex-wrap gap-1.5 border-t border-[#F1F1F1] px-2 pb-2 pt-2">
+                      {index > 0 && <button type="button" onClick={() => makeProductImageCover(index)} className="rounded-md bg-[#FFFFFF] px-2 py-1 text-[10px] font-semibold text-[#805536] hover:bg-[#e7d6c6]">★ 設為封面</button>}
                       <button type="button" onClick={() => moveProductImage(index, -1)} disabled={index === 0} className="rounded-md border border-[#ded5cc] px-2 py-1 text-[10px] text-[#6f6258] hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">◀ 向前</button>
                       <button type="button" onClick={() => moveProductImage(index, 1)} disabled={index === productImages.length - 1} className="rounded-md border border-[#ded5cc] px-2 py-1 text-[10px] text-[#6f6258] hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">向後 ▶</button>
                     </div>
@@ -1304,9 +1304,9 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
         {tab === "banners" && <>{field("image_url", "桌面版圖片 URL")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳桌面版 Banner</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("mobile_image_url", "手機版圖片 URL（選填）")}<label className="block text-sm"><span className="mb-1 block font-medium">上傳手機版 Banner</span><span className="mb-2 block text-xs text-[#8b7c70]">建議直向構圖（約 4:5）；留空時手機會沿用桌面版圖片。</span><input type="file" accept="image/*" onChange={(event) => uploadSingle(event, "mobile_image_url")} className="w-full rounded-lg border border-dashed border-[#c9b8a8] px-3 py-2 text-sm" />{uploading && <span className="text-xs text-[#a36b42]">上傳中…</span>}</label>{field("link", "點擊連結")}{field("title", "標題")}{field("sort_order", "排序", "number")}{!form.id && <label className="flex items-center gap-2 text-sm md:col-span-2"><input type="checkbox" checked={form.replace_existing === true} onChange={(event) => setForm({ ...form, replace_existing: event.target.checked })} />覆蓋現有 Banner（勾選後才會清除舊 slider）</label>}</>}
         {tab === "coupons" && <>{field("code", "優惠碼")}{field("discount_amount", "折扣金額／百分比", "number")}<label className="block text-sm"><span className="mb-1 block font-medium">折扣類型</span><select value={form.discount_type} onChange={(event) => setForm({ ...form, discount_type: event.target.value })} className="w-full rounded-lg border border-[#ded5cc] px-3 py-2"><option value="fixed">固定金額 HKD</option><option value="percentage">百分比</option></select></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={Boolean(form.active)} onChange={(event) => setForm({ ...form, active: event.target.checked })} />啟用優惠碼</label></>}
         {tab === "store_settings" && <>{field("key", "設定 Key")}{field("value", "設定值（Secret Key 儲存後會遮罩）")}</>}
-        {tab === "orders" && <p className="rounded-xl bg-[#fffaf4] p-4 text-sm text-[#806b5d]">訂單已改用結構化出貨卡片，請直接在訂單卡片內更新狀態、揀貨及順豐運單。</p>}
+        {tab === "orders" && <p className="rounded-xl bg-[#FFFFFF] p-4 text-sm text-[#806b5d]">訂單已改用結構化出貨卡片，請直接在訂單卡片內更新狀態、揀貨及順豐運單。</p>}
       </div>
-      <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">儲存</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#f6f2eb]">取消</button></div>
+      <div className="mt-5 flex gap-2"><button onClick={onSave} disabled={uploading} className="rounded-lg bg-[#2f4a3c] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#22372d] disabled:opacity-50">儲存</button><button onClick={onCancel} className="rounded-lg border border-[#ded5cc] px-4 py-2 text-sm transition hover:bg-[#FFFFFF]">取消</button></div>
     </section>
   );
 }
@@ -1381,9 +1381,9 @@ function BannerBatchEditor({
 
       <div className="grid gap-5 xl:grid-cols-2">
         {slots.map((slot, index) => (
-          <fieldset key={slot.id || `new-${index}`} className={`rounded-2xl border p-4 ${slot.is_active ? "border-[#eaded5] bg-[#fffdfa]" : "border-dashed border-[#c9b8a8] bg-[#f8f5f0] opacity-75"}`}>
+          <fieldset key={slot.id || `new-${index}`} className={`rounded-2xl border p-4 ${slot.is_active ? "border-[#F1F1F1] bg-[#FFFFFF]" : "border-dashed border-[#c9b8a8] bg-[#FFFFFF] opacity-75"}`}>
             <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">Banner {index + 1}</legend>
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-b border-[#eaded5] pb-3">
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-b border-[#F1F1F1] pb-3">
               <label className="flex items-center gap-2 text-sm font-semibold text-[#2f4a3c]"><input type="checkbox" checked={slot.is_active} onChange={(event) => updateSlot(index, { is_active: event.target.checked })} />前台上架</label>
               <div className="flex items-center gap-1">
                 <button type="button" onClick={() => moveSlot(index, -1)} disabled={index === 0} className="rounded-lg border border-[#ded5cc] px-2 py-1 text-xs disabled:opacity-35">↑ 上移</button>
@@ -1471,12 +1471,12 @@ function FeaturedPetBatchEditor({
         {slots.map((slot, index) => {
           const uploading = uploadingSlot === index;
           return (
-            <fieldset key={index} className="rounded-2xl border border-[#eaded5] bg-[#fffdfa] p-4">
+            <fieldset key={index} className="rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-4">
               <legend className="rounded-full bg-[#2f4a3c] px-3 py-1 text-sm font-semibold text-white">內容槽 {index + 1}</legend>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">高清寵物圖片 <span className="text-red-600">*</span></label>
-                  <div className="aspect-[4/3] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#f7efe7]">
+                  <div className="aspect-[4/3] overflow-hidden rounded-xl border border-dashed border-[#c9b8a8] bg-[#FFFFFF]">
                     {slot.image_url ? <img src={slot.image_url} alt={`內容槽 ${index + 1} 預覽`} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center px-4 text-center text-xs leading-5 text-[#a89587]">建議使用高畫質、寬幅橫向寵物相片</div>}
                   </div>
                   <input

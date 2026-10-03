@@ -65,7 +65,7 @@ export function CategoryGrid() {
           return (
             <section
               key={category.id}
-              className="rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-4 shadow-[0_12px_30px_-24px_rgba(62,42,28,0.5)]"
+              className="rounded-2xl border border-[color:var(--line)] bg-[#FFFFFF] p-4 shadow-[0_12px_30px_-24px_rgba(62,42,28,0.5)]"
               aria-labelledby={`category-${category.id}`}
             >
               <CategoryNavLink

@@ -36,15 +36,15 @@ export function PetGuidePage() {
   const guideLocale = isZh ? "zh" : "en";
 
   return (
-    <main className="min-h-screen bg-[#FAF7F2] text-[color:var(--ink)]">
-      <section className="bg-[#FAF7F2] px-5 py-10 sm:px-10 sm:py-16">
+    <main className="min-h-screen bg-[#FFFFFF] text-[color:var(--ink)]">
+      <section className="bg-[#FFFFFF] px-5 py-10 sm:px-10 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <CategoryNavLink href="/" className="text-sm font-medium text-[color:var(--muted)] transition hover:text-[color:var(--accent)]">
             ← {isZh ? "返回首頁" : "Back to home"}
           </CategoryNavLink>
           <div className="mt-8 grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-12">
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#ECE5D8] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#F1F1F1] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
                 <BookOpen className="h-4 w-4" aria-hidden="true" />
                 {t("brandGuide")}
               </span>
@@ -66,9 +66,9 @@ export function PetGuidePage() {
                 <Link
                   key={guide.href}
                   href={guide.href}
-                  className="group overflow-hidden rounded-2xl border border-[#ECE5D8] bg-white p-0 shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] transition hover:-translate-y-1 hover:border-[#DCCBB8]"
+                  className="group overflow-hidden rounded-2xl border border-[#F1F1F1] bg-white p-0 shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] transition hover:-translate-y-1 hover:border-[#DCCBB8]"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#ead7bf]">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#FFFFFF]">
                     <Image src={guide.image} alt={guide.alt[guideLocale]} fill priority sizes="(min-width: 1024px) 28vw, (min-width: 640px) 42vw, 90vw" className="object-cover transition duration-500 group-hover:scale-105" />
                   </div>
                   <div className="p-4">
@@ -111,7 +111,7 @@ export function PetGuidePage() {
                   ["Out and at home", "Check harnesses, collars and leads regularly, and keep rest areas and bowls clean."],
                 ]
             ).map(([title, body]) => (
-              <article key={title} className="rounded-2xl border border-[#ECE5D8] bg-white p-5">
+              <article key={title} className="rounded-2xl border border-[#F1F1F1] bg-white p-5">
                 <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold">{title}</h2>
                 <p className="mt-3 text-sm leading-7 text-[color:var(--muted)]">{body}</p>
               </article>

@@ -45,14 +45,14 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
         emptyBody: "\u8acb\u65bc\u5f8c\u53f0「\u7cbe\u9078\u5bf5\u7269\u5c08\u5340」\u4e0a\u8f09\u76f8\u7247\u53ca\u586b\u5beb\u5167\u5bb9，\u9996\u9801\u6703\u5373\u6642\u5c55\u793a\u4f60\u7684\u6700\u65b0\u7cbe\u9078。",
       };
   return (
-    <section id="featured-pets" className="relative overflow-hidden bg-[#f8f3ed] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-      <div className="pointer-events-none absolute -left-20 top-12 h-52 w-52 rounded-full bg-[#eddccd]/70 blur-3xl" />
+    <section id="featured-pets" className="relative overflow-hidden bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
+      <div className="pointer-events-none absolute -left-20 top-12 h-52 w-52 rounded-full bg-[#FFFFFF]/70 blur-3xl" />
       <div className="pointer-events-none absolute -right-16 bottom-4 h-64 w-64 rounded-full bg-[#d9e8d7]/60 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-3xl text-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-[#d8c9bb] bg-white/75 px-3 py-1.5 text-xs font-semibold tracking-[0.18em] text-[#95705b] shadow-sm">
-            <span className="relative h-6 w-8 overflow-hidden rounded-md bg-[#f7efe7]">
+            <span className="relative h-6 w-8 overflow-hidden rounded-md bg-[#FFFFFF]">
               <Image src="/images/mofu-visuals/icons/featured.jpg" alt="" fill sizes="32px" className="object-cover" />
             </span>
             {copy.eyebrow}

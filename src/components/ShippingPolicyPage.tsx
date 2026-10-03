@@ -70,7 +70,7 @@ export function ShippingPolicyPage() {
             {t("shippingPolicyEyebrow")}
           </p>
           <div className="flex items-center gap-3">
-            <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-xl bg-[#f8f0e7]">
+            <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-xl bg-[#FFFFFF]">
               <Image src="/images/mofu-visuals/icons/delivery.jpg" alt="" fill sizes="56px" className="object-cover" />
             </span>
             <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">

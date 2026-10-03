@@ -6,7 +6,7 @@ export default function PriceOperationsPage() {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen bg-[#f7f3ed] px-4 py-6 text-[#2f2a26] md:px-8">
+    <main className="min-h-screen bg-[#FFFFFF] px-4 py-6 text-[#2f2a26] md:px-8">
       <div className="mx-auto max-w-4xl">
         <button type="button" onClick={() => router.push("/admin")} className="mb-5 text-sm font-medium text-[#806b5d]">
           ← 返回管理後台

@@ -254,8 +254,7 @@ export function Header() {
               id={drawerId}
               className="absolute right-0 top-0 z-[101] flex h-[100dvh] max-h-[100dvh] w-[min(82vw,20rem)] max-w-full flex-col overflow-hidden overscroll-contain border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(43,38,35,0.28)]"
               style={{
-                background:
-                  "linear-gradient(180deg, #ffffff 0%, #fbf9f6 55%, #f5ebe6 100%)",
+                background: "#FFFFFF",
               }}
             >
               <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
@@ -415,9 +414,9 @@ export function Header() {
               <button type="button" className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} onClick={() => setDesktopBrandOpen((open) => !open)} onFocus={() => setDesktopBrandOpen(true)}>
                 {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
               </button>
-              {desktopBrandOpen ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "About Mofu Haven" : "認識毛毛港"}</Link>
-                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}</Link>
+              {desktopBrandOpen ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#FFFFFF] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#FFFFFF] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "About Mofu Haven" : "認識毛毛港"}</Link>
+                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#FFFFFF] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}</Link>
               </div> : null}
             </div>
           </nav>
@@ -469,7 +468,7 @@ export function Header() {
                 </span>
               ) : null}
             </Link>
-            <Link href="/wishlist" className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#fff7f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 md:flex" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
+            <Link href="/wishlist" className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#FFFFFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 md:flex" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
               <span aria-hidden="true">{wishlistCount > 0 ? "♥" : "♡"}</span>
               {wishlistCount > 0 ? <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
             </Link>

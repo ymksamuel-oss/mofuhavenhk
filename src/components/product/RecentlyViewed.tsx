@@ -82,9 +82,9 @@ export function RecentlyViewed({
           const name = getLocalizedProductName(product, locale);
           return (
             <li key={product.id} className="w-[145px] min-w-[145px] snap-start sm:w-[150px] sm:min-w-[150px]">
-              <article className="h-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-[#d7b394]">
+              <article className="h-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-[#F1F1F1]">
                 <Link href={productHref(product.id)} className="block" aria-label={isZh ? `查看商品：${name}` : `View product: ${name}`}>
-                  <div className="relative aspect-square bg-[#FAF7F2]">
+                  <div className="relative aspect-square bg-[#FFFFFF]">
                     <ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="150px" className="object-contain mix-blend-multiply p-2" />
                   </div>
                   <h3 className="line-clamp-2 min-h-10 px-3 pt-2.5 text-xs font-semibold leading-5 text-stone-800">{name}</h3>

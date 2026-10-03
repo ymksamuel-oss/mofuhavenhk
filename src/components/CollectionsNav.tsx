@@ -49,13 +49,13 @@ export function CollectionsNav({ mobile = false, onNavigate }: { mobile?: boolea
       <button type="button" className={`relative inline-flex items-center gap-1.5 py-0.5 transition-colors ${open || isActive ? "font-semibold text-[color:var(--ink)]" : "hover:text-[color:var(--ink)]"}`} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((value) => !value)} onFocus={() => setOpen(true)}>
         {label} <Caret open={open} />
       </button>
-      {open ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-[19rem] gap-2 rounded-2xl border border-[color:var(--line)] bg-[#fffdfb] p-3 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+      {open ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-[19rem] gap-2 rounded-2xl border border-[color:var(--line)] bg-[#FFFFFF] p-3 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
         {COLLECTION_NAV_GROUPS.map((group) => <div key={group.key}>
           <p className="px-3 pb-1 pt-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#a36b42]">{locale === "en" ? group.title_en : group.title_zh}</p>
           <div className="grid gap-0.5">{group.slugs.map((slug) => {
             const collection = getCollection(slug);
             if (!collection) return null;
-            return <Link key={slug} href={`/collections/${slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm text-[color:var(--muted)] hover:bg-[#f1ded1] hover:text-[#583827]" onClick={() => setOpen(false)}>{getCollectionLabel(collection, locale)}</Link>;
+            return <Link key={slug} href={`/collections/${slug}`} role="menuitem" className="rounded-xl px-3 py-2 text-sm text-[color:var(--muted)] hover:bg-[#FFFFFF] hover:text-[#583827]" onClick={() => setOpen(false)}>{getCollectionLabel(collection, locale)}</Link>;
           })}</div>
         </div>)}
       </div> : null}

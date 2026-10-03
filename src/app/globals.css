@@ -2,22 +2,22 @@
 
 :root {
   /* Warm editorial palette with a clearer caramel CTA hierarchy. */
-  --background: #FAF8F5;
-  --surface: #FAF8F5;
-  --product-image-surface: #f6eee8;
-  --ink: #2D2926;
-  --muted: #756962;
-  --line: #eaded5;
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --product-image-surface: #FFFFFF;
+  --ink: #111111;
+  --muted: #6b7280;
+  --line: #f1f1f1;
   --accent: #c86a2b;
   --accent-strong: #d97438;
   --accent-hover: #b25b20;
-  --accent-soft: #f3e8e0;
+  --accent-soft: #F2F7F2;
   --hero-deep: #b25b20;
   --foreground: var(--ink);
-  --category-bg: #f3e8e0;
-  --category-bg-light: #FAF8F5;
-  --category-bg-hover: #e8d5cc;
-  --category-ink: #2D2926;
+  --category-bg: #FFFFFF;
+  --category-bg-light: #FFFFFF;
+  --category-bg-hover: #F1F1F1;
+  --category-ink: #111111;
   --font-body: var(--font-sans);
 }
 
@@ -66,12 +66,7 @@ body {
   scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
   /* Solid cream first so overscroll / gaps never show white */
   background-color: var(--background);
-  background-image:
-    radial-gradient(1200px 500px at 10% -10%, #f3e8e0 0%, transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, #FAF8F5 0%, transparent 50%),
-    linear-gradient(180deg, #FAF8F5 0%, #f8f1ec 45%, #FAF8F5 100%);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-image: none;
   color: var(--ink);
   font-family: var(--font-sans);
   font-weight: 400;
@@ -105,9 +100,7 @@ h3 {
 @media (max-width: 639px) {
   .mobile-home-soft-surface {
     background-color: var(--background);
-    background-image:
-      radial-gradient(34rem 14rem at 100% 0%, rgba(234, 215, 191, 0.42) 0%, transparent 72%),
-      linear-gradient(180deg, #FAF8F5 0%, #f9f2ed 55%, #FAF8F5 100%);
+    background-image: none;
   }
 }
 

@@ -46,10 +46,10 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
   });
 
   return (
-    <section id="curated-picks" aria-labelledby="curated-picks-title" className="bg-[#FAF8F5] px-3 py-12 sm:px-6 sm:py-16">
+    <section id="curated-picks" aria-labelledby="curated-picks-title" className="bg-[#FFFFFF] px-3 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <header className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
-          <p className="inline-flex rounded-full bg-[#f1ded1] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">
+          <p className="inline-flex rounded-full bg-[#FFFFFF] px-3 py-1 text-xs font-bold tracking-[0.12em] text-[#a36b42]">
             CURATED PICKS
           </p>
           <h2
@@ -74,9 +74,9 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
                   <Link
                     href={productHref(product.id)}
                     aria-label={`${isZh ? "查看商品" : "View product"}：${label}`}
-                    className="group block h-full overflow-hidden rounded-2xl border border-[#ECE5D8] bg-white shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B]"
+                    className="group block h-full overflow-hidden rounded-2xl border border-[#F1F1F1] bg-white shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B]"
                   >
-                    <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2] p-2.5 sm:p-3">
+                    <div className="relative aspect-square w-full overflow-hidden bg-[#FFFFFF] p-2.5 sm:p-3">
                       <ProductImage
                         src={product.images?.[0] ?? product.image}
                         alt={label}

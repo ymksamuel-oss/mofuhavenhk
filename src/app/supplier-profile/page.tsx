@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function SupplierProfilePage() {
   return (
-    <main className="min-h-screen bg-[#fbf9f5] text-[#49372c]">
+    <main className="min-h-screen bg-[#FFFFFF] text-[#49372c]">
       <SupplierProfileHero />
       <SupplierProfileSection />
     </main>

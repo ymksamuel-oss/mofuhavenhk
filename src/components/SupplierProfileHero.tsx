@@ -8,7 +8,7 @@ export function SupplierProfileHero() {
   const isEn = locale === "en";
 
   return (
-    <section className="border-b border-[#eadbcb] bg-[#f5eadf] px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
+    <section className="border-b border-[#F1F1F1] bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
       <div className="mx-auto max-w-4xl text-center">
         <p className="text-xs font-bold tracking-[0.24em] text-[#a36b42]">✦ MOFU HAVEN OFFICIAL SOURCE ✦</p>
         <h1 className="mt-5 font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
@@ -23,7 +23,7 @@ export function SupplierProfileHero() {
           <Link href="/collections/bestsellers" className="inline-flex min-h-11 items-center rounded-full bg-[#7a4b31] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#5e3928] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] focus-visible:ring-offset-2">
             {isEn ? "Browse popular products" : "瀏覽日本人氣商品"}
           </Link>
-          <Link href="/brand/best-partner" className="inline-flex min-h-11 items-center rounded-full border border-[#cdb49e] bg-white px-5 py-3 text-sm font-semibold text-[#694633] transition hover:bg-[#fffaf4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] focus-visible:ring-offset-2">
+          <Link href="/brand/best-partner" className="inline-flex min-h-11 items-center rounded-full border border-[#cdb49e] bg-white px-5 py-3 text-sm font-semibold text-[#694633] transition hover:bg-[#FFFFFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] focus-visible:ring-offset-2">
             {isEn ? "Read the brand story" : "閱讀品牌故事"}
           </Link>
         </div>

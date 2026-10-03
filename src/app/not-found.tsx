@@ -4,8 +4,8 @@ import { ArrowLeft, ShoppingBag } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="min-h-[70vh] overflow-hidden bg-[#f8f3ed] px-5 py-10 sm:px-8 sm:py-16">
-      <section className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#e2d0bf] bg-[#fdfaf6] shadow-[0_28px_70px_-44px_rgba(70,47,34,0.6)]">
+    <main className="min-h-[70vh] overflow-hidden bg-[#FFFFFF] px-5 py-10 sm:px-8 sm:py-16">
+      <section className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#e2d0bf] bg-[#FFFFFF] shadow-[0_28px_70px_-44px_rgba(70,47,34,0.6)]">
         <Image
           src="/images/mofu-visuals/not-found-healing.jpg"
           alt="一隻貓咪從木櫃旁探頭，狗狗正在寵物窩旁尋找好物。"

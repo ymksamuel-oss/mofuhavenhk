@@ -72,7 +72,7 @@ export function ProductQuickView({
           ✕
         </button>
 
-        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#ECE5D8] bg-[#FAF7F2] p-4">
+        <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-4">
           <ProductImage
             src={product.images?.[0] ?? "catalog-placeholder"}
             alt={getLocalizedProductName(product, locale)}

@@ -52,8 +52,8 @@ const PRODUCT_LINES = [
 export default function BestPartnerConceptPage() {
   return (
     <main className="min-h-screen bg-[#fbf7f2] text-[#49372c]">
-      <section className="relative overflow-hidden border-b border-[#eadbcb] bg-[#f5eadf] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <div className="absolute -right-24 -top-28 h-72 w-72 rounded-full bg-[#ead3bc]/45 blur-3xl" aria-hidden="true" />
+      <section className="relative overflow-hidden border-b border-[#F1F1F1] bg-[#FFFFFF] px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
+        <div className="absolute -right-24 -top-28 h-72 w-72 rounded-full bg-[#FFFFFF]/45 blur-3xl" aria-hidden="true" />
         <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#e7d1b9]/35 blur-3xl" aria-hidden="true" />
         <div className="relative mx-auto max-w-5xl text-center">
           <p className="text-xs font-bold tracking-[0.28em] text-[#9a6547] sm:text-sm">BEST PARTNER · JAPAN</p>
@@ -74,7 +74,7 @@ export default function BestPartnerConceptPage() {
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {PRINCIPLES.map((principle) => (
-              <article key={principle.number} className="rounded-[1.75rem] border border-[#eadbcb] bg-[#fffdf9] p-6 shadow-[0_18px_42px_-32px_rgba(93,67,48,0.6)] sm:p-8">
+              <article key={principle.number} className="rounded-[1.75rem] border border-[#F1F1F1] bg-[#FFFFFF] p-6 shadow-[0_18px_42px_-32px_rgba(93,67,48,0.6)] sm:p-8">
                 <span className="text-sm font-bold tracking-[0.18em] text-[#b27b50]">{principle.number}</span>
                 <h3 className="mt-5 text-xl font-semibold leading-snug text-[#49372c]">{principle.title}</h3>
                 <p className="mt-4 text-sm leading-7 text-[#725e50]">{principle.body}</p>
@@ -86,7 +86,7 @@ export default function BestPartnerConceptPage() {
 
       <SupplierProfileSection />
 
-      <section className="border-y border-[#eadbcb] bg-[#f5eadf] px-5 py-14 sm:px-8 sm:py-20 lg:px-12" aria-labelledby="product-lines-title">
+      <section className="border-y border-[#F1F1F1] bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-12" aria-labelledby="product-lines-title">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-2xl">
             <p className="text-xs font-bold tracking-[0.24em] text-[#a36b42]">PRODUCT LINES</p>
@@ -94,7 +94,7 @@ export default function BestPartnerConceptPage() {
           </div>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {PRODUCT_LINES.map((line) => (
-              <article key={line.title} className="flex flex-col rounded-[1.75rem] bg-[#fffdf9] p-6 shadow-[0_18px_42px_-32px_rgba(93,67,48,0.55)] sm:p-8">
+              <article key={line.title} className="flex flex-col rounded-[1.75rem] bg-[#FFFFFF] p-6 shadow-[0_18px_42px_-32px_rgba(93,67,48,0.55)] sm:p-8">
                 <p className="text-[11px] font-bold tracking-[0.24em] text-[#b27b50]">{line.eyebrow}</p>
                 <h3 className="mt-3 text-2xl font-semibold text-[#49372c]">{line.title}</h3>
                 <p className="mt-4 flex-1 text-sm leading-7 text-[#725e50]">{line.body}</p>
@@ -108,13 +108,13 @@ export default function BestPartnerConceptPage() {
       </section>
 
       <section className="px-5 py-14 sm:px-8 sm:py-20 lg:px-12" aria-labelledby="recommendation-title">
-        <div className="mx-auto max-w-4xl rounded-[2rem] border border-[#ddc5ad] bg-[#fffaf4] px-6 py-9 text-center shadow-[0_20px_48px_-34px_rgba(93,67,48,0.6)] sm:px-12 sm:py-12">
+        <div className="mx-auto max-w-4xl rounded-[2rem] border border-[#F1F1F1] bg-[#FFFFFF] px-6 py-9 text-center shadow-[0_20px_48px_-34px_rgba(93,67,48,0.6)] sm:px-12 sm:py-12">
           <p className="text-2xl" aria-hidden="true">✦</p>
           <h2 id="recommendation-title" className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight sm:text-3xl">Recommended for Families Who Value Pure Everyday Care</h2>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#725e50] sm:text-base">
             A thoughtful choice for senior dogs, sensitive stomachs and families who value pure, minimally processed food.
           </p>
-          <div className="mt-7 rounded-2xl bg-[#f5eadf] px-5 py-4 text-sm font-semibold leading-7 text-[#684a38]">
+          <div className="mt-7 rounded-2xl bg-[#FFFFFF] px-5 py-4 text-sm font-semibold leading-7 text-[#684a38]">
             Authenticity assured: genuine Japanese products officially imported by Mofu Haven HK.
           </div>
         </div>

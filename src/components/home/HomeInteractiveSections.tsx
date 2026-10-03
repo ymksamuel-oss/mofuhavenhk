@@ -34,10 +34,10 @@ export function HomeInteractiveSections() {
 
   return (
     <>
-      <section id="explore-pets" className="scroll-mt-24 bg-[#FAF7F2] px-5 py-12 sm:px-10 sm:py-16 lg:py-20">
+      <section id="explore-pets" className="scroll-mt-24 bg-[#FFFFFF] px-5 py-12 sm:px-10 sm:py-16 lg:py-20">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-14">
           <div className="max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#ECE5D8] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#F1F1F1] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
               <BookOpen className="h-4 w-4" aria-hidden="true" />
               {t("brandGuide")}
             </span>
@@ -62,9 +62,9 @@ export function HomeInteractiveSections() {
               <Link
                 key={guide.href}
                 href={guide.href}
-                className="group overflow-hidden rounded-2xl border border-[#ECE5D8] bg-white shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] transition hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_44px_-28px_rgba(86,57,30,0.35)]"
+                className="group overflow-hidden rounded-2xl border border-[#F1F1F1] bg-white shadow-[0_18px_42px_-32px_rgba(86,57,30,0.55)] transition hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_44px_-28px_rgba(86,57,30,0.35)]"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#ead7bf]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#FFFFFF]">
                   <Image
                     src={guide.image}
                     alt={guide.alt[guideLocale]}

@@ -51,7 +51,7 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
   }, [products]);
 
   return (
-    <section aria-labelledby="mofu-journal-title" className="bg-[#FAF8F5] text-[#2D2926]">
+    <section aria-labelledby="mofu-journal-title" className="bg-[#FFFFFF] text-[#2D2926]">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-3 py-8 sm:px-6 md:grid-cols-12 md:py-16">
         <div className="col-span-12 min-w-0 md:col-span-5">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">

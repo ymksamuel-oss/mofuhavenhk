@@ -32,9 +32,9 @@ export function BestPartnerValues() {
   return (
     <section
       aria-labelledby="best-partner-values-title"
-      className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-8 sm:px-8 sm:py-10 lg:px-10"
+      className="border-y border-[#F1F1F1] bg-[#FFFFFF] px-4 py-8 sm:px-8 sm:py-10 lg:px-10"
     >
-      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-7 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-9 lg:px-14">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#F1F1F1] bg-[#FFFFFF] px-5 py-7 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-9 lg:px-14">
         <div className="mx-auto mb-8 max-w-4xl text-center">
           <SupplierBrandLogos />
           <p className="mt-2 text-xs font-medium tracking-wide text-stone-600 sm:text-sm">
@@ -65,10 +65,10 @@ export function BestPartnerValues() {
           {VALUES.map((value) => (
             <div
               key={value.title.en}
-              className="group flex min-w-0 items-start gap-4 rounded-2xl border border-[#eadbcb] bg-[#fbf6ef] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#d5b496] hover:bg-[#f8efe5] sm:px-5"
+              className="group flex min-w-0 items-start gap-4 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#F1F1F1] hover:bg-[#f8efe5] sm:px-5"
             >
               <span
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#ead7c4] text-2xl shadow-inner"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFFFFF] text-2xl shadow-inner"
                 aria-hidden="true"
               >
                 {value.icon}

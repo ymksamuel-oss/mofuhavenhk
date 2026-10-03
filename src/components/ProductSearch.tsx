@@ -250,7 +250,7 @@ function SearchField({
                       }}
                       onNavigate={dismissForNavigation}
                     >
-                      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#ECE5D8] bg-[#FAF7F2] p-1 ring-0">
+                      <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#F1F1F1] bg-[#FFFFFF] p-1 ring-0">
                         <ProductImage
                           src={hit.image}
                           alt={getLocalizedProductName(hit, locale)}

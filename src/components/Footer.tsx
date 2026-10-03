@@ -60,7 +60,7 @@ function FooterNavColumn({
   links: FooterLink[];
 }) {
   return (
-    <details open className="group border-b border-[#c69e78] md:border-0">
+    <details open className="group border-b border-[#F1F1F1] md:border-0">
       <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden md:mb-3 md:cursor-default md:py-0">
           <span>{title}</span>
           <span
@@ -149,7 +149,7 @@ export function Footer() {
 
   return (
     <footer id="site-footer-root"
-      className="mt-2 border-t border-[#c69e78] bg-[#e8c9a9] text-[#4b352a]"
+      className="mt-2 border-t border-[#F1F1F1] bg-[#FFFFFF] text-[#4b352a]"
       aria-labelledby="site-footer-heading"
     >
       <h2 id="site-footer-heading" className="sr-only">
@@ -159,7 +159,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-12">
         <div className="grid gap-1 md:grid-cols-4 md:gap-8 lg:gap-10">
           {/* Brand */}
-          <div className="space-y-3 border-b border-[#c69e78] pb-6 md:border-0 md:pb-0">
+          <div className="space-y-3 border-b border-[#F1F1F1] pb-6 md:border-0 md:pb-0">
             <Link
               href="/"
               className="brand-logo-link inline-flex rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
@@ -175,14 +175,14 @@ export function Footer() {
             </p>
             <Link
               href={locale === "en" ? "/en/pet-guide" : "/pet-guide"}
-              className="inline-flex rounded-full border border-[#a97858] bg-[#fff8ef]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#fff8ef]"
+              className="inline-flex rounded-full border border-[#F1F1F1] bg-[#FFFFFF]/70 px-3 py-2 text-sm font-semibold text-[#7b4f37] transition hover:bg-[#FFFFFF]"
             >
               {locale === "en" ? "Explore Pet World Guide →" : "探索寵物世界圖鑑 →"}
             </Link>
             <div className="flex items-center gap-2 pt-1 text-xs text-[#62493b]" role="group" aria-label={t("headerLanguageLabel")}>
               <span className="font-medium">{locale === "en" ? "Language" : "語言"}</span>
-              <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "zh" ? "bg-[#7b4f37] text-white" : "hover:bg-[#fff8ef]"}`}>中文</button>
-              <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "en" ? "bg-[#7b4f37] text-white" : "hover:bg-[#fff8ef]"}`}>English</button>
+              <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "zh" ? "bg-[#7b4f37] text-white" : "hover:bg-[#FFFFFF]"}`}>中文</button>
+              <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2.5 py-1.5 transition ${locale === "en" ? "bg-[#7b4f37] text-white" : "hover:bg-[#FFFFFF]"}`}>English</button>
             </div>
           </div>
 
@@ -190,7 +190,7 @@ export function Footer() {
           <FooterNavColumn title={t("footerPolicies")} links={POLICY_LINKS} />
 
           {/* Contact */}
-          <details open className="group border-b border-[#c69e78] md:border-0">
+          <details open className="group border-b border-[#F1F1F1] md:border-0">
             <summary className="flex cursor-pointer list-none items-center justify-between py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.01em] text-[#4b352a] [&::-webkit-details-marker]:hidden md:mb-3 md:cursor-default md:py-0">
               <span>{t("footerContact")}</span>
               <span aria-hidden className="text-[#76533d] transition duration-200 group-open:rotate-180 md:hidden">
@@ -204,7 +204,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[#c69e78] bg-[#ddb88f]/45">
+      <div className="border-t border-[#F1F1F1] bg-[#FFFFFF]/45">
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
           <nav
             aria-label="Social media"
@@ -214,7 +214,7 @@ export function Footer() {
               href="https://www.facebook.com/profile.php?id=61593577262255"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]/45 sm:h-9 sm:w-9"
               aria-label="Facebook"
               title="Facebook"
             >
@@ -224,7 +224,7 @@ export function Footer() {
               href="https://www.instagram.com/mofuhaven?igsh=MWR2MnJwZ2N5b2p2Zg%3D%3D&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]/45 sm:h-9 sm:w-9"
               aria-label="Instagram"
               title="Instagram"
             >
@@ -235,7 +235,7 @@ export function Footer() {
               onClick={() => trackMetaEvent("Contact", { content_name: "WhatsApp footer social link", content_category: "customer support" })}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#ddb88f]/45 sm:h-9 sm:w-9"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4f37] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFFFFF]/45 sm:h-9 sm:w-9"
               aria-label={t("footerWhatsapp")}
               title={t("footerWhatsapp")}
             >
@@ -243,7 +243,7 @@ export function Footer() {
             </a>
           </nav>
 
-          <div className="footer-payment-safe-area flex w-full flex-col items-center gap-3 border-t border-[#c69e78] pt-3 sm:flex-row sm:justify-between sm:gap-4 sm:py-3.5">
+          <div className="footer-payment-safe-area flex w-full flex-col items-center gap-3 border-t border-[#F1F1F1] pt-3 sm:flex-row sm:justify-between sm:gap-4 sm:py-3.5">
             <p className="text-center text-xs tracking-[0.01em] text-[#62493b] sm:text-left">
               {t("footerCopyright")}
             </p>
@@ -272,7 +272,7 @@ function ContactBlock({
   return (
     <ul className="space-y-3">
       <li className="flex items-center gap-2 pb-1">
-        <span className="relative h-9 w-12 shrink-0 overflow-hidden rounded-lg bg-[#f5e9dc]/70">
+        <span className="relative h-9 w-12 shrink-0 overflow-hidden rounded-lg bg-[#FFFFFF]/70">
           <Image src="/images/mofu-visuals/icons/support.jpg" alt="" fill sizes="48px" className="object-cover" />
         </span>
         <span className="text-xs font-medium tracking-[0.04em] text-[#72533f]">{t("footerContact")}</span>

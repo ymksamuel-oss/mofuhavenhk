@@ -66,7 +66,7 @@ export function AboutUsPage() {
   const copy = <T extends LocalizedCopy>(value: T) => value[isEn ? "en" : "zh"];
 
   return (
-    <main className="bg-[#fbf7f1]">
+    <main className="bg-[#FFFFFF]">
       <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <Link
           href="/"
@@ -75,8 +75,8 @@ export function AboutUsPage() {
           ← {isEn ? "Back to home" : "返回首頁"}
         </Link>
 
-        <article className="mt-6 overflow-hidden rounded-[2rem] border border-[#e9dccd] bg-[#fffdf9] shadow-[0_28px_60px_-38px_rgba(91,65,45,0.38)]">
-          <header className="relative overflow-hidden bg-[#f2e5d5] px-6 py-14 sm:px-12 sm:py-20 lg:px-20">
+        <article className="mt-6 overflow-hidden rounded-[2rem] border border-[#e9dccd] bg-[#FFFFFF] shadow-[0_28px_60px_-38px_rgba(91,65,45,0.38)]">
+          <header className="relative overflow-hidden bg-[#FFFFFF] px-6 py-14 sm:px-12 sm:py-20 lg:px-20">
             <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#ead3bb]/55 blur-2xl" aria-hidden="true" />
             <div className="relative max-w-3xl">
               <p className="text-[11px] font-bold tracking-[0.2em] text-[#8a5d42]">MOFU HAVEN · ABOUT US</p>
@@ -127,7 +127,7 @@ export function AboutUsPage() {
             </div>
           </section>
 
-          <section className="border-t border-[#eee2d5] bg-[#faf4ec] px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="quality-title">
+          <section className="border-t border-[#eee2d5] bg-[#FFFFFF] px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="quality-title">
             <div className="max-w-2xl">
               <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">OUR STANDARD</p>
               <h2 id="quality-title" className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#49372c] sm:text-3xl">{isEn ? "Three Quality Promises" : "三大品質承諾"}</h2>
@@ -135,8 +135,8 @@ export function AboutUsPage() {
             </div>
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
               {QUALITY_PROMISES.map((promise) => (
-                <article key={promise.icon} className="rounded-2xl border border-[#eadbcb] bg-[#fffdf9] p-5 shadow-[0_16px_30px_-28px_rgba(91,65,45,0.5)] sm:p-6">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#eadbc9] text-xs font-bold text-[#8a5d42]">{promise.icon}</span>
+                <article key={promise.icon} className="rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 shadow-[0_16px_30px_-28px_rgba(91,65,45,0.5)] sm:p-6">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#FFFFFF] text-xs font-bold text-[#8a5d42]">{promise.icon}</span>
                   <h3 className="mt-5 font-[family-name:var(--font-display)] text-lg font-semibold leading-7 text-[#49372c]">{copy(promise.title)}</h3>
                   <p className="mt-3 text-sm leading-7 text-[#806d5d]">{copy(promise.body)}</p>
                 </article>
@@ -152,7 +152,7 @@ export function AboutUsPage() {
               </div>
               <div className="grid gap-3">
                 {SERVICE_PROMISES.map((service) => (
-                  <article key={service.icon} className="flex gap-4 rounded-2xl border border-[#eadbcb] bg-[#fffaf4] p-5 sm:p-6">
+                  <article key={service.icon} className="flex gap-4 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 sm:p-6">
                     <span className="text-2xl" aria-hidden="true">{service.icon}</span>
                     <div>
                       <h3 className="font-semibold text-[#49372c]">{copy(service.title)}</h3>
@@ -164,7 +164,7 @@ export function AboutUsPage() {
             </div>
           </section>
 
-          <footer className="border-t border-[#eadbcb] bg-[#f2e5d5] px-6 py-12 text-center sm:px-12 sm:py-16 lg:px-20">
+          <footer className="border-t border-[#F1F1F1] bg-[#FFFFFF] px-6 py-12 text-center sm:px-12 sm:py-16 lg:px-20">
             <p className="mx-auto max-w-2xl font-[family-name:var(--font-display)] text-xl font-semibold leading-9 text-[#49372c] sm:text-2xl">
               {isEn ? "May every Japanese goodie delivered to your door become a gentle, grounded joy in your companion's everyday life." : "願每一份送到你手上的日本好物，都成為毛孩日常裡一份溫柔而踏實的幸福。"}
             </p>

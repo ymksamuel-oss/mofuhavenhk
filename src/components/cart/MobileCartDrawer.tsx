@@ -28,7 +28,7 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
   }, [cartProductIds, products, subtotal]);
   if (!suggestions.length) return null;
   return (
-    <section className="mb-5 rounded-2xl border border-[#ead7c8] bg-[#fff9f3] p-3.5" aria-label={locale === "en" ? "Quick add snacks" : "湊單小零食推薦"}>
+    <section className="mb-5 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-3.5" aria-label={locale === "en" ? "Quick add snacks" : "湊單小零食推薦"}>
       <div className="mb-2.5 flex items-center justify-between gap-2">
         <p className="text-xs font-bold tracking-wide text-[#8f4d27]">{locale === "en" ? "Quick add to unlock free shipping" : "湊單小零食・一鍵享免運"}</p>
         <span className="text-[10px] text-stone-500">{locale === "en" ? "HK$49–69" : "HK$49–69"}</span>
@@ -39,8 +39,8 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
           const isAdded = addedId === product.id;
           const isAdding = addingId === product.id;
           return (
-            <div key={product.id} className="flex min-w-0 items-center gap-2 rounded-xl border border-[#eaded5] bg-white p-2">
-              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-[#faf7f2]">
+            <div key={product.id} className="flex min-w-0 items-center gap-2 rounded-xl border border-[#F1F1F1] bg-white p-2">
+              <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-[#FFFFFF]">
                 <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="44px" className="object-contain" />
               </div>
               <div className="min-w-0 flex-1">

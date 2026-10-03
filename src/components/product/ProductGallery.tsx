@@ -102,7 +102,7 @@ export function ProductGallery({
         onScroll={updateActiveFromScroll}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="scrollbar-none relative mx-auto flex h-[320px] w-full max-w-sm snap-x snap-mandatory overflow-x-auto rounded-2xl border border-[#ECE5D8] bg-[#FAF7F2] ring-1 ring-[color:var(--line)] sm:h-[350px]"
+        className="scrollbar-none relative mx-auto flex h-[320px] w-full max-w-sm snap-x snap-mandatory overflow-x-auto rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] ring-1 ring-[color:var(--line)] sm:h-[350px]"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         {galleryImages.map((image, index) => (

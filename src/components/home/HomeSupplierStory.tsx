@@ -10,7 +10,7 @@ export function HomeSupplierStory() {
 
   return (
     <section
-      className="border-y border-[#e7ddd2] bg-[#FAF8F5] px-4 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20"
+      className="border-y border-[#F1F1F1] bg-[#FFFFFF] px-4 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20"
       aria-label={isEn ? "Mofu Journal editorial features" : "Mofu Journal 品牌專題"}
     >
       <div className="mx-auto max-w-6xl space-y-14 sm:space-y-20">

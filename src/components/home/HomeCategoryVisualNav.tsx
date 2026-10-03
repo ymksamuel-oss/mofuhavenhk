@@ -104,8 +104,8 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
   if (cards.length === 0) return null;
 
   return (
-    <section className="relative overflow-hidden bg-[#fcf8f3] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
-      <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-[#f2e4d4] blur-3xl" />
+    <section className="relative overflow-hidden bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
+      <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-[#FFFFFF] blur-3xl" />
       <div className="pointer-events-none absolute -right-20 top-8 h-64 w-64 rounded-full bg-[#e5ebd8] blur-3xl" />
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto mb-9 max-w-3xl text-center sm:mb-12">
@@ -126,7 +126,7 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
             <Link
               key={card.category.id}
               href={card.href}
-              className="group relative isolate min-h-[25rem] overflow-hidden rounded-[1.8rem] border border-[#e6d8cc] bg-[#ede4db] shadow-[0_20px_45px_-30px_rgba(66,45,32,0.64)] outline-none transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_50px_-28px_rgba(66,45,32,0.5)] focus-visible:ring-2 focus-visible:ring-[#9a705a] focus-visible:ring-offset-4"
+              className="group relative isolate min-h-[25rem] overflow-hidden rounded-[1.8rem] border border-[#F1F1F1] bg-[#FFFFFF] shadow-[0_20px_45px_-30px_rgba(66,45,32,0.64)] outline-none transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_50px_-28px_rgba(66,45,32,0.5)] focus-visible:ring-2 focus-visible:ring-[#9a705a] focus-visible:ring-offset-4"
               aria-label={`${copy.browse} ${categoryDisplayName(card.category, locale)}`}
             >
               <Image
