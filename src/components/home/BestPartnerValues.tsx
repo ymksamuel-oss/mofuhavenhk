@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { SupplierBrandLogos } from "@/components/home/SupplierBrandLogos";
 
@@ -41,22 +42,39 @@ export function BestPartnerValues() {
             {isZh ? "日本愛知縣百年本社 (創業1926年) × 毛毛港香港官方專營直送" : "Aichi, Japan heritage since 1926 × Mofu Haven official Hong Kong delivery"}
           </p>
         </div>
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#b7c9b1] bg-[#e9f0e6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#3d5a40]">
-            <span aria-hidden="true">✦</span> {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
-          </span>
-          <h2
-            id="best-partner-values-title"
-            className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight text-[#49372c] sm:text-3xl lg:text-4xl"
-          >
-            {isZh ? "堅持「日本產・無添加・無著色」—— 每一口都是純粹安心" : "Japanese-made, additive-free and naturally coloured — pure peace of mind in every bite"}
-          </h2>
-          <p className="mt-4 text-sm leading-7 text-[#725e50] sm:text-base sm:leading-8">
-            {isZh ? "從原料嚴選、慢火烘乾到無菌包裝，每個細節都嚴格把關，守護毛孩每日健康。" : "From ingredients and preparation to packaging, every detail is selected for clarity, quality and everyday confidence."}
-          </p>
+
+        <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 md:grid-cols-2 md:gap-10 lg:gap-14">
+          <figure className="mx-auto w-full max-w-xl md:max-w-none">
+            <div className="relative aspect-square overflow-hidden rounded-2xl border border-stone-100 bg-[#f0e4d5] shadow-sm sm:aspect-[4/3] md:aspect-square">
+              <Image
+                src="/images/best-partner/bp-official-golden-retriever-badges.jpg"
+                alt={isZh
+                  ? "Best Partner 官方品牌圖片，展示金毛犬、貓咪及日本原產、無添加、無著色的日文文案"
+                  : "Best Partner official image featuring a golden retriever, cat, and Japanese-made additive-free claims"}
+                fill
+                sizes="(min-width: 1024px) 42vw, (min-width: 768px) 45vw, 100vw"
+                className="object-contain"
+              />
+            </div>
+          </figure>
+
+          <div className="mx-auto w-full max-w-3xl text-center md:mx-0 md:text-left">
+            <span className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b7c9b1] bg-[#e9f0e6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#3d5a40] md:justify-start">
+              <span aria-hidden="true">✦</span> {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
+            </span>
+            <h2
+              id="best-partner-values-title"
+              className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight text-[#49372c] sm:text-3xl lg:text-4xl"
+            >
+              {isZh ? "堅持「日本產・無添加・無著色」—— 每一口都是純粹安心" : "Japanese-made, additive-free and naturally coloured — pure peace of mind in every bite"}
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-[#725e50] sm:text-base sm:leading-8">
+              {isZh ? "從原料嚴選、慢火烘乾到無菌包裝，每個細節都嚴格把關，守護毛孩每日健康。" : "From ingredients and preparation to packaging, every detail is selected for clarity, quality and everyday confidence."}
+            </p>
+          </div>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:mt-6 lg:grid-cols-3 lg:gap-5">
+        <div className="mt-6 grid gap-3 sm:mt-8 lg:grid-cols-3 lg:gap-5">
           {VALUES.map((value) => (
             <div
               key={value.title.en}
