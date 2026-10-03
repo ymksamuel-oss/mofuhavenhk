@@ -122,7 +122,7 @@ function MobileStickyCartBar({ product, name, price, image, visible, basketCount
     document.body.classList.toggle("sticky-cart-visible", visible);
     return () => document.body.classList.remove("sticky-cart-visible");
   }, [visible]);
-  return <div className={`fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-stone-200 bg-white/95 px-3 pb-[max(12px,env(safe-area-inset-bottom,0px))] pt-2 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all duration-300 sm:hidden ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"}`} aria-hidden={!visible}>
+  return <div className={`fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t border-stone-200 bg-white/95 px-3 pb-[max(16px,env(safe-area-inset-bottom,16px))] pt-2 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all duration-300 sm:hidden ${visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"}`} aria-hidden={!visible}>
     {added ? <div className="flex items-center gap-2">
       <button type="button" onClick={openCart} className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white px-3 py-2 text-left ring-1 ring-stone-200" aria-label={locale === "en" ? "Open shopping cart" : "開啟購物籃"}>
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#111111] text-white"><ShoppingCart className="h-4 w-4" aria-hidden="true" /><span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#111111] px-1 text-[10px] font-bold text-white">{basketCount}</span></span>
@@ -165,9 +165,26 @@ export function ProductDetail({ product }: ProductDetailProps) {
   useEffect(() => {
     const node = purchaseRef.current;
     if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => setPurchaseVisible(entry.isIntersecting), { threshold: 0.15 });
+    const updateVisibility = () => setPurchaseVisible(node.getBoundingClientRect().bottom > 0);
+    let frame: number | null = null;
+    const scheduleUpdate = () => {
+      if (frame !== null) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = null;
+        updateVisibility();
+      });
+    };
+    updateVisibility();
+    const observer = new IntersectionObserver(scheduleUpdate, { threshold: 0.15 });
     observer.observe(node);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (frame !== null) window.cancelAnimationFrame(frame);
+    };
   }, []);
   useEffect(() => {
     if (itemCount > previousItemCount.current) setStickyAdded(true);

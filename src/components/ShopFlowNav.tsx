@@ -54,12 +54,24 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
     pathname === "/about-cat" ||
     pathname === "/cat-breeds" ||
     pathname.startsWith("/cat-breeds/");
+  const pageHasOwnNavigation =
+    isProductPage ||
+    pathname.startsWith("/blog/") ||
+    pathname.startsWith("/brand/") ||
+    pathname.startsWith("/receipt/") ||
+    pathname === "/about" ||
+    pathname === "/pet-guide" ||
+    pathname === "/faq" ||
+    pathname === "/returns" ||
+    pathname === "/terms" ||
+    pathname.startsWith("/shipping");
+  const showTopBack = !isHome && !isMenuPage && !pageHasOwnNavigation;
   const showBottomContinue =
     pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
 
   return (
     <div id="shop-flow-nav-root">
-      {!isHome && !isMenuPage ? (
+      {showTopBack ? (
         <div
           className={`relative z-20 border-b border-[color:var(--line)] ${
             isPictureBookPage

@@ -86,6 +86,51 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
+type HeaderLocale = "zh" | "en";
+
+function LanguageSwitcher({
+  locale,
+  label,
+  size,
+  onSelect,
+}: {
+  locale: HeaderLocale;
+  label: string;
+  size: "drawer" | "desktop";
+  onSelect: (next: HeaderLocale) => void;
+}) {
+  const isDrawer = size === "drawer";
+  const options: { value: HeaderLocale; zhLabel: string; enLabel: string }[] = [
+    { value: "zh", zhLabel: "中文", enLabel: "Chinese" },
+    { value: "en", zhLabel: "英文", enLabel: "English" },
+  ];
+
+  return (
+    <div
+      className={isDrawer
+        ? "flex h-11 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
+        : "hidden h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11 md:flex"}
+      role="group"
+      aria-label={label}
+    >
+      {options.map((option) => {
+        const active = locale === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onSelect(option.value)}
+            aria-pressed={active}
+            className={`rounded-full transition ${isDrawer ? "min-h-11 px-3 py-2 text-xs" : "px-2 py-2 text-[10px] tracking-wide sm:text-xs"} ${active ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"} font-medium`}
+          >
+            {locale === "zh" ? option.zhLabel : option.enLabel}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 function categoryRoute(parent: StoreCategory, child?: StoreCategory) {
   return child
     ? `/categories/${parent.slug}/${child.slug}`
@@ -263,26 +308,19 @@ export function Header() {
                 </span>
                 <button
                   type="button"
-                  className="flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)]"
+                  className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)]"
                   aria-label={t("navCloseMenu")}
                   onClick={() => setMenuOpen(false)}
                 >
                   <MenuIcon open />
                 </button>
               </div>
-              <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-[max(1.5rem,calc(env(safe-area-inset-bottom,0px)+1rem))] pt-3 [-webkit-overflow-scrolling:touch]">
+              <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-3 pt-3 [-webkit-overflow-scrolling:touch]">
                 <li className="block w-full">
                   <Link href="/wishlist" className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
                     <span>{locale === "en" ? "My wishlist" : "我的最愛"}</span>
                     {wishlistCount > 0 ? <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c0483a] px-1 text-xs font-bold text-white">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
                   </Link>
-                </li>
-                <li className="flex items-center justify-between rounded-xl bg-white/65 px-4 py-2.5">
-                  <span className="text-sm font-medium text-[color:var(--muted)]">{t("headerLanguageLabel")}</span>
-                  <div className="flex h-10 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5" role="group" aria-label={t("headerLanguageLabel")}>
-                    <button type="button" onClick={() => { setLocale("zh"); setMenuOpen(false); }} aria-pressed={locale === "zh"} className={`min-h-11 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>中文</button>
-                    <button type="button" onClick={() => { setLocale("en"); setMenuOpen(false); }} aria-pressed={locale === "en"} className={`min-h-11 rounded-full px-3 py-2 text-xs font-medium transition ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>English</button>
-                  </div>
                 </li>
                 {mobileNavItems.slice(0, 1).map((item) => (
                   <li key={item.href} className="block w-full">
@@ -311,7 +349,7 @@ export function Header() {
                   <li className="block w-full">
                     <div className={`flex min-h-11 w-full items-center rounded-xl px-4 py-1 text-base font-medium leading-normal transition ${mobileBrandOpen ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`}>
                       <span className="min-w-0 flex-1 py-2.5">{locale === "en" ? "Brands" : "\u54c1\u724c\u5c08\u5340"}</span>
-                      <button type="button" className="flex h-10 w-10 items-center justify-center" aria-expanded={mobileBrandOpen} aria-controls="mobile-brand-menu" onClick={() => setMobileBrandOpen((open) => !open)}><CaretIcon open={mobileBrandOpen} /></button>
+                      <button type="button" className="flex h-11 w-11 items-center justify-center" aria-expanded={mobileBrandOpen} aria-controls="mobile-brand-menu" onClick={() => setMobileBrandOpen((open) => !open)}><CaretIcon open={mobileBrandOpen} /></button>
                     </div>
                     {mobileBrandOpen ? <div id="mobile-brand-menu" className="mx-1 mt-2 grid gap-1 rounded-2xl border border-[color:var(--line)] bg-white/80 p-2 shadow-[0_18px_34px_-28px_rgba(56,40,30,0.5)]">{coreBrands.map((brand) => <Link key={brand.id} href={brandHref(brand.slug)} className="rounded-xl px-4 py-3 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => { setMobileBrandOpen(false); setMenuOpen(false); }}>{brand.name}</Link>)}</div> : null}
                   </li>
@@ -329,7 +367,7 @@ export function Header() {
                       }`}>
                         <Link href={`/categories/${category.slug}`} className="min-w-0 flex-1 py-2.5" onClick={() => setMenuOpen(false)}>{localizedCategoryName(category)}</Link>
                         {hasChildren ? (
-                          <button type="button" className="flex h-10 w-10 items-center justify-center" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setMobileCategoryOpen((open) => open === category.id ? null : category.id)}>
+                          <button type="button" className="flex h-11 w-11 items-center justify-center" aria-expanded={isOpen} aria-controls={panelId} onClick={() => setMobileCategoryOpen((open) => open === category.id ? null : category.id)}>
                             <CaretIcon open={isOpen} />
                           </button>
                         ) : null}
@@ -369,6 +407,15 @@ export function Header() {
                   <Link href="/brand/best-partner" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === "/brand/best-partner" ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>{t("navBrandStory")}</Link>
                 </li>
               </ul>
+              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-[color:var(--line)] bg-white px-4 pt-3 pb-[max(16px,env(safe-area-inset-bottom,16px))]">
+                <span className="text-sm font-medium text-[color:var(--muted)]">{t("headerLanguageLabel")}</span>
+                <LanguageSwitcher
+                  locale={locale}
+                  label={t("headerLanguageLabel")}
+                  size="drawer"
+                  onSelect={(nextLocale) => { setLocale(nextLocale); setMenuOpen(false); }}
+                />
+              </div>
             </nav>
           </div>,
           document.body,
@@ -421,7 +468,7 @@ export function Header() {
             </div>
           </nav>
 
-          {/* Search, cart and language controls remain visually separate from category navigation. */}
+          {/* Mobile keeps only search, cart and menu here; language stays in the drawer. */}
           <div className="ml-auto flex min-w-0 shrink items-center gap-1.5 sm:gap-2.5">
             <ProductSearch variant="header" />
 
@@ -473,10 +520,12 @@ export function Header() {
               {wishlistCount > 0 ? <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
             </Link>
 
-            <div className="hidden h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11 md:flex" role="group" aria-label={t("headerLanguageLabel")}>
-              <button type="button" onClick={() => setLocale("zh")} aria-pressed={locale === "zh"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "zh" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "中文" : "Chinese"}</button>
-              <button type="button" onClick={() => setLocale("en")} aria-pressed={locale === "en"} className={`rounded-full px-2 py-2 text-[10px] font-medium tracking-wide transition sm:text-xs ${locale === "en" ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}>{locale === "zh" ? "英文" : "English"}</button>
-            </div>
+            <LanguageSwitcher
+              locale={locale}
+              label={t("headerLanguageLabel")}
+              size="desktop"
+              onSelect={setLocale}
+            />
 
             <button
               type="button"
