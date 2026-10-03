@@ -49,8 +49,8 @@ export function BestPartnerValues() {
               <Image
                 src="/images/best-partner/bp-official-golden-retriever-badges.jpg"
                 alt={isZh
-                  ? "Best Partner 官方品牌圖片，展示金毛犬、貓咪及日本原產、無添加、無著色的日文文案"
-                  : "Best Partner official image featuring a golden retriever, cat, and Japanese-made additive-free claims"}
+                  ? "主人撫摸金毛犬的 Best Partner 官方宣傳圖，左側有國産、無添加、無着色、豊富な品揃え四個圓形標籤，右下角有 BP BEST PARTNER 標誌"
+                  : "Official Best Partner image of an owner petting a golden retriever, with four Japanese claim badges and the BP mark"}
                 fill
                 sizes="(min-width: 1024px) 42vw, (min-width: 768px) 45vw, 100vw"
                 className="object-contain"
