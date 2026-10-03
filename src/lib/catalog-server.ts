@@ -1014,6 +1014,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     return {
       id: String(row.id),
       mofuSku: row.mofu_sku?.trim() || undefined,
+      jan: stripeMetadata.jan?.trim() || stripeMetadata.gtin13?.trim() || undefined,
       ...(isStripeProductId(sourceProductId) ? { stripeProductId: sourceProductId } : {}),
       createdAt: row.created_at ? Math.floor(new Date(row.created_at).getTime() / 1000) : undefined,
       categoryId: row.category_id ? String(row.category_id) : undefined,

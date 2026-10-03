@@ -329,6 +329,8 @@ export const LIFESTYLE_SUBCATEGORY_SLUG: Record<LifestyleSubcategory, string> = 
 
 export type Product = {
   id: string;
+  /** Verified JAN / GTIN-13 value when supplied separately from the storefront SKU. */
+  jan?: string;
   /** Stable storefront SKU used for curated merchandising and imports. */
   mofuSku?: string;
   brandId?: string;

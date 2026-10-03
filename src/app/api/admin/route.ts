@@ -275,10 +275,11 @@ function normalizeProductImages(value: unknown): string[] {
 
 function syncProductImageColumns(payload: Record<string, unknown>) {
   if (!("images" in payload)) return;
-  payload.images = normalizeProductImages(payload.images);
+  const normalizedImages = normalizeProductImages(payload.images);
+  payload.images = normalizedImages;
   // `images` is canonical in the current schema. Older deployments may still
   // expose image_url, so keep it aligned when that legacy column exists.
-  payload.image_url = payload.images[0] || null;
+  payload.image_url = normalizedImages[0] || null;
 }
 
 async function writeProductRow(

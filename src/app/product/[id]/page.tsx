@@ -4,6 +4,7 @@ import { ProductDetail } from "@/components/product/ProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
+import { getProductJanCode } from "@/lib/product-identifiers";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
@@ -183,6 +184,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       ? `${SITE_URL}/categories/${encodeURIComponent(product.categorySlug)}`
       : `${SITE_URL}/menu`;
   const breadcrumbName = VALUE_BUNDLE_SKUS.has(sku) ? "Value Bundles" : product.categorySlug || "Product Catalog";
+  const janCode = getProductJanCode(product);
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -191,7 +193,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     image: galleryImages.length ? galleryImages : [imageUrl],
     description,
     sku,
-    ...( /^\d{13}$/.test(sku) ? { gtin13: sku } : {}),
+    ...(janCode ? { gtin13: janCode } : {}),
     url: canonical,
     brand: product.brand || product.brandName ? { "@type": "Brand", name: product.brand || product.brandName } : undefined,
     offers: {
