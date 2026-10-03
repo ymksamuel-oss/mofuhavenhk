@@ -130,34 +130,36 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
-      <div className="relative mx-auto min-h-[37rem] max-w-6xl overflow-hidden px-3 py-8 sm:min-h-[32rem] sm:px-6 md:min-h-[30rem] md:py-16" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "Mofu Journal 刊號"}>
+      <div className="relative mx-auto min-h-[35rem] max-w-6xl overflow-hidden px-3 py-5 sm:min-h-[32rem] sm:px-6 sm:py-8 md:min-h-[30rem] md:py-16" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "Mofu Journal 刊號"}>
         {JOURNAL_ISSUES.map((issue, issueIndex) => {
           const featuredProducts = issue.picks.flatMap((pick) => {
             const product = productMap.get(pick.sku);
             return product ? [{ ...pick, product }] : [];
           });
           return (
-            <div key={issue.label} className={`absolute inset-0 grid grid-cols-1 items-start gap-8 px-3 py-8 transition-opacity duration-500 ease-in-out sm:px-6 sm:py-12 md:grid-cols-12 md:py-16 ${issueIndex === activeIssue ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+            <div key={issue.label} className={`absolute inset-0 grid grid-cols-1 items-start gap-4 px-3 py-5 transition-opacity duration-500 ease-in-out sm:gap-8 sm:px-6 sm:py-8 md:grid-cols-12 md:py-16 ${issueIndex === activeIssue ? "opacity-100" : "pointer-events-none opacity-0"}`}>
               <div className="z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-8 text-left sm:pl-8 md:col-span-5 md:pl-10 md:pt-4">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{issue.label}</p>
-                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className="mb-3 max-w-lg whitespace-pre-line text-balance font-serif text-2xl font-bold leading-[1.28] tracking-tight text-[#111111] sm:text-3xl lg:text-[32px]">{isEn ? issue.titleEn : issue.titleZh}</h1>
-                <p className="mb-5 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
+                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-3 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
+                <p className="mb-4 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
                 <Link href={issue.ctaLink} className="inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98]">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
               </div>
               <div className="col-span-12 min-w-0 md:col-span-7">
-                <ul aria-label={isEn ? "Featured journal products" : "Mofu Journal 精選商品"} className="mx-auto grid w-full max-w-md grid-cols-3 gap-2.5 rounded-2xl border border-stone-200/60 bg-white/70 p-3 shadow-sm backdrop-blur-sm sm:gap-3 sm:p-4 md:max-w-none">
+                <ul aria-label={isEn ? "Featured journal products" : "Mofu Journal 精選商品"} className="mx-auto grid w-full max-w-md grid-cols-3 gap-2 rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-2.5 sm:p-3 md:max-w-none">
                   {featuredProducts.map(({ product, zh, en }, index) => {
                     const label = isEn ? en : zh;
-                    return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square min-w-0 flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-2 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-2.5"><span className="relative block h-[70%] min-h-0 w-full"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority={issueIndex === 0 && index < 3} sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain p-1" /></span><span className="mt-1 block w-full truncate text-center text-[10px] font-medium leading-4 text-stone-700 sm:text-[11px]">{label}</span></Link></li>;
+                    return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square min-w-0 flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md"><span className="relative block h-[70%] min-h-0 w-full"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority={issueIndex === 0 && index < 3} sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain p-1" /></span><span className="mt-1 block w-full truncate text-center text-[10px] font-medium leading-4 text-stone-700">{label}</span></Link></li>;
                   })}
                 </ul>
+                <div className="mt-4 flex items-center justify-center gap-2" aria-label={isEn ? "Journal issue pagination" : "刊號分頁"}>
+                  {JOURNAL_ISSUES.map((entry, index) => <button key={entry.label} type="button" onClick={() => setActiveIssue(index)} aria-label={`${isEn ? "Go to issue" : "前往刊號"} ${index + 1}`} className={`h-1.5 rounded-full transition-all ${index === activeIssue ? "w-6 bg-stone-900" : "w-1.5 bg-stone-300"}`} />)}
+                </div>
               </div>
             </div>
           );
         })}
-        <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期 Mofu Journal"} className="absolute left-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B]">‹</button>
-        <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期 Mofu Journal"} className="absolute right-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B]">›</button>
-        <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5" aria-label={isEn ? "Journal issue pagination" : "刊號分頁"}>{JOURNAL_ISSUES.map((issue, index) => <button key={issue.label} type="button" onClick={() => setActiveIssue(index)} aria-label={`${isEn ? "Go to issue" : "前往刊號"} ${index + 1}`} className={`h-1.5 rounded-full transition-all ${index === activeIssue ? "w-6 bg-stone-900" : "w-1.5 bg-stone-300"}`} />)}</div>
+        <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期 Mofu Journal"} className="hidden h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:left-0 md:top-1/2 md:z-20 md:flex md:-translate-y-1/2">‹</button>
+        <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期 Mofu Journal"} className="hidden h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:right-0 md:top-1/2 md:z-20 md:flex md:-translate-y-1/2">›</button>
       </div>
     </section>
   );
