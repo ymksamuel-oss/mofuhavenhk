@@ -45,13 +45,15 @@ export function HomeSupplierStory() {
             </Link>
           </div>
           <figure className="min-w-0 md:col-span-7">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-stone-100 bg-[#F2EAE0] shadow-sm">
+            <div className="relative aspect-square overflow-hidden rounded-2xl border border-stone-200/80 bg-stone-50 shadow-sm sm:aspect-[4/3]">
               <Image
-                src="/images/hero-natural-meat.jpg"
-                alt={isEn ? "A golden retriever enjoying a natural meat treat" : "金毛犬享用天然原肉零食的暖色生活攝影"}
+                src="/images/best-partner/bp-official-puppy-kitten-100-lineup.jpg"
+                alt={isEn
+                  ? "Official Best Partner artwork featuring a golden retriever puppy and a warm orange long-haired cat"
+                  : "Best Partner 官方貓狗同框圖：金毛幼犬與暖橘色長毛貓咪，呈現國產、無添加、無著色及豐富商品陣容"}
                 fill
                 sizes="(min-width: 1024px) 55vw, 100vw"
-                className="object-cover"
+                className="h-full w-full object-contain p-2 transition-transform duration-300 hover:scale-105 sm:p-4"
               />
             </div>
           </figure>
