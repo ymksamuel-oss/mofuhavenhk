@@ -94,8 +94,8 @@ const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
 const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.has(productSku(product));
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
-  { slug: "dogs", title_zh: "🐶 狗狗全系列", title_en: "🐶 All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
-  { slug: "cats", title_zh: "🐱 貓咪專區", title_en: "🐱 Cat Collection", description: "精選日本貓咪商品及貓狗通用天然小食，讓愛貓享受安心日常。", seo_title: "貓咪專區｜日本貓咪精選商品及天然小食", group: "species", targetCount: 12, match: CAT },
+  { slug: "dogs", title_zh: "狗狗全系列", title_en: "All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
+  { slug: "cats", title_zh: "貓咪專區", title_en: "Cat Collection", description: "精選日本貓咪商品及貓狗通用天然小食，讓愛貓享受安心日常。", seo_title: "貓咪專區｜日本貓咪精選商品及天然小食", group: "species", targetCount: 12, match: CAT },
   { slug: "dental-chews", title_zh: "物理潔齒耐咬", title_en: "Dental Chews", description: "以自然咀嚼與適口口感陪伴狗狗日常潔齒。", seo_title: "物理潔齒耐咬｜狗狗潔牙零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["dental-chews"]) },
   { slug: "meal-toppers", title_zh: "挑食拌糧神粉", title_en: "Meal Toppers", description: "為挑食狗狗增添香氣與食慾的日常拌糧選擇。", seo_title: "挑食拌糧神粉｜狗狗天然拌飯粉", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["meal-toppers"]) },
   { slug: "training-treats", title_zh: "隨身訓練一口丁", title_en: "Training Treats", description: "細小方便、適合外出訓練與即時獎勵的狗狗小食。", seo_title: "隨身訓練一口丁｜狗狗訓練零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["training-treats"]) },

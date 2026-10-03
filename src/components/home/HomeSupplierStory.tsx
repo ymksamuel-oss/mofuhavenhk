@@ -45,7 +45,7 @@ export function HomeSupplierStory() {
             </Link>
           </div>
           <figure className="min-w-0 md:col-span-7">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-stone-200/80 bg-stone-50 shadow-sm sm:aspect-[4/3]">
+            <div className="relative aspect-square overflow-hidden rounded-2xl sm:aspect-[4/3]">
               <Image
                 src="/images/best-partner/bp-official-puppy-kitten-100-lineup.jpg"
                 alt={isEn
@@ -61,7 +61,7 @@ export function HomeSupplierStory() {
 
         <article className="grid min-w-0 grid-cols-1 items-center gap-7 md:grid-cols-12 md:gap-10 lg:gap-16">
           <figure className="order-2 min-w-0 md:order-1 md:col-span-7">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-stone-100 bg-[#F2EAE0] shadow-sm md:aspect-[4/3]">
+            <div className="relative aspect-square overflow-hidden rounded-2xl md:aspect-[4/3]">
               <Image
                 src="/images/best-partner/bp-official-golden-retriever-badges.jpg"
                 alt={isEn

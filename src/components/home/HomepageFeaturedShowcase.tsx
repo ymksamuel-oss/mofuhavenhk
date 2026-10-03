@@ -104,16 +104,6 @@ export function HomepageFeaturedShowcase({ products }: { products: Product[] }) 
           </p>
         )}
 
-        <div className="mt-8 text-center sm:mt-10">
-          <Link
-            href="/menu"
-            className="inline-flex min-h-12 max-w-full items-center justify-center gap-2 rounded-full bg-[#C86A2B] px-6 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#B25B20] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B] focus-visible:ring-offset-2 sm:px-8"
-          >
-            {isZh
-              ? "查看完整商品目錄（全 11 款肉源食材專業篩選）→"
-              : "Explore the full catalogue and 11 protein-source filters →"}
-          </Link>
-        </div>
       </div>
     </section>
   );

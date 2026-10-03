@@ -5,27 +5,27 @@ import { CategoryNavLink } from "@/components/CategoryNavLink";
 import type { Product } from "@/lib/products";
 
 export type IngredientKey = "chicken" | "venison" | "horse" | "beef" | "duck" | "pork" | "lamb" | "kangaroo" | "seafood" | "produce" | "dairy";
-export type IngredientFilter = { key: IngredientKey; zh: string; en: string; emoji: string; group: "meat" | "seafood" | "produce" | "dairy" };
+export type IngredientFilter = { key: IngredientKey; zh: string; en: string; group: "meat" | "seafood" | "produce" | "dairy" };
 
 export const INGREDIENT_FILTERS: IngredientFilter[] = [
-  { key: "chicken", zh: "純雞肉", en: "Chicken", emoji: "🐔", group: "meat" },
-  { key: "venison", zh: "蝦夷鹿肉", en: "Venison", emoji: "🦌", group: "meat" },
-  { key: "horse", zh: "低敏純馬肉", en: "Horse", emoji: "🐴", group: "meat" },
-  { key: "beef", zh: "牛肉牛筋", en: "Beef", emoji: "🥩", group: "meat" },
-  { key: "duck", zh: "櫻桃鴨肉", en: "Duck", emoji: "🦆", group: "meat" },
-  { key: "pork", zh: "鹿兒島黑豚", en: "Pork", emoji: "🐷", group: "meat" },
-  { key: "lamb", zh: "溫補羊肉", en: "Lamb", emoji: "🐑", group: "meat" },
-  { key: "kangaroo", zh: "袋鼠肉", en: "Kangaroo", emoji: "🦘", group: "meat" },
-  { key: "seafood", zh: "深海魚介", en: "Fish & Seafood", emoji: "🐟", group: "seafood" },
-  { key: "produce", zh: "田園蔬果", en: "Fruits & Veg", emoji: "🍠", group: "produce" },
-  { key: "dairy", zh: "犛牛芝士乳品", en: "Cheese & Dairy", emoji: "🧀", group: "dairy" },
+  { key: "chicken", zh: "純雞肉", en: "Chicken", group: "meat" },
+  { key: "venison", zh: "蝦夷鹿肉", en: "Venison", group: "meat" },
+  { key: "horse", zh: "低敏純馬肉", en: "Horse", group: "meat" },
+  { key: "beef", zh: "牛肉牛筋", en: "Beef", group: "meat" },
+  { key: "duck", zh: "櫻桃鴨肉", en: "Duck", group: "meat" },
+  { key: "pork", zh: "鹿兒島黑豚", en: "Pork", group: "meat" },
+  { key: "lamb", zh: "溫補羊肉", en: "Lamb", group: "meat" },
+  { key: "kangaroo", zh: "袋鼠肉", en: "Kangaroo", group: "meat" },
+  { key: "seafood", zh: "深海魚介", en: "Fish & Seafood", group: "seafood" },
+  { key: "produce", zh: "田園蔬果", en: "Fruits & Veg", group: "produce" },
+  { key: "dairy", zh: "犛牛芝士乳品", en: "Cheese & Dairy", group: "dairy" },
 ];
 
 export const INGREDIENT_GROUPS = [
-  { key: "meat", zh: "陸生肉類", en: "Poultry & Meat", emoji: "🥩" },
-  { key: "seafood", zh: "深海魚介", en: "Seafood", emoji: "🐟" },
-  { key: "produce", zh: "田園蔬果", en: "Produce", emoji: "🍠" },
-  { key: "dairy", zh: "天然乳品", en: "Dairy & Snacks", emoji: "🧀" },
+  { key: "meat", zh: "陸生肉類", en: "Poultry & Meat" },
+  { key: "seafood", zh: "深海魚介", en: "Seafood" },
+  { key: "produce", zh: "田園蔬果", en: "Produce" },
+  { key: "dairy", zh: "天然乳品", en: "Dairy & Snacks" },
 ] as const;
 
 export function parseIngredientSelection(value: string | null | undefined): IngredientKey[] {
@@ -64,14 +64,14 @@ type IngredientFilterPanelProps = {
 
 export function IngredientFilterPanel({ locale, selected, products, onSelect, onToggle, onQuickSelect, isFoodProduct }: IngredientFilterPanelProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
-  const label = (item: IngredientFilter) => `${item.emoji} ${locale === "en" ? item.en : item.zh}`;
+  const label = (item: IngredientFilter) => `${item.zh} ${item.en}`;
   const countFor = (key: IngredientKey) => products.filter((product) => isFoodProduct(product) && productMatchesIngredient(product, [key])).length;
   const visibleCount = products.filter((product) => isFoodProduct(product) && productMatchesIngredient(product, selected)).length;
-  const groupLabel = (group: typeof INGREDIENT_GROUPS[number]) => `${group.emoji} ${locale === "en" ? group.en : group.zh}`;
+  const groupLabel = (group: typeof INGREDIENT_GROUPS[number]) => `${group.zh} ${group.en}`;
   return <section className="mb-7" aria-label={locale === "en" ? "Protein and ingredient filters" : "肉源與食材篩選"}>
     <div className="mb-3 flex items-center justify-between gap-3 lg:hidden">
       <p className="text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Shop by ingredient" : "按食材選購"}</p>
-      <button type="button" onClick={() => setSheetOpen(true)} className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-[color:var(--line)] bg-white px-4 text-sm font-semibold text-[color:var(--ink)] shadow-sm">⚙ {locale === "en" ? "Filters" : "篩選"}{selected.length ? ` (${selected.length})` : ""}</button>
+      <button type="button" onClick={() => setSheetOpen(true)} className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-[color:var(--line)] bg-white px-4 text-sm font-semibold text-[color:var(--ink)] shadow-sm">{locale === "en" ? "Filters" : "篩選"}{selected.length ? ` (${selected.length})` : ""}</button>
     </div>
     <nav className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto px-1 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden" aria-label={locale === "en" ? "Quick ingredient filters" : "快捷食材篩選"}>
       <button type="button" onClick={() => onSelect([])} className={`shrink-0 snap-start rounded-full border px-4 py-2 text-sm font-medium whitespace-nowrap transition ${selected.length === 0 ? "border-[#C86A2B] bg-[#C86A2B] text-white shadow-sm" : "border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--muted)]"}`}>{locale === "en" ? "All ingredients" : "全部食材"}</button>

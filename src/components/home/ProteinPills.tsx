@@ -1,61 +1,70 @@
 "use client";
 
-import Link from "next/link";
-import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { IngredientKey } from "@/components/menu/IngredientFilterPanel";
-
-type ProteinAudience = "all" | "dogs" | "cats";
 
 type ProteinItem = {
   key: IngredientKey;
-  icon: string;
   zh: string;
   en: string;
-  descZh: string;
-  descEn: string;
 };
 
-const PROTEINS: ProteinItem[] = [
-  { key: "beef", icon: "🥩", zh: "牛肉系列", en: "Beef", descZh: "牛舌・牛大筋・牛蹄", descEn: "Tongue · Tendon · Hoof" },
-  { key: "chicken", icon: "🍗", zh: "雞肉系列", en: "Chicken", descZh: "雞里肌・砂肝・雞軟骨", descEn: "Breast · Gizzard · Cartilage" },
-  { key: "venison", icon: "🦌", zh: "野生鹿肉", en: "Wild Venison", descZh: "北海道蝦夷鹿・低脂高鐵", descEn: "Hokkaido deer · Lean & iron-rich" },
-  { key: "horse", icon: "🐎", zh: "純馬肉", en: "Pure Horse Meat", descZh: "低敏肉乾・過敏犬首選", descEn: "Gentle protein for sensitive dogs" },
-  { key: "pork", icon: "🐖", zh: "日本黑豚", en: "Japanese Black Pork", descZh: "鹿兒島豬耳・脆耳條", descEn: "Kagoshima pork ears" },
-  { key: "seafood", icon: "🐟", zh: "深海魚類", en: "Deep-Sea Fish", descZh: "黃鰭柴魚・小魚乾・鯊魚皮", descEn: "Tuna · Sardines · Shark skin" },
-  { key: "dairy", icon: "🧀", zh: "乳酪野菜", en: "Cheese & Produce", descZh: "犛牛芝士・黃金地瓜", descEn: "Yak cheese · Sweet potato" },
+const DOG_PROTEINS: ProteinItem[] = [
+  { key: "chicken", zh: "純雞肉", en: "Chicken" },
+  { key: "venison", zh: "蝦夷鹿肉", en: "Venison" },
+  { key: "horse", zh: "純馬肉", en: "Horse" },
+  { key: "beef", zh: "牛肉・牛筋", en: "Beef" },
+  { key: "duck", zh: "櫻桃鴨肉", en: "Duck" },
+  { key: "pork", zh: "黑豚肉", en: "Pork" },
+  { key: "lamb", zh: "羊肉", en: "Lamb" },
+  { key: "kangaroo", zh: "袋鼠肉", en: "Kangaroo" },
+  { key: "seafood", zh: "深海魚介", en: "Seafood" },
+  { key: "produce", zh: "田園蔬果", en: "Produce" },
+  { key: "dairy", zh: "乳製品", en: "Dairy" },
 ];
 
-export function ProteinPills({ audience = "all" }: { audience?: ProteinAudience }) {
-  const { locale } = useI18n();
-  const isZh = locale === "zh";
-  const base = audience === "all" ? "/menu" : `/categories/${audience}`;
+const CAT_PROTEINS: ProteinItem[] = [
+  { key: "seafood", zh: "深海魚介", en: "Seafood" },
+  { key: "chicken", zh: "純雞肉", en: "Chicken" },
+  { key: "horse", zh: "純馬肉", en: "Horse" },
+  { key: "dairy", zh: "天然乳製品", en: "Dairy" },
+];
+
+export function ProteinPills({
+  audience,
+  selected,
+  onSelect,
+}: {
+  audience: "dogs" | "cats";
+  selected: IngredientKey[];
+  onSelect: (keys: IngredientKey[]) => void;
+}) {
+  const proteins = audience === "dogs" ? DOG_PROTEINS : CAT_PROTEINS;
+  const isAllSelected = selected.length === 0;
 
   return (
-    <section className="border-y border-[#eaded3] bg-[#fffaf5] px-4 py-4 sm:px-6" aria-label={isZh ? "按肉種選購" : "Shop by protein"}>
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-3 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[10px] font-bold tracking-[0.18em] text-[#a76443]">{isZh ? "按蛋白質來源選購" : "SHOP BY PROTEIN"}</p>
-            <h2 className="mt-0.5 text-base font-bold text-[#493526] sm:text-lg">{isZh ? "揀選毛孩最合適的肉種" : "Find the right protein for your pet"}</h2>
-          </div>
-          <Link href={base} className="shrink-0 text-xs font-semibold text-[#a76443] hover:underline">{isZh ? "查看全部 →" : "View all →"}</Link>
-        </div>
-        <nav className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4" aria-label={isZh ? "肉種快捷導航" : "Protein shortcuts"}>
-          {PROTEINS.map((item) => (
-            <Link
+    <section className="w-full" aria-label="Meat and ingredient filters">
+      <nav className="flex items-center gap-2.5 overflow-x-auto scrollbar-none py-3 w-full" aria-label="Meat source filters">
+        <button
+          type="button"
+          onClick={() => onSelect([])}
+          className={`whitespace-nowrap flex-shrink-0 rounded-lg border px-4 py-2 text-xs md:text-sm font-medium transition-all ${isAllSelected ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B]"}`}
+        >
+          全部 All
+        </button>
+        {proteins.map((item) => {
+          const active = selected.includes(item.key);
+          return (
+            <button
               key={item.key}
-              href={`${base}?ingredient=${item.key}`}
-              className="group flex min-w-0 items-center gap-3 rounded-2xl border border-[#eaded3] bg-white px-3 py-2.5 transition hover:-translate-y-0.5 hover:border-[#c79573] hover:shadow-sm sm:px-4"
+              type="button"
+              onClick={() => onSelect([item.key])}
+              className={`whitespace-nowrap flex-shrink-0 rounded-lg border px-4 py-2 text-xs md:text-sm font-medium transition-all ${active ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B]"}`}
             >
-              <span className="shrink-0 text-xl" aria-hidden="true">{item.icon}</span>
-              <span className="min-w-0">
-                <span className="block text-xs font-bold leading-5 text-[#493526] sm:text-sm">{isZh ? item.zh : item.en}</span>
-                <span className="mt-0.5 block line-clamp-2 text-[10px] leading-4 text-[#806759] sm:text-xs">{isZh ? item.descZh : item.descEn}</span>
-              </span>
-            </Link>
-          ))}
-        </nav>
-      </div>
+              {item.zh} {item.en}
+            </button>
+          );
+        })}
+      </nav>
     </section>
   );
 }

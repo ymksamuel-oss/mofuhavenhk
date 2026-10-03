@@ -171,6 +171,7 @@ export function ProductCatalog({
     : null;
   const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
   const collection = collectionSlug ? getCollection(collectionSlug) : undefined;
+  const isSpeciesCollection = collection?.slug === "dogs" || collection?.slug === "cats";
   const dedicatedCategoryFallback = categorySlug === "dogs"
     ? catalogProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
     : categorySlug === "cats"
@@ -191,13 +192,14 @@ export function ProductCatalog({
   const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
-  const ingredientEnabled = !isCollectionPage && productsByRoute.some(isFoodProduct);
+  const ingredientEnabled = (!isCollectionPage || isSpeciesCollection) && productsByRoute.some(isFoodProduct);
   const categoryScopedProducts = productsByRoute.filter((product) =>
     categorySlug === "dogs" ? matchesAudience(product, "dog") && isFoodProduct(product)
       : categorySlug === "cats" || specialFilter === "cat-zone" ? matchesAudience(product, "cat") && isFoodProduct(product)
         : isFoodProduct(product),
   );
   const products = productsByRoute.filter((product) =>
+    (!isSpeciesCollection || isFoodProduct(product)) &&
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
     (categorySlug !== "dogs" || (matchesAudience(product, "dog") && isFoodProduct(product))) &&
     (categorySlug !== "cats" && specialFilter !== "cat-zone" || (matchesAudience(product, "cat") && isFoodProduct(product))) &&
@@ -271,7 +273,7 @@ export function ProductCatalog({
       <div className={isCollectionPage ? "mb-7" : ""}>
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {isDedicatedCategoryPage ? <p className="mt-3 max-w-3xl text-sm leading-7 text-[color:var(--muted)]">{getCategoryEditorialIntro(locale, categorySlug ?? "")}</p> : null}
-        {isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") ? <div className="mt-5 -mx-4 sm:-mx-6"><ProteinPills audience={categorySlug} /></div> : null}
+        {(isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") || isSpeciesCollection) ? <div className="mt-5 -mx-4 sm:-mx-6"><ProteinPills audience={(categorySlug === "dogs" || collection?.slug === "dogs") ? "dogs" : "cats"} selected={selectedIngredients} onSelect={updateIngredientSelection} /></div> : null}
         {collection ? <>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
           <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "\u6b3e\u5546\u54c1"}</p>
@@ -309,7 +311,6 @@ export function ProductCatalog({
       {products.length === 0 ? (
         <div className="flex flex-col items-start gap-3 py-6">
           <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-5 py-8 text-center">
-            <p className="text-3xl" aria-hidden="true">🌿</p>
             <p className="mt-3 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "This ingredient is being restocked from Japan." : "此食材商品正火速從日本補貨中"}</p>
             <p className="mt-1 text-sm text-[color:var(--muted)]">{locale === "en" ? "Explore other delicious protein sources for now." : "先看看其他美味肉源吧！"}</p>
             <CategoryNavLink href="/menu" className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#C86A2B] px-5 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Explore all products" : "探索全部商品"}</CategoryNavLink>
