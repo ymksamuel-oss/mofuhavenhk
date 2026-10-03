@@ -24,7 +24,6 @@ export function HomeBannerCarousel({ banners, products }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
-  const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
   const touchStartX = useRef<number | null>(null);
   const activeBanner = banners[activeIndex] ?? banners[0];
   const matrixProducts = useMemo(() => products.filter((product) => product.images?.[0]).slice(0, 24), [products]);
