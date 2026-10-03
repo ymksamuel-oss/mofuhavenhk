@@ -8,7 +8,6 @@ const ITEMS = [
   { href: "/collections/horse-meat", icon: "🥩", zh: "天然原肉", en: "Natural Jerky" },
   { href: "/collections/cats", icon: "🐱", zh: "貓咪凍乾", en: "Cat Treats" },
   { href: "/collections/value-bundles", icon: "🎁", zh: "超值套裝", en: "Value Bundles" },
-  { href: "/supplier-profile", icon: "🇯🇵", zh: "日本原裝", en: "Japan Direct" },
 ] as const;
 
 const TRUST_ITEMS = [
@@ -23,7 +22,7 @@ export function HomeDiscoveryBar() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-      <nav aria-label={isZh ? "快速分類" : "Quick categories"} className="flex gap-2 overflow-x-auto px-1 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <nav aria-label={isZh ? "快速分類" : "Quick categories"} className="flex gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {ITEMS.map((item) => (
           <Link key={item.href} href={item.href} className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-stone-100 px-3.5 py-1.5 text-xs font-medium text-stone-700 transition hover:bg-[#FAF7F2] hover:text-[#8b573f] sm:text-sm">
             <span aria-hidden>{item.icon}</span>{isZh ? item.zh : item.en}

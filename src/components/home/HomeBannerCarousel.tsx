@@ -33,6 +33,17 @@ function themeForBanner(banner: HomepageBanner): string {
   return "meat";
 }
 
+function themeProductMatches(product: Product, theme: string): boolean {
+  const text = `${product.name.zh} ${product.name.en} ${product.description?.zh ?? ""} ${product.description?.en ?? ""} ${(product.tags ?? []).join(" ")}`.toLowerCase();
+  const patterns: Record<string, RegExp> = {
+    dental: /牛蹄|牛筋|牛大筋|牛舌|潔齒|耐咬|hoof|tendon|dental|chew/i,
+    topper: /拌糧|肉碎|柴魚|肉鬆|bonito|flakes|topper|meat floss/i,
+    fish: /魚|鮪|柴魚|小魚|鯊魚|fish|tuna|bonito|sardine|shark/i,
+    meat: /鹿肉|馬肉|牛肉|雞肉|原肉|venison|horse|beef|chicken|natural meat|jerky/i,
+  };
+  return patterns[theme]?.test(text) ?? false;
+}
+
 export function HomeBannerCarousel({ banners, products }: Props) {
   const { locale, t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -44,8 +55,10 @@ export function HomeBannerCarousel({ banners, products }: Props) {
   const featuredProducts = useMemo(() => {
     if (!activeBanner) return [];
     const bySku = new Map(products.filter((product) => product.images?.[0]).map((product) => [product.mofuSku ?? "", product]));
-    const selected = (THEME_SKUS[themeForBanner(activeBanner)] ?? []).map((sku) => bySku.get(sku)).filter((product): product is Product => Boolean(product));
-    return (selected.length ? selected : matrixProducts).slice(0, 3);
+    const theme = themeForBanner(activeBanner);
+    const selected = (THEME_SKUS[theme] ?? []).map((sku) => bySku.get(sku)).filter((product): product is Product => Boolean(product));
+    const themedFallback = matrixProducts.filter((product) => themeProductMatches(product, theme));
+    return (selected.length >= 2 ? selected : [...selected, ...themedFallback, ...matrixProducts]).slice(0, 3);
   }, [activeBanner, matrixProducts, products]);
 
   const goTo = useCallback((index: number) => {
