@@ -130,25 +130,25 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
-      <div className="relative mx-auto min-h-[35rem] max-w-6xl overflow-hidden px-3 py-4 sm:min-h-[32rem] sm:px-6 sm:py-8 md:min-h-[30rem] md:py-14" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "Mofu Journal 刊號"}>
+      <div className="relative mx-auto h-auto max-w-6xl overflow-visible px-3 py-3 sm:px-6 sm:py-6 md:py-14" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "Mofu Journal 刊號"}>
         {JOURNAL_ISSUES.map((issue, issueIndex) => {
           const featuredProducts = issue.picks.flatMap((pick) => {
             const product = productMap.get(pick.sku);
             return product ? [{ ...pick, product }] : [];
           });
           return (
-            <div key={issue.label} className={`absolute inset-0 grid grid-cols-1 items-start gap-4 px-3 py-4 transition-opacity duration-500 ease-in-out sm:gap-8 sm:px-6 sm:py-8 md:grid-cols-12 md:py-14 ${issueIndex === activeIssue ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+            <div key={issue.label} className={`grid h-auto grid-cols-1 items-start gap-4 px-3 py-3 transition-opacity duration-500 ease-in-out sm:gap-8 sm:px-6 sm:py-6 md:grid-cols-12 md:py-14 ${issueIndex === activeIssue ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}>
               <div className="z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-8 text-left sm:pl-8 md:col-span-5 md:pl-10 md:pt-4">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{issue.label}</p>
-                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-3 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
-                <p className="mb-3 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
-                <Link href={issue.ctaLink} className="mb-2 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-6 py-2.5 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
+                <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-2 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
+                <p className="mb-2 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
+                <Link href={issue.ctaLink} className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
               </div>
               <div className="col-span-12 min-w-0 md:col-span-7">
-                <ul aria-label={isEn ? "Featured journal products" : "Mofu Journal 精選商品"} className="mx-auto grid w-full max-w-md grid-cols-3 gap-2 rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-3 sm:p-3 md:max-w-none">
+                <ul aria-label={isEn ? "Featured journal products" : "Mofu Journal 精選商品"} className="mx-auto grid h-auto w-full max-w-md grid-cols-3 gap-1.5 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-2.5 sm:p-3 md:max-w-none">
                   {featuredProducts.map(({ product, zh, en }, index) => {
                     const label = isEn ? en : zh;
-                    return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square min-w-0 flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-2"><span className="relative block h-[70%] min-h-0 w-full"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority={issueIndex === 0 && index < 3} sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain p-1" /></span><span className="mt-1 block w-full truncate text-center text-[10px] font-medium leading-4 text-stone-700">{label}</span></Link></li>;
+                    return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex min-h-[92px] flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1 text-center shadow-sm transition-all hover:shadow-md sm:min-h-[105px] sm:p-2"><span className="flex h-[46px] w-full items-center justify-center sm:h-[60px]"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority={issueIndex === 0 && index < 3} sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[10px] font-medium text-stone-700 sm:text-[11px]">{label}</span></Link></li>;
                   })}
                 </ul>
                 <div className="z-20 mt-4 flex items-center justify-center gap-2" aria-label={isEn ? "Journal issue pagination" : "刊號分頁"}>
