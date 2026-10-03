@@ -9,7 +9,7 @@ import type { Product } from "@/lib/products";
 
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export default async function HomePage() {
   const cookieStore = await cookies();

@@ -20,7 +20,8 @@ import {
 } from "@/lib/payme-checkout-settings";
 import "./globals.css";
 
-export const revalidate = 300;
+// Product catalogue and storefront chrome can be reused for an hour, reducing ISR writes.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.mofuhavenhk.com"),
