@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Pagination } from "@/components/Pagination";
@@ -11,7 +11,7 @@ import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
-import { IngredientFilterPanel, parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
+import { parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
 import { ProteinPills } from "@/components/home/ProteinPills";
 
 const PAGE_SIZE = 12;
@@ -153,16 +153,6 @@ export function ProductCatalog({
     window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
     requestAnimationFrame(() => document.getElementById("products-section")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };
-  const shallowSelectIngredient = (event: MouseEvent<HTMLAnchorElement>, href: string, slug: IngredientKey) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    updateIngredientSelection([slug]);
-  };
-  const toggleIngredient = (slug: IngredientKey) => {
-    updateIngredientSelection(selectedIngredients.includes(slug)
-      ? selectedIngredients.filter((item) => item !== slug)
-      : [...selectedIngredients, slug]);
-  };
   const liveChildCategory = typeof subcategory === "string"
     ? findCategoryBySlug(categories, subcategory.trim().toLowerCase())
     : null;
@@ -192,12 +182,7 @@ export function ProductCatalog({
   const isDedicatedCategoryPage = Boolean(categorySlug) && subcategory == null;
   const isCollectionPage = Boolean(collection);
   const foodCategorySelected = productCategory === "treats";
-  const ingredientEnabled = (!isCollectionPage || isSpeciesCollection) && productsByRoute.some(isFoodProduct);
-  const categoryScopedProducts = productsByRoute.filter((product) =>
-    categorySlug === "dogs" ? matchesAudience(product, "dog") && isFoodProduct(product)
-      : categorySlug === "cats" || specialFilter === "cat-zone" ? matchesAudience(product, "cat") && isFoodProduct(product)
-        : isFoodProduct(product),
-  );
+  const ingredientEnabled = isSpeciesCollection || (isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats"));
   const products = productsByRoute.filter((product) =>
     (!isSpeciesCollection || isFoodProduct(product)) &&
     (specialFilter !== "cat-zone" || isCatZoneProduct(product)) &&
@@ -252,11 +237,6 @@ export function ProductCatalog({
     }
   }, [safeCurrentPage]);
 
-  const ingredientScrollerRef = useRef<HTMLElement | null>(null);
-  const scrollIngredients = (direction: -1 | 1) => {
-    ingredientScrollerRef.current?.scrollBy({ left: direction * 200, behavior: "smooth" });
-  };
-
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
@@ -273,11 +253,10 @@ export function ProductCatalog({
       <div className={isCollectionPage ? "mb-7" : ""}>
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {isDedicatedCategoryPage ? <p className="mt-3 max-w-3xl text-sm leading-7 text-[color:var(--muted)]">{getCategoryEditorialIntro(locale, categorySlug ?? "")}</p> : null}
-        {(isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") || isSpeciesCollection) ? <div className="mt-5 -mx-4 sm:-mx-6"><ProteinPills audience={(categorySlug === "dogs" || collection?.slug === "dogs") ? "dogs" : "cats"} selected={selectedIngredients} onSelect={updateIngredientSelection} /></div> : null}
         {collection ? <>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
-          <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "\u6b3e\u5546\u54c1"}</p>
         </> : null}
+        {(isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") || isSpeciesCollection) ? <ProteinPills audience={(categorySlug === "dogs" || collection?.slug === "dogs") ? "dogs" : "cats"} selected={selectedIngredients} onSelect={updateIngredientSelection} /> : null}
       </div>
       {!isDedicatedCategoryPage && !isCollectionPage ? <nav aria-label={locale === "en" ? "Audience" : "\u5c0d\u8c61\u5206\u985e"} className="mb-5 flex gap-8 border-b border-[color:var(--line)] px-1">
         {AUDIENCE_FILTERS.map(([slug, zh, ja, en]) => {
@@ -297,17 +276,7 @@ export function ProductCatalog({
           </CategoryNavLink>;
         })}
       </nav> : null}
-      <div className={ingredientEnabled ? "lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-8" : ""}>
-      {ingredientEnabled ? <IngredientFilterPanel
-        locale={locale}
-        selected={selectedIngredients}
-        products={categoryScopedProducts}
-        onSelect={updateIngredientSelection}
-        onToggle={toggleIngredient}
-        onQuickSelect={(event, href, slug) => shallowSelectIngredient(event, href, slug)}
-        isFoodProduct={isFoodProduct}
-      /> : null}
-      <div className="min-w-0">
+      <div className="w-full">
       {products.length === 0 ? (
         <div className="flex flex-col items-start gap-3 py-6">
           <div className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface)] px-5 py-8 text-center">
@@ -319,7 +288,7 @@ export function ProductCatalog({
       ) : (
         <>
           <section id="products-section" className="min-h-[32rem]">
-          <ul id="products" className="scroll-mt-24 grid grid-cols-2 items-stretch gap-3 pb-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
+          <ul id="products" className="scroll-mt-24 grid w-full grid-cols-2 items-stretch gap-3.5 pb-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
         {visibleProducts.map((product, index) => {
               return (
                 <li key={product.id} className="min-w-0">
@@ -334,7 +303,6 @@ export function ProductCatalog({
           <BrandServiceStrip placement="catalog-bottom" />
         </>
       )}
-      </div>
       </div>
     </div>
   );

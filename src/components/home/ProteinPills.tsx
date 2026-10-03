@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import type { IngredientKey } from "@/components/menu/IngredientFilterPanel";
 
 type ProteinItem = {
@@ -40,14 +41,27 @@ export function ProteinPills({
 }) {
   const proteins = audience === "dogs" ? DOG_PROTEINS : CAT_PROTEINS;
   const isAllSelected = selected.length === 0;
+  const containerRef = useRef<HTMLElement | null>(null);
+  const scrollIngredients = (left: number) => {
+    containerRef.current?.scrollBy({ left, behavior: "smooth" });
+  };
 
   return (
     <section className="w-full" aria-label="Meat and ingredient filters">
-      <nav className="flex items-center gap-2.5 overflow-x-auto scrollbar-none py-3 w-full" aria-label="Meat source filters">
+      <div className="relative my-4 flex w-full items-center">
+        <button
+          type="button"
+          aria-label="Scroll meat filters left"
+          onClick={() => scrollIngredients(-220)}
+          className="z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm transition-all hover:border-[#C86A2B] hover:text-[#C86A2B]"
+        >
+          ‹
+        </button>
+        <nav ref={containerRef} className="flex w-full items-center gap-2.5 overflow-x-auto scroll-smooth px-2 py-1 scrollbar-none" aria-label="Meat source filters">
         <button
           type="button"
           onClick={() => onSelect([])}
-          className={`whitespace-nowrap flex-shrink-0 rounded-lg border px-4 py-2 text-xs md:text-sm font-medium transition-all ${isAllSelected ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B]"}`}
+          className={`whitespace-nowrap flex-shrink-0 rounded-xl border px-4 py-2 text-xs md:text-sm font-medium transition-all ${isAllSelected ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm font-semibold" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B] hover:text-[#C86A2B] cursor-pointer shadow-sm"}`}
         >
           全部 All
         </button>
@@ -58,13 +72,22 @@ export function ProteinPills({
               key={item.key}
               type="button"
               onClick={() => onSelect([item.key])}
-              className={`whitespace-nowrap flex-shrink-0 rounded-lg border px-4 py-2 text-xs md:text-sm font-medium transition-all ${active ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B]"}`}
+              className={`whitespace-nowrap flex-shrink-0 rounded-xl border px-4 py-2 text-xs md:text-sm font-medium transition-all ${active ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm font-semibold" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B] hover:text-[#C86A2B] cursor-pointer shadow-sm"}`}
             >
               {item.zh} {item.en}
             </button>
           );
         })}
-      </nav>
+        </nav>
+        <button
+          type="button"
+          aria-label="Scroll meat filters right"
+          onClick={() => scrollIngredients(220)}
+          className="z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm transition-all hover:border-[#C86A2B] hover:text-[#C86A2B]"
+        >
+          ›
+        </button>
+      </div>
     </section>
   );
 }
