@@ -4,6 +4,7 @@ import { HomepageProductGrid } from "@/components/home/HomepageProductGrid";
 import { HomeBulkPromotion } from "@/components/home/HomeBulkPromotion";
 import { HomeBannerCarousel } from "@/components/home/HomeBannerCarousel";
 import { HomeDiscoveryBar } from "@/components/home/HomeDiscoveryBar";
+import { ProteinPills } from "@/components/home/ProteinPills";
 import { CareMatchCard } from "@/components/home/CareMatchCard";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
@@ -51,6 +52,7 @@ export default async function HomePage() {
       {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeBannerCarousel banners={banners} products={products} />
       <HomeDiscoveryBar />
+      <ProteinPills />
       <CareMatchCard />
       <HomeBulkPromotion />
       <HomepageProductGrid products={products} />

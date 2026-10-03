@@ -12,6 +12,7 @@ import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import { IngredientFilterPanel, parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
+import { ProteinPills } from "@/components/home/ProteinPills";
 
 const PAGE_SIZE = 12;
 type ProductCatalogProps = {
@@ -270,6 +271,7 @@ export function ProductCatalog({
       <div className={isCollectionPage ? "mb-7" : ""}>
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {isDedicatedCategoryPage ? <p className="mt-3 max-w-3xl text-sm leading-7 text-[color:var(--muted)]">{getCategoryEditorialIntro(locale, categorySlug ?? "")}</p> : null}
+        {isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") ? <div className="mt-5 -mx-4 sm:-mx-6"><ProteinPills audience={categorySlug} /></div> : null}
         {collection ? <>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
           <p className="mt-3 text-sm font-semibold text-[color:var(--accent)]">{products.length} {locale === "en" ? "products" : "\u6b3e\u5546\u54c1"}</p>

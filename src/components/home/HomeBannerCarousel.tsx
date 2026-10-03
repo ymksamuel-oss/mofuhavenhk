@@ -9,6 +9,12 @@ import type { Product } from "@/lib/products";
 import type { HomepageBanner } from "@/lib/banner-server";
 
 const AUTO_PLAY_MS = 5000;
+const THEME_SKUS: Record<string, string[]> = {
+  dental: ["4976064025333", "4976064026446", "4976064025661"],
+  topper: ["4976064026705", "4976064024886", "4976064013897"],
+  meat: ["4976064026545", "4976064025623", "4976064025081"],
+  fish: ["4976064013897", "4976064024725", "4976064024688"],
+};
 
 type Props = {
   banners: HomepageBanner[];
@@ -19,6 +25,14 @@ function Arrow({ direction }: { direction: "previous" | "next" }) {
   return <span aria-hidden="true" className="text-2xl leading-none">{direction === "previous" ? "‹" : "›"}</span>;
 }
 
+function themeForBanner(banner: HomepageBanner): string {
+  const text = `${banner.tagEn} ${banner.titleZh} ${banner.titleEn} ${banner.subtitleZh} ${banner.subtitleEn}`.toLowerCase();
+  if (/dental|chew|潔齒|耐咬|牛蹄|牛筋/.test(text)) return "dental";
+  if (/topper|flakes|挑食|拌糧|柴魚|肉碎/.test(text)) return "topper";
+  if (/fish|sea|魚|鮪|小魚|鯊魚/.test(text)) return "fish";
+  return "meat";
+}
+
 export function HomeBannerCarousel({ banners, products }: Props) {
   const { locale, t } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -27,6 +41,12 @@ export function HomeBannerCarousel({ banners, products }: Props) {
   const touchStartX = useRef<number | null>(null);
   const activeBanner = banners[activeIndex] ?? banners[0];
   const matrixProducts = useMemo(() => products.filter((product) => product.images?.[0]).slice(0, 24), [products]);
+  const featuredProducts = useMemo(() => {
+    if (!activeBanner) return [];
+    const bySku = new Map(products.filter((product) => product.images?.[0]).map((product) => [product.mofuSku ?? "", product]));
+    const selected = (THEME_SKUS[themeForBanner(activeBanner)] ?? []).map((sku) => bySku.get(sku)).filter((product): product is Product => Boolean(product));
+    return (selected.length ? selected : matrixProducts).slice(0, 3);
+  }, [activeBanner, matrixProducts, products]);
 
   const goTo = useCallback((index: number) => {
     setSlideDirection(index >= activeIndex ? "next" : "previous");
@@ -83,12 +103,12 @@ export function HomeBannerCarousel({ banners, products }: Props) {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative isolate min-h-[430px] overflow-hidden sm:min-h-[470px] lg:min-h-[500px]">
+        <div className="relative isolate min-h-[270px] overflow-hidden sm:min-h-[470px] lg:min-h-[500px]">
           {activeBanner.bgType === "custom_image" && activeBanner.customImageUrl ? (
             <div className="absolute inset-0 bg-cover bg-center opacity-35" style={{ backgroundImage: `url(${activeBanner.customImageUrl})` }} aria-hidden="true" />
           ) : null}
 
-          <div className="absolute inset-0 grid grid-cols-3 gap-2 p-3 opacity-30 sm:grid-cols-6 sm:grid-rows-4 sm:gap-3 sm:p-5 lg:grid-cols-8 lg:grid-rows-3 lg:gap-4 lg:p-8" aria-hidden="true">
+          <div className="absolute inset-0 hidden grid-cols-3 sm:grid gap-2 p-3 opacity-30 sm:grid-cols-6 sm:grid-rows-4 sm:gap-3 sm:p-5 lg:grid-cols-8 lg:grid-rows-3 lg:gap-4 lg:p-8" aria-hidden="true">
             {Array.from({ length: 24 }, (_, index) => {
               const product = matrixProducts[index % Math.max(matrixProducts.length, 1)];
               return (
@@ -102,13 +122,21 @@ export function HomeBannerCarousel({ banners, products }: Props) {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,253,250,.92)_0%,rgba(255,253,250,.72)_44%,rgba(255,253,250,.42)_100%)]" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-[#f4e9df]/65" />
 
-          <div key={activeBanner.id} className={`relative z-10 mx-auto flex min-h-[430px] max-w-3xl flex-col items-center justify-center px-9 py-16 text-center sm:min-h-[470px] sm:px-16 lg:min-h-[500px] ${slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"}`}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#8b6b55] sm:text-xs">{activeBanner.tagEn}</span>
-            <h1 className="mt-6 max-w-3xl whitespace-pre-line font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.2] tracking-tight text-[#493526] sm:text-5xl lg:text-6xl">{locale === "en" ? activeBanner.titleEn : activeBanner.titleZh}</h1>
-            <p className="mt-6 max-w-2xl whitespace-pre-line text-sm leading-8 text-[#765d49] sm:text-base sm:leading-9">{locale === "en" ? activeBanner.subtitleEn : activeBanner.subtitleZh}</p>
-            <Link href={activeBanner.linkUrl} className="mt-9 inline-flex items-center gap-2 rounded-full bg-zinc-900 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_-15px_rgba(24,24,27,.8)] transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
-              {locale === "en" ? activeBanner.buttonTextEn : activeBanner.buttonTextZh}
-            </Link>
+          <div key={activeBanner.id} className={`relative z-10 mx-auto grid min-h-[270px] max-w-5xl grid-cols-[1.1fr_0.9fr] items-center gap-2 px-5 py-5 sm:flex sm:min-h-[470px] sm:flex-col sm:justify-center sm:px-16 sm:py-16 lg:min-h-[500px] ${slideDirection === "next" ? "banner-slide-in-next" : "banner-slide-in-previous"}`}>
+            <div className="min-w-0 text-left sm:text-center">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#8b6b55] sm:text-xs">{activeBanner.tagEn}</span>
+              <h1 className="mt-2 line-clamp-3 max-w-3xl whitespace-pre-line font-[family-name:var(--font-display)] text-xl font-semibold leading-[1.1] tracking-tight text-[#493526] sm:mt-6 sm:text-5xl sm:leading-[1.2] lg:text-6xl">{locale === "en" ? activeBanner.titleEn : activeBanner.titleZh}</h1>
+              <p className="mt-2 line-clamp-3 max-w-2xl text-[11px] leading-5 text-[#765d49] sm:mt-6 sm:text-base sm:leading-9">{locale === "en" ? activeBanner.subtitleEn : activeBanner.subtitleZh}</p>
+              <Link href={activeBanner.linkUrl} className="mt-4 inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-2.5 text-[11px] font-semibold text-white shadow-[0_12px_24px_-15px_rgba(24,24,27,.8)] transition hover:bg-black sm:mt-9 sm:px-6 sm:py-3 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2">
+                {locale === "en" ? activeBanner.buttonTextEn : activeBanner.buttonTextZh}
+              </Link>
+            </div>
+            <div className="grid min-w-0 grid-cols-3 gap-1.5 sm:absolute sm:right-10 sm:top-1/2 sm:w-72 sm:-translate-y-1/2 sm:gap-2 lg:right-20 lg:w-96" aria-label={locale === "en" ? "Featured products" : "主打產品"}>
+              {featuredProducts.map((product) => {
+                const name = locale === "en" ? product.name.en : product.name.zh;
+                return <Link key={product.id} href={`/product/${product.id}`} title={name} aria-label={name} className="relative aspect-square overflow-hidden rounded-xl border border-white/90 bg-white/80 shadow-sm transition hover:-translate-y-1 sm:aspect-[4/5]"><ProductImage src={product.images?.[0] ?? product.image} alt={name} fill sizes="(min-width: 640px) 120px, 28vw" className="object-contain p-1.5 mix-blend-multiply sm:p-2" /></Link>;
+              })}
+            </div>
           </div>
 
           <button type="button" aria-label={t("homeBannerPrevious")} onClick={goPrevious} className="absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/75 text-[#493526] shadow-sm backdrop-blur-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#493526] md:flex"><Arrow direction="previous" /></button>

@@ -6,8 +6,8 @@ import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
 export const revalidate = 300;
 
-const DOG_INGREDIENTS = new Set([
-  "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "horse", "sheep",
+const CATEGORY_INGREDIENTS = new Set([
+  "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "venison", "horse", "sheep",
   "roll", "chips-jerky", "seafood", "produce", "snacks", "dairy", "seasoning", "side-dish", "frozen", "food",
 ]);
 
@@ -33,8 +33,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const query = await searchParams;
   const categorySlug = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
   const ingredient = Array.isArray(query.ingredient) ? query.ingredient[0] : query.ingredient;
-  const ingredientFilter = categorySlug === "dogs"
-    ? (ingredient && DOG_INGREDIENTS.has(ingredient) ? ingredient : "chicken")
+  const ingredientFilter = categorySlug === "dogs" || categorySlug === "cats"
+    ? (ingredient && CATEGORY_INGREDIENTS.has(ingredient) ? ingredient : null)
     : null;
   const categoryName = categorySlug === "dogs" ? "\u72d7\u72d7\u5c08\u5340" : categorySlug === "cats" ? "\u8c93\u54aa\u5c08\u5340" : categorySlug === "supplies" ? "\u5bf5\u7269\u7528\u54c1" : "\u5bf5\u7269\u5546\u54c1\u5206\u985e";
   return <>
