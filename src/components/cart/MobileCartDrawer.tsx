@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { CartLineIncentiveNotice } from "@/components/cart/CartLineIncentiveNotice";
 import { ProductImage } from "@/components/product/ProductImage";
 import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
@@ -227,6 +228,7 @@ export function MobileCartDrawer({
                           🎉 {t("discountApplied").replace("{percent}", String(orderItemPricing(item).discountPercent))}
                         </p>
                       ) : null}
+                      <CartLineIncentiveNotice item={item} className="mt-1" />
                       <div className="mt-2.5 flex items-center justify-between gap-2">
                         <div className="inline-flex items-center gap-1 rounded-xl border border-[color:var(--line)] bg-[color:var(--background)] p-0.5">
                           <button

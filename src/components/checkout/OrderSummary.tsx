@@ -1,6 +1,7 @@
 "use client";
 
 import { ProductImage } from "@/components/product/ProductImage";
+import { CartLineIncentiveNotice } from "@/components/cart/CartLineIncentiveNotice";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
@@ -138,6 +139,7 @@ export function OrderSummary({
                       {t("discountApplied").replace("{percent}", String(orderItemPricing(item).discountPercent))}
                     </p>
                   ) : null}
+                  {editable ? <CartLineIncentiveNotice item={item} /> : null}
                 </div>
                 {editable ? (
                   <div className="flex flex-wrap items-center gap-2">
