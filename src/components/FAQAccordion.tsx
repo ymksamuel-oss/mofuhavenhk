@@ -18,7 +18,7 @@ const FAQ_ITEMS: FAQItem[] = [
 
 export function FAQAccordion() {
   const { t } = useI18n();
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
     setOpenIndex((current) => (current === index ? null : index));

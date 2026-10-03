@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { FAQAccordion } from "@/components/FAQAccordion";
-import { HomeProductMarquee } from "@/components/home/HomeProductMarquee";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const GUIDE_CARDS = [
@@ -35,7 +34,6 @@ export function HomeInteractiveSections() {
 
   return (
     <>
-      <HomeProductMarquee />
       <section id="explore-pets" className="scroll-mt-24 bg-[#FAF7F2] px-5 py-12 sm:px-10 sm:py-16 lg:py-20">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-14">
           <div className="max-w-xl">

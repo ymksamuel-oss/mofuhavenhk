@@ -32,37 +32,45 @@ export function BestPartnerValues() {
   return (
     <section
       aria-labelledby="best-partner-values-title"
-      className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-6 sm:px-8 sm:py-8 lg:px-10"
+      className="border-y border-[#e7d8c8] bg-[#f5ede3] px-4 py-8 sm:px-8 sm:py-10 lg:px-10"
     >
-      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-6 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-8 lg:px-14">
-        <div className="mb-6">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-[#eadbcb] bg-[#fffaf4] px-5 py-7 shadow-[0_22px_55px_-34px_rgba(93,67,48,0.55)] sm:px-8 sm:py-9 lg:px-14">
+        <div className="mx-auto mb-8 max-w-4xl text-center">
           <SupplierBrandLogos />
-          <p className="text-center text-xs font-medium tracking-wide text-stone-600 sm:text-sm">
-            {isZh ? "日本愛知縣百年本社 (創業1926年) × 毛毛港香港官方專營直送" : "Aichi, Japan heritage since 1926 × Mofu Haven official Hong Kong delivery"}
+          <p className="mt-2 text-xs font-medium tracking-wide text-stone-600 sm:text-sm">
+            {isZh
+              ? "日本愛知縣百年本社 (創業1926年) × 毛毛港香港官方專營直送"
+              : "Aichi, Japan heritage since 1926 × Mofu Haven official Hong Kong delivery"}
           </p>
-        </div>
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#b7c9b1] bg-[#e9f0e6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#3d5a40]">
-            <span aria-hidden="true">✦</span> {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
+          <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#b7c9b1] bg-[#e9f0e6] px-3.5 py-1.5 text-[11px] font-bold tracking-[0.14em] text-[#3d5a40]">
+            <span aria-hidden="true">✦</span>
+            {isZh ? "日本愛知縣原廠製造・正規進口" : "Made in Aichi, Japan • Officially Imported"}
           </span>
           <h2
             id="best-partner-values-title"
-            className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight text-[#49372c] sm:text-3xl lg:text-4xl"
+            className="mt-4 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight tracking-tight text-[#2D2926] sm:text-3xl lg:text-4xl"
           >
-            {isZh ? "堅持「日本產・無添加・無著色」—— 每一口都是純粹安心" : "Japanese-made, additive-free and naturally coloured — pure peace of mind in every bite"}
+            {isZh
+              ? "堅持「日本產・無添加・無著色」—— 每一口都是純粹安心"
+              : "Japanese-made, additive-free and naturally coloured — pure peace of mind in every bite"}
           </h2>
-          <p className="mt-4 text-sm leading-7 text-[#725e50] sm:text-base sm:leading-8">
-            {isZh ? "從原料嚴選、慢火烘乾到無菌包裝，每個細節都嚴格把關，守護毛孩每日健康。" : "From ingredients and preparation to packaging, every detail is selected for clarity, quality and everyday confidence."}
+          <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-[#725e50] sm:text-base sm:leading-8">
+            {isZh
+              ? "從原料嚴選、慢火烘乾到無菌包裝，每個細節都嚴格把關，守護毛孩每日健康。"
+              : "From ingredients and preparation to packaging, every detail is selected for clarity, quality and everyday confidence."}
           </p>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:mt-6 lg:grid-cols-3 lg:gap-5">
+        <div className="grid gap-3 lg:grid-cols-3 lg:gap-5">
           {VALUES.map((value) => (
             <div
               key={value.title.en}
-              className="group flex items-start gap-4 rounded-2xl border border-[#eadbcb] bg-[#fbf6ef] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#d5b496] hover:bg-[#f8efe5] sm:px-5"
+              className="group flex min-w-0 items-start gap-4 rounded-2xl border border-[#eadbcb] bg-[#fbf6ef] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#d5b496] hover:bg-[#f8efe5] sm:px-5"
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#ead7c4] text-2xl shadow-inner" aria-hidden="true">
+              <span
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#ead7c4] text-2xl shadow-inner"
+                aria-hidden="true"
+              >
                 {value.icon}
               </span>
               <div className="min-w-0">
