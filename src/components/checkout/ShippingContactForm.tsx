@@ -1,10 +1,12 @@
 "use client";
 
-import type { InputHTMLAttributes } from "react";
+import { useRef, useState, type InputHTMLAttributes } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { translations } from "@/lib/i18n/translations";
 import { HK_DISTRICTS } from "@/lib/hkDistricts";
 import { emailValidationMessage, isValidEmailAddress } from "@/lib/emailAddress";
+import { SFExpressPickupSelector } from "@/components/checkout/SFExpressPickupSelector";
+import type { SfPickupPoint } from "@/lib/sf-pickup-points";
 
 export { HK_DISTRICTS, getDistrictLabel } from "@/lib/hkDistricts";
 export type { HkDistrict } from "@/lib/hkDistricts";
@@ -189,6 +191,30 @@ export function ShippingContactForm({
     onChange({ ...value, ...partial });
   };
 
+  const [deliveryMode, setDeliveryMode] = useState<"home" | "pickup">(
+    value.sfStationCode.trim() ? "pickup" : "home",
+  );
+  const savedHomeAddress = useRef({
+    address: value.sfStationCode.trim() ? "" : value.address,
+    addressLine2: value.sfStationCode.trim() ? "" : value.addressLine2,
+    district: value.sfStationCode.trim() ? "" : value.district,
+  });
+  const changeDeliveryMode = (nextMode: "home" | "pickup") => {
+    if (nextMode === deliveryMode) return;
+    if (nextMode === "pickup") {
+      savedHomeAddress.current = {
+        address: value.address,
+        addressLine2: value.addressLine2,
+        district: value.district,
+      };
+      setDeliveryMode("pickup");
+      patch({ address: "", addressLine2: "", district: "", sfStationCode: "" });
+      return;
+    }
+    setDeliveryMode("home");
+    patch({ ...savedHomeAddress.current, sfStationCode: "" });
+  };
+
   const phoneError =
     showErrors || normalizeLocalPhone(value.phone).length > 0
       ? getPhoneValidationError(value.phone, value.phoneCountryCode, locale === "en" ? "en" : "zh")
@@ -210,6 +236,31 @@ export function ShippingContactForm({
         <p className="mt-1 text-sm text-[color:var(--muted)]">
           {t("shippingContactHint")}
         </p>
+        <div className="mt-4">
+          <p id="shipping-method-label" className="mb-2 text-sm font-medium text-[color:var(--ink)]">
+            {t("shippingMethodLabel")}
+          </p>
+          <div role="group" aria-labelledby="shipping-method-label" className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              disabled={disabled}
+              aria-pressed={deliveryMode === "home"}
+              onClick={() => changeDeliveryMode("home")}
+              className={`min-h-12 rounded-xl border px-3 py-2.5 text-sm font-semibold transition disabled:opacity-60 ${deliveryMode === "home" ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--line)] bg-white text-[color:var(--ink)]"}`}
+            >
+              {t("shippingHomeDelivery")}
+            </button>
+            <button
+              type="button"
+              disabled={disabled}
+              aria-pressed={deliveryMode === "pickup"}
+              onClick={() => changeDeliveryMode("pickup")}
+              className={`min-h-12 rounded-xl border px-3 py-2.5 text-sm font-semibold transition disabled:opacity-60 ${deliveryMode === "pickup" ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--line)] bg-white text-[color:var(--ink)]"}`}
+            >
+              {t("shippingSfPickup")}
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-white p-4">
@@ -310,6 +361,24 @@ export function ShippingContactForm({
           )}
         </div>
 
+        {deliveryMode === "pickup" ? (
+          <SFExpressPickupSelector
+            selectedCode={value.sfStationCode}
+            disabled={disabled}
+            onSelect={(point: SfPickupPoint) =>
+              patch({
+                address: point.address,
+                addressLine2: point.name,
+                district: point.district || value.district,
+                sfStationCode: point.code,
+              })
+            }
+            onClearSelection={() =>
+              patch({ address: "", addressLine2: "", district: "", sfStationCode: "" })
+            }
+          />
+        ) : null}
+
         <div className="space-y-1.5">
           <label
             htmlFor="shipping-district"
@@ -353,7 +422,7 @@ export function ShippingContactForm({
           value={value.address}
           onChange={(address) => patch({ address })}
           placeholder={t("shippingAddressPlaceholder")}
-          disabled={disabled}
+          disabled={disabled || deliveryMode === "pickup"}
           required
           error={
             showErrors && !value.address.trim()
@@ -361,9 +430,11 @@ export function ShippingContactForm({
               : undefined
           }
         />
-        <p className="-mt-1 text-xs leading-relaxed text-[color:var(--muted)]">
-          {t("sfStationHint")}
-        </p>
+        {deliveryMode === "home" ? (
+          <p className="-mt-1 text-xs leading-relaxed text-[color:var(--muted)]">
+            {t("sfStationHint")}
+          </p>
+        ) : null}
         <Field
           id="shipping-address-2"
           label={t("shippingAddressLine2Label")}
@@ -371,7 +442,7 @@ export function ShippingContactForm({
           value={value.addressLine2}
           onChange={(addressLine2) => patch({ addressLine2 })}
           placeholder={t("shippingAddressLine2Placeholder")}
-          disabled={disabled}
+          disabled={disabled || deliveryMode === "pickup"}
         />
 
         <div className="space-y-1.5 rounded-xl border border-dashed border-[color:var(--line)] bg-[color:var(--background)] px-3 py-3">
@@ -384,7 +455,7 @@ export function ShippingContactForm({
               patch({ sfStationCode: sfStationCode.toUpperCase() })
             }
             placeholder={t("sfStationPlaceholder")}
-            disabled={disabled}
+            disabled={disabled || deliveryMode === "pickup"}
             maxLength={32}
           />
         </div>
