@@ -1,17 +1,9 @@
 const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
 const MAX_CATALOG_IMAGES = 8;
 
-/** Prefer the verified Best Partner packaging image, then the close-up image. */
+/** Preserve the explicitly curated sequence; filenames cannot reliably identify a hero image. */
 export function orderProductImages(images: string[]): string[] {
-  const unique = Array.from(new Set(images));
-  const officialPackaging = unique.filter((image) => /\/official-[^/]+-0\.(?:jpg|jpeg|png|webp)(?:\?|$)/i.test(image));
-  const officialCloseUp = unique.filter((image) => /\/official-[^/]+-1\.(?:jpg|jpeg|png|webp)(?:\?|$)/i.test(image));
-  const packaging = unique.filter((image) => /(?:-0|[_-](?:pack|package|packaging|front|main))(?:\.(?:jpg|jpeg|png|webp))(?:\?|$)/i.test(image));
-  const closeUps = unique.filter((image) => /(?:-1|[_-](?:close[-_]?up|detail|back|nutrition))(?:\.(?:jpg|jpeg|png|webp))(?:\?|$)/i.test(image));
-  const primary = [...officialPackaging, ...packaging].filter((image, index, values) => values.indexOf(image) === index);
-  const secondary = [...officialCloseUp, ...closeUps].filter((image, index, values) => !primary.includes(image) && values.indexOf(image) === index);
-  const remaining = unique.filter((image) => !primary.includes(image) && !secondary.includes(image));
-  return [...primary, ...remaining, ...secondary];
+  return Array.from(new Set(images));
 }
 
 function isUsableCatalogImage(value: string): boolean {

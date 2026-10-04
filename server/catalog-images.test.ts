@@ -1,8 +1,26 @@
 import { describe, expect, it } from "vitest";
 
-import { databaseProductImageUrls } from "../src/lib/catalog-images";
+import { databaseProductImageUrls, orderProductImages } from "../src/lib/catalog-images";
 
 describe("database product image mapping", () => {
+  it("preserves curated product-before-pouch ordering regardless of filename suffix", () => {
+    const meatCloseUp = "https://storage.supabase.co/official-4976064026545-1.jpg";
+    const packaging = "https://storage.supabase.co/official-4976064026545-0.jpg";
+    expect(orderProductImages([meatCloseUp, packaging])).toEqual([meatCloseUp, packaging]);
+  });
+
+  it("deduplicates image URLs without changing their explicit order", () => {
+    const first = "https://storage.supabase.co/close-up.jpg";
+    const last = "https://storage.supabase.co/pouch.jpg";
+    expect(orderProductImages([first, last, first])).toEqual([first, last]);
+  });
+
+  it("allows same-site relative product images to remain a usable image source", () => {
+    expect(databaseProductImageUrls({
+      images: ["/images/products/bp-4976064026545.jpg", "https://storage.supabase.co/pouch.jpg"],
+    })).toEqual(["/images/products/bp-4976064026545.jpg", "https://storage.supabase.co/pouch.jpg"]);
+  });
+
   it("keeps the existing images column as the preferred source", () => {
     expect(databaseProductImageUrls({
       images: ["https://storage.supabase.co/cat-dry-food.jpg"],

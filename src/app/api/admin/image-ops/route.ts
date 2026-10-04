@@ -77,7 +77,7 @@ function janCode(value: unknown) {
 }
 
 function hasUsableImages(value: unknown) {
-  return Array.isArray(value) && value.some((item) => typeof item === "string" && /^https?:\/\//i.test(item.trim()));
+  return Array.isArray(value) && value.some((item) => typeof item === "string" && (/^https?:\/\//i.test(item.trim()) || (item.trim().startsWith("/") && !item.trim().startsWith("//"))));
 }
 
 function existingImages(value: unknown): string[] {
@@ -92,7 +92,7 @@ function existingImages(value: unknown): string[] {
     } catch {
       return trimmed.split(/[|\r\n,;]+/).map((candidate) => candidate.trim());
     }
-  }).filter((item): item is string => /^https?:\/\//i.test(item))).slice(0, 8);
+  }).filter((item): item is string => /^https?:\/\//i.test(item) || (item.startsWith("/") && !item.startsWith("//")))).slice(0, 8);
 }
 
 function needsImageNormalization(value: unknown) {
