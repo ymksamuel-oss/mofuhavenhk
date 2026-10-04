@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
   forgotPasswordAction,
@@ -12,6 +12,8 @@ import {
 } from "@/app/account/actions";
 
 const EMPTY_ACCOUNT_ACTION_STATE = { ok: false } as const;
+// Enable only after Google has been configured and tested in Supabase Auth Providers.
+const GOOGLE_OAUTH_ENABLED = process.env.NEXT_PUBLIC_SUPABASE_GOOGLE_OAUTH_ENABLED === "true";
 
 function SubmitButton({ children, pendingLabel }: { children: React.ReactNode; pendingLabel: string }) {
   const { pending } = useFormStatus();
@@ -29,6 +31,34 @@ function Message({ ok, children }: { ok: boolean; children?: string }) {
 
 const inputClass = "min-h-12 w-full rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3 text-base text-[color:var(--ink)] outline-none transition placeholder:text-[color:var(--muted)] focus:border-[color:var(--accent)] sm:text-sm";
 
+function GoogleSignInForm({ returnTo, mode }: { returnTo: string; mode: "login" | "signup" }) {
+  const [state, action] = useActionState(signInWithGoogleAction, EMPTY_ACCOUNT_ACTION_STATE);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!state.message) return;
+    setToast(state.message);
+    const timeout = window.setTimeout(() => setToast(null), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [state]);
+
+  return (
+    <>
+      <form action={action}>
+        <input type="hidden" name="returnTo" value={returnTo} />
+        <SubmitButton pendingLabel="正在連接 Google…">
+          {mode === "login" ? "使用 Google 登入" : "使用 Google 建立帳戶"}
+        </SubmitButton>
+      </form>
+      {toast ? (
+        <div className="fixed inset-x-4 bottom-6 z-[100] mx-auto max-w-md rounded-xl border border-amber-200 bg-white px-4 py-3 text-sm font-medium text-stone-800 shadow-xl" role="alert" aria-live="assertive">
+          {toast}
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 export function LoginForm({ returnTo = "/account" }: { returnTo?: string }) {
   const [state, action] = useActionState(signInAction, EMPTY_ACCOUNT_ACTION_STATE);
   return (
@@ -41,11 +71,12 @@ export function LoginForm({ returnTo = "/account" }: { returnTo?: string }) {
         <Message ok={state.ok}>{state.message}</Message>
         <SubmitButton pendingLabel="登入中…">登入</SubmitButton>
       </form>
-      <div className="flex items-center gap-3 text-xs text-[color:var(--muted)]"><span className="h-px flex-1 bg-[color:var(--line)]" />或使用<span className="h-px flex-1 bg-[color:var(--line)]" /></div>
-      <form action={signInWithGoogleAction}>
-        <input type="hidden" name="returnTo" value={returnTo} />
-        <SubmitButton pendingLabel="正在連接 Google…">使用 Google 登入</SubmitButton>
-      </form>
+      {GOOGLE_OAUTH_ENABLED ? (
+        <>
+          <div className="flex items-center gap-3 text-xs text-[color:var(--muted)]"><span className="h-px flex-1 bg-[color:var(--line)]" />或使用<span className="h-px flex-1 bg-[color:var(--line)]" /></div>
+          <GoogleSignInForm returnTo={returnTo} mode="login" />
+        </>
+      ) : null}
       <p className="text-center text-sm text-[color:var(--muted)]">還未成為會員？ <Link href={`/account/signup?returnTo=${encodeURIComponent(returnTo)}`} className="font-semibold text-[color:var(--accent)] underline-offset-4 hover:underline">立即註冊</Link></p>
     </div>
   );
@@ -63,11 +94,12 @@ export function SignupForm({ email = "", displayName = "", returnTo = "/account"
         <Message ok={state.ok}>{state.message}</Message>
         <SubmitButton pendingLabel="正在建立帳戶…">建立會員帳戶</SubmitButton>
       </form>
-      <div className="flex items-center gap-3 text-xs text-[color:var(--muted)]"><span className="h-px flex-1 bg-[color:var(--line)]" />或使用<span className="h-px flex-1 bg-[color:var(--line)]" /></div>
-      <form action={signInWithGoogleAction}>
-        <input type="hidden" name="returnTo" value={returnTo} />
-        <SubmitButton pendingLabel="正在連接 Google…">使用 Google 建立帳戶</SubmitButton>
-      </form>
+      {GOOGLE_OAUTH_ENABLED ? (
+        <>
+          <div className="flex items-center gap-3 text-xs text-[color:var(--muted)]"><span className="h-px flex-1 bg-[color:var(--line)]" />或使用<span className="h-px flex-1 bg-[color:var(--line)]" /></div>
+          <GoogleSignInForm returnTo={returnTo} mode="signup" />
+        </>
+      ) : null}
       <p className="text-center text-sm text-[color:var(--muted)]">已有帳戶？ <Link href={`/account/login?returnTo=${encodeURIComponent(returnTo)}`} className="font-semibold text-[color:var(--accent)] underline-offset-4 hover:underline">登入</Link></p>
     </div>
   );

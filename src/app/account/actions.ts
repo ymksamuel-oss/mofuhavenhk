@@ -72,21 +72,34 @@ export async function signUpAction(_state: AccountActionState, formData: FormDat
   return { ok: true, message: "如果此 Email 可用，我們已寄出驗證連結。請完成驗證後登入；已驗證的同 Email 訪客訂單會自動歸戶。" };
 }
 
-export async function signInWithGoogleAction(formData: FormData) {
-  const returnTo = safeReturnPath(formString(formData, "returnTo"), "/account");
-  let supabase;
-  try {
-    supabase = await createSupabaseServerClient();
-  } catch {
-    redirect("/account/login?auth=unavailable");
+export async function signInWithGoogleAction(_state: AccountActionState, formData: FormData): Promise<AccountActionState> {
+  if (process.env.NEXT_PUBLIC_SUPABASE_GOOGLE_OAUTH_ENABLED !== "true") {
+    return { ok: false, message: "Google 登入維護中，請使用 Email 快速登入。" };
   }
-  const origin = trustedSiteOrigin(await headers());
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: { redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(returnTo)}` },
-  });
-  if (error || !data.url) redirect("/account/login?auth=oauth_error");
-  redirect(data.url);
+  const returnTo = safeReturnPath(formString(formData, "returnTo"), "/account");
+  let redirectUrl: string | null = null;
+  try {
+    const supabase = await createSupabaseServerClient();
+    const origin = trustedSiteOrigin(await headers());
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(returnTo)}` },
+    });
+    if (error) {
+      const disabled = /unsupported provider|provider.{0,40}(not enabled|disabled)/i.test(error.message);
+      return {
+        ok: false,
+        message: disabled
+          ? "Google 登入維護中，請使用 Email 快速登入。"
+          : "Google 登入暫時無法使用，請使用 Email 快速登入。",
+      };
+    }
+    redirectUrl = data.url;
+  } catch {
+    return { ok: false, message: "Google 登入暫時無法使用，請使用 Email 快速登入。" };
+  }
+  if (!redirectUrl) return { ok: false, message: "Google 登入暫時無法使用，請使用 Email 快速登入。" };
+  redirect(redirectUrl);
 }
 
 export async function forgotPasswordAction(_state: AccountActionState, formData: FormData): Promise<AccountActionState> {
