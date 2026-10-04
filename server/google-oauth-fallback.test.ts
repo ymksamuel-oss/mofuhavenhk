@@ -95,6 +95,7 @@ describe("Google OAuth fallback", () => {
 
   it("keeps Email signup working and returns the verification confirmation", async () => {
     const { signUpAction } = await import("@/app/account/actions");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "http://localhost:3000");
     mocks.signUp.mockResolvedValue({ data: { session: null }, error: null });
     const formData = new FormData();
     formData.set("displayName", "毛孩家長");
@@ -106,7 +107,10 @@ describe("Google OAuth fallback", () => {
     expect(result).toMatchObject({ ok: true });
     expect(mocks.signUp).toHaveBeenCalledWith(expect.objectContaining({
       email: "pet-parent@example.com",
-      options: expect.objectContaining({ data: { display_name: "毛孩家長" } }),
+      options: expect.objectContaining({
+        data: { display_name: "毛孩家長" },
+        emailRedirectTo: "https://www.mofuhavenhk.com/auth/callback?next=%2Faccount",
+      }),
     }));
   });
 });

@@ -14,13 +14,13 @@ export function safeReturnPath(value: unknown, fallback = "/account"): string {
 
 export function trustedSiteOrigin(headers: Headers): string {
   const candidates = [
-    process.env.NEXT_PUBLIC_SITE_URL?.trim(),
     headers.get("origin")?.trim(),
     (() => {
       const host = headers.get("x-forwarded-host")?.split(",")[0]?.trim();
       const protocol = headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || "https";
       return host ? `${protocol}://${host}` : "";
     })(),
+    process.env.NEXT_PUBLIC_SITE_URL?.trim(),
     "https://www.mofuhavenhk.com",
   ];
   for (const candidate of candidates) {
@@ -28,9 +28,9 @@ export function trustedSiteOrigin(headers: Headers): string {
     try {
       const parsed = new URL(candidate);
       const host = parsed.hostname.toLowerCase();
-      const allowedHost = host === "mofuhavenhk.com" || host.endsWith(".mofuhavenhk.com") || host.endsWith(".vercel.app") || host === "localhost";
+      const allowedHost = host === "mofuhavenhk.com" || host.endsWith(".mofuhavenhk.com") || host.endsWith(".vercel.app");
       if (!allowedHost) continue;
-      if (parsed.protocol === "https:" || (parsed.protocol === "http:" && host === "localhost")) return parsed.origin;
+      if (parsed.protocol === "https:") return parsed.origin;
     } catch {
       // Ignore invalid forwarded/configured origins.
     }
