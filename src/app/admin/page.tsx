@@ -1,11 +1,11 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Camera, ChevronDown, ChevronLeft, ChevronRight, Download, Search, Upload, X } from "lucide-react";
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 import { getBundleComponents } from "@/lib/bundles";
+import { BarcodeScanner } from "@/components/admin/BarcodeScanner";
 
 type Row = Record<string, any>;
 type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
@@ -697,6 +697,7 @@ export default function AdminPage() {
   async function handleBarcode(code: string) {
     const normalized = code.trim();
     if (!normalized) return;
+    setProductQuery(normalized);
     let match = rows.find((row) => [row.barcode, row.mofu_sku, row.sku, row.store_sku, row.id].some((value) => String(value || "").trim() === normalized));
     if (!match) {
       try {
@@ -1062,39 +1063,6 @@ export default function AdminPage() {
       )}
     </div>
   );
-}
-
-type BarcodeDetectorLike = new (options?: { formats?: string[] }) => { detect: (video: HTMLVideoElement) => Promise<Array<{ rawValue?: string }>> };
-
-function BarcodeScanner({ onDetected, onClose }: { onDetected: (code: string) => void; onClose: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [scannerError, setScannerError] = useState("");
-  const [manualCode, setManualCode] = useState("");
-  useEffect(() => {
-    let active = true;
-    let stream: MediaStream | null = null;
-    let frame = 0;
-    async function start() {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
-        if (!videoRef.current) return;
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-        const Detector = (window as Window & { BarcodeDetector?: BarcodeDetectorLike }).BarcodeDetector;
-        if (!Detector) { setScannerError("此瀏覽器未支援原生條碼辨識，請使用下方手動輸入或掃碼槍。"); return; }
-        const detector = new Detector({ formats: ["ean_13", "code_128"] });
-        const scan = async () => {
-          if (!active || !videoRef.current) return;
-          try { const results = await detector.detect(videoRef.current); const code = results[0]?.rawValue?.trim(); if (code) { active = false; onDetected(code); return; } } catch { /* Camera frame not ready yet. */ }
-          frame = requestAnimationFrame(scan);
-        };
-        frame = requestAnimationFrame(scan);
-      } catch (error) { setScannerError(error instanceof DOMException && error.name === "NotAllowedError" ? "請允許瀏覽器使用相機，或改用下方手動輸入。" : "無法開啟後置鏡頭，請改用手動輸入或掃碼槍。"); }
-    }
-    void start();
-    return () => { active = false; cancelAnimationFrame(frame); stream?.getTracks().forEach((track) => track.stop()); };
-  }, [onDetected]);
-  return <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/60 p-3 sm:items-center"><section className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="barcode-scanner-title"><div className="flex items-center justify-between"><h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2><button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#FFFFFF]" aria-label="關閉"><X className="h-5 w-5" /></button></div><div className="mt-4 overflow-hidden rounded-2xl bg-black"><video ref={videoRef} className="aspect-video w-full object-cover" muted playsInline /></div><p className="mt-3 text-sm text-[#806b5d]">請將條碼放入畫面中央，手機會優先使用後置鏡頭。</p>{scannerError && <p className="mt-2 rounded-lg bg-[#FFFFFF] p-3 text-sm text-[#a34d32]">{scannerError}</p>}<form className="mt-4 flex gap-2" onSubmit={(event) => { event.preventDefault(); if (manualCode.trim()) onDetected(manualCode); }}><input value={manualCode} onChange={(event) => setManualCode(event.target.value)} inputMode="numeric" placeholder="手動輸入條碼" className="min-w-0 flex-1 rounded-xl border border-[#ded5cc] px-3 py-3" /><button type="submit" className="rounded-xl bg-[#2f4a3c] px-4 py-3 font-semibold text-white">查詢</button></form></section></div>;
 }
 
 function OrderCard({ order, onSaved }: { order: Row; onSaved: (next: Row) => void }) {
