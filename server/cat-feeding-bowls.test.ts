@@ -60,7 +60,7 @@ describe("cat feeding bowl option variants", () => {
     const detailSource = fs.readFileSync(path.join(root, "src/components/product/ProductDetail.tsx"), "utf8");
     expect(catalogSource).toMatch(/variantMode === "option" \|\| variantMode === "choice"/);
     expect(catalogSource).toMatch(/resolveCategorySubSlug\(categorySlug, raw\)/);
-    expect(detailSource).toMatch(/variant_selection_label_\$\{locale\}/);
-    expect(detailSource).toMatch(/variantSelectorTitle/);
+    expect(detailSource).toContain("product.metadata?.variant_selection_label_zh");
+    expect(detailSource).toContain('t("productSpecSelectorTitle")');
   });
 });

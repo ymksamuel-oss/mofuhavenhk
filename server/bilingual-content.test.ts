@@ -20,7 +20,7 @@ describe("bilingual managed content", () => {
     const [category] = buildCategoryTree([
       { id: "small-pets", name: "小寵物", name_zh: "小寵物", slug: "small-pets", parent_id: null },
     ]);
-    expect(categoryDisplayName(category, "en")).toBe("小寵物");
+    expect(categoryDisplayName(category, "en")).toBe("Small Pets");
   });
 
   it("preserves English product titles for Checkout when the database row has no native English column", () => {

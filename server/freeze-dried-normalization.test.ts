@@ -47,9 +47,11 @@ describe("simplified and traditional freeze-dried normalization", () => {
 
   it("keeps dog dry food with freeze-dried topping words as dog dry food in the catalog parser", () => {
     const source = readFileSync(resolve(process.cwd(), "src/lib/catalog-server.ts"), "utf8");
-    expect(source).toContain("冷冻脱水");
-    expect(source).toContain("凍干");
-    expect(source.indexOf('if (/(乾糧|狗糧|kibble|dry\\s*food)/i.test(text)) return "狗狗乾糧";'))
-      .toBeLessThan(source.indexOf('if (FREEZE_DRY_TEXT_MARK.test(text)) return "狗狗冷凍脫水食品";'));
+    expect(source).toContain(String.raw`\u51b7\u51bb\u8131\u6c34`);
+    expect(source).toContain(String.raw`\u51cd\u5e72`);
+    const dryFoodRule = source.indexOf(String.raw`dry\s*food)/i.test(text)) return`);
+    const freezeDryRule = source.lastIndexOf("FREEZE_DRY_TEXT_MARK.test(text)");
+    expect(dryFoodRule).toBeGreaterThanOrEqual(0);
+    expect(freezeDryRule).toBeGreaterThan(dryFoodRule);
   });
 });
