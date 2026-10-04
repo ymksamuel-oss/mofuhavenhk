@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef, useState, type InputHTMLAttributes } from "react";
+import { useEffect, useRef, useState, type InputHTMLAttributes } from "react";
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { translations } from "@/lib/i18n/translations";
 import { HK_DISTRICTS } from "@/lib/hkDistricts";
 import { emailValidationMessage, isValidEmailAddress } from "@/lib/emailAddress";
 import { SFExpressPickupSelector } from "@/components/checkout/SFExpressPickupSelector";
 import type { SfPickupPoint } from "@/lib/sf-pickup-points";
+import { useCustomerAuth } from "@/lib/account/AuthProvider";
 
 export { HK_DISTRICTS, getDistrictLabel } from "@/lib/hkDistricts";
 export type { HkDistrict } from "@/lib/hkDistricts";
@@ -34,6 +36,20 @@ type ShippingContactFormProps = {
   disabled?: boolean;
   /** Show inline phone validation after blur / submit attempt. */
   showErrors?: boolean;
+};
+
+type SavedCheckoutAddress = {
+  id: string;
+  label: string;
+  address_type: "home" | "business" | "sf_pickup";
+  recipient_name: string;
+  recipient_phone: string;
+  address: string;
+  address_line2: string;
+  district: string;
+  pickup_point_code: string | null;
+  pickup_point_name: string | null;
+  is_default: boolean;
 };
 
 const PHONE_COUNTRY_OPTIONS: Array<{
@@ -186,6 +202,7 @@ export function ShippingContactForm({
   showErrors = false,
 }: ShippingContactFormProps) {
   const { locale, t } = useI18n();
+  const { user } = useCustomerAuth();
 
   const patch = (partial: Partial<ShippingContact>) => {
     onChange({ ...value, ...partial });
@@ -199,6 +216,81 @@ export function ShippingContactForm({
     addressLine2: value.sfStationCode.trim() ? "" : value.addressLine2,
     district: value.sfStationCode.trim() ? "" : value.district,
   });
+  const loadedAddressesFor = useRef("");
+  const [savedAddresses, setSavedAddresses] = useState<SavedCheckoutAddress[]>([]);
+  const [savedAddressProfileName, setSavedAddressProfileName] = useState("");
+  const [savedAddressEmail, setSavedAddressEmail] = useState("");
+  const [savedAddressesLoading, setSavedAddressesLoading] = useState(false);
+  const [selectedSavedAddressId, setSelectedSavedAddressId] = useState("");
+
+  useEffect(() => {
+    if (!user?.id || loadedAddressesFor.current === user.id) return;
+    loadedAddressesFor.current = user.id;
+    let active = true;
+    setSavedAddressesLoading(true);
+    void fetch("/api/account/checkout-data", { cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error("saved_address_unavailable");
+        if (!active) return;
+        const addresses = (data.addresses ?? []) as SavedCheckoutAddress[];
+        setSavedAddresses(addresses);
+        setSavedAddressProfileName(String(data.profile?.displayName ?? ""));
+        setSavedAddressEmail(String(data.profile?.email ?? ""));
+        const defaultAddress = addresses.find((address) => address.is_default);
+        const selectedAddress = defaultAddress && !value.address.trim() && !value.sfStationCode.trim() ? defaultAddress : null;
+        if (selectedAddress) {
+          setSelectedSavedAddressId(selectedAddress.id);
+          if (selectedAddress.address_type === "sf_pickup") {
+            savedHomeAddress.current = { address: value.address, addressLine2: value.addressLine2, district: value.district };
+            setDeliveryMode("pickup");
+          } else {
+            setDeliveryMode("home");
+          }
+        }
+        const phoneSource = String(selectedAddress?.recipient_phone ?? data.profile?.phone ?? "");
+        const phoneMatch = /^(\+852|\+853|\+86)\s*(.*)$/.exec(phoneSource);
+        const phoneCountryCode = (phoneMatch?.[1] ?? value.phoneCountryCode) as PhoneCountryCode;
+        const phone = normalizeLocalPhone(phoneMatch?.[2] ?? phoneSource);
+        onChange({
+          ...value,
+          name: value.name || selectedAddress?.recipient_name || String(data.profile?.displayName ?? ""),
+          email: value.email || String(data.profile?.email ?? ""),
+          phone: value.phone || phone,
+          phoneCountryCode: value.phone ? value.phoneCountryCode : phoneCountryCode,
+          address: selectedAddress?.address ?? value.address,
+          addressLine2: selectedAddress?.address_type === "sf_pickup" ? (selectedAddress.pickup_point_name ?? selectedAddress.address_line2 ?? "") : (selectedAddress?.address_line2 ?? value.addressLine2),
+          district: selectedAddress?.district ?? value.district,
+          sfStationCode: selectedAddress?.address_type === "sf_pickup" ? (selectedAddress.pickup_point_code ?? "") : "",
+        });
+      })
+      .catch(() => { if (active) setSavedAddresses([]); })
+      .finally(() => { if (active) setSavedAddressesLoading(false); });
+    return () => { active = false; };
+  }, [user?.id, value, onChange]);
+
+  const applySavedAddress = (address: SavedCheckoutAddress) => {
+    const pickup = address.address_type === "sf_pickup";
+    if (pickup) {
+      savedHomeAddress.current = { address: value.address, addressLine2: value.addressLine2, district: value.district };
+      setDeliveryMode("pickup");
+    } else {
+      setDeliveryMode("home");
+    }
+    const phoneMatch = /^(\+852|\+853|\+86)\s*(.*)$/.exec(address.recipient_phone);
+    const currentPhoneMatch = /^(\+852|\+853|\+86)\s*(.*)$/.exec(value.phone);
+    onChange({
+      ...value,
+      name: address.recipient_name || savedAddressProfileName || value.name,
+      email: value.email || savedAddressEmail,
+      phone: normalizeLocalPhone(phoneMatch?.[2] ?? address.recipient_phone),
+      phoneCountryCode: (phoneMatch?.[1] ?? currentPhoneMatch?.[1] ?? value.phoneCountryCode) as PhoneCountryCode,
+      address: address.address,
+      addressLine2: pickup ? (address.pickup_point_name ?? address.address_line2 ?? "") : address.address_line2,
+      district: address.district,
+      sfStationCode: pickup ? (address.pickup_point_code ?? "") : "",
+    });
+  };
   const changeDeliveryMode = (nextMode: "home" | "pickup") => {
     if (nextMode === deliveryMode) return;
     if (nextMode === "pickup") {
@@ -236,6 +328,29 @@ export function ShippingContactForm({
         <p className="mt-1 text-sm text-[color:var(--muted)]">
           {t("shippingContactHint")}
         </p>
+        {user ? (
+          <div className="mt-3 space-y-2 rounded-xl border border-[color:var(--line)] bg-white p-3">
+            <label htmlFor="saved-checkout-address" className="block text-sm font-medium text-[color:var(--ink)]">
+              {locale === "en" ? "Use a saved address" : "快速帶入會員已儲存地址"}
+            </label>
+            <select id="saved-checkout-address" value={selectedSavedAddressId} disabled={savedAddressesLoading} onChange={(event) => {
+              const id = event.target.value;
+              setSelectedSavedAddressId(id);
+              const address = savedAddresses.find((candidate) => candidate.id === id);
+              if (address) applySavedAddress(address);
+            }} className="min-h-12 w-full rounded-xl border border-[color:var(--line)] bg-white px-3 py-2.5 text-base text-[color:var(--ink)] disabled:opacity-60 sm:text-sm">
+              <option value="">{savedAddressesLoading ? (locale === "en" ? "Loading saved addresses…" : "正在載入已儲存地址…") : (locale === "en" ? "Choose an address" : "選擇地址")}</option>
+              {savedAddresses.map((address) => <option key={address.id} value={address.id}>{address.label}{address.is_default ? (locale === "en" ? " (default)" : "（預設）") : ""} · {address.address_type === "sf_pickup" ? (locale === "en" ? "SF pickup" : "順豐自提") : address.district}</option>)}
+            </select>
+            {!savedAddressesLoading && savedAddresses.length === 0 ? <p className="text-xs leading-5 text-[color:var(--muted)]">{locale === "en" ? "No saved addresses yet. You can still check out as a guest." : "尚未儲存地址；你仍可直接以訪客身份結帳。"}</p> : null}
+          </div>
+        ) : (
+          <p className="mt-3 rounded-xl bg-[color:var(--background)] px-3.5 py-3 text-sm leading-5 text-[color:var(--muted)]">
+            {locale === "en" ? "Already a member? " : "已有帳號？"}
+            <Link href={`/account/login?returnTo=${encodeURIComponent("/checkout")}`} className="font-semibold text-[color:var(--accent)] underline underline-offset-4">{locale === "en" ? "Sign in" : "點此登入"}</Link>
+            {locale === "en" ? " to use saved details, or continue as a guest." : "帶入已儲存資料；亦可繼續訪客結帳。"}
+          </p>
+        )}
         <div className="mt-4">
           <p id="shipping-method-label" className="mb-2 text-sm font-medium text-[color:var(--ink)]">
             {t("shippingMethodLabel")}

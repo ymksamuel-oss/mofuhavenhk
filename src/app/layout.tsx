@@ -9,6 +9,9 @@ import { WishlistProvider } from "@/lib/shop/wishlist";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { SiteShell } from "@/components/SiteShell";
+import { CustomerAuthProvider } from "@/lib/account/AuthProvider";
+import { customerSummary } from "@/lib/account/server";
+import { createSupabaseServerClient, isSupabaseAuthConfigured } from "@/lib/supabase/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
@@ -163,6 +166,16 @@ export default async function RootLayout({
   let categories: StoreCategory[] = [];
   let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
+  let initialUser: ReturnType<typeof customerSummary> | null = null;
+  if (isSupabaseAuthConfigured()) {
+    try {
+      const supabase = await createSupabaseServerClient();
+      const { data } = await supabase.auth.getUser();
+      if (data.user) initialUser = customerSummary(data.user);
+    } catch {
+      initialUser = null;
+    }
+  }
   try {
     const catalog = await getCatalogSnapshot();
     products = catalog.products || [];
@@ -184,14 +197,16 @@ export default async function RootLayout({
       </head>
       <body className="bg-[color:var(--background)] font-sans antialiased">
         <I18nProvider initialLocale={initialLocale}>
-          <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
-            <CartProvider>
-              <WishlistProvider>
-                <JsonLd data={siteStructuredData} />
-                <SiteShell>{children}</SiteShell>
-              </WishlistProvider>
-            </CartProvider>
-          </CatalogProvider>
+          <CustomerAuthProvider initialUser={initialUser}>
+            <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
+              <CartProvider>
+                <WishlistProvider>
+                  <JsonLd data={siteStructuredData} />
+                  <SiteShell>{children}</SiteShell>
+                </WishlistProvider>
+              </CartProvider>
+            </CatalogProvider>
+          </CustomerAuthProvider>
         </I18nProvider>
       </body>
     </html>

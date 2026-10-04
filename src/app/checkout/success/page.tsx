@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { useCustomerAuth } from "@/lib/account/AuthProvider";
 import { getReceipt, saveReceipt } from "@/lib/receipt";
 import { useCart } from "@/lib/shop/cart";
 import { trackMetaEvent } from "@/components/MetaPixel";
@@ -14,16 +15,19 @@ type CompletionResponse = {
   ok: boolean;
   error?: string;
   orderNumber?: string;
+  customerEmail?: string;
   paymentLabel?: string;
   total?: number;
 };
 
 function CheckoutSuccessContent() {
   const { t } = useI18n();
+  const { user } = useCustomerAuth();
   const searchParams = useSearchParams();
   const cart = useCart();
   const [state, setState] = useState<CompletionState>("loading");
   const [receiptHref, setReceiptHref] = useState<string | null>(null);
+  const [guestEmail, setGuestEmail] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +52,7 @@ function CheckoutSuccessContent() {
           setState("error");
           return;
         }
+        setGuestEmail(typeof data.customerEmail === "string" ? data.customerEmail : null);
 
         const existingReceipt = getReceipt(data.orderNumber);
         if (existingReceipt) {
@@ -97,6 +102,23 @@ function CheckoutSuccessContent() {
             <p className="text-sm leading-relaxed text-[color:var(--muted)]">
               {t("checkoutSessionSuccessBody")}
             </p>
+            {!user && guestEmail ? (
+              <div className="space-y-3 rounded-2xl border border-[color:var(--line)] bg-white/80 p-4 text-left">
+                <h2 className="text-sm font-semibold text-[color:var(--ink)]">
+                  {t("checkoutMemberUpgradeTitle")}
+                </h2>
+                <p className="text-sm leading-relaxed text-[color:var(--muted)]">
+                  {t("checkoutMemberUpgradeBody")}<br />
+                  <span className="font-medium text-[color:var(--ink)]">{guestEmail}</span>
+                </p>
+                <Link
+                  href={`/account/signup?email=${encodeURIComponent(guestEmail)}&returnTo=${encodeURIComponent("/account/orders")}`}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-2xl bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--hero-deep)]"
+                >
+                  {t("checkoutMemberUpgradeCta")}
+                </Link>
+              </div>
+            ) : null}
             {receiptHref ? (
               <Link
                 href={receiptHref}

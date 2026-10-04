@@ -16,6 +16,8 @@ import { useWishlist } from "@/lib/shop/wishlist";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { brandHref, getCoreBrands } from "@/lib/brands";
 import { CollectionsNav } from "@/components/CollectionsNav";
+import { useCustomerAuth } from "@/lib/account/AuthProvider";
+import { signOutAction } from "@/app/account/actions";
 
 function navLinkClassName(active: boolean) {
   return `relative whitespace-nowrap py-0.5 transition-colors ${
@@ -167,6 +169,7 @@ function renderMobileCategoryChildren(
 
 export function Header() {
   const { locale, setLocale, t } = useI18n();
+  const { user: member } = useCustomerAuth();
   const { categories, products, brands } = useCatalog();
   const coreBrands = getCoreBrands(brands);
   // Only database rows with an empty parent_id are rendered in the bar.
@@ -315,6 +318,25 @@ export function Header() {
                   <MenuIcon open />
                 </button>
               </div>
+              {member ? (
+                <div className="shrink-0 border-b border-[color:var(--line)] bg-[color:var(--accent-soft)]/50 p-3">
+                  <div className="flex min-w-0 items-center gap-3 rounded-xl px-2 py-1">
+                    <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent)] text-sm font-bold text-white">{(member.displayName || member.email || "M").slice(0, 1).toLocaleUpperCase()}</span>
+                    <div className="min-w-0"><p className="truncate text-sm font-semibold text-[color:var(--ink)]">{member.displayName || (locale === "en" ? "Mofu member" : "毛毛港會員")}</p><p className="truncate text-xs text-[color:var(--muted)]">{member.email}</p></div>
+                  </div>
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    <Link href="/account" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Account" : "個人中心"}</Link>
+                    <Link href="/account/orders" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "My orders" : "我的訂單"}</Link>
+                    <Link href="/account/addresses" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Address book" : "地址簿"}</Link>
+                    <form action={signOutAction} className="min-w-0"><button type="submit" className="min-h-11 w-full rounded-xl border border-[color:var(--line)] bg-white px-2 text-sm font-semibold text-[color:var(--muted)]">{locale === "en" ? "Sign out" : "登出"}</button></form>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid shrink-0 grid-cols-2 gap-2 border-b border-[color:var(--line)] p-3">
+                  <Link href="/account/login" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Sign in" : "登入"}</Link>
+                  <Link href="/account/signup" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-3 text-sm font-semibold text-white">{locale === "en" ? "Create account" : "註冊會員"}</Link>
+                </div>
+              )}
               <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-3 pt-3 [-webkit-overflow-scrolling:touch]">
                 <li className="block w-full">
                   <Link href="/wishlist" className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
@@ -526,6 +548,21 @@ export function Header() {
               size="desktop"
               onSelect={setLocale}
             />
+
+            {member ? (
+              <details className="relative hidden md:block">
+                <summary aria-label={locale === "en" ? "Member menu" : "會員選單"} className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-sm font-bold text-[color:var(--ink)] marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]">{(member.displayName || member.email || "M").slice(0, 1).toLocaleUpperCase()}</summary>
+                <div className="absolute right-0 top-[calc(100%+0.5rem)] z-[80] grid min-w-52 gap-1 rounded-2xl border border-[color:var(--line)] bg-white p-2 shadow-lg">
+                  <p className="truncate px-3 py-2 text-xs text-[color:var(--muted)]">{member.email}</p>
+                  <Link href="/account" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Member centre" : "個人中心"}</Link>
+                  <Link href="/account/orders" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "My orders" : "我的訂單"}</Link>
+                  <Link href="/account/addresses" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Address book" : "地址簿"}</Link>
+                  <form action={signOutAction}><button type="submit" className="min-h-11 w-full rounded-xl px-3 py-2.5 text-left text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Sign out" : "登出"}</button></form>
+                </div>
+              </details>
+            ) : (
+              <Link href="/account/login" className="hidden min-h-11 items-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)] hover:border-[color:var(--accent)] md:flex">{locale === "en" ? "Sign in" : "登入／註冊"}</Link>
+            )}
 
             <button
               type="button"

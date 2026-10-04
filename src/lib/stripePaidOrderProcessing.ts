@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { notifyPaidPaymentIntent } from "@/lib/stripeOrderNotification";
 import { sendPaidOrderReceipt } from "@/lib/stripeOrderReceipt";
+import { markCustomerOrderProcessing } from "@/lib/customerOrderPersistence";
 
 export type PaidOrderProcessingResult =
   | {
@@ -43,12 +44,18 @@ export async function processPaidOrder({
   customerEmail,
   source,
 }: ProcessPaidOrderInput): Promise<PaidOrderProcessingResult> {
+  const orderNumber = (paymentIntent.metadata?.orderNumber || sessionMetadata?.orderNumber || "").trim();
   const notification = await notifyPaidPaymentIntent({
     stripe,
     paymentIntent,
     sessionMetadata,
     source,
   });
+  await markCustomerOrderProcessing(
+    orderNumber,
+    paymentIntent.id,
+    notification.paymentLabel || paymentIntent.metadata?.paymentLabel || sessionMetadata?.paymentLabel || "",
+  );
   if (!notification.ok) {
     return {
       ok: false,

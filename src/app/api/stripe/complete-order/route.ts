@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { processPaidOrder } from "@/lib/stripePaidOrderProcessing";
 import {
   getStripe,
@@ -104,6 +105,10 @@ export async function POST(request: Request) {
       );
     }
 
+    const checkoutEmail = checkoutSessionId && isValidEmailAddress(sessionCustomerEmail)
+      ? normalizeEmailAddress(sessionCustomerEmail)
+      : "";
+
     const result = await processPaidOrder({
       stripe,
       paymentIntent: intent,
@@ -120,6 +125,7 @@ export async function POST(request: Request) {
         orderNumber: result.orderNumber,
         paymentLabel: result.paymentLabel,
         total: result.total,
+        ...(checkoutEmail ? { customerEmail: checkoutEmail } : {}),
         notified: false,
         receiptSent: false,
         processingStage: result.stage,
@@ -132,6 +138,7 @@ export async function POST(request: Request) {
       orderNumber: result.orderNumber,
       paymentLabel: result.paymentLabel,
       total: result.total,
+      ...(checkoutEmail ? { customerEmail: checkoutEmail } : {}),
       notified: result.notificationStatus === "sent",
       alreadyNotified: result.notificationStatus === "already_notified",
       receiptSent: result.receiptStatus === "sent",

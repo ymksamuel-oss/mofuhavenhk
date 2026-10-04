@@ -18,6 +18,7 @@ import { isValidEmailAddress, normalizeEmailAddress } from "@/lib/emailAddress";
 import { receiptLineMetadata } from "@/lib/receiptLineMetadata";
 import { resolveCoupon } from "@/lib/coupon";
 import { stripeReceiptDescription } from "@/lib/stripeReceiptDescription";
+import { persistHostedCheckoutOrder } from "@/lib/customerOrderPersistence";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -313,6 +314,33 @@ export async function POST(request: Request) {
       phone_number_collection: { enabled: true },
       billing_address_collection: "auto",
       metadata,
+    });
+
+    await persistHostedCheckoutOrder({
+      orderNumber,
+      checkoutSessionId: session.id,
+      paymentIntentId: typeof session.payment_intent === "string"
+        ? session.payment_intent
+        : session.payment_intent?.id ?? null,
+      customerInfo: {
+        name: cleanMetadataValue(contact.name, 100) || customerName,
+        email: customerEmail,
+        phone: cleanMetadataValue(contact.phone, 32),
+        phoneCountryCode: cleanMetadataValue(contact.phoneCountryCode, 8),
+        address: cleanMetadataValue(contact.address, 300),
+        addressLine2: cleanMetadataValue(contact.addressLine2, 300),
+        district: cleanMetadataValue(contact.district, 100),
+        sfStationCode: cleanMetadataValue(contact.sfStationCode, 32),
+      },
+      items: items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        qty: item.qty,
+        price: item.unit,
+        priceId: item.stripePriceId || null,
+        image: item.image,
+      })),
+      total,
     });
 
     return NextResponse.json({

@@ -38,6 +38,7 @@ import { saveReceipt } from "@/lib/receipt";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 import { isValidEmailAddress } from "@/lib/emailAddress";
 import { trackMetaEvent } from "@/components/MetaPixel";
+import { useCustomerAuth } from "@/lib/account/AuthProvider";
 
 type PayPhase =
   | "idle"
@@ -52,6 +53,7 @@ type PayPhase =
 
 function CheckoutContent() {
   const { locale, t } = useI18n();
+  const { user: member } = useCustomerAuth();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const { products, payMe } = useCatalog();
@@ -558,6 +560,8 @@ function CheckoutContent() {
     phase === "paid" ||
     phase === "paid_notify_failed" ||
     phase === "completing";
+  const isGuestOrderComplete = phase === "paid" || phase === "paid_receipt_pending" || phase === "paid_notify_failed";
+  const memberSignupHref = `/account/signup?email=${encodeURIComponent(shippingContact.email.trim())}&displayName=${encodeURIComponent(shippingContact.name.trim())}&returnTo=${encodeURIComponent("/account")}`;
   return (
     <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(10rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
       <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -702,6 +706,13 @@ function CheckoutContent() {
                   {t("receiptViewCta")}
                 </Link>
               ) : null}
+            </div>
+          ) : null}
+          {isGuestOrderComplete && !member && isValidEmailAddress(shippingContact.email) ? (
+            <div className="space-y-2 rounded-2xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-soft)]/60 p-4">
+              <p className="text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Want to track this order in your member account?" : "想在會員中心追蹤這張訂單嗎？"}</p>
+              <p className="text-xs leading-5 text-[color:var(--muted)]">{locale === "en" ? "Create a password with the same email. After email verification, matching guest orders are linked automatically." : "使用同一個 Email 設定密碼並完成驗證後，系統會自動歸戶相同 Email 的訪客訂單。"}</p>
+              <Link href={memberSignupHref} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Create my member account" : "一鍵建立密碼／升級會員"}</Link>
             </div>
           ) : null}
 
