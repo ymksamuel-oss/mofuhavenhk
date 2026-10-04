@@ -21,7 +21,7 @@ export function CareMatchCard() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div className="max-w-2xl">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-amber-100/80 px-3 py-1 text-xs font-semibold text-amber-800">
-              <span>✨ Mofu Haven Care Match</span>
+              <span>{isEn ? "✨ Mofu Haven Care Match" : "✨ 毛毛港・毛孩食品智能速配"}</span>
             </div>
             <h2 id="care-match-title" className="mb-2 text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
               {isEn ? "Pet Food Care Match" : "寵物食品速配"}

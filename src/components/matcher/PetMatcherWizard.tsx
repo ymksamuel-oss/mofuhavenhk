@@ -383,7 +383,7 @@ export function PetMatcherWizard({ variant, showTrigger = true }: PetMatcherWiza
       {showTrigger && variant === "home" ? (
         <section className="mx-auto my-5 max-w-6xl px-3 sm:px-6 lg:px-10">
           <div className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 shadow-[0_18px_40px_-30px_rgba(73,48,31,0.5)] sm:flex-row sm:items-center sm:p-6">
-            <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a36b42]">{isZh ? "MOFU HAVEN CARE MATCH" : "MOFU HAVEN CARE MATCH"}</p><h2 className="mt-1 text-xl font-bold tracking-tight text-stone-800 sm:text-2xl">{isZh ? "🐾 不知道買什麼？30 秒測出毛孩專屬日系好物" : "🐾 Not sure what to choose? Find their Japanese essentials in 30 seconds"}</h2><p className="mt-1 text-sm text-stone-500">{isZh ? "告訴我們毛孩的品種與需求，為牠量身定制照護組合" : "Tell us their breed and needs for a tailored care bundle."}</p></div>
+            <div><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a36b42]">{isZh ? "毛毛港・毛孩食品智能速配" : "MOFU HAVEN CARE MATCH"}</p><h2 className="mt-1 text-xl font-bold tracking-tight text-stone-800 sm:text-2xl">{isZh ? "🐾 不知道買什麼？30 秒測出毛孩專屬日系好物" : "🐾 Not sure what to choose? Find their Japanese essentials in 30 seconds"}</h2><p className="mt-1 text-sm text-stone-500">{isZh ? "告訴我們毛孩的品種與需求，為牠量身定制照護組合" : "Tell us their breed and needs for a tailored care bundle."}</p></div>
             <button type="button" onClick={openWizard} className="shrink-0 rounded-full bg-[#8a5836] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#a66d46] active:scale-[0.97]">{isZh ? "開始配對 →" : "Start matching →"}</button>
           </div>
         </section>

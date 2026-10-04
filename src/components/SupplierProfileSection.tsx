@@ -22,7 +22,7 @@ export function SupplierProfileSection() {
 
   const copy = isZh
     ? {
-        eyebrow: "✦ OFFICIAL JAPANESE SUPPLIER ✦",
+        eyebrow: "✦ 日本官方供應商 ✦",
         title: "日本原裝製造商認證・近百年歷史愛知縣職人工坊",
         intro: "從日本愛知縣豐橋市的自社工廠，到香港毛孩家庭的日常餐桌，Best Partner 堅持以透明產地與細緻工藝，守護每一口天然美味。",
         photoCaption: "🇯🇵 日本愛知縣豐橋市・Best Partner 本社工廠實景",
@@ -30,7 +30,7 @@ export function SupplierProfileSection() {
         mapHint: "地圖可於桌面版互動；手機端請使用下方導航按鈕。",
         profileTitle: "會社概要",
         promiseTitle: "毛毛港 3 大正品承諾",
-        openMaps: "📍 在 Google Maps 中查看實體廠址導航",
+        openMaps: "📍 使用地圖導航前往實體廠址",
         official: "官方製造商資料",
       }
     : {
@@ -71,10 +71,10 @@ export function SupplierProfileSection() {
             <div>
               <div className="mb-3 flex items-end justify-between gap-3">
                 <div>
-                  <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">FACTORY LOCATION</p>
+                  <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">{isZh ? "工廠地址" : "FACTORY LOCATION"}</p>
                   <h3 className="mt-1 text-lg font-semibold text-[#49372c]">{copy.mapTitle}</h3>
                 </div>
-                <span className="text-xs text-[#9a8170]">Aichi · Japan</span>
+                <span className="text-xs text-[#9a8170]">{isZh ? "日本・愛知縣" : "Aichi · Japan"}</span>
               </div>
               <div className="h-56 overflow-hidden rounded-2xl border border-[#E6E0D6] bg-[#FFFFFF] sm:h-64 sm:pointer-events-auto pointer-events-none">
                 <iframe title={copy.mapTitle} src={MAP_EMBED_URL} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
@@ -87,7 +87,7 @@ export function SupplierProfileSection() {
           <div className="space-y-8">
             <div className="overflow-hidden rounded-2xl border border-[#E6E0D6] bg-white shadow-[0_18px_42px_-32px_rgba(93,67,48,0.55)]">
               <div className="border-b border-[#E6E0D6] bg-[#FFFFFF] px-5 py-4 sm:px-6">
-                <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">COMPANY PROFILE</p>
+                <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">{isZh ? "公司資料" : "COMPANY PROFILE"}</p>
                 <h3 className="mt-1 text-xl font-semibold text-[#49372c]">{copy.profileTitle}</h3>
               </div>
               <dl>
@@ -101,7 +101,7 @@ export function SupplierProfileSection() {
             </div>
 
             <div className="rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 sm:p-6">
-              <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">MOFU HAVEN PROMISE</p>
+              <p className="text-[10px] font-bold tracking-[0.22em] text-[#a36b42]">{isZh ? "毛毛港正品承諾" : "MOFU HAVEN PROMISE"}</p>
               <h3 className="mt-1 text-xl font-semibold text-[#49372c]">{copy.promiseTitle}</h3>
               <ul className="mt-5 space-y-3">
                 {promises.map((promise) => <li key={promise} className="rounded-xl bg-white/75 px-4 py-3 text-sm font-medium leading-6 text-[#5c463a]">{promise}</li>)}

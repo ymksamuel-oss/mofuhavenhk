@@ -14,6 +14,7 @@ type JournalPick = {
 
 type JournalIssue = {
   label: string;
+  labelZh: string;
   titleZh: string;
   titleEn: string;
   subtitleZh: string;
@@ -27,6 +28,7 @@ type JournalIssue = {
 const JOURNAL_ISSUES: readonly JournalIssue[] = [
   {
     label: "MOFU JOURNAL · ISSUE 01",
+    labelZh: "毛毛港專題・第 1 期",
     titleZh: "給毛孩最純粹的好\n從一口安心開始",
     titleEn: "The Purest Good for Your Furry Friends\nStarting with Peace of Mind in Every Bite",
     subtitleZh: "日本愛知縣百年工坊原裝直送・100% 在地天然純肉・0化學防腐劑",
@@ -48,6 +50,7 @@ const JOURNAL_ISSUES: readonly JournalIssue[] = [
   },
   {
     label: "MOFU JOURNAL · ISSUE 02",
+    labelZh: "毛毛港專題・第 2 期",
     titleZh: "陪伴每日咀嚼時光\n自然潔齒，耐咬得剛好",
     titleEn: "A Better Daily Chew\nNatural Dental Care, Made to Last",
     subtitleZh: "天然牛筋、原隻牛蹄與鯊魚皮潔齒棒，讓狗狗自在釋放咀嚼天性。",
@@ -69,6 +72,7 @@ const JOURNAL_ISSUES: readonly JournalIssue[] = [
   },
   {
     label: "MOFU JOURNAL · SPECIAL",
+    labelZh: "毛毛港專題・特別企劃",
     titleZh: "一百年工坊的安心日常\n把日本職人心意帶回家",
     titleEn: "A Century of Japanese Craft\nA More Thoughtful Everyday for Pets",
     subtitleZh: "Best Partner 日本製造・無添加・無著色，為貓狗準備豐富天然選擇。",
@@ -130,7 +134,7 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
-      <div className="relative mx-auto h-auto max-w-6xl overflow-visible px-3 py-3 sm:px-6 sm:py-6 md:py-14" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "Mofu Journal 刊號"}>
+      <div className="relative mx-auto h-auto max-w-6xl overflow-visible px-3 py-3 sm:px-6 sm:py-6 md:py-14" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} aria-label={isEn ? "Mofu Journal issues" : "毛毛港專題刊號"}>
         {JOURNAL_ISSUES.map((issue, issueIndex) => {
           const featuredProducts = issue.picks.flatMap((pick) => {
             const product = productMap.get(pick.sku);
@@ -139,13 +143,13 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
           return (
             <div key={issue.label} className={`grid h-auto grid-cols-1 items-start gap-4 px-3 py-3 transition-opacity duration-500 ease-in-out sm:gap-8 sm:px-6 sm:py-6 md:grid-cols-12 md:py-14 ${issueIndex === activeIssue ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}>
               <div className="z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-8 text-left sm:pl-8 md:col-span-5 md:pl-10 md:pt-4">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{issue.label}</p>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{isEn ? issue.label : issue.labelZh}</p>
                 <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-2 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
                 <p className="mb-2 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
                 <Link href={issue.ctaLink} className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
               </div>
               <div className="col-span-12 min-w-0 md:col-span-7">
-                <ul aria-label={isEn ? "Featured journal products" : "Mofu Journal 精選商品"} className="mx-auto grid h-auto w-full max-w-md grid-cols-3 gap-1.5 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-2.5 sm:p-3 md:max-w-none">
+                <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid h-auto w-full max-w-md grid-cols-3 gap-1.5 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-2.5 sm:p-3 md:max-w-none">
                   {featuredProducts.map(({ product, zh, en }, index) => {
                     const label = isEn ? en : zh;
                     return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex min-h-[92px] flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1 text-center shadow-sm transition-all hover:shadow-md sm:min-h-[105px] sm:p-2"><span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px]"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority={issueIndex === 0 && index < 3} sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[10px] font-medium text-stone-700 sm:text-[11px]">{label}</span></Link></li>;
@@ -158,8 +162,8 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
             </div>
           );
         })}
-        <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期 Mofu Journal"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:left-0 md:top-1/2 md:z-20 md:-translate-y-1/2">‹</button>
-        <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期 Mofu Journal"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:right-0 md:top-1/2 md:z-20 md:-translate-y-1/2">›</button>
+        <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:left-0 md:top-1/2 md:z-20 md:-translate-y-1/2">‹</button>
+        <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:right-0 md:top-1/2 md:z-20 md:-translate-y-1/2">›</button>
       </div>
     </section>
   );

@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { formatMoney } from "@/lib/i18n/translations";
+import { formatMoney, type Locale } from "@/lib/i18n/translations";
 import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
 
 type ParadeTrackProps = {
   products: Product[];
   label: string;
+  locale: Locale;
 };
 
 const CAT_PICKS = [
@@ -31,26 +32,26 @@ function productSku(product: Product): string {
   return String(product.mofuSku ?? product.metadata?.mofu_sku ?? product.tags?.find((tag) => /^\d{8,14}$/.test(tag)) ?? "").trim();
 }
 
-function ParadeTrack({ products, label }: ParadeTrackProps) {
+function ParadeTrack({ products, label, locale }: ParadeTrackProps) {
   const duplicated = [...products, ...products];
   return (
     <div className="overflow-hidden" aria-label={label}>
       <div className="marquee-track animate-marquee flex w-max gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">
         {duplicated.map((product, index) => {
-          const name = product.name.zh || product.name.en;
+          const name = locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en);
           return (
             <Link
               key={`${product.id}-${index}`}
               href={productHref(product.id)}
               className="group flex w-44 shrink-0 items-center gap-3 rounded-2xl border border-stone-100 bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition hover:-translate-y-0.5 hover:shadow-md active:[animation-play-state:paused] sm:w-52"
-              aria-label={`查看商品：${name}`}
+              aria-label={locale === "en" ? `View product: ${name}` : `查看商品：${name}`}
             >
               <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white sm:h-20 sm:w-20">
                 <ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="80px" className="object-contain p-1 transition-transform duration-300 group-hover:scale-105" />
               </span>
               <span className="min-w-0">
                 <span className="line-clamp-2 text-xs font-medium leading-5 text-stone-700">{name}</span>
-                <span className="mt-1 block text-sm font-bold tabular-nums text-[#111111]">{formatMoney(product.price, "zh")}</span>
+                <span className="mt-1 block text-sm font-bold tabular-nums text-[#111111]">{formatMoney(product.price, locale)}</span>
               </span>
             </Link>
           );
@@ -61,7 +62,7 @@ function ParadeTrack({ products, label }: ParadeTrackProps) {
 }
 
 export function HomePetParade({ products }: { products: Product[] }) {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const { cats, dogs } = useMemo(() => {
     const bySku = new Map(products.filter(isStorefrontReadyProduct).map((product) => [productSku(product), product]));
     return {
@@ -84,13 +85,13 @@ export function HomePetParade({ products }: { products: Product[] }) {
     <section className="overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16" aria-labelledby="pet-parade-title">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 text-center sm:mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-stone-500">PET PARADE</p>
-          <h2 id="pet-parade-title" className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">好物持續流動中</h2>
-          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{locale === "en" ? "Curated cat and dog favourites, gently moving left for you to discover." : "精選貓咪與狗狗好物，向左輕輕流動，隨時點擊發現心水選擇。"}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-stone-500">{t("homeMarqueeEyebrow")}</p>
+          <h2 id="pet-parade-title" className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">{t("homeMarqueeTitle")}</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{t("homeMarqueeSub")}</p>
         </div>
         <div className="space-y-3">
-          <ParadeTrack products={catTrack} label="貓咪精選商品" />
-          <ParadeTrack products={dogTrack} label="狗狗精選商品" />
+          <ParadeTrack products={catTrack} label={t("homeMarqueeCats")} locale={locale} />
+          <ParadeTrack products={dogTrack} label={t("homeMarqueeDogs")} locale={locale} />
         </div>
       </div>
     </section>

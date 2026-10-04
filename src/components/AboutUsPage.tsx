@@ -52,7 +52,7 @@ const SERVICE_PROMISES: PromiseCard[] = [
   },
   {
     icon: "💬",
-    title: { zh: "WhatsApp 專人諮詢", en: "Personal guidance via WhatsApp" },
+    title: { zh: "即時訊息專人諮詢", en: "Personal guidance via WhatsApp" },
     body: {
       zh: "無論是老犬幼犬的食物硬度，還是敏感體質的食材建議，都歡迎隨時與我們交流毛孩的飲食日常。",
       en: "Whether you need advice on texture for puppies and senior dogs or ingredients for sensitive pets, we are always happy to talk through your companion's everyday diet.",
@@ -79,7 +79,7 @@ export function AboutUsPage() {
           <header className="relative overflow-hidden bg-[#FFFFFF] px-6 py-14 sm:px-12 sm:py-20 lg:px-20">
             <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#ead3bb]/55 blur-2xl" aria-hidden="true" />
             <div className="relative max-w-3xl">
-              <p className="text-[11px] font-bold tracking-[0.2em] text-[#8a5d42]">MOFU HAVEN · ABOUT US</p>
+              <p className="text-[11px] font-bold tracking-[0.2em] text-[#8a5d42]">{isEn ? "MOFU HAVEN · ABOUT US" : "毛毛港・關於我們"}</p>
               <h1 className="mt-5 max-w-3xl font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.2] tracking-tight text-[#49372c] sm:text-5xl lg:text-6xl">
                 {isEn ? (
                   <>
@@ -104,7 +104,7 @@ export function AboutUsPage() {
           <section className="px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="origin-title">
             <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
               <div>
-                <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">OUR BEGINNING</p>
+                <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">{isEn ? "OUR BEGINNING" : "品牌起源"}</p>
                 <h2 id="origin-title" className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#49372c] sm:text-3xl">
                   {isEn ? "The Birth of Mofu Haven" : "毛毛港的誕生"}
                 </h2>
@@ -129,7 +129,7 @@ export function AboutUsPage() {
 
           <section className="border-t border-[#eee2d5] bg-[#FFFFFF] px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="quality-title">
             <div className="max-w-2xl">
-              <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">OUR STANDARD</p>
+              <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">{isEn ? "OUR STANDARD" : "品質承諾"}</p>
               <h2 id="quality-title" className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#49372c] sm:text-3xl">{isEn ? "Three Quality Promises" : "三大品質承諾"}</h2>
               <p className="mt-4 leading-7 text-[#725e50]">{isEn ? "We search close to the source in Japan and choose established, trusted producers. Every product that reaches Mofu Haven follows a quality standard we will not compromise." : "我們深入日本在地，嚴選歷史悠久、備受信賴的原廠品牌。每一件抵達毛毛港的產品，都遵循無可妥協的品質標準。"}</p>
             </div>
@@ -147,7 +147,7 @@ export function AboutUsPage() {
           <section className="px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="service-title">
             <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
               <div>
-                <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">OUR CARE</p>
+                <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">{isEn ? "OUR CARE" : "用心照護"}</p>
                 <h2 id="service-title" className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#49372c] sm:text-3xl">{isEn ? "Local Care, Thoughtfully Delivered" : "在地安心服務"}</h2>
               </div>
               <div className="grid gap-3">

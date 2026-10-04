@@ -10,7 +10,7 @@ export function SupplierProfileHero() {
   return (
     <section className="border-b border-[#F1F1F1] bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
       <div className="mx-auto max-w-4xl text-center">
-        <p className="text-xs font-bold tracking-[0.24em] text-[#a36b42]">✦ MOFU HAVEN OFFICIAL SOURCE ✦</p>
+        <p className="text-xs font-bold tracking-[0.24em] text-[#a36b42]">{isEn ? "✦ MOFU HAVEN OFFICIAL SOURCE ✦" : "✦ 毛毛港・日本原廠溯源 ✦"}</p>
         <h1 className="mt-5 font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
           {isEn ? "Official Japanese Manufacturer · Best Partner" : "日本原裝製造商認證"}
         </h1>

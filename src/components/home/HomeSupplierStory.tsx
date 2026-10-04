@@ -11,13 +11,13 @@ export function HomeSupplierStory() {
   return (
     <section
       className="border-y border-[#F1F1F1] bg-[#FFFFFF] px-4 py-12 sm:px-8 sm:py-16 lg:px-10 lg:py-20"
-      aria-label={isEn ? "Mofu Journal editorial features" : "Mofu Journal 品牌專題"}
+      aria-label={isEn ? "Mofu Journal editorial features" : "毛毛港品牌專題"}
     >
       <div className="mx-auto max-w-6xl space-y-14 sm:space-y-20">
         <article className="grid min-w-0 grid-cols-1 items-center gap-7 md:grid-cols-12 md:gap-10 lg:gap-16">
           <div className="min-w-0 md:col-span-5">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">
-              TRACEABILITY · FROM FARM TO BOWL
+              {isEn ? "TRACEABILITY · FROM FARM TO BOWL" : "產地溯源：從日本農場到毛孩餐桌"}
             </p>
             <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-[#2D2926] sm:text-4xl">
               {isEn ? "Traceability from Farm to Bowl" : "從產地到餐桌・安心溯源"}
@@ -75,7 +75,7 @@ export function HomeSupplierStory() {
           </figure>
           <div className="order-1 min-w-0 md:order-2 md:col-span-5">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">
-              THE ART OF SLOW DRYING
+              {isEn ? "THE ART OF SLOW DRYING" : "日本職人低溫慢烘工藝"}
             </p>
             <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-[#2D2926] sm:text-4xl">
               {isEn ? "The Art of Slow Drying" : "愛知縣職人的低溫慢火烘乾工藝"}

@@ -83,7 +83,7 @@ export function WelcomeEntranceOverlay() {
         factoryCaption: "🏢 日本愛知縣豐橋市・Best Partner 本社廠房實景",
         factoryHistory: "1926年創業（昭和元年，近百年歷史）｜自社低溫慢烘廠區",
         factoryAddress: "〒440-0086 愛知県豊橋市下地町長池36番地",
-        openMaps: "📍 在 Google Maps 中開啟實體廠址導航",
+        openMaps: "📍 使用地圖導航前往實體廠址",
         badgeOne: "🥩 100% 國產天然原肉",
         badgeTwo: "🌿 愛知縣職人慢烘",
         badgeThree: "🚚 滿 HK$399 順豐免運",
@@ -92,7 +92,7 @@ export function WelcomeEntranceOverlay() {
         dogs: "🐶 進入狗狗專區",
         cats: "🐱 進入貓咪鮮食",
         welcome: "🎁 首次進店・結帳輸入【 MOFUWELCOME 】立折 HK$20",
-        seal: "BEST PARTNER\nSELECTED IN JAPAN",
+        seal: "Best Partner\n日本原裝嚴選",
       }
     : {
         status: "🇯🇵 Selected in Japan · Ships from Hong Kong",
