@@ -2,6 +2,11 @@ import Stripe from "stripe";
 import { readServerEnv } from "@/lib/serverEnv";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
+// Keep the existing Stripe runtime API version unchanged. Newer SDK typings
+// only expose their latest API version literal, so assert the historic version
+// used by this store for compile-time compatibility.
+const STRIPE_API_VERSION = "2026-07-29.dahlia" as Stripe.LatestApiVersion;
+
 /** HKD uses two decimal places → Stripe amount in cents. */
 export function toStripeAmountHkd(totalHkd: number): number {
   return Math.round(totalHkd * 100);
@@ -73,7 +78,7 @@ export async function isRuntimeStripeConfigured() {
 export async function getRuntimeStripe(): Promise<Stripe> {
   const key = await getRuntimeStripeSetting("stripe_secret_key");
   if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
-  return new Stripe(key, { apiVersion: "2026-07-29.dahlia", typescript: true });
+  return new Stripe(key, { apiVersion: STRIPE_API_VERSION, typescript: true });
 }
 
 let stripeSingleton: Stripe | null = null;
@@ -85,7 +90,7 @@ export function getStripe(): Stripe {
   }
   if (!stripeSingleton) {
     stripeSingleton = new Stripe(key, {
-      apiVersion: "2026-07-29.dahlia",
+      apiVersion: STRIPE_API_VERSION,
       typescript: true,
     });
   }
