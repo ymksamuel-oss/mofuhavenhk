@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { X } from "lucide-react";
-import { BARCODE_SCAN_FORMATS } from "@/lib/admin/barcode-formats";
-import type { Html5Qrcode as Html5QrcodeInstance } from "html5-qrcode";
+import { createBarcodeReaderHints } from "@/lib/admin/barcode-formats";
+import type { BrowserMultiFormatReader, IScannerControls } from "@zxing/browser";
 
 type BarcodeScannerProps = {
   onDetected: (code: string) => void | Promise<void>;
@@ -11,7 +11,9 @@ type BarcodeScannerProps = {
 };
 
 function cameraErrorMessage(error: unknown) {
-  const name = error instanceof DOMException ? error.name : "";
+  const name = typeof error === "object" && error !== null && "name" in error
+    ? String((error as { name?: unknown }).name ?? "")
+    : "";
   if (name === "NotAllowedError" || name === "SecurityError") {
     return "請允許 Safari 使用相機；亦可使用下方手動輸入條碼。";
   }
@@ -25,9 +27,8 @@ function cameraErrorMessage(error: unknown) {
 }
 
 export function BarcodeScanner({ onDetected, onClose }: BarcodeScannerProps) {
-  const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const scannerElementId = `barcode-scanner-${id}`;
-  const scannerRef = useRef<Html5QrcodeInstance | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const controlsRef = useRef<IScannerControls | null>(null);
   const onDetectedRef = useRef(onDetected);
   const handledRef = useRef(false);
   const [scannerError, setScannerError] = useState("");
@@ -38,86 +39,78 @@ export function BarcodeScanner({ onDetected, onClose }: BarcodeScannerProps) {
     onDetectedRef.current = onDetected;
   }, [onDetected]);
 
+  const completeDetection = useCallback((rawCode: string, scanControls?: IScannerControls) => {
+    const code = rawCode.trim();
+    if (!code || handledRef.current) return;
+
+    handledRef.current = true;
+    try {
+      navigator.vibrate?.(100);
+    } catch {
+      // iOS Safari may not expose vibration; decoding and lookup still proceed.
+    }
+    setManualCode(code);
+    setScannerStatus("已辨識條碼，正在查詢…");
+
+    try {
+      (scanControls ?? controlsRef.current)?.stop();
+    } catch {
+      // The decoder callback may have already stopped its video stream.
+    }
+    controlsRef.current = null;
+
+    try {
+      void Promise.resolve(onDetectedRef.current(code)).catch(() => {
+        setScannerStatus("條碼已辨識，但查詢未完成；請確認網絡後重試。");
+      });
+    } catch {
+      setScannerStatus("條碼已辨識，但查詢未完成；請確認網絡後重試。");
+    }
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
-    let instance: Html5QrcodeInstance | null = null;
-
-    const stopAndClear = async (scanner: Html5QrcodeInstance) => {
-      if (scanner.isScanning) {
-        try {
-          await scanner.stop();
-        } catch {
-          // Camera may already have stopped after a successful decode.
-        }
-      }
-      try {
-        scanner.clear();
-      } catch {
-        // The modal is being removed; clearing is best-effort after stopping.
-      }
-      if (scannerRef.current === scanner) scannerRef.current = null;
-    };
-
-    const completeDetection = async (rawCode: string) => {
-      const code = rawCode.trim();
-      if (!code || cancelled || handledRef.current) return;
-      handledRef.current = true;
-      setScannerStatus("已辨識條碼，正在查詢…");
-      try {
-        await stopAndClear(instance!);
-      } finally {
-        if (!cancelled) await onDetectedRef.current(code);
-      }
-    };
 
     async function startScanner() {
-      if (!navigator.mediaDevices?.getUserMedia) {
+      const video = videoRef.current;
+      if (!video || !navigator.mediaDevices?.getUserMedia) {
         setScannerError("此裝置無法使用相機掃描，請使用下方手動輸入條碼。");
         setScannerStatus("");
         return;
       }
 
       try {
-        const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import("html5-qrcode");
+        const [{ BrowserMultiFormatReader }, hints] = await Promise.all([
+          import("@zxing/browser"),
+          createBarcodeReaderHints(),
+        ]);
         if (cancelled) return;
-        const formatsToSupport = BARCODE_SCAN_FORMATS.map((format) => Html5QrcodeSupportedFormats[format]);
-        instance = new Html5Qrcode(scannerElementId, {
-          verbose: false,
-          formatsToSupport,
-          // Always use html5-qrcode's ZXing decoder, including on browsers with partial native support.
-          useBarCodeDetectorIfSupported: false,
-        });
-        scannerRef.current = instance;
-        await instance.start(
-          { facingMode: "environment" },
+
+        const reader: BrowserMultiFormatReader = new BrowserMultiFormatReader(hints);
+        const controls = await reader.decodeFromConstraints(
           {
-            fps: 10,
-            qrbox: (viewfinderWidth, viewfinderHeight) => ({
-              width: Math.max(180, Math.floor(viewfinderWidth * 0.94)),
-              height: Math.max(110, Math.floor(viewfinderHeight * 0.58)),
-            }),
-            disableFlip: true,
+            audio: false,
+            video: {
+              facingMode: "environment",
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
+            },
           },
-          (decodedText) => {
-            if (cancelled || handledRef.current) return;
-            try {
-              navigator.vibrate?.(100);
-            } catch {
-              // Vibration is not implemented by every iOS browser; scanning still succeeds.
-            }
-            void completeDetection(decodedText);
-          },
-          () => {
-            // No decode in this frame is expected while the camera is scanning.
+          video,
+          (result, _error, callbackControls) => {
+            if (cancelled || !result) return;
+            completeDetection(result.getText(), callbackControls);
           },
         );
-        if (cancelled) {
-          await stopAndClear(instance);
+
+        if (cancelled || handledRef.current) {
+          controls.stop();
           return;
         }
-        setScannerStatus("掃描中，請將 JAN／Code 128 條碼放入畫面框內。");
+        controlsRef.current = controls;
+        setScannerError("");
+        setScannerStatus("掃描中，請將條碼完整放入相機畫面並保持清晰。");
       } catch (error) {
-        if (instance) await stopAndClear(instance);
         if (!cancelled) {
           setScannerError(cameraErrorMessage(error));
           setScannerStatus("");
@@ -128,31 +121,24 @@ export function BarcodeScanner({ onDetected, onClose }: BarcodeScannerProps) {
     void startScanner();
     return () => {
       cancelled = true;
-      if (instance?.isScanning) void stopAndClear(instance);
+      try {
+        controlsRef.current?.stop();
+      } catch {
+        // The camera may already be released by a successful decode.
+      }
+      controlsRef.current = null;
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.srcObject = null;
+      }
     };
-  }, [scannerElementId]);
+  }, [completeDetection]);
 
   function submitManualCode(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const code = manualCode.trim();
     if (!code || handledRef.current) return;
-    handledRef.current = true;
-    setScannerStatus("正在查詢條碼…");
-    const scanner = scannerRef.current;
-    if (scanner) {
-      void (async () => {
-        if (scanner.isScanning) {
-          try {
-            await scanner.stop();
-          } catch {
-            // Continue to the manual lookup even if camera shutdown fails.
-          }
-        }
-        onDetectedRef.current(code);
-      })();
-    } else {
-      void onDetectedRef.current(code);
-    }
+    completeDetection(code);
   }
 
   return (
@@ -162,7 +148,7 @@ export function BarcodeScanner({ onDetected, onClose }: BarcodeScannerProps) {
           <h2 id="barcode-scanner-title" className="text-xl font-semibold">掃描 JAN／Code 128</h2>
           <button type="button" onClick={onClose} className="rounded-lg p-2 text-[#8b7c70] hover:bg-[#FFFFFF]" aria-label="關閉"><X className="h-5 w-5" /></button>
         </div>
-        <div id={scannerElementId} className="mt-4 aspect-video w-full overflow-hidden rounded-2xl bg-black" aria-label="條碼相機畫面" />
+        <video ref={videoRef} autoPlay muted playsInline className="mt-4 block max-h-[55vh] w-full rounded-2xl bg-black object-contain" aria-label="完整相機畫面" />
         <p className="mt-3 text-sm text-[#806b5d]" aria-live="polite">{scannerStatus}</p>
         {scannerError && <p className="mt-2 rounded-lg bg-[#FFFFFF] p-3 text-sm text-[#a34d32]" role="status">{scannerError}</p>}
         <form className="mt-4 flex gap-2" onSubmit={submitManualCode}>
