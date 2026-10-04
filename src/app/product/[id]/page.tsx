@@ -146,15 +146,16 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     description,
     alternates: { canonical },
     openGraph: {
-      // Next's OpenGraphType union omits the standard product type; preserve it at runtime.
-      type: "product",
+      // Next.js validates OpenGraph types at runtime; use a supported type here.
+      // Product identity remains represented in the page's schema.org Product JSON-LD.
+      type: "website",
       url: canonical,
       title,
       description,
       images: [{ url: imageUrl, alt: name, width: 1200, height: 1200 }],
       locale: "zh_HK",
       siteName: SITE_NAME,
-    } as unknown as NonNullable<Metadata["openGraph"]>,
+    },
     twitter: {
       card: "summary_large_image",
       title,

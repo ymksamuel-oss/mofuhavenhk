@@ -20,8 +20,12 @@ function readStoredLocale(fallback: SupportedLocale): SupportedLocale {
   const cookie = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/)?.[1];
   if (cookie === "zh-HK" || cookie === "zh") return "zh";
   if (cookie === "en" || cookie === "en-HK") return "en";
-  const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-  return stored === "zh" || stored === "zh-HK" ? "zh" : stored === "en" ? "en" : fallback;
+  try {
+    const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+    return stored === "zh" || stored === "zh-HK" ? "zh" : stored === "en" ? "en" : fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 export function I18nProvider({ children, initialLocale = "zh" }: { children: ReactNode; initialLocale?: SupportedLocale }) {
@@ -30,7 +34,11 @@ export function I18nProvider({ children, initialLocale = "zh" }: { children: Rea
 
   const applyLocale = useCallback((next: SupportedLocale) => {
     setLocaleState(next);
-    window.localStorage.setItem(LOCALE_STORAGE_KEY, next === "zh" ? "zh-HK" : "en");
+    try {
+      window.localStorage.setItem(LOCALE_STORAGE_KEY, next === "zh" ? "zh-HK" : "en");
+    } catch {
+      // Cookie and in-memory state remain authoritative when browser storage is unavailable.
+    }
     const cookieValue = next === "zh" ? "zh-HK" : "en";
     document.cookie = `NEXT_LOCALE=${cookieValue};path=/;max-age=31536000;samesite=lax`;
     document.cookie = `${LOCALE_STORAGE_KEY}=${next};path=/;max-age=31536000;samesite=lax`;
@@ -52,7 +60,7 @@ export function I18nProvider({ children, initialLocale = "zh" }: { children: Rea
     languageMode: locale,
     setLocale,
     setLanguageMode: applyLocale,
-    t: (key) => translations[locale][key] ?? translations.en[key] ?? key,
+    t: (key) => translations[locale][key] ?? translations.en[key] ?? (locale === "zh" ? "內容即將更新" : "Content coming soon"),
   }), [applyLocale, locale, setLocale]);
 
   useEffect(() => {
@@ -72,7 +80,7 @@ export function useI18n() {
       languageMode: "en" as const,
       setLocale: () => {},
       setLanguageMode: () => {},
-      t: (key: TranslationKey) => translations.en[key] || key,
+      t: (key: TranslationKey) => translations.en[key] ?? "Content coming soon",
     };
   }
   return ctx;

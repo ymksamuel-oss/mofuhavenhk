@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import {
-  EMPTY_ACCOUNT_ACTION_STATE,
   forgotPasswordAction,
   resetPasswordAction,
   signInAction,
   signInWithGoogleAction,
   signUpAction,
 } from "@/app/account/actions";
+
+const EMPTY_ACCOUNT_ACTION_STATE = { ok: false } as const;
 
 function SubmitButton({ children, pendingLabel }: { children: React.ReactNode; pendingLabel: string }) {
   const { pending } = useFormStatus();

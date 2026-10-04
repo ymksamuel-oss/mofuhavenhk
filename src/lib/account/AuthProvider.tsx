@@ -45,17 +45,24 @@ export function CustomerAuthProvider({
   }, [initialUser?.id, initialUser?.email, initialUser?.displayName, initialUser?.avatarUrl]);
 
   useEffect(() => {
-    const client = getSupabaseBrowserClient();
-    if (!client) {
+    let subscription: { unsubscribe: () => void } | undefined;
+    try {
+      const client = getSupabaseBrowserClient();
+      if (!client) {
+        setReady(true);
+        return;
+      }
+      const result = client.auth.onAuthStateChange((_event, session) => {
+        setUser(toCustomerUser(session?.user));
+        setReady(true);
+      });
+      subscription = result.data?.subscription;
+    } catch {
+      setUser((current) => current ?? null);
       setReady(true);
-      return;
     }
-    const { data: { subscription } } = client.auth.onAuthStateChange((_event, session) => {
-      setUser(toCustomerUser(session?.user));
-      setReady(true);
-    });
     setReady(true);
-    return () => subscription.unsubscribe();
+    return () => subscription?.unsubscribe();
   }, []);
 
   const value = useMemo(() => ({ user, ready }), [user, ready]);

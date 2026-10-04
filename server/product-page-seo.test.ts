@@ -85,7 +85,7 @@ describe("product detail SEO", () => {
     const openGraph = metadata.openGraph as unknown as Record<string, unknown>;
     const twitter = metadata.twitter as unknown as Record<string, unknown>;
     expect(openGraph).toMatchObject({
-      type: "product",
+      type: "website",
       url: `https://www.mofuhavenhk.com/product/${fixture.id}`,
       title: "Test Dog Treat | Mofu Haven",
       images: [{ url: "https://www.mofuhavenhk.com/images/test-product.jpg" }],

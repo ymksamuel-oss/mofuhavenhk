@@ -84,7 +84,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
               href="/menu"
               className="relative z-20 inline-flex min-h-11 touch-manipulation items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-medium text-[color:var(--ink)] transition hover:bg-[color:var(--accent-soft)] active:scale-[0.99]"
               onClick={(event) => {
-                if (!canUseInAppBack()) {
+                if (typeof window === "undefined" || !canUseInAppBack()) {
                   return;
                 }
                 event.preventDefault();

@@ -12,7 +12,6 @@ import {
 } from "@/lib/account/validation";
 
 export type AccountActionState = { ok: boolean; message?: string };
-export const EMPTY_ACCOUNT_ACTION_STATE: AccountActionState = { ok: false };
 
 function formString(formData: FormData, key: string): string {
   const value = formData.get(key);
