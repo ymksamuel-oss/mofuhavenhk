@@ -7,6 +7,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
+import { CareMatchCard } from "@/components/home/CareMatchCard";
 
 export const revalidate = 3600;
 
@@ -29,6 +30,7 @@ export default async function HomePage() {
       <HomeSupplierStory />
       <HomePetParade products={products} />
       <HomepageFeaturedShowcase products={products} />
+      <CareMatchCard />
       <FAQAccordion />
     </>
   );
