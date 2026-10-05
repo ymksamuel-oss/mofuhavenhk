@@ -3,8 +3,6 @@ import { FAQAccordion } from "@/components/FAQAccordion";
 import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { HomePetParade } from "@/components/home/HomePetParade";
-import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
-import { cookies } from "next/headers";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -13,8 +11,6 @@ import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShow
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const cookieStore = await cookies();
-  const hasSeenEntrance = cookieStore.get("mofu_seen_entrance")?.value === "1";
   let products: Product[] = [];
   try {
     const catalog = await getCatalogSnapshot();
@@ -29,7 +25,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {!hasSeenEntrance && <WelcomeEntranceOverlay />}
       <HomeJournalHero products={products} />
       <HomeSupplierStory />
       <HomePetParade products={products} />
