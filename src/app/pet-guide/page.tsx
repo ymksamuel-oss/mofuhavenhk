@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "探索貓狗品種圖鑑、性格與護理重點，查看圖片及詳細介紹，並為毛孩挑選合適的天然食品與生活用品。",
 };
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default function PetGuideRoute() {
   return <PetGuidePage />;

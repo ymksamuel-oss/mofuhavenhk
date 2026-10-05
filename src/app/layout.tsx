@@ -38,8 +38,8 @@ const notoSerifTc = Noto_Serif_TC({
   weight: ["400", "500", "600", "700"],
 });
 
-// Product catalogue and storefront chrome can be reused for an hour, reducing ISR writes.
-export const revalidate = 3600;
+// Product catalogue and storefront chrome can be reused for a day, reducing ISR writes.
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.mofuhavenhk.com"),

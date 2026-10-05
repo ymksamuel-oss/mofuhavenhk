@@ -5,8 +5,7 @@ import { COLLECTIONS } from "@/lib/collections";
 
 const SITE_URL = "https://www.mofuhavenhk.com";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [

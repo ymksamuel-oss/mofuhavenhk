@@ -9,7 +9,7 @@ import type { Product } from "@/lib/products";
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
 import { CareMatchCard } from "@/components/home/CareMatchCard";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default async function HomePage() {
   let products: Product[] = [];

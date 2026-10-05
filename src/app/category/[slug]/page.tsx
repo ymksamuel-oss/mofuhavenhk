@@ -3,7 +3,7 @@ import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;

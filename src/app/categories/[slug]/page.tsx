@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const CATEGORY_INGREDIENTS = new Set([
   "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "venison", "horse", "sheep",

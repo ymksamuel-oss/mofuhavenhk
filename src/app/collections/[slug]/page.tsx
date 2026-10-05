@@ -4,7 +4,7 @@ import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { COLLECTIONS, getCollection, getCollectionDescription } from "@/lib/collections";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 // Collection pages are public storefront routes; unknown slugs still resolve to notFound below.
 export const dynamicParams = true;
 

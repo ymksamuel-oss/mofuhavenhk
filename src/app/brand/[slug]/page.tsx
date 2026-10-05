@@ -5,8 +5,7 @@ import { BrandProductCard } from "@/components/brand/BrandProductCard";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { brandDescription, type Brand } from "@/lib/brands";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 86400;
 
 type Props = { params: Promise<{ slug: string }> };
 type CatalogProduct = Awaited<ReturnType<typeof getCatalogSnapshot>>["products"][number];
