@@ -6,19 +6,17 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const SEEN_COOKIE = "mofu_seen_entrance";
-const FACTORY_MAP_URL = "https://www.google.com/maps/search/?api=1&query=ベストパートナー株式会社+愛知県豊橋市下地町長池36番地";
 const FACTORY_MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent("ベストパートナー株式会社 愛知県豊橋市下地町長池36番地")}&output=embed`;
 
 type SupplierProofCopy = {
   factoryCaption: string;
   factoryHistory: string;
   factoryAddress: string;
-  openMaps: string;
 };
 
 function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierProofCopy; isZh: boolean; desktop?: boolean }) {
   return (
-    <div className={`${desktop ? "hidden lg:block" : "lg:hidden"} space-y-3`} aria-label={isZh ? "日本供應商實體廠房與地圖" : "Japanese supplier factory and map"}>
+    <div className={`${desktop ? "hidden lg:block" : "lg:hidden"} space-y-3 rounded-2xl bg-white`} aria-label={isZh ? "日本供應商實體廠房與地圖" : "Japanese supplier factory and map"}>
       <div className="overflow-hidden rounded-2xl bg-[#FFFFFF] shadow-sm">
         <div className="relative aspect-video w-full lg:h-[210px] lg:aspect-auto">
           <Image src="/images/best-partner-factory.jpg" alt={copy.factoryCaption} fill sizes={desktop ? "(min-width: 1024px) 44vw, 100vw" : "100vw"} className="object-cover" />
@@ -35,12 +33,6 @@ function SupplierProofCards({ copy, isZh, desktop = false }: { copy: SupplierPro
         </div>
         <div className="px-4 py-2.5 sm:px-5">
           <p className="text-xs leading-5 text-[#694c3d]">{copy.factoryAddress}</p>
-          <a href={FACTORY_MAP_URL} target="_blank" rel="noopener noreferrer" className="mt-2 flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#7a4b31] px-4 py-2 text-center text-xs font-semibold leading-5 text-white transition hover:bg-[#5e3928] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A4B] focus-visible:ring-offset-2">
-            <span>{copy.openMaps}</span>
-            <svg aria-hidden="true" className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M8 7h9v9" />
-            </svg>
-          </a>
         </div>
       </div>
     </div>
@@ -83,7 +75,6 @@ export function WelcomeEntranceOverlay() {
         factoryCaption: "🏢 日本愛知縣豐橋市・Best Partner 本社廠房實景",
         factoryHistory: "1926年創業（昭和元年，近百年歷史）｜自社低溫慢烘廠區",
         factoryAddress: "〒440-0086 愛知県豊橋市下地町長池36番地",
-        openMaps: "📍 使用地圖導航前往實體廠址",
         badgeOne: "🥩 100% 國產天然原肉",
         badgeTwo: "🌿 愛知縣職人慢烘",
         badgeThree: "🚚 滿 HK$399 順豐免運",
@@ -104,7 +95,6 @@ export function WelcomeEntranceOverlay() {
         factoryCaption: "🏢 Best Partner head office and factory · Toyohashi, Aichi, Japan",
         factoryHistory: "Founded in 1926 · Nearly a century of in-house slow-drying craft",
         factoryAddress: "36 Nagaike, Shimoji-cho, Toyohashi, Aichi 440-0086, Japan",
-        openMaps: "📍 Open the physical factory in Google Maps",
         badgeOne: "🥩 100% Domestic Natural Meat",
         badgeTwo: "🌿 Aichi Artisan Slow-Dried",
         badgeThree: "🚚 Free SF Shipping over HK$399",
@@ -187,7 +177,7 @@ export function WelcomeEntranceOverlay() {
 
               <SupplierProofCards copy={copy} isZh={isZh} />
 
-              <div className="mt-6 flex flex-wrap gap-2.5 animate-[fadeInUp_600ms_240ms_ease-out_both] lg:justify-center">
+              <div className="mt-6 flex flex-wrap gap-2.5 rounded-2xl bg-white p-2 animate-[fadeInUp_600ms_240ms_ease-out_both] lg:justify-center">
                 {[copy.badgeOne, copy.badgeTwo, copy.badgeThree].map((badge) => (
                   <span key={badge} className="rounded-full border border-[#ddcdbd] bg-[#FFFFFF]/75 px-3.5 py-2 text-[11px] font-semibold leading-4 text-[#694c3d] shadow-[0_8px_20px_-18px_rgba(44,37,35,0.6)] sm:text-xs">
                     {badge}
