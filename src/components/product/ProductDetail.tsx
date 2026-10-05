@@ -154,7 +154,16 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
   const [open, setOpen] = useState(true);
   const text = product.description?.[locale] || product.description?.zh || product.description?.en || "";
   const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
-  const packageFacts = useMemo(() => parsePackageFacts(text, locale, getProductJanCode(product) ?? "", rich.nutrition), [text, locale, product, rich.nutrition]);
+  const packageFacts = useMemo(() => {
+    const primary = parsePackageFacts(text, locale, getProductJanCode(product) ?? "", rich.nutrition);
+    if (locale !== "en" || primary.values.size > 0 || !product.description?.zh || product.description.zh === text) return primary;
+
+    // Some products only have the specification block in Chinese. Reuse that
+    // same source data for the English table while keeping English field labels.
+    const fallbackText = product.description.zh;
+    const fallbackRich = parseProductContent(fallbackText, product, "zh");
+    return parsePackageFacts(fallbackText, "zh", getProductJanCode(product) ?? "", fallbackRich.nutrition);
+  }, [text, locale, product, rich.nutrition]);
   const hasPackageFacts = packageFacts.values.size > 0;
   const packageFeeding = useMemo(() => packageSectionLines(text, locale, /daily\s+feeding|feeding\s+guide|每日建議餵食量|每日餵食|餵食量|餵食指南/i), [text, locale]);
   const feedingDetails = packageFeeding.length ? packageFeeding : rich.feeding;
