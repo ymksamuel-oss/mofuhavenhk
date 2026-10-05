@@ -33,32 +33,7 @@ const QUALITY_PROMISES: PromiseCard[] = [
   },
 ];
 
-const SERVICE_PROMISES: PromiseCard[] = [
-  {
-    icon: "📦",
-    title: { zh: "順豐速運 ‧ 快速出貨", en: "SF Express · Prompt dispatch" },
-    body: {
-      zh: "香港現貨於 1–2 個工作天內發貨，全單滿 HK$399 即享本地順豐免運。",
-      en: "Hong Kong in-stock orders are dispatched within 1–2 working days. Enjoy free local SF Express delivery on orders of HK$399 or more.",
-    },
-  },
-  {
-    icon: "🏷️",
-    title: { zh: "正規經營 ‧ 原裝正品", en: "Authentic products · Trusted sourcing" },
-    body: {
-      zh: "我們持有有效香港商業登記，商品均由日本原裝進口，嚴格把關保質期與包裝完整性。",
-      en: "We operate with a valid Hong Kong business registration. Products are imported from Japan in their original packaging, with careful checks on shelf life and condition.",
-    },
-  },
-  {
-    icon: "💬",
-    title: { zh: "即時訊息專人諮詢", en: "Personal guidance via WhatsApp" },
-    body: {
-      zh: "無論是老犬幼犬的食物硬度，還是敏感體質的食材建議，都歡迎隨時與我們交流毛孩的飲食日常。",
-      en: "Whether you need advice on texture for puppies and senior dogs or ingredients for sensitive pets, we are always happy to talk through your companion's everyday diet.",
-    },
-  },
-];
+
 
 export function AboutUsPage() {
   const { locale } = useI18n();
@@ -144,33 +119,13 @@ export function AboutUsPage() {
             </div>
           </section>
 
-          <section className="px-6 py-12 sm:px-12 sm:py-16 lg:px-20" aria-labelledby="service-title">
-            <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-              <div>
-                <p className="text-xs font-bold tracking-[0.16em] text-[#a36b49]">{isEn ? "OUR CARE" : "用心照護"}</p>
-                <h2 id="service-title" className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-[#49372c] sm:text-3xl">{isEn ? "Local Care, Thoughtfully Delivered" : "在地安心服務"}</h2>
-              </div>
-              <div className="grid gap-3">
-                {SERVICE_PROMISES.map((service) => (
-                  <article key={service.icon} className="flex gap-4 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-5 sm:p-6">
-                    <span className="text-2xl" aria-hidden="true">{service.icon}</span>
-                    <div>
-                      <h3 className="font-semibold text-[#49372c]">{copy(service.title)}</h3>
-                      <p className="mt-2 text-sm leading-7 text-[#806d5d]">{copy(service.body)}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
+
 
           <footer className="border-t border-[#F1F1F1] bg-[#FFFFFF] px-6 py-12 text-center sm:px-12 sm:py-16 lg:px-20">
             <p className="mx-auto max-w-2xl font-[family-name:var(--font-display)] text-xl font-semibold leading-9 text-[#49372c] sm:text-2xl">
               {isEn ? "May every Japanese goodie delivered to your door become a gentle, grounded joy in your companion's everyday life." : "願每一份送到你手上的日本好物，都成為毛孩日常裡一份溫柔而踏實的幸福。"}
             </p>
-            <Link href="/menu" className="mt-7 inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#7b4b31] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_24px_-16px_rgba(91,65,45,0.8)] transition hover:-translate-y-0.5 hover:bg-[#694027] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4b31] focus-visible:ring-offset-2">
-              {isEn ? "Explore the full collection" : "探索全店商品"}
-            </Link>
+
           </footer>
         </article>
       </div>
