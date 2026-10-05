@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 const FACTORY_ADDRESS = "愛知県豊橋市下地町長池36番地";
-const MAP_URL = "https://www.google.com/maps/search/?api=1&query=ベストパートナー株式会社+愛知県豊橋市下地町長池36番地";
 const MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(`ベストパートナー株式会社 ${FACTORY_ADDRESS}`)}&output=embed`;
 
 const COMPANY_ROWS = [
@@ -27,10 +26,8 @@ export function SupplierProfileSection() {
         intro: "從日本愛知縣豐橋市的自社工廠，到香港毛孩家庭的日常餐桌，Best Partner 堅持以透明產地與細緻工藝，守護每一口天然美味。",
         photoCaption: "🇯🇵 日本愛知縣豐橋市・Best Partner 本社工廠實景",
         mapTitle: "本社位置",
-        mapHint: "地圖可於桌面版互動；手機端請使用下方導航按鈕。",
         profileTitle: "會社概要",
         promiseTitle: "毛毛港 3 大正品承諾",
-        openMaps: "📍 使用地圖導航前往實體廠址",
         official: "官方製造商資料",
       }
     : {
@@ -39,10 +36,8 @@ export function SupplierProfileSection() {
         intro: "From Best Partner's own facility in Toyohashi, Aichi, to everyday bowls in Hong Kong homes, every selection is grounded in transparent origins and careful craft.",
         photoCaption: "🇯🇵 Best Partner head office and factory · Toyohashi, Aichi, Japan",
         mapTitle: "Head office location",
-        mapHint: "The map is interactive on desktop; on mobile, use the navigation button below.",
         profileTitle: "Company profile",
         promiseTitle: "Three Mofu Haven assurances",
-        openMaps: "📍 Open the factory location in Google Maps",
         official: "Official manufacturer information",
       };
 
@@ -59,7 +54,7 @@ export function SupplierProfileSection() {
           <p className="mt-5 text-sm leading-7 text-[#725e50] sm:text-base sm:leading-8">{copy.intro}</p>
         </div>
 
-        <div className="mt-10 flex flex-col space-y-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
+        <div className="mt-10 flex flex-col space-y-6 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
           <div className="space-y-8">
             <figure>
               <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-[#e9dfd3] shadow-sm">
@@ -76,11 +71,9 @@ export function SupplierProfileSection() {
                 </div>
                 <span className="text-xs text-[#9a8170]">{isZh ? "日本・愛知縣" : "Aichi · Japan"}</span>
               </div>
-              <div className="h-56 overflow-hidden rounded-2xl border border-[#E6E0D6] bg-[#FFFFFF] sm:h-64 sm:pointer-events-auto pointer-events-none">
+              <div className="pointer-events-none h-56 overflow-hidden rounded-2xl border border-[#E6E0D6] bg-[#FFFFFF] sm:h-64">
                 <iframe title={copy.mapTitle} src={MAP_EMBED_URL} className="h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               </div>
-              <p className="mt-3 text-xs leading-5 text-[#806b5d]">{copy.mapHint}</p>
-              <a href={MAP_URL} target="_blank" rel="noreferrer" className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#7a4b31] px-5 py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#5e3928] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a36b42] focus-visible:ring-offset-2 lg:w-auto lg:px-8">{copy.openMaps}</a>
             </div>
           </div>
 
