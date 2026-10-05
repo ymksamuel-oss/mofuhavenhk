@@ -274,7 +274,10 @@ export function ProductCatalog({
     : categorySlug === "cats" || specialFilter === "cat-zone"
       ? (locale === "en" ? "For Cats" : "\u8c93\u54aa\u5c08\u5340")
       : t("menuTitle");
-  const recommendationKind = collection?.slug as CollectionRecommendationKind | undefined;
+  const legacyRecommendationKind = !collection && subcategory == null && (categorySlug === "dogs" || categorySlug === "cats" || categorySlug === "value-bundles")
+    ? categorySlug as CollectionRecommendationKind
+    : undefined;
+  const recommendationKind = (collection?.slug as CollectionRecommendationKind | undefined) ?? legacyRecommendationKind;
   const recommendationItems = recommendationKind === "dogs" || recommendationKind === "cats" || recommendationKind === "value-bundles"
     ? recommendationProducts(recommendationKind, catalogProducts)
     : [];
