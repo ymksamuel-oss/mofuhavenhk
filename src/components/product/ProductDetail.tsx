@@ -15,15 +15,15 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type Locale } from "@/lib/i18n/translations";
 import { calcSubtotal, isPetBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import { getProductFlavorFamily, type Product } from "@/lib/products";
-import { getProductJanCode, isValidGtin13 } from "@/lib/product-identifiers";
+import { getProductJanCode } from "@/lib/product-identifiers";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { trackMetaEvent } from "@/components/MetaPixel";
 import { ShoppingCart } from "lucide-react";
+import { parseProductPackageFacts } from "@/lib/product-package-facts";
 import {
   parseProductContent,
   productSpecifications,
-  safeProductText,
   type RichProductContent,
 } from "@/lib/product-content";
 
@@ -37,134 +37,6 @@ const OFFICIAL_PRODUCT_IMAGE_OVERRIDES: Record<string, string[]> = {
   ],
 };
 
-type PackageFactKey = "ingredients" | "origin" | "additives" | "protein" | "fat" | "fiber" | "ash" | "moisture" | "calories" | "netWeight" | "storage" | "suitableAge" | "jan";
-type PackageFactField = { key: PackageFactKey; labelZh: string; labelEn: string; pattern: RegExp; required?: boolean };
-
-const PACKAGE_FACT_FIELDS: PackageFactField[] = [
-  { key: "ingredients", labelZh: "原材料", labelEn: "Ingredients", pattern: /^(?:原材料|原料|成分|ingredients?)$/i, required: true },
-  { key: "origin", labelZh: "產地", labelEn: "Origin", pattern: /^(?:產地|原產地|製造地|產地國|country\s+of\s+origin|origin)$/i },
-  { key: "additives", labelZh: "添加物", labelEn: "Additives", pattern: /^(?:添加物|添加劑|additives?)$/i },
-  { key: "protein", labelZh: "粗蛋白質", labelEn: "Crude Protein", pattern: /^(?:粗蛋白質?|蛋白質|crude\s+protein|protein)$/i, required: true },
-  { key: "fat", labelZh: "粗脂肪", labelEn: "Crude Fat", pattern: /^(?:粗脂肪|脂肪|crude\s+fat|fat)$/i, required: true },
-  { key: "fiber", labelZh: "粗纖維", labelEn: "Crude Fiber", pattern: /^(?:粗纖維|纖維|crude\s+fiber|fiber|fibre)$/i, required: true },
-  { key: "ash", labelZh: "粗灰分", labelEn: "Crude Ash", pattern: /^(?:粗灰分|灰分|crude\s+ash|ash)$/i, required: true },
-  { key: "moisture", labelZh: "水分", labelEn: "Moisture", pattern: /^(?:水分|moisture)$/i, required: true },
-  { key: "calories", labelZh: "熱量", labelEn: "Calories", pattern: /^(?:熱量|代謝能|代謝能量|卡路里|calories?|energy|kcal)$/i, required: true },
-  { key: "netWeight", labelZh: "淨重／包裝規格", labelEn: "Net Weight / Pack Size", pattern: /^(?:淨重|淨含量|內容量|容量|規格|重量|net\s*(?:weight|contents?)|pack(?:age)?\s*size)$/i, required: true },
-  { key: "storage", labelZh: "保存方法", labelEn: "Storage", pattern: /^(?:保存方法|保存方式|保管方法|儲存方式|storage(?:\s+method)?)$/i, required: true },
-  { key: "suitableAge", labelZh: "適用年齡", labelEn: "Suitable Age", pattern: /^(?:適用年齡|適合年齡|年齡|suitable\s+age|age)$/i },
-  { key: "jan", labelZh: "JAN 條碼", labelEn: "JAN Barcode", pattern: /^(?:jan(?:\s*(?:碼|代碼|コード|code))?|條碼|國際條碼|barcode|gtin(?:-?13)?)$/i, required: true },
-];
-
-function packageHeadingTitle(line: string): string | null {
-  const trimmed = line.trim();
-  if (trimmed.startsWith("【") && trimmed.includes("】")) return trimmed.slice(1, trimmed.indexOf("】")).trim();
-  if (/^#{1,6}\s/.test(trimmed)) return trimmed.replace(/^#{1,6}\s*/, "").trim();
-  return null;
-}
-
-function parsePackageFactLine(rawLine: string): { key: PackageFactKey; value: string } | null {
-  const line = rawLine.trim().replace(/^[•●▪◦・\-*]+\s*/u, "").replace(/^\d+\s*[.)、]\s*/, "");
-  const match = line.match(/^(.{1,48}?)[：:=]\s*(.+)$/u) ?? line.match(/^(.{1,48}?)\s{1,}(.+)$/u);
-  if (!match) return null;
-  const label = match[1].replace(/[（(].*?[）)]/g, "").trim();
-  const field = PACKAGE_FACT_FIELDS.find((candidate) => candidate.pattern.test(label));
-  if (!field) return null;
-  let value = match[2].trim();
-  if (field.key === "jan") {
-    const code = value.match(/\d{13}/)?.[0];
-    if (!isValidGtin13(code)) return null;
-    value = code;
-  }
-  return value ? { key: field.key, value } : null;
-}
-
-function parsePackageFacts(text: string, locale: Locale, fallbackJan: string, nutritionLines: string[] = []): {
-  sectionFound: boolean;
-  values: Map<PackageFactKey, string>;
-  otherLines: string[];
-} {
-  const values = new Map<PackageFactKey, string>();
-  const otherLines: string[] = [];
-  const specHeading = /產品規格|商品規格|規格與保證營養|規格與保存|規格及保存|規格清單|保證營養|保存方法|保存方式|原材料|原料|產地|官方\s*JAN|條碼|資料來源|來源|sources?|ingredients?\s*(?:&|and)\s*origin|specifications?\s*&\s*storage|official\s+jan|barcode|guaranteed\s+analysis|nutrition\s+(?:facts|analysis)|product\s+specifications?/i;
-  let sectionFound = false;
-  let inSpecSection = false;
-  const addFact = (fact: { key: PackageFactKey; value: string }) => {
-    const previous = values.get(fact.key);
-    if (!previous) values.set(fact.key, fact.value);
-    else if (!previous.includes(fact.value)) values.set(fact.key, `${previous}；${fact.value}`);
-  };
-
-  for (const rawLine of text.replace(/\r\n?/g, "\n").split("\n")) {
-    const heading = packageHeadingTitle(rawLine);
-    if (heading !== null) {
-      inSpecSection = specHeading.test(heading);
-      sectionFound ||= inSpecSection;
-      continue;
-    }
-    if (!rawLine.trim()) continue;
-    const displayLine = safeProductText(rawLine, locale);
-    if (!displayLine) continue;
-    const fact = parsePackageFactLine(displayLine);
-    if (fact && (inSpecSection || !sectionFound)) addFact(fact);
-    else if (inSpecSection) otherLines.push(displayLine.replace(/^[•●▪◦・\-*]+\s*/u, ""));
-  }
-
-  for (const nutritionLine of nutritionLines) {
-    const displayLine = safeProductText(nutritionLine, locale);
-    const fact = displayLine ? parsePackageFactLine(displayLine) : null;
-    if (fact) addFact(fact);
-  }
-
-  if (values.size > 0 && fallbackJan && !values.has("jan")) values.set("jan", fallbackJan);
-  return { sectionFound, values, otherLines: [...new Set(otherLines)] };
-}
-
-function packageSectionLines(text: string, locale: Locale, headingPattern: RegExp): string[] {
-  const lines: string[] = [];
-  let inTargetSection = false;
-  for (const rawLine of text.replace(/\r\n?/g, "\n").split("\n")) {
-    const heading = packageHeadingTitle(rawLine);
-    if (heading !== null) {
-      inTargetSection = headingPattern.test(heading);
-      continue;
-    }
-    if (!inTargetSection) continue;
-    const line = safeProductText(rawLine, locale).replace(/^[•●▪◦・\-*]+\s*/u, "").trim();
-    if (line) lines.push(line);
-  }
-  return [...new Set(lines)];
-}
-
-function splitSpecLine(line: string): { label: string; value: string } {
-  const match = line.replace(/^[•●▪◦\-*]+\s*/, "").match(/^([^:：]+)[:：]\s*(.+)$/);
-  return match ? { label: match[1].trim(), value: match[2].trim() } : { label: "", value: line.trim() };
-}
-
-function localiseSpecLabel(label: string, locale: Locale): string {
-  const value = label.toLocaleLowerCase();
-  if (locale === "en") {
-    if (/原材料|成分|ingredient/.test(value)) return "Ingredients";
-    if (/產地|产地|來源|origin|made in/.test(value)) return "Origin";
-    if (/粗蛋白|crude protein|protein/.test(value)) return "Crude Protein";
-    if (/粗纖維|粗纤维|crude fiber|fibre|fiber/.test(value)) return "Crude Fiber";
-    if (/粗脂肪|crude fat|fat/.test(value)) return "Crude Fat";
-    if (/水分|moisture/.test(value)) return "Moisture";
-    if (/粗灰分|ash/.test(value)) return "Crude Ash";
-    if (/熱量|热量|energy|calorie/.test(value)) return "Energy";
-    return label;
-  }
-  if (/ingredient|原材料|成分/.test(value)) return "主要成分";
-  if (/origin|made in|產地|产地|來源/.test(value)) return "產地來源";
-  if (/crude protein|protein|粗蛋白/.test(value)) return "粗蛋白質";
-  if (/crude fiber|fibre|fiber|粗纖維|粗纤维/.test(value)) return "粗纖維";
-  if (/crude fat|fat|粗脂肪/.test(value)) return "粗脂肪";
-  if (/moisture|水分/.test(value)) return "水分";
-  if (/ash|粗灰分/.test(value)) return "粗灰分";
-  if (/energy|calorie|熱量|热量/.test(value)) return "熱量";
-  return label;
-}
-
 function RichProductContent({ product, locale, sku }: { product: Product; locale: Locale; sku: string }) {
   const { t } = useI18n();
   const [openFeatures, setOpenFeatures] = useState(true);
@@ -177,14 +49,15 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
     "🚚 Free SF Express Shipping: Storewide orders over HK$399 enjoy free local delivery to your door or SF lockers.",
   ];
   const displayFeatures = locale === "en" && rich.highlights.length === 0 ? defaultEnglishFeatures : rich.highlights;
-  const parsedRows = [...rich.nutrition, ...productSpecifications(product, sku, locale)]
-    .map(splitSpecLine)
-    .filter((row) => row.value)
-    .filter((row) => locale !== "en" || !/[\u3400-\u9fff]/u.test(`${row.label} ${row.value}`))
-    .filter((row, index, rows) => rows.findIndex((candidate) => candidate.label === row.label && candidate.value === row.value) === index)
-    .slice(0, 10)
-    .map((row) => ({ label: localiseSpecLabel(row.label || (locale === "en" ? "Specification" : "規格"), locale), value: row.value }));
-  const specificationRows = parsedRows.length ? parsedRows : [{ label: locale === "en" ? "Specification" : "規格", value: locale === "en" ? "Not provided" : "資料未提供" }];
+  const specificationRows = parseProductPackageFacts({
+    description: text,
+    specifications: [...rich.nutrition, ...productSpecifications(product, sku, locale)],
+    fallbackJan: sku,
+    locale,
+  });
+  const visibleSpecificationRows = specificationRows.length
+    ? specificationRows
+    : [{ label: locale === "en" ? "Product details" : "商品資料", value: locale === "en" ? "Not listed in available product data" : "商品資料暫未提供" }];
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="flex flex-wrap gap-2 px-4 pt-4 sm:px-5">
@@ -198,7 +71,7 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
       </div> : null}
     </section>
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm" aria-labelledby="product-specifications-title">
-      <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "📋 Specifications & Guaranteed Analysis" : "📋 產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{specificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
+      <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "📋 Specifications & Guaranteed Analysis" : "📋 產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{visibleSpecificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
     </section>
     <section aria-label={locale === "en" ? "Delivery trust information" : "配送信任資訊"} className="grid grid-cols-1 divide-y divide-stone-100 overflow-hidden rounded-2xl border border-[#ead8c8] bg-white shadow-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0">
       {[{ icon: "🚚", title: locale === "en" ? "Free SF shipping" : "滿 HK$399 順豐免運", body: locale === "en" ? "Storewide qualifying orders" : "全單達門檻即享" }, { icon: "⚡", title: locale === "en" ? "Ships in 1–2 days" : "1–2 天現貨發貨", body: locale === "en" ? "Hong Kong in-stock items" : "香港現貨優先寄出" }, { icon: "🇯🇵", title: locale === "en" ? "Genuine Japan source" : "100% 日本原廠正貨", body: locale === "en" ? "Officially selected products" : "官方來源嚴選" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><span className="text-xl" aria-hidden>{item.icon}</span><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}

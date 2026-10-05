@@ -97,6 +97,9 @@ export function productSpecifications(product: Product, sku: string, locale: Pro
   const metadata = product.metadata ?? {};
   const candidates = [
     ...(product.specs ?? []).map((spec) => spec[locale] || spec.zh || spec.en),
+    ...(product.productSpec?.trim()
+      ? [`${locale === "en" ? "Net Weight / Pack Size" : "淨重規格"}: ${product.productSpec.trim()}`]
+      : []),
     metadata[`specs_${locale}`],
     metadata[`specifications_${locale}`],
     metadata.specs,

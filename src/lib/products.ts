@@ -374,6 +374,8 @@ export type Product = {
   texture?: { zh: string; en: string };
   /** Optional live import status / package status sourced from verified product metadata. */
   availability?: { zh: string; en: string };
+  /** Package size/specification supplied by the products.product_spec database field. */
+  productSpec?: string;
   specs?: { zh: string; en: string; ja?: string }[];
   tags?: string[];
   productType?: string;
