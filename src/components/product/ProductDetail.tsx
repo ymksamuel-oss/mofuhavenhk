@@ -10,10 +10,11 @@ import { WishlistButton } from "@/components/product/WishlistButton";
 import { ProductImage } from "@/components/product/ProductImage";
 import { BackInStockAlertButton } from "@/components/product/BackInStockAlertButton";
 import { categoryHref, getCategoryBySlug } from "@/lib/categories";
+import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type Locale } from "@/lib/i18n/translations";
 import { calcSubtotal, isPetBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
-import type { Product } from "@/lib/products";
+import { getProductFlavorFamily, type Product } from "@/lib/products";
 import { getProductJanCode, isValidGtin13 } from "@/lib/product-identifiers";
 import { useCart } from "@/lib/shop/cart";
 import { getLocalizedProductName } from "@/lib/translateProductName";
@@ -27,6 +28,7 @@ import {
 } from "@/lib/product-content";
 
 type ProductDetailProps = { product: Product };
+type FamilyChoice = { product: Product; label: { zh: string; en: string } };
 
 const OFFICIAL_PRODUCT_IMAGE_OVERRIDES: Record<string, string[]> = {
   "4976064026569": [
@@ -240,24 +242,44 @@ function MobileStickyCartBar({ product, name, price, image, visible, basketCount
 export function ProductDetail({ product }: ProductDetailProps) {
   const { locale, t } = useI18n();
   const { toOrderItems, itemCount, addItem } = useCart();
+  const { products: catalogProducts } = useCatalog();
+  const family = getProductFlavorFamily(product.id);
+  const [selectedProductId, setSelectedProductId] = useState(product.id);
   const [selectedSpecIndex, setSelectedSpecIndex] = useState(0);
+  const familyChoices = useMemo<FamilyChoice[]>(() => {
+    if (!family) return [];
+    const catalogById = new Map(catalogProducts.map((candidate) => [candidate.id, candidate]));
+    return family.choices.flatMap((choice) => {
+      const candidate = catalogById.get(choice.productId);
+      return candidate ? [{ product: candidate, label: choice.label }] : [];
+    });
+  }, [catalogProducts, family]);
+  useEffect(() => {
+    setSelectedProductId(product.id);
+    setSelectedSpecIndex(0);
+  }, [product.id]);
+  const selectedFamilyChoice = familyChoices.find((choice) => choice.product.id === selectedProductId);
+  const selectedProduct = selectedFamilyChoice?.product ?? product;
+  useEffect(() => {
+    setSelectedSpecIndex(0);
+  }, [selectedProduct.id]);
   const [selectedQty, setSelectedQty] = useState(1);
   const [purchaseVisible, setPurchaseVisible] = useState(true);
   const [stickyAdded, setStickyAdded] = useState(false);
   const [stickyLoading, setStickyLoading] = useState(false);
   const purchaseRef = useRef<HTMLDivElement>(null);
   const previousItemCount = useRef(itemCount);
-  const selectedOption = product.variants?.[selectedSpecIndex] ?? product.variants?.[0];
-  const selectedPrice = selectedOption?.price ?? product.price;
-  const selectedPriceId = selectedOption?.priceId ?? product.priceId;
-  const selectedOriginalPrice = selectedOption?.originalPrice ?? product.originalPrice;
-  const name = getLocalizedProductName(product, locale) || t("productDescriptionUnavailable");
-  const category = getCategoryBySlug(product.categorySlug);
-  const sku = product.metadata?.mofu_sku?.trim() || product.id;
+  const selectedOption = selectedProduct.variants?.[selectedSpecIndex] ?? selectedProduct.variants?.[0];
+  const selectedPrice = selectedOption?.price ?? selectedProduct.price;
+  const selectedPriceId = selectedOption?.priceId ?? selectedProduct.priceId;
+  const selectedOriginalPrice = selectedOption?.originalPrice ?? selectedProduct.originalPrice;
+  const name = getLocalizedProductName(selectedProduct, locale) || t("productDescriptionUnavailable");
+  const category = getCategoryBySlug(selectedProduct.categorySlug);
+  const sku = selectedProduct.metadata?.mofu_sku?.trim() || selectedProduct.id;
   const barcode = getProductJanCode(product) ?? sku;
-  const firstImage = selectedOption?.image || product.images?.[0] || product.image;
-  const officialImages = OFFICIAL_PRODUCT_IMAGE_OVERRIDES[sku] ?? OFFICIAL_PRODUCT_IMAGE_OVERRIDES[product.id];
-  const galleryImages = officialImages ?? (selectedOption?.image ? [selectedOption.image] : product.images);
+  const firstImage = selectedOption?.image || selectedProduct.images?.[0] || selectedProduct.image;
+  const officialImages = OFFICIAL_PRODUCT_IMAGE_OVERRIDES[sku] ?? OFFICIAL_PRODUCT_IMAGE_OVERRIDES[selectedProduct.id];
+  const galleryImages = officialImages ?? (selectedOption?.image ? [selectedOption.image] : selectedProduct.images);
   const primaryImage = officialImages?.[0] || firstImage;
   const cartSubtotal = calcSubtotal(toOrderItems());
   useEffect(() => {
@@ -290,14 +312,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
   }, [itemCount]);
   const handleStickyAdd = () => {
     setStickyLoading(true);
-    addItem(product.id, selectedQty, selectedPriceId);
+    addItem(selectedProduct.id, selectedQty, selectedPriceId);
     setStickyAdded(true);
     window.dispatchEvent(new CustomEvent("mofu:open-cart"));
     window.setTimeout(() => setStickyLoading(false), 450);
   };
-  const isFood = isPetBundleProduct(product) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(product));
+  const isFood = isPetBundleProduct(selectedProduct) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(selectedProduct));
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [sku], content_name: name, content_sku: sku, value: selectedPrice, currency: "HKD" }); }, [name, selectedPrice, sku]);
-  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${product.id}-${selectedPriceId}`} images={galleryImages} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={product.id} className="h-11 w-11 shrink-0 text-xl" /></div><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={product.marketReferencePrice} asOf={product.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{product.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{product.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{product.variants.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{product.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-[#FAFAFA] p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={product.id} /></div>}</section></div><RichProductContent product={product} locale={locale} sku={barcode} /></main>{product.inStock === false ? null : <MobileStickyCartBar product={product} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
+  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${selectedProduct.id}-${selectedPriceId}`} images={galleryImages} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={selectedProduct.id} className="h-11 w-11 shrink-0 text-xl" /></div><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={selectedProduct.marketReferencePrice} asOf={selectedProduct.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{family && familyChoices.length > 1 ? <div className="mt-5 rounded-xl bg-[#fbf3df] p-3"><div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{family.selector[locale]}</p><span className="text-xs text-stone-500">{familyChoices.length} {locale === "zh" ? "款可選" : "choices"}</span></div><div className="mt-2 grid gap-2 sm:grid-cols-2">{familyChoices.map((choice) => <button key={choice.product.id} type="button" onClick={() => setSelectedProductId(choice.product.id)} className={`rounded-lg border px-3 py-2 text-left text-xs font-semibold ${choice.product.id === selectedProduct.id ? "border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-600"}`}>{choice.label[locale]}</button>)}</div></div> : null}{selectedProduct.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{selectedProduct.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{selectedProduct.variants!.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{selectedProduct.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-[#FAFAFA] p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={selectedProduct.id} /></div>}</section></div><RichProductContent product={selectedProduct} locale={locale} sku={barcode} /></main>{selectedProduct.inStock === false ? null : <MobileStickyCartBar product={selectedProduct} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
 }

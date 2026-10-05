@@ -1,4 +1,4 @@
-import type { Product } from "@/lib/products";
+import { getProductMeatFamily, type Product, type ProductMeatFamily } from "@/lib/products";
 
 export type IngredientKey = "chicken" | "venison" | "horse" | "beef" | "duck" | "pork" | "lamb" | "kangaroo" | "seafood" | "produce" | "dairy";
 export type IngredientFilter = { key: IngredientKey; zh: string; en: string; group: "meat" | "seafood" | "produce" | "dairy" };
@@ -24,6 +24,21 @@ export function parseIngredientSelection(value: string | null | undefined): Ingr
 
 export function productMatchesIngredient(product: Product, filters: IngredientKey[]) {
   if (filters.length === 0) return true;
+  const strictFamilyByIngredient: Partial<Record<IngredientKey, ProductMeatFamily>> = {
+    pork: "PORK",
+    horse: "HORSE",
+    venison: "VENISON",
+    beef: "BEEF",
+    chicken: "CHICKEN",
+    lamb: "LAMB",
+    seafood: "FISH",
+  };
+  const strictFamilies = filters
+    .map((filter) => strictFamilyByIngredient[filter])
+    .filter((family): family is ProductMeatFamily => Boolean(family));
+  if (strictFamilies.length > 0) {
+    return strictFamilies.includes(getProductMeatFamily(product) ?? ("" as ProductMeatFamily));
+  }
   const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ");
   const patterns: Record<IngredientKey, RegExp> = {
     chicken: /純天然雞肉|雞胸肉|雞肉|鶏|ささみ|chicken/i,

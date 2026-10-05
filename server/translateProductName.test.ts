@@ -14,7 +14,7 @@ const baseProduct = {
 describe("getLocalizedProductName", () => {
   it("uses the raw database name_en alias before the normalized name object", () => {
     expect(getLocalizedProductName({ ...baseProduct, name_en: "BestPartner Dog Venison Jerky 25g" }, "en"))
-      .toBe("BestPartner Dog Venison Jerky 25g");
+      .toBe("Dog Venison Jerky 25g");
   });
 
   it("supports a raw string name with an English alias", () => {
@@ -23,7 +23,7 @@ describe("getLocalizedProductName", () => {
       name: "中文商品名",
       name_en: "BestPartner Cat Tuna Flakes 30g",
     } as unknown as Product;
-    expect(getLocalizedProductName(rawPayload, "en")).toBe("BestPartner Cat Tuna Flakes 30g");
+    expect(getLocalizedProductName(rawPayload, "en")).toBe("Cat Tuna Flakes 30g");
   });
 
   it("never returns CJK text as the English name when no safe alias exists", () => {

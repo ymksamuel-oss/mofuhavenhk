@@ -58,6 +58,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
           />
         </div>
         <div className="h-[5.25rem] min-w-0 flex-1 items-start overflow-hidden px-2.5 pb-3 pt-2.5 sm:h-[5.5rem] sm:px-3 sm:pb-3.5 sm:pt-3">
+          <p className="mb-0.5 truncate text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{product.brandName || product.brand}</p>
           <h3 className="line-clamp-2 break-words text-left text-xs font-medium leading-5 text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)] sm:text-sm">{displayName}</h3>
         </div>
       </Link>

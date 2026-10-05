@@ -1020,6 +1020,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       categoryId: row.category_id ? String(row.category_id) : undefined,
       brandId: (row as Record<string, unknown>).brand_id ? String((row as Record<string, unknown>).brand_id) : undefined,
       brandName: (row as Record<string, unknown>).brand ? String((row as Record<string, unknown>).brand) : undefined,
+      brand: row.supplier_brand?.trim() || undefined,
       categorySlug,
       ...(subcategory ? { subcategory } : {}),
       image: images[0] || CATALOG_IMAGE_FALLBACK,

@@ -37,14 +37,15 @@ function dictionaryEnglishName(product: Product): string {
 function cleanName(value?: string): string {
   if (!value || /\\u[0-9a-fA-F]{4}/.test(value) || CJK_RE.test(value)) return "";
   return (value.split(/[|｜]/).at(-1) || value)
-    .replace(/^\s*(?:Made in Japan|Japan-made|Best Partner)\s*/i, "")
+    .replace(/^\s*(?:Made in Japan|Japan-made|Best\s*Partner)\s*/i, "")
+    .replace(/\bBest\s*Partner\b/gi, "")
     .replace(/\s{2,}/g, " ")
     .trim();
 }
 
 function cleanChineseName(value?: string): string {
   if (!value || /\\u[0-9a-fA-F]{4}/.test(value)) return "";
-  return (value.split(/[|｜]/).at(-1) || value).replace(/\s{2,}/g, " ").trim();
+  return (value.split(/[|｜]/).at(-1) || value).replace(/\bBest\s*Partner\b/gi, "").replace(/\s{2,}/g, " ").trim();
 }
 
 function safeEnglishName(value?: string): string {
