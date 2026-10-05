@@ -29,6 +29,7 @@ import { useRecentlyViewed } from "@/lib/recently-viewed";
 import { ShoppingCart } from "lucide-react";
 import {
   parseProductContent,
+  productSpecifications,
   safeProductText,
   type RichProductContent,
 } from "@/lib/product-content";
@@ -148,34 +149,40 @@ function isVenisonProduct(product: Product, sku: string): boolean {
   return VENISON_SKUS.has(sku) || /鹿肉|蝦夷鹿|venison|ezo deer/i.test(text);
 }
 
-function RichProductContent({ product, locale, sku, firstImage }: { product: Product; locale: Locale; sku: string; firstImage: string }) {
-  const { t } = useI18n();
-  const [tab, setTab] = useState<"details" | "notes">("details");
-  const [open, setOpen] = useState(true);
-  const text = product.description?.[locale] || product.description?.zh || product.description?.en || "";
-  const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
-  const packageFacts = useMemo(() => {
-    const primary = parsePackageFacts(text, locale, getProductJanCode(product) ?? "", rich.nutrition);
-    if (locale !== "en" || primary.values.size > 0 || !product.description?.zh || product.description.zh === text) return primary;
+function splitSpecLine(line: string): { label: string; value: string } {
+  const match = line.replace(/^[•●▪◦\-*]+\s*/, "").match(/^([^:：]+)[:：]\s*(.+)$/);
+  return match ? { label: match[1].trim(), value: match[2].trim() } : { label: "", value: line.trim() };
+}
 
-    // Some products only have the specification block in Chinese. Reuse that
-    // same source data for the English table while keeping English field labels.
-    const fallbackText = product.description.zh;
-    const fallbackRich = parseProductContent(fallbackText, product, "zh");
-    return parsePackageFacts(fallbackText, "zh", getProductJanCode(product) ?? "", fallbackRich.nutrition);
-  }, [text, locale, product, rich.nutrition]);
-  const hasPackageFacts = packageFacts.values.size > 0;
-  const packageFeeding = useMemo(() => packageSectionLines(text, locale, /daily\s+feeding|feeding\s+guide|每日建議餵食量|每日餵食|餵食量|餵食指南/i), [text, locale]);
-  const feedingDetails = packageFeeding.length ? packageFeeding : rich.feeding;
-  const packageRows = PACKAGE_FACT_FIELDS
-    .filter((field) => hasPackageFacts && (field.required || packageFacts.values.has(field.key)))
-    .map((field) => ({
-      key: field.key,
-      label: locale === "en" ? field.labelEn : field.labelZh,
-      value: packageFacts.values.get(field.key) ?? (locale === "en" ? "Not listed in the product description" : "商品描述未列明"),
-      missing: !packageFacts.values.has(field.key),
-    }));
-  const showDescriptionFallback = !hasPackageFacts;
+function localiseSpecLabel(label: string, locale: Locale): string {
+  const value = label.toLocaleLowerCase();
+  if (locale === "en") {
+    if (/原材料|成分|ingredient/.test(value)) return "Ingredients";
+    if (/產地|产地|來源|origin|made in/.test(value)) return "Origin";
+    if (/粗蛋白|crude protein|protein/.test(value)) return "Crude Protein";
+    if (/粗纖維|粗纤维|crude fiber|fibre|fiber/.test(value)) return "Crude Fiber";
+    if (/粗脂肪|crude fat|fat/.test(value)) return "Crude Fat";
+    if (/水分|moisture/.test(value)) return "Moisture";
+    if (/粗灰分|ash/.test(value)) return "Crude Ash";
+    if (/熱量|热量|energy|calorie/.test(value)) return "Energy";
+    return label;
+  }
+  if (/ingredient|原材料|成分/.test(value)) return "主要成分";
+  if (/origin|made in|產地|产地|來源/.test(value)) return "產地來源";
+  if (/crude protein|protein|粗蛋白/.test(value)) return "粗蛋白質";
+  if (/crude fiber|fibre|fiber|粗纖維|粗纤维/.test(value)) return "粗纖維";
+  if (/crude fat|fat|粗脂肪/.test(value)) return "粗脂肪";
+  if (/moisture|水分/.test(value)) return "水分";
+  if (/ash|粗灰分/.test(value)) return "粗灰分";
+  if (/energy|calorie|熱量|热量/.test(value)) return "熱量";
+  return label;
+}
+
+function RichProductContent({ product, locale, sku }: { product: Product; locale: Locale; sku: string }) {
+  const { t } = useI18n();
+  const [openFeatures, setOpenFeatures] = useState(true);
+  const text = locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "";
+  const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
   const defaultEnglishFeatures = [
     "🇯🇵 100% Made in Japan: Carefully selected natural Japanese ingredients with no artificial synthesis.",
     "🌿 Zero Chemical Additives: Guaranteed free from artificial colorings, preservatives, and chemical flavourings.",
@@ -196,38 +203,37 @@ function RichProductContent({ product, locale, sku, firstImage }: { product: Pro
         "🧺 同單含現貨與預訂品將一併發貨；全單滿 HK$399 享本地順豐免運。",
         "💬 如對產品的餵食方式、食材或保存方法有疑問，歡迎聯絡我們。",
       ];
+  const parsedRows = [...rich.nutrition, ...productSpecifications(product, sku, locale)]
+    .map(splitSpecLine)
+    .filter((row) => row.value)
+    .filter((row) => locale !== "en" || !/[\u3400-\u9fff]/u.test(`${row.label} ${row.value}`))
+    .filter((row, index, rows) => rows.findIndex((candidate) => candidate.label === row.label && candidate.value === row.value) === index)
+    .slice(0, 10)
+    .map((row) => ({ label: localiseSpecLabel(row.label || (locale === "en" ? "Specification" : "規格"), locale), value: row.value }));
+  const specificationRows = parsedRows.length ? parsedRows : [{ label: locale === "en" ? "Specification" : "規格", value: locale === "en" ? "Not provided" : "資料未提供" }];
+  const officialSource = product.metadata?.official_source_url || product.metadata?.source_url;
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-      <button type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} className="flex w-full items-center justify-between px-4 py-4 text-left sm:px-5"><span className="font-bold">✨ {t("product_features")}</span><span className="text-xl text-stone-400" aria-hidden>{open ? "−" : "+"}</span></button>
-      {open ? <div className="border-t border-stone-100 px-4 pb-5 pt-4 sm:px-5">{displayFeatures.length ? <ul className="space-y-2 text-sm leading-6 text-stone-700">{displayFeatures.map((item, index) => <li key={`${item}-${index}`}>{locale === "en" ? item : `✨ ${item}`}</li>)}</ul> : null}{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#FFFFFF] p-4"><p className="whitespace-pre-line text-sm leading-6 text-stone-600">{rich.spotlight}</p></div> : null}</div> : null}
+      <div className="flex flex-wrap gap-2 px-4 pt-4 sm:px-5">
+        {[locale === "en" ? "🇯🇵 100% Made in Japan" : "🇯🇵 100% 日本原裝", locale === "en" ? "🌿 Additive-Free" : "🌿 無添加", locale === "en" ? "✓ Genuine Official Product" : "✓ 原廠正貨保證"].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
+      </div>
+      <button type="button" onClick={() => setOpenFeatures((value) => !value)} aria-expanded={openFeatures} className="flex w-full items-center justify-between px-4 py-3 text-left sm:px-5"><span className="font-bold">✨ {t("product_features")}</span><span className="text-xl text-stone-400" aria-hidden>{openFeatures ? "−" : "+"}</span></button>
+      {openFeatures ? <div className="border-t border-stone-100 px-4 pb-5 pt-3 sm:px-5">{displayFeatures.length ? <ul className="space-y-2 text-[13px] leading-relaxed text-stone-700">{displayFeatures.map((item, index) => <li key={`${item}-${index}`}>{locale === "en" ? item : `✨ ${item}`}</li>)}</ul> : null}{rich.spotlight ? <div className="mt-4 rounded-xl bg-[#fbf3df] p-4"><p className="whitespace-pre-line text-[13px] leading-relaxed text-stone-600">{rich.spotlight}</p></div> : null}</div> : null}
     </section>
-    {isVenisonProduct(product, sku) ? <Link href="/blog/dog-food-venison-benefits" className="flex items-center justify-between rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-[#FFFFFF]"><span>💡 想了解更多鹿肉營養？</span><span>閱讀【日本獸醫鹿肉解析專欄 →】</span></Link> : null}
-    <div className="flex rounded-xl bg-stone-100 p-1" role="tablist" aria-label={t("product_details")}><button type="button" role="tab" aria-selected={tab === "details"} onClick={() => setTab("details")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "details" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>{t("product_details")}</button><button type="button" role="tab" aria-selected={tab === "notes"} onClick={() => setTab("notes")} className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-bold ${tab === "notes" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500"}`}>{t("shopping_notes")}</button></div>
-    {tab === "details" ? <div className="space-y-5">
-      {firstImage ? <div className="my-6"><section className="relative flex h-[320px] items-center justify-center overflow-hidden rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-6"><span className="absolute right-4 top-4 z-10 rounded-full bg-stone-900/70 px-3 py-1 text-[11px] font-bold text-white backdrop-blur">🇯🇵 {t("badge_japan_pure")}</span><ProductImage src={firstImage} alt={product.name.zh} sizes="(min-width: 768px) 440px, 100vw" priority className="object-contain mix-blend-multiply" /></section></div> : null}
-      {hasPackageFacts ? <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-4 shadow-sm sm:p-5">
-        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-stone-400">{locale === "en" ? "PRODUCT INFORMATION" : "商品資料"}</p>
-        <h2 className="mt-1 text-lg font-bold text-stone-800">📋 {locale === "en" ? "Specifications & Guaranteed Analysis" : "產品規格與保證營養"}</h2>
-        <div className="mt-3 min-w-0 overflow-hidden rounded-xl border border-stone-200">
-          <table className="w-full table-fixed border-collapse text-left text-sm">
-            <thead className="bg-stone-50 text-xs font-semibold text-stone-500"><tr><th scope="col" className="w-[36%] px-3 py-2.5">{locale === "en" ? "Item" : "項目"}</th><th scope="col" className="px-3 py-2.5">{locale === "en" ? "Product / Package Details" : "商品／包裝資料"}</th></tr></thead>
-            <tbody className="divide-y divide-stone-200">{packageRows.map((row) => <tr key={row.key}>
-              <th scope="row" className="break-words px-3 py-2.5 align-top font-medium leading-5 text-stone-600 [overflow-wrap:anywhere]">{row.label}</th>
-              <td className={`break-words px-3 py-2.5 align-top leading-5 [overflow-wrap:anywhere] ${row.missing ? "text-stone-400" : "text-stone-800"}`}>{row.value}</td>
-            </tr>)}</tbody>
-          </table>
-        </div>
-        {packageFacts.otherLines.length ? <div className="mt-3 rounded-xl bg-stone-50 p-3"><h3 className="text-xs font-bold text-stone-600">{locale === "en" ? "Other package information" : "其他包裝資訊"}</h3><ul className="mt-1 space-y-1 break-words text-sm leading-6 text-stone-600 [overflow-wrap:anywhere]">{packageFacts.otherLines.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul></div> : null}
-        <p className="mt-3 text-xs leading-5 text-stone-400">{locale === "en" ? "Values shown here are taken from the product description; fields not listed there are marked accordingly." : "表格內容取自商品描述；描述未列出的欄位已明確標示。"}</p>
-      </section> : null}
-      {showDescriptionFallback ? <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-4 sm:p-5"><h2 className="font-bold text-stone-800">{locale === "en" ? "Full Product Description" : "完整商品描述"}</h2><div className="mt-2 whitespace-pre-wrap break-words text-sm leading-7 text-stone-600 [overflow-wrap:anywhere]">{text.trim() || (locale === "en" ? "Product information is not currently available." : "商品描述暫未提供。")}</div></section> : null}
-      {rich.texture ? <section className="rounded-2xl border border-stone-200 bg-white p-4"><div className="flex items-center justify-between gap-3"><h2 className="font-bold">🐾 食感與硬度</h2></div><p className="mt-2 text-sm leading-6 text-stone-600">{rich.texture}</p></section> : null}
-      {feedingDetails.length ? <section className="min-w-0 rounded-2xl border border-stone-200 bg-white p-4"><h2 className="font-bold text-stone-800">🍽️ {packageFeeding.length ? (locale === "en" ? "Daily Feeding Guide" : "每日建議餵食量") : (locale === "en" ? "Feeding / Usage" : "餵食／使用方式")}</h2><ul className="mt-2 space-y-2 break-words text-sm leading-6 text-stone-600 [overflow-wrap:anywhere]">{feedingDetails.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul></section> : null}
-      {rich.notes.length ? <section className="rounded-2xl border border-stone-200 bg-[#FAFAFA] p-4"><h2 className="font-bold text-stone-800">貼心叮嚀</h2><ul className="mt-2 space-y-2 text-sm leading-6 text-stone-600">{rich.notes.map((note, index) => <li key={`${note}-${index}`}>・{note}</li>)}</ul></section> : null}
-    </div> : <section className="rounded-2xl border border-stone-200 bg-white p-5"><h2 className="text-lg font-bold">🛍️ {t("shopping_notes")}</h2><ul className="mt-4 space-y-3 text-sm leading-6 text-stone-600">{shoppingNotes.map((note, index) => <li key={`${note}-${index}`}>{note}</li>)}</ul></section>}
+    {isVenisonProduct(product, sku) ? <Link href="/blog/dog-food-venison-benefits" className="flex items-center justify-between gap-3 rounded-2xl border border-[#e2c4a8] bg-[#fff8ef] px-4 py-3 text-[13px] font-semibold leading-relaxed text-[#8b573f] transition hover:border-[#b17a56] hover:bg-[#fff2e3]"><span>💡 {locale === "en" ? "Learn more about venison nutrition" : "想了解更多鹿肉營養？"}</span><span className="text-right">{locale === "en" ? "Read the vet guide →" : "閱讀【日本獸醫鹿肉解析專欄 →】"}</span></Link> : null}
+    <section aria-label={locale === "en" ? "Delivery trust information" : "配送信任資訊"} className="grid grid-cols-1 divide-y divide-stone-100 overflow-hidden rounded-2xl border border-[#ead8c8] bg-white shadow-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      {[{ icon: "🚚", title: locale === "en" ? "Free SF shipping" : "滿 HK$399 順豐免運", body: locale === "en" ? "Storewide qualifying orders" : "全單達門檻即享" }, { icon: "⚡", title: locale === "en" ? "Ships in 1–2 days" : "1–2 天現貨發貨", body: locale === "en" ? "Hong Kong in-stock items" : "香港現貨優先寄出" }, { icon: "🇯🇵", title: locale === "en" ? "Genuine Japan source" : "100% 日本原廠正貨", body: locale === "en" ? "Officially selected products" : "官方來源嚴選" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><span className="text-xl" aria-hidden>{item.icon}</span><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}
+    </section>
+    <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm" aria-labelledby="product-specifications-title">
+      <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "📋 Specifications & Guaranteed Analysis" : "📋 產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{specificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
+    </section>
+    {rich.texture ? <section className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm"><h2 className="font-bold">🐾 {locale === "en" ? "Texture & serving" : "食感與硬度"}</h2><p className="mt-2 text-[13px] leading-relaxed text-stone-600">{rich.texture}</p></section> : null}
+    {rich.feeding.length ? <section><h2 className="mb-3 text-lg font-bold">🍽️ {locale === "en" ? "Feeding / use" : "餵食／使用方式"}</h2><div className="grid gap-3 sm:grid-cols-2">{rich.feeding.map((item, index) => <article key={`${item}-${index}`} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-stone-100"><p className="text-[13px] font-bold leading-relaxed">{item}</p></article>)}</div></section> : null}
+    {rich.notes.length ? <section className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><h2 className="font-bold text-amber-900">💛 {locale === "en" ? "Important notes" : "貼心叮嚀"}</h2><ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-amber-900/80">{rich.notes.map((note, index) => <li key={`${note}-${index}`}>・{note}</li>)}</ul></section> : null}
+    <details className="rounded-2xl border border-stone-200 bg-white px-4 py-3 text-[13px] leading-relaxed shadow-sm"><summary className="cursor-pointer font-semibold text-stone-700">{locale === "en" ? "More product information" : "更多產品資料"}</summary><div className="mt-3 space-y-2 border-t border-stone-100 pt-3 text-stone-500"><p>{locale === "en" ? `JAN barcode: ${sku}` : `原廠 JAN 條碼：${sku}`}</p>{officialSource ? <p><a href={officialSource} target="_blank" rel="noreferrer" className="underline underline-offset-2">{locale === "en" ? "View official source notes" : "查看官方來源備註"}</a></p> : null}</div></details>
+    <section className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm"><h2 className="text-lg font-bold">🛍️ {locale === "en" ? "Shopping Notes" : "購物須知"}</h2><ul className="mt-3 space-y-2 text-[13px] leading-relaxed text-stone-600">{shoppingNotes.map((note, index) => <li key={`${note}-${index}`}>{note}</li>)}</ul></section>
   </div>;
 }
-
 
 function PdpRecommendationCarousel({ products, locale }: { products: Product[]; locale: Locale }) {
   return <section className="mt-8" aria-labelledby="pdp-recommendations">
@@ -342,5 +348,5 @@ export function ProductDetail({ product }: ProductDetailProps) {
     return [...sameCategory, ...remaining].slice(0, 4);
   }, [catalogProducts, product.categorySlug, product.id]);
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [sku], content_name: name, content_sku: sku, value: selectedPrice, currency: "HKD" }); }, [name, selectedPrice, sku]);
-  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${product.id}-${selectedPriceId}`} images={galleryImages} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={product.id} className="h-11 w-11 shrink-0 text-xl" /></div>{jan ? <div className="my-2.5 flex items-center gap-1.5" aria-label={`JAN ${jan}`}><span className="rounded bg-stone-100 px-1.5 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wider text-stone-600">JAN</span><span className="select-all font-mono text-xs tracking-wide text-stone-500">{jan}</span></div> : null}<div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={product.marketReferencePrice} asOf={product.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{product.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{product.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{product.variants.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{product.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-[#FAFAFA] p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={product.id} /></div>}</section></div><RichProductContent product={product} locale={locale} sku={sku} firstImage={primaryImage} /><BundleContentsCard product={product} catalog={catalogProducts} />{recommendations.length ? <PdpRecommendationCarousel products={recommendations} locale={locale} /> : null}<RecentlyViewed products={catalogProducts} recentIds={recentIds} currentProductId={product.id} locale={locale} onClear={clearRecentlyViewed} /><FAQAccordion /><ProductFAQ /></main>{product.inStock === false ? null : <MobileStickyCartBar product={product} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
+  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${product.id}-${selectedPriceId}`} images={galleryImages} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={product.id} className="h-11 w-11 shrink-0 text-xl" /></div><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={product.marketReferencePrice} asOf={product.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{product.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{product.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{product.variants.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{product.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={product.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-[#FAFAFA] p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={product.id} /></div>}</section></div><RichProductContent product={product} locale={locale} sku={sku} /><BundleContentsCard product={product} catalog={catalogProducts} />{recommendations.length ? <PdpRecommendationCarousel products={recommendations} locale={locale} /> : null}<RecentlyViewed products={catalogProducts} recentIds={recentIds} currentProductId={product.id} locale={locale} onClear={clearRecentlyViewed} /><FAQAccordion /><ProductFAQ /></main>{product.inStock === false ? null : <MobileStickyCartBar product={product} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
 }
