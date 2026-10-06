@@ -334,10 +334,10 @@ export function ProductCatalog({
 
           <Pagination currentPage={safeCurrentPage} totalPages={pageCount} onPageChange={goToPage} className="mt-2" />
           <BrandServiceStrip placement="catalog-bottom" />
-          {recommendationKind ? <CollectionRecommendationCarousel kind={recommendationKind} products={recommendationItems} /> : null}
         </>
       )}
       </div>
+      {recommendationKind ? <CollectionRecommendationCarousel kind={recommendationKind} products={recommendationItems} /> : null}
     </div>
   );
 }

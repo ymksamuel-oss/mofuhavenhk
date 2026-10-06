@@ -78,12 +78,12 @@ export function HomeSupplierStory() {
               {isEn ? "THE ART OF SLOW DRYING" : "日本職人低溫慢烘工藝"}
             </p>
             <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-[#2D2926] sm:text-4xl">
-              {isEn ? "The Art of Slow Drying" : "愛知縣職人的低溫慢火烘乾工藝"}
+              {isEn ? "The Art of Slow Drying" : "日本職人的低溫慢火烘乾工藝"}
             </h2>
             <p className="mt-5 text-sm leading-7 text-stone-600 sm:text-base sm:leading-8">
               {isEn
-                ? "Founded in 1926, the Toyohashi workshop uses small-batch, low-temperature drying to deepen natural flavour—preserving goodness without relying on chemical preservatives."
-                : "創立於 1926 年的愛知縣豐橋工坊，堅持小批量低溫慢火溫烘，濃縮天然鮮味；以職人耐心守住風味，不依賴人工化學防腐劑。"}
+                ? "Best Partner uses small-batch, low-temperature drying to deepen natural flavour—preserving goodness without relying on chemical preservatives."
+                : "Best Partner 堅持小批量低溫慢火溫烘，濃縮天然鮮味；以職人耐心守住風味，不依賴人工化學防腐劑。"}
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3 text-xs font-semibold text-stone-700 sm:grid-cols-3">
               {(isEn ? ["Small batch", "Low temperature", "0 preservatives"] : ["小批量製作", "低溫慢火", "0 化學防腐"]

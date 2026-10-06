@@ -23,7 +23,6 @@ const SHOP_EMAIL =
 type FooterLink = { href: string; labelKey: TranslationKey };
 
 const QUICK_LINKS: FooterLink[] = [
-  { href: "/menu", labelKey: "footerShopAll" },
   { href: "/about", labelKey: "footerAbout" },
   { href: "/faq", labelKey: "footerFaq" },
 ];
