@@ -10,7 +10,7 @@ import { getProductsByCategory, resolveCategorySubSlug, type Product } from "@/l
 import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
-import { CollectionRecommendationCarousel, type CollectionRecommendationKind } from "@/components/collections/CollectionRecommendationCarousel";
+import { PetParadeSection, type PetParadeKind } from "@/components/home/HomePetParade";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import { parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
 import { ProteinPills } from "@/components/home/ProteinPills";
@@ -63,31 +63,6 @@ function matchesAudience(product: Parameters<typeof productFilterText>[0], filte
 function isCatZoneProduct(product: { name: { zh: string; en: string }; description?: { zh: string; en: string }; tags?: string[]; metadata?: Record<string, string> }) {
   const text = [product.name.zh, product.name.en, product.description?.zh, product.description?.en, ...(product.tags ?? []), ...Object.values(product.metadata ?? {})].filter(Boolean).join(" ").toLowerCase();
   return /\u8c93|\u732b|cat|にぼし|まぐろ|マグロ|かつお|\u9c39|きびなご|ひめたら|わかさぎ|\u9b5a|fish|tuna|bonito|\u9c48|\u9e7f\u8089|\u8766\u5937\u9e7f|\u9e7f\u808b\u6392|\u9e7f\u9aa8|\u9e7f\u89d2|\u99ac\u8089|\u99ac|venison|horse/.test(text);
-}
-
-function recommendationProducts(kind: CollectionRecommendationKind, products: Product[]): Product[] {
-  const available = products.filter((product) => product.inStock !== false);
-  const bundleCollection = getCollection("value-bundles");
-  const dogCollection = getCollection("dogs");
-  const catCollection = getCollection("cats");
-  const unique = (items: Product[]) => Array.from(new Map(items.map((product) => [product.id, product])).values()).slice(0, 8);
-
-  if (kind === "dogs") {
-    const bundles = bundleCollection ? getCollectionProducts(available, bundleCollection) : [];
-    const dogs = dogCollection ? getCollectionProducts(available, dogCollection) : available.filter((product) => matchesAudience(product, "dog"));
-    return unique([...bundles, ...dogs]);
-  }
-
-  if (kind === "cats") {
-    const cats = catCollection ? getCollectionProducts(available, catCollection) : available.filter((product) => matchesAudience(product, "cat"));
-    return unique(cats);
-  }
-
-  const bundles = bundleCollection ? new Set(getCollectionProducts(available, bundleCollection).map((product) => product.id)) : new Set<string>();
-  const addOnProducts = available
-    .filter((product) => !bundles.has(product.id) && product.price >= 50 && product.price <= 70)
-    .sort((left, right) => left.price - right.price);
-  return unique(addOnProducts);
 }
 
 /**
@@ -225,13 +200,9 @@ export function ProductCatalog({
     : categorySlug === "cats" || specialFilter === "cat-zone"
       ? (locale === "en" ? "For Cats" : "\u8c93\u54aa\u5c08\u5340")
       : t("menuTitle");
-  const legacyRecommendationKind = !collection && subcategory == null && (categorySlug === "dogs" || categorySlug === "cats" || categorySlug === "value-bundles")
-    ? categorySlug as CollectionRecommendationKind
-    : undefined;
-  const recommendationKind = (collection?.slug as CollectionRecommendationKind | undefined) ?? legacyRecommendationKind;
-  const recommendationItems = recommendationKind === "dogs" || recommendationKind === "cats" || recommendationKind === "value-bundles"
-    ? recommendationProducts(recommendationKind, catalogProducts)
-    : [];
+  const paradeKind = collection?.slug === "dogs" || collection?.slug === "cats" || collection?.slug === "value-bundles"
+    ? collection.slug as PetParadeKind
+    : null;
   return (
     <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
       <div className={isCollectionPage ? "mb-7" : ""}>
@@ -288,7 +259,7 @@ export function ProductCatalog({
         </>
       )}
       </div>
-      {recommendationKind ? <CollectionRecommendationCarousel kind={recommendationKind} products={recommendationItems} /> : null}
+      {paradeKind ? <PetParadeSection kind={paradeKind} products={catalogProducts} /> : null}
     </div>
   );
 }
