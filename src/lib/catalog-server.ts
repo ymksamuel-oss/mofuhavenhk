@@ -40,6 +40,7 @@ import {
   PRODUCT_LOCALIZATIONS_SETTING_KEY,
   parseProductLocalizations,
 } from "@/lib/product-localizations";
+import { sanitizeProductTitle } from "@/lib/product-title";
 
 export type CatalogSnapshot = {
   products: Product[];
@@ -418,7 +419,7 @@ function bestPartnerChineseName(value: string, supplierBrand: string | null | un
   const source = /^\u65e5\u672c\u7522\u5929\u7136\u5bf5\u7269\u98df\u54c1｜Best Partner \u5546\u54c1 \d+$/.test(value.trim())
     ? sourceValue?.trim() || ""
     : value;
-  if (supplierBrand !== "Best Partner" && source === value) return value;
+  if (supplierBrand !== "Best Partner" && source === value) return sanitizeProductTitle(value, "zh");
   const name = (source.replace(/[　]/g, " ").split(/[｜|]/).at(-1) || source)
     .replace(/^\u65e5\u672c(?:\u539f\u88dd|\u76f4\u9001|\u88fd\u54c1?)\s*/i, "")
     .replace(/^Best Partner\s*/i, "")
@@ -438,7 +439,7 @@ function bestPartnerChineseName(value: string, supplierBrand: string | null | un
     .replace(/フレーク/g, "\u8089\u9b06").replace(/ふりかけ/g, "\u62cc\u98ef\u7c89")
     .replace(/ちっぷす/g, "\u8106\u7247").replace(/キューブ/g, "\u7c92")
     .replace(/スティック/g, "\u68d2").replace(/\s+/g, " ").trim();
-  return translated || name || "\u672a\u547d\u540d\u7522\u54c1";
+  return sanitizeProductTitle(translated || name || "\u672a\u547d\u540d\u7522\u54c1", "zh");
 }
 
 function enforceEnglishCatalogProducts(products: readonly Product[]): Product[] {
@@ -990,13 +991,17 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     const categoryAssignment = resolveManagedCategoryAssignment(row.category_id, categoriesById);
     const categorySlug = categoryAssignment.categorySlug;
     const subcategory = categoryAssignment.subcategory;
-    const databaseNameZh = bestPartnerChineseName(String(row.name_zh || row.name || "\u672a\u547d\u540d\u7522\u54c1"), row.supplier_brand, row.name);
-    const databaseNameEn = resolveEnglishProductName({
+    const databaseNameZh = sanitizeProductTitle(
+      bestPartnerChineseName(String(row.name_zh || row.name || "\u672a\u547d\u540d\u7522\u54c1"), row.supplier_brand, row.name),
+      "zh",
+      row.mofu_sku?.trim(),
+    );
+    const databaseNameEn = sanitizeProductTitle(resolveEnglishProductName({
       id: row.id,
       sourceId: row.source_product_id,
       name: row.name,
       nameEn: productLocalization?.name_en || row.name_en || stripeName?.en,
-    });
+    }), "en", row.mofu_sku?.trim());
     const databaseDescriptionZh = row.description_zh || row.description;
     const databaseDescriptionEn = resolveEnglishProductDescription({
       id: row.id,

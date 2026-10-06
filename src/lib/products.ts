@@ -595,13 +595,17 @@ export function getProductFlavorFamily(productId: string): ProductFlavorFamily |
 }
 
 export const PRODUCT_MEAT_FAMILY_PATTERNS = {
-  PORK: /(?:黑豚|豬肉|豬耳|豬喉|豬蹄|豬腳|豬頸|豬氣管|豚|pork|pig)/i,
-  HORSE: /(?:馬肉|馬蹄|馬筋|馬背筋|馬肺|馬皮|馬骨|馬|horse)/i,
-  VENISON: /(?:蝦夷鹿|鹿肉|鹿肋排|鹿骨|鹿角|鹿肩胛|鹿脊骨|鹿|venison|deer)/i,
-  BEEF: /(?:牛肉|牛骨|牛蹄|牛筋|牛舌|牛食道|牛肝|牛頸|beef|bull)/i,
-  CHICKEN: /(?:雞肉|雞胸|雞肝|雞胗|雞砂肝|雞里肌|雞腳|雞冠|雞軟骨|鶏|ささみ|chicken)/i,
-  LAMB: /(?:羊肉|羊骨|羊肋|羊|ラム|lamb|sheep)/i,
-  FISH: /(?:魚類|魚肉|鮪魚|金槍魚|吞拿魚|柴魚|鰹魚|三文魚|鮭|鱈|鯖|鯛|鰻|鱧|鯊魚|魚介|小魚乾|fish|tuna|bonito|salmon|cod|shark)/i,
+  PORK: /(?:黑豚|豚(?:肉|耳|蹄|骨|腳)|(?<!野)豬(?:肉|耳|喉|蹄|腳|頸|氣管|食道|肋|肝|皮|骨)|\bpork\b|\bswine\b|\bpig\s+(?:meat|ear|ears|trotter|skin|rib|ribs)\b)/i,
+  BOAR: /(?:野豬(?:肉|耳|骨|肋)?|\bwild\s+boar\b|\bboar\b)/i,
+  HORSE: /(?:馬肉|馬蹄|馬筋|馬背筋|馬肺|馬皮|馬骨|馬腱|\bhorse(?:\s+meat)?\b)/i,
+  VENISON: /(?:蝦夷鹿|(?:野生|天然)?鹿(?:肉|肋排|骨|角|肩胛|脊骨|原肉|排骨|扒|筋)|日本鹿|\bvenison\b|\bdeer\b)/i,
+  BEEF: /(?:牛肉|牛骨|牛蹄|牛筋|牛舌|牛食道|牛肝|牛頸|\bbeef\b|\bbull\b)/i,
+  CHICKEN: /(?:雞肉|雞胸|雞肝|雞胗|雞砂肝|雞里肌|雞腳|雞冠|雞軟骨|鶏|ささみ|\bchicken\b)/i,
+  LAMB: /(?:羊肉|羊骨|羊肋|羊肺|羔羊|小羊|ラム(?:肉)?|\blamb\b|\bsheep\b)/i,
+  GOAT: /(?:山羊(?:肉|奶|乳)?|\bgoat(?:\s+meat)?\b)/i,
+  DUCK: /(?:鴨(?:肉|胸|腿|肝)?|カモ|\bduck\b)/i,
+  KANGAROO: /(?:袋鼠(?:肉)?|カンガルー|\bkangaroo\b)/i,
+  FISH: /(?:魚類|魚肉|鮪魚|金槍魚|吞拿魚|柴魚|鰹魚|三文魚|鮭|鱈|鯖|鯛|鰻|鱧|鯊魚|魚介|小魚乾|\bfish\b|\btuna\b|\bbonito\b|\bsalmon\b|\bcod\b|\bshark\b|\bseafood\b)/i,
 } as const;
 export type ProductMeatFamily = keyof typeof PRODUCT_MEAT_FAMILY_PATTERNS;
 
@@ -612,9 +616,15 @@ export type ProductMeatFamily = keyof typeof PRODUCT_MEAT_FAMILY_PATTERNS;
  */
 export function getProductMeatFamily(product: Pick<Product, 'name' | 'description' | 'tags' | 'metadata' | 'specs'>): ProductMeatFamily | null {
   const text = [
-    product.name.zh, product.name.en, product.description?.zh, product.description?.en,
-    ...(product.tags ?? []), ...(product.specs ?? []).flatMap((spec) => [spec.zh, spec.en]),
-    ...Object.values(product.metadata ?? {}),
+    product.name.zh,
+    product.name.en,
+    ...(product.tags ?? []),
+    ...Object.entries(product.metadata ?? {})
+      .filter(([key]) => /(?:ingredient|material|meat|protein|animal|flavou?r|supplier_category)/i.test(key))
+      .map(([, value]) => value),
+    ...(product.specs ?? [])
+      .filter((spec) => /(?:ingredient|原材料|原料|成分|食材)/i.test(`${spec.zh} ${spec.en}`))
+      .flatMap((spec) => [spec.zh, spec.en]),
   ].filter(Boolean).join(' ');
   const matches = (Object.keys(PRODUCT_MEAT_FAMILY_PATTERNS) as ProductMeatFamily[])
     .filter((family) => PRODUCT_MEAT_FAMILY_PATTERNS[family].test(text));

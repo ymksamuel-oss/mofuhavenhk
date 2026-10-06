@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/translations";
 import type { Product } from "@/lib/products";
+import { sanitizeProductTitle } from "@/lib/product-title";
 import fullEnglishDictionary from "@/data/product-english-dictionary.json";
 
 const CJK_RE = /[\u3400-\u9fff]/;
@@ -34,18 +35,14 @@ function dictionaryEnglishName(product: Product): string {
   return typeof value === "string" ? value : "";
 }
 
-function cleanName(value?: string): string {
+function cleanName(value?: string, sku?: string): string {
   if (!value || /\\u[0-9a-fA-F]{4}/.test(value) || CJK_RE.test(value)) return "";
-  return (value.split(/[|｜]/).at(-1) || value)
-    .replace(/^\s*(?:Made in Japan|Japan-made|Best\s*Partner)\s*/i, "")
-    .replace(/\bBest\s*Partner\b/gi, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  return sanitizeProductTitle(value.split(/[|｜]/).at(-1) || value, "en", sku);
 }
 
-function cleanChineseName(value?: string): string {
+function cleanChineseName(value?: string, sku?: string): string {
   if (!value || /\\u[0-9a-fA-F]{4}/.test(value)) return "";
-  return (value.split(/[|｜]/).at(-1) || value).replace(/\bBest\s*Partner\b/gi, "").replace(/\s{2,}/g, " ").trim();
+  return sanitizeProductTitle(value.split(/[|｜]/).at(-1) || value, "zh", sku);
 }
 
 function safeEnglishName(value?: string): string {
@@ -101,9 +98,9 @@ export function getLocalizedProductName(product: Product, locale: Locale): strin
       .filter(Boolean), englishNameCandidates(product).map(safeEnglishName).find(Boolean)]
       .flat()
       .find(Boolean);
-    return english || chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
+    return english ? sanitizeProductTitle(english, "en", sku) : chineseNameCandidates(product).map((value) => cleanChineseName(value, sku)).find(Boolean) || cleanChineseName(metadata.name_zh, sku) || "商品";
   }
-  return chineseNameCandidates(product).map(cleanChineseName).find(Boolean) || cleanChineseName(metadata.name_zh) || "商品";
+  return chineseNameCandidates(product).map((value) => cleanChineseName(value, sku)).find(Boolean) || cleanChineseName(metadata.name_zh, sku) || "商品";
 }
 
 export function getJapaneseProductSubtitle(product: Product): string {

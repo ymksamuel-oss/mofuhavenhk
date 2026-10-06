@@ -34,28 +34,6 @@ type ProductCatalogProps = {
   collectionSlug?: string | null;
 };
 
-const INGREDIENT_FILTERS = [
-  ["chicken", "\u96de\u8089", "\u9d8f chicken", "Chicken"],
-  ["duck", "\u9d28\u8089", "\u9d28 duck", "Duck"],
-  ["beef", "\u725b\u8089", "\u725b cow", "Beef"],
-  ["pork", "\u8c6c\u8089", "\u8c5a pig", "Pork"],
-  ["boar", "\u91ce\u8c6c\u8089", "\u732a boar", "Boar"],
-  ["kangaroo", "\u888b\u9f20\u8089", "カンガルー kangaroo", "Kangaroo"],
-  ["deer", "\u9e7f\u8089", "\u9e7f deer", "Venison"],
-  ["horse", "\u99ac\u8089", "\u99ac horse", "Horse"],
-  ["sheep", "\u7f8a\u8089", "\u7f8a sheep", "Lamb"],
-  ["roll", "\u8089\u985e\u5377\u88fd", "\u5dfbき roll", "Roll"],
-  ["chips-jerky", "\u8089\u7247・\u8089\u4e7e", "ちっぷすジャーキー", "Chips & jerky"],
-  ["seafood", "\u9b5a\u4ecb\u6d77\u9bae", "\u9b5a\u4ecb seafood", "Seafood"],
-  ["produce", "\u852c\u83dc・\u6c34\u679c", "\u91ce\u83dc・\u679c\u7269", "Vegetables & fruits"],
-  ["snacks", "\u96f6\u98df", "おかし snacks", "Snacks"],
-  ["dairy", "\u4e73\u88fd\u54c1", "\u4e73\u88fd\u54c1 dairy", "Dairy"],
-  ["seasoning", "\u62cc\u98ef\u7c89・\u6492\u6599", "ふりかけ seasoning", "Seasoning"],
-  ["side-dish", "\u719f\u98df\u914d\u83dc", "お\u60e3\u83dc side dish", "Side dish"],
-  ["frozen", "\u51b7\u51cd\u98df\u54c1", "\u51b7\u51cd frozen", "Frozen"],
-  ["food", "\u4e3b\u98df・\u98ef", "ごはん food", "Food"],
-] as const;
-
 const AUDIENCE_FILTERS = [
   ["dog", "\u72d7\u72d7\u5c08\u5340", "\u72ac\u7528", "For dogs"],
   ["cat", "\u8c93\u8c93\u5c08\u5340", "\u732b\u7528", "For cats"],
@@ -69,33 +47,6 @@ function isFoodProduct(product: Parameters<typeof productFilterText>[0]) {
   const text = productFilterText(product);
   return !/\u7528\u54c1|\u80f8\u80cc\u5e36|\u727d\u5f15\u5e36|\u9805\u5708|\u73a9\u5177|\u8c93\u7802|\u7802\u76c6|\u5c3f\u588a|\u98df\u5668|\u9935\u98df\u5668|grooming|harness|leash|collar|toy|litter|pad|bowl|supply/i.test(text) &&
     /supplier_category:(?:chicken|duck|beef|pork|boar|kangaroo|deer|horse|sheep|roll|chips-jerky|seafood|produce|snacks|dairy|seasoning|side-dish|frozen|food)|\u98df\u54c1|\u98df\u7269|\u5c0f\u98df|\u96f6\u98df|\u4e7e\u7ce7|\u7f50\u982d|\u51cd\u4e7e|\u8089\u6ce5|\u8089\u7247|\u8089\u4e7e|\u8089\u689d|\u8089\u7c92|\u9e7f\u8089|\u7d2b\u85af|おやつ|フード|トリーツ|food|treat|snack|jerky|kibble|canned|sweet\s*potato/i.test(text);
-}
-
-function matchesIngredient(product: Parameters<typeof productFilterText>[0], filter: string | null) {
-  if (!filter || filter === "all") return true;
-  const text = productFilterText(product);
-  const patterns: Record<string, RegExp> = {
-    food: /ごはん|\u4e7e\u7ce7|\u4e3b\u98df|\u98ef|food|kibble|rice/i,
-    frozen: /\u51b7\u51cd|\u51b7\u85cf|frozen/i,
-    "side-dish": /お\u60e3\u83dc|\u719f\u98df|side\s*dish|\u914d\u83dc/i,
-    seasoning: /ふりかけ|\u62cc\u98ef|\u62cc\u7ce7|\u6492\u6599|seasoning/i,
-    dairy: /\u4e73\u88fd\u54c1|チーズ|cheese|\u5976|\u4e73\u916a|dairy/i,
-    snacks: /おかし|おやつ|\u96f6\u98df|\u5c0f\u98df|\u9905\u4e7e|snack/i,
-    "chips-jerky": /ちっぷす|チップ|ジャーキー|chips|jerky|\u8089\u4e7e|\u8089\u7247/i,
-    roll: /\u5dfbき|\u5377|\u6372|roll/i,
-    kangaroo: /カンガルー|kangaroo|\u888b\u9f20/i,
-    duck: /\u9d28|\u9d28\u8089|duck|カモ/i,
-    boar: /\u732a|\u91ce\u8c6c|boar/i,
-    seafood: /\u6df1\u6d77\u6d77\u9bae|\u9b5a\u4ecb|\u9b5a|まぐろ|マグロ|かつお|\u9c39|きびなご|わかさぎ|たら|\u9c48|\u9bad|\u9bdb|\u9bf5|\u9bd6|\u9c67|うなぎ|\u5e06\u7acb|\u767d\u5b50|seafood|fish|tuna|bonito/i,
-    deer: /(?:\u4f4e\u654f\u9e7f\u8089|\u9e7f\u8089|\u8766\u5937\u9e7f|\u9e7f\u808b\u6392|\u9e7f\u9aa8|\u9e7f\u89d2)|ベニソン|venison|deer/i,
-    horse: /\u4f4e\u654f\u99ac\u8089|\u99ac\u8089|\u99ac|horse/i,
-    chicken: /\u7d14\u5929\u7136\u96de\u8089|\u96de\u80f8\u8089|\u96de\u8089|\u9d8f|チキン|ささみ|chicken/i,
-    beef: /\u56b4\u9078\u725b\u8089|\u725b\u8089|\u725b|ビーフ|beef/i,
-    pork: /\u8c6c\u8089|\u8c5a|ポーク|pork/i,
-    sheep: /\u7f8a\u8089|\u7f8a|ラム|sheep|lamb/i,
-    produce: /\u852c\u83dc|\u6c34\u679c|\u91ce\u83dc|フルーツ|\u679c\u7269|vegetable|fruit|produce/i,
-  };
-  return patterns[filter]?.test(text) ?? false;
 }
 
 function matchesAudience(product: Parameters<typeof productFilterText>[0], filter: string | null) {

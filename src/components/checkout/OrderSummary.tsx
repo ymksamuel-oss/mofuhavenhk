@@ -5,6 +5,7 @@ import { CartLineIncentiveNotice } from "@/components/cart/CartLineIncentiveNoti
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
+import { sanitizeProductTitle } from "@/lib/product-title";
 import {
   calcSubtotal,
   calcBulkDiscount,
@@ -116,7 +117,7 @@ export function OrderSummary({
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                 <ProductImage
                   src={item.image}
-                  alt={locale === "en" ? item.name.en : item.name.zh}
+                  alt={sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}
                   sizes="56px"
                   className="object-cover"
                 />
@@ -124,7 +125,7 @@ export function OrderSummary({
               <div className="min-w-0 space-y-2">
                 <div className="min-w-0 space-y-0.5">
                   <p className="font-medium leading-snug tracking-[0.01em] text-[color:var(--ink)]">
-                    {locale === "en" ? item.name.en : item.name.zh}
+                    {sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}
                   </p>
                   {item.variantLabel ? (
                     <p className="text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
@@ -146,7 +147,7 @@ export function OrderSummary({
                     <div
                       className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] bg-white p-0.5"
                       role="group"
-                        aria-label={`${t("qty")} ${locale === "en" ? item.name.en : item.name.zh}`}
+                        aria-label={`${t("qty")} ${sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}`}
                     >
                       <button
                         type="button"
@@ -186,7 +187,7 @@ export function OrderSummary({
                         type="button"
                         onClick={() => onRemoveItem?.(item.lineKey)}
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-[#8a3a2a] transition hover:border-[#c45a45] hover:bg-[#fdeceb] hover:text-[#6b2418] active:scale-[0.97]"
-                        aria-label={`${t("removeItem")}：${locale === "en" ? item.name.en : item.name.zh}`}
+                        aria-label={`${t("removeItem")}：${sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}`}
                         title={t("removeItem")}
                       >
                         <TrashIcon className="h-4 w-4" />

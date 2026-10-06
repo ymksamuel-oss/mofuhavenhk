@@ -1,3 +1,5 @@
+import { sanitizeProductTitle } from "@/lib/product-title";
+
 export type ProductEnglishSource = {
   id?: string | null;
   sourceId?: string | null;
@@ -27,12 +29,12 @@ export function isEnglishSafeCatalogText(value: string | null | undefined): bool
  */
 export function resolveEnglishProductName(source: ProductEnglishSource): string {
   const explicit = clean(source.nameEn);
-  if (isEnglishSafeCatalogText(explicit)) return explicit;
+  if (isEnglishSafeCatalogText(explicit)) return sanitizeProductTitle(explicit, "en");
 
   const rawName = clean(source.name);
-  if (isEnglishSafeCatalogText(rawName)) return rawName;
+  if (isEnglishSafeCatalogText(rawName)) return sanitizeProductTitle(rawName, "en");
 
-  return rawName;
+  return sanitizeProductTitle(rawName, "en");
 }
 
 /** Resolves EN description strictly from managed catalog data. */

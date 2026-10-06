@@ -27,10 +27,6 @@ function productSpecies(product?: Product): Species {
   return null;
 }
 
-function cleanRecommendationName(name: string): string {
-  return name.replace(/\bBestPartner\b/gi, "").replace(/\s{2,}/g, " ").replace(/\s+([｜|・])/g, "$1").trim();
-}
-
 function recommendationScore(product: Product, firstProduct?: Product, targetSpecies: Species = null): number {
   let score = 0;
   if (firstProduct?.categorySlug && product.categorySlug === firstProduct.categorySlug) score += 50;
@@ -87,7 +83,7 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
       </div>
       <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={locale === "zh" ? "推薦商品" : "Recommended products"}>
         {recommendations.map((product) => {
-          const name = cleanRecommendationName(getLocalizedProductName(product, locale));
+          const name = getLocalizedProductName(product, locale);
           const isAdded = addedId === product.id;
           return (
             <li key={product.id} className="w-[60%] min-w-[60%] shrink-0 snap-start sm:w-[45%] sm:min-w-[45%] md:w-[280px] md:min-w-[280px]">

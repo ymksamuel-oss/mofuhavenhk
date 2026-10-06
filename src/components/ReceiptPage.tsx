@@ -6,6 +6,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getReceipt, type ReceiptRecord } from "@/lib/receipt";
+import { sanitizeProductTitle } from "@/lib/product-title";
 
 type ReceiptPageProps = {
   orderNumber: string;
@@ -101,14 +102,14 @@ export function ReceiptPage({ orderNumber }: ReceiptPageProps) {
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[color:var(--background)] ring-1 ring-[color:var(--line)]">
                         <ProductImage
                           src={item.image}
-                          alt={(locale === "en" ? item.name.en : item.name.zh)}
+                          alt={sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}
                           sizes="56px"
                           className="object-cover"
                         />
                       </div>
                       <div className="min-w-0">
                         <p className="font-medium leading-snug text-[color:var(--ink)]">
-                          {(locale === "en" ? item.name.en : item.name.zh)}
+                          {sanitizeProductTitle(item.name[locale === "en" ? "en" : "zh"], locale === "en" ? "en" : "zh")}
                         </p>
                         <p className="mt-0.5 text-xs text-[color:var(--muted)]">
                           {formatMoney(item.unit, locale)} × {item.qty}

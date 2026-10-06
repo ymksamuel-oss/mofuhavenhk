@@ -6,6 +6,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type Locale } from "@/lib/i18n/translations";
 import { isStorefrontReadyProduct, productHref, type Product } from "@/lib/products";
+import { sanitizeProductTitle } from "@/lib/product-title";
 
 type ParadeTrackProps = {
   products: Product[];
@@ -38,7 +39,7 @@ function ParadeTrack({ products, label, locale }: ParadeTrackProps) {
     <div className="overflow-hidden" aria-label={label}>
       <div className="marquee-track animate-marquee flex w-max gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">
         {duplicated.map((product, index) => {
-          const name = locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en);
+          const name = sanitizeProductTitle(locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en), locale === "en" ? "en" : "zh", productSku(product));
           return (
             <Link
               key={`${product.id}-${index}`}
