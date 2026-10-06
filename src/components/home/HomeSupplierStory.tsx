@@ -61,38 +61,39 @@ export function HomeSupplierStory() {
 
         <article className="grid min-w-0 grid-cols-1 items-center gap-7 md:grid-cols-12 md:gap-10 lg:gap-16">
           <figure className="order-2 min-w-0 md:order-1 md:col-span-7">
-            <div className="relative aspect-square overflow-hidden rounded-2xl md:aspect-[4/3]">
+            <div className="relative overflow-hidden rounded-2xl border border-stone-100 bg-stone-50 shadow-sm">
               <Image
-                src="/images/best-partner/bp-official-golden-retriever-badges.jpg"
+                src="/images/best-partner-factory.jpg"
                 alt={isEn
-                  ? "Official Best Partner artwork: an owner petting a golden retriever, four Japanese quality badges and the BP mark"
-                  : "Best Partner 官方認證圖：主人撫摸金毛犬，左側完整呈現「国産・無添加・無着色・豊富な品揃え」四個標籤，右下角有 BP 標誌"}
-                fill
+                  ? "Best Partner head office factory in Toyohashi, Aichi, Japan, with the BP mark under a blue sky"
+                  : "日本愛知縣豐橋市 Best Partner 本社工廠實景，藍天白雲下可見 BP 標誌廠房"}
+                width={1090}
+                height={820}
                 sizes="(min-width: 1024px) 55vw, 100vw"
-                className="object-contain"
+                className="h-auto w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
               />
+              <figcaption className="absolute bottom-3 left-3 rounded-xl bg-white/95 px-3 py-2 text-xs font-semibold leading-5 text-stone-700 shadow-sm backdrop-blur-sm sm:bottom-5 sm:left-5 sm:px-4">
+                {isEn ? "🇯🇵 Best Partner head office factory · Toyohashi, Aichi" : "🇯🇵 日本愛知縣豐橋市・Best Partner 本社工廠實景"}
+              </figcaption>
             </div>
           </figure>
           <div className="order-1 min-w-0 md:order-2 md:col-span-5">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">
-              {isEn ? "THE ART OF SLOW DRYING" : "日本職人低溫慢烘工藝"}
+              {isEn ? "AICHI CRAFT · FROM SOURCE TO BOWL" : "愛知縣職人工藝／從產地到餐桌"}
             </p>
             <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-[#2D2926] sm:text-4xl">
-              {isEn ? "The Art of Slow Drying" : "日本職人的低溫慢火烘乾工藝"}
+              {isEn ? "A pure Japanese original for the family who matters most." : "給最重要的家人，一份純淨無瑕的日本原味。"}
             </h2>
             <p className="mt-5 text-sm leading-7 text-stone-600 sm:text-base sm:leading-8">
               {isEn
-                ? "Best Partner uses small-batch, low-temperature drying to deepen natural flavour—preserving goodness without relying on chemical preservatives."
-                : "Best Partner 堅持小批量低溫慢火溫烘，濃縮天然鮮味；以職人耐心守住風味，不依賴人工化學防腐劑。"}
+                ? "Best Partner's Aichi head office, founded in 1926, pairs small-batch low-temperature drying with Mofu Haven Hong Kong's official direct import service."
+                : "日本愛知縣百年本社（創業1926年）× 毛毛港香港官方專營直送"}
             </p>
-            <div className="mt-6 grid grid-cols-2 gap-3 text-xs font-semibold text-stone-700 sm:grid-cols-3">
-              {(isEn ? ["Small batch", "Low temperature", "0 preservatives"] : ["小批量製作", "低溫慢火", "0 化學防腐"]
-              ).map((label) => (
-                <span key={label} className="border-l-2 border-[#C86A2B] pl-3 leading-5">
-                  {label}
-                </span>
-              ))}
-            </div>
+            <p className="mt-4 text-sm leading-7 text-stone-600 sm:text-base sm:leading-8">
+              {isEn
+                ? "We select 100% Japanese local pure meat and gently slow-dry it in-house, protecting every pet's clean, healthy everyday nourishment."
+                : "嚴選 100% 日本在地純肉，自社低溫慢烘，守護毛孩純淨健康。"}
+            </p>
             <Link
               href="/supplier-profile"
               className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#C86A2B] transition hover:gap-3 hover:text-[#B25B20]"
