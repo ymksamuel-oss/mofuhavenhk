@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
-import { PetMatcherWizard } from "@/components/matcher/PetMatcherWizard";
 
 const topics = [
   { zh: "🐶 物理潔齒耐咬", en: "🐶 Dental chews" },
@@ -40,18 +40,16 @@ export function CareMatchCard() {
               </div>
             </div>
             <div className="w-full shrink-0 md:w-auto">
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new Event("mofu:open-matcher"))}
+              <Link
+                href="/matcher"
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-stone-900 px-6 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-amber-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8a5836] focus-visible:ring-offset-2 active:scale-[0.98] sm:text-base md:w-auto"
               >
                 <span>{isEn ? "Start smart matching ➔" : "開始智能配對 ➔"}</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
-      <PetMatcherWizard variant="home" showTrigger={false} />
     </>
   );
 }
