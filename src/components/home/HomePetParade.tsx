@@ -11,41 +11,46 @@ import { sanitizeProductTitle } from "@/lib/product-title";
 
 export type PetParadeKind = "home" | "dogs" | "cats" | "value-bundles";
 
-type ParadeTrackProps = {
-  products: Product[];
-  label: string;
-  locale: Locale;
-};
+type ProductPick = { sku: string; zh: string; en: string };
 
-const CAT_PICKS = [
-  "4976064013897", // 黃鰭金槍魚柴魚薄片
-  "4976064024725", // 貓用無鹽小魚乾
-  "4976064024893", // 天然黑鮪魚肉碎
-  "4976064024251", // 無添加純雞肉花撒粉
+const DOG_PICKS: readonly ProductPick[] = [
+  { sku: "4976064026545", zh: "北海道蝦夷鹿原肉乾", en: "Hokkaido venison jerky" },
+  { sku: "4976064025623", zh: "低敏純馬肉能量棒", en: "Hypoallergenic horse-meat bar" },
+  { sku: "4976064026446", zh: "特長牛大筋耐咬棒", en: "Extra-long beef tendon" },
+  { sku: "4976064025333", zh: "天然原隻牛蹄", en: "Whole natural beef hoof" },
+  { sku: "4976064026392", zh: "鯊魚皮潔齒皮棒", en: "Shark-skin dental chew" },
+  { sku: "4976064025470", zh: "天然鯊魚軟骨排", en: "Shark cartilage chew" },
+  { sku: "4976064026750", zh: "京丹波野生鹿肉片", en: "Kyoto venison slices" },
+  { sku: "4976064026552", zh: "厚切純馬肉條", en: "Thick-cut horse-meat strips" },
+  { sku: "4976064026415", zh: "豬喉軟骨潔齒圈", en: "Pork cartilage dental ring" },
+  { sku: "4976064025081", zh: "北海道鹿肉一口粒", en: "Venison bite cubes" },
 ];
 
-const DOG_PICKS = [
-  "4976064026545", // 北海道蝦夷鹿原肉乾
-  "4976064025623", // 低敏純馬肉能量棒
-  "4976064026446", // 天然牛大筋特長大條
-  "4976064025333", // 天然原隻牛蹄
-  "4976064026392", // 鯊魚軟骨排
+const CAT_PICKS: readonly ProductPick[] = [
+  { sku: "4976064013897", zh: "黃鰭金槍魚柴魚薄片", en: "Yellowfin tuna flakes" },
+  { sku: "4976064024725", zh: "貓用無鹽小魚乾", en: "Unsalted dried fish" },
+  { sku: "4976064024688", zh: "低鈉鰹魚柴魚花", en: "Low-sodium bonito flakes" },
+  { sku: "4976064024336", zh: "純雞里肌拌糧碎", en: "Chicken tenderloin topper" },
+  { sku: "4976064025500", zh: "純雞里肌細切條", en: "Chicken tenderloin strips" },
+  { sku: "4976064015747", zh: "純雞肉薄削花", en: "Chicken floss flakes" },
+  { sku: "4976064024718", zh: "雞里肌細切條 Mini", en: "Mini chicken strips" },
+  { sku: "4976064024893", zh: "天然金槍魚肉碎", en: "Natural tuna topper" },
 ];
 
 const COPY: Record<Exclude<PetParadeKind, "home">, { eyebrow: { zh: string; en: string }; title: { zh: string; en: string }; sub: { zh: string; en: string } }> = {
   dogs: {
     eyebrow: { zh: "狗狗好物漫步", en: "DOGS · PET PARADE" },
-    title: { zh: "好物持續流動中", en: "Good things keep moving" },
-    sub: { zh: "精選狗狗天然原肉與耐咬好物，向左輕輕流動，隨時點擊發現心水選擇。", en: "Natural meat treats and long-lasting chews for dogs, gently gliding left for easy discovery." },
+    title: { zh: "狗狗好物精選", en: "Dog essentials" },
+    sub: { zh: "精選狗狗天然原肉與耐咬好物，短名稱顯示，手機瀏覽不怕截斷。", en: "Natural meat treats and long-lasting chews with short, easy-to-scan names." },
   },
   cats: {
     eyebrow: { zh: "貓咪美味漫步", en: "CATS · PET PARADE" },
-    title: { zh: "鮮味持續流動中", en: "Fresh flavour keeps moving" },
-    sub: { zh: "精選挑嘴貓咪喜愛的無鹽魚乾、金槍魚薄片與凍乾，隨時點擊選購。", en: "Salt-free fish, tuna flakes and freeze-dried favourites for discerning cats, ready to discover." },
+    title: { zh: "貓咪好物精選", en: "Cat essentials" },
+    sub: { zh: "八款貓咪小食，兩排各四款，方便手機逐格瀏覽。", en: "Eight cat favourites in two rows of four for easy mobile browsing." },
   },
   "value-bundles": {
     eyebrow: { zh: "湊單好物漫步", en: "ADD-ON · PET PARADE" },
-    title: { zh: "滿額免運好物流動中", en: "Add-on favourites keep moving" },
+    title: { zh: "滿額免運好物", en: "Add-on favourites" },
     sub: { zh: "全店滿 HK$399 享順豐免運，精選超值好物任你隨心湊單。", en: "Build your basket with popular add-ons and enjoy free SF shipping on orders over HK$399." },
   },
 };
@@ -61,63 +66,65 @@ function uniqueProducts(products: Product[]): Product[] {
 function selectParadeProducts(products: Product[], kind: PetParadeKind): Product[] {
   const available = products.filter((product) => product.inStock !== false && isStorefrontReadyProduct(product));
   const bySku = new Map(available.map((product) => [productSku(product), product]));
-  const fromSkus = (skus: string[]) => skus.flatMap((sku) => {
-    const product = bySku.get(sku);
+  const fromPicks = (picks: readonly ProductPick[]) => picks.flatMap((pick) => {
+    const product = bySku.get(pick.sku);
     return product ? [product] : [];
   });
-
-  if (kind === "cats") return fromSkus(CAT_PICKS);
-  if (kind === "dogs") return fromSkus(DOG_PICKS);
+  if (kind === "cats") return fromPicks(CAT_PICKS);
+  if (kind === "dogs") return fromPicks(DOG_PICKS);
   if (kind === "value-bundles") {
     const bundleCollection = getCollection("value-bundles");
     const bundleIds = new Set(bundleCollection ? getCollectionProducts(available, bundleCollection).map((product) => product.id) : []);
-    const addOns = available
-      .filter((product) => !bundleIds.has(product.id) && product.price >= 50 && product.price <= 70)
-      .sort((left, right) => left.price - right.price);
-    return uniqueProducts(addOns).slice(0, 8);
+    return uniqueProducts(available.filter((product) => !bundleIds.has(product.id) && product.price >= 50 && product.price <= 70).sort((left, right) => left.price - right.price)).slice(0, 8);
   }
-  return uniqueProducts([...fromSkus(CAT_PICKS), ...fromSkus(DOG_PICKS)]);
+  return uniqueProducts([...fromPicks(CAT_PICKS), ...fromPicks(DOG_PICKS)]);
 }
 
-function ParadeTrack({ products, label, locale }: ParadeTrackProps) {
-  const duplicated = [...products, ...products];
+function ProductGroup({ picks, products, title, label, locale }: { picks: readonly ProductPick[]; products: Product[]; title: string; label: string; locale: Locale }) {
+  const bySku = new Map(products.filter(isStorefrontReadyProduct).map((product) => [productSku(product), product]));
+  const items = picks.flatMap((pick) => {
+    const product = bySku.get(pick.sku);
+    return product ? [{ pick, product }] : [];
+  });
+  const isZh = locale === "zh";
+  if (!items.length) return null;
+
   return (
-    <div className="overflow-hidden" aria-label={label}>
-      <div className="marquee-track animate-marquee flex w-max gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">
-        {duplicated.map((product, index) => {
-          const name = sanitizeProductTitle(locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en), locale === "en" ? "en" : "zh", productSku(product));
+    <div aria-label={label}>
+      <div className="mb-4 flex items-end justify-between gap-3">
+        <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold text-[#2D2926] sm:text-2xl">{title}</h3>
+        <span className="text-xs font-medium text-stone-500">{items.length} {isZh ? "款" : "items"}</span>
+      </div>
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        {items.map(({ pick, product }, index) => {
+          const name = isZh ? pick.zh : pick.en;
           return (
-            <Link
-              key={`${product.id}-${index}`}
-              href={productHref(product.id)}
-              className="group flex w-44 shrink-0 items-center gap-3 rounded-2xl border border-stone-100 bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition hover:-translate-y-0.5 hover:shadow-md active:[animation-play-state:paused] sm:w-52"
-              aria-label={locale === "en" ? `View product: ${name}` : `查看商品：${name}`}
-            >
-              <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white sm:h-20 sm:w-20">
-                <ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="80px" className="object-contain p-1 transition-transform duration-300 group-hover:scale-105" />
-              </span>
-              <span className="min-w-0">
-                <span className="line-clamp-2 text-xs font-medium leading-5 text-stone-700">{name}</span>
-                <span className="mt-1 block text-sm font-bold tabular-nums text-[#111111]">{formatMoney(product.price, locale)}</span>
-              </span>
-            </Link>
+            <li key={product.id} className="min-w-0">
+              <Link href={productHref(product.id)} aria-label={`${isZh ? "查看商品" : "View product"}：${name}`} className="group block h-full overflow-hidden rounded-2xl border border-[#F1F1F1] bg-white shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B]">
+                <div className="relative aspect-square w-full overflow-hidden bg-[#FFFFFF] p-2.5 sm:p-3"><ProductImage src={product.images?.[0] ?? product.image} alt={name} priority={index < 4} sizes="(min-width: 640px) 23vw, 46vw" className="object-contain transition-transform duration-300 group-hover:scale-[1.03]" /></div>
+                <div className="min-w-0 px-3 pb-4 pt-3 sm:px-4"><h4 className="line-clamp-2 min-h-10 overflow-hidden text-sm font-semibold leading-5 text-[#2D2926] sm:text-base">{name}</h4><p className="mt-2 text-sm font-bold tabular-nums text-[#49372c]">{formatMoney(product.price, locale)}</p></div>
+              </Link>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
+}
+
+function ParadeTrack({ products, label, locale }: { products: Product[]; label: string; locale: Locale }) {
+  const duplicated = [...products, ...products];
+  return <div className="overflow-hidden" aria-label={label}><div className="marquee-track animate-marquee flex w-max gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">{duplicated.map((product, index) => {
+    const name = sanitizeProductTitle(locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en), locale === "en" ? "en" : "zh", productSku(product));
+    return <Link key={`${product.id}-${index}`} href={productHref(product.id)} className="group flex w-44 shrink-0 items-center gap-3 rounded-2xl border border-stone-100 bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition hover:-translate-y-0.5 hover:shadow-md active:[animation-play-state:paused] sm:w-52" aria-label={locale === "en" ? `View product: ${name}` : `查看商品：${name}`}><span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white sm:h-20 sm:w-20"><ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="80px" className="object-contain p-1 transition-transform duration-300 group-hover:scale-105" /></span><span className="min-w-0"><span className="line-clamp-2 text-xs font-medium leading-5 text-stone-700">{name}</span><span className="mt-1 block text-sm font-bold tabular-nums text-[#111111]">{formatMoney(product.price, locale)}</span></span></Link>;
+  })}</div></div>;
 }
 
 export function PetParadeSection({ products, kind }: { products: Product[]; kind: PetParadeKind }) {
   const { locale, t } = useI18n();
   const selected = useMemo(() => selectParadeProducts(products, kind), [kind, products]);
-  if (!selected.length) return null;
-
-  const catTrack = kind === "cats" ? selected : kind === "dogs" ? selected : selected.filter((product) => CAT_PICKS.includes(productSku(product)));
-  const dogTrack = kind === "dogs" ? selected : kind === "cats" ? selected : selected.filter((product) => DOG_PICKS.includes(productSku(product)));
-  const firstTrack = catTrack.length ? catTrack : selected;
-  const secondTrack = dogTrack.length ? dogTrack : selected;
   const copy = kind === "home" ? null : COPY[kind];
+  if (!selected.length && kind !== "home") return null;
   const eyebrow = copy ? (locale === "en" ? copy.eyebrow.en : copy.eyebrow.zh) : t("homeMarqueeEyebrow");
   const title = copy ? (locale === "en" ? copy.title.en : copy.title.zh) : t("homeMarqueeTitle");
   const sub = copy ? (locale === "en" ? copy.sub.en : copy.sub.zh) : t("homeMarqueeSub");
@@ -125,15 +132,8 @@ export function PetParadeSection({ products, kind }: { products: Product[]; kind
   return (
     <section className="overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16" aria-labelledby={`pet-parade-${kind}-title`}>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-6 text-center sm:mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-stone-500">{eyebrow}</p>
-          <h2 id={`pet-parade-${kind}-title`} className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">{title}</h2>
-          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{sub}</p>
-        </div>
-        <div className="space-y-3">
-          <ParadeTrack products={firstTrack} label={locale === "en" ? `${title} first row` : `${title} 第一排`} locale={locale} />
-          <ParadeTrack products={secondTrack} label={locale === "en" ? `${title} second row` : `${title} 第二排`} locale={locale} />
-        </div>
+        <div className="mb-8 text-center sm:mb-10"><p className="text-xs font-semibold uppercase tracking-widest text-stone-500">{eyebrow}</p><h2 id={`pet-parade-${kind}-title`} className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">{title}</h2><p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{sub}</p></div>
+        {kind === "home" ? <div className="space-y-10"><ProductGroup picks={DOG_PICKS} products={products} title={locale === "zh" ? "🐶 狗狗好物" : "🐶 Dog essentials"} label={locale === "zh" ? "狗狗十款好物" : "Ten dog essentials"} locale={locale} /><ProductGroup picks={CAT_PICKS} products={products} title={locale === "zh" ? "🐱 貓咪好物" : "🐱 Cat essentials"} label={locale === "zh" ? "貓咪八款好物" : "Eight cat essentials"} locale={locale} /></div> : <ParadeTrack products={selected} label={title} locale={locale} />}
       </div>
     </section>
   );
