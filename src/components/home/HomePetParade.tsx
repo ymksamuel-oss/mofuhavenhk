@@ -37,6 +37,10 @@ const CAT_PICKS: readonly ProductPick[] = [
   { sku: "4976064024893", zh: "天然金槍魚肉碎", en: "Natural tuna topper" },
 ];
 
+// Interleave the two homepage rows so the shared odd/even splitter produces
+// exactly five products on each track rather than stacking dog and cat groups.
+const HOME_PICKS: readonly ProductPick[] = DOG_PICKS.slice(0, 5).flatMap((pick, index) => [pick, DOG_PICKS[index + 5]]);
+
 const COPY: Record<Exclude<PetParadeKind, "home">, { eyebrow: { zh: string; en: string }; title: { zh: string; en: string }; sub: { zh: string; en: string } }> = {
   dogs: {
     eyebrow: { zh: "狗狗好物漫步", en: "DOGS · PET PARADE" },
@@ -121,14 +125,6 @@ function ProductMarqueeTrack({ items, locale, extraClass = "" }: { items: Array<
   </div>;
 }
 
-function ParadeTrack({ products, label, locale }: { products: Product[]; label: string; locale: Locale }) {
-  const duplicated = [...products, ...products];
-  return <div className="overflow-hidden" aria-label={label}><div className="marquee-track animate-marquee flex w-max gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">{duplicated.map((product, index) => {
-    const name = sanitizeProductTitle(locale === "en" ? (product.name.en || product.name.zh) : (product.name.zh || product.name.en), locale === "en" ? "en" : "zh", productSku(product));
-    return <Link key={`${product.id}-${index}`} href={productHref(product.id)} className="group flex w-44 shrink-0 items-center gap-3 rounded-2xl border border-stone-100 bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition hover:-translate-y-0.5 hover:shadow-md active:[animation-play-state:paused] sm:w-52" aria-label={locale === "en" ? `View product: ${name}` : `查看商品：${name}`}><span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white sm:h-20 sm:w-20"><ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="80px" className="object-contain p-1 transition-transform duration-300 group-hover:scale-105" /></span><span className="min-w-0"><span className="line-clamp-2 text-xs font-medium leading-5 text-stone-700">{name}</span><span className="mt-1 block text-sm font-bold tabular-nums text-[#111111]">{formatMoney(product.price, locale)}</span></span></Link>;
-  })}</div></div>;
-}
-
 export function PetParadeSection({ products, kind }: { products: Product[]; kind: PetParadeKind }) {
   const { locale, t } = useI18n();
   const selected = useMemo(() => selectParadeProducts(products, kind), [kind, products]);
@@ -137,12 +133,21 @@ export function PetParadeSection({ products, kind }: { products: Product[]; kind
   const eyebrow = copy ? (locale === "en" ? copy.eyebrow.en : copy.eyebrow.zh) : t("homeMarqueeEyebrow");
   const title = copy ? (locale === "en" ? copy.title.en : copy.title.zh) : t("homeMarqueeTitle");
   const sub = copy ? (locale === "en" ? copy.sub.en : copy.sub.zh) : t("homeMarqueeSub");
+  const selectedPicks = kind === "value-bundles"
+    ? selected.map((product) => ({ sku: productSku(product), zh: sanitizeProductTitle(product.name.zh, "zh", productSku(product)), en: sanitizeProductTitle(product.name.en || product.name.zh, "en", productSku(product)) }))
+    : [];
 
   return (
     <section className="overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16" aria-labelledby={`pet-parade-${kind}-title`}>
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center sm:mb-10"><p className="text-xs font-semibold uppercase tracking-widest text-stone-500">{eyebrow}</p><h2 id={`pet-parade-${kind}-title`} className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">{title}</h2><p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{sub}</p></div>
-        {kind === "home" ? <div className="space-y-10"><ProductGroup picks={DOG_PICKS} products={products} title={locale === "zh" ? "🐶 狗狗好物" : "🐶 Dog essentials"} label={locale === "zh" ? "狗狗十款好物" : "Ten dog essentials"} locale={locale} /><ProductGroup picks={CAT_PICKS} products={products} title={locale === "zh" ? "🐱 貓咪好物" : "🐱 Cat essentials"} label={locale === "zh" ? "貓咪八款好物" : "Eight cat essentials"} locale={locale} /></div> : kind === "dogs" ? <ProductGroup picks={DOG_PICKS} products={products} title={title} label={title} locale={locale} /> : kind === "cats" ? <ProductGroup picks={CAT_PICKS} products={products} title={title} label={title} locale={locale} /> : <ParadeTrack products={selected} label={title} locale={locale} />}
+        <ProductGroup
+          picks={kind === "home" ? HOME_PICKS : kind === "dogs" ? DOG_PICKS : kind === "cats" ? CAT_PICKS : selectedPicks}
+          products={products}
+          title={kind === "home" ? (locale === "zh" ? "🐾 好物漫步" : "🐾 Pet favourites") : title}
+          label={kind === "home" ? (locale === "zh" ? "十款精選好物雙軌" : "Ten featured products in two tracks") : title}
+          locale={locale}
+        />
       </div>
     </section>
   );
