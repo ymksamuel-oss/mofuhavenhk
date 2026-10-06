@@ -33,10 +33,22 @@ export function sanitizeProductTitle(
     title = title.replace(/^\s*(?:dogs?\s*\/\s*cats?|cats?\s*(?:and|&)\s*dogs?|dogs?|cats?)\s+/i, "");
   }
 
-  return title
+  const cleaned = title
     .replace(/(】)\s+/g, "$1")
     .replace(/\s+/g, " ")
     .replace(/\s+([｜|・])/g, "$1")
     .replace(/^\s*[-–—:：|｜・]+\s*/, "")
     .trim();
+
+  // Some imported records contain the same display name twice, separated by
+  // whitespace. Keep one title so every card and recommendation renders it once.
+  const repeated = cleaned.match(/^(.+?)\s+\1$/u);
+  if (repeated?.[1]) return repeated[1].trim();
+  if (cleaned.length % 2 === 0) {
+    const midpoint = cleaned.length / 2;
+    const left = cleaned.slice(0, midpoint).trim();
+    const right = cleaned.slice(midpoint).trim();
+    if (left && left === right) return left;
+  }
+  return cleaned;
 }

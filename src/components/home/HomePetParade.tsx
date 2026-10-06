@@ -87,6 +87,7 @@ function ProductGroup({ picks, products, title, label, locale }: { picks: readon
     return product ? [{ pick, product }] : [];
   });
   const isZh = locale === "zh";
+  const rows = Array.from({ length: Math.ceil(items.length / 4) }, (_, rowIndex) => items.slice(rowIndex * 4, rowIndex * 4 + 4));
   if (!items.length) return null;
 
   return (
@@ -95,8 +96,9 @@ function ProductGroup({ picks, products, title, label, locale }: { picks: readon
         <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold text-[#2D2926] sm:text-2xl">{title}</h3>
         <span className="text-xs font-medium text-stone-500">{items.length} {isZh ? "款" : "items"}</span>
       </div>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-        {items.map(({ pick, product }, index) => {
+      <div className="space-y-3 sm:space-y-4">
+        {rows.map((row, rowIndex) => <ul key={rowIndex} className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          {row.map(({ pick, product }, index) => {
           const name = isZh ? pick.zh : pick.en;
           return (
             <li key={product.id} className="min-w-0">
@@ -106,8 +108,9 @@ function ProductGroup({ picks, products, title, label, locale }: { picks: readon
               </Link>
             </li>
           );
-        })}
-      </ul>
+          })}
+        </ul>)}
+      </div>
     </div>
   );
 }
@@ -133,7 +136,7 @@ export function PetParadeSection({ products, kind }: { products: Product[]; kind
     <section className="overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16" aria-labelledby={`pet-parade-${kind}-title`}>
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center sm:mb-10"><p className="text-xs font-semibold uppercase tracking-widest text-stone-500">{eyebrow}</p><h2 id={`pet-parade-${kind}-title`} className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">{title}</h2><p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-stone-500">{sub}</p></div>
-        {kind === "home" ? <div className="space-y-10"><ProductGroup picks={DOG_PICKS} products={products} title={locale === "zh" ? "🐶 狗狗好物" : "🐶 Dog essentials"} label={locale === "zh" ? "狗狗十款好物" : "Ten dog essentials"} locale={locale} /><ProductGroup picks={CAT_PICKS} products={products} title={locale === "zh" ? "🐱 貓咪好物" : "🐱 Cat essentials"} label={locale === "zh" ? "貓咪八款好物" : "Eight cat essentials"} locale={locale} /></div> : <ParadeTrack products={selected} label={title} locale={locale} />}
+        {kind === "home" ? <div className="space-y-10"><ProductGroup picks={DOG_PICKS} products={products} title={locale === "zh" ? "🐶 狗狗好物" : "🐶 Dog essentials"} label={locale === "zh" ? "狗狗十款好物" : "Ten dog essentials"} locale={locale} /><ProductGroup picks={CAT_PICKS} products={products} title={locale === "zh" ? "🐱 貓咪好物" : "🐱 Cat essentials"} label={locale === "zh" ? "貓咪八款好物" : "Eight cat essentials"} locale={locale} /></div> : kind === "dogs" ? <ProductGroup picks={DOG_PICKS} products={products} title={title} label={title} locale={locale} /> : kind === "cats" ? <ProductGroup picks={CAT_PICKS} products={products} title={title} label={title} locale={locale} /> : <ParadeTrack products={selected} label={title} locale={locale} />}
       </div>
     </section>
   );
