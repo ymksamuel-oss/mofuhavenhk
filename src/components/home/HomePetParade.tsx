@@ -87,7 +87,8 @@ function ProductGroup({ picks, products, title, label, locale }: { picks: readon
     return product ? [{ pick, product }] : [];
   });
   const isZh = locale === "zh";
-  const rows = Array.from({ length: Math.ceil(items.length / 4) }, (_, rowIndex) => items.slice(rowIndex * 4, rowIndex * 4 + 4));
+  const row1 = items.filter((_, index) => index % 2 === 0);
+  const row2 = items.filter((_, index) => index % 2 === 1);
   if (!items.length) return null;
 
   return (
@@ -96,23 +97,28 @@ function ProductGroup({ picks, products, title, label, locale }: { picks: readon
         <h3 className="font-[family-name:var(--font-display)] text-xl font-semibold text-[#2D2926] sm:text-2xl">{title}</h3>
         <span className="text-xs font-medium text-stone-500">{items.length} {isZh ? "款" : "items"}</span>
       </div>
-      <div className="space-y-3 sm:space-y-4">
-        {rows.map((row, rowIndex) => <ul key={rowIndex} className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          {row.map(({ pick, product }, index) => {
-          const name = isZh ? pick.zh : pick.en;
-          return (
-            <li key={product.id} className="min-w-0">
-              <Link href={productHref(product.id)} aria-label={`${isZh ? "查看商品" : "View product"}：${name}`} className="group block h-full overflow-hidden rounded-2xl border border-[#F1F1F1] bg-white shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C86A2B]">
-                <div className="relative aspect-square w-full overflow-hidden bg-[#FFFFFF] p-2.5 sm:p-3"><ProductImage src={product.images?.[0] ?? product.image} alt={name} priority={index < 4} sizes="(min-width: 640px) 23vw, 46vw" className="object-contain transition-transform duration-300 group-hover:scale-[1.03]" /></div>
-                <div className="min-w-0 px-3 pb-4 pt-3 sm:px-4"><h4 className="line-clamp-2 min-h-10 overflow-hidden text-sm font-semibold leading-5 text-[#2D2926] sm:text-base">{name}</h4><p className="mt-2 text-sm font-bold tabular-nums text-[#49372c]">{formatMoney(product.price, locale)}</p></div>
-              </Link>
-            </li>
-          );
-          })}
-        </ul>)}
+      <div className="space-y-3">
+        <ProductMarqueeTrack items={row1.length ? row1 : items} locale={locale} />
+        <ProductMarqueeTrack items={row2.length ? row2 : items} locale={locale} extraClass="pl-10" />
       </div>
     </div>
   );
+}
+
+function ProductMarqueeTrack({ items, locale, extraClass = "" }: { items: Array<{ pick: ProductPick; product: Product }>; locale: Locale; extraClass?: string }) {
+  const loopItems = [...items, ...items, ...items];
+  const isZh = locale === "zh";
+  return <div className={`flex overflow-hidden ${extraClass}`}>
+    <div className="marquee-track animate-marquee flex w-max shrink-0 gap-3 py-1 hover:[animation-play-state:paused] active:[animation-play-state:paused]">
+      {loopItems.map(({ pick, product }, index) => {
+        const name = isZh ? pick.zh : pick.en;
+        return <Link key={`${product.id}-${index}`} href={productHref(product.id)} className="group flex w-[230px] shrink-0 items-center gap-3 rounded-2xl border border-stone-100/80 bg-white p-2.5 pr-4 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-md sm:w-[250px]" aria-label={`${isZh ? "查看商品" : "View product"}：${name}`}>
+          <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-stone-50 p-1 sm:h-16 sm:w-16"><ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="64px" className="object-contain" /></span>
+          <span className="min-w-0"><span className="block truncate text-xs font-semibold text-stone-800">{name}</span><span className="mt-1 block text-sm font-bold tabular-nums text-stone-900">{formatMoney(product.price, locale)}</span></span>
+        </Link>;
+      })}
+    </div>
+  </div>;
 }
 
 function ParadeTrack({ products, label, locale }: { products: Product[]; label: string; locale: Locale }) {
