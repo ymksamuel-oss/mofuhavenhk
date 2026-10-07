@@ -1,5 +1,6 @@
 // Mofu Journal homepage: editorial storytelling with one curated product selection.
 import { FAQAccordion } from "@/components/FAQAccordion";
+import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { HomePetParade } from "@/components/home/HomePetParade";
@@ -26,6 +27,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <WelcomeEntranceOverlay />
       <HomeJournalHero products={products} />
       <HomeSupplierStory />
       <HomePetParade products={products} />
