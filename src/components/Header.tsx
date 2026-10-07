@@ -35,6 +35,15 @@ function CartIcon({ className = "" }: { className?: string }) {
   );
 }
 
+function UserIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+      <circle cx="12" cy="8" r="3.4" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M5.25 20a6.75 6.75 0 0 1 13.5 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function CaretIcon({ open = false }: { open?: boolean }) {
   return (
     <svg
@@ -197,7 +206,7 @@ export function Header() {
             className="flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-lg text-[color:var(--ink)] transition hover:border-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
             aria-label={locale === "en" ? (member ? "Member centre" : "Sign in") : (member ? "會員中心" : "登入會員")}
           >
-            <span aria-hidden="true">👤</span>
+            <UserIcon className="h-5 w-5" />
           </Link>
         </div>
 
