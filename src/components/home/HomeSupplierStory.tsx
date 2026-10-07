@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
+const FACTORY_MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent("ベストパートナー株式会社 愛知県豊橋市下地町長池36番地")}&output=embed`;
+
 export function HomeSupplierStory() {
   const { locale } = useI18n();
   const isEn = locale === "en";
@@ -61,19 +63,18 @@ export function HomeSupplierStory() {
 
         <article className="grid min-w-0 grid-cols-1 items-center gap-7 md:grid-cols-12 md:gap-10 lg:gap-16">
           <figure className="order-2 min-w-0 md:order-1 md:col-span-7">
-            <div className="relative overflow-hidden rounded-2xl border border-stone-100 bg-stone-50 shadow-sm">
-              <Image
-                src="/images/best-partner-factory.jpg"
-                alt={isEn
-                  ? "Best Partner head office factory in Toyohashi, Aichi, Japan, with the BP mark under a blue sky"
-                  : "日本愛知縣豐橋市 Best Partner 本社工廠實景，藍天白雲下可見 BP 標誌廠房"}
-                width={1090}
-                height={820}
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="h-auto w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-              />
-              <figcaption className="absolute bottom-3 left-3 rounded-xl bg-white/95 px-3 py-2 text-xs font-semibold leading-5 text-stone-700 shadow-sm backdrop-blur-sm sm:bottom-5 sm:left-5 sm:px-4">
-                {isEn ? "🇯🇵 Best Partner head office factory · Toyohashi, Aichi" : "🇯🇵 日本愛知縣豐橋市・Best Partner 本社工廠實景"}
+            <div className="overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
+              <div className="h-64 sm:h-80">
+                <iframe
+                  title={isEn ? "Best Partner head office location in Toyohashi, Aichi" : "Best Partner 愛知縣豐橋市本社位置地圖"}
+                  src={FACTORY_MAP_EMBED_URL}
+                  className="h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <figcaption className="border-t border-stone-100 px-4 py-3 text-xs leading-5 text-stone-600 sm:px-5">
+                {isEn ? "Best Partner head office · 36 Nagaike, Shimoji-cho, Toyohashi, Aichi 440-0086, Japan" : "日本愛知縣豐橋市 Best Partner 本社位置｜〒440-0086 愛知県豊橋市下地町長池36番地"}
               </figcaption>
             </div>
           </figure>
@@ -82,7 +83,7 @@ export function HomeSupplierStory() {
               {isEn ? "AICHI CRAFT · FROM SOURCE TO BOWL" : "愛知縣職人工藝／從產地到餐桌"}
             </p>
             <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold leading-tight tracking-tight text-[#2D2926] sm:text-4xl">
-              {isEn ? "A pure Japanese original for the family who matters most." : "給最重要的家人，一份純淨無瑕的日本原味。"}
+              {isEn ? "The people and place behind every honest bite." : "看得見的產地，守住每一口安心。"}
             </h2>
             <p className="mt-5 text-sm leading-7 text-stone-600 sm:text-base sm:leading-8">
               {isEn
