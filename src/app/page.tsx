@@ -35,7 +35,10 @@ export default async function HomePage() {
       <HomepageFeaturedShowcase products={products} />
       <CareMatchCard />
       <FAQAccordion />
-      <BrandHarmonyBanner />
+      <BrandHarmonyBanner
+        imageSrc="/images/home-pet-companionship.webp"
+        imageAlt={{ zh: "金毛幼犬與虎斑幼貓在柔軟地毯上溫柔對望", en: "A golden puppy and tabby kitten looking at each other on a soft carpet" }}
+      />
     </>
   );
 }

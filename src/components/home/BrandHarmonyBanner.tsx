@@ -5,7 +5,12 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 
-export function BrandHarmonyBanner() {
+type BrandHarmonyBannerProps = {
+  imageSrc?: string;
+  imageAlt?: { zh: string; en: string };
+};
+
+export function BrandHarmonyBanner({ imageSrc = "/images/home-pet-companionship.webp", imageAlt }: BrandHarmonyBannerProps) {
   const { locale } = useI18n();
   const isEn = locale === "en";
   const whatsappUrl = getShopWhatsAppChatUrl(
@@ -20,8 +25,8 @@ export function BrandHarmonyBanner() {
         <div className="grid min-w-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <div className="relative aspect-[4/3] min-w-0 overflow-hidden sm:aspect-video lg:aspect-auto lg:h-full lg:min-h-[310px]">
             <Image
-              src="/images/home-pet-companionship.webp"
-              alt={isEn ? "A golden puppy and tabby kitten looking at each other on a soft carpet" : "金毛幼犬與虎斑幼貓在柔軟地毯上溫柔對望"}
+              src={imageSrc}
+              alt={isEn ? imageAlt?.en ?? "Pets sharing a warm moment together" : imageAlt?.zh ?? "貓狗在溫柔日常中互相陪伴"}
               fill
               sizes="(min-width: 1024px) 52vw, 100vw"
               className="object-cover"

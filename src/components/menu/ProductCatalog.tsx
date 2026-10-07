@@ -204,6 +204,13 @@ export function ProductCatalog({
   const paradeKind = collection?.slug === "dogs" || collection?.slug === "cats" || collection?.slug === "value-bundles"
     ? collection.slug as PetParadeKind
     : null;
+  const harmonyImage = collection?.slug === "dogs" || categorySlug === "dogs"
+    ? { src: "/images/pet-companionship-dogs.jpg", zh: "金毛大狗與貓咪在家中溫柔相伴", en: "A golden retriever gently keeping a cat company at home" }
+    : collection?.slug === "cats" || categorySlug === "cats" || specialFilter === "cat-zone"
+      ? { src: "/images/pet-companionship-cats.jpg", zh: "狗狗與貓咪在柔軟寢具上親密相伴", en: "A cat and dogs sharing a tender moment on soft bedding" }
+      : collection?.slug === "value-bundles"
+        ? { src: "/images/pet-companionship-value-bundles.jpg", zh: "毛孩在溫暖日常中安心熟睡", en: "A pet sleeping peacefully in a warm everyday setting" }
+        : null;
   return (
     <div className="mx-auto max-w-5xl px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-10">
       <div className={isCollectionPage ? "mb-7" : ""}>
@@ -261,7 +268,10 @@ export function ProductCatalog({
       )}
       </div>
       {paradeKind ? <PetParadeSection kind={paradeKind} products={catalogProducts} /> : null}
-      <BrandHarmonyBanner />
+      <BrandHarmonyBanner
+        imageSrc={harmonyImage?.src}
+        imageAlt={harmonyImage ? { zh: harmonyImage.zh, en: harmonyImage.en } : undefined}
+      />
     </div>
   );
 }
