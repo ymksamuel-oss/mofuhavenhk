@@ -5,6 +5,8 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import {
   SF_PICKUP_POINTS,
   findSfPickupPointByCode,
+  getSfPickupSearchText,
+  getSfSearchTokens,
   type SfPickupPoint,
   type SfPickupRegion,
   type SfPickupType,
@@ -46,22 +48,34 @@ export function SFExpressPickupSelector({
   );
   const [query, setQuery] = useState("");
   const selectedPoint = findSfPickupPointByCode(selectedCode);
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-  const hasEnoughToSearch = Boolean(region && type) || normalizedQuery.length >= 2;
-  const showResults = hasEnoughToSearch && (!selectedPoint || normalizedQuery.length >= 2);
+  const searchTokens = getSfSearchTokens(query);
+  const hasActiveSearch = searchTokens.length > 0;
+  const hasEnoughToSearch = Boolean(region && type) || hasActiveSearch;
+  const showResults = hasEnoughToSearch && (!selectedPoint || hasActiveSearch);
 
   const results = useMemo(() => {
     if (!hasEnoughToSearch) return [];
-    return SF_PICKUP_POINTS.filter((point) => {
-      if (region && point.region !== region) return false;
+    return SF_PICKUP_POINTS
+      .filter((point) => {
+      // While the customer is actively searching, search the complete point
+      // directory. This prevents a previously selected broad region filter
+      // from hiding a valid Sha Tin / Ma On Shan result.
+      if (!hasActiveSearch && region && point.region !== region) return false;
       if (type && point.type !== type) return false;
-      if (!normalizedQuery) return true;
-      return [point.code, point.area, point.name, point.address]
-        .join(" ")
-        .toLocaleLowerCase()
-        .includes(normalizedQuery);
-    }).slice(0, 12);
-  }, [hasEnoughToSearch, normalizedQuery, region, type]);
+      if (!hasActiveSearch) return true;
+      const searchable = getSfPickupSearchText(point);
+      return searchTokens.every((token) => searchable.includes(token));
+      })
+      .sort((left, right) => {
+        if (!hasActiveSearch) return 0;
+        const leftText = getSfPickupSearchText(left);
+        const rightText = getSfPickupSearchText(right);
+        const leftExact = searchTokens.reduce((score, token) => score + (left.code.toLocaleLowerCase() === token ? 4 : leftText.startsWith(token) ? 2 : 0), 0);
+        const rightExact = searchTokens.reduce((score, token) => score + (right.code.toLocaleLowerCase() === token ? 4 : rightText.startsWith(token) ? 2 : 0), 0);
+        return rightExact - leftExact;
+      })
+      .slice(0, 12);
+  }, [hasActiveSearch, hasEnoughToSearch, region, searchTokens, type]);
 
   const changeFilter = (callback: () => void) => {
     if (selectedCode) onClearSelection();
