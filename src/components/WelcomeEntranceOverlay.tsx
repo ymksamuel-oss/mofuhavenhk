@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function WelcomeEntranceOverlay() {
@@ -45,7 +46,7 @@ export function WelcomeEntranceOverlay() {
 
         <div className="mx-auto max-w-5xl pt-8 sm:pt-10 lg:pt-12">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
-            <Image src="/images/brands/mofu-haven-normalized.png" alt="Mofu Haven 毛毛港" width={740} height={600} priority className="h-16 w-auto max-w-[150px] object-contain mix-blend-multiply sm:h-20 sm:max-w-[190px]" />
+            <BrandLogo title="Mofu Haven 毛毛港" />
             <span className="text-2xl font-light text-stone-300" aria-hidden="true">×</span>
             <Image src="/images/brands/best-partner-logo.svg" alt="Best Partner Japan" width={220} height={70} priority className="h-14 w-auto max-w-[170px] object-contain mix-blend-multiply sm:h-20 sm:max-w-[220px]" />
           </div>

@@ -1,9 +1,6 @@
-// Visual reference: mobile Japanese editorial header keeps the logo, search, cart, and menu visible;
-// language switching moves off the compact toolbar so the Hero remains visually quiet.
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
@@ -24,12 +21,7 @@ function navLinkClassName(active: boolean) {
 
 function CartIcon({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
       <path
         d="M3.5 5h1.7l1.2 10.2a1.5 1.5 0 0 0 1.5 1.3h9.4a1.5 1.5 0 0 0 1.5-1.2L20.5 8H7"
         stroke="currentColor"
@@ -56,47 +48,17 @@ function CaretIcon({ open = false }: { open?: boolean }) {
   );
 }
 
-function MenuIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="h-5 w-5"
-      fill="none"
-      aria-hidden="true"
-    >
-      {open ? (
-        <path
-          d="M6 6l12 12M18 6L6 18"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-        />
-      ) : (
-        <path
-          d="M4 7h16M4 12h16M4 17h16"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-        />
-      )}
-    </svg>
-  );
-}
-
 type HeaderLocale = "zh" | "en";
 
-function LanguageSwitcher({
-  locale,
-  label,
-  size,
-  onSelect,
-}: {
+type LanguageSwitcherProps = {
   locale: HeaderLocale;
   label: string;
-  size: "drawer" | "desktop";
+  size: "mobile" | "desktop";
   onSelect: (next: HeaderLocale) => void;
-}) {
-  const isDrawer = size === "drawer";
+};
+
+function LanguageSwitcher({ locale, label, size, onSelect }: LanguageSwitcherProps) {
+  const isMobile = size === "mobile";
   const options: { value: HeaderLocale; zhLabel: string; enLabel: string }[] = [
     { value: "zh", zhLabel: "中文", enLabel: "Chinese" },
     { value: "en", zhLabel: "英文", enLabel: "English" },
@@ -104,23 +66,25 @@ function LanguageSwitcher({
 
   return (
     <div
-      className={isDrawer
-        ? "flex h-11 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5"
+      className={isMobile
+        ? "flex h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 md:hidden"
         : "hidden h-10 shrink-0 items-center gap-0.5 rounded-full border border-[color:var(--line)] bg-[color:var(--background)] p-0.5 sm:h-11 md:flex"}
       role="group"
       aria-label={label}
     >
       {options.map((option) => {
         const active = locale === option.value;
+        const optionName = option.value === "zh" ? "中文" : "English";
         return (
           <button
             key={option.value}
             type="button"
             onClick={() => onSelect(option.value)}
             aria-pressed={active}
-            className={`rounded-full transition ${isDrawer ? "min-h-11 px-3 py-2 text-xs" : "px-2 py-2 text-[10px] tracking-wide sm:text-xs"} ${active ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"} font-medium`}
+            aria-label={`${locale === "en" ? "Switch to" : "切換至"}${locale === "en" ? " " : ""}${optionName}`}
+            className={`rounded-full font-medium transition ${isMobile ? "min-h-8 px-2 py-1 text-[10px]" : "px-2 py-2 text-[10px] tracking-wide sm:text-xs"} ${active ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}
           >
-            {locale === "zh" ? option.zhLabel : option.enLabel}
+            {isMobile ? (option.value === "zh" ? "中" : "EN") : locale === "zh" ? option.zhLabel : option.enLabel}
           </button>
         );
       })}
@@ -134,18 +98,10 @@ export function Header() {
   const pathname = usePathname();
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [desktopBrandOpen, setDesktopBrandOpen] = useState(false);
-  const [portalReady, setPortalReady] = useState(false);
-  const drawerId = useId();
   const desktopCategoryRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    setPortalReady(true);
-  }, []);
-
-  useEffect(() => {
-    setMenuOpen(false);
     setDesktopBrandOpen(false);
   }, [pathname]);
 
@@ -158,9 +114,7 @@ export function Header() {
       }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setDesktopBrandOpen(false);
-      }
+      if (event.key === "Escape") setDesktopBrandOpen(false);
     };
 
     window.addEventListener("pointerdown", closeWhenOutside);
@@ -171,289 +125,136 @@ export function Header() {
     };
   }, [desktopBrandOpen]);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-
-    const body = document.body;
-    const root = document.documentElement;
-    const previousBodyStyles = {
-      overflow: body.style.overflow,
-      overscrollBehavior: body.style.overscrollBehavior,
-      touchAction: body.style.touchAction,
-    };
-    const previousRootOverflow = root.style.overflow;
-
-    // Lock both scrolling roots without changing page position on iOS.
-    body.style.overflow = "hidden";
-    body.style.overscrollBehavior = "none";
-    body.style.touchAction = "none";
-    root.style.overflow = "hidden";
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-
-    return () => {
-      body.style.overflow = previousBodyStyles.overflow;
-      body.style.overscrollBehavior = previousBodyStyles.overscrollBehavior;
-      body.style.touchAction = previousBodyStyles.touchAction;
-      root.style.overflow = previousRootOverflow;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
-
-  const homeNavItem = { href: "/", label: locale === "zh" ? "首頁" : t("navHome"), active: pathname === "/" } as const;
-
   const primaryCategoryLinks = [
     { slug: "dogs", label: locale === "zh" ? "狗狗專區" : t("navCategoriesDogs") },
     { slug: "cats", label: locale === "zh" ? "貓貓專區" : t("navCategoriesCats") },
   ] as const;
   const petGuideHref = "/pet-guide";
-  const matcherHref = "/matcher";
-  const mobileMenu =
-    menuOpen && portalReady
-      ? createPortal(
-          <div
-            className="fixed inset-0 z-[100] h-[100dvh] min-h-[100dvh] w-screen max-w-[100vw] overflow-hidden overscroll-none md:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("navOpenMenu")}
-          >
-            {/* Dim overlay — tap anywhere outside the drawer to close */}
-            <button
-              type="button"
-              className="absolute inset-0 bg-[color:var(--ink)]/45 backdrop-blur-[2px] transition-opacity"
-              aria-label={t("navCloseMenu")}
-              onClick={() => setMenuOpen(false)}
-            />
-            <nav
-              id={drawerId}
-              className="absolute right-0 top-0 z-[101] flex h-[100dvh] max-h-[100dvh] w-[min(82vw,20rem)] max-w-full flex-col overflow-hidden overscroll-contain border-l border-[color:var(--line)] bg-[color:var(--background)] shadow-[-16px_0_40px_-20px_rgba(43,38,35,0.28)]"
-              style={{
-                background: "#FFFFFF",
-              }}
-            >
-              <div className="flex shrink-0 items-center justify-between border-b border-[color:var(--line)] px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top,0px))]">
-                <span className="font-[family-name:var(--font-display)] text-sm font-semibold leading-none text-[color:var(--ink)]">
-                  {t("brand")}
-                </span>
-                <button
-                  type="button"
-                  className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)]"
-                  aria-label={t("navCloseMenu")}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <MenuIcon open />
-                </button>
-              </div>
-              {member ? (
-                <div className="shrink-0 border-b border-[color:var(--line)] bg-[color:var(--accent-soft)]/50 p-3">
-                  <div className="flex min-w-0 items-center gap-3 rounded-xl px-2 py-1">
-                    <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent)] text-sm font-bold text-white">{(member.displayName || member.email || "M").slice(0, 1).toLocaleUpperCase()}</span>
-                    <div className="min-w-0"><p className="truncate text-sm font-semibold text-[color:var(--ink)]">{member.displayName || (locale === "en" ? "Mofu member" : "毛毛港會員")}</p><p className="truncate text-xs text-[color:var(--muted)]">{member.email}</p></div>
-                  </div>
-                  <div className="mt-2 grid grid-cols-2 gap-2">
-                    <Link href="/account" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Account" : "個人中心"}</Link>
-                    <Link href="/account/orders" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "My orders" : "我的訂單"}</Link>
-                    <Link href="/account/addresses" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-white px-2 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Address book" : "地址簿"}</Link>
-                    <form action={signOutAction} className="min-w-0"><button type="submit" className="min-h-11 w-full rounded-xl border border-[color:var(--line)] bg-white px-2 text-sm font-semibold text-[color:var(--muted)]">{locale === "en" ? "Sign out" : "登出"}</button></form>
-                  </div>
-                </div>
-              ) : (
-                <div className="grid shrink-0 grid-cols-2 gap-2 border-b border-[color:var(--line)] p-3">
-                  <Link href="/account/login" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Sign in" : "登入"}</Link>
-                  <Link href="/account/signup" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-3 text-sm font-semibold text-white">{locale === "en" ? "Create account" : "註冊會員"}</Link>
-                </div>
-              )}
-              <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain px-3 pb-3 pt-3 [-webkit-overflow-scrolling:touch]">
-                <li className="block w-full">
-                  <Link href="/wishlist" className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 py-3.5 text-base font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
-                    <span>{locale === "en" ? "My wishlist" : "我的最愛"}</span>
-                    {wishlistCount > 0 ? <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c0483a] px-1 text-xs font-bold text-white">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
-                  </Link>
-                </li>
-                {[homeNavItem].map((item) => (
-                  <li key={item.href} className="block w-full">
-                    <Link
-                      href={item.href}
-                      className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${
-                        item.active
-                          ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]"
-                          : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"
-                      }`}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-                {primaryCategoryLinks.map((item) => (
-                  <li key={item.slug} className="block w-full">
-                    <Link href={`/collections/${item.slug}`} className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-                <li className="block w-full">
-                  <Link href="/collections/value-bundles" className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname.startsWith("/collections/value-bundles") ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>{locale === "en" ? "🎁 Value Bundles" : "🎁 促銷組合"}</Link>
-                </li>
-                <li className="block w-full">
-                  <Link href={petGuideHref} className={`flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal transition ${pathname === petGuideHref ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--ink)]" : "text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]"}`} onClick={() => setMenuOpen(false)}>{t("navHeaderExplore")}</Link>
-                </li>
-                <li className="block w-full">
-                  <Link href="/about" className="flex min-h-11 w-full touch-manipulation items-center rounded-xl px-4 py-3.5 text-base font-medium leading-normal text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)]/70 hover:text-[color:var(--ink)]" onClick={() => setMenuOpen(false)}>{t("navAbout")}</Link>
-                </li>
-              </ul>
-              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-[color:var(--line)] bg-white px-4 pt-3 pb-[max(16px,env(safe-area-inset-bottom,16px))]">
-                <span className="text-sm font-medium text-[color:var(--muted)]">{t("headerLanguageLabel")}</span>
-                <LanguageSwitcher
-                  locale={locale}
-                  label={t("headerLanguageLabel")}
-                  size="drawer"
-                  onSelect={(nextLocale) => { setLocale(nextLocale); setMenuOpen(false); }}
-                />
-              </div>
-            </nav>
-          </div>,
-          document.body,
-        )
-      : null;
+  const accountHref = member ? "/account" : "/account/login";
 
   return (
-    <>
-      <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-2 px-3 sm:h-24 sm:gap-3 sm:px-6">
-          <Link
-            href="/"
-            className="brand-logo-link flex shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
-            aria-label={t("brand")}
-          >
-            <BrandLogo
-              title={t("brand")}
-              animateOnMount
-              className="h-16 w-auto sm:h-20"
-            />
+    <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
+      <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-2 px-3 sm:h-24 sm:gap-3 sm:px-6">
+        <Link
+          href="/"
+          className="brand-logo-link flex shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+          aria-label={t("brand")}
+        >
+          <BrandLogo title={t("brand")} />
+        </Link>
+
+        <nav
+          ref={desktopCategoryRef}
+          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[12px] text-[color:var(--muted)] md:flex lg:gap-8 lg:text-sm"
+          aria-label={t("headerPrimaryNavLabel")}
+        >
+          <Link href="/" className={navLinkClassName(pathname === "/")}>
+            {locale === "zh" ? "首頁" : t("navHome")}
           </Link>
-
-          <nav
-            ref={desktopCategoryRef}
-            className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[12px] text-[color:var(--muted)] md:flex lg:gap-8 lg:text-sm"
-            aria-label={t("headerPrimaryNavLabel")}
-          >
-            <Link href="/" className={navLinkClassName(pathname === "/")}>
-              {locale === "zh" ? "首頁" : t("navHome")}
-            </Link>
-            {primaryCategoryLinks.map((item) => (
-               <Link key={item.slug} href={`/collections/${item.slug}`} className={navLinkClassName(pathname === `/collections/${item.slug}` || pathname.startsWith(`/collections/${item.slug}/`))}>
-                {item.label}
-              </Link>
-            ))}
-            <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
-              {locale === "en" ? "Value Bundles" : "促銷組合"}
-            </Link>
-            <Link href={petGuideHref} className={navLinkClassName(pathname === petGuideHref || pathname.startsWith(`${petGuideHref}/`))}>
-              {locale === "en" ? "Explore Pet World" : "探索寵物世界"}
-            </Link>
-            <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
-              <button type="button" className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`} aria-haspopup="menu" aria-expanded={desktopBrandOpen} onClick={() => setDesktopBrandOpen((open) => !open)} onFocus={() => setDesktopBrandOpen(true)}>
-                {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
-              </button>
-              {desktopBrandOpen ? <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-[#FFFFFF] p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#FFFFFF] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "About Mofu Haven" : "認識毛毛港"}</Link>
-                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[#FFFFFF] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>{locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}</Link>
-              </div> : null}
-            </div>
-          </nav>
-
-          {/* Mobile keeps only search, cart and menu here; language stays in the drawer. */}
-          <div className="ml-auto flex min-w-0 shrink items-center gap-1.5 sm:gap-2.5">
-            <ProductSearch variant="header" />
-
+          {primaryCategoryLinks.map((item) => (
             <Link
-              href="/checkout"
-              className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:flex"
-              aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
-              data-testid="header-cart"
-              onClick={(event) => {
-                if (typeof window !== "undefined" && window.innerWidth < 768) return;
-                event.preventDefault();
-                window.dispatchEvent(new Event("mofu:open-cart"));
-              }}
+              key={item.slug}
+              href={`/collections/${item.slug}`}
+              className={navLinkClassName(pathname === `/collections/${item.slug}` || pathname.startsWith(`/collections/${item.slug}/`))}
             >
-              <CartIcon className="h-5 w-5" />
-              {itemCount > 0 ? (
-                <span
-                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6D4C3D] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              ) : null}
+              {item.label}
             </Link>
-
-            <Link
-              href="/checkout"
-              className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
-              aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
-              onClick={(event) => {
-                event.preventDefault();
-                window.dispatchEvent(new Event("mofu:open-cart"));
-              }}
-            >
-              <CartIcon className="h-5 w-5" />
-              {itemCount > 0 ? (
-                <span
-                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6D4C3D] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              ) : null}
-            </Link>
-            <Link href="/wishlist" className="relative hidden h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#FFFFFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 md:flex" aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}>
-              <span aria-hidden="true">{wishlistCount > 0 ? "♥" : "♡"}</span>
-              {wishlistCount > 0 ? <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">{wishlistCount > 99 ? "99+" : wishlistCount}</span> : null}
-            </Link>
-
-            <LanguageSwitcher
-              locale={locale}
-              label={t("headerLanguageLabel")}
-              size="desktop"
-              onSelect={setLocale}
-            />
-
-            {member ? (
-              <details className="relative hidden md:block">
-                <summary aria-label={locale === "en" ? "Member menu" : "會員選單"} className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-sm font-bold text-[color:var(--ink)] marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]">{(member.displayName || member.email || "M").slice(0, 1).toLocaleUpperCase()}</summary>
-                <div className="absolute right-0 top-[calc(100%+0.5rem)] z-[80] grid min-w-52 gap-1 rounded-2xl border border-[color:var(--line)] bg-white p-2 shadow-lg">
-                  <p className="truncate px-3 py-2 text-xs text-[color:var(--muted)]">{member.email}</p>
-                  <Link href="/account" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Member centre" : "個人中心"}</Link>
-                  <Link href="/account/orders" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "My orders" : "我的訂單"}</Link>
-                  <Link href="/account/addresses" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Address book" : "地址簿"}</Link>
-                  <form action={signOutAction}><button type="submit" className="min-h-11 w-full rounded-xl px-3 py-2.5 text-left text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Sign out" : "登出"}</button></form>
-                </div>
-              </details>
-            ) : (
-              <Link href="/account/login" className="hidden min-h-11 items-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)] hover:border-[color:var(--accent)] md:flex">{locale === "en" ? "Sign in" : "登入／註冊"}</Link>
-            )}
-
+          ))}
+          <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
+            {locale === "en" ? "Value Bundles" : "促銷組合"}
+          </Link>
+          <Link href={petGuideHref} className={navLinkClassName(pathname === petGuideHref || pathname.startsWith(`${petGuideHref}/`))}>
+            {locale === "en" ? "Explore Pet World" : "探索寵物世界"}
+          </Link>
+          <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
             <button
               type="button"
-              className="flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--background)] text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 md:hidden"
-              aria-label={menuOpen ? t("navCloseMenu") : t("navOpenMenu")}
-              aria-expanded={menuOpen}
-              aria-controls={drawerId}
-              onClick={() => setMenuOpen((open) => !open)}
+              className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`}
+              aria-haspopup="menu"
+              aria-expanded={desktopBrandOpen}
+              onClick={() => setDesktopBrandOpen((open) => !open)}
+              onFocus={() => setDesktopBrandOpen(true)}
             >
-              <MenuIcon open={menuOpen} />
+              {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
             </button>
+            {desktopBrandOpen ? (
+              <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-white p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
+                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>
+                  {locale === "en" ? "About Mofu Haven" : "認識毛毛港"}
+                </Link>
+                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>
+                  {locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}
+                </Link>
+              </div>
+            ) : null}
           </div>
+        </nav>
+
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 md:hidden">
+          <LanguageSwitcher locale={locale} label={t("headerLanguageLabel")} size="mobile" onSelect={setLocale} />
+          <Link
+            href={accountHref}
+            className="flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-lg text-[color:var(--ink)] transition hover:border-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            aria-label={locale === "en" ? (member ? "Member centre" : "Sign in") : (member ? "會員中心" : "登入會員")}
+          >
+            <span aria-hidden="true">👤</span>
+          </Link>
         </div>
-      </header>
-      {mobileMenu}
-    </>
+
+        <div className="ml-auto hidden items-center gap-2.5 md:flex">
+          <ProductSearch variant="header" />
+          <Link
+            href="/checkout"
+            className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
+            aria-label={`${t("navCart")}${itemCount > 0 ? ` (${itemCount})` : ""}`}
+            data-testid="header-cart"
+            onClick={(event) => {
+              event.preventDefault();
+              window.dispatchEvent(new Event("mofu:open-cart"));
+            }}
+          >
+            <CartIcon className="h-5 w-5" />
+            {itemCount > 0 ? (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#6D4C3D] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums" aria-live="polite" aria-atomic="true">
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            ) : null}
+          </Link>
+          <Link
+            href="/wishlist"
+            className="relative flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-lg text-[#b84d3d] transition hover:border-[#b84d3d] hover:bg-[#FFFFFF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2"
+            aria-label={`${locale === "en" ? "My wishlist" : "我的最愛"}${wishlistCount > 0 ? ` (${wishlistCount})` : ""}`}
+          >
+            <span aria-hidden="true">{wishlistCount > 0 ? "♥" : "♡"}</span>
+            {wishlistCount > 0 ? (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#c0483a] px-1 text-[10px] font-bold leading-none text-white shadow-sm tabular-nums">
+                {wishlistCount > 99 ? "99+" : wishlistCount}
+              </span>
+            ) : null}
+          </Link>
+          <LanguageSwitcher locale={locale} label={t("headerLanguageLabel")} size="desktop" onSelect={setLocale} />
+          {member ? (
+            <details className="relative">
+              <summary aria-label={locale === "en" ? "Member menu" : "會員選單"} className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-sm font-bold text-[color:var(--ink)] marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]">
+                {(member.displayName || member.email || "M").slice(0, 1).toLocaleUpperCase()}
+              </summary>
+              <div className="absolute right-0 top-[calc(100%+0.5rem)] z-[80] grid min-w-52 gap-1 rounded-2xl border border-[color:var(--line)] bg-white p-2 shadow-lg">
+                <p className="truncate px-3 py-2 text-xs text-[color:var(--muted)]">{member.email}</p>
+                <Link href="/account" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Member centre" : "個人中心"}</Link>
+                <Link href="/account/orders" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "My orders" : "我的訂單"}</Link>
+                <Link href="/account/addresses" className="rounded-xl px-3 py-2.5 text-sm hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Address book" : "地址簿"}</Link>
+                <form action={signOutAction}>
+                  <button type="submit" className="min-h-11 w-full rounded-xl px-3 py-2.5 text-left text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)]">{locale === "en" ? "Sign out" : "登出"}</button>
+                </form>
+              </div>
+            </details>
+          ) : (
+            <Link href="/account/login" className="flex min-h-11 items-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)] hover:border-[color:var(--accent)]">
+              {locale === "en" ? "Sign in" : "登入／註冊"}
+            </Link>
+          )}
+        </div>
+      </div>
+    </header>
   );
 }

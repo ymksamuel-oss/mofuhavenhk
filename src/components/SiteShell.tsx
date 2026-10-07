@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { AdminLayout } from "@/components/AdminLayout";
 import { Header } from "@/components/Header";
 import { CartDrawerHost } from "@/components/cart/CartDrawerHost";
+import { FloatingMobileDock } from "@/components/FloatingMobileDock";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { Footer } from "@/components/Footer";
@@ -20,6 +21,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <>
       <Header />
       <CartDrawerHost />
+      <FloatingMobileDock />
       <BrandServiceStrip />
       <ShopFlowNav>
         <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)]">

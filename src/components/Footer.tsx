@@ -23,6 +23,9 @@ const SHOP_EMAIL =
 type FooterLink = { href: string; labelKey: TranslationKey };
 
 const QUICK_LINKS: FooterLink[] = [
+  { href: "/account", labelKey: "footerAccount" },
+  { href: "/account/orders", labelKey: "footerOrders" },
+  { href: "/wishlist", labelKey: "footerWishlist" },
   { href: "/about", labelKey: "footerAbout" },
   { href: "/faq", labelKey: "footerFaq" },
 ];
@@ -148,7 +151,7 @@ export function Footer() {
 
   return (
     <footer id="site-footer-root"
-      className="mt-2 border-t border-[#F1F1F1] bg-[#FFFFFF] text-[#4b352a]"
+      className="mt-2 border-t border-[#F1F1F1] bg-[#FFFFFF] pb-[calc(6rem+env(safe-area-inset-bottom))] text-[#4b352a] md:pb-0"
       aria-labelledby="site-footer-heading"
     >
       <h2 id="site-footer-heading" className="sr-only">
@@ -164,10 +167,7 @@ export function Footer() {
               className="brand-logo-link inline-flex rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2"
               aria-label={t("brand")}
             >
-              <BrandLogo
-                title={t("brand")}
-                className="h-24 sm:h-28"
-              />
+              <BrandLogo title={t("brand")} />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed tracking-[0.01em] text-[#62493b]">
               {t("footerTagline")}

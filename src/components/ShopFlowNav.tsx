@@ -68,6 +68,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
   const showTopBack = !isHome && !isMenuPage && !pageHasOwnNavigation;
   const showBottomContinue =
     pathname === "/checkout" || isHome || isCategoryPage || isProductPage;
+  const dockReplacesContinueOnMobile = isHome || isCategoryPage || isProductPage;
 
   return (
     <div id="shop-flow-nav-root">
@@ -107,7 +108,7 @@ export function ShopFlowNav({ children }: { children: ReactNode }) {
       <div className="w-full max-w-[100vw] overflow-x-clip">{children}</div>
 
       {showBottomContinue ? (
-        <div className="relative z-20 mx-auto w-full max-w-5xl px-4 pt-3 sm:px-6 site-bottom-pad">
+        <div className={`relative z-20 mx-auto w-full max-w-5xl px-4 pt-3 sm:px-6 site-bottom-pad ${dockReplacesContinueOnMobile ? "hidden md:block" : ""}`}>
           <ContinueShoppingButton variant="soft" className="w-full sm:w-full" />
         </div>
       ) : (
