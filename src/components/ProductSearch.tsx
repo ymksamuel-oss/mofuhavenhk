@@ -295,9 +295,11 @@ function SearchField({
 }
 
 type ProductSearchProps = {
-  variant?: "header" | "home";
+  variant?: "header" | "home" | "dock";
   className?: string;
   autoFocus?: boolean;
+  triggerClassName?: string;
+  triggerLabel?: string;
 };
 
 /**
@@ -308,6 +310,8 @@ export function ProductSearch({
   variant = "header",
   className = "",
   autoFocus = false,
+  triggerClassName = "h-5 w-5",
+  triggerLabel,
 }: ProductSearchProps) {
   const { t } = useI18n();
   const { products } = useCatalog();
@@ -477,6 +481,31 @@ export function ProductSearch({
           document.body,
         )
       : null;
+
+  if (variant === "dock") {
+    return (
+      <>
+        <div ref={rootRef} className={`relative flex min-w-0 flex-1 items-center ${className}`}>
+          <button
+            type="button"
+            className="flex min-h-[34px] w-full min-w-0 flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1 text-[10px] font-medium leading-tight text-stone-700 transition active:scale-95"
+            aria-label={triggerLabel ?? t("productSearchOpen")}
+            aria-haspopup="dialog"
+            aria-expanded={modalOpen}
+            data-testid="mobile-dock-product-search"
+            onClick={() => {
+              setModalOpen(true);
+              setSuggestionsOpen(true);
+            }}
+          >
+            <SearchGlyph className={triggerClassName} />
+            <span>{triggerLabel ?? t("productSearchOpen")}</span>
+          </button>
+        </div>
+        {modal}
+      </>
+    );
+  }
 
   return (
     <>

@@ -8,6 +8,7 @@ import { FloatingMobileDock } from "@/components/FloatingMobileDock";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
 import { ShopFlowNav } from "@/components/ShopFlowNav";
 import { Footer } from "@/components/Footer";
+import { FloatingMobileDock } from "@/components/FloatingMobileDock";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -29,6 +30,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         </main>
       </ShopFlowNav>
       <Footer />
+      <FloatingMobileDock />
     </>
   );
 }

@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useCart } from "@/lib/shop/cart";
 import { OPEN_CART_EVENT } from "@/components/cart/CartDrawerHost";
-import { getShopWhatsAppChatUrl } from "@/lib/whatsapp";
 
 type IconProps = { className?: string };
 
@@ -51,17 +51,8 @@ function ShoppingBagIcon({ className = "" }: IconProps) {
   );
 }
 
-function ChatIcon({ className = "" }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
-      <path d="M20.2 11.5a8.2 8.2 0 0 1-8.4 8.2 9.6 9.6 0 0 1-3.55-.68L4 20l1.05-3.65A8.06 8.06 0 0 1 3.6 11.5a8.3 8.3 0 0 1 8.4-8.2 8.3 8.3 0 0 1 8.2 8.2Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8 11.8h8M8 15.1h5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function dockItemClass(active: boolean) {
-  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-3 py-1.5 text-center text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
+  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-1 py-1.5 text-center text-[10px] font-medium leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
 }
 
 export function FloatingMobileDock() {
@@ -77,14 +68,12 @@ export function FloatingMobileDock() {
 
   useEffect(() => {
     if (!categoriesOpen) return;
-
     const closeWhenOutside = (event: PointerEvent) => {
       if (!dockRef.current?.contains(event.target as Node)) setCategoriesOpen(false);
     };
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setCategoriesOpen(false);
     };
-
     document.addEventListener("pointerdown", closeWhenOutside);
     document.addEventListener("keydown", closeOnEscape);
     return () => {
@@ -93,24 +82,22 @@ export function FloatingMobileDock() {
     };
   }, [categoriesOpen]);
 
-  const isProductPage = pathname.startsWith("/product/");
   const isHomeActive = pathname === "/";
   const isCategoryActive = ["/collections/dogs", "/collections/cats", "/collections/value-bundles"].some((route) => pathname.startsWith(route));
   const isMatcherActive = pathname === "/matcher" || pathname.startsWith("/matcher/");
-  const whatsappHref = getShopWhatsAppChatUrl(`${t("brand")} — ${t("mobileDockWhatsApp")}`) ?? "https://wa.me/85298646585";
 
   return (
     <div
       ref={dockRef}
-      className={`fixed left-1/2 z-50 flex w-[calc(100vw-0.5rem)] max-w-[420px] -translate-x-1/2 items-center justify-between gap-2 mb-[env(safe-area-inset-bottom)] md:hidden ${isProductPage ? "bottom-24" : "bottom-6"}`}
+      className="fixed bottom-1.5 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[92%] max-w-[370px] -translate-x-1/2 items-center md:hidden"
     >
       <nav
         aria-label={t("mobileDockNavLabel")}
-        className="flex w-[84%] max-w-[350px] items-center justify-around rounded-full border border-white/60 bg-white/94 px-2 py-2 shadow-[0_10px_35px_rgba(0,0,0,0.1)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]"
+        className="flex w-full items-center justify-between gap-1 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 shadow-[0_8px_28px_-10px_rgba(43,38,35,0.32)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]"
       >
         <Link href="/" aria-label={t("mobileDockRecommend")} aria-current={isHomeActive ? "page" : undefined} className={dockItemClass(isHomeActive)}>
-          <PawIcon className="h-5 w-5" />
-          <span className="max-w-full truncate leading-none">{t("mobileDockRecommend")}</span>
+          <PawIcon className="h-[18px] w-[18px]" />
+          <span className="max-w-full truncate">為你推薦</span>
         </Link>
 
         <div className="relative flex min-w-0 flex-1">
@@ -122,11 +109,11 @@ export function FloatingMobileDock() {
             className={`w-full ${dockItemClass(categoriesOpen || isCategoryActive)}`}
             onClick={() => setCategoriesOpen((open) => !open)}
           >
-            <GridIcon className="h-5 w-5" />
-            <span className="max-w-full truncate leading-none">{t("mobileDockCategories")}</span>
+            <GridIcon className="h-[18px] w-[18px]" />
+            <span className="max-w-full truncate">專區</span>
           </button>
           {categoriesOpen ? (
-            <div role="menu" className="absolute bottom-[calc(100%+0.75rem)] left-1/2 z-[60] grid w-48 -translate-x-1/2 gap-1 rounded-2xl border border-black/5 bg-white/95 p-2 text-stone-800 shadow-[0_12px_32px_rgba(0,0,0,0.14)] backdrop-blur-xl">
+            <div role="menu" className="absolute bottom-[calc(100%+0.5rem)] left-1/2 z-[60] grid w-48 -translate-x-1/2 gap-1 rounded-2xl border border-black/5 bg-white/95 p-2 text-stone-800 shadow-[0_12px_32px_rgba(0,0,0,0.14)] backdrop-blur-xl">
               <Link role="menuitem" href="/collections/dogs" className="min-h-11 rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-[#E8E8ED]/80">{t("mobileDockDogs")}</Link>
               <Link role="menuitem" href="/collections/cats" className="min-h-11 rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-[#E8E8ED]/80">{t("mobileDockCats")}</Link>
               <Link role="menuitem" href="/collections/value-bundles" className="min-h-11 rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-[#E8E8ED]/80">{t("mobileDockBundles")}</Link>
@@ -135,8 +122,8 @@ export function FloatingMobileDock() {
         </div>
 
         <Link href="/matcher" aria-label={t("mobileDockMatcher")} aria-current={isMatcherActive ? "page" : undefined} className={dockItemClass(isMatcherActive)}>
-          <CompassIcon className="h-5 w-5" />
-          <span className="max-w-full truncate leading-none">{t("mobileDockMatcher")}</span>
+          <CompassIcon className="h-[18px] w-[18px]" />
+          <span className="max-w-full truncate">智能配對</span>
         </Link>
 
         <button
@@ -145,25 +132,13 @@ export function FloatingMobileDock() {
           className={`${dockItemClass(false)} relative`}
           onClick={() => window.dispatchEvent(new Event(OPEN_CART_EVENT))}
         >
-          <ShoppingBagIcon className="h-5 w-5" />
-          <span className="max-w-full truncate leading-none">{t("mobileDockCart")}</span>
-          {itemCount > 0 ? (
-            <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-stone-800 px-1 text-[9px] font-semibold leading-none text-white tabular-nums" aria-live="polite" aria-atomic="true">
-              {itemCount > 99 ? "99+" : itemCount}
-            </span>
-          ) : null}
+          <ShoppingBagIcon className="h-[18px] w-[18px]" />
+          <span className="max-w-full truncate">購物袋</span>
+          {itemCount > 0 ? <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-stone-800 px-1 text-[9px] font-semibold leading-none text-white tabular-nums" aria-live="polite" aria-atomic="true">{itemCount > 99 ? "99+" : itemCount}</span> : null}
         </button>
-      </nav>
 
-      <a
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={t("mobileDockWhatsApp")}
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/94 text-stone-800 shadow-[0_10px_35px_rgba(0,0,0,0.1)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2"
-      >
-        <ChatIcon className="h-5 w-5" />
-      </a>
+        <ProductSearch variant="dock" className={dockItemClass(false)} triggerClassName="h-[18px] w-[18px]" triggerLabel="搜尋" />
+      </nav>
     </div>
   );
 }
