@@ -211,6 +211,14 @@ export function ProductCatalog({
       : collection?.slug === "value-bundles"
         ? { src: "/images/pet-companionship-value-bundles.jpg", zh: "毛孩在溫暖日常中安心熟睡", en: "A pet sleeping peacefully in a warm everyday setting" }
         : null;
+  const harmonyCopy = collection?.slug === "value-bundles"
+    ? {
+        title: { zh: "超值特惠組合・多寵家庭分享首選", en: "Value bundles made for multi-pet families" },
+        description: { zh: "一次備齊貓咪與狗狗的天然原肉點心，全單滿 HK$399 享順豐免運直送。", en: "Stock up on natural meat treats for cats and dogs, then enjoy SF Express free delivery on orders over HK$399." },
+        primaryCta: { zh: "🛒 探索熱銷促銷套裝", en: "🛒 Explore value bundles" },
+        primaryHref: "/collections/value-bundles",
+      }
+    : undefined;
   return (
     <div className="mx-auto max-w-5xl px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-10">
       <div className={isCollectionPage ? "mb-7" : ""}>
@@ -271,6 +279,10 @@ export function ProductCatalog({
       <BrandHarmonyBanner
         imageSrc={harmonyImage?.src}
         imageAlt={harmonyImage ? { zh: harmonyImage.zh, en: harmonyImage.en } : undefined}
+        title={harmonyCopy?.title}
+        description={harmonyCopy?.description}
+        primaryCta={harmonyCopy?.primaryCta}
+        primaryHref={harmonyCopy?.primaryHref}
       />
     </div>
   );

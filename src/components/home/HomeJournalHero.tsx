@@ -142,13 +142,13 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
           });
           return (
             <div key={issue.label} className={`grid h-auto grid-cols-1 items-start gap-4 px-3 py-3 transition-opacity duration-500 ease-in-out sm:gap-8 sm:px-6 sm:py-6 md:grid-cols-12 md:py-14 ${issueIndex === activeIssue ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}>
-              <div className="z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-8 text-left sm:pl-8 md:col-span-5 md:pl-10 md:pt-4">
+              <div className="order-2 z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-8 text-left sm:pl-8 md:order-2 md:col-span-5 md:pl-10 md:pt-4">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{isEn ? issue.label : issue.labelZh}</p>
                 <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-2 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
                 <p className="mb-2 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
                 <Link href={issue.ctaLink} className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
               </div>
-              <div className="col-span-12 min-w-0 md:col-span-7">
+              <div className="order-1 col-span-12 min-w-0 md:order-1 md:col-span-7">
                 <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid h-auto w-full max-w-md grid-cols-3 gap-1.5 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm sm:gap-2.5 sm:p-3 md:max-w-none">
                   {featuredProducts.map(({ product, zh, en }, index) => {
                     const label = isEn ? en : zh;
