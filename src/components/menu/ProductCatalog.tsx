@@ -14,6 +14,7 @@ import { PetParadeSection, type PetParadeKind } from "@/components/home/HomePetP
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import { parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
 import { ProteinPills } from "@/components/home/ProteinPills";
+import { BrandHarmonyBanner } from "@/components/home/BrandHarmonyBanner";
 
 const PAGE_SIZE = 12;
 type ProductCatalogProps = {
@@ -204,7 +205,7 @@ export function ProductCatalog({
     ? collection.slug as PetParadeKind
     : null;
   return (
-    <div className="mx-auto max-w-5xl px-4 pb-14 pt-8 sm:px-6 sm:py-12">
+    <div className="mx-auto max-w-5xl px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-10">
       <div className={isCollectionPage ? "mb-7" : ""}>
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {isDedicatedCategoryPage ? <p className="mt-3 max-w-3xl text-sm leading-7 text-[color:var(--muted)]">{getCategoryEditorialIntro(locale, categorySlug ?? "")}</p> : null}
@@ -242,7 +243,7 @@ export function ProductCatalog({
         </div>
       ) : (
         <>
-          <section id="products-section" className="min-h-[32rem]">
+          <section id="products-section" className="min-h-0">
           <ul id="products" className="scroll-mt-24 grid w-full grid-cols-2 items-stretch gap-3.5 pb-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
         {visibleProducts.map((product, index) => {
               return (
@@ -260,6 +261,7 @@ export function ProductCatalog({
       )}
       </div>
       {paradeKind ? <PetParadeSection kind={paradeKind} products={catalogProducts} /> : null}
+      <BrandHarmonyBanner />
     </div>
   );
 }

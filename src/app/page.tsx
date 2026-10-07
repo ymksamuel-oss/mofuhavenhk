@@ -4,6 +4,7 @@ import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { HomePetParade } from "@/components/home/HomePetParade";
+import { BrandHarmonyBanner } from "@/components/home/BrandHarmonyBanner";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
@@ -34,6 +35,7 @@ export default async function HomePage() {
       <HomepageFeaturedShowcase products={products} />
       <CareMatchCard />
       <FAQAccordion />
+      <BrandHarmonyBanner />
     </>
   );
 }
