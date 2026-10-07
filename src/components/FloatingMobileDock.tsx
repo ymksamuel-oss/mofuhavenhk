@@ -102,11 +102,11 @@ export function FloatingMobileDock() {
   return (
     <div
       ref={dockRef}
-      className={`fixed left-1/2 z-50 flex w-[calc(100vw-0.5rem)] max-w-[420px] -translate-x-1/2 items-center justify-between gap-2 mb-[env(safe-area-inset-bottom)] md:hidden ${isProductPage ? "bottom-24 sm:bottom-4" : "bottom-4"}`}
+      className={`fixed left-1/2 z-50 flex w-[calc(100vw-0.5rem)] max-w-[420px] -translate-x-1/2 items-center justify-between gap-2 mb-[env(safe-area-inset-bottom)] md:hidden ${isProductPage ? "bottom-24" : "bottom-6"}`}
     >
       <nav
         aria-label={t("mobileDockNavLabel")}
-        className="flex w-[84%] max-w-[350px] items-center justify-around rounded-full border border-black/5 bg-white/80 px-2 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-2xl"
+        className="flex w-[84%] max-w-[350px] items-center justify-around rounded-full border border-white/60 bg-white/94 px-2 py-2 shadow-[0_10px_35px_rgba(0,0,0,0.1)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]"
       >
         <Link href="/" aria-label={t("mobileDockRecommend")} aria-current={isHomeActive ? "page" : undefined} className={dockItemClass(isHomeActive)}>
           <PawIcon className="h-5 w-5" />
@@ -160,7 +160,7 @@ export function FloatingMobileDock() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={t("mobileDockWhatsApp")}
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-black/5 bg-white/80 text-stone-800 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2"
+        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/94 text-stone-800 shadow-[0_10px_35px_rgba(0,0,0,0.1)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2"
       >
         <ChatIcon className="h-5 w-5" />
       </a>
