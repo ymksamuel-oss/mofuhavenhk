@@ -5,7 +5,6 @@ import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
-import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import {
   PAYMENT_METHODS,
   PaymentMethods,
@@ -578,22 +577,8 @@ function CheckoutContent() {
       {items.length > 0 ? <FreeShippingProgress subtotal={subtotalHkd} className="mb-6" /> : null}
 
       <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        {/* Mobile-first: wallets / pay methods first for one-tap checkout */}
-        <div className="min-w-0 space-y-6">
-          <PaymentMethods
-            selected={selectedMethod}
-            onSelect={handleSelectMethod}
-          />
-          {selectedMethod === "payme" ? (
-            <PayMeCheckoutPanel
-              settings={payMe}
-              totalHkd={amountHkd}
-              orderNumber={orderNumber}
-              onBeforeOpen={validateShippingContact}
-              onConfirmPayment={handlePayMeConfirmation}
-            />
-          ) : null}
-          <div className="milk-tea-card max-w-full p-5 sm:p-6">
+        <div className="contents lg:block lg:min-w-0 lg:space-y-6">
+          <div className="order-1 min-w-0 milk-tea-card p-5 sm:p-6 lg:order-none">
             <ShippingContactForm
               value={shippingContact}
               onChange={(next) => {
@@ -608,123 +593,85 @@ function CheckoutContent() {
               showErrors={showContactErrors}
             />
           </div>
-        </div>
-        <div className="milk-tea-card min-w-0 max-w-full space-y-6 p-5 sm:p-6">
-          <OrderSummary
-            items={items}
-            couponDiscount={discountHkd}
-            onQtyChange={handleQtyChange}
-            onRemoveItem={handleRemoveItem}
-            qtyDisabled={qtyLocked}
-          />
-          {items.length > 0 ? (
-            <YouMayAlsoLike cartProductIds={items.map((item) => item.id)} />
+
+          <div className="order-2 min-w-0 lg:order-none">
+            <PaymentMethods selected={selectedMethod} onSelect={handleSelectMethod} />
+          </div>
+
+          {selectedMethod === "payme" ? (
+            <div className="order-3 min-w-0 lg:order-none">
+              <PayMeCheckoutPanel
+                settings={payMe}
+                totalHkd={amountHkd}
+                orderNumber={orderNumber}
+                onBeforeOpen={validateShippingContact}
+                onConfirmPayment={handlePayMeConfirmation}
+              />
+            </div>
           ) : null}
-          <div className="rounded-2xl border border-[color:var(--line)] bg-white/70 p-4">
+
+          <div className="order-4 min-w-0 space-y-4 lg:order-none">
+            {phase === "stripe_missing" ? (
+              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripeNotConfigured")}</p>
+            ) : null}
+            {searchParams.get("checkout") === "cancelled" ? (
+              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("checkoutSessionCancelled")}</p>
+            ) : null}
+            {phase === "preparing" ? <p className="text-center text-sm text-[color:var(--muted)]">{t("stripePreparing")}</p> : null}
+
+            {showStripeForm && clientSecret && publishableKey && (selectedMethod === "visa" || selectedMethod === "mastercard" || selectedMethod === "applepay") ? (
+              <StripePaymentForm
+                clientSecret={clientSecret}
+                publishableKey={publishableKey}
+                preferredMethod={selectedMethod === "applepay" ? "applepay" : "card"}
+                amountHkd={amountHkd}
+                onPaid={handlePaid}
+                onError={handlePayError}
+              />
+            ) : null}
+
+            {phase === "paid" ? (
+              <div className="space-y-3">
+                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">{t("stripePaidSuccess")}</p>
+                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
+              </div>
+            ) : null}
+            {phase === "paid_receipt_pending" ? (
+              <div className="space-y-3">
+                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidReceiptPending")}</p>
+                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
+              </div>
+            ) : null}
+            {phase === "paid_notify_failed" ? (
+              <div className="space-y-3">
+                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidNotifyFailed")}</p>
+                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
+              </div>
+            ) : null}
+            {payError ? <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{payError}</p> : null}
+            <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">{selectedMethod === "payme" ? t("payMeSummaryNote") : t("secureNote")}</p>
+          </div>
+        </div>
+
+        <div className="contents lg:block lg:min-w-0 lg:space-y-6">
+          <div className="order-5 min-w-0 rounded-2xl border border-[color:var(--line)] bg-white/70 p-4 lg:order-none">
             <label className="block text-sm font-semibold text-[color:var(--ink)]">{t("couponLabel")}</label>
             <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder={t("couponPlaceholder")} className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">{t("couponApply")}</button></div>
             {appliedCoupon ? <p className="mt-2 text-xs text-emerald-700">{t("couponApplied").replace("{code}", appliedCoupon.code).replace("{amount}", `HK$${appliedCoupon.discountAmount.toFixed(2)}`)}</p> : null}
             {couponError ? <p className="mt-2 text-xs text-amber-700">{couponError}</p> : null}
           </div>
 
-          {phase === "stripe_missing" ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("stripeNotConfigured")}
-            </p>
-          ) : null}
+          <div className="order-6 milk-tea-card min-w-0 max-w-full p-5 sm:p-6 lg:order-none">
+            <OrderSummary items={items} couponDiscount={discountHkd} onQtyChange={handleQtyChange} onRemoveItem={handleRemoveItem} qtyDisabled={qtyLocked} />
+          </div>
 
-          {searchParams.get("checkout") === "cancelled" ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {t("checkoutSessionCancelled")}
-            </p>
-          ) : null}
-
-          {phase === "preparing" ? (
-            <p className="text-center text-sm text-[color:var(--muted)]">
-              {t("stripePreparing")}
-            </p>
-          ) : null}
-
-          {showStripeForm &&
-          clientSecret &&
-          publishableKey &&
-          (selectedMethod === "visa" ||
-            selectedMethod === "mastercard" ||
-            selectedMethod === "applepay") ? (
-            <StripePaymentForm
-              clientSecret={clientSecret}
-              publishableKey={publishableKey}
-              preferredMethod={
-                selectedMethod === "applepay" ? "applepay" : "card"
-              }
-              amountHkd={amountHkd}
-              onPaid={handlePaid}
-              onError={handlePayError}
-            />
-          ) : null}
-
-          {phase === "paid" ? (
-            <div className="space-y-3">
-              <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">
-                {t("stripePaidSuccess")}
-              </p>
-              {receiptHref ? (
-                <Link
-                  href={receiptHref}
-                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                >
-                  {t("receiptViewCta")}
-                </Link>
-              ) : null}
-            </div>
-          ) : null}
-          {phase === "paid_receipt_pending" ? (
-            <div className="space-y-3">
-              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-                {t("stripePaidReceiptPending")}
-              </p>
-              {receiptHref ? (
-                <Link
-                  href={receiptHref}
-                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                >
-                  {t("receiptViewCta")}
-                </Link>
-              ) : null}
-            </div>
-          ) : null}
-          {phase === "paid_notify_failed" ? (
-            <div className="space-y-3">
-              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-                {t("stripePaidNotifyFailed")}
-              </p>
-              {receiptHref ? (
-                <Link
-                  href={receiptHref}
-                  className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
-                >
-                  {t("receiptViewCta")}
-                </Link>
-              ) : null}
-            </div>
-          ) : null}
           {isGuestOrderComplete && !member && isValidEmailAddress(shippingContact.email) ? (
-            <div className="space-y-2 rounded-2xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-soft)]/60 p-4">
+            <div className="order-7 space-y-2 rounded-2xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-soft)]/60 p-4 lg:order-none">
               <p className="text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Want to track this order in your member account?" : "想在會員中心追蹤這張訂單嗎？"}</p>
               <p className="text-xs leading-5 text-[color:var(--muted)]">{locale === "en" ? "Create a password with the same email. After email verification, matching guest orders are linked automatically." : "使用同一個 Email 設定密碼並完成驗證後，系統會自動歸戶相同 Email 的訪客訂單。"}</p>
               <Link href={memberSignupHref} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Create my member account" : "一鍵建立密碼／升級會員"}</Link>
             </div>
           ) : null}
-
-          {payError ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">
-              {payError}
-            </p>
-          ) : null}
-
-          <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-            {selectedMethod === "payme" ? t("payMeSummaryNote") : t("secureNote")}
-          </p>
         </div>
       </div>
 
