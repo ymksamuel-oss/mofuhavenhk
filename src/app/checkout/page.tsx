@@ -581,7 +581,7 @@ function CheckoutContent() {
     (selectedMethod !== "payme" && !showStripeForm);
   const memberSignupHref = `/account/signup?email=${encodeURIComponent(shippingContact.email.trim())}&displayName=${encodeURIComponent(shippingContact.name.trim())}&returnTo=${encodeURIComponent("/account")}`;
   return (
-    <div className="checkout-shell mx-auto w-full max-w-3xl overflow-x-clip px-4 pb-[calc(9rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-16">
+    <div className="checkout-shell mx-auto w-full max-w-3xl overflow-x-clip px-4 pb-28 pt-8 sm:px-6 sm:py-12 sm:pb-32 lg:pb-16">
       <header className="mb-6 space-y-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
@@ -707,9 +707,9 @@ function CheckoutContent() {
       )}
 
       {items.length > 0 && step === 1 ? (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--line)] bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200 bg-white/95 p-4 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(1rem+env(safe-area-inset-bottom,0px))]">
           <div className="mx-auto max-w-3xl">
-            <button type="button" onClick={continueToPayment} className="w-full rounded-full bg-[color:var(--accent)] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-[color:var(--hero-deep)] active:scale-[0.99]">
+            <button type="button" onClick={continueToPayment} className="w-full rounded-full bg-[#111111] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-black active:scale-[0.99]">
               {locale === "en" ? "Next: confirm payment →" : "下一步：確認付款方式 →"}
             </button>
           </div>
