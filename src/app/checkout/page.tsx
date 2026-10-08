@@ -5,6 +5,7 @@ import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
+import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import {
   PAYMENT_METHODS,
   PaymentMethods,
@@ -85,6 +86,7 @@ function CheckoutContent() {
   const [shippingContact, setShippingContact] = useState<ShippingContact>(
     EMPTY_SHIPPING_CONTACT,
   );
+  const [step, setStep] = useState<1 | 2>(1);
   const [showContactErrors, setShowContactErrors] = useState(false);
   const [receiptHref, setReceiptHref] = useState<string | null>(null);
   const preparingRef = useRef(false);
@@ -384,6 +386,17 @@ function CheckoutContent() {
     return true;
   }, [locale, shippingContact]);
 
+  const continueToPayment = useCallback(() => {
+    if (!validateShippingContact()) return;
+    setStep(2);
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }, [validateShippingContact]);
+
+  const returnToDelivery = useCallback(() => {
+    setStep(1);
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }, []);
+
   const startStripePayment = useCallback(async () => {
     if (selectedMethod === "payme") return;
     // `null` means the Stripe configuration request is still in flight. Do
@@ -533,6 +546,7 @@ function CheckoutContent() {
   // payment form automatically so the checkout page stays single-step.
   useEffect(() => {
     if (
+      step !== 2 ||
       selectedMethod === "payme" ||
       phase !== "idle" ||
       items.length === 0 ||
@@ -546,6 +560,7 @@ function CheckoutContent() {
     items.length,
     phase,
     selectedMethod,
+    step,
     shippingContact,
     startStripePayment,
     stripeConfigured,
@@ -560,25 +575,54 @@ function CheckoutContent() {
     phase === "paid_notify_failed" ||
     phase === "completing";
   const isGuestOrderComplete = phase === "paid" || phase === "paid_receipt_pending" || phase === "paid_notify_failed";
+  const paymentCtaDisabled =
+    phase === "preparing" ||
+    phase === "completing" ||
+    isGuestOrderComplete ||
+    (selectedMethod !== "payme" && !showStripeForm);
   const memberSignupHref = `/account/signup?email=${encodeURIComponent(shippingContact.email.trim())}&displayName=${encodeURIComponent(shippingContact.name.trim())}&returnTo=${encodeURIComponent("/account")}`;
   return (
-    <div className="checkout-shell mx-auto w-full max-w-5xl overflow-x-clip px-4 pb-[calc(10rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-12">
-      <header className="mb-8 flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0 max-w-2xl">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-4xl">
-            {t("checkoutTitle")}
-          </h1>
-          <p className="mt-2 text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
-            {t("checkoutSubtitle")}
-          </p>
+    <div className="checkout-shell mx-auto w-full max-w-3xl overflow-x-clip px-4 pb-[calc(9rem+env(safe-area-inset-bottom,0px))] pt-8 sm:px-6 sm:py-12 lg:pb-16">
+      <header className="mb-6 space-y-5">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-4xl">
+              {t("checkoutTitle")}
+            </h1>
+            <p className="mt-2 text-[0.95rem] leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">
+              {locale === "en" ? "A calm, two-step checkout." : "簡潔完成送貨資料，再確認付款。"}
+            </p>
+          </div>
+          <span className="shrink-0 rounded-full border border-[color:var(--line)] px-3 py-1.5 text-xs font-semibold text-[color:var(--muted)]">
+            {locale === "en" ? `Step ${step} of 2` : `第 ${step}／2 步`}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2" aria-label={locale === "en" ? "Checkout progress" : "結帳進度"}>
+          {[1, 2].map((entry) => (
+            <div key={entry} className={`h-1.5 rounded-full transition-colors ${entry <= step ? "bg-[color:var(--accent)]" : "bg-[color:var(--line)]"}`} />
+          ))}
         </div>
       </header>
 
-      {items.length > 0 ? <FreeShippingProgress subtotal={subtotalHkd} className="mb-6" /> : null}
-
-      <div className="grid w-full max-w-full items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-        <div className="contents lg:block lg:min-w-0 lg:space-y-6">
-          <div className="order-1 min-w-0 milk-tea-card p-5 sm:p-6 lg:order-none">
+      {items.length === 0 ? (
+        <div className="milk-tea-card p-6 text-center">
+          <p className="text-sm text-[color:var(--muted)]">{t("cartDrawerEmpty")}</p>
+          <Link href="/menu" className="mt-4 inline-flex rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-white">
+            {locale === "en" ? "Continue shopping" : "繼續購物"}
+          </Link>
+        </div>
+      ) : step === 1 ? (
+        <section aria-labelledby="delivery-step-title" className="space-y-5">
+          <div className="milk-tea-card p-5 sm:p-6">
+            <div className="mb-5 space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--muted)]">Step 1</p>
+              <h2 id="delivery-step-title" className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)]">
+                {locale === "en" ? "Delivery details" : "送貨及自提點資料"}
+              </h2>
+              <p className="text-sm leading-relaxed text-[color:var(--muted)]">
+                {locale === "en" ? "Tell us who should receive the order and choose an SF Express option." : "填寫收件人聯絡資料，選擇順豐送貨或自提方式。"}
+              </p>
+            </div>
             <ShippingContactForm
               value={shippingContact}
               onChange={(next) => {
@@ -593,33 +637,52 @@ function CheckoutContent() {
               showErrors={showContactErrors}
             />
           </div>
-
-          <div className="order-2 min-w-0 lg:order-none">
-            <PaymentMethods selected={selectedMethod} onSelect={handleSelectMethod} />
+        </section>
+      ) : (
+        <section aria-labelledby="payment-step-title" className="space-y-5">
+          <button type="button" onClick={returnToDelivery} className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--ink)] transition hover:text-[color:var(--accent)]">
+            <span aria-hidden="true">←</span>
+            {locale === "en" ? "Back to delivery details" : "返回修改送貨資料"}
+          </button>
+          <div className="space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--muted)]">Step 2</p>
+            <h2 id="payment-step-title" className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)]">
+              {locale === "en" ? "Payment and review" : "付款及訂單確認"}
+            </h2>
           </div>
 
+          <div className="milk-tea-card p-5 sm:p-6">
+            <OrderSummary items={items} couponDiscount={discountHkd} qtyDisabled={qtyLocked} />
+          </div>
+
+          <PaymentMethods selected={selectedMethod} onSelect={handleSelectMethod} />
+
           {selectedMethod === "payme" ? (
-            <div className="order-3 min-w-0 lg:order-none">
-              <PayMeCheckoutPanel
-                settings={payMe}
-                totalHkd={amountHkd}
-                orderNumber={orderNumber}
-                onBeforeOpen={validateShippingContact}
-                onConfirmPayment={handlePayMeConfirmation}
-              />
-            </div>
+            <PayMeCheckoutPanel
+              settings={payMe}
+              totalHkd={amountHkd}
+              orderNumber={orderNumber}
+              onBeforeOpen={validateShippingContact}
+              onConfirmPayment={handlePayMeConfirmation}
+            />
           ) : null}
 
-          <div className="order-4 min-w-0 space-y-4 lg:order-none">
-            {phase === "stripe_missing" ? (
-              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripeNotConfigured")}</p>
-            ) : null}
-            {searchParams.get("checkout") === "cancelled" ? (
-              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("checkoutSessionCancelled")}</p>
-            ) : null}
-            {phase === "preparing" ? <p className="text-center text-sm text-[color:var(--muted)]">{t("stripePreparing")}</p> : null}
+          <div className="milk-tea-card space-y-3 p-5 sm:p-6">
+            <label className="block text-sm font-semibold text-[color:var(--ink)]">{t("couponLabel")}</label>
+            <div className="flex gap-2">
+              <input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder={t("couponPlaceholder")} className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-3 text-base sm:text-sm" />
+              <button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">{t("couponApply")}</button>
+            </div>
+            {appliedCoupon ? <p className="text-xs text-emerald-700">{t("couponApplied").replace("{code}", appliedCoupon.code).replace("{amount}", `HK$${appliedCoupon.discountAmount.toFixed(2)}`)}</p> : null}
+            {couponError ? <p className="text-xs text-amber-700">{couponError}</p> : null}
+          </div>
 
-            {showStripeForm && clientSecret && publishableKey && (selectedMethod === "visa" || selectedMethod === "mastercard" || selectedMethod === "applepay") ? (
+          {phase === "stripe_missing" ? <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripeNotConfigured")}</p> : null}
+          {searchParams.get("checkout") === "cancelled" ? <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("checkoutSessionCancelled")}</p> : null}
+          {phase === "preparing" ? <p className="text-center text-sm text-[color:var(--muted)]">{t("stripePreparing")}</p> : null}
+
+          {showStripeForm && clientSecret && publishableKey && (selectedMethod === "visa" || selectedMethod === "mastercard" || selectedMethod === "applepay") ? (
+            <div className="milk-tea-card p-5 sm:p-6">
               <StripePaymentForm
                 clientSecret={clientSecret}
                 publishableKey={publishableKey}
@@ -627,63 +690,42 @@ function CheckoutContent() {
                 amountHkd={amountHkd}
                 onPaid={handlePaid}
                 onError={handlePayError}
+                formId="checkout-payment-form"
+                hideSubmitButton
               />
-            ) : null}
-
-            {phase === "paid" ? (
-              <div className="space-y-3">
-                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">{t("stripePaidSuccess")}</p>
-                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
-              </div>
-            ) : null}
-            {phase === "paid_receipt_pending" ? (
-              <div className="space-y-3">
-                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidReceiptPending")}</p>
-                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
-              </div>
-            ) : null}
-            {phase === "paid_notify_failed" ? (
-              <div className="space-y-3">
-                <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidNotifyFailed")}</p>
-                {receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]">{t("receiptViewCta")}</Link> : null}
-              </div>
-            ) : null}
-            {payError ? <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{payError}</p> : null}
-            <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">{selectedMethod === "payme" ? t("payMeSummaryNote") : t("secureNote")}</p>
-          </div>
-        </div>
-
-        <div className="contents lg:block lg:min-w-0 lg:space-y-6">
-          <div className="order-5 min-w-0 rounded-2xl border border-[color:var(--line)] bg-white/70 p-4 lg:order-none">
-            <label className="block text-sm font-semibold text-[color:var(--ink)]">{t("couponLabel")}</label>
-            <div className="mt-2 flex gap-2"><input value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder={t("couponPlaceholder")} className="min-w-0 flex-1 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm" /><button type="button" onClick={() => void applyCoupon()} className="rounded-xl bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white">{t("couponApply")}</button></div>
-            {appliedCoupon ? <p className="mt-2 text-xs text-emerald-700">{t("couponApplied").replace("{code}", appliedCoupon.code).replace("{amount}", `HK$${appliedCoupon.discountAmount.toFixed(2)}`)}</p> : null}
-            {couponError ? <p className="mt-2 text-xs text-amber-700">{couponError}</p> : null}
-          </div>
-
-          <div className="order-6 milk-tea-card min-w-0 max-w-full p-5 sm:p-6 lg:order-none">
-            <OrderSummary items={items} couponDiscount={discountHkd} onQtyChange={handleQtyChange} onRemoveItem={handleRemoveItem} qtyDisabled={qtyLocked} />
-          </div>
-
-          {isGuestOrderComplete && !member && isValidEmailAddress(shippingContact.email) ? (
-            <div className="order-7 space-y-2 rounded-2xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-soft)]/60 p-4 lg:order-none">
-              <p className="text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Want to track this order in your member account?" : "想在會員中心追蹤這張訂單嗎？"}</p>
-              <p className="text-xs leading-5 text-[color:var(--muted)]">{locale === "en" ? "Create a password with the same email. After email verification, matching guest orders are linked automatically." : "使用同一個 Email 設定密碼並完成驗證後，系統會自動歸戶相同 Email 的訪客訂單。"}</p>
-              <Link href={memberSignupHref} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Create my member account" : "一鍵建立密碼／升級會員"}</Link>
             </div>
           ) : null}
+
+          {phase === "paid" ? <div className="space-y-3"><p className="rounded-xl bg-emerald-50 px-3 py-2 text-center text-xs font-medium text-emerald-700">{t("stripePaidSuccess")}</p>{receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)]">{t("receiptViewCta")}</Link> : null}</div> : null}
+          {phase === "paid_receipt_pending" ? <div className="space-y-3"><p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidReceiptPending")}</p>{receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)]">{t("receiptViewCta")}</Link> : null}</div> : null}
+          {phase === "paid_notify_failed" ? <div className="space-y-3"><p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{t("stripePaidNotifyFailed")}</p>{receiptHref ? <Link href={receiptHref} className="block w-full rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-center text-sm font-semibold text-[color:var(--ink)]">{t("receiptViewCta")}</Link> : null}</div> : null}
+          {isGuestOrderComplete && !member && isValidEmailAddress(shippingContact.email) ? <div className="space-y-2 rounded-2xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-soft)]/60 p-4"><p className="text-sm font-semibold text-[color:var(--ink)]">{locale === "en" ? "Want to track this order in your member account?" : "想在會員中心追蹤這張訂單嗎？"}</p><p className="text-xs leading-5 text-[color:var(--muted)]">{locale === "en" ? "Create a password with the same email. After email verification, matching guest orders are linked automatically." : "使用同一個 Email 設定密碼並完成驗證後，系統會自動歸戶相同 Email 的訪客訂單。"}</p><Link href={memberSignupHref} className="flex min-h-11 items-center justify-center rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white">{locale === "en" ? "Create my member account" : "一鍵建立密碼／升級會員"}</Link></div> : null}
+          {payError ? <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-medium text-amber-700">{payError}</p> : null}
+          <p className="text-center text-xs leading-relaxed tracking-[0.01em] text-[color:var(--muted)]">{selectedMethod === "payme" ? t("payMeSummaryNote") : t("secureNote")}</p>
+          <WhatsAppOrder orderNumber={orderNumber} onSend={handleSendToWhatsApp} />
+          {manualWaError ? <p className="text-center text-xs text-amber-700">{t("whatsappNumberMissing")}</p> : null}
+        </section>
+      )}
+
+      {items.length > 0 && step === 1 ? (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--line)] bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+          <div className="mx-auto max-w-3xl">
+            <button type="button" onClick={continueToPayment} className="w-full rounded-full bg-[color:var(--accent)] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-[color:var(--hero-deep)] active:scale-[0.99]">
+              {locale === "en" ? "Next: confirm payment →" : "下一步：確認付款方式 →"}
+            </button>
+          </div>
         </div>
-      </div>
+      ) : null}
 
-      <div className="mt-6">
-        <WhatsAppOrder orderNumber={orderNumber} onSend={handleSendToWhatsApp} />
-        {manualWaError ? (
-          <p className="mt-2 text-center text-xs text-amber-700">
-            {t("whatsappNumberMissing")}
-          </p>
-        ) : null}
-      </div>
-
+      {items.length > 0 && step === 2 && !isGuestOrderComplete ? (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--line)] bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+          <div className="mx-auto max-w-3xl">
+            <button type="button" form="checkout-payment-form" onClick={selectedMethod === "payme" ? handlePayMeConfirmation : undefined} disabled={paymentCtaDisabled} className="w-full rounded-full bg-[#111111] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50">
+              {phase === "preparing" ? (locale === "en" ? "Preparing secure payment…" : "正在準備安全付款…") : locale === "en" ? `🔒 Pay now ${formatMoney(amountHkd, locale)}` : `🔒 立即付款 ${formatMoney(amountHkd, locale)}`}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

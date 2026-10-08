@@ -33,6 +33,8 @@ type StripePaymentFormProps = {
   amountHkd: number;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
+  formId?: string;
+  hideSubmitButton?: boolean;
 };
 
 let stripePromiseCache: { key: string; promise: Promise<Stripe | null> } | null =
@@ -88,12 +90,16 @@ function CheckoutPayForm({
   clientSecret,
   onPaid,
   onError,
+  formId,
+  hideSubmitButton = false,
 }: {
   preferredMethod: StripeWalletMethod;
   amountHkd: number;
   clientSecret: string;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
+  formId?: string;
+  hideSubmitButton?: boolean;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -291,7 +297,7 @@ function CheckoutPayForm({
   const showWallet = Boolean(paymentRequest && walletAvailable);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
+    <form id={formId} onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
       {showWallet && paymentRequest ? (
         <div
           className={`space-y-2 rounded-2xl border-2 px-4 py-4 shadow-[0_10px_28px_-16px_rgba(74,54,38,0.45)] ${
@@ -385,13 +391,15 @@ function CheckoutPayForm({
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={!stripe || !elements || submitting}
-        className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {submitting ? t("stripePaying") : t("placeOrder")}
-      </button>
+      {!hideSubmitButton ? (
+        <button
+          type="submit"
+          disabled={!stripe || !elements || submitting}
+          className="w-full rounded-2xl bg-[color:var(--accent)] px-4 py-3.5 text-sm font-semibold tracking-[0.01em] text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:bg-[color:var(--hero-deep)] hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {submitting ? t("stripePaying") : t("placeOrder")}
+        </button>
+      ) : null}
     </form>
   );
 }
@@ -403,6 +411,8 @@ export function StripePaymentForm({
   amountHkd,
   onPaid,
   onError,
+  formId,
+  hideSubmitButton = false,
 }: StripePaymentFormProps) {
   const { locale } = useI18n();
   const stripePromise = useMemo(
@@ -440,6 +450,8 @@ export function StripePaymentForm({
         clientSecret={clientSecret}
         onPaid={onPaid}
         onError={onError}
+        formId={formId}
+        hideSubmitButton={hideSubmitButton}
       />
     </Elements>
   );
