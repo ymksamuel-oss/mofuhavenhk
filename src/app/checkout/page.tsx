@@ -4,8 +4,6 @@ import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
-import { FreeShippingProgress } from "@/components/shipping/FreeShippingProgress";
-import { YouMayAlsoLike } from "@/components/recommendations/YouMayAlsoLike";
 import {
   PAYMENT_METHODS,
   PaymentMethods,
@@ -37,6 +35,7 @@ import { useCart } from "@/lib/shop/cart";
 import { saveReceipt } from "@/lib/receipt";
 import { buildOrderMessage, openWhatsAppOrder } from "@/lib/whatsapp";
 import { isValidEmailAddress } from "@/lib/emailAddress";
+import { formatMoney } from "@/lib/i18n/translations";
 import { trackMetaEvent } from "@/components/MetaPixel";
 import { useCustomerAuth } from "@/lib/account/AuthProvider";
 
