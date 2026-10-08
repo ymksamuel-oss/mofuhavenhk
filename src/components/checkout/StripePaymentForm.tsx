@@ -33,6 +33,7 @@ type StripePaymentFormProps = {
   amountHkd: number;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
+  onSubmittingChange?: (submitting: boolean) => void;
   formId?: string;
   hideSubmitButton?: boolean;
 };
@@ -90,6 +91,7 @@ function CheckoutPayForm({
   clientSecret,
   onPaid,
   onError,
+  onSubmittingChange,
   formId,
   hideSubmitButton = false,
 }: {
@@ -98,6 +100,7 @@ function CheckoutPayForm({
   clientSecret: string;
   onPaid: (paymentIntentId: string) => Promise<void>;
   onError: (message: string) => void;
+  onSubmittingChange?: (submitting: boolean) => void;
   formId?: string;
   hideSubmitButton?: boolean;
 }) {
@@ -220,6 +223,10 @@ function CheckoutPayForm({
       cancelled = true;
     };
   }, [stripe, amountHkd, clientSecret, onError, onPaid, t]);
+
+  useEffect(() => {
+    onSubmittingChange?.(submitting);
+  }, [onSubmittingChange, submitting]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -411,6 +418,7 @@ export function StripePaymentForm({
   amountHkd,
   onPaid,
   onError,
+  onSubmittingChange,
   formId,
   hideSubmitButton = false,
 }: StripePaymentFormProps) {
@@ -450,6 +458,7 @@ export function StripePaymentForm({
         clientSecret={clientSecret}
         onPaid={onPaid}
         onError={onError}
+        onSubmittingChange={onSubmittingChange}
         formId={formId}
         hideSubmitButton={hideSubmitButton}
       />

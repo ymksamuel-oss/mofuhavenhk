@@ -88,6 +88,7 @@ function CheckoutContent() {
   const [step, setStep] = useState<1 | 2>(1);
   const [showContactErrors, setShowContactErrors] = useState(false);
   const [receiptHref, setReceiptHref] = useState<string | null>(null);
+  const [paymentSubmitting, setPaymentSubmitting] = useState(false);
   const preparingRef = useRef(false);
 
   const liveTotalHkd = amountHkd;
@@ -540,6 +541,20 @@ function CheckoutContent() {
     validateShippingContact,
   ]);
 
+  const handlePaymentCtaClick = () => {
+    if (selectedMethod === "payme") {
+      handlePayMeConfirmation();
+      return;
+    }
+    if (showStripeForm) return;
+    setPayError(
+      phase === "stripe_missing" ? t("stripeNotConfigured") : t("stripePreparing"),
+    );
+    if (phase !== "preparing" && phase !== "completing") {
+      void startStripePayment();
+    }
+  };
+
   // There is intentionally no second "Start secure payment" CTA. Once the
   // required customer and shipping details are complete, prepare the chosen
   // payment form automatically so the checkout page stays single-step.
@@ -577,8 +592,8 @@ function CheckoutContent() {
   const paymentCtaDisabled =
     phase === "preparing" ||
     phase === "completing" ||
-    isGuestOrderComplete ||
-    (selectedMethod !== "payme" && !showStripeForm);
+    paymentSubmitting ||
+    isGuestOrderComplete;
   const memberSignupHref = `/account/signup?email=${encodeURIComponent(shippingContact.email.trim())}&displayName=${encodeURIComponent(shippingContact.name.trim())}&returnTo=${encodeURIComponent("/account")}`;
   return (
     <div className="checkout-shell mx-auto w-full max-w-3xl overflow-x-clip px-4 pb-28 pt-8 sm:px-6 sm:py-12 sm:pb-32 lg:pb-16">
@@ -689,6 +704,7 @@ function CheckoutContent() {
                 amountHkd={amountHkd}
                 onPaid={handlePaid}
                 onError={handlePayError}
+                onSubmittingChange={setPaymentSubmitting}
                 formId="checkout-payment-form"
                 hideSubmitButton
               />
@@ -717,10 +733,10 @@ function CheckoutContent() {
       ) : null}
 
       {items.length > 0 && step === 2 && !isGuestOrderComplete ? (
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--line)] bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+        <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--line)] bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-22px_rgba(43,38,35,0.45)] backdrop-blur-md [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom,0px))]">
           <div className="mx-auto max-w-3xl">
-            <button type="button" form="checkout-payment-form" onClick={selectedMethod === "payme" ? handlePayMeConfirmation : undefined} disabled={paymentCtaDisabled} className="w-full rounded-full bg-[#111111] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50">
-              {phase === "preparing" ? (locale === "en" ? "Preparing secure payment…" : "正在準備安全付款…") : locale === "en" ? `🔒 Pay now ${formatMoney(amountHkd, locale)}` : `🔒 立即付款 ${formatMoney(amountHkd, locale)}`}
+            <button type={selectedMethod === "payme" ? "button" : "submit"} form={showStripeForm ? "checkout-payment-form" : undefined} onClick={handlePaymentCtaClick} disabled={paymentCtaDisabled} className="w-full rounded-full bg-[#111111] px-5 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-black active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50">
+              {paymentSubmitting ? (locale === "en" ? "Processing payment…" : "正在處理付款…") : phase === "preparing" ? (locale === "en" ? "Preparing secure payment…" : "正在準備安全付款…") : locale === "en" ? `🔒 Pay now ${formatMoney(amountHkd, locale)}` : `🔒 立即付款 ${formatMoney(amountHkd, locale)}`}
             </button>
           </div>
         </div>
