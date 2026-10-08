@@ -14,6 +14,8 @@ create table if not exists public.products (
   cost_price_rmb numeric(12,4),
   brand text,
   current_hkd numeric(12,2),
+  msrp_price numeric(12,2),
+  price_hkd numeric(12,2),
   status text not null default 'published',
   source_product_id text,
   source_price_id text
@@ -46,6 +48,9 @@ alter table public.products
   add column if not exists cost_price_rmb numeric(12,4);
 alter table public.products
   add column if not exists image_url text;
+alter table public.products
+  add column if not exists msrp_price numeric(12,2),
+  add column if not exists price_hkd numeric(12,2);
 create table if not exists public.coupons (
   id uuid primary key default gen_random_uuid(), code text not null unique, discount_amount numeric(12,2) not null default 0,
   discount_type text not null default 'fixed' check (discount_type in ('fixed','percentage')), active boolean not null default true,

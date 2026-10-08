@@ -1040,7 +1040,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       name_en: databaseNameEn,
       ...(resolvedPriceId ? { priceId: resolvedPriceId } : {}),
       price: resolvedPriceRecord?.amount ?? Number(row.price || 0),
-      ...(row.original_price ? { originalPrice: Number(row.original_price) } : {}),
+      // Legacy compare-at values are intentionally not exposed to storefront components.
       inStock: Number(row.stock || 0) > 0,
       description: databaseDescriptionZh || databaseDescriptionEn
         ? {
