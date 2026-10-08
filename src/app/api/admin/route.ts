@@ -14,6 +14,7 @@ import {
   normalizeProductLocalization,
   parseProductLocalizations,
 } from "@/lib/product-localizations";
+import { DEFAULT_COST_MARKUP_MULTIPLIER, DEFAULT_JPY_TO_HKD } from "@/lib/pricing";
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -45,8 +46,8 @@ function normalizeProductCost(row: Record<string, unknown>): ProductCost | null 
   const values = {
     cost_jpy: Number(row.cost_jpy ?? 0),
     shipping_hkd: Number(row.shipping_hkd ?? 8),
-    markup_multiplier: Number(row.markup_multiplier ?? 2.2),
-    exchange_rate: Number(row.exchange_rate ?? 0.052),
+    markup_multiplier: DEFAULT_COST_MARKUP_MULTIPLIER,
+    exchange_rate: DEFAULT_JPY_TO_HKD,
   };
   return Object.values(values).every(Number.isFinite) && values.cost_jpy >= 0 && values.shipping_hkd >= 0 && values.markup_multiplier > 0 && values.exchange_rate > 0 ? values : null;
 }

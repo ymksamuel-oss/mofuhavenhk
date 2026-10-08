@@ -6,6 +6,7 @@ import { Camera, ChevronDown, ChevronLeft, ChevronRight, Download, Search, Uploa
 import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 import { getBundleComponents } from "@/lib/bundles";
 import { BarcodeScanner } from "@/components/admin/BarcodeScanner";
+import { calculateFinalSalePrice, calculateSuggestedRetailPrice, DEFAULT_JPY_TO_HKD, DEFAULT_RETAIL_MULTIPLIER } from "@/lib/pricing";
 
 type Row = Record<string, any>;
 type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
@@ -13,20 +14,19 @@ type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" |
 const PAGE_SIZE = 20;
 function isProductTab(tab: Tab) { return tab === "products" || tab === "draft_products"; }
 const MAX_PRODUCT_IMAGES = 8;
-const DEFAULT_JPY_TO_HKD = 0.052;
 const DEFAULT_SHIPPING_HKD = 8;
-const DEFAULT_MARKUP_MULTIPLIER = 2.2;
+const DEFAULT_MARKUP_MULTIPLIER = DEFAULT_RETAIL_MULTIPLIER;
 
-function pricingPreview(costJpy: unknown, shippingHkd: unknown, markupMultiplier: unknown, exchangeRate: unknown, price: unknown) {
+function pricingPreview(costJpy: unknown, shippingHkd: unknown, price: unknown) {
   const jpy = Number(costJpy) || 0;
   const shipping = Number(shippingHkd) || 0;
-  const multiplier = Number(markupMultiplier) || DEFAULT_MARKUP_MULTIPLIER;
-  const rate = Number(exchangeRate) || DEFAULT_JPY_TO_HKD;
-  const costHkd = jpy * rate + shipping;
-  const suggestedPrice = Math.round(costHkd * multiplier);
+  const costHkd = jpy * DEFAULT_JPY_TO_HKD;
+  const landedCostHkd = costHkd + shipping;
+  const suggestedPrice = calculateSuggestedRetailPrice(jpy);
+  const finalSalePrice = calculateFinalSalePrice(suggestedPrice);
   const retailPrice = Number(price) || 0;
-  const margin = (sellPrice: number) => sellPrice > 0 ? ((sellPrice - costHkd) / sellPrice) * 100 : 0;
-  return { costHkd, suggestedPrice, retailPrice, margin };
+  const margin = (sellPrice: number) => sellPrice > 0 ? ((sellPrice - landedCostHkd) / sellPrice) * 100 : 0;
+  return { costHkd, suggestedPrice, finalSalePrice, retailPrice, margin };
 }
 
 type FeaturedPetSlot = {
@@ -180,7 +180,7 @@ async function call(method: string, body?: Row, table?: string) {
 }
 
 function defaultRow(tab: Tab): Row {
-  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_jpy: 0, shipping_hkd: DEFAULT_SHIPPING_HKD, markup_multiplier: DEFAULT_MARKUP_MULTIPLIER, exchange_rate: DEFAULT_JPY_TO_HKD, price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", brand_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
+  if (tab === "products" || tab === "draft_products") return { name: "", name_en: "", cost_jpy: 0, shipping_hkd: DEFAULT_SHIPPING_HKD, markup_multiplier: DEFAULT_MARKUP_MULTIPLIER, exchange_rate: DEFAULT_JPY_TO_HKD, msrp_price: null, price: 0, original_price: "", stock: 0, description: "", description_en: "", images: [], category_id: "", brand_id: "", mofu_sku: "", status: "published", is_published: true, seo_title: "", seo_description: "" };
   if (tab === "brands") return { name: "", slug: "", logo_url: "", description: "", sort_order: 0, is_active: true };
   if (tab === "categories") return { name: "", name_zh: "", name_en: "", slug: "", parent_id: "", image_url: "", sort_order: 0 };
   if (tab === "coupons") return { code: "", discount_amount: 0, discount_type: "fixed", active: true };
@@ -400,6 +400,8 @@ export default function AdminPage() {
       const replaceExisting = tab === "banners" && !form.id && normalized.replace_existing === true;
       delete normalized.replace_existing;
       if (isProductTab(tab)) {
+        normalized.markup_multiplier = DEFAULT_MARKUP_MULTIPLIER;
+        normalized.exchange_rate = DEFAULT_JPY_TO_HKD;
         normalized.images = parseImageUrls(normalized.images);
         normalized.image_url = normalized.images[0] || null;
       }
@@ -1182,7 +1184,7 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
   }
 
   const productImages = parseImageUrls(form.images);
-  const preview = pricingPreview(form.cost_jpy, form.shipping_hkd, form.markup_multiplier, form.exchange_rate, form.price);
+  const preview = pricingPreview(form.cost_jpy, form.shipping_hkd, form.price);
   const setNumeric = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [key]: event.target.value === "" ? "" : Number(event.target.value) });
 
   const field = (key: string, label: string, type = "text") => (
@@ -1206,11 +1208,11 @@ function Editor({ tab, form, setForm, categories, brands, onSave, onCancel }: { 
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <label className="text-sm"><span className="mb-1 block font-medium">來貨成本（JPY）</span><input type="number" min="0" step="1" value={form.cost_jpy ?? ""} onChange={setNumeric("cost_jpy")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" placeholder="例如 380" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">平攤運費（HKD）</span><input type="number" min="0" step="0.01" value={form.shipping_hkd ?? DEFAULT_SHIPPING_HKD} onChange={setNumeric("shipping_hkd")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">定價倍率</span><input type="number" min="0.1" step="0.1" value={form.markup_multiplier ?? DEFAULT_MARKUP_MULTIPLIER} onChange={setNumeric("markup_multiplier")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
-              <label className="text-sm"><span className="mb-1 block font-medium">JPY/HKD 匯率</span><input type="number" min="0.0001" step="0.0001" value={form.exchange_rate ?? DEFAULT_JPY_TO_HKD} onChange={setNumeric("exchange_rate")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">平攤運費（只供毛利參考）</span><input type="number" min="0" step="0.01" value={form.shipping_hkd ?? DEFAULT_SHIPPING_HKD} onChange={setNumeric("shipping_hkd")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
+              <div className="rounded-lg bg-white px-3 py-2 text-sm">定價倍率（固定）：<strong>{DEFAULT_RETAIL_MULTIPLIER.toFixed(1)}×</strong></div>
+              <div className="rounded-lg bg-white px-3 py-2 text-sm">JPY/HKD 匯率（固定）：<strong>{DEFAULT_JPY_TO_HKD.toFixed(3)}</strong></div>
             </div>
-            <div className="mt-3 grid gap-2 text-sm sm:grid-cols-3"><div className="rounded-lg bg-white px-3 py-2">成本港幣：<strong>HK${preview.costHkd.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">建議零售價：<strong>HK${preview.suggestedPrice.toFixed(0)}</strong></div><button type="button" onClick={() => setForm({ ...form, price: preview.suggestedPrice })} className="rounded-lg bg-[#2f4a3c] px-3 py-2 font-semibold text-white transition hover:bg-[#22372d]">一鍵套用建議售價</button></div>
+            <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4"><div className="rounded-lg bg-white px-3 py-2">成本港幣（未加平攤運費）：<strong>HK${preview.costHkd.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">真・建議零售價 MSRP：<strong>HK${preview.suggestedPrice.toFixed(2)}</strong></div><div className="rounded-lg bg-white px-3 py-2">+12% 最終售價：<strong>HK${preview.finalSalePrice.toFixed(2)}</strong></div><button type="button" onClick={() => setForm({ ...form, markup_multiplier: DEFAULT_RETAIL_MULTIPLIER, exchange_rate: DEFAULT_JPY_TO_HKD, msrp_price: preview.suggestedPrice, price: preview.finalSalePrice, price_hkd: preview.finalSalePrice, current_hkd: preview.finalSalePrice, original_price: null })} className="rounded-lg bg-[#2f4a3c] px-3 py-2 font-semibold text-white transition hover:bg-[#22372d]">套用建議 MSRP 與最終售價</button></div>
           </div>
           <div className="md:col-span-2 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
             <label className="block text-sm"><span className="mb-1 block font-medium">售價（HKD）</span><input type="number" min="0" step="0.01" value={form.price ?? ""} onChange={setNumeric("price")} className="w-full rounded-lg border border-[#ded5cc] bg-white px-3 py-2 outline-none focus:border-[#a36b42]" /></label>
