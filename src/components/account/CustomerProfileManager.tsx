@@ -13,7 +13,7 @@ export function CustomerProfileManager() {
   const inputClass = "min-h-12 w-full rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-3 text-base outline-none focus:border-[color:var(--accent)] sm:text-sm";
   if (loading) return <div className="space-y-3"><div className="h-14 animate-pulse rounded-xl bg-stone-100" /><div className="h-14 animate-pulse rounded-xl bg-stone-100" /></div>;
   return <form onSubmit={submit} className="space-y-4">
-    <label className="block space-y-1.5"><span className="text-sm font-medium">{en ? "Verified email" : "已驗證 Email"}</span><input className={`${inputClass} bg-stone-50`} type="email" value={email} readOnly aria-readonly="true" /></label>
+    <label className="block space-y-1.5"><span className="text-sm font-medium">{en ? "Verified email" : "已驗證 Email"}</span><input className={`${inputClass} bg-white`} type="email" value={email} readOnly aria-readonly="true" /></label>
     <label className="block space-y-1.5"><span className="text-sm font-medium">{en ? "Display name" : "會員稱呼"} *</span><input className={inputClass} required maxLength={100} value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="name" /></label>
     <label className="block space-y-1.5"><span className="text-sm font-medium">{en ? "Phone" : "聯絡電話"}</span><input className={inputClass} type="tel" maxLength={32} value={phone} onChange={(event) => setPhone(event.target.value)} autoComplete="tel" /></label>
     {error ? <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{error}</p> : null}{notice ? <p role="status" className="rounded-xl bg-emerald-50 p-3 text-sm text-emerald-900">{notice}</p> : null}

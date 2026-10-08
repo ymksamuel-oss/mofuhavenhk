@@ -14,7 +14,7 @@ export default function NotFound() {
           priority
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#fffaf5]/95 via-[#fffaf5]/82 to-[#fffaf5]/8 sm:from-[#fffaf5]/92 sm:via-[#fffaf5]/66 sm:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#ffffff]/95 via-[#ffffff]/82 to-[#ffffff]/8 sm:from-[#ffffff]/92 sm:via-[#ffffff]/66 sm:to-transparent" />
         <div className="relative flex min-h-[34rem] max-w-xl flex-col justify-center px-7 py-14 sm:min-h-[38rem] sm:px-14 lg:px-20">
           <p className="inline-flex w-fit items-center gap-2 rounded-full border border-[#d9c5b3] bg-white/75 px-4 py-2 text-xs font-semibold tracking-[0.16em] text-[#835d49] backdrop-blur-sm">
             MOFU HAVEN · LET&apos;S FIND THE WAY HOME

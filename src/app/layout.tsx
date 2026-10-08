@@ -190,12 +190,12 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={initialLocale === "zh" ? "zh-HK" : "en-HK"} className={`${notoSansTc.variable} ${notoSerifTc.variable} bg-[color:var(--background)]`}>
+    <html lang={initialLocale === "zh" ? "zh-HK" : "en-HK"} className={`${notoSansTc.variable} ${notoSerifTc.variable} bg-white`}>
       <head>
         <GoogleAnalytics />
         <MetaPixel />
       </head>
-      <body className="bg-[color:var(--background)] font-sans antialiased">
+      <body className="bg-white font-sans antialiased">
         <I18nProvider initialLocale={initialLocale}>
           <CustomerAuthProvider initialUser={initialUser}>
             <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>

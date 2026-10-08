@@ -208,7 +208,7 @@ export function BackInStockAlertButton({ productId }: BackInStockAlertButtonProp
                   />
                 </div>
 
-                <label className="flex items-start gap-3 rounded-xl bg-stone-50 p-3 text-sm leading-5 text-stone-700">
+                <label className="flex items-start gap-3 rounded-xl bg-white p-3 text-sm leading-5 text-stone-700">
                   <input
                     type="checkbox"
                     checked={consent}

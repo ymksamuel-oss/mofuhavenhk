@@ -11,7 +11,7 @@ export function BrandInfoCard({ brand }: { brand: Brand }) {
   const isJapanese = false;
 
   return (
-    <section className="mb-8 rounded-xl border border-neutral-200 bg-stone-50 p-5 sm:p-7" aria-labelledby="brand-title">
+    <section className="mb-8 rounded-xl border border-neutral-200 bg-white p-5 sm:p-7" aria-labelledby="brand-title">
       <nav className="mb-6 text-sm text-stone-500" aria-label={isEnglish ? "Breadcrumb" : "\u9eb5\u5305\u5c51"}>
         <Link href="/" className="hover:text-[#7a4b31] hover:underline">{isEnglish ? "Home" : isJapanese ? "ホーム" : "\u9996\u9801"}</Link>
         <span className="px-2">&gt;</span>

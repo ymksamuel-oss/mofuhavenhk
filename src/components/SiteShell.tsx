@@ -24,7 +24,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <FloatingMobileDock />
       <BrandServiceStrip />
       <ShopFlowNav>
-        <main className="w-full max-w-full overflow-x-clip bg-[color:var(--background)] pb-28 sm:pb-32 md:pb-0">
+        <main className="w-full max-w-full overflow-x-clip bg-white pb-28 sm:pb-32 md:pb-0">
           {children}
         </main>
       </ShopFlowNav>

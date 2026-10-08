@@ -154,7 +154,7 @@ export function AddToCartButton({
           type="button"
           onClick={() => setSafeQty(option)}
           disabled={!purchasable}
-          className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-3 text-center text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-2 border-[#111111] bg-white font-bold text-[#111111] shadow-sm" : "border-stone-200 bg-[#FAFAFA] text-stone-700 hover:border-[#111111]"}`}
+          className={`flex min-w-[4.85rem] flex-1 flex-col items-center rounded-xl border px-2 py-3 text-center text-xs font-semibold transition sm:min-w-[5.5rem] ${qty === option ? "border-2 border-[#111111] bg-white font-bold text-[#111111] shadow-sm" : "border-stone-200 bg-white text-stone-700 hover:border-[#111111]"}`}
         >
           <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} \u4ef6`}</span>
           <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-stone-600" : "text-stone-500"}`}>

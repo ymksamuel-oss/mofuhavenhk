@@ -25,7 +25,7 @@ export function BrandHarmonyBanner({ imageSrc = "/images/home-pet-companionship.
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-10" aria-labelledby="brand-harmony-title">
-      <div className="min-w-0 overflow-hidden rounded-2xl border border-stone-100 bg-[#FAF8F5] shadow-sm">
+      <div className="min-w-0 overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
         <div className="grid min-w-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <div className="relative aspect-[4/3] min-w-0 overflow-hidden sm:aspect-video lg:aspect-auto lg:h-full lg:min-h-[310px]">
             <Image

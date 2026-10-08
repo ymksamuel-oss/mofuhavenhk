@@ -34,7 +34,7 @@ export function FreeShippingProgress({
 
   return (
     <section
-      className={`rounded-2xl border p-4 text-stone-800 ${reached ? "border-emerald-200 bg-emerald-50/80" : "border-stone-200/80 bg-[#FAFAFA]"} ${className}`}
+      className={`rounded-2xl border p-4 text-stone-800 ${reached ? "border-emerald-200 bg-emerald-50/80" : "border-stone-200/80 bg-white"} ${className}`}
       aria-label={t("freeShippingProgressLabel")}
     >
       <div className="flex items-start justify-between gap-3">

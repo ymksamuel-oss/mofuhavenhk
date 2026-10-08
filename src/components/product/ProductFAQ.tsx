@@ -56,7 +56,7 @@ export function ProductFAQ() {
     <section className="my-10 w-full px-4 sm:my-12 sm:px-6 lg:px-8" aria-labelledby="product-faq-title">
       <div className="mx-auto max-w-3xl rounded-3xl border border-[color:var(--line)] bg-white p-4 shadow-[0_20px_44px_-34px_rgba(43,38,35,0.3)] sm:p-8">
         <div className="mb-5 text-center sm:mb-7">
-          <span className="mb-2 inline-flex rounded-xl border border-[color:var(--line)] bg-[#FAFAFA] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-600">
+          <span className="mb-2 inline-flex rounded-xl border border-[color:var(--line)] bg-white px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-600">
             {t("productFaqEyebrow")}
           </span>
           <h2 id="product-faq-title" className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-[color:var(--ink)] sm:text-3xl">
@@ -81,7 +81,7 @@ export function ProductFAQ() {
                   aria-controls={answerId}
                 >
                   <span className="flex min-w-0 items-center gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FAFAFA] text-[11px] font-bold text-stone-600">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-[11px] font-bold text-stone-600">
                       {t("productFaqQuestionMark")}
                     </span>
                     <span className="leading-snug">{item.question}</span>

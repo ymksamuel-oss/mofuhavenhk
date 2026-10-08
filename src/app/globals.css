@@ -1,10 +1,10 @@
 @import "tailwindcss" source("..");
 
 :root {
-  /* Warm editorial palette with a clearer caramel CTA hierarchy. */
-  --background: #FFFFFF;
-  --surface: #FFFFFF;
-  --product-image-surface: #FFFFFF;
+  /* Pure-white canvas with a clearer caramel CTA hierarchy. */
+  --background: #ffffff;
+  --surface: #ffffff;
+  --product-image-surface: #ffffff;
   --ink: #111111;
   --muted: #6b7280;
   --line: #f1f1f1;
@@ -14,8 +14,8 @@
   --accent-soft: #F2F7F2;
   --hero-deep: #b25b20;
   --foreground: var(--ink);
-  --category-bg: #FFFFFF;
-  --category-bg-light: #FFFFFF;
+  --category-bg: #ffffff;
+  --category-bg-light: #ffffff;
   --category-bg-hover: #F1F1F1;
   --category-ink: #111111;
   --font-body: var(--font-sans);
@@ -65,8 +65,8 @@ body {
   /* Keep content clear of iOS Safari / Chrome bottom toolbars */
   padding-bottom: env(safe-area-inset-bottom, 0px);
   scroll-padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
-  /* Solid cream first so overscroll / gaps never show white */
-  background-color: var(--background);
+  /* Solid white so overscroll / gaps remain consistent across devices. */
+  background-color: #ffffff;
   background-image: none;
   color: var(--ink);
   font-family: var(--font-sans);
@@ -106,16 +106,14 @@ h3 {
   font-weight: 600;
 }
 
-/* A subtle milk-tea wash for the mobile homepage only. The desktop layout
-   already gets its warmth from the large tan hero panel, so keep the global
-   desktop canvas unchanged. */
+/* Keep the homepage canvas consistent across mobile, tablet and desktop. */
 .mobile-home-soft-surface {
-  background-color: var(--background);
+  background-color: #ffffff;
 }
 
 @media (max-width: 639px) {
   .mobile-home-soft-surface {
-    background-color: var(--background);
+    background-color: #ffffff;
     background-image: none;
   }
 }
@@ -150,9 +148,8 @@ h3 {
   background: color-mix(in srgb, var(--accent) 28%, white);
 }
 
-/* Warm, softly-elevated card used across the storefront, product pages and
-   checkout flow. The card now sits on the same pale milk-tea family as the
-   page background, with its border and shadow creating the separation. */
+/* Softly-elevated white card used across the storefront, product pages and
+   checkout flow, with its border and shadow creating the separation. */
 .milk-tea-card {
   border-radius: 1.35rem;
   border: 1px solid color-mix(in srgb, var(--line) 96%, white);
@@ -162,7 +159,7 @@ h3 {
     0 1px 4px -2px rgba(43, 38, 35, 0.045);
 }
 
-/* Replace hard-coded white UI surfaces with the shared pale milk-tea surface.
+/* Keep hard-coded white UI surfaces aligned with the global white canvas.
    Deep brown primary controls are intentionally unaffected. */
 .bg-white {
   background-color: var(--surface) !important;
@@ -178,10 +175,6 @@ h3 {
 
 .bg-white\/75 {
   background-color: color-mix(in srgb, var(--surface) 75%, transparent) !important;
-}
-
-.bg-\[\#fbf7f3\] {
-  background-color: var(--background) !important;
 }
 
 /* Checkout-only typography polish for clearer hierarchy. */

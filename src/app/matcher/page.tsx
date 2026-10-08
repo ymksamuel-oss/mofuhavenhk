@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function MatcherPage() {
   return (
-    <main className="min-h-[60vh] bg-[#fbf7f3] px-4 py-10 text-[#4b352a] sm:px-6 sm:py-14">
+    <main className="min-h-[60vh] bg-white px-4 py-10 text-[#4b352a] sm:px-6 sm:py-14">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#a36b42]">MOFU HAVEN · PET MATCHER</p>
         <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold sm:text-4xl">🐾 毛孩專屬日系好物配對</h1>

@@ -117,7 +117,7 @@ function ProductMarqueeTrack({ items, locale, extraClass = "" }: { items: Array<
       {loopItems.map(({ pick, product }, index) => {
         const name = isZh ? pick.zh : pick.en;
         return <Link key={`${product.id}-${index}`} href={productHref(product.id)} className="group flex w-[230px] shrink-0 items-center gap-3 rounded-2xl border border-stone-100/80 bg-white p-2.5 pr-4 shadow-sm transition hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-md sm:w-[250px]" aria-label={`${isZh ? "查看商品" : "View product"}：${name}`}>
-          <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-stone-50 p-1 sm:h-16 sm:w-16"><ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="64px" className="object-contain" /></span>
+          <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-white p-1 sm:h-16 sm:w-16"><ProductImage src={product.images?.[0] ?? product.image} alt={name} sizes="64px" className="object-contain" /></span>
           <span className="min-w-0"><span className="block truncate text-xs font-semibold text-stone-800">{name}</span><span className="mt-1 block text-sm font-bold tabular-nums text-stone-900">{formatMoney(product.price, locale)}</span></span>
         </Link>;
       })}

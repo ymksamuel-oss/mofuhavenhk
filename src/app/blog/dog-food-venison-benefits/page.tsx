@@ -53,7 +53,7 @@ export default async function VenisonBenefitsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fbf7f3] text-[#4b352a]">
+    <main className="min-h-screen bg-white text-[#4b352a]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <article>
         <header className="relative isolate overflow-hidden bg-[#FFFFFF]">
