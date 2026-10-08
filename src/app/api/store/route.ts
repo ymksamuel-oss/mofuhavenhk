@@ -94,7 +94,7 @@ export async function GET() {
     const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
     const enrichedProducts = activeProducts.map((row) => {
       const dbImages = databaseProductImageUrls(row);
-      const { cost_price_rmb: _legacyCost, cost_jpy: _costJpy, shipping_hkd: _shippingHkd, markup_multiplier: _markupMultiplier, exchange_rate: _exchangeRate, ...publicRow } = row as Record<string, unknown>;
+      const { cost_price_rmb: _legacyCost, cost_jpy: _costJpy, shipping_hkd: _shippingHkd, markup_multiplier: _markupMultiplier, exchange_rate: _exchangeRate, msrp_price: _backupMsrpPrice, original_price: _legacyCompareAtPrice, ...publicRow } = row as Record<string, unknown>;
       if (dbImages.length > 0) return { ...publicRow, images: dbImages };
       const fallbackImages = stripeImages.get(row.source_product_id ?? "") ?? [];
       return fallbackImages.length > 0 ? { ...publicRow, images: fallbackImages } : publicRow;
