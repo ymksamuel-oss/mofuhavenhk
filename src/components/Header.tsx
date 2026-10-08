@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/BrandLogo";
@@ -40,19 +40,6 @@ function UserIcon({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
       <circle cx="12" cy="8" r="3.4" stroke="currentColor" strokeWidth="1.8" />
       <path d="M5.25 20a6.75 6.75 0 0 1 13.5 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CaretIcon({ open = false }: { open?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 16 16"
-      className={`h-3.5 w-3.5 shrink-0 transition-transform duration-200 ease-out ${open ? "rotate-180" : ""}`}
-      fill="none"
-      aria-hidden="true"
-    >
-      <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -107,33 +94,6 @@ export function Header() {
   const pathname = usePathname();
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
-  const [desktopBrandOpen, setDesktopBrandOpen] = useState(false);
-  const desktopCategoryRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    setDesktopBrandOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!desktopBrandOpen) return;
-
-    const closeWhenOutside = (event: PointerEvent) => {
-      if (!desktopCategoryRef.current?.contains(event.target as Node)) {
-        setDesktopBrandOpen(false);
-      }
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDesktopBrandOpen(false);
-    };
-
-    window.addEventListener("pointerdown", closeWhenOutside);
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      window.removeEventListener("pointerdown", closeWhenOutside);
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [desktopBrandOpen]);
-
   const primaryCategoryLinks = [
     { slug: "dogs", label: locale === "zh" ? "狗狗專區" : t("navCategoriesDogs") },
     { slug: "cats", label: locale === "zh" ? "貓貓專區" : t("navCategoriesCats") },
@@ -153,8 +113,7 @@ export function Header() {
         </Link>
 
         <nav
-          ref={desktopCategoryRef}
-          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-4 text-[12px] text-[color:var(--muted)] md:flex lg:gap-8 lg:text-sm"
+          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] md:flex lg:text-sm"
           aria-label={t("headerPrimaryNavLabel")}
         >
           <Link href="/" className={navLinkClassName(pathname === "/")}>
@@ -175,28 +134,12 @@ export function Header() {
           <Link href={petGuideHref} className={navLinkClassName(pathname === petGuideHref || pathname.startsWith(`${petGuideHref}/`))}>
             {locale === "en" ? "Explore Pet World" : "探索寵物世界"}
           </Link>
-          <div className="relative -mb-3 pb-3" onMouseEnter={() => setDesktopBrandOpen(true)}>
-            <button
-              type="button"
-              className={`${navLinkClassName(desktopBrandOpen || pathname === "/about" || pathname.startsWith("/brand/"))} inline-flex items-center gap-1.5`}
-              aria-haspopup="menu"
-              aria-expanded={desktopBrandOpen}
-              onClick={() => setDesktopBrandOpen((open) => !open)}
-              onFocus={() => setDesktopBrandOpen(true)}
-            >
-              {locale === "en" ? "About us" : "關於我們"} <CaretIcon open={desktopBrandOpen} />
-            </button>
-            {desktopBrandOpen ? (
-              <div role="menu" className="absolute left-[-0.65rem] top-full z-[70] grid min-w-56 gap-1 rounded-2xl border border-[color:var(--line)] bg-white p-2 shadow-[0_18px_34px_-26px_rgba(62,42,28,0.42)]">
-                <Link href="/about" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>
-                  {locale === "en" ? "About Mofu Haven" : "認識毛毛港"}
-                </Link>
-                <Link href="/brand/best-partner" role="menuitem" className="rounded-xl px-3 py-2.5 text-sm text-[color:var(--muted)] hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)]" onClick={() => setDesktopBrandOpen(false)}>
-                  {locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}
-                </Link>
-              </div>
-            ) : null}
-          </div>
+          <Link href="/about" className={navLinkClassName(pathname === "/about" || pathname.startsWith("/about/"))}>
+            {locale === "en" ? "About Mofu Haven" : "認識毛毛港"}
+          </Link>
+          <Link href="/brand/best-partner" className={navLinkClassName(pathname === "/brand/best-partner" || pathname.startsWith("/brand/"))}>
+            {locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}
+          </Link>
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-1.5 md:hidden">
