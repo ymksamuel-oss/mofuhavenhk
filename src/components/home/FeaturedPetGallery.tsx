@@ -72,7 +72,7 @@ export function FeaturedPetGallery({ pets }: FeaturedPetGalleryProps) {
               const external = href ? isExternalLink(href) : false;
               const title = locale === "en" && pet.title_en ? pet.title_en : pet.title;
               const description = locale === "en" && pet.description_en ? pet.description_en : pet.description;
-              const cardClassName = `group relative isolate min-h-[21rem] overflow-hidden rounded-[1.75rem] bg-[#e8ded2] shadow-[0_18px_40px_-26px_rgba(67,46,36,0.6)] ${index % 5 === 0 ? "sm:col-span-2 sm:min-h-[26rem] lg:col-span-2" : ""}`;
+              const cardClassName = `group relative isolate min-h-[21rem] overflow-hidden rounded-[1.75rem] bg-white shadow-[0_18px_40px_-26px_rgba(67,46,36,0.6)] ${index % 5 === 0 ? "sm:col-span-2 sm:min-h-[26rem] lg:col-span-2" : ""}`;
               const content = (
                 <>
                   <img

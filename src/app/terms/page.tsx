@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "網站使用條款及免責聲明",
+  title: "網站使用條款及免責聲明 | Mofu Haven",
   description:
     "毛毛港 Mofu Haven 網站使用條款、知識產權、產品資訊、寵物餵食免責聲明及適用法律。",
+  alternates: { canonical: "/terms" },
 };
 
 const sections = [
@@ -14,7 +15,7 @@ const sections = [
     content: (
       <ol className="list-decimal space-y-3 pl-5 marker:font-semibold marker:text-[#8b573f]">
         <li>
-          本網站專營日本直送之優質寵物食品、天然點心及寵物日常用品，服務對象主要為香港本地顧客。
+          本網站由毛毛港香港（Mofu Haven HK，以下稱「本店」）在香港特別行政區營運，提供寵物食品、零食及生活用品之展示、選購與相關顧客服務；商品供應以頁面最新資料、實際庫存及本店確認的訂單為準。
         </li>
         <li>
           閣下使用本網站之服務時，必須確保具備簽訂具法律約束力合約之行為能力，並確保所提供之登記及配送資料均屬真實、準確及完整。
@@ -50,7 +51,7 @@ const sections = [
         </li>
         <li>
           <strong className="font-semibold text-[#4b352a]">天然原料差異：</strong>
-          本店所售之零食大部分為 100% 天然純肉慢烘製成，絕無添加人工色素及防腐劑。每批次產品之顏色、形狀、氣味及乾燥度略有天然差異，或肉品表面呈現微白天然胺基酸結晶，均屬正常現象，並非品質瑕疵。
+          部分產品以天然食材製成；天然原料及不同生產批次的顏色、形狀、氣味、質感或乾燥度可能略有差異。產品成分及特色請以該商品頁面和製造商包裝標示為準，天然差異本身不代表產品有品質問題。
         </li>
         <li>
           <strong className="font-semibold text-[#4b352a]">寵物餵食與健康責任：</strong>
@@ -62,7 +63,7 @@ const sections = [
               每隻毛孩的年齡、體重、活動量、咀嚼習慣及過敏體質各有不同。餵食潔齒耐咬類產品時，主人務必在旁陪同監管，避免毛孩吞嚥過急造成哽塞。
             </li>
             <li>
-              若愛寵患有特定疾病、嚴重過敏或正在接受治療，餵食前請務必諮詢閣下的註冊獸醫。因毛孩個人體質不適、挑食不進食或不當餵食引起的任何健康狀況，本店概不承擔任何法律責任。
+              如毛孩患有疾病、嚴重過敏、特殊體質或正在接受治療，餵食前請先諮詢註冊獸醫；若出現不適，應停止餵食並尋求獸醫協助。任何重大健康決定均應遵從獸醫專業意見。本條不排除適用法律不得排除或限制的責任。
             </li>
           </ul>
         </li>
@@ -78,7 +79,7 @@ const sections = [
           本網站歡迎其他正當合規網站建立連結，但嚴格拒絕來自涉及違法、欺詐、色情、侵權或違反公序良俗網站的連結。
         </li>
         <li>
-          本網站如包含轉往第三方服務（包括但不限於 Stripe 支付平台、順豐速運物流追蹤、WhatsApp 聊天工具或外部社交平台）之連結，該等網站均由第三方獨立運營。閣下使用第三方服務所引致的任何損失或糾紛，本店概不負責。
+          本網站可能連結至 Stripe、順豐速運、WhatsApp 或其他第三方服務，以處理付款、配送或聯絡。該等服務由第三方獨立營運，受其自身條款及私隱政策規管。本店不控制第三方網站的內容、可用性或資料處理，亦不就其服務中斷或其網站內容承擔責任；連結僅為方便使用，並不構成保證或背書。
         </li>
       </ol>
     ),
@@ -89,10 +90,10 @@ const sections = [
     content: (
       <ol className="list-decimal space-y-3 pl-5 marker:font-semibold marker:text-[#8b573f]">
         <li>
-          本店有權在不作事先通知之情況下，隨時對本網站內容、產品價格、促銷優惠、版面設計進行更正、補充、暫停或終止運作。
+          本店可在適用法律容許範圍內更新、調整、暫停或終止網站內容或服務，並會在合理可行的情況下維持網站正常運作。
         </li>
         <li>
-          對於因網絡連線中斷、電訊故障、伺服器維護、黑客攻擊或不可抗力事件（如天災、惡劣天氣暫停派送）而導致的任何使用不便或間接損失，本店在法律允許的最大範圍內免除一切責任。
+          網絡故障、系統維護、第三方服務中斷或不可抗力事件可能影響網站服務。本店在適用法律容許的最大範圍內，不承擔因使用或無法使用本網站所造成的間接或衍生損失；本條不排除或限制法律不得排除或限制的責任。
         </li>
       </ol>
     ),
@@ -102,7 +103,7 @@ const sections = [
     title: "適用法律及管轄權",
     content: (
       <p>
-        本條款及條件受中華人民共和國香港特別行政區法律管轄並按其詮釋。因本網站服務所引起的任何爭議，均受香港特別行政區法院的專屬管轄權管轄。
+        本條款受中華人民共和國香港特別行政區法律管轄並按其解釋。因本條款或使用本網站而產生的爭議，須提交香港特別行政區法院處理，但適用法律另有規定者除外。
       </p>
     ),
   },
@@ -126,8 +127,9 @@ export default function TermsPage() {
           <h1 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-[-0.025em] text-[#4b352a] sm:text-4xl">
             網站使用條款及免責聲明
           </h1>
+          <p className="mt-3 text-sm text-stone-500">最後更新：2026 年 10 月 8 日</p>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-[#8a7163] sm:text-base">
-            歡迎瀏覽「毛毛港 Mofu Haven」（以下簡稱「本網站」或「本店」）。本網站由毛毛港運營。在閣下使用本網站及進行任何訂購前，請仔細閱讀以下各項條款及政策。進入、瀏覽或使用本網站，即代表閣下已充分理解並同意受以下條款約束。
+            使用本網站或提交訂單前，請閱讀以下條款；網站供應及訂單安排以最新頁面資料、實際庫存、本店確認及適用購物政策為準。
           </p>
         </header>
 
@@ -135,7 +137,7 @@ export default function TermsPage() {
           {sections.map((section) => (
             <section key={section.number} className="px-5 py-7 sm:px-8 sm:py-9">
               <div className="flex items-start gap-4">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f7f1ed] text-sm font-semibold text-[#8b573f]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-100 bg-white text-sm font-semibold text-[#8b573f]">
                   {section.number}
                 </span>
                 <div className="min-w-0 flex-1">

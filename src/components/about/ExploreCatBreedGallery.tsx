@@ -41,7 +41,7 @@ export function ExploreCatBreedGallery() {
               href={`/cat-breeds/${breed.slug}`}
               className="group block h-full overflow-hidden rounded-2xl border border-[#2B2623]/10 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-[#2B2623]/25 hover:shadow-[0_18px_30px_-22px_rgba(74,59,50,0.55)]"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#FBF9F6]">
+              <div className="relative aspect-[4/3] overflow-hidden bg-white">
                 <Image
                   src={breed.imageUrl}
                   alt={isEn ? breed.nameEn : breed.name}
@@ -51,7 +51,7 @@ export function ExploreCatBreedGallery() {
                 />
               </div>
               {variantImages.length > 0 ? (
-                <div className="grid grid-cols-5 gap-1.5 border-t border-[#2B2623]/8 bg-[#FBF9F6] p-2">
+                <div className="grid grid-cols-5 gap-1.5 border-t border-[#2B2623]/8 bg-white p-2">
                   {variantImages.map((src) => (
                     <span key={src} className="relative aspect-square overflow-hidden rounded-lg bg-white">
                       <Image

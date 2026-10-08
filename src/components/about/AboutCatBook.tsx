@@ -59,7 +59,7 @@ export function AboutCatBook() {
 
   return (
     <div
-      className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]"
+      className="min-h-[70vh] bg-white font-sans text-[#2B2623]"
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">

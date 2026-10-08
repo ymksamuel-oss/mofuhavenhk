@@ -83,7 +83,7 @@ export default async function VenisonBenefitsPage() {
 
           <section className="mt-14" aria-labelledby="benefit-protein">
             <div className="mb-6 flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#8b573f] text-xl text-white">01</span><div><p className="text-xs font-bold tracking-[0.16em] text-[#a76443]">LEAN & LIGHT</p><h2 id="benefit-protein" className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-[#4b352a]">高蛋白、極低脂：絕育與減肥犬的清爽肉香</h2></div></div>
-            <div className="grid gap-6 md:grid-cols-[1.1fr_.9fr] md:items-center"><p className="text-base leading-8 text-[#634b3d]">鹿肉通常屬於較瘦的紅肉，蛋白質密度高、脂肪相對低，對需要留意體態的狗狗尤其吸引。把高油脂零食換成小份量鹿肉乾，不代表可以無上限食；重點仍然是將零食熱量計入每日總攝取，並按體重、活動量和獸醫建議調整。</p><aside className="rounded-3xl bg-[#f2e4d5] p-6"><p className="text-sm font-bold text-[#87583d]">毛孩小貼士</p><p className="mt-2 text-sm leading-7 text-[#634b3d]">以「小份量、慢慢轉、觀察便便與皮膚」為原則，比一次過換晒全餐更穩妥。</p></aside></div>
+            <div className="grid gap-6 md:grid-cols-[1.1fr_.9fr] md:items-center"><p className="text-base leading-8 text-[#634b3d]">鹿肉通常屬於較瘦的紅肉，蛋白質密度高、脂肪相對低，對需要留意體態的狗狗尤其吸引。把高油脂零食換成小份量鹿肉乾，不代表可以無上限食；重點仍然是將零食熱量計入每日總攝取，並按體重、活動量和獸醫建議調整。</p><aside className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm"><p className="text-sm font-bold text-[#87583d]">毛孩小貼士</p><p className="mt-2 text-sm leading-7 text-[#634b3d]">以「小份量、慢慢轉、觀察便便與皮膚」為原則，比一次過換晒全餐更穩妥。</p></aside></div>
           </section>
 
           <section className="mt-14" aria-labelledby="benefit-brain">

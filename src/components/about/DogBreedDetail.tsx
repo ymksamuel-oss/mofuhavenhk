@@ -24,7 +24,7 @@ export function DogBreedDetail({ breed }: { breed: DogBreed }) {
   ];
 
   return (
-    <div className="min-h-[70vh] bg-[#FBF9F6] text-[#2B2623]">
+    <div className="min-h-[70vh] bg-white text-[#2B2623]">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link href="/cat-breeds" className="text-sm font-medium text-[#2B2623]/70 transition hover:text-[#2B2623]">

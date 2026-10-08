@@ -53,7 +53,7 @@ export function CatBreedsGuide() {
   );
 
   return (
-    <div className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]">
+    <div className="min-h-[70vh] bg-white font-sans text-[#2B2623]">
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
           <Link href="/menu" className="text-sm font-medium text-[#2B2623]/70 transition hover:text-[#2B2623]">
@@ -98,7 +98,7 @@ export function CatBreedsGuide() {
                 {catBreeds.map((breed) => (
                   <li key={breed.id}>
                     <Link href={`/cat-breeds/${breed.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)] transition duration-200 hover:-translate-y-1 hover:border-[#2B2623]/25">
-                      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FBF9F6]">
+                      <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={breed.imageUrl} alt={isEn ? breed.nameEn : breed.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" onError={handleBreedImageError} />
                       </div>

@@ -44,7 +44,7 @@ export default async function CatBreedDetailPage({
   }
 
   return (
-    <div className="min-h-full w-full bg-[#FBF9F6]">
+    <div className="min-h-full w-full bg-white">
       <CatBreedDetail breed={breed} />
     </div>
   );

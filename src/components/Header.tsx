@@ -100,6 +100,34 @@ export function Header() {
   ] as const;
   const petGuideHref = "/pet-guide";
   const accountHref = member ? "/account" : "/account/login";
+  const primaryNavItems = [
+    { href: "/", label: locale === "zh" ? "首頁" : t("navHome"), active: pathname === "/" },
+    ...primaryCategoryLinks.map((item) => ({
+      href: `/collections/${item.slug}`,
+      label: item.label,
+      active: pathname === `/collections/${item.slug}` || pathname.startsWith(`/collections/${item.slug}/`),
+    })),
+    {
+      href: "/collections/value-bundles",
+      label: locale === "en" ? "Value Bundles" : "促銷組合",
+      active: pathname.startsWith("/collections/value-bundles"),
+    },
+    {
+      href: petGuideHref,
+      label: locale === "en" ? "Explore Pet World" : "探索寵物世界",
+      active: pathname === petGuideHref || pathname.startsWith(`${petGuideHref}/`),
+    },
+    {
+      href: "/about",
+      label: locale === "en" ? "About Mofu Haven" : "認識毛毛港",
+      active: pathname === "/about" || pathname.startsWith("/about/"),
+    },
+    {
+      href: "/brand/best-partner",
+      label: locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念",
+      active: pathname === "/brand/best-partner" || pathname.startsWith("/brand/"),
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
@@ -113,33 +141,14 @@ export function Header() {
         </Link>
 
         <nav
-          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] md:flex lg:text-sm"
+          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] xl:flex 2xl:text-sm"
           aria-label={t("headerPrimaryNavLabel")}
         >
-          <Link href="/" className={navLinkClassName(pathname === "/")}>
-            {locale === "zh" ? "首頁" : t("navHome")}
-          </Link>
-          {primaryCategoryLinks.map((item) => (
-            <Link
-              key={item.slug}
-              href={`/collections/${item.slug}`}
-              className={navLinkClassName(pathname === `/collections/${item.slug}` || pathname.startsWith(`/collections/${item.slug}/`))}
-            >
+          {primaryNavItems.map((item) => (
+            <Link key={item.href} href={item.href} className={navLinkClassName(item.active)}>
               {item.label}
             </Link>
           ))}
-          <Link href="/collections/value-bundles" className={navLinkClassName(pathname.startsWith("/collections/value-bundles"))}>
-            {locale === "en" ? "Value Bundles" : "促銷組合"}
-          </Link>
-          <Link href={petGuideHref} className={navLinkClassName(pathname === petGuideHref || pathname.startsWith(`${petGuideHref}/`))}>
-            {locale === "en" ? "Explore Pet World" : "探索寵物世界"}
-          </Link>
-          <Link href="/about" className={navLinkClassName(pathname === "/about" || pathname.startsWith("/about/"))}>
-            {locale === "en" ? "About Mofu Haven" : "認識毛毛港"}
-          </Link>
-          <Link href="/brand/best-partner" className={navLinkClassName(pathname === "/brand/best-partner" || pathname.startsWith("/brand/"))}>
-            {locale === "en" ? "Best Partner brand concept" : "Best Partner 品牌概念"}
-          </Link>
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-1.5 md:hidden">
@@ -207,6 +216,16 @@ export function Header() {
           )}
         </div>
       </div>
+      <nav
+        className="mx-auto hidden w-full items-center justify-center gap-5 overflow-x-auto border-t border-gray-100 px-4 py-2.5 text-[11px] text-[color:var(--muted)] md:flex xl:hidden"
+        aria-label={t("headerPrimaryNavLabel")}
+      >
+        {primaryNavItems.map((item) => (
+          <Link key={item.href} href={item.href} className={navLinkClassName(item.active)}>
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

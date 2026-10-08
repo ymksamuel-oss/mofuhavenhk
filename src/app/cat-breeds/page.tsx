@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function CatBreedsPage() {
   return (
-    <div className="min-h-full w-full bg-[#FBF9F6]">
+    <div className="min-h-full w-full bg-white">
       <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>
         <CatBreedsGuide />
       </Suspense>

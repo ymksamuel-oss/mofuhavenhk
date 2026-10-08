@@ -440,8 +440,7 @@ export function ProductSearch({
             <div
               className="relative z-[111] my-2 flex w-full max-w-lg flex-col rounded-3xl border border-[color:var(--line)] p-4 shadow-[0_28px_56px_-24px_rgba(43,38,35,0.34)] sm:my-0 sm:p-5"
               style={{
-                background:
-                  "linear-gradient(180deg, #ffffff 0%, #fbf9f6 55%, #f5ebe6 100%)",
+                background: "#ffffff",
               }}
             >
               <div className="mb-3 flex shrink-0 items-center justify-between gap-3">

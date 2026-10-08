@@ -106,7 +106,7 @@ export function HomeCategoryVisualNav({ categories, products }: { categories: St
   return (
     <section className="relative overflow-hidden bg-[#FFFFFF] px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
       <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-[#FFFFFF] blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 top-8 h-64 w-64 rounded-full bg-[#e5ebd8] blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 top-8 h-64 w-64 rounded-full bg-white blur-3xl" />
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto mb-9 max-w-3xl text-center sm:mb-12">
           <p className="inline-flex items-center gap-2 rounded-full border border-[#dccabc] bg-white/80 px-4 py-2 text-[11px] font-semibold tracking-[0.16em] text-[#8b6957] shadow-sm">

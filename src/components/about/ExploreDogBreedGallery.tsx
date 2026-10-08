@@ -34,7 +34,7 @@ export function ExploreDogBreedGallery({ coatFilter = "all" }: { coatFilter?: Do
         {visibleBreeds.map((breed) => (
           <li key={breed.id}>
             <article className="group h-full overflow-hidden rounded-2xl border border-[#2B2623]/10 bg-white transition duration-200 hover:-translate-y-0.5 hover:border-[#2B2623]/25 hover:shadow-[0_18px_30px_-22px_rgba(74,59,50,0.55)]">
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#FBF9F6]">
+              <div className="relative aspect-[4/3] overflow-hidden bg-white">
                 <Image
                   src={breed.imageUrl}
                   alt={isEn ? breed.nameEn : breed.name}

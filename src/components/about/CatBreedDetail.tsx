@@ -63,7 +63,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
 
   return (
     <div
-      className="min-h-[70vh] bg-[#FBF9F6] font-sans text-[#2B2623]"
+      className="min-h-[70vh] bg-white font-sans text-[#2B2623]"
     >
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="mb-6">
@@ -77,7 +77,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
 
         <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
           <div className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
-            <div className="relative aspect-[4/3] w-full bg-[#FBF9F6]">
+            <div className="relative aspect-[4/3] w-full bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={heroImage?.src || breed.imageUrl}
@@ -197,7 +197,7 @@ export function CatBreedDetail({ breed }: CatBreedDetailProps) {
                       key={pattern.pattern_id}
                       className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_12px_28px_-22px_rgba(74,59,50,0.35)]"
                     >
-                      <div className="relative aspect-[4/3] bg-[#FBF9F6]">
+                      <div className="relative aspect-[4/3] bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={pattern.image_url || CAT_BREED_IMAGE_FALLBACK}

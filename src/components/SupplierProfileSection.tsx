@@ -57,7 +57,7 @@ export function SupplierProfileSection() {
         <div className="mt-10 flex flex-col space-y-6 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8 lg:space-y-0">
           <div className="space-y-8">
             <figure>
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-[#e9dfd3] shadow-sm">
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-white shadow-sm">
                 <Image src="/images/best-partner-factory.jpg" alt={copy.photoCaption} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               </div>
               <figcaption className="mt-3 text-xs leading-5 text-[#806b5d]">{copy.photoCaption}</figcaption>

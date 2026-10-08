@@ -8,7 +8,7 @@ export function HomeBulkPromotion() {
 
   return (
     <aside
-      className="border-y border-[#d7a56f]/50 bg-[#fff1d7] px-4 py-3 text-center shadow-[0_8px_24px_-20px_rgba(122,75,49,0.7)] sm:px-6 sm:py-3.5"
+      className="border-y border-gray-100 bg-white px-4 py-3 text-center shadow-[0_8px_24px_-20px_rgba(122,75,49,0.7)] sm:px-6 sm:py-3.5"
       aria-label={t("promoAriaLabel")}
     >
       <p className="text-sm font-bold leading-6 text-[#7b3f2b] sm:text-base">

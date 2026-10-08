@@ -114,7 +114,7 @@ export function BreedGallery({ title, slides }: BreedGalleryProps) {
             >
               <article className="overflow-hidden rounded-2xl border border-[#2B2623]/12 bg-[#FFFFFF] shadow-[0_18px_36px_-22px_rgba(74,59,50,0.4)]">
                 {/* Image only — intentionally no absolute top progress segments */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#FBF9F6]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={slide.src || CAT_BREED_IMAGE_FALLBACK}

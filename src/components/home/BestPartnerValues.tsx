@@ -65,7 +65,7 @@ export function BestPartnerValues() {
           {VALUES.map((value) => (
             <div
               key={value.title.en}
-              className="group flex min-w-0 items-start gap-4 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#F1F1F1] hover:bg-[#f8efe5] sm:px-5"
+              className="group flex min-w-0 items-start gap-4 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] px-4 py-5 shadow-[0_12px_24px_-22px_rgba(92,62,39,0.8)] transition duration-200 hover:-translate-y-0.5 hover:border-[#F1F1F1] hover:bg-white sm:px-5"
             >
               <span
                 className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFFFFF] text-2xl shadow-inner"

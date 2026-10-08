@@ -17,7 +17,7 @@ export function CareMatchCard() {
   return (
     <>
       <section id="pet-matcher" className="my-8 mx-auto w-full max-w-6xl scroll-mt-24 px-4" aria-labelledby="care-match-title">
-        <div className="relative overflow-hidden rounded-3xl border border-amber-200/60 bg-gradient-to-r from-amber-50/80 via-orange-50/60 to-stone-50 p-6 shadow-sm sm:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-amber-100/80 px-3 py-1 text-xs font-semibold text-amber-800">
