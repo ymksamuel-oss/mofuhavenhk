@@ -9,9 +9,9 @@ const MAP_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(`ベ�
 const FEATURES = [
   {
     number: "01",
-    image: "/images/hero-natural-meat.jpg",
-    imageAltZh: "原肉低溫慢烘後的天然肉乾與日常餵食情境",
-    imageAltEn: "Natural meat treats prepared with gentle low-temperature drying",
+    image: "/images/best-partner-craft-meat.jpg",
+    imageAltZh: "日本工坊天然原肉與職人低溫慢烘工藝",
+    imageAltEn: "Natural meat and artisan low-temperature drying in a Japanese workshop",
     titleZh: "堅持日本國產・無添加・無著色",
     titleEn: "Japanese domestic ingredients · additive-free · colour-free",
     subtitle: "国産・無添加・無着色のこだわり",
@@ -22,9 +22,9 @@ const FEATURES = [
   },
   {
     number: "02",
-    image: "/images/products/best-partner-seafood-bundle-collage.jpg",
-    imageAltZh: "多樣化 Best Partner 純肉零食與天然食材擺盤",
-    imageAltEn: "A varied selection of Best Partner single-ingredient treats",
+    image: "/images/best-partner-ingredient-selection.jpg",
+    imageAltZh: "多樣化天然純肉食材擺盤",
+    imageAltEn: "A refined selection of varied natural single-ingredient meats",
     titleZh: "豐富純肉陣容・為挑食與敏感體質而生",
     titleEn: "A rich pure-meat range · made for selective and sensitive pets",
     subtitle: "品揃えの豊富さ（アレルギー等への配慮、選ぶことの楽しさ）",
@@ -78,7 +78,7 @@ export function BestPartnerConceptContent() {
             aria-labelledby={`feature-${feature.number}-title`}
           >
             <div className="mx-auto w-full max-w-6xl md:col-span-12 md:grid md:grid-cols-12 md:items-center md:gap-10">
-              <div className="md:col-span-7">
+              <div className={`md:col-span-7 ${feature.number === "02" ? "md:order-2" : "md:order-1"}`}>
                 <p className="text-xs font-semibold tracking-[0.24em] text-stone-500">{feature.number} / BEST PARTNER</p>
                 <h2 id={`feature-${feature.number}-title`} className="mt-4 max-w-3xl font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight tracking-[-0.025em] text-stone-800 sm:text-4xl lg:text-5xl">
                   {isEn ? feature.titleEn : feature.titleZh}
@@ -113,7 +113,7 @@ export function BestPartnerConceptContent() {
                 ) : null}
               </div>
 
-              <figure className="md:col-span-5">
+              <figure className={`md:col-span-5 ${feature.number === "02" ? "md:order-1" : "md:order-2"}`}>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
                   <Image
                     src={feature.image}
