@@ -125,6 +125,7 @@ export function BulkBundleCard({ products, priority = false }: { products: Produ
           <div className="mt-2">
             <AddToCartButton
               productId={selectedTier.id}
+              priceId={selectedTier.priceId}
               unitPrice={selectedTier.price}
               quantity={quantity}
               onQuantityChange={setQuantity}
