@@ -29,7 +29,7 @@ type AddToCartButtonProps = {
 
 type ToastOrigin = { x: number; y: number };
 
-const PET_QUICK_QUANTITIES = [4, 8, 12] as const;
+const PET_QUICK_QUANTITIES = [6, 9, 12] as const;
 const CELEBRATION_QUANTITIES = new Set(PET_QUICK_QUANTITIES);
 
 export function AddToCartButton({
@@ -129,12 +129,12 @@ export function AddToCartButton({
     setToastKey((key) => key + 1);
     setSafeQty(MIN_QTY);
   };
-  const discountMessage = discountPercent === 5
-    ? locale === "en" ? "🎉 Congratulations! 5% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 95 \u6298\u512a\u60e0！"
-    : discountPercent === 10
+  const discountMessage = discountPercent === 10
     ? locale === "en" ? "🎉 Congratulations! 10% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 9 \u6298\u512a\u60e0！"
     : discountPercent === 15
-      ? locale === "en" ? "🎉 Congratulations! 15% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u4eab\u6709 85 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！"
+    ? locale === "en" ? "🎉 Congratulations! 15% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 85 \u6298\u512a\u60e0！"
+    : discountPercent === 20
+      ? locale === "en" ? "🎉 Congratulations! 20% off applied" : "🎉 \u606d\u559c\u4f60！\u5df2\u7372\u5f97 8 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！"
       : null;
   const currentTotal = product
     ? Number((discountedUnitPrice(product, unitPrice ?? product.price, qty) * qty).toFixed(2))
@@ -144,10 +144,10 @@ export function AddToCartButton({
   const freeShippingMessage = locale === "en"
     ? `Free local shipping unlocked at HK$${FREE_SHIPPING_THRESHOLD}`
     : `\u5df2\u4eab\u9806\u8c50\u672c\u5730\u514d\u904b\u8cbb\u512a\u60e0（\u6eff HK$${FREE_SHIPPING_THRESHOLD}）`;
-  const nextTier = qty < 4 ? 4 - qty : qty < 8 ? 8 - qty : qty < 12 ? 12 - qty : 0;
+  const nextTier = qty < 6 ? 6 - qty : qty < 9 ? 9 - qty : qty < 12 ? 12 - qty : 0;
   const promotionHint = locale === "en"
-    ? nextTier > 0 ? `Buy ${nextTier} more to unlock your next bulk discount.` : "Your best 15% bulk discount is unlocked!"
-    : nextTier > 0 ? `\u518d\u8cb7 ${nextTier} \u4ef6\u5373\u4eab ${qty < 4 ? "95 \u6298" : qty < 8 ? "9 \u6298" : "85 \u6298"} \u512a\u60e0！` : "\u5df2\u4eab\u6709 85 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！";
+    ? nextTier > 0 ? `Buy ${nextTier} more to unlock your next bulk discount.` : "Your best 20% bulk discount is unlocked!"
+    : nextTier > 0 ? `\u518d\u8cb7 ${nextTier} \u4ef6\u5373\u4eab ${qty < 6 ? "9 \u6298" : qty < 9 ? "85 \u6298" : "8 \u6298"} \u512a\u60e0！` : "\u5df2\u4eab\u6709 8 \u6298\u6700\u9ad8\u91cf\u8ca9\u512a\u60e0！";
   const quickChoices = (
     <div className="flex min-w-0 flex-wrap items-stretch gap-2 py-1" onClick={stop} aria-label={locale === "en" ? "Bulk quantity shortcuts" : "\u91cf\u8ca9\u5feb\u6377\u9078\u64c7"}>
       {PET_QUICK_QUANTITIES.map((option) => (
@@ -160,11 +160,11 @@ export function AddToCartButton({
         >
           <span className="text-sm font-bold leading-5">{locale === "en" ? `${option} units` : `${option} \u4ef6`}</span>
           <span className={`mt-0.5 text-[10px] leading-4 ${qty === option ? "text-stone-600" : "text-stone-500"}`}>
-            {option === 4
-              ? (locale === "en" ? "5% off" : "95\u6298\u512a\u60e0")
-              : option >= 12
-                ? (locale === "en" ? "15% off" : "85\u6298・\u8d85\u503c")
-                : (locale === "en" ? "10% off" : "9\u6298\u512a\u60e0")}
+            {option >= 12
+                ? (locale === "en" ? "20% off" : "8\u6298・\u8d85\u503c")
+                : option >= 9
+                  ? (locale === "en" ? "15% off" : "85\u6298\u512a\u60e0")
+                  : (locale === "en" ? "10% off" : "9\u6298\u512a\u60e0")}
           </span>
         </button>
       ))}
@@ -219,10 +219,10 @@ export function AddToCartButton({
         disabled={!purchasable}
         aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
         aria-live="polite"
-        className={`inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-white shadow-sm transition-all active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 ${added ? "bg-emerald-700" : "bg-stone-900 hover:bg-stone-800"}`}
+        className={`inline-flex h-9 w-10 shrink-0 items-center justify-center rounded-xl bg-stone-900 text-white shadow-sm transition-all hover:bg-stone-800 active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 ${added ? "bg-emerald-700 hover:bg-emerald-700" : ""}`}
       >
         <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-        <span className="truncate">{!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
+        <span className="sr-only">{!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
       </button>
     </div>
   );

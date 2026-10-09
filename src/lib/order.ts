@@ -21,7 +21,7 @@ export type OrderItem = {
   qty: number;
   unit: number;
   originalUnit?: number;
-  discountPercent?: 0 | 5 | 10 | 15;
+  discountPercent?: 0 | 10 | 15 | 20;
 };
 
 export type RequestedOrderLine = {
@@ -62,7 +62,7 @@ export type OrderItemPricing = {
   basePrice: number;
   effectiveUnitPrice: number;
   discountRate: number;
-  discountPercent: 0 | 5 | 10 | 15;
+  discountPercent: 0 | 10 | 15 | 20;
   itemTotal: number;
   itemOriginalTotal: number;
   itemDiscountAmount: number;
@@ -72,10 +72,14 @@ export type OrderItemPricing = {
 /** Derives every price from the immutable base price and the current qty. */
 export function orderItemPricing(item: OrderItem): OrderItemPricing {
   const basePrice = fromMinorUnits(toMinorUnits(item.originalUnit ?? item.unit));
-  const isValueBundle = /^MOFU-BUNDLE-/i.test(item.mofuSku?.trim() ?? "");
-  const discountPercent: 0 | 5 | 10 | 15 = isValueBundle
+  const itemText = [item.mofuSku, item.name.zh, item.name.en, item.variantLabel?.zh, item.variantLabel?.en]
+    .filter(Boolean)
+    .join(" ");
+  const isValueBundle = /^MOFU-BUNDLE-/i.test(item.mofuSku?.trim() ?? "") ||
+    /(?:^|[^0-9])(6|9|12)\s*(?:包裝|包|packs?|入裝)(?:[^0-9]|$)/iu.test(itemText);
+  const discountPercent: 0 | 10 | 15 | 20 = isValueBundle
     ? 0
-    : item.qty >= 12 ? 15 : item.qty >= 8 ? 10 : item.qty >= 4 ? 5 : 0;
+    : item.qty >= 12 ? 20 : item.qty >= 9 ? 15 : item.qty >= 6 ? 10 : 0;
   const discountRate = discountPercent / 100;
   const baseCents = toMinorUnits(basePrice);
   const effectiveUnitCents = Math.round(baseCents * (100 - discountPercent) / 100);
@@ -139,15 +143,22 @@ export function isPetBundleProduct(product: Product): boolean {
 export function isValueBundleProduct(product: Product): boolean {
   const sku = product.metadata?.mofu_sku?.trim() ?? "";
   const tagged = product.tags?.some((tag) => /^MOFU-BUNDLE-/i.test(tag.trim())) ?? false;
-  return /^MOFU-BUNDLE-/i.test(sku) || tagged;
+  const metadata = product.metadata ?? {};
+  const isBulkPack = [metadata.bulk_group, metadata.bulk_pack_count]
+    .some((value) => typeof value === "string" && value.trim().length > 0);
+  const productText = [product.name.zh, product.name.en, product.productSpec, metadata.variant_label_zh]
+    .filter(Boolean)
+    .join(" ");
+  const hasPackName = /(?:^|[^0-9])(6|9|12)\s*(?:包裝|包|packs?|入裝)(?:[^0-9]|$)/iu.test(productText);
+  return /^MOFU-BUNDLE-/i.test(sku) || tagged || isBulkPack || hasPackName;
 }
 
-export function petBundleDiscountPercent(product: Product, qty: number): 0 | 5 | 10 | 15 {
+export function petBundleDiscountPercent(product: Product, qty: number): 0 | 10 | 15 | 20 {
   if (isValueBundleProduct(product)) return 0;
   if (!isPetBundleProduct(product)) return 0;
-  if (qty >= 12) return 15;
-  if (qty >= 8) return 10;
-  if (qty >= 4) return 5;
+  if (qty >= 12) return 20;
+  if (qty >= 9) return 15;
+  if (qty >= 6) return 10;
   return 0;
 }
 

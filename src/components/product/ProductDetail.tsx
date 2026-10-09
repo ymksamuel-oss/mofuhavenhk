@@ -13,7 +13,7 @@ import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { formatMoney, type Locale } from "@/lib/i18n/translations";
-import { calcSubtotal, isPetBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
+import { calcSubtotal, isPetBundleProduct, isValueBundleProduct, PET_BUNDLE_QUANTITIES } from "@/lib/order";
 import { getProductFlavorFamily, type Product } from "@/lib/products";
 import { getProductJanCode } from "@/lib/product-identifiers";
 import { useCart } from "@/lib/shop/cart";
@@ -200,7 +200,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
     window.dispatchEvent(new CustomEvent("mofu:open-cart"));
     window.setTimeout(() => setStickyLoading(false), 450);
   };
-  const isFood = isPetBundleProduct(selectedProduct) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(selectedProduct));
+  const isValueBundle = isValueBundleProduct(selectedProduct);
+  const isFood = !isValueBundle && (isPetBundleProduct(selectedProduct) || /(food|treat|snack|零食|小食|食品|肉乾|肉條|魚介|鮮肉|原肉)/i.test(JSON.stringify(selectedProduct)));
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [sku], content_name: name, content_sku: sku, value: selectedPrice, currency: "HKD" }); }, [name, selectedPrice, sku]);
