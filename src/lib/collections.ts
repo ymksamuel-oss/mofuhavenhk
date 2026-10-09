@@ -31,12 +31,7 @@ const CAT_SKUS = new Set([
   "4976064023209",
 ]);
 
-const VALUE_BUNDLE_SKUS = new Set([
-  "MOFU-BUNDLE-PICKY-01",
-  "MOFU-BUNDLE-DENTAL-02",
-  "MOFU-BUNDLE-SEAFOOD-03",
-  "MOFU-BUNDLE-WALK-04",
-]);
+const VALUE_BUNDLE_SKUS = /^MOFU-BUNDLE-BULK-\d{13}-(?:6|9|12)$/;
 
 function productText(product: Product): string {
   return [
@@ -91,7 +86,7 @@ const MEAT_PATTERNS: Record<string, RegExp[]> = {
 
 const DOG = (product: Product) => isDogProduct(product);
 const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
-const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.has(productSku(product));
+const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.test(productSku(product));
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "dogs", title_zh: "狗狗全系列", title_en: "All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
@@ -109,7 +104,7 @@ export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "seafood-fish", title_zh: "深海海鮮全魚", title_en: "Deep-Sea Fish & Seafood", description: "以魚類及海鮮為主題的天然狗狗小食。", seo_title: "深海海鮮全魚｜狗狗魚類海鮮零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["seafood-fish"]) },
   { slug: "pork-specialty", title_zh: "黑豚與特選肉", title_en: "Specialty Pork & Meats", description: "黑豚及特選肉源的日本狗狗零食。", seo_title: "黑豚與特選肉｜日本狗狗豬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["pork-specialty"]) },
   { slug: "cheese-bakery", title_zh: "芝士與和風烘焙", title_en: "Cheese & Japanese Bakery", description: "芝士、乳酪與和風烘焙點心，為狗狗帶來香脆獎勵。", seo_title: "芝士與和風烘焙｜狗狗芝士及烘焙零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["cheese-bakery"]) },
-  { slug: "value-bundles", title_zh: "🎁 促銷組合", title_en: "🎁 Value Bundles", description: "官方特惠套裝，一次配齊毛孩日常所需。", seo_title: "促銷組合｜Mofu Haven 官方寵物套裝優惠", group: "promotions", match: VALUE_BUNDLES },
+  { slug: "value-bundles", title_zh: "超市量販特惠專區・多包囤貨更划算", title_en: "Bulk-Buy Savings | 6-, 9- & 12-Pack Pet Treats", description: "精選 15 款人氣日本原肉零食，6包／9包／12包特惠量販。全單滿 HK$399 享順豐免運直送。", seo_title: "超市量販特惠專區｜6包、9包、12包日本原肉零食優惠", group: "promotions", match: VALUE_BUNDLES },
 ] as const;
 
 export const COLLECTION_NAV_GROUPS: readonly { key: CollectionGroup; title_zh: string; title_en: string; slugs: readonly string[] }[] = [

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CategoryNavLink } from "@/components/CategoryNavLink";
 import { ProductCard } from "@/components/product/ProductCard";
+import { BulkBundleCard } from "@/components/menu/BulkBundleCard";
 import { Pagination } from "@/components/Pagination";
 import { useCatalog } from "@/lib/catalog-context";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -145,6 +146,16 @@ export function ProductCatalog({
     (!ingredientEnabled || productMatchesIngredient(product, selectedIngredients)) &&
     matchesAudience(product, audienceFilter),
   ).sort((left, right) => categorySlug === "dogs" ? Number(isFoodProduct(right)) - Number(isFoodProduct(left)) : 0);
+  const bulkProductGroups = new Map<string, Product[]>();
+  if (collection?.slug === "value-bundles") {
+    for (const product of products) {
+      const groupKey = product.metadata?.bulk_group;
+      if (groupKey) bulkProductGroups.set(groupKey, [...(bulkProductGroups.get(groupKey) ?? []), product]);
+    }
+  }
+  const pageProducts = collection?.slug === "value-bundles"
+    ? Array.from(bulkProductGroups.values()).map((group) => group[0])
+    : products;
 
   useEffect(() => {
     console.log("[catalog-filter]", {
@@ -161,11 +172,12 @@ export function ProductCatalog({
     });
   }, [audienceFilter, selectedIngredients, productCategory, products.length, productsByRoute.length]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
+  const pageSize = collection?.slug === "value-bundles" ? 15 : PAGE_SIZE;
+  const pageCount = Math.max(1, Math.ceil(pageProducts.length / pageSize));
   const safeCurrentPage = Math.min(currentPage, pageCount);
-  const visibleProducts = products.slice(
-    (safeCurrentPage - 1) * PAGE_SIZE,
-    safeCurrentPage * PAGE_SIZE,
+  const visibleProducts = pageProducts.slice(
+    (safeCurrentPage - 1) * pageSize,
+    safeCurrentPage * pageSize,
   );
 
   useEffect(() => {
@@ -194,7 +206,9 @@ export function ProductCatalog({
     setCurrentPage(Math.max(1, Math.min(pageCount, page)));
   };
 
-  const title = collection
+  const title = collection?.slug === "value-bundles"
+    ? (locale === "en" ? "Bulk-Buy Savings · Stock Up for Less" : "超市量販特惠專區・多包囤貨更划算")
+    : collection
     ? getCollectionLabel(collection, locale)
     : categorySlug === "dogs"
     ? (locale === "en" ? "For Dogs" : "\u72d7\u72d7\u5c08\u5340")
@@ -213,9 +227,9 @@ export function ProductCatalog({
         : null;
   const harmonyCopy = collection?.slug === "value-bundles"
     ? {
-        title: { zh: "超值特惠組合・多寵家庭分享首選", en: "Value bundles made for multi-pet families" },
-        description: { zh: "一次備齊貓咪與狗狗的天然原肉點心，全單滿 HK$399 享順豐免運直送。", en: "Stock up on natural meat treats for cats and dogs, then enjoy SF Express free delivery on orders over HK$399." },
-        primaryCta: { zh: "🛒 探索熱銷促銷套裝", en: "🛒 Explore value bundles" },
+        title: { zh: "6／9／12包量販裝・多包囤貨更划算", en: "6-, 9- and 12-pack bulk savings" },
+        description: { zh: "精選 15 款人氣日本原肉零食，全單滿 HK$399 享順豐免運直送。", en: "15 popular Japanese meat treats with free SF Express delivery on orders of HK$399 or more." },
+        primaryCta: { zh: "🛒 選購量販特惠", en: "🛒 Shop bulk packs" },
         primaryHref: "/collections/value-bundles",
       }
     : undefined;
@@ -225,7 +239,9 @@ export function ProductCatalog({
         <h1 className={`font-[family-name:var(--font-display)] text-2xl font-semibold text-[color:var(--ink)] ${isDedicatedCategoryPage || isCollectionPage ? "" : "sr-only"}`}>{title}</h1>
         {isDedicatedCategoryPage ? <p className="mt-3 max-w-3xl text-sm leading-7 text-[color:var(--muted)]">{getCategoryEditorialIntro(locale, categorySlug ?? "")}</p> : null}
         {collection ? <>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{getCollectionDescription(collection)}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{collection.slug === "value-bundles"
+            ? (locale === "en" ? "15 best-loved Japanese meat treats in 6-, 9- and 12-pack bulk specials. Enjoy free SF Express delivery on orders of HK$399 or more." : "精選 15 款人氣日本原肉零食，6包／9包／12包特惠量販。全單滿 HK$399 享順豐免運直送。")
+            : getCollectionDescription(collection)}</p>
         </> : null}
         {(isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") || isSpeciesCollection) ? <ProteinPills audience={(categorySlug === "dogs" || collection?.slug === "dogs") ? "dogs" : "cats"} selected={selectedIngredients} onSelect={updateIngredientSelection} /> : null}
       </div>
@@ -263,7 +279,9 @@ export function ProductCatalog({
         {visibleProducts.map((product, index) => {
               return (
                 <li key={product.id} className="min-w-0">
-                  <ProductCard product={product} priority={index < 4} />
+                  {collection?.slug === "value-bundles" && product.metadata?.bulk_group
+                    ? <BulkBundleCard products={bulkProductGroups.get(product.metadata.bulk_group) ?? [product]} priority={index < 4} />
+                    : <ProductCard product={product} priority={index < 4} />}
                 </li>
               );
             })}
