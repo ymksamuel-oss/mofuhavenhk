@@ -12,6 +12,14 @@ export type RichProductContent = {
 
 type Section = { title: string; lines: string[] };
 
+/** Remove decorative emoji from product copy while keeping ordinary punctuation and symbols. */
+export function stripProductEmoji(value: string): string {
+  return value
+    .replace(/[\p{Extended_Pictographic}\p{Regional_Indicator}\p{Emoji_Modifier}\uFE0F\u20E3]/gu, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+}
+
 const SECTION_LABELS = {
   highlights: ["核心亮點", "商品特色", "商品特點", "highlights", "features"],
   spotlight: ["商品重點", "購買理由", "key point", "key points"],
@@ -28,7 +36,7 @@ function decodeLiteralEscapes(value: string): string {
 /** Returns display-safe text; source-language fallbacks are hidden instead of leaked. */
 export function safeProductText(value: unknown, locale: ProductContentLocale = "zh"): string {
   if (typeof value !== "string") return "";
-  const text = decodeLiteralEscapes(value).replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").trim();
+  const text = stripProductEmoji(decodeLiteralEscapes(value).replace(/\u00a0/g, " ").replace(/[ \t]+/g, " "));
   if (!text || text === "undefined" || text === "null") return "";
   if (locale !== "ja" && /[\u3040-\u30ff]/u.test(text)) return "";
   if (locale === "en" && /[\u3400-\u9fff]/u.test(text)) return "";
@@ -36,7 +44,7 @@ export function safeProductText(value: unknown, locale: ProductContentLocale = "
 }
 
 function headingTitle(line: string): string | null {
-  const trimmed = line.trim();
+  const trimmed = stripProductEmoji(line);
   if (trimmed.startsWith("##")) return trimmed.replace(/^#+\s*/, "").trim() || null;
   if (trimmed.startsWith("【") && trimmed.includes("】")) return trimmed.slice(1, trimmed.indexOf("】")).trim() || null;
   return null;
@@ -54,7 +62,7 @@ function parseSections(text: string): Section[] {
       current = { title, lines: [] };
       continue;
     }
-    current.lines.push(line.replace(/^[•●▪◦\-*]+\s*/, "").trim());
+    current.lines.push(stripProductEmoji(line.replace(/^[•●▪◦\-*]+\s*/, "")));
   }
   if (current.lines.length) sections.push(current);
   return sections;
@@ -78,7 +86,10 @@ export function parseProductContent(text: string, product: Product, locale: Prod
   const fallbackSpecs = (product.specs ?? [])
     .map((spec) => safeProductText(spec[locale] || spec.zh || spec.en, locale))
     .filter((line): line is string => Boolean(line));
-  const feeding = linesFrom(sections, SECTION_LABELS.feeding, locale);
+  const isDentalChew = /(骨骼|潔齒|芝士棒|牛肋排|馬蹄筋|yak|chew)/iu.test(JSON.stringify(product));
+  const feeding = linesFrom(sections, SECTION_LABELS.feeding, locale).filter((line) =>
+    !isDentalChew || !/(乾糧|拌料|復水|還原.*湯|溫水)/u.test(line),
+  );
   const nutrition = linesFrom(sections, SECTION_LABELS.nutrition, locale);
   const notes = linesFrom(sections, SECTION_LABELS.notes, locale);
   const textureFallback = locale === "en" ? product.texture?.en : product.texture?.zh || product.texture?.en;

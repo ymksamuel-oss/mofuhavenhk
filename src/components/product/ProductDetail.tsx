@@ -24,11 +24,21 @@ import { parseProductPackageFacts } from "@/lib/product-package-facts";
 import {
   parseProductContent,
   productSpecifications,
+  stripProductEmoji,
   type RichProductContent,
 } from "@/lib/product-content";
 
 type ProductDetailProps = { product: Product };
 type FamilyChoice = { product: Product; label: { zh: string; en: string } };
+
+function FeatureCopy({ item }: { item: string }) {
+  const cleanItem = stripProductEmoji(item).replace(/^\d+\s*[.)、]\s*/u, "");
+  const separator = cleanItem.search(/[：:—–-]/u);
+  if (separator < 1) return <span className="text-stone-600">{cleanItem}</span>;
+  const title = cleanItem.slice(0, separator).trim();
+  const detail = cleanItem.slice(separator + 1).trim();
+  return <><span className="font-semibold text-stone-900">{title}</span><span className="text-stone-500"> — </span><span className="text-stone-600">{detail}</span></>;
+}
 
 const OFFICIAL_PRODUCT_IMAGE_OVERRIDES: Record<string, string[]> = {
   "4976064026569": [
@@ -43,14 +53,14 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
   const text = locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "";
   const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
   const defaultEnglishFeatures = [
-    "🇯🇵 100% Made in Japan: Carefully selected natural Japanese ingredients with no artificial synthesis.",
-    "🌿 Zero Chemical Additives: Guaranteed free from artificial colorings, preservatives, and chemical flavourings.",
-    "🥩 Natural Slow-Dried Process: Gently dried at low temperatures to lock in pure nutrients and irresistible aroma.",
-    "🚚 Free SF Express Shipping: Storewide orders over HK$399 enjoy free local delivery to your door or SF lockers.",
+    "100% Made in Japan: Carefully selected natural Japanese ingredients with no artificial synthesis.",
+    "Zero Chemical Additives: Guaranteed free from artificial colorings, preservatives, and chemical flavourings.",
+    "Natural Slow-Dried Process: Gently dried at low temperatures to lock in pure nutrients and irresistible aroma.",
+    "Free SF Express Shipping: Storewide orders over HK$399 enjoy free local delivery to your door or SF lockers.",
   ];
   const displayFeatures = locale === "en" && rich.highlights.length === 0 ? defaultEnglishFeatures : rich.highlights;
   const specificationRows = parseProductPackageFacts({
-    description: text,
+    description: stripProductEmoji(text),
     specifications: [...rich.nutrition, ...productSpecifications(product, sku, locale)],
     fallbackJan: sku,
     locale,
@@ -61,20 +71,20 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="flex flex-wrap gap-2 px-4 pt-4 sm:px-5">
-        {[locale === "en" ? "🇯🇵 100% Made in Japan" : "🇯🇵 100% 日本原裝", locale === "en" ? "🌿 Additive-Free" : "🌿 無添加", locale === "en" ? "✓ Genuine Official Product" : "✓ 原廠正貨保證"].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
+        {[locale === "en" ? "100% Made in Japan" : "100% 日本原裝", locale === "en" ? "Additive-Free" : "無添加", locale === "en" ? "Genuine Official Product" : "原廠正貨保證"].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
       </div>
-      <button type="button" onClick={() => setOpenFeatures((value) => !value)} aria-expanded={openFeatures} className="flex w-full items-center justify-between px-4 py-3 text-left sm:px-5"><span className="font-bold">✨ {t("product_features")}</span><span className="text-xl text-stone-400" aria-hidden>{openFeatures ? "−" : "+"}</span></button>
+      <button type="button" onClick={() => setOpenFeatures((value) => !value)} aria-expanded={openFeatures} className="flex w-full items-center justify-between px-4 py-3 text-left sm:px-5"><span className="font-bold">{locale === "en" ? "Product features" : "商品特色"}</span><span className="text-xl text-stone-400" aria-hidden>{openFeatures ? "−" : "+"}</span></button>
       {openFeatures ? <div className="border-t border-stone-100 px-4 pb-5 pt-3 sm:px-5">
-        {displayFeatures.length ? <ul className="space-y-2 text-[13px] leading-relaxed text-stone-700">{displayFeatures.map((item, index) => <li key={`${item}-${index}`}>{locale === "en" ? item : `✨ ${item}`}</li>)}</ul> : null}
+        {displayFeatures.length ? <ul className="space-y-3 text-[13px] leading-relaxed text-stone-700">{displayFeatures.map((item, index) => <li key={`${item}-${index}`} className="relative pl-4 before:absolute before:left-0 before:top-[0.65em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-stone-400"><FeatureCopy item={item} /></li>)}</ul> : null}
         {rich.spotlight ? <div className="mt-4 rounded-xl bg-white p-4"><p className="whitespace-pre-line text-[13px] leading-relaxed text-stone-600">{rich.spotlight}</p></div> : null}
-        {rich.feeding.length ? <div className="mt-4 rounded-xl bg-[#fff8ef] p-4"><h3 className="font-bold">🍽️ {locale === "en" ? "Feeding / use" : "妙用吃法"}</h3><ol className="mt-2 list-decimal space-y-2 pl-5 text-[13px] leading-relaxed text-stone-700">{rich.feeding.map((item, index) => <li key={`${item}-${index}`}>{item.replace(/^\d+\s*[.)、]\s*/u, "")}</li>)}</ol></div> : null}
+        {rich.feeding.length ? <div className="mt-5 rounded-xl border border-stone-100 bg-[#fffaf5] p-4"><h3 className="font-bold text-stone-900">{locale === "en" ? "Feeding / use" : "餵食與使用建議"}</h3><ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-relaxed text-stone-700">{rich.feeding.map((item, index) => <li key={`${item}-${index}`}><FeatureCopy item={item} /></li>)}</ol></div> : null}
       </div> : null}
     </section>
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm" aria-labelledby="product-specifications-title">
-      <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "📋 Specifications & Guaranteed Analysis" : "📋 產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{visibleSpecificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
+      <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "Specifications & Guaranteed Analysis" : "產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{visibleSpecificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
     </section>
     <section aria-label={locale === "en" ? "Delivery trust information" : "配送信任資訊"} className="grid grid-cols-1 divide-y divide-stone-100 overflow-hidden rounded-2xl border border-[#ead8c8] bg-white shadow-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-      {[{ icon: "🚚", title: locale === "en" ? "Free SF shipping" : "滿 HK$399 順豐免運", body: locale === "en" ? "Storewide qualifying orders" : "全單達門檻即享" }, { icon: "⚡", title: locale === "en" ? "Ships in 1–2 days" : "1–2 天現貨發貨", body: locale === "en" ? "Hong Kong in-stock items" : "香港現貨優先寄出" }, { icon: "🇯🇵", title: locale === "en" ? "Genuine Japan source" : "100% 日本原廠正貨", body: locale === "en" ? "Officially selected products" : "官方來源嚴選" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><span className="text-xl" aria-hidden>{item.icon}</span><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}
+      {[{ title: locale === "en" ? "Free SF shipping" : "滿 HK$399 順豐免運", body: locale === "en" ? "Storewide qualifying orders" : "全單達門檻即享" }, { title: locale === "en" ? "Ships in 1–2 days" : "1–2 天現貨發貨", body: locale === "en" ? "Hong Kong in-stock items" : "香港現貨優先寄出" }, { title: locale === "en" ? "Genuine Japan source" : "100% 日本原廠正貨", body: locale === "en" ? "Officially selected products" : "官方來源嚴選" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}
     </section>
   </div>;
 }
@@ -103,7 +113,7 @@ function MobileStickyCartBar({ product, name, price, image, visible, basketCount
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#111111] text-white"><ShoppingCart className="h-4 w-4" aria-hidden="true" /><span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#111111] px-1 text-[10px] font-bold text-white">{basketCount}</span></span>
         <span className="min-w-0"><span className="block truncate text-xs font-semibold text-stone-700">{locale === "en" ? `Basket: ${basketCount} item${basketCount === 1 ? "" : "s"}` : `購物籃已有 ${basketCount} 件商品`}</span><span className="block text-sm font-bold text-[#111111]">{formatMoney(basketTotal, locale)}</span></span>
       </button>
-      <a href="/checkout" className="flex h-12 shrink-0 items-center justify-center rounded-xl bg-[#111111] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-black active:scale-95">{locale === "en" ? "Checkout 💳" : "立即結帳 💳"}</a>
+      <a href="/checkout" className="flex h-12 shrink-0 items-center justify-center rounded-xl bg-[#111111] px-4 text-sm font-bold text-white shadow-sm transition hover:bg-black active:scale-95">{locale === "en" ? "Checkout" : "立即結帳"}</a>
     </div> : <div className="flex items-center gap-2">
       <button type="button" onClick={openCart} className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-stone-200 bg-white text-[#111111]" aria-label={locale === "en" ? "Open shopping cart" : "開啟購物籃"}><ShoppingCart className="h-5 w-5" aria-hidden="true" />{basketCount > 0 ? <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#111111] px-1 text-[10px] font-bold text-white">{basketCount}</span> : null}</button>
       <div className="flex min-w-0 flex-1 items-center gap-2"><div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-[#FFFFFF] ring-1 ring-stone-200"><ProductImage src={image} alt={name} sizes="44px" className="object-contain" /></div><div className="min-w-0"><p className="truncate text-xs font-medium text-stone-700">{name}</p><p className="text-base font-bold text-[#111111]">{formatMoney(price, locale)}</p></div></div>
