@@ -650,6 +650,11 @@ function CheckoutContent() {
               disabled={qtyLocked}
               showErrors={showContactErrors}
             />
+            <p className="mt-3 text-xs leading-relaxed text-[color:var(--muted)]">
+              {locale === "en"
+                ? "* Door delivery to outlying islands and special remote areas, such as Ma Wan and Discovery Bay, may incur an additional SF Express surcharge. We recommend choosing an SF smart locker or collection point first."
+                : "* 離島及特殊偏遠地區（如馬灣、愉景灣）上門派送或產生順豐額外附加費；推薦優先選用順豐智能櫃／自提點自取。"}
+            </p>
           </div>
         </section>
       ) : (
