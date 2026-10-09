@@ -21,20 +21,20 @@ describe("pet bundle discounts", () => {
     expect(PET_BUNDLE_QUANTITIES).toEqual([1, 2, 3, 4, 6, 8, 12]);
   });
 
-  it("applies 95折 from 4, 9折 from 8, and 85折 from 12", () => {
+  it("applies 9折 from 6, 85折 from 9, and 8折 from 12", () => {
     expect(petBundleDiscountPercent(base, 1)).toBe(0);
     expect(petBundleDiscountPercent(base, 2)).toBe(0);
     expect(petBundleDiscountPercent(base, 3)).toBe(0);
     expect(discountedUnitPrice(base, 100, 3)).toBe(100);
-    expect(petBundleDiscountPercent(base, 4)).toBe(5);
-    expect(petBundleDiscountPercent(base, 6)).toBe(5);
-    expect(petBundleDiscountPercent(base, 7)).toBe(5);
+    expect(petBundleDiscountPercent(base, 4)).toBe(0);
+    expect(petBundleDiscountPercent(base, 6)).toBe(10);
     expect(petBundleDiscountPercent(base, 8)).toBe(10);
-    expect(petBundleDiscountPercent(base, 11)).toBe(10);
-    expect(petBundleDiscountPercent(base, 12)).toBe(15);
-    expect(petBundleDiscountPercent(base, 17)).toBe(15);
+    expect(petBundleDiscountPercent(base, 9)).toBe(15);
+    expect(petBundleDiscountPercent(base, 11)).toBe(15);
+    expect(petBundleDiscountPercent(base, 12)).toBe(20);
+    expect(petBundleDiscountPercent(base, 17)).toBe(20);
     expect(discountedUnitPrice(base, 100, 8)).toBe(90);
-    expect(discountedUnitPrice(base, 100, 12)).toBe(85);
+    expect(discountedUnitPrice(base, 100, 12)).toBe(80);
   });
 
   it("does not discount products outside cats and dogs", () => {
@@ -50,8 +50,8 @@ describe("pet bundle discounts", () => {
       name: { zh: "鯊魚軟骨原肉零食 20g", en: "Shark cartilage treat" },
       tags: ["all_pets", "supplier_category:snacks"],
     } as Product;
-    expect(petBundleDiscountPercent(legacyFood, 4)).toBe(5);
-    expect(discountedUnitPrice(legacyFood, 70, 4)).toBe(66.5);
+    expect(petBundleDiscountPercent(legacyFood, 6)).toBe(10);
+    expect(discountedUnitPrice(legacyFood, 70, 6)).toBe(63);
   });
 
   it("keeps supplies excluded even when they are marked for all pets", () => {
@@ -73,8 +73,8 @@ describe("pet bundle discounts", () => {
   it("rebuilds the discounted unit used by checkout", () => {
     const items = buildOrderItemsFromLines([{ id: base.id, qty: 12 }], [base]);
     expect(items[0]?.unit).toBe(100);
-    expect(orderItemPricing(items[0]!).itemTotal).toBe(1020);
+    expect(orderItemPricing(items[0]!).itemTotal).toBe(960);
     expect(items[0]?.originalUnit).toBe(100);
-    expect(orderItemPricing(items[0]!).discountPercent).toBe(15);
+    expect(orderItemPricing(items[0]!).discountPercent).toBe(20);
   });
 });
