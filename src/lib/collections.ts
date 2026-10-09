@@ -33,6 +33,11 @@ const CAT_SKUS = new Set([
 
 const VALUE_BUNDLE_SKUS = /^MOFU-BUNDLE-BULK-\d{13}-(?:6|9|12)$/;
 
+/** Bulk rows are intentionally visible only in the dedicated value-bundles collection. */
+export function isValueBundleProduct(product: Product): boolean {
+  return VALUE_BUNDLE_SKUS.test(productSku(product));
+}
+
 function productText(product: Product): string {
   return [
     product.name.zh,
@@ -86,7 +91,7 @@ const MEAT_PATTERNS: Record<string, RegExp[]> = {
 
 const DOG = (product: Product) => isDogProduct(product);
 const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
-const VALUE_BUNDLES = (product: Product) => VALUE_BUNDLE_SKUS.test(productSku(product));
+const VALUE_BUNDLES = isValueBundleProduct;
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
   { slug: "dogs", title_zh: "狗狗全系列", title_en: "All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
@@ -119,7 +124,10 @@ export function getCollection(slug: string): CollectionConfig | undefined {
 }
 
 export function getCollectionProducts(products: Product[], collection: CollectionConfig): Product[] {
-  return products.filter(collection.match);
+  return products.filter((product) =>
+    (collection.slug === "value-bundles" || !isValueBundleProduct(product)) &&
+    collection.match(product),
+  );
 }
 
 export function getCollectionLabel(collection: CollectionConfig, locale: Locale): string {

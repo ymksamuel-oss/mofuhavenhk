@@ -8,7 +8,10 @@ import { getProductJanCode } from "@/lib/product-identifiers";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
-export const revalidate = 86400;
+// Product prices and publication state are managed from the admin panel. Do
+// not serve a stale 24-hour page after a price/catalog correction.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 const SITE_URL = "https://www.mofuhavenhk.com";
 const SITE_NAME = "Mofu Haven HK";
 const VALUE_BUNDLE_SKUS = new Set([

@@ -10,7 +10,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { getProductsByCategory, resolveCategorySubSlug, type Product } from "@/lib/products";
 import { findCategoryBySlug } from "@/lib/store-categories";
 import { BrandServiceStrip } from "@/components/BrandServiceStrip";
-import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts } from "@/lib/collections";
+import { getCollection, getCollectionDescription, getCollectionLabel, getCollectionProducts, isValueBundleProduct } from "@/lib/collections";
 import { PetParadeSection, type PetParadeKind } from "@/components/home/HomePetParade";
 import { getCategoryEditorialIntro } from "@/lib/seo/category-seo";
 import { parseIngredientSelection, productMatchesIngredient, type IngredientKey } from "@/components/menu/IngredientFilterPanel";
@@ -85,6 +85,11 @@ export function ProductCatalog({
 }: ProductCatalogProps) {
   const { locale, t } = useI18n();
   const { products: catalogProducts, categories } = useCatalog();
+  // Bulk rows belong exclusively to the dedicated value-bundles promotion.
+  // Keep them out of the regular catalog, category pages, and search results.
+  const storefrontProducts = collectionSlug === "value-bundles"
+    ? catalogProducts
+    : catalogProducts.filter((product) => !isValueBundleProduct(product));
   const [selectedIngredients, setSelectedIngredients] = useState<IngredientKey[]>(() => parseIngredientSelection(ingredientFilter));
   useEffect(() => {
     setSelectedIngredients(parseIngredientSelection(ingredientFilter));
@@ -113,19 +118,19 @@ export function ProductCatalog({
   const selectedSubcategory = typeof subcategory === "string"
     ? resolveCategorySubSlug(categorySlug || "", subcategory.trim().toLowerCase())
     : null;
-  const productsInCategory = getProductsByCategory(categorySlug, catalogProducts);
+  const productsInCategory = getProductsByCategory(categorySlug, storefrontProducts);
   const collection = collectionSlug ? getCollection(collectionSlug) : undefined;
   const isSpeciesCollection = collection?.slug === "dogs" || collection?.slug === "cats";
   const dedicatedCategoryFallback = categorySlug === "dogs"
-    ? catalogProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
+    ? storefrontProducts.filter((product) => matchesAudience(product, "dog") && isFoodProduct(product))
     : categorySlug === "cats"
-      ? catalogProducts.filter((product) => matchesAudience(product, "cat"))
+      ? storefrontProducts.filter((product) => matchesAudience(product, "cat"))
       : [];
   // A category route must never fall back to the complete catalog. When the
   // child slug is recognised, match the resolved database subcategory exactly;
   // an unrecognised child route is deliberately empty rather than overbroad.
   const productsByRoute = collection
-    ? getCollectionProducts(catalogProducts, collection)
+    ? getCollectionProducts(storefrontProducts, collection)
     : typeof subcategory === "string"
     ? liveChildCategory
       ? productsInCategory.filter((product) => product.categoryId === liveChildCategory.id)
