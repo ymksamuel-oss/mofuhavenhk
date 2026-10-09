@@ -59,8 +59,13 @@ export function FloatingMobileDock() {
   const { t } = useI18n();
   const pathname = usePathname();
   const { itemCount } = useCart();
+  const [mounted, setMounted] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const dockRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setCategoriesOpen(false);
@@ -86,7 +91,7 @@ export function FloatingMobileDock() {
   const isCategoryActive = ["/collections/dogs", "/collections/cats", "/collections/value-bundles"].some((route) => pathname.startsWith(route));
   const isMatcherActive = pathname === "/matcher" || pathname.startsWith("/matcher/");
 
-  if (pathname?.startsWith("/checkout") || pathname?.startsWith("/product")) return null;
+  if (!mounted || pathname?.startsWith("/checkout") || pathname?.startsWith("/product")) return null;
 
   return (
     <div
