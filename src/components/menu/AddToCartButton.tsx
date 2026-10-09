@@ -211,17 +211,18 @@ export function AddToCartButton({
   );
 
   if (size === "bulk") return (
-    <div className={`flex w-full flex-col gap-2 lg:flex-row lg:items-center ${className}`}>
-      {showQuantity ? <div className="flex w-full justify-center lg:w-auto lg:justify-start">{stepper}</div> : null}
+    <div className={`mt-3 flex w-full items-center gap-2 ${className}`}>
+      {showQuantity ? <div className="flex min-w-0 w-[35%] shrink-0 justify-start">{stepper}</div> : null}
       <button
         type="button"
         onClick={add}
         disabled={!purchasable}
         aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
         aria-live="polite"
-        className={`inline-flex min-h-9 w-full min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl px-2 py-2 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 lg:text-xs ${added ? "bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
+        className={`inline-flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-white shadow-sm transition-all active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 ${added ? "bg-emerald-700" : "bg-stone-900 hover:bg-stone-800"}`}
       >
-        {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
+        <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span className="truncate">{!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
       </button>
     </div>
   );
