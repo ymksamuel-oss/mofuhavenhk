@@ -15,7 +15,7 @@ type AddToCartButtonProps = {
   productId: string;
   priceId?: string;
   className?: string;
-  size?: "card" | "modal" | "list";
+  size?: "card" | "modal" | "list" | "bulk";
   showQuantity?: boolean;
   /** Pet product surfaces show bulk quick choices alongside the free-entry stepper. */
   quantityOptions?: readonly number[];
@@ -83,11 +83,13 @@ export function AddToCartButton({
     event.preventDefault();
     event.stopPropagation();
   };
-  const stepperBtnClass = size === "list"
+  const stepperBtnClass = size === "bulk"
+    ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-sm font-semibold text-stone-800 transition hover:border-stone-400 disabled:cursor-not-allowed disabled:opacity-40"
+    : size === "list"
     ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40"
     : "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-base font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40";
   const stepper = (
-    <div className="flex items-center gap-1.5" onClick={stop}>
+    <div className={`flex items-center ${size === "bulk" ? "gap-1" : "gap-1.5"}`} onClick={stop}>
       <button type="button" onClick={decrease} disabled={!purchasable || qty <= MIN_QTY} aria-label={t("qtyDecrease")} className={stepperBtnClass}>−</button>
       <input
         type="number"
@@ -97,7 +99,7 @@ export function AddToCartButton({
         onChange={(event) => setSafeQty(Number(event.target.value))}
         onClick={stop}
         aria-label={locale === "en" ? "Purchase quantity" : "\u8cfc\u8cb7\u4ef6\u6578"}
-        className="h-9 w-16 rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] px-2 text-center text-sm font-semibold tabular-nums text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)]"
+        className={`rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-center font-semibold tabular-nums text-[color:var(--ink)] outline-none focus:border-[color:var(--accent)] ${size === "bulk" ? "h-7 w-8 px-0 text-xs" : "h-9 w-16 px-2 text-sm"}`}
       />
       <button type="button" onClick={increase} disabled={!purchasable || qty >= MAX_QTY} aria-label={t("qtyIncrease")} className={stepperBtnClass}>+</button>
     </div>
@@ -205,6 +207,22 @@ export function AddToCartButton({
           </span>
         </div>
       , document.body) : null}
+    </div>
+  );
+
+  if (size === "bulk") return (
+    <div className={`flex w-full flex-col gap-2 lg:flex-row lg:items-center ${className}`}>
+      {showQuantity ? <div className="flex w-full justify-center lg:w-auto lg:justify-start">{stepper}</div> : null}
+      <button
+        type="button"
+        onClick={add}
+        disabled={!purchasable}
+        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
+        aria-live="polite"
+        className={`inline-flex min-h-9 w-full min-w-0 flex-1 items-center justify-center whitespace-nowrap rounded-xl px-2 py-2 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 lg:text-xs ${added ? "bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
+      >
+        {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
+      </button>
     </div>
   );
 
