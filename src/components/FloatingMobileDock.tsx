@@ -86,7 +86,7 @@ export function FloatingMobileDock() {
   const isCategoryActive = ["/collections/dogs", "/collections/cats", "/collections/value-bundles"].some((route) => pathname.startsWith(route));
   const isMatcherActive = pathname === "/matcher" || pathname.startsWith("/matcher/");
 
-  if (pathname?.startsWith("/checkout")) return null;
+  if (pathname?.startsWith("/checkout") || pathname?.startsWith("/product")) return null;
 
   return (
     <div

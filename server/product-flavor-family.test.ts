@@ -83,4 +83,29 @@ describe("verified product flavour families", () => {
     expect(productMatchesIngredient(mixed, ["pork"])).toBe(false);
     expect(productMatchesIngredient(mixed, ["horse"])).toBe(false);
   });
+
+  it("matches the 15 restored single-pack products by their meat cuts", () => {
+    const chickenTenderloin = meatProduct("4976064025791", "【航天級凍乾】日本國產原條凍乾雞里肌肉 4本入");
+    const beefTendon = meatProduct("4976064025890", "天然無添加牛蹄筋／牛大筋 50g");
+    const beefHoof = meatProduct("4976064025333", "天然原隻牛蹄磨牙骨 1隻入");
+    const sharkSkin = meatProduct("4976064026392", "天然鯊魚皮終極耐咬潔齒皮棒 20g");
+    const horseTendon = meatProduct("horse-tendon", "北海道馬蹄筋馬肉脆片");
+
+    expect(getProductMeatFamily(chickenTenderloin)).toBe("CHICKEN");
+    expect(productMatchesIngredient(chickenTenderloin, ["chicken"])).toBe(true);
+    expect(getProductMeatFamily(beefTendon)).toBe("BEEF");
+    expect(getProductMeatFamily(beefHoof)).toBe("BEEF");
+    expect(productMatchesIngredient(beefTendon, ["beef"])).toBe(true);
+    expect(productMatchesIngredient(beefHoof, ["beef"])).toBe(true);
+    expect(getProductMeatFamily(sharkSkin)).toBe("FISH");
+    expect(productMatchesIngredient(sharkSkin, ["seafood"])).toBe(true);
+    expect(getProductMeatFamily(horseTendon)).toBe("HORSE");
+    expect(productMatchesIngredient(horseTendon, ["horse"])).toBe(true);
+  });
+
+  it("does not classify Kagoshima as venison", () => {
+    const kagoshimaPork = meatProduct("kagoshima", "鹿兒島黑豚大豬耳");
+    expect(getProductMeatFamily(kagoshimaPork)).toBe("PORK");
+    expect(productMatchesIngredient(kagoshimaPork, ["venison"])).toBe(false);
+  });
 });

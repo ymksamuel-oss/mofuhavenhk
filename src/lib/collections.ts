@@ -81,10 +81,10 @@ const FUNCTION_PATTERNS: Record<string, RegExp[]> = {
 
 const MEAT_PATTERNS: Record<string, RegExp[]> = {
   "horse-meat": [/馬肉|horse|うま肉|馬/i],
-  venison: [/(?:鹿肉|蝦夷鹿|鹿肋排|鹿骨|鹿角)|venison|deer|ベニソン/i],
-  "beef-tendon": [/牛肉|牛筋|牛腱|beef|tendon/i],
-  "chicken-poultry": [/雞肉|雞胸|禽肉|鶏|chicken|poultry|duck|鴨/i],
-  "seafood-fish": [/魚|海鮮|魚介|fish|seafood|tuna|bonito|鰹|鮪/i],
+  venison: [/(?:鹿肉|蝦夷鹿|エゾ鹿|鹿肋排|鹿骨|鹿角|鹿筋|(?<!鹿兒島)鹿)|venison|deer|ベニソン/i],
+  "beef-tendon": [/牛|ビーフ|牛肉|牛大筋|牛筋|牛腱|牛蹄|牛肋排|牛舌|牛心|牛皮|牛骨|beef|tendon/i],
+  "chicken-poultry": [/雞|鸡|雞肉|雞肉碎|雞胸|雞里肌|雞軟骨|雞手羽|里肌|砂肝|ささみ|鶏|禽肉|chicken|poultry|duck|鴨/i],
+  "seafood-fish": [/魚|鱼|海鮮|魚介|金槍魚|吞拿魚|黑鮪魚|鮪魚|鰹魚|小魚乾|鯊魚|鯊魚皮|柴魚|マグロ|かつお|fish|seafood|tuna|bonito|shark/i],
   "pork-specialty": [/豬肉|黑豚|豚|pork|boar/i],
   "cheese-bakery": [/芝士|乳酪|起司|チーズ|cheese|bakery|烘焙|餅乾/i],
 };
