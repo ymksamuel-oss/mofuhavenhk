@@ -142,6 +142,7 @@ export function isPetBundleProduct(product: Product): boolean {
  * the storewide quantity discount a second time. */
 export function isValueBundleProduct(product: Product): boolean {
   const sku = product.metadata?.mofu_sku?.trim() ?? "";
+  const metadataBundleFlag = product.metadata?.is_bundle?.trim().toLowerCase();
   const tagged = product.tags?.some((tag) => /^MOFU-BUNDLE-/i.test(tag.trim())) ?? false;
   const metadata = product.metadata ?? {};
   const isBulkPack = [metadata.bulk_group, metadata.bulk_pack_count]
@@ -150,7 +151,7 @@ export function isValueBundleProduct(product: Product): boolean {
     .filter(Boolean)
     .join(" ");
   const hasPackName = /(?:^|[^0-9])(6|9|12)\s*(?:包裝|包|packs?|入裝)(?:[^0-9]|$)/iu.test(productText);
-  return /^MOFU-BUNDLE-/i.test(sku) || tagged || isBulkPack || hasPackName;
+  return /^MOFU-BUNDLE-/i.test(sku) || tagged || metadataBundleFlag === "true" || metadataBundleFlag === "1" || isBulkPack || hasPackName;
 }
 
 export function petBundleDiscountPercent(product: Product, qty: number): 0 | 10 | 15 | 20 {

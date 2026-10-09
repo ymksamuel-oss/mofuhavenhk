@@ -91,6 +91,8 @@ export function FloatingMobileDock() {
   const isCategoryActive = ["/collections/dogs", "/collections/cats", "/collections/value-bundles"].some((route) => pathname.startsWith(route));
   const isMatcherActive = pathname === "/matcher" || pathname.startsWith("/matcher/");
 
+  // The PDP and checkout each have their own sticky purchase/payment controls;
+  // the dock must not cover those controls on small screens.
   if (!mounted || pathname?.startsWith("/checkout") || pathname?.startsWith("/product")) return null;
 
   return (

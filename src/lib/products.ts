@@ -1,5 +1,6 @@
 import type { CategoryIconName } from "@/lib/categories";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { matchesFlavorTaxonomy } from "@/lib/flavor-taxonomy";
 import { canonicalCategorySlug } from "./categories";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { PRODUCT_MEAT_FAMILY_PATTERNS, type ProductMeatFamily } from "./product-flavor-family";
@@ -614,8 +615,20 @@ export function getProductMeatFamily(product: Pick<Product, 'name' | 'descriptio
       .filter((spec) => /(?:ingredient|原材料|原料|成分|食材)/i.test(`${spec.zh} ${spec.en}`))
       .flatMap((spec) => [spec.zh, spec.en]),
   ].filter(Boolean).join(' ');
-  const matches = (Object.keys(PRODUCT_MEAT_FAMILY_PATTERNS) as ProductMeatFamily[])
+  const taxonomyMatches: ProductMeatFamily[] = [
+    ["CHICKEN", "CHICKEN"],
+    ["BEEF", "BEEF"],
+    ["HORSE", "HORSE"],
+    ["DEER", "VENISON"],
+    ["PORK", "PORK"],
+    ["FISH", "FISH"],
+    ["LAMB", "LAMB"],
+  ]
+    .filter(([taxonomyKey]) => matchesFlavorTaxonomy(taxonomyKey as Parameters<typeof matchesFlavorTaxonomy>[0], text))
+    .map(([, family]) => family as ProductMeatFamily);
+  const legacyMatches = (Object.keys(PRODUCT_MEAT_FAMILY_PATTERNS) as ProductMeatFamily[])
     .filter((family) => PRODUCT_MEAT_FAMILY_PATTERNS[family].test(text));
+  const matches = Array.from(new Set([...taxonomyMatches, ...legacyMatches]));
   return matches.length === 1 ? matches[0] : null;
 }
 

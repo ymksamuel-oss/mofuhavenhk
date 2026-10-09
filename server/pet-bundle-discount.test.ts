@@ -64,6 +64,12 @@ describe("pet bundle discounts", () => {
     expect(petBundleDiscountPercent(supply, 12)).toBe(0);
   });
 
+  it("never applies quantity tiers to rows explicitly marked as bundles", () => {
+    const bundle = { ...base, metadata: { is_bundle: "true" } } as Product;
+    expect(petBundleDiscountPercent(bundle, 12)).toBe(0);
+    expect(discountedUnitPrice(bundle, 959.9, 12)).toBe(959.9);
+  });
+
   it("rebuilds the discounted unit used by checkout", () => {
     const items = buildOrderItemsFromLines([{ id: base.id, qty: 12 }], [base]);
     expect(items[0]?.unit).toBe(100);
