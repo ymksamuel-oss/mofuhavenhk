@@ -14,6 +14,10 @@ describe("flavor taxonomy", () => {
     expect(matchesFlavorTaxonomy("FISH", "北海道ホタテ鱧")).toBe(true);
   });
 
+  it("excludes yak cheese from the pure beef family", () => {
+    expect(matchesFlavorTaxonomy("BEEF", "高山犛牛天然潔齒芝士棒")).toBe(false);
+  });
+
   it("does not classify Kagoshima place names as deer", () => {
     expect(matchesFlavorTaxonomy("DEER", "鹿兒島產黑豚豬耳")).toBe(false);
     expect(matchesFlavorTaxonomy("DEER", "北海道蝦夷鹿肉")).toBe(true);
