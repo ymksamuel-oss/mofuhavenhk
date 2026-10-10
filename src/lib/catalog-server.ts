@@ -1116,6 +1116,11 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
 async function fetchPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
   const snapshot = await fetchCatalogFromSupabase();
   if (!snapshot) {
+    // This project currently permits deployments with no Supabase credentials;
+    // that is distinct from a configured backend failing transiently.
+    if (!isSupabaseConfigured()) {
+      return { products: [], categories: [], brands: [], source: "fallback", matchedRecords: 0 };
+    }
     throw new Error("Storefront catalog fetch failed; refusing to cache an empty fallback snapshot");
   }
   return snapshot;
@@ -1128,10 +1133,5 @@ const getCachedPublicCatalogSnapshot = unstable_cache(
 );
 
 export async function getPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
-  // GitHub's build-only CI intentionally has no production data credentials.
-  // Keep that validation build deterministic without persisting an empty entry.
-  if (process.env.GITHUB_ACTIONS === "true" && !isSupabaseConfigured()) {
-    return { products: [], categories: [], brands: [], source: "fallback", matchedRecords: 0 };
-  }
   return getCachedPublicCatalogSnapshot();
 }
