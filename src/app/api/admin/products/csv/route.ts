@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateStorefrontCatalog } from "@/lib/catalog-revalidation";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
@@ -231,5 +232,6 @@ export async function POST(request: Request) {
       errors.push(`\u7b2c ${index + 1} \u884c：${error instanceof Error ? error.message : "\u683c\u5f0f\u932f\u8aa4"}`);
     }
   }
+  if (created + updated > 0) revalidateStorefrontCatalog();
   return NextResponse.json({ created, updated, failed: errors.length, errors });
 }

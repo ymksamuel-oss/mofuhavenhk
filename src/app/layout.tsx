@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
 import { CatalogProvider } from "@/lib/catalog-context";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
@@ -10,8 +9,6 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { SiteShell } from "@/components/SiteShell";
 import { CustomerAuthProvider } from "@/lib/account/AuthProvider";
-import { customerSummary } from "@/lib/account/server";
-import { createSupabaseServerClient, isSupabaseAuthConfigured } from "@/lib/supabase/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
@@ -159,25 +156,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value ?? cookieStore.get("mofuhavenhk-locale")?.value;
-  const initialLocale = cookieLocale === "en" || cookieLocale === "en-HK" ? "en" : "zh";
+  // Keep the HTML shell request-independent. I18nProvider and AuthProvider
+  // restore visitor-specific preferences and session state in the browser.
+  const initialLocale = "zh";
   let products: Product[] = [];
   let categories: StoreCategory[] = [];
   let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
-  let initialUser: ReturnType<typeof customerSummary> | null = null;
-  if (isSupabaseAuthConfigured()) {
-    try {
-      const supabase = await createSupabaseServerClient();
-      const { data } = await supabase.auth.getUser();
-      if (data.user) initialUser = customerSummary(data.user);
-    } catch {
-      initialUser = null;
-    }
-  }
+  const initialUser = null;
   try {
-    const catalog = await getCatalogSnapshot();
+    const catalog = await getPublicCatalogSnapshot();
     products = catalog.products || [];
     categories = catalog.categories || [];
     brands = catalog.brands || [];

@@ -5,7 +5,7 @@ import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { HomePetParade } from "@/components/home/HomePetParade";
 import { BrandHarmonyBanner } from "@/components/home/BrandHarmonyBanner";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
@@ -16,7 +16,7 @@ export const revalidate = 86400;
 export default async function HomePage() {
   let products: Product[] = [];
   try {
-    const catalog = await getCatalogSnapshot();
+    const catalog = await getPublicCatalogSnapshot();
     products = catalog.products;
   } catch (error) {
     // Never let a catalog/backend outage turn the storefront shell into a 500.

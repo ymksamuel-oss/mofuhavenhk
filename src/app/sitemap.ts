@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import { isStorefrontReadyProduct } from "@/lib/products";
 import { COLLECTIONS } from "@/lib/collections";
 
@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const { products } = await getCatalogSnapshot();
+    const { products } = await getPublicCatalogSnapshot();
     const productRoutes = products
       .filter(isStorefrontReadyProduct)
       .map((product) => ({

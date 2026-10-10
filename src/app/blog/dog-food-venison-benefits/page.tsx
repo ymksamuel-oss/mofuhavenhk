@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
 const SITE_URL = "https://www.mofuhavenhk.com";
@@ -34,7 +34,7 @@ const tags = ["#低脂低卡", "#DHA護腦", "#過敏犬救星", "#北海道野�
 export default async function VenisonBenefitsPage() {
   let products: Product[] = [];
   try {
-    products = venisonProducts((await getCatalogSnapshot()).products);
+    products = venisonProducts((await getPublicCatalogSnapshot()).products);
   } catch (error) {
     console.error("[blog] venison products unavailable", error);
   }

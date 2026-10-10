@@ -15,6 +15,7 @@ import {
   parseProductLocalizations,
 } from "@/lib/product-localizations";
 import { DEFAULT_COST_MARKUP_MULTIPLIER, DEFAULT_JPY_TO_HKD } from "@/lib/pricing";
+import { revalidateStorefrontCatalog } from "@/lib/catalog-revalidation";
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -264,6 +265,10 @@ async function replaceBanners(
 }
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
+function affectsPublicCatalog(table: string, key?: string) {
+  return ["products", "categories", "brands"].includes(table) ||
+    (table === "store_settings" && [PRODUCT_LOCALIZATIONS_SETTING_KEY, CATEGORY_LOCALIZATIONS_SETTING_KEY].includes(String(key)));
+}
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return Array.from(new Set(
@@ -494,6 +499,7 @@ export async function POST(request: Request) {
     ? await writeProductRow(supabase, "insert", null, payload)
     : await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (affectsPublicCatalog(table, String(payload.key || ""))) revalidateStorefrontCatalog();
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
@@ -543,6 +549,7 @@ export async function PATCH(request: Request) {
     ? await writeProductRow(supabase, "update", id, payload)
     : await (table === "store_settings" ? supabase.from(table).update(payload).eq("key", key) : supabase.from(table).update(payload).eq("id", id)).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (affectsPublicCatalog(table, String(payload.key || key))) revalidateStorefrontCatalog();
   if (table === "categories" && categoryLocalization) {
     const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
     if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
@@ -569,6 +576,7 @@ export async function DELETE(request: Request) {
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (!data || data.length === 0) return NextResponse.json({ error: "not_found_or_not_deleted" }, { status: 404 });
+  if (affectsPublicCatalog(table, key)) revalidateStorefrontCatalog();
   if (table === "products") {
     const { data: costSetting } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
     const costs = parseProductCosts(costSetting?.value);

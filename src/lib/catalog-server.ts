@@ -1,6 +1,7 @@
 import "server-only";
 
 import Stripe from "stripe";
+import { unstable_cache } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { buildCategoryTree, flattenCategoryTree, type StoreCategory } from "@/lib/store-categories";
@@ -49,6 +50,8 @@ export type CatalogSnapshot = {
   source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
+
+export const STOREFRONT_CATALOG_CACHE_TAG = "storefront-catalog";
 
 /**
  * Supabase import retries can create more than one database row for the same
@@ -1105,4 +1108,16 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
       matchedRecords: 0,
     };
   }
+}
+
+// Public page renders share this bounded cache. Checkout and payment APIs must
+// continue calling getCatalogSnapshot() directly so prices and stock are live.
+const getCachedPublicCatalogSnapshot = unstable_cache(
+  async () => getCatalogSnapshot(),
+  ["storefront-catalog-v1"],
+  { revalidate: 86400, tags: [STOREFRONT_CATALOG_CACHE_TAG] },
+);
+
+export async function getPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
+  return getCachedPublicCatalogSnapshot();
 }

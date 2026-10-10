@@ -90,7 +90,7 @@ function LanguageSwitcher({ locale, label, size, onSelect }: LanguageSwitcherPro
 
 export function Header() {
   const { locale, setLocale, t } = useI18n();
-  const { user: member } = useCustomerAuth();
+  const { user: member, ready: authReady } = useCustomerAuth();
   const pathname = usePathname();
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
@@ -209,10 +209,12 @@ export function Header() {
                 </form>
               </div>
             </details>
-          ) : (
+          ) : authReady ? (
             <Link href="/account/login" className="flex min-h-11 items-center rounded-xl border border-[color:var(--line)] bg-white px-3 text-sm font-semibold text-[color:var(--ink)] hover:border-[color:var(--accent)]">
               {locale === "en" ? "Sign in" : "登入／註冊"}
             </Link>
+          ) : (
+            <span aria-hidden="true" className="h-11 w-24 animate-pulse rounded-xl bg-stone-100" />
           )}
         </div>
       </div>
