@@ -137,10 +137,10 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
     products.filter((product) => isStorefrontReadyProduct(product) && product.images?.[0]).map((product) => [productSku(product), product]),
   ), [products]);
 
-  const issueProducts = useMemo(() => JOURNAL_ISSUES.map((issue) => issue.picks.flatMap((pick) => {
-    const product = productMap.get(pick.sku);
-    return product ? [{ ...pick, product }] : [];
-  })), [productMap]);
+  const issueProducts = useMemo(() => JOURNAL_ISSUES.map((issue) => issue.picks.map((pick) => ({
+    ...pick,
+    product: productMap.get(pick.sku),
+  }))), [productMap]);
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
@@ -161,20 +161,40 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
             }}
           >
             {JOURNAL_ISSUES.map((issue, issueIndex) => (
-              <article key={issue.label} className="box-border grid w-full min-w-full shrink-0 grid-cols-1 items-start gap-4 px-4 py-3 sm:px-6 sm:py-6 md:grid-cols-12 md:items-center md:gap-8 md:py-14">
+              <article key={issue.label} className="box-border grid w-full min-w-full shrink-0 grid-cols-1 items-start gap-4 px-4 py-3 sm:px-6 sm:py-6 md:grid-cols-12 md:items-center md:gap-8 md:py-14 lg:py-8">
                 <div className="order-2 z-10 col-span-12 flex min-w-0 flex-col items-start justify-start pt-2 pl-4 text-left sm:pl-6 md:order-2 md:col-span-5 md:pl-0 md:pt-4">
                   <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{isEn ? issue.label : issue.labelZh}</p>
                   <h1 id={issueIndex === 0 ? "mofu-journal-title" : undefined} className={`mb-2 max-w-lg whitespace-pre-line text-balance font-serif font-bold tracking-tight text-[#111111] ${isEn ? "text-xl leading-tight sm:text-2xl" : "text-2xl leading-[1.28] sm:text-3xl"} lg:text-[32px]`}>{isEn ? issue.titleEn : issue.titleZh}</h1>
                   <p className="mb-2 line-clamp-2 max-w-sm text-xs leading-relaxed text-stone-600 sm:mb-5 sm:line-clamp-none sm:text-sm">{isEn ? issue.subtitleEn : issue.subtitleZh}</p>
                   <Link href={issue.ctaLink} className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
                 </div>
-                <div className="order-1 col-span-12 min-w-0 md:order-1 md:col-span-7">
-                  <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-2 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm md:max-w-[620px]">
-                    {issueProducts[issueIndex].map(({ product, zh, en }, index) => {
+                <div className="relative order-1 col-span-12 min-w-0 md:order-1 md:col-span-7 md:px-10">
+                  <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} aria-busy={issueProducts[issueIndex].some(({ product }) => !product)} className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-2 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm md:max-w-[620px]">
+                    {issueProducts[issueIndex].map(({ product, sku, zh, en }) => {
                       const label = isEn ? en : zh;
-                      return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square w-full flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-sm transition-all hover:shadow-md md:aspect-auto md:min-h-[105px] md:p-2"><span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px] md:h-[60px]"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[11px] font-medium leading-tight text-stone-700">{label}</span></Link></li>;
+                      return (
+                        <li key={product?.id ?? sku} className="min-w-0">
+                          {product ? (
+                            <Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square w-full flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-sm transition-all hover:shadow-md md:aspect-auto md:min-h-[105px] md:p-2 lg:min-h-[88px]">
+                              <span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px] md:h-[60px] lg:h-11"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span>
+                              <span className="mt-0.5 block w-full line-clamp-1 text-center text-[11px] font-medium leading-tight text-stone-700">{label}</span>
+                            </Link>
+                          ) : (
+                            <div aria-label={isEn ? `Loading ${label}` : `商品載入中：${label}`} className="flex aspect-square w-full animate-pulse flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 md:aspect-auto md:min-h-[105px] md:p-2 lg:min-h-[88px]">
+                              <span aria-hidden="true" className="h-[46px] w-full rounded-lg bg-stone-100 sm:h-[60px] md:h-[60px] lg:h-11" />
+                              <span aria-hidden="true" className="h-3 w-4/5 rounded-full bg-stone-100" />
+                            </div>
+                          )}
+                        </li>
+                      );
                     })}
                   </ul>
+                  {issueIndex === activeIssue && (
+                    <>
+                      <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:left-0 md:top-1/2 md:z-20 md:-translate-y-1/2">‹</button>
+                      <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:right-0 md:top-1/2 md:z-20 md:-translate-y-1/2">›</button>
+                    </>
+                  )}
                 </div>
               </article>
             ))}
@@ -183,8 +203,6 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
         <div className="z-20 mt-4 flex items-center justify-center gap-2" aria-label={isEn ? "Journal issue pagination" : "刊號分頁"}>
           {JOURNAL_ISSUES.map((entry, index) => <button key={entry.label} type="button" onClick={() => setActiveIssue(index)} aria-label={`${isEn ? "Go to issue" : "前往刊號"} ${index + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${index === activeIssue ? "w-6 bg-stone-900" : "w-1.5 bg-stone-300"}`} />)}
         </div>
-        <button type="button" onClick={() => moveIssue(-1)} aria-label={isEn ? "Previous journal issue" : "上一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:left-0 md:top-1/2 md:z-20 md:-translate-y-1/2">‹</button>
-        <button type="button" onClick={() => moveIssue(1)} aria-label={isEn ? "Next journal issue" : "下一期專題"} className="hidden md:flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-white/80 text-2xl leading-none text-stone-700 shadow-md backdrop-blur-sm transition-all hover:bg-white hover:text-[#C86A2B] md:absolute md:right-0 md:top-1/2 md:z-20 md:-translate-y-1/2">›</button>
       </div>
     </section>
   );
