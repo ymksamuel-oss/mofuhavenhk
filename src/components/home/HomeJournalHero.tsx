@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ProductImage } from "@/components/product/ProductImage";
@@ -143,7 +144,7 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
   })), [productMap]);
 
   return (
-    <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
+    <section aria-labelledby="mofu-journal-title" className="relative z-0 bg-white text-[#2D2926]">
       <div
         className="relative mx-auto h-auto max-w-6xl overflow-visible px-3 py-3 sm:px-6 sm:py-6 md:py-14"
         onTouchStart={handleTouchStart}
@@ -170,7 +171,17 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
                 </div>
                 <div className="order-1 col-span-12 min-w-0 md:order-1 md:col-span-7">
                   <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-2 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm md:max-w-[620px]">
-                    {issueProducts[issueIndex].map(({ product, zh, en }, index) => {
+                    {issueProducts[issueIndex].length === 0 ? (
+                      <li className="relative col-span-3 aspect-[4/3] min-h-56 overflow-hidden rounded-xl bg-white">
+                        <Image
+                          src="/images/best-partner/bp-official-puppy-kitten-100-lineup.jpg"
+                          alt={isEn ? "Best Partner's cat and dog product range" : "Best Partner 貓狗商品系列"}
+                          fill
+                          sizes="(min-width: 1024px) 55vw, 100vw"
+                          className="object-contain p-2"
+                        />
+                      </li>
+                    ) : issueProducts[issueIndex].map(({ product, zh, en }, index) => {
                       const label = isEn ? en : zh;
                       return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square w-full flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-sm transition-all hover:shadow-md md:aspect-auto md:min-h-[105px] md:p-2"><span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px] md:h-[60px]"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[11px] font-medium leading-tight text-stone-700">{label}</span></Link></li>;
                     })}

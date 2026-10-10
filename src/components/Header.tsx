@@ -141,7 +141,7 @@ export function Header() {
         </Link>
 
         <nav
-          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] xl:flex 2xl:text-sm"
+          className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] 2xl:flex 2xl:text-sm"
           aria-label={t("headerPrimaryNavLabel")}
         >
           {primaryNavItems.map((item) => (
@@ -162,7 +162,7 @@ export function Header() {
           </Link>
         </div>
 
-        <div className="ml-auto hidden items-center gap-2.5 md:flex">
+        <div className="ml-auto hidden shrink-0 items-center gap-2.5 md:flex">
           <ProductSearch variant="header" />
           <Link
             href="/checkout"
@@ -217,7 +217,7 @@ export function Header() {
         </div>
       </div>
       <nav
-        className="mx-auto hidden w-full items-center justify-center gap-5 overflow-x-auto border-t border-gray-100 px-4 py-2.5 text-[11px] text-[color:var(--muted)] md:flex xl:hidden"
+        className="mx-auto hidden w-full items-center justify-center gap-5 overflow-x-auto border-t border-gray-100 px-4 py-2.5 text-[11px] text-[color:var(--muted)] md:flex 2xl:hidden"
         aria-label={t("headerPrimaryNavLabel")}
       >
         {primaryNavItems.map((item) => (

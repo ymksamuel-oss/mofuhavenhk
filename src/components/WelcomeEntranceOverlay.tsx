@@ -75,7 +75,10 @@ export function WelcomeEntranceOverlay() {
             <Link href="/matcher" className="flex min-h-12 items-center justify-center rounded-full border border-stone-200 bg-white px-4 py-3 text-center text-sm font-semibold text-stone-800 transition hover:border-stone-400 active:scale-[0.98]">{copy.matcher}</Link>
           </nav>
 
-          <p className="mt-7 text-center text-xs font-medium tracking-wide text-stone-400 sm:mt-9">{copy.explore}</p>
+          <div className="relative z-0 mt-8 flex flex-col items-center gap-2 sm:mt-10 lg:mt-12">
+            <p className="text-center text-xs font-medium leading-5 tracking-wide text-stone-500 sm:text-sm">{copy.explore}</p>
+            <span aria-hidden="true" className="h-5 w-px rounded-full bg-stone-300" />
+          </div>
         </div>
       </div>
     </section>
