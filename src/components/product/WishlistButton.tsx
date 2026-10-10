@@ -16,7 +16,7 @@ export function WishlistButton({ productId, className = "" }: { productId: strin
         event.stopPropagation();
         toggleWishlist(productId);
       }}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/85 text-lg shadow-sm backdrop-blur transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 active:scale-90 ${active ? "text-[#c0483a]" : "text-stone-500"} ${className}`}
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-lg shadow-sm transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b84d3d] focus-visible:ring-offset-2 active:scale-90 ${active ? "text-[#c0483a]" : "text-stone-500"} ${className}`}
     >
       <span className={active ? "scale-110 transition-transform" : "transition-transform"} aria-hidden="true">{active ? "♥" : "♡"}</span>
     </button>

@@ -22,9 +22,9 @@ export function getProductStatuses(product: Pick<Product, "createdAt" | "inStock
 }
 
 const statusStyle: Record<ProductStatus, string> = {
-  featured: "border-[#a97445]/45 bg-[#fff7e9]/95 text-[#704525]",
-  "new-arrival": "border-[#63906f]/35 bg-[#edf7ef]/95 text-[#2f6240]",
-  "in-stock": "border-[#7b9b83]/30 bg-white/95 text-[#4d7457]",
+  featured: "border-zinc-200 bg-white text-[#704525]",
+  "new-arrival": "border-zinc-200 bg-white text-[#2f6240]",
+  "in-stock": "border-zinc-200 bg-white text-[#4d7457]",
 };
 
 export function ProductStatusBadges({ product, className = "" }: { product: Product; className?: string }) {

@@ -53,7 +53,7 @@ export function BestPartnerConceptContent() {
   const isEn = locale === "en";
 
   return (
-    <main className="min-h-screen bg-white text-stone-800">
+    <main className="min-h-screen overflow-x-hidden bg-white text-stone-800">
       <header className="bg-white px-6 pb-10 pt-16 sm:pb-14 sm:pt-24">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">

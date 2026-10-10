@@ -140,7 +140,7 @@ function PaymentMarks() {
 }
 
 /**
- * Site-wide footer — milk-tea palette, 4 columns on desktop,
+ * Site-wide footer — pure-white palette, 4 columns on desktop,
  * accordion sections on mobile. Payment marks match the checkout allowlist.
  */
 export function Footer() {

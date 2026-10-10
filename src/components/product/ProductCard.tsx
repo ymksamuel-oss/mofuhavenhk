@@ -42,11 +42,11 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
 
   return (
-    <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#F1F1F1] bg-[#FFFCF8] shadow-[0_14px_32px_-26px_rgba(84,57,45,0.42)] transition-all duration-200 hover:-translate-y-1 hover:border-[#DCCBB8] hover:shadow-[0_24px_40px_-24px_rgba(84,57,45,0.28)]">
+    <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-zinc-200 hover:shadow-[0_8px_22px_rgba(0,0,0,0.06)]">
       <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-[#FFFFFF] p-2.5 sm:p-3">
+        <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-white p-2.5 sm:p-3">
           <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-start gap-1.5">
-            {hasDiscount ? <span className="max-w-full shrink-0 rounded-full border border-[#c0483a]/25 bg-[#FFFFFF] px-1.5 py-0.5 text-[9px] font-bold leading-4 text-[#a2382e] sm:px-2 sm:text-[10px]">{locale === "zh" ? "限時特惠" : "LIMITED OFFER"}</span> : null}
+            {hasDiscount ? <span className="max-w-full shrink-0 rounded-full border border-zinc-200 bg-white px-1.5 py-0.5 text-[9px] font-bold leading-4 text-[#a2382e] sm:px-2 sm:text-[10px]">{locale === "zh" ? "限時特惠" : "LIMITED OFFER"}</span> : null}
             <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-none justify-start gap-1.5" />
           </div>
           <ProductImage

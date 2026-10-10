@@ -30,7 +30,7 @@ export function HomeDiscoveryBar() {
           <Link
             key={item.href}
             href={item.href}
-            className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full bg-stone-100 px-3 py-2 text-center text-xs font-medium text-stone-700 transition hover:bg-[#FFFFFF] hover:text-[#8b573f] sm:px-3.5 sm:py-1.5 sm:text-sm"
+            className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full bg-zinc-50 px-3 py-2 text-center text-xs font-medium text-stone-700 transition hover:bg-[#FFFFFF] hover:text-[#8b573f] sm:px-3.5 sm:py-1.5 sm:text-sm"
           >
             <span aria-hidden="true" className="shrink-0">{item.icon}</span>
             <span className="min-w-0">{isZh ? item.zh : item.en}</span>

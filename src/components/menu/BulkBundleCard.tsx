@@ -62,7 +62,7 @@ export function BulkBundleCard({ products, priority = false }: { products: Produ
   return (
     <article className="group flex h-full min-h-[390px] min-w-0 flex-col overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <Link href={href} className="block">
-        <div className="relative mx-auto aspect-square w-full max-w-[196px] overflow-hidden bg-stone-50">
+        <div className="relative mx-auto aspect-square w-full max-w-[196px] overflow-hidden bg-white">
           <ProductImage
             src={featured?.images?.[0] ?? "catalog-placeholder"}
             alt={name}
@@ -97,7 +97,7 @@ export function BulkBundleCard({ products, priority = false }: { products: Produ
                 onClick={() => setSelectedPackCount(count)}
                 className={`min-w-0 whitespace-nowrap rounded-lg px-1 py-1 text-[9px] font-medium transition sm:px-2.5 sm:text-xs ${isSelected
                   ? "bg-stone-900 text-white shadow-sm"
-                  : "bg-stone-100 text-stone-600 hover:bg-stone-200"} disabled:cursor-not-allowed disabled:opacity-40`}
+                  : "bg-zinc-50 text-stone-600 hover:bg-stone-200"} disabled:cursor-not-allowed disabled:opacity-40`}
               >
                 {packLabel(count, locale)}
               </button>
@@ -122,7 +122,7 @@ export function BulkBundleCard({ products, priority = false }: { products: Produ
         </div>
 
         {selectedTier ? (
-          <div className="mt-2">
+          <div className="mt-3 flex w-full items-center justify-end border-t border-zinc-100 pt-2">
             <AddToCartButton
               productId={selectedTier.id}
               priceId={selectedTier.priceId}

@@ -89,7 +89,7 @@ export function AddToCartButton({
     ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40"
     : "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface)] text-base font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-40";
   const stepper = (
-    <div className={`flex items-center ${size === "bulk" ? "gap-1" : "gap-1.5"}`} onClick={stop}>
+    <div className={`flex items-center ${size === "bulk" ? "gap-1 rounded-full border border-zinc-200 bg-white px-2 py-1" : "gap-1.5"}`} onClick={stop}>
       <button type="button" onClick={decrease} disabled={!purchasable || qty <= MIN_QTY} aria-label={t("qtyDecrease")} className={stepperBtnClass}>−</button>
       <input
         type="number"
@@ -211,15 +211,15 @@ export function AddToCartButton({
   );
 
   if (size === "bulk") return (
-    <div className={`mt-3 flex w-full items-center gap-2 ${className}`}>
-      {showQuantity ? <div className="flex min-w-0 w-[35%] shrink-0 justify-start">{stepper}</div> : null}
+    <div className={`mt-0 flex w-full items-center justify-end gap-2 ${className}`}>
+      {showQuantity ? <div className="flex shrink-0 justify-end">{stepper}</div> : null}
       <button
         type="button"
         onClick={add}
         disabled={!purchasable}
         aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
         aria-live="polite"
-        className={`inline-flex h-9 w-10 shrink-0 items-center justify-center rounded-xl bg-stone-900 text-white shadow-sm transition-all hover:bg-stone-800 active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 ${added ? "bg-emerald-700 hover:bg-emerald-700" : ""}`}
+        className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#111111] shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${added ? "border-[color:var(--accent)] text-[color:var(--accent)]" : "text-[#111111]"}`}
       >
         <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
         <span className="sr-only">{!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
