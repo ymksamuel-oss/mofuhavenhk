@@ -4,21 +4,17 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
 
+export const dynamic = "force-static";
+export const dynamicParams = true;
 export const revalidate = 86400;
 
 type CategorySubPageProps = {
   params: Promise<{ slug: string; sub: string }>;
-  searchParams: Promise<{ series?: string | string[]; lang?: string | string[] }>;
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: CategorySubPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategorySubPageProps): Promise<Metadata> {
   const { slug, sub } = await params;
-  const query = await searchParams;
-  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
-  return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
+  return getCategoryPageMetadata("zh", {
     categorySlug: canonicalCategorySlug(slug) ?? slug.trim().toLowerCase(),
   });
 }

@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandInfoCard } from "@/components/brand/BrandInfoCard";
 import { BrandProductCard } from "@/components/brand/BrandProductCard";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import { brandDescription, type Brand } from "@/lib/brands";
 
+export const dynamic = "force-static";
+export const dynamicParams = true;
 export const revalidate = 86400;
 
 type Props = { params: Promise<{ slug: string }> };
-type CatalogProduct = Awaited<ReturnType<typeof getCatalogSnapshot>>["products"][number];
+type CatalogProduct = Awaited<ReturnType<typeof getPublicCatalogSnapshot>>["products"][number];
 
 async function getBrand(slug: string): Promise<{ brand: Brand | null; products: CatalogProduct[] }> {
-  const catalog = await getCatalogSnapshot();
+  const catalog = await getPublicCatalogSnapshot();
   const brand = catalog.brands.find((item) => item.slug === slug) || null;
   const products = brand
     ? catalog.products.filter((product) => product.brandId === brand.id || (!product.brandId && product.brandName?.toLowerCase() === brand.name.toLowerCase()))

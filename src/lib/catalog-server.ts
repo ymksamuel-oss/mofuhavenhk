@@ -1,6 +1,7 @@
 import "server-only";
 
 import Stripe from "stripe";
+import { unstable_cache } from "next/cache";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
 import { buildCategoryTree, flattenCategoryTree, type StoreCategory } from "@/lib/store-categories";
@@ -29,7 +30,7 @@ import {
 } from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
-import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
+import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
 import { databaseProductImageUrls } from "@/lib/catalog-images";
 import {
   applyCategoryLocalizations,
@@ -49,6 +50,8 @@ export type CatalogSnapshot = {
   source: "stripe" | "supabase" | "fallback";
   matchedRecords: number;
 };
+
+export const STOREFRONT_CATALOG_CACHE_TAG = "storefront-catalog";
 
 /**
  * Supabase import retries can create more than one database row for the same
@@ -1105,4 +1108,30 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
       matchedRecords: 0,
     };
   }
+}
+
+// Public page renders share this bounded cache. Do not turn an upstream error
+// into a cached empty catalog: throwing lets ISR retain its previous good page.
+// Checkout and payment APIs continue calling getCatalogSnapshot() directly.
+async function fetchPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
+  const snapshot = await fetchCatalogFromSupabase();
+  if (!snapshot) {
+    // This project currently permits deployments with no Supabase credentials;
+    // that is distinct from a configured backend failing transiently.
+    if (!isSupabaseConfigured()) {
+      return { products: [], categories: [], brands: [], source: "fallback", matchedRecords: 0 };
+    }
+    throw new Error("Storefront catalog fetch failed; refusing to cache an empty fallback snapshot");
+  }
+  return snapshot;
+}
+
+const getCachedPublicCatalogSnapshot = unstable_cache(
+  fetchPublicCatalogSnapshot,
+  ["storefront-catalog-v1"],
+  { revalidate: 86400, tags: [STOREFRONT_CATALOG_CACHE_TAG] },
+);
+
+export async function getPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
+  return getCachedPublicCatalogSnapshot();
 }

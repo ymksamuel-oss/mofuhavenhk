@@ -3,12 +3,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Product } from "@/lib/products";
 
-const { getCatalogSnapshotMock } = vi.hoisted(() => ({
-  getCatalogSnapshotMock: vi.fn(),
+const { getPublicCatalogSnapshotMock } = vi.hoisted(() => ({
+  getPublicCatalogSnapshotMock: vi.fn(),
 }));
 
 vi.mock("@/lib/catalog-server", () => ({
-  getCatalogSnapshot: getCatalogSnapshotMock,
+  getPublicCatalogSnapshot: getPublicCatalogSnapshotMock,
 }));
 vi.mock("@/components/product/ProductDetail", () => ({
   ProductDetail: () => null,
@@ -30,7 +30,7 @@ const fixture = {
 } as unknown as Product;
 
 function mockCatalog(product: Product) {
-  getCatalogSnapshotMock.mockResolvedValue({
+  getPublicCatalogSnapshotMock.mockResolvedValue({
     products: [product],
     categories: [],
     brands: [],
@@ -54,7 +54,7 @@ async function renderProductSchema(product: Product): Promise<Record<string, unk
 }
 
 describe("product detail SEO", () => {
-  beforeEach(() => getCatalogSnapshotMock.mockReset());
+  beforeEach(() => getPublicCatalogSnapshotMock.mockReset());
 
   it("emits parseable Product JSON-LD with SKU, brand, price, currency, and stock status", async () => {
     const schema = await renderProductSchema(fixture);

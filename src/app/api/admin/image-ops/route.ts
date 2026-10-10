@@ -4,6 +4,7 @@ import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { orderProductImages } from "@/lib/catalog-images";
 import crypto from "node:crypto";
+import { revalidateStorefrontCatalog } from "@/lib/catalog-revalidation";
 
 const SOURCE_ORIGIN = "https://best-partner.co.jp";
 const STORAGE_BUCKET = "public-images";
@@ -308,5 +309,6 @@ export async function POST(request: Request) {
     }
   }
 
+  if (apply && updated > 0) revalidateStorefrontCatalog();
   return NextResponse.json({ mode: `${mode}-${apply ? "apply" : "dry-run"}`, limit, overwrite, source: mode === "normalize" ? "database" : SOURCE_ORIGIN, totalCandidates: products.length, matched, uploaded, updated, skipped, failed, items });
 }

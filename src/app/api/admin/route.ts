@@ -15,6 +15,7 @@ import {
   parseProductLocalizations,
 } from "@/lib/product-localizations";
 import { DEFAULT_COST_MARKUP_MULTIPLIER, DEFAULT_JPY_TO_HKD } from "@/lib/pricing";
+import { revalidateStorefrontCatalog } from "@/lib/catalog-revalidation";
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -264,6 +265,10 @@ async function replaceBanners(
 }
 async function isAdmin() { const jar = await cookies(); return verifyAdminToken(jar.get(ADMIN_COOKIE)?.value); }
 function cleanRow(table: string, row: Record<string, unknown>) { if (table === "store_settings" && secretKeys.has(String(row.key))) return { ...row, value: "••••••••" }; return row; }
+function affectsPublicCatalog(table: string, key?: string) {
+  return ["products", "categories", "brands"].includes(table) ||
+    (table === "store_settings" && [PRODUCT_LOCALIZATIONS_SETTING_KEY, CATEGORY_LOCALIZATIONS_SETTING_KEY].includes(String(key)));
+}
 function normalizeProductImages(value: unknown): string[] {
   const values = Array.isArray(value) ? value : [value];
   return Array.from(new Set(
@@ -494,17 +499,22 @@ export async function POST(request: Request) {
     ? await writeProductRow(supabase, "insert", null, payload)
     : await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  if (table === "categories" && categoryLocalization) {
-    const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products" && productLocalization) {
-    const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products") {
-    const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
-    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+  const shouldRevalidateCatalog = affectsPublicCatalog(table, String(payload.key || ""));
+  try {
+    if (table === "categories" && categoryLocalization) {
+      const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products" && productLocalization) {
+      const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products") {
+      const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
+      if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    }
+  } finally {
+    if (shouldRevalidateCatalog) revalidateStorefrontCatalog();
   }
 
   return NextResponse.json({ data });
@@ -543,17 +553,22 @@ export async function PATCH(request: Request) {
     ? await writeProductRow(supabase, "update", id, payload)
     : await (table === "store_settings" ? supabase.from(table).update(payload).eq("key", key) : supabase.from(table).update(payload).eq("id", id)).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  if (table === "categories" && categoryLocalization) {
-    const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products" && productLocalization) {
-    const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products") {
-    const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
-    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+  const shouldRevalidateCatalog = affectsPublicCatalog(table, String(payload.key || key));
+  try {
+    if (table === "categories" && categoryLocalization) {
+      const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products" && productLocalization) {
+      const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products") {
+      const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
+      if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    }
+  } finally {
+    if (shouldRevalidateCatalog) revalidateStorefrontCatalog();
   }
   return NextResponse.json({ data });
 }
@@ -577,5 +592,6 @@ export async function DELETE(request: Request) {
       await supabase.from("store_settings").upsert({ key: PRODUCT_COSTS_SETTING_KEY, value: JSON.stringify(costs), updated_at: new Date().toISOString() }, { onConflict: "key" });
     }
   }
+  if (affectsPublicCatalog(table, key)) revalidateStorefrontCatalog();
   return NextResponse.json({ ok: true, deleted: data.length });
 }

@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { getProductJanCode } from "@/lib/product-identifiers";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
-// Product prices and publication state are managed from the admin panel. Do
-// not serve a stale 24-hour page after a price/catalog correction.
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Public product content is ISR-cached for one day and invalidated by catalog
+// mutations. Checkout endpoints still validate the live price and stock.
+export const dynamic = "force-static";
+export const dynamicParams = true;
+export const revalidate = 86400;
 const SITE_URL = "https://www.mofuhavenhk.com";
 const SITE_NAME = "Mofu Haven HK";
 const VALUE_BUNDLE_SKUS = new Set([
@@ -136,7 +137,7 @@ type ProductPageProps = {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = (await getCatalogSnapshot()).products.find((candidate) => candidate.id === id);
+  const product = (await getPublicCatalogSnapshot()).products.find((candidate) => candidate.id === id);
   if (!product) return { title: "Product Not Found | Mofu Haven" };
   const name = getLocalizedProductName(product, "en");
   const title = `${name} | Mofu Haven`;
@@ -170,7 +171,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const catalog = await getCatalogSnapshot();
+  const catalog = await getPublicCatalogSnapshot();
   const product = catalog.products.find((candidate) => candidate.id === id);
   if (!product) {
     notFound();

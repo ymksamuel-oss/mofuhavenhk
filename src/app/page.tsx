@@ -5,7 +5,7 @@ import { HomeJournalHero } from "@/components/home/HomeJournalHero";
 import { HomeSupplierStory } from "@/components/home/HomeSupplierStory";
 import { HomePetParade } from "@/components/home/HomePetParade";
 import { BrandHarmonyBanner } from "@/components/home/BrandHarmonyBanner";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getPublicCatalogSnapshot } from "@/lib/catalog-server";
 import type { Product } from "@/lib/products";
 
 import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShowcase";
@@ -14,17 +14,8 @@ import { CareMatchCard } from "@/components/home/CareMatchCard";
 export const revalidate = 86400;
 
 export default async function HomePage() {
-  let products: Product[] = [];
-  try {
-    const catalog = await getCatalogSnapshot();
-    products = catalog.products;
-  } catch (error) {
-    // Never let a catalog/backend outage turn the storefront shell into a 500.
-    console.error("[home] catalog unavailable during SSR; rendering empty catalog", {
-      errorName: error instanceof Error ? error.name : "unknown",
-      errorMessage: error instanceof Error ? error.message : String(error),
-    });
-  }
+  const catalog = await getPublicCatalogSnapshot();
+  const products: Product[] = catalog.products;
 
   return (
     <>
