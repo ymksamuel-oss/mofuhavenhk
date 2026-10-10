@@ -30,7 +30,7 @@ import {
 } from "@/lib/product-english-resolver";
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
-import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
+import { getSupabaseAdmin, getSupabasePublic, isSupabaseConfigured } from "@/lib/supabase";
 import { databaseProductImageUrls } from "@/lib/catalog-images";
 import {
   applyCategoryLocalizations,
@@ -1110,14 +1110,28 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
   }
 }
 
-// Public page renders share this bounded cache. Checkout and payment APIs must
-// continue calling getCatalogSnapshot() directly so prices and stock are live.
+// Public page renders share this bounded cache. Do not turn an upstream error
+// into a cached empty catalog: throwing lets ISR retain its previous good page.
+// Checkout and payment APIs continue calling getCatalogSnapshot() directly.
+async function fetchPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
+  const snapshot = await fetchCatalogFromSupabase();
+  if (!snapshot) {
+    throw new Error("Storefront catalog fetch failed; refusing to cache an empty fallback snapshot");
+  }
+  return snapshot;
+}
+
 const getCachedPublicCatalogSnapshot = unstable_cache(
-  async () => getCatalogSnapshot(),
+  fetchPublicCatalogSnapshot,
   ["storefront-catalog-v1"],
   { revalidate: 86400, tags: [STOREFRONT_CATALOG_CACHE_TAG] },
 );
 
 export async function getPublicCatalogSnapshot(): Promise<CatalogSnapshot> {
+  // GitHub's build-only CI intentionally has no production data credentials.
+  // Keep that validation build deterministic without persisting an empty entry.
+  if (process.env.GITHUB_ACTIONS === "true" && !isSupabaseConfigured()) {
+    return { products: [], categories: [], brands: [], source: "fallback", matchedRecords: 0 };
+  }
   return getCachedPublicCatalogSnapshot();
 }

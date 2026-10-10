@@ -32,12 +32,7 @@ function venisonProducts(products: Product[]): Product[] {
 const tags = ["#低脂低卡", "#DHA護腦", "#過敏犬救星", "#北海道野生鹿肉"];
 
 export default async function VenisonBenefitsPage() {
-  let products: Product[] = [];
-  try {
-    products = venisonProducts((await getPublicCatalogSnapshot()).products);
-  } catch (error) {
-    console.error("[blog] venison products unavailable", error);
-  }
+  const products = venisonProducts((await getPublicCatalogSnapshot()).products);
 
   const articleJsonLd = {
     "@context": "https://schema.org",

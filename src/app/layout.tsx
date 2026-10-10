@@ -164,17 +164,14 @@ export default async function RootLayout({
   let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
   const initialUser = null;
+  const catalog = await getPublicCatalogSnapshot();
+  products = catalog.products || [];
+  categories = catalog.categories || [];
+  brands = catalog.brands || [];
   try {
-    const catalog = await getPublicCatalogSnapshot();
-    products = catalog.products || [];
-    categories = catalog.categories || [];
-    brands = catalog.brands || [];
     payMe = await getPayMeCheckoutSettings();
   } catch {
-    products = [];
-    categories = [];
-    brands = [];
-    payMe = await getPayMeCheckoutSettings();
+    payMe = EMPTY_PAYME_CHECKOUT_SETTINGS;
   }
 
   return (

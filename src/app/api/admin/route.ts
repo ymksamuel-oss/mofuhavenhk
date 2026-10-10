@@ -499,18 +499,22 @@ export async function POST(request: Request) {
     ? await writeProductRow(supabase, "insert", null, payload)
     : await supabase.from(table).insert(payload).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  if (affectsPublicCatalog(table, String(payload.key || ""))) revalidateStorefrontCatalog();
-  if (table === "categories" && categoryLocalization) {
-    const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products" && productLocalization) {
-    const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products") {
-    const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
-    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+  const shouldRevalidateCatalog = affectsPublicCatalog(table, String(payload.key || ""));
+  try {
+    if (table === "categories" && categoryLocalization) {
+      const { error: localizationError } = await upsertCategoryLocalization(supabase, String(data.id), categoryLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products" && productLocalization) {
+      const { error: localizationError } = await upsertProductLocalization(supabase, String(data.id), productLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products") {
+      const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
+      if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    }
+  } finally {
+    if (shouldRevalidateCatalog) revalidateStorefrontCatalog();
   }
 
   return NextResponse.json({ data });
@@ -549,18 +553,22 @@ export async function PATCH(request: Request) {
     ? await writeProductRow(supabase, "update", id, payload)
     : await (table === "store_settings" ? supabase.from(table).update(payload).eq("key", key) : supabase.from(table).update(payload).eq("id", id)).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  if (affectsPublicCatalog(table, String(payload.key || key))) revalidateStorefrontCatalog();
-  if (table === "categories" && categoryLocalization) {
-    const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products" && productLocalization) {
-    const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
-    if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
-  }
-  if (table === "products") {
-    const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
-    if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+  const shouldRevalidateCatalog = affectsPublicCatalog(table, String(payload.key || key));
+  try {
+    if (table === "categories" && categoryLocalization) {
+      const { error: localizationError } = await upsertCategoryLocalization(supabase, id, categoryLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products" && productLocalization) {
+      const { error: localizationError } = await upsertProductLocalization(supabase, id, productLocalization);
+      if (localizationError) return NextResponse.json({ error: localizationError.message }, { status: 500 });
+    }
+    if (table === "products") {
+      const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
+      if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    }
+  } finally {
+    if (shouldRevalidateCatalog) revalidateStorefrontCatalog();
   }
   return NextResponse.json({ data });
 }
@@ -576,7 +584,6 @@ export async function DELETE(request: Request) {
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   if (!data || data.length === 0) return NextResponse.json({ error: "not_found_or_not_deleted" }, { status: 404 });
-  if (affectsPublicCatalog(table, key)) revalidateStorefrontCatalog();
   if (table === "products") {
     const { data: costSetting } = await supabase.from("store_settings").select("value").eq("key", PRODUCT_COSTS_SETTING_KEY).maybeSingle();
     const costs = parseProductCosts(costSetting?.value);
@@ -585,5 +592,6 @@ export async function DELETE(request: Request) {
       await supabase.from("store_settings").upsert({ key: PRODUCT_COSTS_SETTING_KEY, value: JSON.stringify(costs), updated_at: new Date().toISOString() }, { onConflict: "key" });
     }
   }
+  if (affectsPublicCatalog(table, key)) revalidateStorefrontCatalog();
   return NextResponse.json({ ok: true, deleted: data.length });
 }
