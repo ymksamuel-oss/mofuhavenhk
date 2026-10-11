@@ -15,27 +15,12 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
 import type { Brand } from "@/lib/brands";
-import { Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
 import {
   EMPTY_PAYME_CHECKOUT_SETTINGS,
   getPayMeCheckoutSettings,
   type PayMeCheckoutSettings,
 } from "@/lib/payme-checkout-settings";
 import "./globals.css";
-
-const notoSansTc = Noto_Sans_TC({
-  subsets: ["latin"],
-  variable: "--font-noto-sans-tc",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const notoSerifTc = Noto_Serif_TC({
-  subsets: ["latin"],
-  variable: "--font-noto-serif-tc",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
 
 // Product catalogue and storefront chrome can be reused for a day, reducing ISR writes.
 export const revalidate = 86400;
@@ -177,7 +162,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="zh-HK" className={`${notoSansTc.variable} ${notoSerifTc.variable} bg-white`}>
+    <html lang="zh-HK" className="bg-white">
       <head>
         <GoogleAnalytics />
         <MetaPixel />
