@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { CatFAQSection } from "@/components/about/CatFAQSection";
 import { categoryHref } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
@@ -160,6 +161,8 @@ export function AboutCatBook() {
             );
           })}
         </div>
+
+        <CatFAQSection />
 
         <div
           className="mt-14 flex justify-center sm:mt-20"
