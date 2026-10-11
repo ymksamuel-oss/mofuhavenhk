@@ -5,7 +5,9 @@ import { COLLECTIONS } from "@/lib/collections";
 
 const SITE_URL = "https://www.mofuhavenhk.com";
 
-export const revalidate = 86400;
+// Product/stock pages remain dynamic; the sitemap is only an SEO discovery hint,
+// so refresh it weekly instead of writing a changed sitemap every day.
+export const revalidate = 604800;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
