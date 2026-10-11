@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { DogBehaviorGuide } from "@/components/about/DogBehaviorGuide";
 import { categoryHref } from "@/lib/categories";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import type { TranslationKey } from "@/lib/i18n/translations";
@@ -121,6 +122,8 @@ export function AboutDogBook() {
             );
           })}
         </div>
+
+        <DogBehaviorGuide />
 
         <div
           className="mt-14 flex justify-center sm:mt-20"
