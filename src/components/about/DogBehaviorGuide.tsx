@@ -137,25 +137,6 @@ const CHEWS: Array<{ name: Bilingual; detail: Bilingual }> = [
   },
 ];
 
-const SOURCES = [
-  {
-    href: "https://eshop.legopet.com.hk/blog/posts/dog-body-language-and-behavior-guide",
-    label: { zh: "Lego Pet｜狗狗行為解密指南", en: "Lego Pet · Dog behavior guide" },
-  },
-  {
-    href: "https://www.akc.org/expert-advice/training/how-to-read-dog-body-language/",
-    label: { zh: "American Kennel Club｜讀懂狗狗肢體語言", en: "American Kennel Club · Dog body language" },
-  },
-  {
-    href: "https://www.guidedogs.org.uk/getting-support/information-and-advice/dog-care-and-welfare/dog-body-language/",
-    label: { zh: "Guide Dogs｜狗狗肢體語言與壓力訊號", en: "Guide Dogs · Body language and stress signals" },
-  },
-  {
-    href: "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2025.1499933/full",
-    label: { zh: "犬隻咀嚼與動物福利研究回顧（2025）", en: "Review of chewing and canine welfare (2025)" },
-  },
-];
-
 export function DogBehaviorGuide() {
   const { locale } = useI18n();
   const isEn = locale === "en";
@@ -317,19 +298,6 @@ export function DogBehaviorGuide() {
               : "請按體型與咬力挑選合適尺寸，並在旁看顧；咀嚼物變小時適時收走。若焦慮頻繁或嚴重，請向合資格的行為專業人士或獸醫求助。"}
           </p>
         </section>
-
-        <nav aria-label={isEn ? "Behavior guide references" : "行為指南參考資料"} className="mt-8 border-t border-[#E9DFD1] pt-4">
-          <p className="text-xs font-semibold text-[#766453]">{isEn ? "Further reading" : "延伸閱讀"}</p>
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#805C3D]">
-            {SOURCES.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} target="_blank" rel="noreferrer" className="underline decoration-[#CBB9A2] underline-offset-4 hover:text-[#3E2B20]">
-                  {copy(item.label)}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </section>
   );
