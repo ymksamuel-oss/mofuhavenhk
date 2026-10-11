@@ -139,10 +139,10 @@ export function CatFAQSection() {
             </div>
             <div className="flex min-w-0 flex-1 flex-col justify-center p-5 sm:p-7 md:p-8">
               <p className="text-xs font-semibold tracking-[0.16em] text-[#A47A4F]">
-                {isEn ? `CAT NOTES · ${String(index + 1).padStart(2, "0")}` : `貓咪小問答 · ${String(index + 1).padStart(2, "0")}`}
+                {isEn ? "CAT NOTES" : "貓咪小問答"}
               </p>
               <h3 className="mt-2 text-lg font-bold leading-snug text-[#3E2B20] sm:text-xl">
-                {copy(faq.question)}
+                {`Q${index + 1}: ${copy(faq.question)}`}
               </h3>
               <p className="mt-4 text-sm leading-7 text-[#67584C] sm:text-base sm:leading-8">
                 {copy(faq.answer)}
