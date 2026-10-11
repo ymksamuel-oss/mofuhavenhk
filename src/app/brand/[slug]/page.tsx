@@ -6,6 +6,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-server";
 import { brandDescription, type Brand } from "@/lib/brands";
 
 export const revalidate = 86400;
+export const dynamicParams = true;
 
 type Props = { params: Promise<{ slug: string }> };
 type CatalogProduct = Awaited<ReturnType<typeof getCatalogSnapshot>>["products"][number];
@@ -17,6 +18,13 @@ async function getBrand(slug: string): Promise<{ brand: Brand | null; products: 
     ? catalog.products.filter((product) => product.brandId === brand.id || (!product.brandId && product.brandName?.toLowerCase() === brand.name.toLowerCase()))
     : [];
   return { brand, products };
+}
+
+export async function generateStaticParams() {
+  const { brands } = await getCatalogSnapshot();
+  return brands
+    .filter((brand) => brand.is_active && brand.slug.trim())
+    .map((brand) => ({ slug: brand.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -29,40 +29,46 @@ function toCustomerUser(user: User | null | undefined): CustomerAuthUser | null 
   };
 }
 
-export function CustomerAuthProvider({
-  initialUser,
-  children,
-}: {
-  initialUser: CustomerAuthUser | null;
-  children: ReactNode;
-}) {
-  const [user, setUser] = useState<CustomerAuthUser | null>(initialUser);
+export function CustomerAuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<CustomerAuthUser | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setUser(initialUser);
-    setReady(true);
-  }, [initialUser?.id, initialUser?.email, initialUser?.displayName, initialUser?.avatarUrl]);
-
-  useEffect(() => {
-    let subscription: { unsubscribe: () => void } | undefined;
+    let active = true;
+    let client: ReturnType<typeof getSupabaseBrowserClient>;
     try {
-      const client = getSupabaseBrowserClient();
-      if (!client) {
-        setReady(true);
-        return;
-      }
-      const result = client.auth.onAuthStateChange((_event, session) => {
-        setUser(toCustomerUser(session?.user));
-        setReady(true);
-      });
-      subscription = result.data?.subscription;
+      client = getSupabaseBrowserClient();
     } catch {
-      setUser((current) => current ?? null);
       setReady(true);
+      return;
     }
-    setReady(true);
-    return () => subscription?.unsubscribe();
+    if (!client) {
+      setReady(true);
+      return;
+    }
+
+    const { data } = client.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      setUser(toCustomerUser(session?.user));
+      setReady(true);
+    });
+
+    // Restore the browser's persisted session without making every public page
+    // perform a server-side auth lookup during rendering.
+    void client.auth.getSession().then(({ data: sessionData, error }) => {
+      if (!active) return;
+      setUser(error ? null : toCustomerUser(sessionData.session?.user));
+      setReady(true);
+    }).catch(() => {
+      if (!active) return;
+      setUser(null);
+      setReady(true);
+    });
+
+    return () => {
+      active = false;
+      data.subscription?.unsubscribe();
+    };
   }, []);
 
   const value = useMemo(() => ({ user, ready }), [user, ready]);

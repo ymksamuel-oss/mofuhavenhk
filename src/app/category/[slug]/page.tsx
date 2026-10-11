@@ -2,22 +2,23 @@ import type { Metadata } from "next";
 import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
+import { categoryStaticParams } from "@/lib/category-route-params";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
 
 export const revalidate = 86400;
 
+export async function generateStaticParams() {
+  const { categories } = await getCatalogSnapshot();
+  return categoryStaticParams(categories);
+}
+
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ lang?: string | string[] }>;
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const query = await searchParams;
-  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
-  return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
+  return getCategoryPageMetadata("zh", {
     categorySlug: canonicalCategorySlug(slug) ?? slug.trim().toLowerCase(),
   });
 }

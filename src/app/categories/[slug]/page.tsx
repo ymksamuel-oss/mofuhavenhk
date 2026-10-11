@@ -3,39 +3,30 @@ import { ProductCatalog } from "@/components/menu/ProductCatalog";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { canonicalCategorySlug } from "@/lib/categories";
 import { getCategoryPageMetadata } from "@/lib/seo/category-seo";
+import { categoryStaticParams } from "@/lib/category-route-params";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
 
 export const revalidate = 86400;
 
-const CATEGORY_INGREDIENTS = new Set([
-  "chicken", "duck", "beef", "pork", "boar", "kangaroo", "deer", "venison", "horse", "sheep",
-  "roll", "chips-jerky", "seafood", "produce", "snacks", "dairy", "seasoning", "side-dish", "frozen", "food",
-]);
+export async function generateStaticParams() {
+  const { categories } = await getCatalogSnapshot();
+  return categoryStaticParams(categories);
+}
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ lang?: string | string[]; ingredient?: string | string[] }>;
 };
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const query = await searchParams;
-  const lang = Array.isArray(query.lang) ? query.lang[0] : query.lang;
-  return getCategoryPageMetadata(lang === "en" ? "en" : "zh", {
+  return getCategoryPageMetadata("zh", {
     categorySlug: canonicalCategorySlug(slug) ?? slug.trim().toLowerCase(),
   });
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  const query = await searchParams;
   const categorySlug = canonicalCategorySlug(slug) ?? slug.trim().toLowerCase();
-  const ingredient = Array.isArray(query.ingredient) ? query.ingredient[0] : query.ingredient;
-  const ingredientFilter = categorySlug === "dogs" || categorySlug === "cats"
-    ? (ingredient && CATEGORY_INGREDIENTS.has(ingredient) ? ingredient : null)
-    : null;
   const categoryName = categorySlug === "dogs" ? "\u72d7\u72d7\u5c08\u5340" : categorySlug === "cats" ? "\u8c93\u54aa\u5c08\u5340" : categorySlug === "supplies" ? "\u5bf5\u7269\u7528\u54c1" : "\u5bf5\u7269\u5546\u54c1\u5206\u985e";
   return <>
     <JsonLd data={{
@@ -46,6 +37,6 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         { "@type": "ListItem", position: 2, name: categoryName, item: `https://www.mofuhavenhk.com/categories/${categorySlug}` },
       ],
     }} />
-    <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch ingredientFilter={ingredientFilter} />
+    <ProductCatalog categorySlug={categorySlug} subcategory={null} showProductSearch />
   </>;
 }

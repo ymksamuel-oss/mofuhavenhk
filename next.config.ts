@@ -1,6 +1,32 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      ...[
+        "/collections/supplies",
+        "/collections/gear",
+        "/collections/outdoor-gear",
+        "/categories/supplies",
+        "/categories/pet-supplies",
+        "/categories/lifestyle",
+        "/categories/outdoor",
+      ].map((source) => ({ source, destination: "/products", permanent: true })),
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "mofuhavenhk.com" }],
+        destination: "https://www.mofuhavenhk.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: "/en/pet-guide", destination: "/pet-guide" },
+      ],
+    };
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

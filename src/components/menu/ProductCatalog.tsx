@@ -92,8 +92,9 @@ export function ProductCatalog({
     : catalogProducts.filter((product) => !isValueBundleProduct(product));
   const [selectedIngredients, setSelectedIngredients] = useState<IngredientKey[]>(() => parseIngredientSelection(ingredientFilter));
   useEffect(() => {
-    setSelectedIngredients(parseIngredientSelection(ingredientFilter));
-  }, [ingredientFilter]);
+    const queryIngredient = new URLSearchParams(window.location.search).get("ingredient");
+    setSelectedIngredients(parseIngredientSelection(ingredientFilter ?? queryIngredient));
+  }, [categorySlug, ingredientFilter]);
   useEffect(() => {
     const handlePopState = () => {
       const ingredient = new URLSearchParams(window.location.search).get("ingredient");
