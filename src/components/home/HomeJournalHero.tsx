@@ -133,14 +133,21 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
     setIsPaused(false);
   };
 
-  const productMap = useMemo(() => new Map(
-    products.filter((product) => isStorefrontReadyProduct(product) && product.images?.[0]).map((product) => [productSku(product), product]),
-  ), [products]);
+  const productMap = useMemo(() => {
+    const map = new Map<string, Product>();
+    for (const product of products) {
+      const sku = productSku(product);
+      if (sku && isStorefrontReadyProduct(product)) map.set(sku, product);
+    }
+    return map;
+  }, [products]);
 
-  const issueProducts = useMemo(() => JOURNAL_ISSUES.map((issue) => issue.picks.flatMap((pick) => {
-    const product = productMap.get(pick.sku);
-    return product ? [{ ...pick, product }] : [];
-  })), [productMap]);
+  // Keep all nine editorial picks in place even while the catalog is empty or a
+  // particular SKU is unavailable; dropping missing items collapses the grid.
+  const issueProducts = useMemo(() => JOURNAL_ISSUES.map((issue) => issue.picks.map((pick) => ({
+    ...pick,
+    product: productMap.get(pick.sku) ?? null,
+  }))), [productMap]);
 
   return (
     <section aria-labelledby="mofu-journal-title" className="bg-white text-[#2D2926]">
@@ -169,10 +176,12 @@ export function HomeJournalHero({ products }: { products: Product[] }) {
                   <Link href={issue.ctaLink} className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#C86A2B] px-5 py-2 text-xs font-medium text-white shadow-sm transition-all hover:bg-[#B25B20] active:scale-[0.98] sm:text-sm">{isEn ? issue.ctaEn : issue.ctaZh}<span aria-hidden="true">→</span></Link>
                 </div>
                 <div className="order-1 col-span-12 min-w-0 md:order-1 md:col-span-7">
-                  <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid w-full max-w-[340px] grid-cols-3 gap-2 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm md:max-w-[620px]">
-                    {issueProducts[issueIndex].map(({ product, zh, en }, index) => {
+                  <ul aria-label={isEn ? "Featured journal products" : "毛毛港專題精選商品"} className="mx-auto grid min-h-[320px] w-full max-w-[340px] grid-cols-3 gap-2 overflow-visible rounded-2xl border border-stone-200/60 bg-white/70 p-2 shadow-sm backdrop-blur-sm md:min-h-[360px] md:max-w-[620px]">
+                    {issueProducts[issueIndex].map(({ product, sku, zh, en }) => {
                       const label = isEn ? en : zh;
-                      return <li key={product.id} className="min-w-0"><Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className="group flex aspect-square w-full flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-sm transition-all hover:shadow-md md:aspect-auto md:min-h-[105px] md:p-2"><span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px] md:h-[60px]"><ProductImage src={product.images?.[0] ?? product.image} alt={label} priority sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[11px] font-medium leading-tight text-stone-700">{label}</span></Link></li>;
+                      const cardClassName = "group flex aspect-square w-full flex-col items-center justify-between rounded-xl border border-stone-100 bg-white p-1.5 text-center shadow-sm transition-all hover:shadow-md md:aspect-auto md:min-h-[105px] md:p-2";
+                      const cardContent = <><span className="relative flex h-[46px] w-full items-center justify-center overflow-hidden sm:h-[60px] md:h-[60px]"><ProductImage src={product?.images?.[0] ?? product?.image ?? "catalog-placeholder"} alt={label} priority sizes="(min-width: 1024px) 18vw, (min-width: 768px) 23vw, 29vw" className="object-contain" /></span><span className="mt-0.5 block w-full line-clamp-1 text-center text-[11px] font-medium leading-tight text-stone-700">{label}</span></>;
+                      return <li key={sku} className="min-w-0">{product ? <Link href={productHref(product.id)} title={label} aria-label={`${isEn ? "View product" : "查看商品"}：${label}`} className={cardClassName}>{cardContent}</Link> : <div role="group" aria-label={`${label} — ${isEn ? "product information is being updated" : "商品資料更新中"}`} title={isEn ? "Product information is being updated" : "商品資料更新中"} className={`${cardClassName} cursor-default`}>{cardContent}</div>}</li>;
                     })}
                   </ul>
                 </div>
