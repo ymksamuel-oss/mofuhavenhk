@@ -17,9 +17,12 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 
 function readStoredLocale(fallback: SupportedLocale): SupportedLocale {
   if (typeof window === "undefined") return fallback;
+  if (window.location.pathname.replace(/\/+$/, "") === "/en/pet-guide") return "en";
   const cookie = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/)?.[1];
   if (cookie === "zh-HK" || cookie === "zh") return "zh";
   if (cookie === "en" || cookie === "en-HK") return "en";
+  const legacyCookie = document.cookie.match(/(?:^|;\s*)mofuhavenhk-locale=([^;]+)/)?.[1];
+  if (legacyCookie === "en") return "en";
   try {
     const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
     return stored === "zh" || stored === "zh-HK" ? "zh" : stored === "en" ? "en" : fallback;

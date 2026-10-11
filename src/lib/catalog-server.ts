@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import Stripe from "stripe";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
@@ -1081,7 +1082,7 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
   }
 }
 
-export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
+async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
     if (managedCatalog) return managedCatalog;
@@ -1106,3 +1107,8 @@ export async function getCatalogSnapshot(): Promise<CatalogSnapshot> {
     };
   }
 }
+
+// React scopes this memoization to the current server render/request, so the
+// root layout, page and metadata can share one catalog load without persisting
+// stock or price data across separate requests.
+export const getCatalogSnapshot = cache(loadCatalogSnapshot);

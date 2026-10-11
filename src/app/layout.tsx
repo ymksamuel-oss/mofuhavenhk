@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
+import { connection } from "next/server";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
@@ -10,8 +11,6 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MetaPixel } from "@/components/MetaPixel";
 import { SiteShell } from "@/components/SiteShell";
 import { CustomerAuthProvider } from "@/lib/account/AuthProvider";
-import { customerSummary } from "@/lib/account/server";
-import { createSupabaseServerClient, isSupabaseAuthConfigured } from "@/lib/supabase/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { Product } from "@/lib/products";
 import type { StoreCategory } from "@/lib/store-categories";
@@ -159,45 +158,33 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const cookieLocale = cookieStore.get("NEXT_LOCALE")?.value ?? cookieStore.get("mofuhavenhk-locale")?.value;
-  const initialLocale = cookieLocale === "en" || cookieLocale === "en-HK" ? "en" : "zh";
   let products: Product[] = [];
   let categories: StoreCategory[] = [];
   let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
-  let initialUser: ReturnType<typeof customerSummary> | null = null;
-  if (isSupabaseAuthConfigured()) {
-    try {
-      const supabase = await createSupabaseServerClient();
-      const { data } = await supabase.auth.getUser();
-      if (data.user) initialUser = customerSummary(data.user);
-    } catch {
-      initialUser = null;
-    }
-  }
+  // Preview environments without the catalog connection must not bake an
+  // empty storefront into a day-long static response.
+  if (!isSupabaseConfigured()) await connection();
+  const catalog = await getCatalogSnapshot();
+  if (!catalog.products.length && !catalog.categories.length) await connection();
+  products = catalog.products || [];
+  categories = catalog.categories || [];
+  brands = catalog.brands || [];
   try {
-    const catalog = await getCatalogSnapshot();
-    products = catalog.products || [];
-    categories = catalog.categories || [];
-    brands = catalog.brands || [];
     payMe = await getPayMeCheckoutSettings();
   } catch {
-    products = [];
-    categories = [];
-    brands = [];
-    payMe = await getPayMeCheckoutSettings();
+    payMe = EMPTY_PAYME_CHECKOUT_SETTINGS;
   }
 
   return (
-    <html lang={initialLocale === "zh" ? "zh-HK" : "en-HK"} className={`${notoSansTc.variable} ${notoSerifTc.variable} bg-white`}>
+    <html lang="zh-HK" className={`${notoSansTc.variable} ${notoSerifTc.variable} bg-white`}>
       <head>
         <GoogleAnalytics />
         <MetaPixel />
       </head>
       <body className="bg-white font-sans antialiased">
-        <I18nProvider initialLocale={initialLocale}>
-          <CustomerAuthProvider initialUser={initialUser}>
+        <I18nProvider initialLocale="zh">
+          <CustomerAuthProvider>
             <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
               <CartProvider>
                 <WishlistProvider>
