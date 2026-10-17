@@ -17,17 +17,24 @@ function asMoney(value: string | number | null | undefined): number {
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
 }
 
-function categoryForSnapshot(raw: string | null | undefined, sku: string): string {
+function categoryForSnapshot(raw: string | null | undefined, sku: string, petSpecies: string | null | undefined): string {
   const normalized = canonicalCategorySlug(raw);
   if (normalized) return normalized;
-  // Older bulk rows predate category relations; they are pet-food promotions.
-  if (BULK_SKU.test(sku)) return "dogs";
+  // Legacy bulk rows have no category relation; inherit the exact GTIN product category.
+  const bulk = sku.match(BULK_SKU);
+  if (bulk) {
+    const baseProduct = (snapshot.products as SnapshotProduct[]).find((product) => String(product.mofu_sku ?? "").trim() === bulk[1]);
+    const baseCategory = canonicalCategorySlug(baseProduct?.category_slug);
+    if (baseCategory) return baseCategory;
+  }
+  const speciesCategory = canonicalCategorySlug(petSpecies);
+  if (speciesCategory === "cats" || speciesCategory === "dogs") return speciesCategory;
   return "dogs";
 }
 
 function mapSnapshotProduct(row: SnapshotProduct): Product {
   const sku = String(row.mofu_sku ?? "").trim();
-  const categorySlug = categoryForSnapshot(row.category_slug, sku);
+  const categorySlug = categoryForSnapshot(row.category_slug, sku, row.pet_species);
   const imageUrl = normalizeProductImageUrl(row.image_url);
   const bulk = sku.match(BULK_SKU);
   const tags = Array.isArray(row.feature_tags)
@@ -70,8 +77,7 @@ function mapSnapshotProduct(row: SnapshotProduct): Product {
 }
 
 /**
- * Last-known public catalog snapshot. It is display-only: the checkout API and
- * client purchase controls must remain disabled until the live catalog recovers.
+ * Bundled public catalog snapshot used as the primary storefront source.
  */
 export function getCatalogFallbackSnapshot(): CatalogSnapshot {
   const products = (snapshot.products as SnapshotProduct[]).map(mapSnapshotProduct);
@@ -79,7 +85,7 @@ export function getCatalogFallbackSnapshot(): CatalogSnapshot {
     products,
     categories: buildCategoryTree(snapshot.categories),
     brands: [],
-    source: "fallback",
+    source: "static",
     matchedRecords: products.length,
   };
 }

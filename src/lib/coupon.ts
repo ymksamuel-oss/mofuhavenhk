@@ -1,13 +1,33 @@
-import { getSupabaseAdmin } from "@/lib/supabase";
+type StaticCoupon = { active?: boolean; discountAmount: number; discountType: "fixed" | "percentage" };
+export type ResolvedCoupon = { code: string; discount: number; discountType?: "fixed" | "percentage" };
 
-export async function resolveCoupon(code: unknown, subtotal: number) {
+/** Server-only static registry, configured as a JSON object in MOFU_STATIC_COUPONS_JSON. */
+function readStaticCoupons(): Record<string, StaticCoupon> {
+  const raw = process.env.MOFU_STATIC_COUPONS_JSON;
+  if (!raw) return {};
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).filter(([, value]) => {
+      if (!value || typeof value !== "object") return false;
+      const item = value as Partial<StaticCoupon>;
+      return Number.isFinite(Number(item.discountAmount)) && Number(item.discountAmount) > 0
+        && (item.discountType === "fixed" || item.discountType === "percentage");
+    })) as Record<string, StaticCoupon>;
+  } catch {
+    console.error("[coupon] Invalid MOFU_STATIC_COUPONS_JSON; coupons disabled");
+    return {};
+  }
+}
+
+export async function resolveCoupon(code: unknown, subtotal: number): Promise<ResolvedCoupon> {
   const normalized = typeof code === "string" ? code.trim().toUpperCase() : "";
   if (!normalized || !Number.isFinite(subtotal) || subtotal <= 0) return { code: "", discount: 0 };
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return { code: "", discount: 0 };
-  const { data } = await supabase.from("coupons").select("code,discount_amount,discount_type").eq("code", normalized).eq("active", true).maybeSingle();
-  if (!data) return { code: "", discount: 0 };
-  const raw = Number(data.discount_amount || 0);
-  const discount = data.discount_type === "percentage" ? Math.min(subtotal, subtotal * raw / 100) : Math.min(subtotal, raw);
-  return { code: String(data.code), discount: Math.round(discount * 100) / 100, discountType: data.discount_type as "fixed" | "percentage" };
+  const coupon = readStaticCoupons()[normalized];
+  if (!coupon || coupon.active === false) return { code: "", discount: 0 };
+  const raw = Number(coupon.discountAmount);
+  const discount = coupon.discountType === "percentage"
+    ? Math.min(subtotal, subtotal * Math.min(raw, 100) / 100)
+    : Math.min(subtotal, raw);
+  return { code: normalized, discount: Math.round(discount * 100) / 100, discountType: coupon.discountType };
 }

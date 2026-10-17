@@ -47,13 +47,11 @@ export function AddToCartButton({
   showBulkShortcuts = true,
 }: AddToCartButtonProps) {
   const { t, locale } = useI18n();
-  const { getProductById, catalogFallback } = useCatalog();
+  const { getProductById } = useCatalog();
   const { addItem } = useCart();
   const product = getProductById(productId);
-  const purchasable = Boolean(!catalogFallback && product && product.inStock !== false);
-  const unavailableLabel = catalogFallback
-    ? locale === "en" ? "Ordering temporarily paused" : "目錄暫存期間暫停下單"
-    : t("productSoldOut");
+  const purchasable = Boolean(product && product.inStock !== false);
+  const unavailableLabel = t("productSoldOut");
   const isPetProduct = Boolean(quantityOptions?.length);
   const [internalQty, setInternalQty] = useState(MIN_QTY);
   const qty = controlledQty ?? internalQty;

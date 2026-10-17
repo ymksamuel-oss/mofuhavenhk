@@ -1,5 +1,3 @@
-import { getSupabaseAdmin } from "@/lib/supabase";
-
 export const PAYME_PAY_LINK_SETTING_KEY = "payme_pay_link";
 export const PAYME_MERCHANT_NAME_SETTING_KEY = "payme_merchant_name";
 
@@ -9,8 +7,8 @@ export type PayMeCheckoutSettings = {
 };
 
 export const EMPTY_PAYME_CHECKOUT_SETTINGS: PayMeCheckoutSettings = {
-  payLink: null,
-  merchantName: null,
+  payLink: "https://qr.payme.hsbc.com.hk/1/JVNmr4C4EpPd6yDBDBgrsj",
+  merchantName: "Mofu Havenhk",
 };
 
 function cleanText(value: unknown, maxLength: number): string | null {
@@ -38,20 +36,9 @@ export function parsePayMeCheckoutSettings(settings: Record<string, unknown>): P
 }
 
 export async function getPayMeCheckoutSettings(): Promise<PayMeCheckoutSettings> {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return EMPTY_PAYME_CHECKOUT_SETTINGS;
-
-  const { data, error } = await supabase
-    .from("store_settings")
-    .select("key,value")
-    .in("key", [
-      PAYME_PAY_LINK_SETTING_KEY,
-      PAYME_MERCHANT_NAME_SETTING_KEY,
-    ]);
-  if (error) {
-    console.warn("[payme] Could not load checkout settings", { code: error.code, message: error.message });
-    return EMPTY_PAYME_CHECKOUT_SETTINGS;
-  }
-
-  return parsePayMeCheckoutSettings(Object.fromEntries((data || []).map((item) => [item.key, item.value])));
+  const settings = parsePayMeCheckoutSettings({
+    [PAYME_PAY_LINK_SETTING_KEY]: process.env.NEXT_PUBLIC_PAYME_PAY_LINK || EMPTY_PAYME_CHECKOUT_SETTINGS.payLink,
+    [PAYME_MERCHANT_NAME_SETTING_KEY]: process.env.NEXT_PUBLIC_PAYME_MERCHANT_NAME || EMPTY_PAYME_CHECKOUT_SETTINGS.merchantName,
+  });
+  return settings.payLink ? settings : EMPTY_PAYME_CHECKOUT_SETTINGS;
 }

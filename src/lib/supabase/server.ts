@@ -4,6 +4,8 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { supabaseFetch } from "@/lib/supabase";
 
+const SUPABASE_STATIC_MODE_DISABLED = true;
+
 function credentials() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
   const key =
@@ -23,10 +25,11 @@ function credentials() {
 }
 
 export function isSupabaseAuthConfigured(): boolean {
-  return Boolean(credentials());
+  return !SUPABASE_STATIC_MODE_DISABLED && Boolean(credentials());
 }
 
 export async function createSupabaseServerClient() {
+  if (SUPABASE_STATIC_MODE_DISABLED) throw new Error("supabase_disabled_in_static_mode");
   const config = credentials();
   if (!config) throw new Error("supabase_auth_not_configured");
   const cookieStore = await cookies();

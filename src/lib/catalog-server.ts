@@ -48,7 +48,7 @@ export type CatalogSnapshot = {
   products: Product[];
   categories: StoreCategory[];
   brands: Brand[];
-  source: "stripe" | "supabase" | "fallback";
+  source: "stripe" | "supabase" | "fallback" | "static";
   matchedRecords: number;
 };
 
@@ -1067,20 +1067,9 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
 }
 
 async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
-  try {
-    const managedCatalog = await fetchCatalogFromSupabase();
-    if (managedCatalog?.products.length) return managedCatalog;
-    if (managedCatalog) {
-      console.warn("[catalog] Live catalog returned no products; using the display-only snapshot");
-    }
-    return getCatalogFallbackSnapshot();
-  } catch (error) {
-    console.error(
-      "Storefront catalog fetch failed",
-      stripeErrorDetails(error),
-    );
-    return getCatalogFallbackSnapshot();
-  }
+  // Static mode is intentional: a Supabase quota/egress outage must not affect
+  // storefront rendering, cart validation, or checkout price reconstruction.
+  return getCatalogFallbackSnapshot();
 }
 
 // React scopes this memoization to the current server render/request, so the

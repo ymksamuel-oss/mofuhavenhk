@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 import { readServerEnv } from "@/lib/serverEnv";
-import { getSupabaseAdmin } from "@/lib/supabase";
 
 // Keep the existing Stripe runtime API version unchanged. Newer SDK typings
 // only expose their latest API version literal, so assert the historic version
@@ -63,11 +62,7 @@ export function getStripePaymentMethodConfiguration(): string | null {
 }
 
 export async function getRuntimeStripeSetting(key: string): Promise<string> {
-  const fallback = key === "stripe_publishable_key" ? getStripePublishableKey() : getStripeSecretKey();
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return fallback;
-  const { data } = await supabase.from("store_settings").select("value").eq("key", key).maybeSingle();
-  return typeof data?.value === "string" && data.value.trim() ? data.value.trim() : fallback;
+  return key === "stripe_publishable_key" ? getStripePublishableKey() : getStripeSecretKey();
 }
 
 export async function isRuntimeStripeConfigured() {
@@ -76,7 +71,7 @@ export async function isRuntimeStripeConfigured() {
 }
 
 export async function getRuntimeStripe(): Promise<Stripe> {
-  const key = await getRuntimeStripeSetting("stripe_secret_key");
+  const key = getStripeSecretKey();
   if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
   return new Stripe(key, { apiVersion: STRIPE_API_VERSION, typescript: true });
 }

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
 import {
   buildOrderItemsFromLines,
@@ -226,18 +225,6 @@ export async function POST(request: Request) {
       },
     });
 
-    const supabase = getSupabaseAdmin();
-    if (supabase) {
-      const { error: orderError } = await supabase.from("orders").insert({
-        customer_info: { ...contact, name: customerName, email: customerEmail },
-        items: items.map((item) => ({ id: item.id, name: item.name, qty: item.qty, price: item.unit, priceId: item.stripePriceId || null })),
-        total,
-        status: "pending",
-        payment_intent_id: intent.id,
-        order_number: orderNumber,
-      });
-      if (orderError) console.warn("[orders] unable to persist pending order", orderError.message);
-    }
     if (!intent.client_secret) {
       return NextResponse.json(
         { ok: false, error: "missing_client_secret" },

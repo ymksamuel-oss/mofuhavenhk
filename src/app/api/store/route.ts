@@ -1,131 +1,23 @@
 import { NextResponse } from "next/server";
-import { getCatalogSnapshot, getStripeImagesForSupabaseRows } from "@/lib/catalog-server";
-import { buildCategoryTree, flattenCategoryTree } from "@/lib/store-categories";
-import { getSupabasePublic } from "@/lib/supabase";
-import { databaseProductImageUrls } from "@/lib/catalog-images";
+import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { flattenCategoryTree } from "@/lib/store-categories";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = 86400;
 
-const EMPTY_STORE_RESPONSE = {
-  configured: false,
-  degraded: true,
-  categories: [],
-  categoryTree: [],
-  categoryList: [],
-  products: [],
-  banners: [],
-  settings: {},
-};
-
-function uniqueStoreProductRows<T extends { id: string; source_product_id?: string | null }>(rows: readonly T[]): T[] {
-  const rowsByIdentity = new Map<string, T>();
-  for (const row of rows) {
-    const sourceProductId = row.source_product_id?.trim();
-    const identity = sourceProductId?.startsWith("prod_")
-      ? `stripe:${sourceProductId}`
-      : `database:${row.id}`;
-    if (!rowsByIdentity.has(identity)) rowsByIdentity.set(identity, row);
-  }
-  return Array.from(rowsByIdentity.values());
-}
-
-async function fallbackStoreResponse() {
+export async function GET() {
   const catalog = await getCatalogSnapshot();
-  return {
-    ...EMPTY_STORE_RESPONSE,
-    configured: false,
-    products: catalog.products,
+  return NextResponse.json({
+    configured: true,
+    degraded: false,
     categories: catalog.categories,
     categoryTree: catalog.categories,
     categoryList: flattenCategoryTree(catalog.categories),
-  };
-}
-
-export async function GET() {
-  try {
-    const supabase = getSupabasePublic();
-    if (!supabase) {
-      console.error("[store-api] Supabase public client is not configured", {
-        hasUrl: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL),
-        hasAnonKey: Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY),
-      });
-      return NextResponse.json(await fallbackStoreResponse(), {
-        status: 200,
-        headers: { "Cache-Control": "no-store" },
-      });
-    }
-
-    const [categories, products, banners, settings] = await Promise.all([
-      supabase.from("categories").select("*").order("sort_order", { ascending: true }),
-      supabase
-        .from("products")
-        .select("*")
-        .eq("is_published", true)
-        .eq("status", "published")
-        .gt("stock", 0)
-        .order("created_at", { ascending: false }),
-      // The active Banner set may contain multiple ordered slides. The carousel renders
-      // one active slide at a time, while Admin controls whether a new upload replaces
-      // the set or is appended to it.
-      supabase.from("banners").select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false }),
-      supabase.from("store_settings").select("key,value").in("key", ["announcement", "shipping_note", "whatsapp_url", "instagram_url", "stripe_publishable_key", "banner_autoplay_enabled"]),
-    ]);
-
-    const requiredQueryErrors = [categories, products]
-      .filter((result) => result.error)
-      .map((result) => ({ code: result.error?.code, message: result.error?.message }));
-    const optionalQueryErrors = [banners, settings]
-      .filter((result) => result.error)
-      .map((result) => ({ code: result.error?.code, message: result.error?.message }));
-    if (requiredQueryErrors.length) {
-      console.error("[store-api] Required Supabase product/category query returned errors", { requiredQueryErrors, optionalQueryErrors });
-      return NextResponse.json(await fallbackStoreResponse(), {
-        status: 200,
-        headers: { "Cache-Control": "no-store" },
-      });
-    }
-    if (optionalQueryErrors.length) {
-      console.warn("[store-api] Optional storefront query returned errors; serving products/categories", { optionalQueryErrors });
-    }
-
-    const categoryTree = buildCategoryTree(categories.data || []);
-    const categoryList = flattenCategoryTree(categoryTree);
-    const activeProducts = uniqueStoreProductRows(products.data || []);
-    const stripeImages = await getStripeImagesForSupabaseRows(activeProducts);
-    const enrichedProducts = activeProducts.map((row) => {
-      const dbImages = databaseProductImageUrls(row);
-      const { cost_price_rmb: _legacyCost, cost_jpy: _costJpy, shipping_hkd: _shippingHkd, markup_multiplier: _markupMultiplier, exchange_rate: _exchangeRate, msrp_price: _backupMsrpPrice, original_price: _legacyCompareAtPrice, ...publicRow } = row as Record<string, unknown>;
-      if (dbImages.length > 0) return { ...publicRow, images: dbImages };
-      const fallbackImages = stripeImages.get(row.source_product_id ?? "") ?? [];
-      return fallbackImages.length > 0 ? { ...publicRow, images: fallbackImages } : publicRow;
-    });
-    console.info("[store-api] Supabase data fetched", {
-      categories: categories.data?.length ?? 0,
-      products: enrichedProducts.length,
-      productsWithImages: enrichedProducts.filter((row) => Array.isArray(row.images) && row.images.length > 0).length,
-      banners: banners.error ? 0 : banners.data?.length ?? 0,
-      settings: settings.error ? 0 : settings.data?.length ?? 0,
-    });
-    return NextResponse.json({
-      configured: true,
-      degraded: optionalQueryErrors.length > 0,
-      // `categories` is the complete tree. `categoryList` supports direct id lookups.
-      categories: categoryTree,
-      categoryTree,
-      categoryList,
-      products: enrichedProducts,
-      banners: banners.error ? [] : banners.data || [],
-      settings: Object.fromEntries((settings.error ? [] : settings.data || []).map((item) => [item.key, item.value])),
-    }, { headers: { "Cache-Control": "no-store" } });
-  } catch (error) {
-    console.error("[store-api] Supabase REST request failed; returning empty store response", {
-      errorName: error instanceof Error ? error.name : "unknown",
-      errorMessage: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-    });
-    return NextResponse.json(await fallbackStoreResponse(), {
-      status: 200,
-      headers: { "Cache-Control": "no-store" },
-    });
-  }
+    products: catalog.products,
+    banners: [],
+    settings: {},
+  }, {
+    status: 200,
+    headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800" },
+  });
 }
