@@ -179,11 +179,11 @@ def official_image_candidates(page_url: str, jan: str, html: bytes) -> list[str]
                 seen_groups.add(signature)
                 groups.append(ordered)
 
-    # Prefer the first JAN-named image embedded in the official product page.
-    # Try its largest srcset original first, then the remaining images in page order.
+    # Prefer original uploads over WordPress resized variants. Preserve page order.
     output: list[str] = []
     for group in groups:
-        for _, url in group:
+        originals = [url for _, url in group if not re.search(r"-\d+x\d+\.(?:jpe?g|png|webp)$", urlparse(url).path, re.I)]
+        for url in (originals or [url for _, url in group]):
             if url not in output:
                 output.append(url)
     if output:
@@ -244,91 +244,33 @@ def encode_webp(image: Image.Image) -> tuple[bytes, int, tuple[int, int]]:
 
 
 def recover_one(jan: str) -> dict:
-    result = {
-        "jan": jan,
-        "status": "unresolved",
-        "detail": "",
-        "product_page_url": "",
-        "source_image_url": "",
-        "source_dimensions": "",
-        "source_bytes": 0,
-        "webp_path": f"/images/products/best-partner-{jan}.webp",
-        "webp_bytes": 0,
-        "webp_quality": 0,
-        "webp_dimensions": "",
-        "sha256": "",
-        "payload": None,
-    }
+    result = {"jan": jan, "status": "unresolved", "detail": "", "product_page_url": "", "source_image_urls": [], "source_images": [], "webp_paths": [], "payloads": []}
     try:
-        page_url, detail = search_product_page(jan)
-        result["detail"] = detail
-        if not page_url:
-            return result
-        result["product_page_url"] = page_url
-        page = request_get(page_url)
-        if page.status_code != 200:
-            result["detail"] = f"product_page_http_{page.status_code}"
-            return result
-        normalized = normalize_text(BeautifulSoup(page.content, "html.parser").get_text(" ", strip=True))
-        if jan not in normalized:
-            result["detail"] = "exact_jan_missing_after_fetch"
-            return result
+        page_url, detail = search_product_page(jan); result["detail"] = detail
+        if not page_url: return result
+        result["product_page_url"] = page_url; page = request_get(page_url)
+        if page.status_code != 200: result["detail"] = f"product_page_http_{page.status_code}"; return result
+        if jan not in normalize_text(BeautifulSoup(page.content, "html.parser").get_text(" ", strip=True)):
+            result["detail"] = "exact_jan_missing_after_fetch"; return result
         candidates = official_image_candidates(page.url, jan, page.content)
-        if not candidates:
-            result["detail"] = "no_official_image_url_named_with_jan"
-            return result
-        last_error = "no_valid_image_candidate"
+        if not candidates: result["detail"] = "no_official_image_url_named_with_jan"; return result
+        payloads=[]; urls=[]; metas=[]
         for image_url in candidates:
             try:
-                response = request_get(image_url, referer=page.url)
-                if response.status_code != 200:
-                    last_error = f"image_http_{response.status_code}"
-                    continue
-                if len(response.content) > 15 * 1024 * 1024:
-                    last_error = "image_exceeds_15mb"
-                    continue
-                content_type = response.headers.get("Content-Type", "").lower()
-                if not content_type.startswith("image/"):
-                    last_error = f"non_image_content_type:{content_type}"
-                    continue
-                try:
-                    with Image.open(BytesIO(response.content)) as source:
-                        source.verify()
-                    with Image.open(BytesIO(response.content)) as source:
-                        dimensions = source.size
-                        if min(dimensions) < 250:
-                            last_error = f"source_too_small:{dimensions[0]}x{dimensions[1]}"
-                            continue
-                        webp, quality, out_dimensions = encode_webp(source)
-                except (UnidentifiedImageError, OSError, ValueError) as exc:
-                    last_error = f"invalid_image:{type(exc).__name__}"
-                    continue
-                result.update(
-                    {
-                        "status": "recovered",
-                        "detail": "official_product_page_exact_jan_and_jan_named_image",
-                        "source_image_url": response.url,
-                        "source_dimensions": f"{dimensions[0]}x{dimensions[1]}",
-                        "source_bytes": len(response.content),
-                        "webp_bytes": len(webp),
-                        "webp_quality": quality,
-                        "webp_dimensions": f"{out_dimensions[0]}x{out_dimensions[1]}",
-                        "sha256": hashlib.sha256(webp).hexdigest(),
-                        "payload": webp,
-                    }
-                )
-                return result
-            except Exception as exc:
-                last_error = f"image_fetch_error:{type(exc).__name__}"
-        result["detail"] = last_error
+                response=request_get(image_url, referer=page.url)
+                if response.status_code != 200 or len(response.content)>15*1024*1024 or not response.headers.get("Content-Type", "").lower().startswith("image/"): continue
+                with Image.open(BytesIO(response.content)) as source: source.verify()
+                with Image.open(BytesIO(response.content)) as source:
+                    dimensions=source.size
+                    if min(dimensions)<250: continue
+                    webp,quality,out_dimensions=encode_webp(source)
+                payloads.append(webp); urls.append(response.url); metas.append({"source_dimensions":f"{dimensions[0]}x{dimensions[1]}","source_bytes":len(response.content),"webp_dimensions":f"{out_dimensions[0]}x{out_dimensions[1]}","webp_bytes":len(webp),"webp_quality":quality,"sha256":hashlib.sha256(webp).hexdigest()})
+            except (requests.RequestException, UnidentifiedImageError, OSError, ValueError): continue
+        if not payloads: result["detail"]="no_valid_image_candidates"; return result
+        result.update({"status":"recovered","detail":"official_product_page_exact_jan_and_jan_named_images" + ("_only_one_official_image" if len(payloads)<2 else ""),"source_image_urls":urls,"source_images":metas,"webp_paths":[f"/images/products/{jan}-{i}.webp" for i in range(1,len(payloads)+1)],"payloads":payloads})
         return result
-    except requests.RequestException as exc:
-        result["detail"] = f"request_error:{type(exc).__name__}"
-        return result
-    except Exception as exc:
-        result["detail"] = f"processing_error:{type(exc).__name__}:{exc}"
-        return result
-
+    except requests.RequestException as exc: result["detail"]=f"request_error:{type(exc).__name__}"; return result
+    except Exception as exc: result["detail"]=f"processing_error:{type(exc).__name__}:{exc}"; return result
 
 def read_inputs(missing_csv: Path, catalog_path: Path) -> tuple[list[dict], dict, dict[str, list[dict]]]:
     with missing_csv.open(encoding="utf-8-sig", newline="") as file:
@@ -349,77 +291,24 @@ def read_inputs(missing_csv: Path, catalog_path: Path) -> tuple[list[dict], dict
     return missing_rows, catalog, grouped
 
 
-def write_results(
-    args: argparse.Namespace,
-    missing_rows: list[dict],
-    catalog: dict,
-    results: list[dict],
-) -> tuple[int, int]:
-    by_jan = {result["jan"]: result for result in results}
-    recovered = {jan: result for jan, result in by_jan.items() if result["status"] == "recovered"}
-    written_images = 0
-    for jan, result in recovered.items():
-        destination = args.output_dir / f"best-partner-{jan}.webp"
-        if destination.exists():
-            raise FileExistsError(f"Refusing to overwrite an existing image: {destination}")
-        temp = destination.with_suffix(destination.suffix + ".tmp")
-        temp.write_bytes(result.pop("payload"))
-        temp.replace(destination)
-        written_images += 1
-
-    updated_products = 0
-    if recovered:
-        for product in catalog["products"]:
-            jan = extract_jan(str(product.get("mofu_sku") or product.get("sku") or ""))
-            if not jan or jan not in recovered:
-                continue
-            if str(product.get("image_url") or "").startswith("/images/catalog-placeholder"):
-                product["image_url"] = recovered[jan]["webp_path"]
-                updated_products += 1
-        temp_catalog = args.catalog.with_suffix(args.catalog.suffix + ".tmp")
-        temp_catalog.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        temp_catalog.replace(args.catalog)
-
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = [
-        "product_id", "mofu_sku", "name_zh", "name_en", "pet_species", "jan",
-        "status", "detail", "product_page_url", "source_image_url", "source_dimensions",
-        "source_bytes", "webp_path", "webp_dimensions", "webp_bytes", "webp_quality", "sha256",
-    ]
-    with args.report.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writeheader()
+def write_results(args: argparse.Namespace, missing_rows: list[dict], catalog: dict, results: list[dict]) -> tuple[int, int]:
+    by_jan={r["jan"]:r for r in results}; recovered={j:r for j,r in by_jan.items() if r["status"]=="recovered"}; written=0
+    for jan,r in recovered.items():
+        for i,payload in enumerate(r.pop("payloads"),1):
+            dest=args.output_dir/f"{jan}-{i}.webp"; tmp=dest.with_suffix(dest.suffix+".tmp"); tmp.write_bytes(payload); tmp.replace(dest); written+=1
+    updated=0
+    for product in catalog["products"]:
+        jan=extract_jan(str(product.get("mofu_sku") or product.get("sku") or ""))
+        if jan in recovered:
+            paths=recovered[jan]["webp_paths"]; product["image_url"]=paths[0]; product["images"]=paths; updated+=1
+    tmp=args.catalog.with_suffix(args.catalog.suffix+".tmp"); tmp.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); tmp.replace(args.catalog)
+    args.report.parent.mkdir(parents=True,exist_ok=True); fields=["product_id","mofu_sku","name_zh","name_en","pet_species","jan","status","detail","product_page_url","source_image_urls","webp_paths","source_images"]
+    with args.report.open("w",encoding="utf-8-sig",newline="") as f:
+        w=csv.DictWriter(f,fieldnames=fields,extrasaction="ignore"); w.writeheader()
         for row in missing_rows:
-            result = by_jan.get(row.get("_jan", ""), {})
-            writer.writerow(
-                {
-                    **row,
-                    **result,
-                    "jan": row.get("_jan", ""),
-                }
-            )
-
-    manifest_results = []
-    for result in results:
-        manifest_results.append({key: value for key, value in result.items() if key != "payload"})
-    manifest = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source": "https://best-partner.co.jp/",
-        "input_csv": str(args.missing_csv),
-        "catalog": str(args.catalog),
-        "summary": {
-            "unique_jans_processed": len(results),
-            "unique_jans_recovered": len(recovered),
-            "product_rows_updated": updated_products,
-            "images_written": written_images,
-        },
-        "results": manifest_results,
-    }
-    args.manifest.parent.mkdir(parents=True, exist_ok=True)
-    args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return updated_products, written_images
-
-
+            r=by_jan.get(row.get("_jan",""),{}); w.writerow({**row,**r,"jan":row.get("_jan",""),"source_image_urls":json.dumps(r.get("source_image_urls",[]),ensure_ascii=False),"webp_paths":json.dumps(r.get("webp_paths",[]),ensure_ascii=False),"source_images":json.dumps(r.get("source_images",[]),ensure_ascii=False)})
+    manifest={"generated_at":datetime.now(timezone.utc).isoformat(),"source":"https://best-partner.co.jp/","summary":{"unique_jans_processed":len(results),"unique_jans_recovered":len(recovered),"unique_jans_with_two_images":sum(len(r.get("source_image_urls",[]))>=2 for r in recovered.values()),"product_rows_updated":updated,"images_written":written},"results":[{k:v for k,v in r.items() if k!="payloads"} for r in results]}
+    args.manifest.parent.mkdir(parents=True,exist_ok=True); args.manifest.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); return updated,written
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--missing-csv", type=Path, default=DEFAULT_MISSING)
@@ -468,7 +357,7 @@ def main() -> int:
         print(f"applied: images_written={written} product_rows_updated={updated}")
     else:
         for result in results:
-            result.pop("payload", None)
+            result.pop("payloads", None)
             print(json.dumps(result, ensure_ascii=False))
         print("dry run: no project files changed")
     return 0

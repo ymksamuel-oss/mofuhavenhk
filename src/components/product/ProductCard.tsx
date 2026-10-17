@@ -40,6 +40,8 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const cardTitle = getProductTitle();
   const displayName = cardTitle;
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
+  const primaryImage = product.images?.[0] ?? "catalog-placeholder";
+  const secondaryImage = product.images?.[1];
 
   return (
     <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-zinc-200 hover:shadow-[0_8px_22px_rgba(0,0,0,0.06)]">
@@ -50,12 +52,20 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
             <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-none justify-start gap-1.5" />
           </div>
           <ProductImage
-            src={product.images?.[0] ?? "catalog-placeholder"}
+            src={primaryImage}
             alt={displayName}
             priority={priority}
             sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-contain mix-blend-multiply transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+            className={`object-contain mix-blend-multiply transition-all duration-300 ease-out group-hover:scale-[1.03] ${secondaryImage ? "group-hover:opacity-0" : ""}`}
           />
+          {secondaryImage ? (
+            <ProductImage
+              src={secondaryImage}
+              alt={`${displayName} — 2`}
+              sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
+              className="pointer-events-none absolute inset-0 object-contain p-2.5 opacity-0 mix-blend-multiply transition-all duration-300 ease-out group-hover:scale-[1.03] group-hover:opacity-100 sm:p-3"
+            />
+          ) : null}
         </div>
         <div className="h-[5.25rem] min-w-0 flex-1 items-start overflow-hidden px-2.5 pb-3 pt-2.5 sm:h-[5.5rem] sm:px-3 sm:pb-3.5 sm:pt-3">
           <p className="mb-0.5 truncate text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{product.brandName || product.brand}</p>

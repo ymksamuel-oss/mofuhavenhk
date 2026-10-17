@@ -1,0 +1,567 @@
+{
+  "generated_at": "2026-10-17T23:45:03.720847+00:00",
+  "source": "https://best-partner.co.jp/",
+  "summary": {
+    "unique_jans_processed": 34,
+    "unique_jans_recovered": 16,
+    "unique_jans_with_two_images": 4,
+    "product_rows_updated": 22,
+    "images_written": 20
+  },
+  "results": [
+    {
+      "jan": "4976064013897",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/4025/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064013897-1.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "428x628",
+          "source_bytes": 28812,
+          "webp_dimensions": "428x628",
+          "webp_bytes": 50132,
+          "webp_quality": 96,
+          "sha256": "93dc5d4df5520f551c118c61e426c8007fa5ba0732e909338197de62c3cfc737"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064013897-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064022530",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3554/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064022530.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1179x1921",
+          "source_bytes": 205002,
+          "webp_dimensions": "982x1600",
+          "webp_bytes": 99932,
+          "webp_quality": 68,
+          "sha256": "6c0cb95be7079b2dc3db4c76a4e462c1afceadf5f20d5156f8ed09902865237f"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064022530-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064023209",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3595/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064023209.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1299x1963",
+          "source_bytes": 170389,
+          "webp_dimensions": "1059x1600",
+          "webp_bytes": 92664,
+          "webp_quality": 80,
+          "sha256": "c6f3afe2ac792196d724e5ab857bf11cd4976608e05b44ff5502ad74a2923081"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064023209-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064023599",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3349/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064023599.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1131x1936",
+          "source_bytes": 144745,
+          "webp_dimensions": "935x1600",
+          "webp_bytes": 100940,
+          "webp_quality": 84,
+          "sha256": "02c27ae885fcc9d5c24a2211cd47b35d10ffd238d49a1304502274ec2a5fdbf4"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064023599-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024275",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3713/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024275.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1191x1882",
+          "source_bytes": 127706,
+          "webp_dimensions": "1013x1600",
+          "webp_bytes": 93676,
+          "webp_quality": 84,
+          "sha256": "c26af25704ac46213b8cdd6a685881f61d5cc79ebcfb133b53969845ff90d321"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024275-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024282",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3724/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024282.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1035x1645",
+          "source_bytes": 135608,
+          "webp_dimensions": "1007x1600",
+          "webp_bytes": 107202,
+          "webp_quality": 80,
+          "sha256": "a1b92c9de2b7daa5e4e4aec460211072cbee533f4808869fc7f63bc4765946b2"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024282-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024336",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/4044/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024336.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1140x1852",
+          "source_bytes": 189189,
+          "webp_dimensions": "985x1600",
+          "webp_bytes": 103052,
+          "webp_quality": 72,
+          "sha256": "f137755ed80d4f92349ca54c052ee5fa7651625ca27622722b14166bd079730d"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024336-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024411",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024428",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024435",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024473",
+      "status": "unresolved",
+      "detail": "no_official_product_page_in_search",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024480",
+      "status": "unresolved",
+      "detail": "no_official_product_page_in_search",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024497",
+      "status": "unresolved",
+      "detail": "no_official_product_page_in_search",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024718",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/4047/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024718.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1209x1879",
+          "source_bytes": 172041,
+          "webp_dimensions": "1029x1600",
+          "webp_bytes": 93826,
+          "webp_quality": 76,
+          "sha256": "8c83cddab6e3cdc8a91a001079266cfacdf7fd1903e69b5bb6a12e4bd4ce3977"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024718-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024725",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/4050/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024725.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1185x1858",
+          "source_bytes": 215336,
+          "webp_dimensions": "1020x1600",
+          "webp_bytes": 102260,
+          "webp_quality": 60,
+          "sha256": "a57208d6e3875585eba6a7d40ba46d00dfd35938ee4a64d7c3c59b11858a580a"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024725-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064024749",
+      "status": "unresolved",
+      "detail": "no_official_image_url_named_with_jan",
+      "product_page_url": "https://best-partner.co.jp/archives/3986/",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064024893",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images",
+      "product_page_url": "https://best-partner.co.jp/archives/3487/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024893.jpg",
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024893-1.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1164x1819",
+          "source_bytes": 216796,
+          "webp_dimensions": "1024x1600",
+          "webp_bytes": 110736,
+          "webp_quality": 60,
+          "sha256": "6bd3cc62a1efc347f39134c34b2f0ba0730433cef26261a876737f90ecc7b1ab"
+        },
+        {
+          "source_dimensions": "1260x1336",
+          "source_bytes": 259331,
+          "webp_dimensions": "976x1035",
+          "webp_bytes": 139150,
+          "webp_quality": 60,
+          "sha256": "1b0ca3cf1ff1cb374ddbb8892c1cd6ada7736ec68a7fae208755faed4267e68d"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064024893-1.webp",
+        "/images/products/4976064024893-2.webp"
+      ]
+    },
+    {
+      "jan": "4976064025012",
+      "status": "unresolved",
+      "detail": "no_official_image_url_named_with_jan",
+      "product_page_url": "https://best-partner.co.jp/archives/3153/",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025081",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images",
+      "product_page_url": "https://best-partner.co.jp/archives/4846/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025081.jpg",
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025081-1.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "984x1570",
+          "source_bytes": 120141,
+          "webp_dimensions": "984x1570",
+          "webp_bytes": 99376,
+          "webp_quality": 80,
+          "sha256": "2c37b936adf3580d5ee626bb3bc618378436504c3073e8ae689c9a0b3b8d2ea4"
+        },
+        {
+          "source_dimensions": "1419x1873",
+          "source_bytes": 146882,
+          "webp_dimensions": "1212x1600",
+          "webp_bytes": 105308,
+          "webp_quality": 80,
+          "sha256": "3a46dc82bfe1dcea4f2545dc13d9e5aff8b4a87fd66c01392e5c631986ce6814"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064025081-1.webp",
+        "/images/products/4976064025081-2.webp"
+      ]
+    },
+    {
+      "jan": "4976064025197",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3564/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025197.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1050x1684",
+          "source_bytes": 132234,
+          "webp_dimensions": "998x1600",
+          "webp_bytes": 97362,
+          "webp_quality": 80,
+          "sha256": "c1982504fc9a991a34495469d34c0702135a3330260ab4d0463a6a5dd0e8806d"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064025197-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064025340",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025357",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025364",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025388",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025395",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025401",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025425",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025470",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images",
+      "product_page_url": "https://best-partner.co.jp/archives/5086/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025470.jpg",
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025470PT.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1137x1783",
+          "source_bytes": 240841,
+          "webp_dimensions": "1020x1600",
+          "webp_bytes": 103252,
+          "webp_quality": 68,
+          "sha256": "6bb898929235929cd51e9034a3634dcb25fe31d48948c8a9b5727ed6c1f6eb61"
+        },
+        {
+          "source_dimensions": "1266x1909",
+          "source_bytes": 245150,
+          "webp_dimensions": "1061x1600",
+          "webp_bytes": 104776,
+          "webp_quality": 72,
+          "sha256": "a1eceedd3517cab13ee3d4dd6ca0b72267b58948c41eeea1d94007f9b6787132"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064025470-1.webp",
+        "/images/products/4976064025470-2.webp"
+      ]
+    },
+    {
+      "jan": "4976064025500",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025531",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064025548",
+      "status": "unresolved",
+      "detail": "search_results_without_exact_jan_page",
+      "product_page_url": "",
+      "source_image_urls": [],
+      "source_images": [],
+      "webp_paths": []
+    },
+    {
+      "jan": "4976064026545",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3411/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026545.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1020x1627",
+          "source_bytes": 125206,
+          "webp_dimensions": "1003x1600",
+          "webp_bytes": 96412,
+          "webp_quality": 76,
+          "sha256": "64aec58ac411fb2d699d8ec8203882f374e5c2a8cc6423c5d38e60ea914801bd"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064026545-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064026583",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images_only_one_official_image",
+      "product_page_url": "https://best-partner.co.jp/archives/3574/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026583.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "1023x1720",
+          "source_bytes": 120874,
+          "webp_dimensions": "952x1600",
+          "webp_bytes": 95244,
+          "webp_quality": 80,
+          "sha256": "f84f7cbdafe7cf37482b5d2f453a1279a95b4d3aa0d5b73414d4bad5b98e5a59"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064026583-1.webp"
+      ]
+    },
+    {
+      "jan": "4976064026750",
+      "status": "recovered",
+      "detail": "official_product_page_exact_jan_and_jan_named_images",
+      "product_page_url": "https://best-partner.co.jp/archives/5654/",
+      "source_image_urls": [
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026750.jpg",
+        "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064026750-1.jpg"
+      ],
+      "source_images": [
+        {
+          "source_dimensions": "942x1576",
+          "source_bytes": 131604,
+          "webp_dimensions": "942x1576",
+          "webp_bytes": 99890,
+          "webp_quality": 72,
+          "sha256": "b03b15d6e8c0e0772a910379f54243400b29fdd41b79114b09d30714c54b7f80"
+        },
+        {
+          "source_dimensions": "1272x1732",
+          "source_bytes": 257580,
+          "webp_dimensions": "1175x1600",
+          "webp_bytes": 147852,
+          "webp_quality": 60,
+          "sha256": "ff823b0af9324dbe89a1209f3bbbc95cff368642d9cf218669d90a5c1123ba8c"
+        }
+      ],
+      "webp_paths": [
+        "/images/products/4976064026750-1.webp",
+        "/images/products/4976064026750-2.webp"
+      ]
+    }
+  ]
+}

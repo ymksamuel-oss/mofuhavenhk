@@ -36,6 +36,14 @@ function mapSnapshotProduct(row: SnapshotProduct): Product {
   const sku = String(row.mofu_sku ?? "").trim();
   const categorySlug = categoryForSnapshot(row.category_slug, sku, row.pet_species);
   const imageUrl = normalizeProductImageUrl(row.image_url);
+  const galleryImages = Array.isArray(row.images)
+    ? row.images
+        .filter((value): value is string => typeof value === "string")
+        .map((value) => normalizeProductImageUrl(value))
+        .filter((value): value is string => Boolean(value))
+    : [];
+  const normalizedImages = Array.from(new Set(galleryImages));
+  if (imageUrl && normalizedImages[0] !== imageUrl) normalizedImages.unshift(imageUrl);
   const bulk = sku.match(BULK_SKU);
   const tags = Array.isArray(row.feature_tags)
     ? row.feature_tags.filter((tag): tag is string => typeof tag === "string")
@@ -50,7 +58,7 @@ function mapSnapshotProduct(row: SnapshotProduct): Product {
     mofuSku: sku || undefined,
     categorySlug,
     image: imageUrl ?? CATALOG_IMAGE_FALLBACK,
-    ...(imageUrl ? { images: [imageUrl] } : {}),
+    ...(normalizedImages.length ? { images: normalizedImages } : imageUrl ? { images: [imageUrl] } : {}),
     name: { zh: nameZh, en: nameEn },
     name_zh: nameZh,
     name_en: nameEn,
