@@ -90,7 +90,7 @@ export function YouMayAlsoLike({ cartProductIds, className = "", onAdded, onProd
               <div className="h-full overflow-hidden rounded-2xl border border-[color:var(--line)] bg-white p-2.5">
                 <Link href={productHref(product.id)} onClick={onProductClick} className="block cursor-pointer transition-opacity hover:opacity-80" aria-label={locale === "zh" ? `查看商品：${name}` : `View product: ${name}`}>
                   <div className="relative aspect-square overflow-hidden rounded-xl bg-[#FFFFFF] ring-1 ring-[color:var(--line)]">
-                    <ProductImage src={product.images?.[0] ?? product.image ?? "catalog-placeholder"} alt={name} sizes="160px" className="object-contain mix-blend-multiply p-1" />
+                    <ProductImage src={product.images?.length ? product.images : [product.image ?? "catalog-placeholder"]} alt={name} sizes="160px" className="object-contain mix-blend-multiply p-1" />
                   </div>
                   <p className="mt-2 line-clamp-2 min-h-8 text-xs font-medium leading-snug text-[color:var(--ink)]">{name}</p>
                 </Link>

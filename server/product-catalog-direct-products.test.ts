@@ -58,13 +58,17 @@ describe("static catalog product images", () => {
   it("normalizes snapshot images and renders a local placeholder when a source is absent or fails", () => {
     const fallbackMapper = source("src/lib/catalog-fallback.ts");
     const imageComponent = source("src/components/product/ProductImage.tsx");
+    const recommendations = source("src/components/recommendations/YouMayAlsoLike.tsx");
 
     expect(fallbackMapper).toContain("normalizeProductImageUrl(row.image_url)");
     expect(fallbackMapper).toContain("image: imageUrl ?? CATALOG_IMAGE_FALLBACK");
     expect(fallbackMapper).toContain("...(imageUrl ? { images: [imageUrl] } : {})");
-    expect(imageComponent).toContain("normalizeProductImageUrl(src)");
+    expect(imageComponent).toContain(".map(normalizeProductImageUrl)");
+    expect(imageComponent).toContain("Array.isArray(src) ? src : [src]");
     expect(imageComponent).toContain('src="/images/catalog-placeholder.svg"');
-    expect(imageComponent).toContain("onError={useFallback}");
+    expect(imageComponent).toContain("onError={handleImageError}");
+    expect(imageComponent).not.toContain("setTimeout");
+    expect(recommendations).toContain("product.images?.length ? product.images : [product.image");
     expect(
       existsSync(resolve(projectRoot, "public/images/catalog-placeholder.svg")),
     ).toBe(true);
