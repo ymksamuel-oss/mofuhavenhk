@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { connection } from "next/server";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getCatalogSnapshot } from "@/lib/catalog-server";
-import { isSupabaseConfigured } from "@/lib/supabase";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { CartProvider } from "@/lib/shop/cart";
@@ -147,11 +145,7 @@ export default async function RootLayout({
   let categories: StoreCategory[] = [];
   let brands: Brand[] = [];
   let payMe: PayMeCheckoutSettings = EMPTY_PAYME_CHECKOUT_SETTINGS;
-  // Preview environments without the catalog connection must not bake an
-  // empty storefront into a day-long static response.
-  if (!isSupabaseConfigured()) await connection();
   const catalog = await getCatalogSnapshot();
-  if (!catalog.products.length && !catalog.categories.length) await connection();
   products = catalog.products || [];
   categories = catalog.categories || [];
   brands = catalog.brands || [];
@@ -170,7 +164,7 @@ export default async function RootLayout({
       <body className="bg-white font-sans antialiased">
         <I18nProvider initialLocale="zh">
           <CustomerAuthProvider>
-            <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
+            <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe} catalogFallback={false}>
               <CartProvider>
                 <WishlistProvider>
                   <JsonLd data={siteStructuredData} />

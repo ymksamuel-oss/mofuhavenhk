@@ -140,19 +140,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // Never fall back to Stripe account defaults: the configured Dashboard
-  // payment-method configuration must be present for every Checkout Session.
   const paymentMethodConfiguration = getStripePaymentMethodConfiguration();
-  if (!paymentMethodConfiguration) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "payment_method_configuration_not_configured",
-        hint: "Set STRIPE_PAYMENT_METHOD_CONFIGURATION_ID to the live or test pmc_... value that matches this Stripe key.",
-      },
-      { status: 503 },
-    );
-  }
 
   let body: Body;
   try {
@@ -290,7 +278,9 @@ export async function POST(request: Request) {
         : {}),
       // Pin every session to the server-side Dashboard configuration rather
       // than allowing Stripe account-default methods to override this store.
-      payment_method_configuration: paymentMethodConfiguration,
+      ...(paymentMethodConfiguration
+        ? { payment_method_configuration: paymentMethodConfiguration }
+        : {}),
       // Block Stripe's domestic Alipay and WeChat Pay. The local checkout
       // allowlist remains card, Apple Pay, Google Pay, AlipayHK and PayMe;
       // all supported methods still come from the selected Dashboard config.

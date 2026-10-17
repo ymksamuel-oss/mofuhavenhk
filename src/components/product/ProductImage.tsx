@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { normalizeProductImageUrl } from "@/lib/catalog-images";
 
 const CATALOG_PLACEHOLDER = "catalog-placeholder";
 
@@ -22,36 +23,47 @@ export function ProductImage({
   priority = false,
 }: ProductImageProps) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const showPlaceholder =
-    !src || src === CATALOG_PLACEHOLDER || failedSrc === src;
-  const useFallback = () => setFailedSrc(src);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const normalizedSrc = src === CATALOG_PLACEHOLDER ? null : normalizeProductImageUrl(src);
+  const showPlaceholder = !normalizedSrc || failedSrc === normalizedSrc;
+  const useFallback = () => {
+    if (normalizedSrc) setFailedSrc(normalizedSrc);
+  };
+
+  useEffect(() => {
+    if (!normalizedSrc) return;
+    const timeout = window.setTimeout(() => {
+      const image = imageRef.current;
+      if (image?.complete && image.naturalWidth > 0) return;
+      setFailedSrc(normalizedSrc);
+    }, 1800);
+    return () => window.clearTimeout(timeout);
+  }, [normalizedSrc]);
 
   if (showPlaceholder) {
     return (
       <div
         role="img"
         aria-label={alt}
-        className={`absolute inset-0 flex h-full w-full items-center justify-center bg-[color:var(--product-image-surface)] text-[#9a806e] ${className ?? ""}`}
+        className={`absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#fffaf5] via-[#f7eee7] to-[#efe2d6] text-[#9a806e] ${className ?? ""}`}
       >
-        <svg
-          viewBox="0 0 24 24"
-          className="h-9 w-9 sm:h-11 sm:w-11"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.4"
+        <Image
+          src="/images/catalog-placeholder.svg"
+          alt=""
+          fill
+          sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
+          className="object-contain p-1"
           aria-hidden="true"
-        >
-          <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
-          <circle cx="8.3" cy="9" r="1.3" />
-          <path d="m5.5 17 4.6-4.5 3.2 3 2.1-2 3.1 3.5" />
-        </svg>
+          unoptimized
+        />
       </div>
     );
   }
 
   return (
     <Image
-      src={src}
+      src={normalizedSrc ?? ""}
+      ref={imageRef}
       alt={alt}
       fill
       sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}

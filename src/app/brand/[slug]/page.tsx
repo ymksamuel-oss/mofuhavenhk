@@ -31,11 +31,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const { brand } = await getBrand(slug);
   if (!brand) return { title: "Brand not found | Mofu Haven" };
+  const title = `${brand.name} Japanese Pet Essentials`;
+  const shareTitle = `${title} | Mofu Haven`;
+  const description = `Browse curated ${brand.name} pet food, treats and everyday essentials from Mofu Haven, delivered from Japan.`;
   return {
-    title: `${brand.name} Japanese Pet Essentials | Mofu Haven`,
-    description: `Browse curated ${brand.name} pet food, treats and everyday essentials from Mofu Haven, delivered from Japan.`,
-    openGraph: { title: `${brand.name} Japanese Pet Essentials | Mofu Haven`, description: brandDescription(brand) },
-    twitter: { card: "summary_large_image" },
+    title,
+    description,
+    openGraph: {
+      title: shareTitle,
+      description: brandDescription(brand),
+      type: "website",
+      url: `https://www.mofuhavenhk.com/brand/${encodeURIComponent(brand.slug)}`,
+      images: [{ url: "/images/best-partner-plain-pack-series.png", width: 1194, height: 671, alt: `${brand.name} Japanese pet essentials` }],
+    },
+    twitter: { card: "summary_large_image", title: shareTitle, description, images: ["/images/best-partner-plain-pack-series.png"] },
   };
 }
 

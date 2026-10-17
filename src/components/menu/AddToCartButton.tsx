@@ -51,6 +51,7 @@ export function AddToCartButton({
   const { addItem } = useCart();
   const product = getProductById(productId);
   const purchasable = Boolean(product && product.inStock !== false);
+  const unavailableLabel = t("productSoldOut");
   const isPetProduct = Boolean(quantityOptions?.length);
   const [internalQty, setInternalQty] = useState(MIN_QTY);
   const qty = controlledQty ?? internalQty;
@@ -177,12 +178,13 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `\u5c07${product?.name.zh ?? product?.name.en ?? "\u5546\u54c1"}\u52a0\u5165\u8cfc\u7269\u8eca`}
+        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `\u5c07${product?.name.zh ?? product?.name.en ?? "\u5546\u54c1"}\u52a0\u5165\u8cfc\u7269\u8eca`}
+        title={!purchasable ? unavailableLabel : undefined}
         aria-live="polite"
         className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-[color:var(--hero-deep)]" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
       >
         <ShoppingCart className="h-4 w-4" aria-hidden="true" />
-        <span className="sr-only">{!purchasable ? t("productSoldOut") : t("menuAddToCart")}</span>
+        <span className="sr-only">{!purchasable ? unavailableLabel : t("menuAddToCart")}</span>
       </button>
       {added && toastOrigin && typeof document !== "undefined" ? createPortal(
         <div
@@ -217,12 +219,13 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
+        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
+        title={!purchasable ? unavailableLabel : undefined}
         aria-live="polite"
         className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#111111] shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${added ? "border-[color:var(--accent)] text-[color:var(--accent)]" : "text-[#111111]"}`}
       >
         <ShoppingCart className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-        <span className="sr-only">{!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
+        <span className="sr-only">{!purchasable ? unavailableLabel : added ? t("menuAddedToCart") : t("menuAddToCart")}</span>
       </button>
     </div>
   );
@@ -231,7 +234,7 @@ export function AddToCartButton({
     <div className={`flex items-center gap-2 ${className}`}>
       {stepper}
       <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex shrink-0 items-center justify-center rounded-xl px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}>
-        {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
+        {!purchasable ? unavailableLabel : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>
     </div>
   );
@@ -252,8 +255,8 @@ export function AddToCartButton({
         {currentSavings > 0 ? <p className="text-xs font-medium text-stone-500">{locale === "en" ? `You save ${formatMoney(currentSavings, locale)}` : `\u5df2\u7701 ${formatMoney(currentSavings, locale)}`}</p> : null}
         {currentTotal >= FREE_SHIPPING_THRESHOLD ? <p className="text-xs font-medium text-stone-500">{freeShippingMessage}</p> : null}
       </div> : null}
-      <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-sm transition-all active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 disabled:shadow-none ${size === "modal" ? (added ? "bg-[#111111] hover:bg-black animate-[fadeUp_0.25s_ease_both]" : "bg-[#111111] hover:bg-black") : (added ? "bg-emerald-600 hover:bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]")} ${size === "modal" ? "px-4 py-4 text-base" : "px-4 py-2.5 text-xs"}`}>
-        {!purchasable ? t("productSoldOut") : added ? t("menuAddedToCart") : t("menuAddToCart")}
+      <button type="button" onClick={add} disabled={!purchasable} aria-live="polite" title={!purchasable ? unavailableLabel : undefined} className={`inline-flex w-full items-center justify-center rounded-full font-semibold text-white shadow-sm transition-all active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-stone-400 disabled:opacity-70 disabled:shadow-none ${size === "modal" ? (added ? "bg-[#111111] hover:bg-black animate-[fadeUp_0.25s_ease_both]" : "bg-[#111111] hover:bg-black") : (added ? "bg-emerald-600 hover:bg-emerald-600" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]")} ${size === "modal" ? "px-4 py-4 text-base" : "px-4 py-2.5 text-xs"}`}>
+        {!purchasable ? unavailableLabel : added ? t("menuAddedToCart") : t("menuAddToCart")}
       </button>
     </div>
   );

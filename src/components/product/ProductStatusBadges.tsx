@@ -40,10 +40,10 @@ export function ProductStatusBadges({ product, className = "" }: { product: Prod
           className={`max-w-full shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold leading-4 shadow-[0_3px_12px_-8px_rgba(75,54,33,0.65)] sm:px-2 sm:text-[10px] ${statusStyle[status]}`}
         >
           {status === "featured"
-            ? t("badgeFeatured")
-            : status === "new-arrival"
-              ? t("badgeNewArrival")
-              : t("badgeInStock")}
+              ? t("badgeFeatured")
+              : status === "new-arrival"
+                ? t("badgeNewArrival")
+                : t("badgeInStock")}
         </span>
       ))}
     </div>
