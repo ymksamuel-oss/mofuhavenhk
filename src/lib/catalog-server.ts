@@ -32,6 +32,7 @@ import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
 import { databaseProductImageUrls, normalizeProductImageUrl } from "@/lib/catalog-images";
+import { getCatalogFallbackSnapshot } from "@/lib/catalog-fallback";
 import {
   applyCategoryLocalizations,
   CATEGORY_LOCALIZATIONS_SETTING_KEY,
@@ -1068,26 +1069,17 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
 async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
   try {
     const managedCatalog = await fetchCatalogFromSupabase();
-    if (managedCatalog) return managedCatalog;
-    return {
-      products: [],
-      categories: [],
-      brands: [],
-      source: "supabase",
-      matchedRecords: 0,
-    };
+    if (managedCatalog?.products.length) return managedCatalog;
+    if (managedCatalog) {
+      console.warn("[catalog] Live catalog returned no products; using the display-only snapshot");
+    }
+    return getCatalogFallbackSnapshot();
   } catch (error) {
     console.error(
       "Storefront catalog fetch failed",
       stripeErrorDetails(error),
     );
-    return {
-      products: [],
-      categories: [],
-      brands: [],
-      source: "supabase",
-      matchedRecords: 0,
-    };
+    return getCatalogFallbackSnapshot();
   }
 }
 

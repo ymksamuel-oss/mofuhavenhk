@@ -170,7 +170,7 @@ export default async function RootLayout({
       <body className="bg-white font-sans antialiased">
         <I18nProvider initialLocale="zh">
           <CustomerAuthProvider>
-            <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe}>
+            <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe} catalogFallback={catalog.source === "fallback"}>
               <CartProvider>
                 <WishlistProvider>
                   <JsonLd data={siteStructuredData} />

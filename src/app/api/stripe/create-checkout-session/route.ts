@@ -163,6 +163,12 @@ export async function POST(request: Request) {
 
   const category = isNonEmptyString(body.category) ? body.category.trim() : null;
   const catalog = await getCatalogSnapshot();
+  if (catalog.source === "fallback") {
+    return NextResponse.json(
+      { ok: false, error: "catalog_temporarily_read_only", hint: "Live inventory and payment prices are unavailable. Please try again later." },
+      { status: 503 },
+    );
+  }
   let items = getOrderItems(category, catalog.products);
 
   if (Array.isArray(body.lines)) {

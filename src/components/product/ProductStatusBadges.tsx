@@ -5,7 +5,7 @@ import type { Product } from "@/lib/products";
 
 const NEW_ARRIVAL_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
 
-export type ProductStatus = "featured" | "new-arrival" | "in-stock";
+export type ProductStatus = "featured" | "new-arrival" | "in-stock" | "read-only";
 
 export function getProductStatuses(product: Pick<Product, "createdAt" | "inStock" | "metadata">): ProductStatus[] {
   const statuses: ProductStatus[] = [];
@@ -15,7 +15,9 @@ export function getProductStatuses(product: Pick<Product, "createdAt" | "inStock
   if (product.createdAt && Date.now() - product.createdAt * 1000 <= NEW_ARRIVAL_WINDOW_MS) {
     statuses.push("new-arrival");
   }
-  if (product.inStock === true && statuses.length === 0) {
+  if (product.metadata?.catalog_fallback === "true") {
+    statuses.push("read-only");
+  } else if (product.inStock === true && statuses.length === 0) {
     statuses.push("in-stock");
   }
   return statuses;
@@ -25,25 +27,27 @@ const statusStyle: Record<ProductStatus, string> = {
   featured: "border-zinc-200 bg-white text-[#704525]",
   "new-arrival": "border-zinc-200 bg-white text-[#2f6240]",
   "in-stock": "border-zinc-200 bg-white text-[#4d7457]",
+  "read-only": "border-amber-200 bg-amber-50 text-amber-800",
 };
 
 export function ProductStatusBadges({ product, className = "" }: { product: Product; className?: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const statuses = getProductStatuses(product);
   if (!statuses.length) return null;
+  const readOnlyLabel = locale === "en" ? "Ordering paused" : "暫停下單";
 
   return (
-    <div className={`pointer-events-none flex max-w-full flex-wrap items-start justify-end gap-1 ${className}`} aria-label={t("badgeInStock")}>
+    <div className={`pointer-events-none flex max-w-full flex-wrap items-start justify-end gap-1 ${className}`} aria-label={statuses.includes("read-only") ? readOnlyLabel : t("badgeInStock")}>
       {statuses.map((status) => (
         <span
           key={status}
           className={`max-w-full shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold leading-4 shadow-[0_3px_12px_-8px_rgba(75,54,33,0.65)] sm:px-2 sm:text-[10px] ${statusStyle[status]}`}
         >
           {status === "featured"
-            ? t("badgeFeatured")
-            : status === "new-arrival"
-              ? t("badgeNewArrival")
-              : t("badgeInStock")}
+              ? t("badgeFeatured")
+              : status === "new-arrival"
+                ? t("badgeNewArrival")
+                : status === "read-only" ? readOnlyLabel : t("badgeInStock")}
         </span>
       ))}
     </div>

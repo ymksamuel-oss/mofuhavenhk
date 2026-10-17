@@ -19,6 +19,7 @@ type CatalogContextValue = {
   categories: StoreCategory[];
   brands: Brand[];
   payMe: PayMeCheckoutSettings;
+  catalogFallback: boolean;
   getProductById: (id: string | null | undefined) => Product | null;
 };
 
@@ -29,12 +30,14 @@ export function CatalogProvider({
   categories,
   brands = [],
   payMe = EMPTY_PAYME_CHECKOUT_SETTINGS,
+  catalogFallback = false,
   children,
 }: {
   products: Product[];
   categories: StoreCategory[];
   brands?: Brand[];
   payMe?: PayMeCheckoutSettings;
+  catalogFallback?: boolean;
   children: ReactNode;
 }) {
   const value = useMemo<CatalogContextValue>(() => {
@@ -45,9 +48,10 @@ export function CatalogProvider({
       categories,
       brands,
       payMe,
+      catalogFallback,
       getProductById: (id) => (id ? byId.get(id) ?? null : null),
     };
-  }, [products, categories, brands, payMe]);
+  }, [products, categories, brands, payMe, catalogFallback]);
 
   return (
     <CatalogContext.Provider value={value}>{children}</CatalogContext.Provider>
@@ -62,6 +66,7 @@ export function useCatalog(): CatalogContextValue {
       categories: [],
       brands: [],
       payMe: EMPTY_PAYME_CHECKOUT_SETTINGS,
+      catalogFallback: false,
       getProductById: () => null,
     };
   }
