@@ -1,20 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { normalizeProductImageUrl } from "@/lib/catalog-images";
 
 const CATALOG_PLACEHOLDER = "catalog-placeholder";
 
 type ProductImageProps = {
-  src: string;
+  src: string | readonly string[];
   alt: string;
   sizes?: string;
   className?: string;
   priority?: boolean;
 };
 
-/** Renders remote and local catalog images with a stable local fallback. */
+type FailedImageState = {
+  sourceKey: string;
+  sources: string[];
+};
+
+/** Renders catalog images, trying each supplied source before a stable local fallback. */
 export function ProductImage({
   src,
   alt,
@@ -22,25 +27,27 @@ export function ProductImage({
   className,
   priority = false,
 }: ProductImageProps) {
-  const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const normalizedSrc = src === CATALOG_PLACEHOLDER ? null : normalizeProductImageUrl(src);
-  const showPlaceholder = !normalizedSrc || failedSrc === normalizedSrc;
-  const useFallback = () => {
-    if (normalizedSrc) setFailedSrc(normalizedSrc);
+  const normalizedSources = Array.from(new Set(
+    (Array.isArray(src) ? src : [src])
+      .filter((candidate) => candidate !== CATALOG_PLACEHOLDER)
+      .map(normalizeProductImageUrl)
+      .filter((candidate): candidate is string => Boolean(candidate)),
+  ));
+  const sourceKey = normalizedSources.join("\u0000");
+  const [failedImages, setFailedImages] = useState<FailedImageState>({ sourceKey: "", sources: [] });
+  const failedSources = failedImages.sourceKey === sourceKey ? failedImages.sources : [];
+  const activeSrc = normalizedSources.find((candidate) => !failedSources.includes(candidate)) ?? null;
+
+  const handleImageError = () => {
+    if (!activeSrc) return;
+    setFailedImages((current) => {
+      const previousFailures = current.sourceKey === sourceKey ? current.sources : [];
+      if (previousFailures.includes(activeSrc)) return current;
+      return { sourceKey, sources: [...previousFailures, activeSrc] };
+    });
   };
 
-  useEffect(() => {
-    if (!normalizedSrc) return;
-    const timeout = window.setTimeout(() => {
-      const image = imageRef.current;
-      if (image?.complete && image.naturalWidth > 0) return;
-      setFailedSrc(normalizedSrc);
-    }, 1800);
-    return () => window.clearTimeout(timeout);
-  }, [normalizedSrc]);
-
-  if (showPlaceholder) {
+  if (!activeSrc) {
     return (
       <div
         role="img"
@@ -62,14 +69,13 @@ export function ProductImage({
 
   return (
     <Image
-      src={normalizedSrc ?? ""}
-      ref={imageRef}
+      src={activeSrc}
       alt={alt}
       fill
       sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
       className={className}
       priority={priority}
-      onError={useFallback}
+      onError={handleImageError}
     />
   );
 }
