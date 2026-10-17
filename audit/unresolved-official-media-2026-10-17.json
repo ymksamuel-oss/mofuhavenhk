@@ -1,0 +1,277 @@
+{
+  "source": "https://best-partner.co.jp/wp-json/wp/v2/media",
+  "results": [
+    {
+      "jan": "4976064024411",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064024411-image",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024411-Image.png",
+          "mime_type": "image/png",
+          "width": 1200,
+          "height": 630
+        },
+        {
+          "slug": "4976064024411",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024411.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1350,
+          "height": 1801
+        },
+        {
+          "slug": "4976064024411-1",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024411-1.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1305,
+          "height": 1912
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024411.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064024428",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064024428",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024428.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1095,
+          "height": 1969
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024428.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064024435",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064024435",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024435.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1113,
+          "height": 1951
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064024435.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064024473",
+      "status": "no_exact_jan_media",
+      "items": [],
+      "decision": "left_unresolved_no_safe_exact_packshot",
+      "visual_check": "Best Partner 官方搜尋及媒體庫均沒有含此 JAN 的圖片；未採用未核對零售圖片。"
+    },
+    {
+      "jan": "4976064024480",
+      "status": "no_exact_jan_media",
+      "items": [],
+      "decision": "left_unresolved_no_safe_exact_packshot",
+      "visual_check": "Best Partner 官方搜尋及媒體庫均沒有含此 JAN 的圖片；未採用未核對零售圖片。"
+    },
+    {
+      "jan": "4976064024497",
+      "status": "no_exact_jan_media",
+      "items": [],
+      "decision": "left_unresolved_no_safe_exact_packshot",
+      "visual_check": "Best Partner 官方搜尋及媒體庫均沒有含此 JAN 的圖片；未採用未核對零售圖片。"
+    },
+    {
+      "jan": "4976064024749",
+      "status": "no_exact_jan_media",
+      "items": [],
+      "decision": "left_unresolved_no_safe_exact_packshot",
+      "visual_check": "官方商品頁列明 JAN 4976064024749／30g，但頁面圖片檔名及包裝條碼指向另一 JAN 4976064024244，故不套用。"
+    },
+    {
+      "jan": "4976064025012",
+      "status": "no_exact_jan_media",
+      "items": [],
+      "decision": "left_unresolved_no_safe_exact_packshot",
+      "visual_check": "官方商品頁列有 JAN 4976064025005（15本）及 4976064025012（40本），現存圖片只確認 15本／50本規格，沒有 40本精確包裝照。"
+    },
+    {
+      "jan": "4976064025340",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025340",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025340.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1077,
+          "height": 1804
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025340.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025357",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025357",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025357.jpg",
+          "mime_type": "image/jpeg",
+          "width": 960,
+          "height": 1639
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025357.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025364",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025364",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025364.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1014,
+          "height": 1714
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025364.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025388",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025388",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025388.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1002,
+          "height": 1678
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025388.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025395",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025395",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025395.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1251,
+          "height": 1678
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025395.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025401",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025401",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025401.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1053,
+          "height": 1651
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025401.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025425",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025425",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025425.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1269,
+          "height": 1729
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025425.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025500",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025500",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025500.jpg",
+          "mime_type": "image/jpeg",
+          "width": 1032,
+          "height": 1750
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025500.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025531",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025531",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025531.jpg",
+          "mime_type": "image/jpeg",
+          "width": 864,
+          "height": 1639
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025531.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    },
+    {
+      "jan": "4976064025548",
+      "status": "found",
+      "items": [
+        {
+          "slug": "4976064025548",
+          "alt_text": "",
+          "source_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025548.jpg",
+          "mime_type": "image/jpeg",
+          "width": 798,
+          "height": 1681
+        }
+      ],
+      "decision": "used_visual_verified_exact_jan_packshot",
+      "selected_source_image_url": "https://best-partner.co.jp/wp/wp/wp-content/uploads/4976064025548.jpg",
+      "visual_check": "Package label and product identity/specification were checked against the catalog entry."
+    }
+  ]
+}
