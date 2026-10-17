@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { ProductImage } from "@/components/product/ProductImage";
 import type { Product } from "@/lib/products";
 import { getBundleProducts } from "@/lib/bundles";
 
@@ -18,7 +18,7 @@ export function BundleContentsCard({ product, catalog }: { product: Product; cat
           return (
             <article key={sku} className="flex gap-3 rounded-xl border border-[#F1F1F1] bg-white p-3 shadow-sm">
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-[#FFFFFF]">
-                <Image src={image} alt={`${nameZh} ${nameJa}`} fill sizes="80px" className="object-contain mix-blend-multiply" unoptimized />
+                <ProductImage src={image} alt={`${nameZh} ${nameJa}`} sizes="80px" className="object-contain mix-blend-multiply" />
               </div>
               <div className="min-w-0 text-sm">
                 <h3 className="font-bold text-stone-800">{nameZh}</h3>

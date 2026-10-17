@@ -31,7 +31,7 @@ import {
 import { compareAtPriceFromMetadata } from "@/lib/compare-at-price";
 import { normalizeProductClassificationText } from "./product-classification-text";
 import { getSupabaseAdmin, getSupabasePublic } from "@/lib/supabase";
-import { databaseProductImageUrls } from "@/lib/catalog-images";
+import { databaseProductImageUrls, normalizeProductImageUrl } from "@/lib/catalog-images";
 import {
   applyCategoryLocalizations,
   CATEGORY_LOCALIZATIONS_SETTING_KEY,
@@ -149,24 +149,8 @@ function resolveManagedCategoryAssignment(
 
 /** Internal marker handled by ProductImage as a CSS-only missing-image state. */
 const CATALOG_IMAGE_FALLBACK = "catalog-placeholder";
-const LEGACY_PRODUCT_IMAGE_PATH = /mofuhavenhk\.com\/assets\/product\//i;
 const FREEZE_DRY_TEXT_MARK = /\u51b7\u51cd\u812b\u6c34|\u51b7\u51bb\u8131\u6c34|\u51cd\u4e7e|\u51cd\u5e72|freeze[\s-]?dried|freeze[\s-]?dry/i;
 const IMAGE_METADATA_KEY = /(^|[_.-])images?($|[_.-])|image[_-]?(url|urls|cdn)|source[_-]?image/i;
-
-/**
- * The previous storefront's product asset route now responds with an HTML 404
- * document. Treat those URLs as missing images instead of rendering the page
- * artwork inside product cards. Other HTTPS Stripe/CDN image URLs are kept.
- */
-function isUsableCatalogImage(value: string | undefined): value is string {
-  if (!value || LEGACY_PRODUCT_IMAGE_PATH.test(value)) return false;
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" || url.protocol === "http:";
-  } catch {
-    return value.startsWith("/") && !value.startsWith("//");
-  }
-}
 
 function productMetadata(product: Stripe.Product): Record<string, string> {
   return product.metadata ?? {};
@@ -185,7 +169,8 @@ function imageUrlsFromMetadata(metadata: Readonly<Record<string, string>>): stri
     for (const value of values.flatMap((item) => Array.isArray(item) ? item : [item])) {
       if (typeof value !== "string") continue;
       for (const candidate of value.split(/[\r\n,|;]+/)) {
-        if (isUsableCatalogImage(candidate.trim())) urls.push(candidate.trim());
+        const normalized = normalizeProductImageUrl(candidate);
+        if (normalized) urls.push(normalized);
       }
     }
   }
@@ -196,7 +181,7 @@ function catalogImageUrls(product: Stripe.Product, metadata: Readonly<Record<str
   return Array.from(new Set([
     ...imageUrlsFromMetadata(metadata),
     ...(product.images ?? []),
-  ].filter(isUsableCatalogImage))).slice(0, 8);
+  ].map(normalizeProductImageUrl).filter((image): image is string => Boolean(image)))).slice(0, 8);
 }
 
 type SupabaseProductImageRow = {
@@ -625,9 +610,7 @@ function productVariantsFromPrices(
       );
       const variantLabelZh = price.metadata.variant_label_zh || (isGeneralChoice ? "\u9078\u9805" : `${packCount}\u7f50\u88dd`);
       const variantLabelEn = price.metadata.variant_label_en || (isGeneralChoice ? "Option" : `${packCount} Cans`);
-      const variantImage = isUsableCatalogImage(price.metadata.variant_image_url)
-        ? price.metadata.variant_image_url.trim()
-        : undefined;
+      const variantImage = normalizeProductImageUrl(price.metadata.variant_image_url) ?? undefined;
       return {
         key: price.metadata.variant_key || `pack-${packCount}`,
         priceId: price.id,
