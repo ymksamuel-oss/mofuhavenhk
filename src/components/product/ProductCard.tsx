@@ -11,6 +11,7 @@ import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
 import englishDictionary from "@/data/product-english-dictionary.json";
 import homepageEnglishNames from "@/data/mofu-homepage-featured.json";
+import { useRef, useState } from "react";
 
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
@@ -42,11 +43,49 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
   const primaryImage = product.images?.[0] ?? "catalog-placeholder";
   const secondaryImage = product.images?.[1];
+  const [previewSecondary, setPreviewSecondary] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const suppressClick = useRef(false);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!secondaryImage) return;
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStartX.current;
+    const end = event.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+    if (start === null || end === undefined || Math.abs(start - end) < 36) return;
+    setPreviewSecondary(start > end);
+    suppressClick.current = true;
+  };
 
   return (
     <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-zinc-200 hover:shadow-[0_8px_22px_rgba(0,0,0,0.06)]">
-      <Link href={productHref(product.id)} aria-label={`${t("productViewDetails")}: ${displayName}`} className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-white p-2.5 sm:p-3">
+      <Link
+        href={productHref(product.id)}
+        aria-label={`${t("productViewDetails")}: ${displayName}`}
+        className="flex min-h-0 min-w-0 flex-1 flex-col"
+        onClickCapture={(event) => {
+          if (!suppressClick.current) return;
+          event.preventDefault();
+          event.stopPropagation();
+          suppressClick.current = false;
+        }}
+      >
+        <div
+          className="relative aspect-square w-full shrink-0 overflow-hidden bg-white p-2.5 sm:p-3"
+          style={{ touchAction: secondaryImage ? "pan-y" : undefined }}
+          onPointerEnter={(event) => {
+            if (event.pointerType === "mouse" && secondaryImage) setPreviewSecondary(true);
+          }}
+          onPointerLeave={(event) => {
+            if (event.pointerType === "mouse") setPreviewSecondary(false);
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="absolute left-2 right-2 top-2 z-10 flex flex-wrap items-start justify-start gap-1.5">
             {hasDiscount ? <span className="max-w-full shrink-0 rounded-full border border-zinc-200 bg-white px-1.5 py-0.5 text-[9px] font-bold leading-4 text-[#a2382e] sm:px-2 sm:text-[10px]">{locale === "zh" ? "限時特惠" : "LIMITED OFFER"}</span> : null}
             <ProductStatusBadges product={product} className="!static !z-0 min-w-0 flex-none justify-start gap-1.5" />
@@ -56,14 +95,14 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
             alt={displayName}
             priority={priority}
             sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className={`object-contain mix-blend-multiply transition-all duration-300 ease-out group-hover:scale-[1.03] ${secondaryImage ? "group-hover:opacity-0" : ""}`}
+            className={`object-contain mix-blend-multiply transition-all duration-300 ease-out ${secondaryImage && previewSecondary ? "scale-[1.03] opacity-0" : ""}`}
           />
           {secondaryImage ? (
             <ProductImage
               src={secondaryImage}
               alt={`${displayName} — 2`}
               sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-              className="pointer-events-none absolute inset-0 object-contain p-2.5 opacity-0 mix-blend-multiply transition-all duration-300 ease-out group-hover:scale-[1.03] group-hover:opacity-100 sm:p-3"
+              className={`pointer-events-none absolute inset-0 object-contain p-2.5 mix-blend-multiply transition-all duration-300 ease-out sm:p-3 ${previewSecondary ? "scale-[1.03] opacity-100" : "opacity-0"}`}
             />
           ) : null}
         </div>
