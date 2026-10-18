@@ -97,4 +97,64 @@ describe("product detail SEO", () => {
       images: ["https://www.mofuhavenhk.com/images/test-product.jpg"],
     });
   });
+
+  it.each([
+    { sku: "4976064025500", image: "/images/products/best-partner-4976064025500.webp", price: 42.9 },
+    { sku: "4976064025531", image: "/images/products/best-partner-4976064025531.webp", price: 34.9 },
+  ])("uses the recovered WebP for $sku sharing and preserves Product JSON-LD", async ({ sku, image, price }) => {
+    const product = {
+      ...fixture,
+      id: `best-partner-${sku}`,
+      mofuSku: sku,
+      metadata: { mofu_sku: sku },
+      image,
+      images: [image],
+      price,
+      inStock: true,
+    } as unknown as Product;
+    mockCatalog(product);
+
+    const metadata = await generateMetadata({ params: Promise.resolve({ id: product.id }) });
+    const openGraph = metadata.openGraph as unknown as Record<string, unknown>;
+    const twitter = metadata.twitter as unknown as Record<string, unknown>;
+    const absoluteImage = `https://www.mofuhavenhk.com${image}`;
+    expect(openGraph.images).toMatchObject([{ url: absoluteImage, width: 1200, height: 1200 }]);
+    expect(twitter.images).toEqual([absoluteImage]);
+
+    const schema = await renderProductSchema(product);
+    expect(schema).toMatchObject({
+      "@type": "Product",
+      sku,
+      image: [absoluteImage],
+    });
+    expect(schema.name).toBe((openGraph.title as string).replace(/ \| Mofu Haven$/, ""));
+    expect(schema.image).toEqual([absoluteImage]);
+    expect(schema.offers).toMatchObject({
+      "@type": "Offer",
+      price: price.toFixed(2),
+      priceCurrency: "HKD",
+      availability: "https://schema.org/InStock",
+    });
+  });
+
+  it.each(["/images/catalog-placeholder.svg", "catalog-placeholder"])(
+    "uses the brand share image for placeholder %s without changing Product JSON-LD",
+    async (placeholder) => {
+      const product = {
+        ...fixture,
+        image: placeholder,
+        images: [placeholder],
+      } as unknown as Product;
+      mockCatalog(product);
+      const metadata = await generateMetadata({ params: Promise.resolve({ id: product.id }) });
+      const openGraph = metadata.openGraph as unknown as Record<string, unknown>;
+      const twitter = metadata.twitter as unknown as Record<string, unknown>;
+      const brandImage = "https://www.mofuhavenhk.com/images/best-partner-plain-pack-series.png";
+      expect(openGraph.images).toEqual([{ url: brandImage, alt: "Test Dog Treat", width: 1200, height: 1200 }]);
+      expect(twitter.images).toEqual([brandImage]);
+
+      const schema = await renderProductSchema(product);
+      expect(schema.image).toEqual([`https://www.mofuhavenhk.com/${placeholder.replace(/^\//, "")}`]);
+    },
+  );
 });

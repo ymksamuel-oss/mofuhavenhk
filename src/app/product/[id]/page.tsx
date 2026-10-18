@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 const SITE_URL = "https://www.mofuhavenhk.com";
 const SITE_NAME = "Mofu Haven HK";
+const DEFAULT_SHARE_IMAGE = `${SITE_URL}/images/best-partner-plain-pack-series.png`;
 const VALUE_BUNDLE_SKUS = new Set([
   "MOFU-BUNDLE-PICKY-01",
   "MOFU-BUNDLE-DENTAL-02",
@@ -45,6 +46,10 @@ function productSeoDescription(product: Product) {
 
 function productImageUrl(image: string) {
   return image.startsWith("http") ? image : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+}
+
+function isPlaceholderProductImage(image: string) {
+  return /catalog-placeholder/i.test(image) || /\.svg(?:[?#]|$)/i.test(image);
 }
 
 const merchantReturnPolicy = {
@@ -143,6 +148,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const description = productSeoDescription(product);
   const image = product.images?.[0] || product.image;
   const imageUrl = productImageUrl(image);
+  const shareImageUrl = isPlaceholderProductImage(image) ? DEFAULT_SHARE_IMAGE : imageUrl;
   const canonical = `${SITE_URL}/product/${encodeURIComponent(product.id)}`;
   return {
     title: { absolute: title },
@@ -155,7 +161,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       url: canonical,
       title,
       description,
-      images: [{ url: imageUrl, alt: name, width: 1200, height: 1200 }],
+      images: [{ url: shareImageUrl, alt: name, width: 1200, height: 1200 }],
       locale: "zh_HK",
       siteName: SITE_NAME,
     },
@@ -163,7 +169,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       card: "summary_large_image",
       title,
       description,
-      images: [imageUrl],
+      images: [shareImageUrl],
     },
   };
 }
