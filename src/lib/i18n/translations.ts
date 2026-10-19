@@ -1313,23 +1313,23 @@ export const translations = {
     aboutDogSubtitle:
       "A gentle picture-book guide to everyday dog care — from bringing pup home to lifelong health.",
     aboutDogShopCta: "Shop dog essentials 🐶🛒",
-    aboutDogChapter1Title: "【Welcome Home】Safety & starter essentials",
+    aboutDogChapter1Title: "01 Welcome Home: Safety & Starter Essentials",
     aboutDogChapter1Body:
       "Prepare a cozy bed, leash, food and water bowls, and a safe playpen so your new dog can settle into the home with calm confidence.",
     aboutDogChapter1Alt: "Warm welcome for a new dog at home",
-    aboutDogChapter2Title: "【Dog Nutrition】Balanced meals & energy",
+    aboutDogChapter2Title: "02 Dog Nutrition: Balanced Meals & Energy",
     aboutDogChapter2Body:
       "Choose quality protein staples, feed on a steady schedule, and match water and nutrition to body size and activity level.",
     aboutDogChapter2Alt: "Healthy dog dining",
-    aboutDogChapter3Title: "【Gentle Daily Care】Brushing, teeth & nails",
+    aboutDogChapter3Title: "03 Gentle Daily Care: Brushing, Teeth & Nails",
     aboutDogChapter3Body:
       "Brush regularly to prevent mats, keep teeth clean, and trim nails so skin and paws stay comfortable and healthy.",
     aboutDogChapter3Alt: "Gentle dog grooming care",
-    aboutDogChapter4Title: "【Dog Feelings】Walks & social companionship",
+    aboutDogChapter4Title: "04 Dog Feelings: Walks & Social Companionship",
     aboutDogChapter4Body:
       "Daily walks help burn energy; sniffing and companionship build safety and trust between you and your dog.",
     aboutDogChapter4Alt: "Dog walking and companionship",
-    aboutDogChapter5Title: "【Health Shield】Prevention & everyday care",
+    aboutDogChapter5Title: "05 Health Shield: Prevention & Everyday Care",
     aboutDogChapter5Body:
       "Stay current on vaccines and parasite control, and watch appetite and energy closely to protect health across every life stage.",
     aboutDogChapter5Alt: "Dog health and preventive care",

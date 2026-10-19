@@ -93,31 +93,31 @@ const LADDER: Array<{ color: string; label: Bilingual; signs: Bilingual; respons
 
 const GREETING_STEPS: Array<{ title: Bilingual; body: Bilingual }> = [
   {
-    title: { zh: "先問主人", en: "Ask the person responsible" },
+    title: { zh: "先問主人", en: "Ask the Owner First" },
     body: {
       zh: "先確認狗狗是否適合被陌生人接近；主人說不方便，就在遠處欣賞。",
-      en: "Check whether the dog is comfortable meeting strangers. If the handler says no, admire from a distance.",
+      en: "Check whether the dog is comfortable with strangers. If the owner says no, simply admire them from afar.",
     },
   },
   {
-    title: { zh: "側身蹲低，保持距離", en: "Turn sideways and keep your distance" },
+    title: { zh: "側身蹲低，保持距離", en: "Crouch Sideways & Keep Distance" },
     body: {
       zh: "避免迎面直走、俯身壓向狗狗；側身放鬆，留下牠可以選擇靠近或離開的空間。",
-      en: "Avoid walking straight at the dog or leaning over them. Turn sideways, stay relaxed and leave room to approach or retreat.",
+      en: "Avoid walking straight at the dog or leaning over them. Turn sideways, relax, and leave plenty of room for them to approach or walk away.",
     },
   },
   {
-    title: { zh: "放低拳背，讓牠先嗅聞", en: "Offer a low hand and let them sniff" },
+    title: { zh: "放低拳背，讓牠先嗅聞", en: "Offer the Back of Your Hand Low" },
     body: {
       zh: "手放低、拳背自然朝外，不要把手伸到鼻前；讓狗狗自行決定要不要靠近。",
-      en: "Keep a relaxed, low hand with the back of your fist visible. Do not put it in the dog’s face; let them choose whether to approach.",
+      en: "Hold your hand low with the back of your fist facing out—never thrust your hand right in front of their nose. Let the dog decide whether to come sniff.",
     },
   },
   {
-    title: { zh: "放鬆時輕摸胸口或下巴", en: "If relaxed, gently pet the chest or chin" },
+    title: { zh: "放鬆時輕摸胸口或下巴", en: "Gently Pet the Chest or Chin When Relaxed" },
     body: {
       zh: "只有在狗狗主動靠近且身體放鬆時才輕撫，避開頭頂；若牠退開、僵住或舔唇，就立刻停手。",
-      en: "Pet only if the dog approaches and stays relaxed. Start at the chest or chin, not over the head, and stop if they move away or tense up.",
+      en: "Pet only if the dog approaches willingly with a loose body, avoiding the top of the head. Stop immediately if they back away, freeze, or lick their lips.",
     },
   },
 ];
@@ -183,7 +183,7 @@ export function DogBehaviorGuide() {
             </h3>
           </div>
           <div className="grid items-center gap-5 md:grid-cols-[1.05fr_0.95fr] md:gap-7">
-            <figure className="overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)]">
+            <figure className={`overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)] ${isEn ? "hidden" : ""}`}>
               <Image
                 src="/images/guide/dog-body-language.jpg"
                 alt={isEn ? "Illustrated dog body-language examples, including a relaxed dog, a curious dog, a play bow and a yawn" : "狗狗微表情插圖：放鬆、好奇、邀玩鞠躬與打哈欠"}
@@ -233,12 +233,12 @@ export function DogBehaviorGuide() {
 
         <section aria-labelledby="dog-greeting-title" className="mt-12 sm:mt-16">
           <div className="mb-5">
-            <p className="text-xs font-semibold tracking-[0.16em] text-[#A47A4F]">{isEn ? "SAY HELLO ON THEIR TERMS" : "用狗狗舒服的方式打招呼"}</p>
+            <p className="text-xs font-semibold tracking-[0.16em] text-[#A47A4F]">{isEn ? "Greet Dogs in a Way That Feels Safe to Them" : "用狗狗舒服的方式打招呼"}</p>
             <h3 id="dog-greeting-title" className="mt-1 text-xl font-bold text-[#3E2B20] sm:text-2xl">
-              {isEn ? "Four golden steps for a safer greeting" : "安全接近陌生狗狗的四大黃金步驟"}
+              {isEn ? "4 Golden Steps to Safely Greet an Unfamiliar Dog" : "安全接近陌生狗狗的四大黃金步驟"}
             </h3>
           </div>
-          <figure className="overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)]">
+          <figure className={`overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)] ${isEn ? "hidden" : ""}`}>
             <Image
               src="/images/guide/dog-greeting-steps.jpg"
               alt={isEn ? "Illustrated four-step guide to greeting a dog safely: ask first, crouch sideways at a distance, let the dog sniff, then pet the chest or chin" : "安全接近狗狗四步插圖：先詢問、側身保持距離、讓狗狗嗅聞，再輕撫胸口或下巴"}
@@ -261,7 +261,7 @@ export function DogBehaviorGuide() {
           </ol>
           <p className="mt-3 rounded-xl bg-[#FFF8EA] px-4 py-3 text-xs leading-6 text-[#735B40]">
             {isEn
-              ? "If the dog freezes, growls, turns away or is restrained, do not reach in. Calmly create space and follow the handler’s lead."
+              ? "If a dog freezes, growls, turns away, or is tightly restrained on a leash, do not reach out. Step back calmly and follow the owner’s lead."
               : "若狗狗僵住、低吼、轉身避開，或正被牽繩限制，請勿伸手接觸；平靜退開，聽從主人安排。"}
           </p>
         </section>

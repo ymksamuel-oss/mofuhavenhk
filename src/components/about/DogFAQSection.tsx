@@ -1,116 +1,41 @@
 import Image from "next/image";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
-const FAQS = [
-  {
-    question: "狗狗翻肚皮就代表想人摸？",
-    answer:
-      "未必。若身體柔軟、眼神放鬆，而且會主動靠近，可能是在邀請互動；若肌肉僵硬、夾尾、縮起身體或眼神游移，可能是在退讓或感到不安。\n\n可以先停手觀察牠是否再次靠近。若牠避開、僵住或發出低吼，就讓牠保有空間；如果碰觸時似乎疼痛，也應停止並詢問獸醫。",
-    image: "/images/guide/faq/faq-01-belly-up.jpg",
-    alt: "狗狗翻肚皮時觀察牠的身體姿勢與表情",
-  },
-  {
-    question: "主人一出門就狂吠、咬爛傢俬，可以點算？",
-    answer:
-      "這可能與獨處壓力有關，也可能是外界聲音、悶或尚未習慣獨處；不代表狗狗在報復。可用攝影機觀察牠從什麼時候開始不安，並先減少窗外刺激、安排安全的活動。\n\n由牠仍然放鬆的短暫離開開始練習，再慢慢延長時間。避免責罵或讓牠長時間獨自「捱過去」。若牠會自傷、猛烈撞門，或問題持續，請先向獸醫及合資格的行為專業人士求助。",
-    image: "/images/guide/faq/faq-02-separation-anxiety.jpg",
-    alt: "狗狗在主人離家時感到不安的手繪情境",
-  },
-  {
-    question: "點改善狗狗護食（一靠近就發出低吼聲）？",
-    answer:
-      "低吼是在提醒牠需要空間，不是故意不聽話。先讓牠在安靜的位置吃飯，並用門或圍欄隔開小朋友和其他寵物。不要伸手拿食物、故意靠近測試，也不要責罵低吼；懲罰警告訊號可能令情況更難預測。\n\n如需訓練，請由獸醫或合資格的正向行為專業人士按狗狗狀況安排，循序漸進地建立安全感。若曾撲咬、咬人或護食突然出現，請盡快尋求專業協助。",
-    image: "/images/guide/faq/faq-03-food-guarding.jpg",
-    alt: "以安全距離和交換方式協助狗狗面對護食的插圖",
-  },
-  {
-    question: "狗狗點解會不停追住自己條尾咬？",
-    answer:
-      "偶爾追幾圈可能是玩耍或一時興奮；反覆追咬也可能與尾巴痕癢、寄生蟲、疼痛或其他身體不適有關。若牠很難被轉移注意，或已咬到脫毛、紅腫及受傷，就不宜只當成玩。\n\n記下發生時間和情境，必要時拍短片給獸醫參考。若行為突然開始、愈來愈頻密或已自傷，請安排獸醫檢查，不要責罵或硬捉牠制止。",
-    image: "/images/guide/faq/faq-04-tail-chasing.jpg",
-    alt: "狗狗追逐自己尾巴的手繪情境",
-  },
-  {
-    question: "狗狗點解鍾意抱住人腿或者玩具狂「騎乘」？",
-    answer:
-      "騎乘不一定與交配或「爭做老大」有關，也可能出現在玩得太興奮、緊張、想引人注意或形成習慣時；已絕育的狗狗也可能有這種行為。\n\n若只是偶爾發生，可保持冷靜，用熟悉的提示或活動轉移注意，避免打罵或用手硬拉。若突然變得頻密、難以中斷，或伴隨舔咬生殖部位及排尿不適，請向獸醫查詢。",
-    image: "/images/guide/faq/faq-05-mounting.jpg",
-    alt: "狗狗在玩耍時抱住玩具的手繪插圖",
-  },
-  {
-    question: "狗狗突然對住空氣狂吠，係咪睇到「唔乾淨嘅嘢」？",
-    answer:
-      "不需要先作這種假設。狗狗可能察覺到人未留意的聲音、氣味或細小動靜，也可能因警戒、害怕或環境刺激而吠叫。可以平靜觀察周圍是否有固定聲源，避免責罵或強迫牠走近。\n\n若吠叫突然出現或持續加劇，尤其伴隨迷惘、作息改變、喘氣或不願活動，請讓獸醫評估身體、感官或年齡相關的變化。",
-    image: "/images/guide/faq/faq-06-bark-at-air.jpg",
-    alt: "狗狗聽到細微聲音後豎起耳朵留意的插圖",
-  },
-  {
-    question: "狗狗點解鍾意用屁股／背脊對住我坐？",
-    answer:
-      "很多時只是牠選擇了舒服的位置，並不表示不喜歡你，也不一定代表某種固定訊息。若身體放鬆、自在地留在身邊，通常毋須擔心。\n\n如果牠在你靠近或想摸牠時轉身，並同時縮低身、夾尾、舔嘴或走開，可能是在表示想要空間，先讓牠自行選擇是否靠近。若這姿勢突然改變，並伴隨拱背、起身困難或不願走動，請安排獸醫檢查。",
-    image: "/images/guide/faq/faq-07-back-leaning.jpg",
-    alt: "狗狗舒服地把背脊靠向熟悉的人坐下",
-  },
-  {
-    question: "散步嗰陣成日停低係咁聞地下，係咪應該拉走佢？",
-    answer:
-      "通常不用每次都拉走。嗅聞是狗狗探索環境的自然方式，也能提供感官刺激。路面安全、牽繩穩妥時，可以留一點時間讓牠聞完再走，不必把每次散步都變成趕路。\n\n留意車路、垃圾和不明物品，溫和帶牠避開危險處即可。若嗅聞突然變得反覆、難以中斷，或伴隨跛行、疼痛等變化，請向獸醫查詢。",
-    image: "/images/guide/faq/faq-08-sniffing-walk.jpg",
-    alt: "狗狗在安全散步途中停下來探索氣味",
-  },
-  {
-    question: "明明冇游水／沖涼，點解狗狗成日突然「大動作甩身（震毛）」？",
-    answer:
-      "全身甩動一下不一定是因為濕了，也不一定代表壓力；有時會出現在玩耍或興奮之後、活動轉換之間。留意是偶爾全身甩一下，還是反覆搖頭、抓耳或持續發抖。\n\n若耳朵發紅、有異味或分泌物，或狗狗持續震動、顯得疼痛及精神不佳，請聯絡獸醫；不要自行替牠滴耳藥。可以記下發生前後的情境，方便說明。",
-    image: "/images/guide/faq/faq-09-shake-off.jpg",
-    alt: "狗狗甩動身體、整理毛髮的手繪情境",
-  },
-  {
-    question: "狗狗點解會歪頭（斜頭萌望住你）？",
-    answer:
-      "聽到聲音或你說話時，狗狗偶爾短暫歪頭，可能是被吸引、正在留意聲音或熟悉的訊息；確切原因未必每次都一樣。單憑歪頭也不能判斷牠一定聽懂了什麼。\n\n若頭突然持續歪向一側，或同時失去平衡、跌倒、眼球不自主快速移動及嘔吐，請盡快聯絡獸醫。等候時讓牠待在平坦、安全的位置，避免樓梯和跌落。",
-    image: "/images/guide/faq/faq-10-head-tilt.jpg",
-    alt: "狗狗好奇地歪頭聆聽的手繪插圖",
-  },
+type Bilingual = { zh: string; en: string };
+type FAQ = { question: Bilingual; answer: Bilingual; image: string; alt: Bilingual };
+
+const FAQS: FAQ[] = [
+  { question: { zh: "狗狗翻肚皮就代表想人摸？", en: "Does rolling onto their back always mean a dog wants belly rubs?" }, answer: { zh: "未必。若身體柔軟、眼神放鬆，而且會主動靠近，可能是在邀請互動；若肌肉僵硬、夾尾、縮起身體或眼神游移，可能是在退讓或感到不安。\n\n可以先停手觀察牠是否再次靠近。若牠避開、僵住或發出低吼，就讓牠保有空間；如果碰觸時似乎疼痛，也應停止並詢問獸醫。", en: "Not necessarily. If their body is loose, their eyes are soft, and they actively lean in, they may be inviting affection. However, if their muscles are tense, their tail is tucked, their body is curled tight, or their gaze darts away, they may be appeasing you or feeling uneasy.\n\nPause and see if they move closer on their own. If they turn away, freeze, or growl, give them space. If touching their belly seems to cause pain, stop immediately and consult a veterinarian." }, image: "/images/guide/faq/faq-01-belly-up.jpg", alt: { zh: "狗狗翻肚皮時觀察牠的身體姿勢與表情", en: "Observe a dog's posture and expression when they roll onto their back" } },
+  { question: { zh: "主人一出門就狂吠、咬爛傢俬，可以點算？", en: "What can I do if my dog barks non-stop or chews up furniture as soon as I leave home?" }, answer: { zh: "這可能與獨處壓力有關，也可能是外界聲音、悶或尚未習慣獨處；不代表狗狗在報復。可用攝影機觀察牠從什麼時候開始不安，並先減少窗外刺激、安排安全的活動。\n\n由牠仍然放鬆的短暫離開開始練習，再慢慢延長時間。避免責罵或讓牠長時間獨自「捱過去」。若牠會自傷、猛烈撞門，或問題持續，請先向獸醫及合資格的行為專業人士求助。", en: "This may be linked to separation stress, outside noises, boredom, or simply not being used to staying alone—it does not mean your dog is taking revenge. Set up a camera to see when the restlessness begins, reduce visual or sound triggers from windows, and leave safe enrichment activities.\n\nPractice with very brief departures while your dog stays relaxed, then gradually build up the duration. Avoid scolding or forcing them to 'cry it out' alone for long periods. If your dog injures themselves, throws themselves against the door, or the behavior persists, consult a veterinarian and a qualified behavior professional." }, image: "/images/guide/faq/faq-02-separation-anxiety.jpg", alt: { zh: "狗狗在主人離家時感到不安的手繪情境", en: "Illustration of a dog feeling uneasy when their person leaves home" } },
+  { question: { zh: "點改善狗狗護食（一靠近就發出低吼聲）？", en: "How can I help a dog that guards food and growls when someone approaches?" }, answer: { zh: "低吼是在提醒牠需要空間，不是故意不聽話。先讓牠在安靜的位置吃飯，並用門或圍欄隔開小朋友和其他寵物。不要伸手拿食物、故意靠近測試，也不要責罵低吼；懲罰警告訊號可能令情況更難預測。\n\n如需訓練，請由獸醫或合資格的正向行為專業人士按狗狗狀況安排，循序漸進地建立安全感。若曾撲咬、咬人或護食突然出現，請盡快尋求專業協助。", en: "A growl is a communication signal asking for space, not deliberate disobedience. Feed your dog in a quiet area first, using gates or doors to separate children and other pets. Never reach into their bowl, walk up to 'test' them, or scold them for growling—punishing a warning sign can make future reactions harder to predict.\n\nIf training is needed, work with a veterinarian or a qualified positive-reinforcement behavior professional to build security step by step. Seek professional help promptly if your dog has lunged, bitten, or suddenly started guarding food." }, image: "/images/guide/faq/faq-03-food-guarding.jpg", alt: { zh: "以安全距離和交換方式協助狗狗面對護食的插圖", en: "Illustration of safely helping a dog who guards food" } },
+  { question: { zh: "狗狗點解會不停追住自己條尾咬？", en: "Why does my dog keep chasing and biting their own tail?" }, answer: { zh: "偶爾追幾圈可能是玩耍或一時興奮；反覆追咬也可能與尾巴痕癢、寄生蟲、疼痛或其他身體不適有關。若牠很難被轉移注意，或已咬到脫毛、紅腫及受傷，就不宜只當成玩。\n\n記下發生時間和情境，必要時拍短片給獸醫參考。若行為突然開始、愈來愈頻密或已自傷，請安排獸醫檢查，不要責罵或硬捉牠制止。", en: "Spinning a few times occasionally can just be play or a burst of excitement. However, repetitive tail-chasing and biting can point to itchiness, parasites, pain, or other physical discomfort. If your dog is hard to redirect, or has chewed to the point of hair loss, redness, or injury, do not brush it off as mere play.\n\nNote when and under what circumstances it happens, and record a short video for your veterinarian if helpful. Schedule a vet check if the behavior starts suddenly, becomes more frequent, or causes self-injury—and avoid scolding or physically grabbing your dog to force them to stop." }, image: "/images/guide/faq/faq-04-tail-chasing.jpg", alt: { zh: "狗狗追逐自己尾巴的手繪情境", en: "Illustration of a dog chasing their own tail" } },
+  { question: { zh: "狗狗點解鍾意抱住人腿或者玩具狂「騎乘」？", en: "Why does my dog keep humping people's legs or plush toys?" }, answer: { zh: "騎乘不一定與交配或「爭做老大」有關，也可能出現在玩得太興奮、緊張、想引人注意或形成習慣時；已絕育的狗狗也可能有這種行為。\n\n若只是偶爾發生，可保持冷靜，用熟悉的提示或活動轉移注意，避免打罵或用手硬拉。若突然變得頻密、難以中斷，或伴隨舔咬生殖部位及排尿不適，請向獸醫查詢。", en: "Mounting is not necessarily about mating or 'asserting dominance.' It often happens when a dog is over-excited during play, stressed, seeking attention, or acting out of habit—even neutered or spayed dogs do it.\n\nIf it only happens occasionally, stay calm and redirect their focus with a familiar cue or activity rather than scolding or forcefully pulling them off. Consult a veterinarian if mounting suddenly becomes frequent, is difficult to interrupt, or comes with excessive licking of the genital area or difficulty urinating." }, image: "/images/guide/faq/faq-05-mounting.jpg", alt: { zh: "狗狗在玩耍時抱住玩具的手繪插圖", en: "Illustration of a dog mounting a toy during play" } },
+  { question: { zh: "狗狗突然對住空氣狂吠，係咪睇到「唔乾淨嘅嘢」？", en: "When my dog suddenly barks at thin air, are they seeing 'ghosts'?" }, answer: { zh: "不需要先作這種假設。狗狗可能察覺到人未留意的聲音、氣味或細小動靜，也可能因警戒、害怕或環境刺激而吠叫。可以平靜觀察周圍是否有固定聲源，避免責罵或強迫牠走近。\n\n若吠叫突然出現或持續加劇，尤其伴隨迷惘、作息改變、喘氣或不願活動，請讓獸醫評估身體、感官或年齡相關的變化。", en: "There is no need to jump to supernatural conclusions. Dogs can pick up faint sounds, scents, or tiny movements that humans miss, and may bark out of alertness, fear, or environmental triggers. Calmly check whether there is a recurring sound source nearby, and avoid scolding or forcing your dog closer to the spot.\n\nIf the barking starts abruptly or worsens over time—especially alongside disorientation, changes in sleep-wake cycles, panting, or reluctance to move—have a veterinarian evaluate them for physical, sensory, or age-related changes." }, image: "/images/guide/faq/faq-06-bark-at-air.jpg", alt: { zh: "狗狗聽到細微聲音後豎起耳朵留意的插圖", en: "Illustration of a dog listening closely to a faint sound" } },
+  { question: { zh: "狗狗點解鍾意用屁股／背脊對住我坐？", en: "Why does my dog like to sit with their back or bottom pressed against me?" }, answer: { zh: "很多時只是牠選擇了舒服的位置，並不表示不喜歡你，也不一定代表某種固定訊息。若身體放鬆、自在地留在身邊，通常毋須擔心。\n\n如果牠在你靠近或想摸牠時轉身，並同時縮低身、夾尾、舔嘴或走開，可能是在表示想要空間，先讓牠自行選擇是否靠近。若這姿勢突然改變，並伴隨拱背、起身困難或不願走動，請安排獸醫檢查。", en: "Most of the time, they have simply picked a comfortable spot—it does not mean they dislike you, nor does it always carry one fixed meaning. If their body is relaxed and they settle comfortably beside you, there is nothing to worry about.\n\nHowever, if they turn their back as you reach out while crouching low, tucking their tail, licking their lips, or walking away, they may be asking for space—let them choose whether to come closer. If this posture changes suddenly along with an arched back, trouble standing up, or reluctance to walk, schedule a veterinary checkup." }, image: "/images/guide/faq/faq-07-back-leaning.jpg", alt: { zh: "狗狗舒服地把背脊靠向熟悉的人坐下", en: "A dog sitting comfortably with their back against a familiar person" } },
+  { question: { zh: "散步嗰陣成日停低係咁聞地下，係咪應該拉走佢？", en: "My dog stops to sniff the ground constantly on walks—should I pull them along?" }, answer: { zh: "通常不用每次都拉走。嗅聞是狗狗探索環境的自然方式，也能提供感官刺激。路面安全、牽繩穩妥時，可以留一點時間讓牠聞完再走，不必把每次散步都變成趕路。\n\n留意車路、垃圾和不明物品，溫和帶牠避開危險處即可。若嗅聞突然變得反覆、難以中斷，或伴隨跛行、疼痛等變化，請向獸醫查詢。", en: "You usually do not need to pull them away every time. Sniffing is how dogs naturally explore their world and get valuable mental stimulation. When the pavement is safe and the leash is secure, give them a moment to finish sniffing—every walk does not have to be a brisk march.\n\nSimply keep an eye out for traffic, litter, or unknown objects and gently guide them away from hazards. If sniffing suddenly becomes obsessive, hard to interrupt, or is accompanied by limping or signs of pain, check with your veterinarian." }, image: "/images/guide/faq/faq-08-sniffing-walk.jpg", alt: { zh: "狗狗在安全散步途中停下來探索氣味", en: "A dog pausing to explore scents during a safe walk" } },
+  { question: { zh: "明明冇游水／沖涼，點解狗狗成日突然「大動作甩身（震毛）」？", en: "Why does my dog suddenly do a full-body 'shake-off' even when completely dry?" }, answer: { zh: "全身甩動一下不一定是因為濕了，也不一定代表壓力；有時會出現在玩耍或興奮之後、活動轉換之間。留意是偶爾全身甩一下，還是反覆搖頭、抓耳或持續發抖。\n\n若耳朵發紅、有異味或分泌物，或狗狗持續震動、顯得疼痛及精神不佳，請聯絡獸醫；不要自行替牠滴耳藥。可以記下發生前後的情境，方便說明。", en: "A full-body shake is not only for drying off, nor does it always mean stress—dogs often shake to reset after play, excitement, or when transitioning between activities. Pay attention to whether it is an occasional full-body shake versus repeated head-shaking, ear-scratching, or continuous trembling.\n\nIf you notice red ears, odor, discharge, persistent shaking, pain, or lethargy, contact a veterinarian rather than applying ear drops on your own. Jotting down what happened right before and after the shake will also help your vet." }, image: "/images/guide/faq/faq-09-shake-off.jpg", alt: { zh: "狗狗甩動身體、整理毛髮的手繪情境", en: "Illustration of a dog shaking off and settling their coat" } },
+  { question: { zh: "狗狗點解會歪頭（斜頭萌望住你）？", en: "Why do dogs tilt their heads so adorably when looking at you?" }, answer: { zh: "聽到聲音或你說話時，狗狗偶爾短暫歪頭，可能是被吸引、正在留意聲音或熟悉的訊息；確切原因未必每次都一樣。單憑歪頭也不能判斷牠一定聽懂了什麼。\n\n若頭突然持續歪向一側，或同時失去平衡、跌倒、眼球不自主快速移動及嘔吐，請盡快聯絡獸醫。等候時讓牠待在平坦、安全的位置，避免樓梯和跌落。", en: "When your dog briefly tilts their head at a sound or your voice, they may be intrigued and tuning in to a noise or a familiar cue—though the exact reason can vary, and a head tilt alone does not prove they understand specific words.\n\nHowever, if their head stays persistently tilted to one side, or is accompanied by loss of balance, falling, rapid involuntary eye movements, or vomiting, contact a veterinarian immediately. While waiting, keep your dog on a flat, safe surface away from stairs or drop-offs." }, image: "/images/guide/faq/faq-10-head-tilt.jpg", alt: { zh: "狗狗好奇地歪頭聆聽的手繪插圖", en: "A curious dog tilting their head to listen" } },
 ];
 
 export function DogFAQSection() {
+  const { locale } = useI18n();
+  const isEn = locale === "en";
+  const copy = (item: Bilingual) => (isEn ? item.en : item.zh);
   return (
     <section aria-labelledby="dog-faq-title" className="mt-12 sm:mt-16">
       <header className="mb-8 text-center sm:mb-10">
-        <p className="text-xs font-semibold tracking-[0.18em] text-[#9A7757]">毛孩日常小問答</p>
-        <h2 id="dog-faq-title" className="mt-2 text-2xl font-bold tracking-tight text-[#3E2B20] sm:text-3xl">
-          🐶 狗狗心事與日常行為常見疑問
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#67584C]">
-          用插圖讀懂毛孩的小習慣；先觀察整體狀態，再以牠舒服的方式回應。
-        </p>
+        <p className="text-xs font-semibold tracking-[0.18em] text-[#9A7757]">{isEn ? "Everyday Dog FAQ" : "毛孩日常小問答"}</p>
+        <h2 id="dog-faq-title" className="mt-2 text-2xl font-bold tracking-tight text-[#3E2B20] sm:text-3xl">{isEn ? "🐶 Common Questions About Dog Feelings & Daily Behavior" : "🐶 狗狗心事與日常行為常見疑問"}</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#67584C]">{isEn ? "Understand your dog's little habits through illustrations—observe their overall state first, then respond in a way that keeps them comfortable." : "用插圖讀懂毛孩的小習慣；先觀察整體狀態，再以牠舒服的方式回應。"}</p>
       </header>
-
       <div className="flex flex-col gap-5 sm:gap-6">
         {FAQS.map((faq, index) => (
-          <article
-            key={faq.question}
-            className={`flex flex-col overflow-hidden rounded-3xl border border-neutral-200/80 bg-[#fbf9f5] shadow-[0_16px_36px_-28px_rgba(74,59,50,0.5)] ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-          >
-            <div className="relative aspect-[4/3] w-full shrink-0 md:aspect-auto md:min-h-[320px] md:w-[42%]">
-              <Image
-                src={faq.image}
-                alt={faq.alt}
-                fill
-                sizes="(min-width: 768px) 42vw, 100vw"
-                className="object-cover"
-              />
-            </div>
+          <article key={faq.question.en} className={`flex flex-col overflow-hidden rounded-3xl border border-neutral-200/80 bg-[#fbf9f5] shadow-[0_16px_36px_-28px_rgba(74,59,50,0.5)] ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
+            <div className="relative aspect-[4/3] w-full shrink-0 md:aspect-auto md:min-h-[320px] md:w-[42%]"><Image src={faq.image} alt={copy(faq.alt)} fill sizes="(min-width: 768px) 42vw, 100vw" className="object-cover" /></div>
             <div className="flex min-w-0 flex-1 flex-col justify-center p-5 sm:p-7 md:p-8">
-              <p className="text-xs font-semibold tracking-[0.16em] text-[#A47A4F]">
-                DOG NOTES · {String(index + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-2 text-lg font-bold leading-snug text-[#3E2B20] sm:text-xl">
-                {faq.question}
-              </h3>
-              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#67584C] sm:text-base sm:leading-8">
-                {faq.answer}
-              </p>
+              <p className="text-xs font-semibold tracking-[0.16em] text-[#A47A4F]">DOG NOTES · {String(index + 1).padStart(2, "0")}</p>
+              <h3 className="mt-2 text-lg font-bold leading-snug text-[#3E2B20] sm:text-xl">{copy(faq.question)}</h3>
+              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-[#67584C] sm:text-base sm:leading-8">{copy(faq.answer)}</p>
             </div>
           </article>
         ))}

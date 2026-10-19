@@ -53,7 +53,8 @@ const CHAPTERS: Chapter[] = [
  * Mirrors the About Cat layout and visual language.
  */
 export function AboutDogBook() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const isEn = locale === "en";
 
   return (
     <div
@@ -96,13 +97,21 @@ export function AboutDogBook() {
                 }}
               >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#f4efe7]">
-                  <Image
-                    src={chapter.image}
-                    alt={t(chapter.imageAltKey)}
-                    fill
-                    sizes="(min-width: 768px) 44vw, 100vw"
-                    className="object-cover"
-                  />
+                  {isEn ? (
+                    <div className="flex h-full flex-col items-center justify-center bg-gradient-to-br from-[#F8F1E5] via-[#FDFBF7] to-[#E9DFD1] p-6 text-center">
+                      <span className="text-sm font-semibold tracking-[0.2em] text-[#9A7757]">DOG CARE GUIDE</span>
+                      <span className="mt-3 text-5xl font-bold text-[#C9A47B]">{String(CHAPTERS.indexOf(chapter) + 1).padStart(2, "0")}</span>
+                      <span className="mt-3 max-w-sm text-xl font-bold leading-snug text-[#3E2B20]">{t(chapter.titleKey)}</span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={chapter.image}
+                      alt={t(chapter.imageAltKey)}
+                      fill
+                      sizes="(min-width: 768px) 44vw, 100vw"
+                      className="object-cover"
+                    />
+                  )}
                 </div>
                 <div className="space-y-3 py-2 md:px-2">
                   <p className="text-xs font-semibold tracking-[0.14em] text-[#2B2623]/55">
