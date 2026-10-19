@@ -7,6 +7,7 @@ import { MAX_FEATURED_PETS } from "@/lib/featured-pets";
 import { getBundleComponents } from "@/lib/bundles";
 import { BarcodeScanner } from "@/components/admin/BarcodeScanner";
 import { calculateFinalSalePrice, calculateSuggestedRetailPrice, DEFAULT_JPY_TO_HKD, DEFAULT_RETAIL_MULTIPLIER } from "@/lib/pricing";
+import catalogFallback from "@/data/catalog-fallback.json";
 
 type Row = Record<string, any>;
 type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
@@ -154,6 +155,39 @@ function getProductImageUrls(row: Row): string[] {
     if (urls.length) return urls;
   }
   return [];
+}
+
+const LOCAL_PRODUCTS_STORAGE_KEY = "mofu-admin-local-products-v1";
+
+function bundledAdminProducts(): Row[] {
+  const categories = catalogFallback.categories as Array<{ id: string; slug: string }>;
+  return (catalogFallback.products as Row[]).map((product) => {
+    const category = categories.find((item) => item.slug.toLowerCase() === String(product.category_slug || "").toLowerCase());
+    return {
+      ...product,
+      id: String(product.id),
+      name: product.name_zh || product.name || "未命名產品",
+      description: String(product.description || ""),
+      description_en: String(product.description_en || ""),
+      category_id: category?.id || "",
+      status: product.status || "published",
+      is_published: product.is_published !== false,
+      images: Array.isArray(product.images) && product.images.length ? product.images : product.image_url ? [product.image_url] : [],
+    };
+  });
+}
+
+function readLocalAdminProducts(): Row[] {
+  try {
+    const stored = window.localStorage.getItem(LOCAL_PRODUCTS_STORAGE_KEY);
+    if (stored !== null) {
+      const parsed: unknown = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed as Row[];
+    }
+  } catch {
+    // Fall through to the bundled catalog when browser storage is unavailable or invalid.
+  }
+  return bundledAdminProducts();
 }
 
 const tabs: { id: Tab; label: string }[] = [
@@ -305,6 +339,8 @@ export default function AdminPage() {
   const [featuredPetNotice, setFeaturedPetNotice] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [localProductMode, setLocalProductMode] = useState(false);
+  const [localProductNotice, setLocalProductNotice] = useState("");
   const [productQuery, setProductQuery] = useState("");
   const [productCategory, setProductCategory] = useState("all");
   const [productPage, setProductPage] = useState(1);
@@ -330,6 +366,10 @@ export default function AdminPage() {
     try {
       const result = await call("GET", undefined, selected === "draft_products" ? "products" : selected);
       const loadedRows = normalizeAdminRows(result.data);
+      if (isProductTab(selected)) {
+        setLocalProductMode(false);
+        setLocalProductNotice("");
+      }
       setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
         setBannerSlots(toBannerSlots(loadedRows));
@@ -348,8 +388,21 @@ export default function AdminPage() {
         setBrands(normalizeAdminRows(b.data));
       }
     } catch (e: any) {
-      if (e.message === "unauthorized") router.replace("/admin/login");
-      else setError(e.message);
+      if (e.message === "unauthorized") {
+        router.replace("/admin/login");
+      } else if (e.message === "supabase_not_configured" && isProductTab(selected)) {
+        const localProducts = readLocalAdminProducts();
+        setLocalProductMode(true);
+        setLocalProductNotice("本機備援模式：產品資料保存在此瀏覽器，尚未同步至遠端資料庫。");
+        setRows(selected === "draft_products"
+          ? localProducts.filter((row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image)))
+          : localProducts);
+        setCategories((catalogFallback.categories as Row[]).map((category) => ({ ...category })));
+        setBrands([]);
+        setError("");
+      } else {
+        setError(e.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -392,6 +445,11 @@ export default function AdminPage() {
     if (productPage > productPageCount) setProductPage(productPageCount);
   }, [productPage, productPageCount]);
 
+  function saveLocalProductRows(nextRows: Row[]) {
+    window.localStorage.setItem(LOCAL_PRODUCTS_STORAGE_KEY, JSON.stringify(nextRows));
+    setRows(nextRows);
+    setLocalProductNotice("已儲存至此瀏覽器的本機產品資料，尚未同步至遠端資料庫。");
+  }
   async function save() {
     if (!form) return;
     setError("");
@@ -413,6 +471,15 @@ export default function AdminPage() {
         }
       }
       const dataTable = isProductTab(tab) ? "products" : tab;
+      if (isProductTab(tab) && localProductMode) {
+        const now = new Date().toISOString();
+        const localRow = { ...normalized, id: String(form.id || crypto.randomUUID()), created_at: form.created_at || now, updated_at: now };
+        saveLocalProductRows(form.id
+          ? rows.map((row) => String(row.id) === String(form.id) ? { ...row, ...localRow } : row)
+          : [localRow, ...rows]);
+        setForm(null);
+        return;
+      }
       if (form.id) {
         await call("PATCH", { table: dataTable, id: form.id, row: normalized });
       } else {
@@ -598,8 +665,12 @@ export default function AdminPage() {
   async function remove(row: Row) {
     if (!row.id || !confirm("確定刪除此項目？")) return;
     try {
-      await call("DELETE", { table: tab, id: row.id });
-      await load();
+      if (isProductTab(tab) && localProductMode) {
+        saveLocalProductRows(rows.filter((item) => String(item.id) !== String(row.id)));
+      } else {
+        await call("DELETE", { table: tab, id: row.id });
+        await load();
+      }
     } catch (e: any) {
       setError(e.message);
     }
@@ -616,16 +687,13 @@ export default function AdminPage() {
     setCategorySavingProductId(productId);
     setCategoryQuickError(null);
     try {
-      await call("PATCH", {
-        table: "products",
-        id: row.id,
-        row: { category_id: categoryId || null },
-      });
-      setRows((current) => current.map((item) => (
-        String(item.id) === productId
-          ? { ...item, category_id: categoryId || null }
-          : item
-      )));
+      const updatedRow = { ...row, category_id: categoryId || null };
+      if (localProductMode) {
+        saveLocalProductRows(rows.map((item) => String(item.id) === productId ? updatedRow : item));
+      } else {
+        await call("PATCH", { table: "products", id: row.id, row: { category_id: categoryId || null } });
+        setRows((current) => current.map((item) => String(item.id) === productId ? updatedRow : item));
+      }
       setOpenQuickCategoryProductId(null);
     } catch (e: any) {
       setCategoryQuickError(e.message || "分類更新失敗");
@@ -666,27 +734,24 @@ export default function AdminPage() {
     setQuickEditError(null);
     try {
       const published = quickEditDraft.status === "published";
-      const result = await call("PATCH", {
-        table: "products",
-        id: quickEditDraft.id,
-        row: {
-          cost_jpy: quickEditDraft.cost_jpy === "" ? 0 : Number(quickEditDraft.cost_jpy),
-          shipping_hkd: Number(quickEditDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
-          markup_multiplier: Number(quickEditDraft.markup_multiplier) || DEFAULT_MARKUP_MULTIPLIER,
-          exchange_rate: Number(quickEditDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
-          price: Number(quickEditDraft.price) || 0,
-          original_price: quickEditDraft.original_price === "" ? null : Number(quickEditDraft.original_price),
-          current_hkd: Number(quickEditDraft.price) || 0,
-          stock: Math.max(0, Math.trunc(Number(quickEditDraft.stock) || 0)),
-          status: published ? "published" : "draft",
-          is_published: published,
-        },
-      });
-      setRows((current) => current.map((item) => (
-        String(item.id) === productId
-          ? { ...item, ...(result.data || {}), status: published ? "published" : "draft", is_published: published }
-          : item
-      )));
+      const patch = {
+        cost_jpy: quickEditDraft.cost_jpy === "" ? 0 : Number(quickEditDraft.cost_jpy),
+        shipping_hkd: Number(quickEditDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
+        markup_multiplier: Number(quickEditDraft.markup_multiplier) || DEFAULT_MARKUP_MULTIPLIER,
+        exchange_rate: Number(quickEditDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
+        price: Number(quickEditDraft.price) || 0,
+        original_price: quickEditDraft.original_price === "" ? null : Number(quickEditDraft.original_price),
+        current_hkd: Number(quickEditDraft.price) || 0,
+        stock: Math.max(0, Math.trunc(Number(quickEditDraft.stock) || 0)),
+        status: published ? "published" : "draft",
+        is_published: published,
+      };
+      if (localProductMode) {
+        saveLocalProductRows(rows.map((item) => String(item.id) === productId ? { ...item, ...patch } : item));
+      } else {
+        const result = await call("PATCH", { table: "products", id: quickEditDraft.id, row: patch });
+        setRows((current) => current.map((item) => String(item.id) === productId ? { ...item, ...(result.data || {}), status: published ? "published" : "draft", is_published: published } : item));
+      }
       setOpenQuickEditProductId(null);
       setQuickEditDraft(null);
     } catch (e: any) {
@@ -731,28 +796,22 @@ export default function AdminPage() {
     setBarcodeSaving(true);
     setBarcodeNotice("");
     try {
-      const result = await call("PATCH", {
-        table: "products",
-        id: barcodeDraft.id,
-        row: {
-          cost_jpy: Number(barcodeDraft.cost_jpy) || 0,
-          shipping_hkd: Number(barcodeDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
-          exchange_rate: Number(barcodeDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
-          markup_multiplier: DEFAULT_MARKUP_MULTIPLIER,
-          stock: Math.max(0, Math.trunc(Number(barcodeDraft.stock) || 0)),
-          price: Number(barcodeDraft.price) || 0,
-          current_hkd: Number(barcodeDraft.price) || 0,
-        },
-      });
-      setRows((current) => current.map((row) => String(row.id) === String(barcodeDraft.id) ? {
-        ...row,
-        ...(result.data || {}),
-        cost_jpy: barcodeDraft.cost_jpy,
-        shipping_hkd: barcodeDraft.shipping_hkd,
-        exchange_rate: barcodeDraft.exchange_rate,
-        stock: barcodeDraft.stock,
-        price: barcodeDraft.price,
-      } : row));
+      const patch = {
+        cost_jpy: Number(barcodeDraft.cost_jpy) || 0,
+        shipping_hkd: Number(barcodeDraft.shipping_hkd) || DEFAULT_SHIPPING_HKD,
+        exchange_rate: Number(barcodeDraft.exchange_rate) || DEFAULT_JPY_TO_HKD,
+        markup_multiplier: DEFAULT_MARKUP_MULTIPLIER,
+        stock: Math.max(0, Math.trunc(Number(barcodeDraft.stock) || 0)),
+        price: Number(barcodeDraft.price) || 0,
+        current_hkd: Number(barcodeDraft.price) || 0,
+      };
+      const rowPatch = { ...patch, cost_jpy: barcodeDraft.cost_jpy, shipping_hkd: barcodeDraft.shipping_hkd, exchange_rate: barcodeDraft.exchange_rate, stock: barcodeDraft.stock, price: barcodeDraft.price };
+      if (localProductMode) {
+        saveLocalProductRows(rows.map((row) => String(row.id) === String(barcodeDraft.id) ? { ...row, ...rowPatch } : row));
+      } else {
+        const result = await call("PATCH", { table: "products", id: barcodeDraft.id, row: patch });
+        setRows((current) => current.map((row) => String(row.id) === String(barcodeDraft.id) ? { ...row, ...(result.data || {}), ...rowPatch } : row));
+      }
       setBarcodeProduct(null);
       setBarcodeDraft(null);
     } catch (e: any) {
@@ -822,6 +881,7 @@ export default function AdminPage() {
           </div>
 
           {error && <div role="alert" aria-live="assertive" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium leading-6 text-red-800 shadow-sm"><strong className="mr-1">⚠ 儲存失敗：</strong>{error.replace(/^儲存失敗：/, "")}</div>}
+          {isProductTab(tab) && localProductMode && localProductNotice && <div role="status" className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">{localProductNotice}</div>}
 
           {isProductTab(tab) && (
             <section className="mb-5 rounded-2xl bg-white p-4 shadow-sm md:p-5">

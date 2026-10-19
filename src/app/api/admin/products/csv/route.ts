@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
@@ -230,6 +231,10 @@ export async function POST(request: Request) {
     } catch (error) {
       errors.push(`\u7b2c ${index + 1} \u884c：${error instanceof Error ? error.message : "\u683c\u5f0f\u932f\u8aa4"}`);
     }
+  }
+  if (created > 0 || updated > 0) {
+    revalidatePath("/", "layout");
+    revalidatePath("/api/store");
   }
   return NextResponse.json({ created, updated, failed: errors.length, errors });
 }

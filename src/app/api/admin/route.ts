@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ADMIN_COOKIE, createAdminToken, verifyAdminPassword, verifyAdminToken } from "@/lib/admin-auth";
@@ -21,6 +22,11 @@ const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stri
 const PRODUCT_COSTS_SETTING_KEY = "admin_product_costs";
 const MAX_PRODUCT_IMAGES = 8;
 const MAX_BANNERS = 12;
+
+function revalidateProductCatalog() {
+  revalidatePath("/", "layout");
+  revalidatePath("/api/store");
+}
 const PRODUCT_PUBLISH_FIELDS = ["\u4e2d\u6587\u54c1\u540d", "\u82f1\u6587\u54c1\u540d", "\u4e2d\u6587\u8a73\u7d30\u6558\u8ff0", "\u82f1\u6587\u8a73\u7d30\u6558\u8ff0", "\u6709\u6548\u552e\u50f9", "\u5eab\u5b58（\u9700\u5927\u65bc 0）", "\u5716\u7247 URL"];
 
 type ProductCost = { cost_jpy: number; shipping_hkd: number; markup_multiplier: number; exchange_rate: number };
@@ -505,6 +511,7 @@ export async function POST(request: Request) {
   if (table === "products") {
     const { error: costError } = await upsertProductCost(supabase, String(data.id), productCost || {});
     if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    revalidateProductCatalog();
   }
 
   return NextResponse.json({ data });
@@ -554,6 +561,7 @@ export async function PATCH(request: Request) {
   if (table === "products") {
     const { error: costError } = await upsertProductCost(supabase, id, productCost || {});
     if (costError) return NextResponse.json({ error: `\u6210\u672c\u8cc7\u6599\u5132\u5b58\u5931\u6557：${costError.message}` }, { status: 500 });
+    revalidateProductCatalog();
   }
   return NextResponse.json({ data });
 }
@@ -576,6 +584,7 @@ export async function DELETE(request: Request) {
       delete costs[id];
       await supabase.from("store_settings").upsert({ key: PRODUCT_COSTS_SETTING_KEY, value: JSON.stringify(costs), updated_at: new Date().toISOString() }, { onConflict: "key" });
     }
+    revalidateProductCatalog();
   }
   return NextResponse.json({ ok: true, deleted: data.length });
 }

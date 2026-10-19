@@ -1067,8 +1067,11 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
 }
 
 async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
-  // Static mode is intentional: a Supabase quota/egress outage must not affect
-  // storefront rendering, cart validation, or checkout price reconstruction.
+  // Admin writes go to the shared database so storefront prices and inventory
+  // are visible across devices and server instances. Keep the bundled catalog
+  // as a safe read-only fallback when the database is unavailable or empty.
+  const managedCatalog = await fetchCatalogFromSupabase();
+  if (managedCatalog && managedCatalog.products.length > 0) return managedCatalog;
   return getCatalogFallbackSnapshot();
 }
 

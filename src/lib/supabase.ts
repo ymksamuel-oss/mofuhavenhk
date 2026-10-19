@@ -16,11 +16,6 @@ function isValidSupabaseUrl(value: string): boolean {
 }
 
 const validUrl = isValidSupabaseUrl(url) ? url.trim() : "";
-// This deployment intentionally runs from the bundled local catalog snapshot.
-// Keep every legacy Supabase server call site inert until static mode is
-// deliberately removed in source control.
-const SUPABASE_STATIC_MODE_DISABLED = true;
-
 function requestPath(input: RequestInfo | URL): string {
   try {
     return new URL(typeof input === "string" ? input : input.toString()).pathname;
@@ -58,7 +53,7 @@ export async function supabaseFetch(input: RequestInfo | URL, init: RequestInit 
 
     try {
       if (callerSignal?.aborted) throw new DOMException("The request was aborted.", "AbortError");
-      const response = await globalThis.fetch(input, { ...init, signal: controller.signal });
+      const response = await globalThis.fetch(input, { ...init, cache: "no-store", signal: controller.signal });
       if (!retryableStatus(response.status) || attempt === SUPABASE_FETCH_RETRIES - 1) return response;
 
       console.warn("[supabase] transient REST response; retrying", {
@@ -103,17 +98,15 @@ const clientOptions = {
 };
 
 export function getSupabasePublic(): SupabaseClient | null {
-  if (SUPABASE_STATIC_MODE_DISABLED) return null;
   if (!validUrl || !anonKey) return null;
   return createClient(validUrl, anonKey, clientOptions);
 }
 
 export function getSupabaseAdmin(): SupabaseClient | null {
-  if (SUPABASE_STATIC_MODE_DISABLED) return null;
   if (!validUrl || !serviceKey) return null;
   return createClient(validUrl, serviceKey, clientOptions);
 }
 
 export function isSupabaseConfigured() {
-  return !SUPABASE_STATIC_MODE_DISABLED && Boolean(validUrl && (anonKey || serviceKey));
+  return Boolean(validUrl && (anonKey || serviceKey));
 }
