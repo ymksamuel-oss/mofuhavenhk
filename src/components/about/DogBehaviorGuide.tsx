@@ -183,7 +183,7 @@ export function DogBehaviorGuide() {
             </h3>
           </div>
           <div className="grid items-center gap-5 md:grid-cols-[1.05fr_0.95fr] md:gap-7">
-            <figure className={`overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)] ${isEn ? "hidden" : ""}`}>
+            <figure className="overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)]">
               <Image
                 src="/images/guide/dog-body-language.jpg"
                 alt={isEn ? "Illustrated dog body-language examples, including a relaxed dog, a curious dog, a play bow and a yawn" : "狗狗微表情插圖：放鬆、好奇、邀玩鞠躬與打哈欠"}
@@ -238,7 +238,7 @@ export function DogBehaviorGuide() {
               {isEn ? "4 Golden Steps to Safely Greet an Unfamiliar Dog" : "安全接近陌生狗狗的四大黃金步驟"}
             </h3>
           </div>
-          <figure className={`overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)] ${isEn ? "hidden" : ""}`}>
+          <figure className="overflow-hidden rounded-2xl border border-[#E9DFD1] bg-[#FCF9F2] shadow-[0_18px_36px_-28px_rgba(74,59,50,0.5)]">
             <Image
               src="/images/guide/dog-greeting-steps.jpg"
               alt={isEn ? "Illustrated four-step guide to greeting a dog safely: ask first, crouch sideways at a distance, let the dog sniff, then pet the chest or chin" : "安全接近狗狗四步插圖：先詢問、側身保持距離、讓狗狗嗅聞，再輕撫胸口或下巴"}

@@ -106,7 +106,7 @@ export function FloatingMobileDock() {
       >
         <Link href="/" aria-label={t("mobileDockRecommend")} aria-current={isHomeActive ? "page" : undefined} className={dockItemClass(isHomeActive)}>
           <PawIcon className="h-[18px] w-[18px]" />
-          <span className="max-w-full truncate">為你推薦</span>
+          <span className="max-w-full truncate">{t("mobileDockRecommend")}</span>
         </Link>
 
         <div className="relative flex min-w-0 flex-1">
@@ -119,7 +119,7 @@ export function FloatingMobileDock() {
             onClick={() => setCategoriesOpen((open) => !open)}
           >
             <GridIcon className="h-[18px] w-[18px]" />
-            <span className="max-w-full truncate">專區</span>
+            <span className="max-w-full truncate">{t("mobileDockCategories")}</span>
           </button>
           {categoriesOpen ? (
             <div role="menu" className="absolute bottom-[calc(100%+0.5rem)] left-1/2 z-[60] grid w-48 -translate-x-1/2 gap-1 rounded-2xl border border-black/5 bg-white/95 p-2 text-stone-800 shadow-[0_12px_32px_rgba(0,0,0,0.14)] backdrop-blur-xl">
@@ -132,7 +132,7 @@ export function FloatingMobileDock() {
 
         <Link href="/matcher" aria-label={t("mobileDockMatcher")} aria-current={isMatcherActive ? "page" : undefined} className={dockItemClass(isMatcherActive)}>
           <CompassIcon className="h-[18px] w-[18px]" />
-          <span className="max-w-full truncate">智能配對</span>
+          <span className="max-w-full truncate">{t("mobileDockMatcher")}</span>
         </Link>
 
         <button
@@ -142,11 +142,11 @@ export function FloatingMobileDock() {
           onClick={() => window.dispatchEvent(new Event(OPEN_CART_EVENT))}
         >
           <ShoppingBagIcon className="h-[18px] w-[18px]" />
-          <span className="max-w-full truncate">購物袋</span>
+          <span className="max-w-full truncate">{t("mobileDockCart")}</span>
           {itemCount > 0 ? <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-stone-800 px-1 text-[9px] font-semibold leading-none text-white tabular-nums" aria-live="polite" aria-atomic="true">{itemCount > 99 ? "99+" : itemCount}</span> : null}
         </button>
 
-        <ProductSearch variant="dock" className={dockItemClass(false)} triggerClassName="h-[18px] w-[18px]" triggerLabel="搜尋" />
+        <ProductSearch variant="dock" className={dockItemClass(false)} triggerClassName="h-[18px] w-[18px]" triggerLabel={t("mobileDockSearch")} />
       </nav>
     </div>
   );
