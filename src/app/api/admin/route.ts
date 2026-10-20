@@ -16,6 +16,7 @@ import {
   parseProductLocalizations,
 } from "@/lib/product-localizations";
 import { DEFAULT_COST_MARKUP_MULTIPLIER, DEFAULT_JPY_TO_HKD } from "@/lib/pricing";
+import snapshot from "@/data/catalog-fallback.json";
 
 const tables = new Set(["categories", "products", "brands", "banners", "coupons", "orders", "store_settings"]);
 const secretKeys = new Set(["stripe_secret_key", "stripe_publishable_key", "stripe_webhook_secret", "payment_api_key"]);
@@ -28,6 +29,23 @@ function revalidateProductCatalog() {
   revalidatePath("/api/store");
 }
 const PRODUCT_PUBLISH_FIELDS = ["\u4e2d\u6587\u54c1\u540d", "\u82f1\u6587\u54c1\u540d", "\u4e2d\u6587\u8a73\u7d30\u6558\u8ff0", "\u82f1\u6587\u8a73\u7d30\u6558\u8ff0", "\u6709\u6548\u552e\u50f9", "\u5eab\u5b58（\u9700\u5927\u65bc 0）", "\u5716\u7247 URL"];
+
+function staticAdminRows(table: string) {
+  if (table === "products") return snapshot.products.map((product) => ({
+    ...product,
+    name: product.name_zh || product.name,
+    price: Number(product.price) || 0,
+    stock: Number(product.stock) || 0,
+    image: product.images?.[0] || product.image_url || null,
+    image_url: product.images?.[0] || product.image_url || null,
+    images: product.images || [],
+    status: "published",
+    is_published: true,
+  }));
+  if (table === "categories") return snapshot.categories || [];
+  if (table === "brands") return [{ id: "static-best-partner", name: "Best Partner", slug: "best-partner", product_count: snapshot.products.length, sort_order: 0, is_active: true }];
+  return [];
+}
 
 type ProductCost = { cost_jpy: number; shipping_hkd: number; markup_multiplier: number; exchange_rate: number };
 
@@ -361,8 +379,12 @@ async function validateProductForPublishing(
 export async function GET(request: Request) {
   const table = new URL(request.url).searchParams.get("table") || "";
   if (!tables.has(table) && table !== "featured_pets") return NextResponse.json({ error: "invalid_table" }, { status: 400 });
-  const supabase = getSupabaseAdmin(); if (!supabase) return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
   if (!(await isAdmin())) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    if (["products", "categories", "brands"].includes(table)) return NextResponse.json({ data: staticAdminRows(table), source: "static-fallback", degraded: true });
+    return NextResponse.json({ error: "supabase_not_configured" }, { status: 503 });
+  }
   if (table === "featured_pets") {
     const { data, error } = await supabase
       .from("store_settings")
@@ -381,7 +403,10 @@ export async function GET(request: Request) {
   if (table === "categories" || table === "banners") query = query.order("sort_order", { ascending: true });
   if (table === "orders" || table === "products") query = query.order("created_at", { ascending: false });
   const { data, error } = await query;
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    if (["products", "categories", "brands"].includes(table)) return NextResponse.json({ data: staticAdminRows(table), source: "static-fallback", degraded: true });
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 
   let rows = data || [];
   if (table === "categories") {

@@ -8,6 +8,7 @@ import { getBundleComponents } from "@/lib/bundles";
 import { BarcodeScanner } from "@/components/admin/BarcodeScanner";
 import { calculateFinalSalePrice, calculateSuggestedRetailPrice, DEFAULT_JPY_TO_HKD, DEFAULT_RETAIL_MULTIPLIER } from "@/lib/pricing";
 import catalogFallback from "@/data/catalog-fallback.json";
+import { isSupabaseUnavailableMessage, localAdminCall } from "@/lib/admin-local-fallback";
 
 type Row = Record<string, any>;
 type Tab = "products" | "draft_products" | "brands" | "categories" | "banners" | "featured_pets" | "coupons" | "orders" | "store_settings";
@@ -209,8 +210,13 @@ async function call(method: string, body?: Row, table?: string) {
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
   const json = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(json.error || `操作失敗（HTTP ${response.status}）`);
-  return json;
+  if (response.ok) {
+    if (json.source === "static-fallback" || json.degraded) return { ...localAdminCall("GET", undefined, table), __localFallback: true };
+    return json;
+  }
+  const message = json.error || `操作失敗（HTTP ${response.status}）`;
+  if (isSupabaseUnavailableMessage(message)) return { ...localAdminCall(method, body, table), __localFallback: true };
+  throw new Error(message);
 }
 
 function defaultRow(tab: Tab): Row {
@@ -341,6 +347,7 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [localProductMode, setLocalProductMode] = useState(false);
   const [localProductNotice, setLocalProductNotice] = useState("");
+  const [fallbackActive, setFallbackActive] = useState(false);
   const [productQuery, setProductQuery] = useState("");
   const [productCategory, setProductCategory] = useState("all");
   const [productPage, setProductPage] = useState(1);
@@ -366,9 +373,15 @@ export default function AdminPage() {
     try {
       const result = await call("GET", undefined, selected === "draft_products" ? "products" : selected);
       const loadedRows = normalizeAdminRows(result.data);
-      if (isProductTab(selected)) {
+      const usingFallback = Boolean(result.__localFallback);
+      setFallbackActive(usingFallback);
+      if (isProductTab(selected) && !usingFallback) {
         setLocalProductMode(false);
         setLocalProductNotice("");
+      }
+      if (isProductTab(selected) && usingFallback) {
+        setLocalProductMode(true);
+        setLocalProductNotice("本機備援模式：產品資料保存在此瀏覽器，尚未同步至遠端資料庫。");
       }
       setRows(selected === "draft_products" ? loadedRows.filter((row: Row) => row.status !== "published" || row.is_published === false || Number(row.stock) <= 0 || !String(row.name || "").trim() || !String(row.name_en || "").trim() || !String(row.description || "").trim() || !String(row.description_en || "").trim() || !Number(row.price) || !Array.isArray(row.images) || !row.images.some((image: unknown) => typeof image === "string" && /^https?:\/\//i.test(image))) : loadedRows);
       if (selected === "banners") {
@@ -390,7 +403,7 @@ export default function AdminPage() {
     } catch (e: any) {
       if (e.message === "unauthorized") {
         router.replace("/admin/login");
-      } else if (e.message === "supabase_not_configured" && isProductTab(selected)) {
+      } else if (isSupabaseUnavailableMessage(e.message) && isProductTab(selected)) {
         const localProducts = readLocalAdminProducts();
         setLocalProductMode(true);
         setLocalProductNotice("本機備援模式：產品資料保存在此瀏覽器，尚未同步至遠端資料庫。");
@@ -480,17 +493,18 @@ export default function AdminPage() {
         setForm(null);
         return;
       }
+      let result;
       if (form.id) {
-        await call("PATCH", { table: dataTable, id: form.id, row: normalized });
+        result = await call("PATCH", { table: dataTable, id: form.id, row: normalized });
       } else {
-        await call("POST", { table: dataTable, row: normalized, ...(tab === "banners" ? { replaceExisting } : {}) });
+        result = await call("POST", { table: dataTable, row: normalized, ...(tab === "banners" ? { replaceExisting } : {}) });
       }
+      setFallbackActive((active) => active || Boolean(result.__localFallback));
       setForm(null);
       await load();
     } catch (e: any) {
       const message = e?.message || "儲存失敗，請檢查產品資料後再試。";
       setError(`儲存失敗：${message}`);
-      window.alert(`儲存失敗\n\n${message}`);
     }
   }
 
@@ -880,6 +894,7 @@ export default function AdminPage() {
             )}
           </div>
 
+          {fallbackActive && <div role="status" aria-live="polite" className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">Supabase 暫時受限，現正使用 251 件本機商品目錄及瀏覽器儲存 fallback；你嘅編輯會先保存在本機。</div>}
           {error && <div role="alert" aria-live="assertive" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium leading-6 text-red-800 shadow-sm"><strong className="mr-1">⚠ 儲存失敗：</strong>{error.replace(/^儲存失敗：/, "")}</div>}
           {isProductTab(tab) && localProductMode && localProductNotice && <div role="status" className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">{localProductNotice}</div>}
 
