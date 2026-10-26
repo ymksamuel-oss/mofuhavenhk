@@ -70,7 +70,7 @@ function LanguageSwitcher({ locale, label, size, onSelect }: LanguageSwitcherPro
     >
       {options.map((option) => {
         const active = locale === option.value;
-        const optionName = option.value === "zh" ? "中文" : "English";
+        const optionName = locale === "en" ? option.enLabel : option.zhLabel;
         return (
           <button
             key={option.value}
@@ -130,7 +130,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
+    <header className="site-header sticky top-0 z-[60] border-b border-[color:var(--line)] bg-[color:var(--background)]/95 backdrop-blur-md">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-2 px-3 sm:h-24 sm:gap-3 sm:px-6">
         <Link
           href="/"

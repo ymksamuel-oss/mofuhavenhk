@@ -77,6 +77,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Keep the sticky header content below iOS and other display cutouts. */
+.site-header {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 /* Native momentum scrolling for horizontal catalog and gallery rows on iOS. */
 .overflow-x-auto,
 .scrollbar-none {

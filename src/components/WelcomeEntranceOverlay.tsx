@@ -6,7 +6,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function WelcomeEntranceOverlay() {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const isZh = locale === "zh";
 
   const copy = isZh
@@ -46,7 +46,7 @@ export function WelcomeEntranceOverlay() {
 
         <div className="mx-auto max-w-5xl pt-8 sm:pt-10 lg:pt-12">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
-            <BrandLogo title="Mofu Haven 毛毛港" />
+            <BrandLogo title={t("brand")} />
             <span className="text-2xl font-light text-stone-300" aria-hidden="true">×</span>
             <Image src="/images/brands/best-partner-logo.svg" alt="Best Partner Japan" width={220} height={70} priority className="h-14 w-auto max-w-[170px] object-contain mix-blend-multiply sm:h-20 sm:max-w-[220px]" />
           </div>

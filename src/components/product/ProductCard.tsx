@@ -36,7 +36,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
       if (homepageEnglishName) return homepageEnglishName;
       if (directEnglishName && !/[\u4e00-\u9fa5]/.test(directEnglishName)) return directEnglishName;
     }
-    return getLocalizedProductName(product, locale) || "商品";
+    return getLocalizedProductName(product, locale) || t("productGenericName");
   };
   const cardTitle = getProductTitle();
   const displayName = cardTitle;

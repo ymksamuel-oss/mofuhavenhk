@@ -6,9 +6,9 @@ import { useFormStatus } from "react-dom";
 import { signOutAction } from "@/app/account/actions";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
-function SignOutButton() {
+function SignOutButton({ locale }: { locale: "zh" | "en" }) {
   const { pending } = useFormStatus();
-  return <button type="submit" disabled={pending} className="min-h-11 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm font-medium text-[color:var(--muted)] hover:bg-white disabled:opacity-60">{pending ? "登出中…" : "登出"}</button>;
+  return <button type="submit" disabled={pending} className="min-h-11 rounded-xl border border-[color:var(--line)] px-3 py-2 text-sm font-medium text-[color:var(--muted)] hover:bg-white disabled:opacity-60">{pending ? (locale === "en" ? "Signing out…" : "登出中…") : (locale === "en" ? "Sign out" : "登出")}</button>;
 }
 
 export function CustomerPortalShell({
@@ -37,7 +37,7 @@ export function CustomerPortalShell({
           {user.avatarUrl ? <img src={user.avatarUrl} alt="" referrerPolicy="no-referrer" className="h-11 w-11 shrink-0 rounded-full border border-[color:var(--line)] object-cover" /> : <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-lg font-semibold text-[color:var(--ink)]">{name.slice(0, 1)}</span>}
           <div className="min-w-0"><p className="truncate text-sm font-semibold text-[color:var(--ink)]">{name}</p><p className="truncate text-xs text-[color:var(--muted)]">{user.email}</p></div>
         </div>
-        <form action={signOutAction}><SignOutButton /></form>
+        <form action={signOutAction}><SignOutButton locale={locale} /></form>
       </header>
       <nav aria-label={locale === "en" ? "Customer account" : "會員中心導覽"} className="mb-6 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
         {links.map((link) => {

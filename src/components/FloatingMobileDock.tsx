@@ -52,7 +52,7 @@ function ShoppingBagIcon({ className = "" }: IconProps) {
 }
 
 function dockItemClass(active: boolean) {
-  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-1 py-1.5 text-center text-[10px] font-medium leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
+  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-0.5 py-1.5 text-center text-[9px] font-medium leading-none tracking-[-0.02em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
 }
 
 export function FloatingMobileDock() {
@@ -98,11 +98,11 @@ export function FloatingMobileDock() {
   return (
     <div
       ref={dockRef}
-      className="fixed bottom-1.5 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[92%] max-w-[370px] -translate-x-1/2 items-center md:hidden"
+      className="fixed bottom-1.5 left-1/2 z-50 mb-[env(safe-area-inset-bottom)] flex w-[calc(100%-1rem)] max-w-[430px] -translate-x-1/2 items-center md:hidden"
     >
       <nav
         aria-label={t("mobileDockNavLabel")}
-        className="flex w-full items-center justify-between gap-1 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 shadow-[0_8px_28px_-10px_rgba(43,38,35,0.32)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]"
+        className="flex w-full items-center justify-between gap-0 rounded-full border border-white/70 bg-white/95 px-2 py-1.5 shadow-[0_8px_28px_-10px_rgba(43,38,35,0.32)] backdrop-blur-md [-webkit-backdrop-filter:blur(12px)]"
       >
         <Link href="/" aria-label={t("mobileDockRecommend")} aria-current={isHomeActive ? "page" : undefined} className={dockItemClass(isHomeActive)}>
           <PawIcon className="h-[18px] w-[18px]" />
@@ -132,7 +132,7 @@ export function FloatingMobileDock() {
 
         <Link href="/matcher" aria-label={t("mobileDockMatcher")} aria-current={isMatcherActive ? "page" : undefined} className={dockItemClass(isMatcherActive)}>
           <CompassIcon className="h-[18px] w-[18px]" />
-          <span className="max-w-full truncate">{t("mobileDockMatcher")}</span>
+          <span className="whitespace-nowrap">{t("mobileDockMatcher")}</span>
         </Link>
 
         <button

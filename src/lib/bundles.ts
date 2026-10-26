@@ -3,16 +3,17 @@ import type { Product } from "@/lib/products";
 export type BundleComponent = {
   sku: string;
   nameZh: string;
+  nameEn: string;
   nameJa: string;
   weight: string;
 };
 
 export const BUNDLE_BOM: Record<string, BundleComponent[]> = {
   "MOFU-BUNDLE-PICKY-01": [
-    { sku: "4976064024251", nameZh: "雞肉雪花碎", nameJa: "鶏ささみフレーク", weight: "50g" },
-    { sku: "4976064024893", nameZh: "黑鮪魚碎", nameJa: "まぐろフレーク", weight: "45g" },
-    { sku: "4976064025272", nameZh: "安納芋粉", nameJa: "安納芋のふりかけ", weight: "80g" },
-    { sku: "4976064024275", nameZh: "芝士粉", nameJa: "チーズふりかけ", weight: "50g" },
+    { sku: "4976064024251", nameZh: "雞肉雪花碎", nameEn: "Chicken flakes", nameJa: "鶏ささみフレーク", weight: "50g" },
+    { sku: "4976064024893", nameZh: "黑鮪魚碎", nameEn: "Bluefin tuna flakes", nameJa: "まぐろフレーク", weight: "45g" },
+    { sku: "4976064025272", nameZh: "安納芋粉", nameEn: "Annou sweet potato powder", nameJa: "安納芋のふりかけ", weight: "80g" },
+    { sku: "4976064024275", nameZh: "芝士粉", nameEn: "Cheese powder", nameJa: "チーズふりかけ", weight: "50g" },
   ],
 };
 

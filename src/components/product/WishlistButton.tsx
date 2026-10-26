@@ -1,15 +1,19 @@
 "use client";
 
 import { useWishlist } from "@/lib/shop/wishlist";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export function WishlistButton({ productId, className = "" }: { productId: string; className?: string }) {
   const { isWishlisted, toggleWishlist } = useWishlist();
+  const { locale } = useI18n();
   const active = isWishlisted(productId);
 
   return (
     <button
       type="button"
-      aria-label={active ? "從我的最愛移除" : "加入我的最愛"}
+      aria-label={active
+        ? locale === "en" ? "Remove from wishlist" : "從我的最愛移除"
+        : locale === "en" ? "Add to wishlist" : "加入我的最愛"}
       aria-pressed={active}
       onClick={(event) => {
         event.preventDefault();

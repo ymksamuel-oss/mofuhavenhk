@@ -178,7 +178,7 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `\u5c07${product?.name.zh ?? product?.name.en ?? "\u5546\u54c1"}\u52a0\u5165\u8cfc\u7269\u8eca`}
+        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? "product"} to cart` : `\u5c07${product?.name.zh ?? product?.name.en ?? "\u5546\u54c1"}\u52a0\u5165\u8cfc\u7269\u8eca`}
         title={!purchasable ? unavailableLabel : undefined}
         aria-live="polite"
         className={`inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-[0_10px_24px_-12px_rgba(122,75,49,0.58)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-14px_rgba(84,57,45,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 active:scale-90 disabled:cursor-not-allowed disabled:bg-[color:var(--muted)] disabled:opacity-70 ${added ? "bg-[color:var(--hero-deep)]" : "bg-[color:var(--accent)] hover:bg-[color:var(--hero-deep)]"}`}
@@ -219,7 +219,7 @@ export function AddToCartButton({
         type="button"
         onClick={add}
         disabled={!purchasable}
-        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? product?.name.zh ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
+        aria-label={!purchasable ? unavailableLabel : locale === "en" ? `Add ${product?.name.en ?? "product"} to cart` : `將${product?.name.zh ?? product?.name.en ?? "商品"}加入購物車`}
         title={!purchasable ? unavailableLabel : undefined}
         aria-live="polite"
         className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-[#111111] shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${added ? "border-[color:var(--accent)] text-[color:var(--accent)]" : "text-[#111111]"}`}

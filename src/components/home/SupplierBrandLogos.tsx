@@ -1,13 +1,17 @@
+"use client";
+
 import Image from "next/image";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 /** Optical alignment for the supplier and storefront marks shown together. */
 export function SupplierBrandLogos() {
+  const { locale } = useI18n();
   return (
     <div className="mb-5 flex items-center justify-center gap-6 sm:gap-10" aria-label="Mofu Haven and Best Partner">
       <div className="flex h-24 w-36 shrink-0 items-center justify-center sm:h-28 sm:w-44">
         <Image
           src="/images/brands/mofu-haven-normalized.png"
-          alt="Mofu Haven 毛毛港"
+          alt={locale === "en" ? "Mofu Haven" : "Mofu Haven 毛毛港"}
           width={740}
           height={600}
           className="max-h-full w-auto max-w-full object-contain"

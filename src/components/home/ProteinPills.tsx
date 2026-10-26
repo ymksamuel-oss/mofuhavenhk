@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import type { IngredientKey } from "@/components/menu/IngredientFilterPanel";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 type ProteinItem = {
   key: IngredientKey;
@@ -39,6 +40,7 @@ export function ProteinPills({
   selected: IngredientKey[];
   onSelect: (keys: IngredientKey[]) => void;
 }) {
+  const { locale, t } = useI18n();
   const proteins = audience === "dogs" ? DOG_PROTEINS : CAT_PROTEINS;
   const isAllSelected = selected.length === 0;
   const containerRef = useRef<HTMLElement | null>(null);
@@ -47,23 +49,23 @@ export function ProteinPills({
   };
 
   return (
-    <section className="w-full" aria-label="Meat and ingredient filters">
+    <section className="w-full" aria-label={t("ingredientFilterLabel")}>
       <div className="relative my-4 flex w-full items-center">
         <button
           type="button"
-          aria-label="Scroll meat filters left"
+          aria-label={t("ingredientFilterScrollLeft")}
           onClick={() => scrollIngredients(-220)}
           className="z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm transition-all hover:border-[#C86A2B] hover:text-[#C86A2B]"
         >
           ‹
         </button>
-        <nav ref={containerRef} className="flex w-full items-center gap-2.5 overflow-x-auto scroll-smooth px-2 py-1 scrollbar-none" aria-label="Meat source filters">
+        <nav ref={containerRef} className="flex w-full items-center gap-2.5 overflow-x-auto scroll-smooth px-2 py-1 scrollbar-none" aria-label={t("ingredientFilterLabel")}>
         <button
           type="button"
           onClick={() => onSelect([])}
           className={`whitespace-nowrap flex-shrink-0 rounded-xl border px-4 py-2 text-xs md:text-sm font-medium transition-all ${isAllSelected ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm font-semibold" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B] hover:text-[#C86A2B] cursor-pointer shadow-sm"}`}
         >
-          全部 All
+          {t("ingredientFilterAll")}
         </button>
         {proteins.map((item) => {
           const active = selected.includes(item.key);
@@ -74,14 +76,14 @@ export function ProteinPills({
               onClick={() => onSelect([item.key])}
               className={`whitespace-nowrap flex-shrink-0 rounded-xl border px-4 py-2 text-xs md:text-sm font-medium transition-all ${active ? "bg-[#C86A2B] text-white border-[#C86A2B] shadow-sm font-semibold" : "bg-white border border-stone-200 text-stone-700 hover:border-[#C86A2B] hover:text-[#C86A2B] cursor-pointer shadow-sm"}`}
             >
-              {item.zh} {item.en}
+              {locale === "en" ? item.en : item.zh}
             </button>
           );
         })}
         </nav>
         <button
           type="button"
-          aria-label="Scroll meat filters right"
+          aria-label={t("ingredientFilterScrollRight")}
           onClick={() => scrollIngredients(220)}
           className="z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 shadow-sm transition-all hover:border-[#C86A2B] hover:text-[#C86A2B]"
         >
