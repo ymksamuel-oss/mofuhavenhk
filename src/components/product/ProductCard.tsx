@@ -6,6 +6,7 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { ProductStatusBadges } from "@/components/product/ProductStatusBadges";
 import { WishlistButton } from "@/components/product/WishlistButton";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { useRouter } from "next/navigation";
 import { formatMoney } from "@/lib/i18n/translations";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import { productHref, type Product } from "@/lib/products";
@@ -15,6 +16,7 @@ import { useRef, useState } from "react";
 
 export function ProductCard({ product, priority = false, showPurchaseControls = false }: { product: Product; priority?: boolean; showPurchaseControls?: boolean }) {
   const { locale, t } = useI18n();
+  const router = useRouter();
   const directEnglishName = typeof (product as Product & { name_en?: unknown }).name_en === "string"
     ? (product as Product & { name_en: string }).name_en.trim()
     : "";
@@ -40,6 +42,7 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   };
   const cardTitle = getProductTitle();
   const displayName = cardTitle;
+  const href = productHref(product.id);
   const hasDiscount = Boolean(product.originalPrice && product.originalPrice > product.price);
   const primaryImage = product.images?.[0] ?? "catalog-placeholder";
   const secondaryImage = product.images?.[1];
@@ -64,9 +67,12 @@ export function ProductCard({ product, priority = false, showPurchaseControls = 
   return (
     <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-200 hover:-translate-y-1 hover:border-zinc-200 hover:shadow-[0_8px_22px_rgba(0,0,0,0.06)]">
       <Link
-        href={productHref(product.id)}
+        href={href}
         aria-label={`${t("productViewDetails")}: ${displayName}`}
         className="flex min-h-0 min-w-0 flex-1 flex-col"
+        prefetch
+        onMouseEnter={() => router.prefetch(href)}
+        onFocus={() => router.prefetch(href)}
         onClickCapture={(event) => {
           if (!suppressClick.current) return;
           event.preventDefault();

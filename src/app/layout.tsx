@@ -156,13 +156,13 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="zh-HK" className="bg-white">
+    <html lang="en" className="bg-white">
       <head>
         <GoogleAnalytics />
         <MetaPixel />
       </head>
       <body className="bg-white font-sans antialiased">
-        <I18nProvider initialLocale="zh">
+        <I18nProvider initialLocale="en">
           <CustomerAuthProvider>
             <CatalogProvider products={products} categories={categories} brands={brands} payMe={payMe} catalogFallback={false}>
               <CartProvider>

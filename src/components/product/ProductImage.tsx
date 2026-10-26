@@ -62,6 +62,7 @@ export function ProductImage({
           className="object-contain p-1"
           aria-hidden="true"
           unoptimized
+          decoding="async"
         />
       </div>
     );
@@ -74,6 +75,8 @@ export function ProductImage({
       fill
       sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
       unoptimized={false}
+      quality={72}
+      decoding="async"
       className={className}
       priority={priority}
       loading={priority ? undefined : "lazy"}

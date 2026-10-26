@@ -9,7 +9,8 @@ export type CollectionConfig = {
   slug: string;
   title_zh: string;
   title_en: string;
-  description: string;
+  description_zh: string;
+  description_en: string;
   seo_title: string;
   group: CollectionGroup;
   targetCount?: number;
@@ -94,22 +95,22 @@ const CAT = (product: Product) => CAT_SKUS.has(productSku(product));
 const VALUE_BUNDLES = isValueBundleProduct;
 
 export const COLLECTIONS: readonly CollectionConfig[] = [
-  { slug: "dogs", title_zh: "狗狗全系列", title_en: "All Dog Products", description: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
-  { slug: "cats", title_zh: "貓咪專區", title_en: "Cat Collection", description: "精選日本貓咪商品及貓狗通用天然小食，讓愛貓享受安心日常。", seo_title: "貓咪專區｜日本貓咪精選商品及天然小食", group: "species", targetCount: 12, match: CAT },
-  { slug: "dental-chews", title_zh: "物理潔齒耐咬", title_en: "Dental Chews", description: "以自然咀嚼與適口口感陪伴狗狗日常潔齒。", seo_title: "物理潔齒耐咬｜狗狗潔牙零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["dental-chews"]) },
-  { slug: "meal-toppers", title_zh: "挑食拌糧神粉", title_en: "Meal Toppers", description: "為挑食狗狗增添香氣與食慾的日常拌糧選擇。", seo_title: "挑食拌糧神粉｜狗狗天然拌飯粉", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["meal-toppers"]) },
-  { slug: "training-treats", title_zh: "隨身訓練一口丁", title_en: "Training Treats", description: "細小方便、適合外出訓練與即時獎勵的狗狗小食。", seo_title: "隨身訓練一口丁｜狗狗訓練零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["training-treats"]) },
-  { slug: "joint-care", title_zh: "關節軟骨保養", title_en: "Joint Care", description: "為狗狗日常活動力與關節保養而設的機能選擇。", seo_title: "關節軟骨保養｜狗狗關節護理食品", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["joint-care"]) },
-  { slug: "skin-coat", title_zh: "亮毛美膚 Omega-3", title_en: "Skin & Coat Omega-3", description: "從日常營養入手，照顧狗狗皮膚與毛髮狀態。", seo_title: "亮毛美膚 Omega-3｜狗狗皮膚毛髮護理", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["skin-coat"]) },
-  { slug: "senior-puppy", title_zh: "幼老犬軟質點心", title_en: "Soft Treats for Puppies & Seniors", description: "適合幼犬與高齡犬的柔軟、易入口日常點心。", seo_title: "幼老犬軟質點心｜狗狗溫和小食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["senior-puppy"]) },
-  { slug: "horse-meat", title_zh: "極致低敏馬肉", title_en: "Hypoallergenic Horse Meat", description: "以馬肉為主題的低敏狗狗肉源選擇。", seo_title: "極致低敏馬肉｜日本狗狗馬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["horse-meat"]) },
-  { slug: "venison", title_zh: "北海道野生鹿肉", title_en: "Hokkaido Venison", description: "探索北海道野生鹿肉及天然肉源小食。", seo_title: "北海道野生鹿肉｜狗狗鹿肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS.venison) },
-  { slug: "beef-tendon", title_zh: "日本產純牛肉／牛筋", title_en: "Japanese Beef & Tendon", description: "日本產純牛肉與牛筋的耐咬、肉香選擇。", seo_title: "日本產純牛肉牛筋｜狗狗牛肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["beef-tendon"]) },
-  { slug: "chicken-poultry", title_zh: "國產純雞肉／機能禽肉", title_en: "Japanese Chicken & Poultry", description: "國產雞肉及機能禽肉，適合日常獎勵與餵食。", seo_title: "國產純雞肉｜狗狗雞肉及禽肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["chicken-poultry"]) },
-  { slug: "seafood-fish", title_zh: "深海海鮮全魚", title_en: "Deep-Sea Fish & Seafood", description: "以魚類及海鮮為主題的天然狗狗小食。", seo_title: "深海海鮮全魚｜狗狗魚類海鮮零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["seafood-fish"]) },
-  { slug: "pork-specialty", title_zh: "黑豚與特選肉", title_en: "Specialty Pork & Meats", description: "黑豚及特選肉源的日本狗狗零食。", seo_title: "黑豚與特選肉｜日本狗狗豬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["pork-specialty"]) },
-  { slug: "cheese-bakery", title_zh: "芝士與和風烘焙", title_en: "Cheese & Japanese Bakery", description: "芝士、乳酪與和風烘焙點心，為狗狗帶來香脆獎勵。", seo_title: "芝士與和風烘焙｜狗狗芝士及烘焙零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["cheese-bakery"]) },
-  { slug: "value-bundles", title_zh: "超市量販特惠專區・多包囤貨更划算", title_en: "Bulk-Buy Savings | 6-, 9- & 12-Pack Pet Treats", description: "精選 15 款人氣日本原肉零食，6包／9包／12包特惠量販。全單滿 HK$399 享順豐免運直送。", seo_title: "超市量販特惠專區｜6包、9包、12包日本原肉零食優惠", group: "promotions", match: VALUE_BUNDLES },
+  { slug: "dogs", title_zh: "狗狗全系列", title_en: "All Dog Products", description_zh: "為狗狗挑選日本直送食品、機能零食及安心日常用品。", description_en: "Curated Japanese-direct food, functional treats, and safe daily essentials for dogs.", seo_title: "狗狗全系列｜日本狗狗食品、零食及用品", group: "species", targetCount: 245, match: DOG },
+  { slug: "cats", title_zh: "貓咪專區", title_en: "Cat Collection", description_zh: "精選日本貓咪商品及貓狗通用天然小食，讓愛貓享受安心日常。", description_en: "Curated Japanese cat products and natural treats that cats and dogs can share.", seo_title: "貓咪專區｜日本貓咪精選商品及天然小食", group: "species", targetCount: 12, match: CAT },
+  { slug: "dental-chews", title_zh: "物理潔齒耐咬", title_en: "Dental Chews", description_zh: "以自然咀嚼與適口口感陪伴狗狗日常潔齒。", description_en: "Natural chewing textures to support your dog's everyday dental-care routine.", seo_title: "物理潔齒耐咬｜狗狗潔牙零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["dental-chews"]) },
+  { slug: "meal-toppers", title_zh: "挑食拌糧神粉", title_en: "Meal Toppers", description_zh: "為挑食狗狗增添香氣與食慾的日常拌糧選擇。", description_en: "Everyday toppers that add aroma and appetite appeal for picky dogs.", seo_title: "挑食拌糧神粉｜狗狗天然拌飯粉", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["meal-toppers"]) },
+  { slug: "training-treats", title_zh: "隨身訓練一口丁", title_en: "Training Treats", description_zh: "細小方便、適合外出訓練與即時獎勵的狗狗小食。", description_en: "Small, convenient dog treats for training outdoors and rewarding good behaviour.", seo_title: "隨身訓練一口丁｜狗狗訓練零食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["training-treats"]) },
+  { slug: "joint-care", title_zh: "關節軟骨保養", title_en: "Joint Care", description_zh: "為狗狗日常活動力與關節保養而設的機能選擇。", description_en: "Functional everyday choices for your dog's mobility and joint-care routine.", seo_title: "關節軟骨保養｜狗狗關節護理食品", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["joint-care"]) },
+  { slug: "skin-coat", title_zh: "亮毛美膚 Omega-3", title_en: "Skin & Coat Omega-3", description_zh: "從日常營養入手，照顧狗狗皮膚與毛髮狀態。", description_en: "Everyday nutrition-focused picks for your dog's skin and coat.", seo_title: "亮毛美膚 Omega-3｜狗狗皮膚毛髮護理", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["skin-coat"]) },
+  { slug: "senior-puppy", title_zh: "幼老犬軟質點心", title_en: "Soft Treats for Puppies & Seniors", description_zh: "適合幼犬與高齡犬的柔軟、易入口日常點心。", description_en: "Soft, easy-to-enjoy everyday treats for puppies and senior dogs.", seo_title: "幼老犬軟質點心｜狗狗溫和小食", group: "dog-function", match: (p) => DOG(p) && matchesAny(p, FUNCTION_PATTERNS["senior-puppy"]) },
+  { slug: "horse-meat", title_zh: "極致低敏馬肉", title_en: "Hypoallergenic Horse Meat", description_zh: "以馬肉為主題的低敏狗狗肉源選擇。", description_en: "A horse-meat protein option for dogs with sensitive-diet considerations.", seo_title: "極致低敏馬肉｜日本狗狗馬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["horse-meat"]) },
+  { slug: "venison", title_zh: "北海道野生鹿肉", title_en: "Hokkaido Venison", description_zh: "探索北海道野生鹿肉及天然肉源小食。", description_en: "Explore Hokkaido venison and natural single-protein treats.", seo_title: "北海道野生鹿肉｜狗狗鹿肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS.venison) },
+  { slug: "beef-tendon", title_zh: "日本產純牛肉／牛筋", title_en: "Japanese Beef & Tendon", description_zh: "日本產純牛肉與牛筋的耐咬、肉香選擇。", description_en: "Chewy, meaty Japanese beef and tendon options for dogs.", seo_title: "日本產純牛肉牛筋｜狗狗牛肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["beef-tendon"]) },
+  { slug: "chicken-poultry", title_zh: "國產純雞肉／機能禽肉", title_en: "Japanese Chicken & Poultry", description_zh: "國產雞肉及機能禽肉，適合日常獎勵與餵食。", description_en: "Japanese chicken and functional poultry treats for everyday rewards.", seo_title: "國產純雞肉｜狗狗雞肉及禽肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["chicken-poultry"]) },
+  { slug: "seafood-fish", title_zh: "深海海鮮全魚", title_en: "Deep-Sea Fish & Seafood", description_zh: "以魚類及海鮮為主題的天然狗狗小食。", description_en: "Natural dog treats centred on fish and seafood.", seo_title: "深海海鮮全魚｜狗狗魚類海鮮零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["seafood-fish"]) },
+  { slug: "pork-specialty", title_zh: "黑豚與特選肉", title_en: "Specialty Pork & Meats", description_zh: "黑豚及特選肉源的日本狗狗零食。", description_en: "Japanese dog treats made with specialty pork and selected meat proteins.", seo_title: "黑豚與特選肉｜日本狗狗豬肉零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["pork-specialty"]) },
+  { slug: "cheese-bakery", title_zh: "芝士與和風烘焙", title_en: "Cheese & Japanese Bakery", description_zh: "芝士、乳酪與和風烘焙點心，為狗狗帶來香脆獎勵。", description_en: "Cheese, dairy and Japanese bakery treats for a crisp, flavourful reward.", seo_title: "芝士與和風烘焙｜狗狗芝士及烘焙零食", group: "dog-meat", match: (p) => DOG(p) && matchesAny(p, MEAT_PATTERNS["cheese-bakery"]) },
+  { slug: "value-bundles", title_zh: "超市量販特惠專區・多包囤貨更划算", title_en: "Bulk-Buy Savings | 6-, 9- & 12-Pack Pet Treats", description_zh: "精選 15 款人氣日本原肉零食，6包／9包／12包特惠量販。全單滿 HK$399 享順豐免運直送。", description_en: "Stock up on 15 popular Japanese meat treats in 6-, 9- and 12-pack specials, with free SF Express delivery over HK$399.", seo_title: "超市量販特惠專區｜6包、9包、12包日本原肉零食優惠", group: "promotions", match: VALUE_BUNDLES },
 ] as const;
 
 export const COLLECTION_NAV_GROUPS: readonly { key: CollectionGroup; title_zh: string; title_en: string; slugs: readonly string[] }[] = [
@@ -134,8 +135,8 @@ export function getCollectionLabel(collection: CollectionConfig, locale: Locale)
   return locale === "en" ? collection.title_en : collection.title_zh;
 }
 
-export function getCollectionDescription(collection: CollectionConfig): string {
-  return collection.description;
+export function getCollectionDescription(collection: CollectionConfig, locale: Locale): string {
+  return locale === "en" ? collection.description_en : collection.description_zh;
 }
 
 export { CAT_SKUS };

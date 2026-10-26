@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const collection = getCollection(slug.trim().toLowerCase());
   if (!collection) return { title: "Collection not found | Mofu Haven HK" };
   const title = `${collection.title_en} | Japanese Pet Essentials`;
-  const description = `${getCollectionDescription(collection)} Shop product details, usage guidance and Hong Kong delivery information.`;
+  const description = `${getCollectionDescription(collection, "en")} Shop product details, usage guidance and Hong Kong delivery information.`;
   const shareTitle = `${title} | Mofu Haven`;
   const shareImage = {
     url: "/images/best-partner-plain-pack-series.png",
@@ -49,7 +49,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
         name: collection.title_en,
-        description: getCollectionDescription(collection),
+        description: getCollectionDescription(collection, "en"),
         url: `https://www.mofuhavenhk.com/collections/${collection.slug}`,
         isPartOf: { "@type": "WebSite", name: "Mofu Haven HK", url: "https://www.mofuhavenhk.com/" },
       }} />

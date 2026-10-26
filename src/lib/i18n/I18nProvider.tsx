@@ -31,7 +31,7 @@ function readStoredLocale(fallback: SupportedLocale): SupportedLocale {
   }
 }
 
-export function I18nProvider({ children, initialLocale = "zh" }: { children: ReactNode; initialLocale?: SupportedLocale }) {
+export function I18nProvider({ children, initialLocale = "en" }: { children: ReactNode; initialLocale?: SupportedLocale }) {
   const [locale, setLocaleState] = useState<SupportedLocale>(initialLocale);
   const [hydrated, setHydrated] = useState(false);
 

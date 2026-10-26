@@ -247,7 +247,7 @@ export function ProductCatalog({
         {collection ? <>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">{collection.slug === "value-bundles"
             ? (locale === "en" ? "15 best-loved Japanese meat treats in 6-, 9- and 12-pack bulk specials. Enjoy free SF Express delivery on orders of HK$399 or more." : "精選 15 款人氣日本原肉零食，6包／9包／12包特惠量販。全單滿 HK$399 享順豐免運直送。")
-            : getCollectionDescription(collection)}</p>
+            : getCollectionDescription(collection, locale)}</p>
         </> : null}
         {(isDedicatedCategoryPage && (categorySlug === "dogs" || categorySlug === "cats") || isSpeciesCollection) ? <ProteinPills audience={(categorySlug === "dogs" || collection?.slug === "dogs") ? "dogs" : "cats"} selected={selectedIngredients} onSelect={updateIngredientSelection} /> : null}
       </div>

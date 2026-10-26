@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Globe } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { ProductSearch } from "@/components/ProductSearch";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -68,6 +69,7 @@ function LanguageSwitcher({ locale, label, size, onSelect }: LanguageSwitcherPro
       role="group"
       aria-label={label}
     >
+      <Globe className="mx-1 h-4 w-4 shrink-0 text-[color:var(--muted)]" aria-hidden="true" />
       {options.map((option) => {
         const active = locale === option.value;
         const optionName = locale === "en" ? option.enLabel : option.zhLabel;
@@ -80,10 +82,37 @@ function LanguageSwitcher({ locale, label, size, onSelect }: LanguageSwitcherPro
             aria-label={`${locale === "en" ? "Switch to" : "切換至"}${locale === "en" ? " " : ""}${optionName}`}
             className={`rounded-full font-medium transition ${isMobile ? "min-h-8 px-2 py-1 text-[10px]" : "px-2 py-2 text-[10px] tracking-wide sm:text-xs"} ${active ? "bg-[color:var(--ink)] text-[color:var(--surface)]" : "text-[color:var(--muted)] hover:text-[color:var(--ink)]"}`}
           >
-            {isMobile ? (option.value === "zh" ? "中" : "EN") : locale === "zh" ? option.zhLabel : option.enLabel}
+            {option.value === "zh" ? "中" : "EN"}
           </button>
         );
       })}
+    </div>
+  );
+}
+
+function HistoryNavigation() {
+  const { t, locale } = useI18n();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [canGoBack, setCanGoBack] = useState(false);
+  const [canGoForward, setCanGoForward] = useState(false);
+
+  useEffect(() => {
+    const syncHistoryState = () => setCanGoBack(window.history.length > 1);
+    syncHistoryState();
+    window.addEventListener("popstate", syncHistoryState);
+    return () => window.removeEventListener("popstate", syncHistoryState);
+  }, [pathname]);
+
+  return (
+    <div className="flex shrink-0 items-center gap-0.5" aria-label={locale === "en" ? "Page history" : "頁面歷史導覽"}>
+      <button type="button" onClick={() => { if (canGoBack) { setCanGoForward(true); router.back(); } }} disabled={!canGoBack} aria-label={t("headerPreviousPageAria")} className="min-h-9 rounded-lg px-1.5 text-[10px] font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] disabled:cursor-not-allowed disabled:opacity-35 sm:px-2 sm:text-xs">
+        &lt; {t("headerPreviousPage")}
+      </button>
+      <span className="text-[color:var(--line)]" aria-hidden="true">|</span>
+      <button type="button" onClick={() => { if (canGoForward) router.forward(); }} disabled={!canGoForward} aria-label={t("headerNextPageAria")} className="min-h-9 rounded-lg px-1.5 text-[10px] font-medium text-[color:var(--muted)] transition hover:bg-[color:var(--accent-soft)] hover:text-[color:var(--ink)] disabled:cursor-not-allowed disabled:opacity-35 sm:px-2 sm:text-xs">
+        {t("headerNextPage")} &gt;
+      </button>
     </div>
   );
 }
@@ -139,6 +168,8 @@ export function Header() {
         >
           <BrandLogo title={t("brand")} />
         </Link>
+
+        <HistoryNavigation />
 
         <nav
           className="ml-2 hidden min-w-0 flex-1 items-center justify-center gap-5 whitespace-nowrap text-[11px] text-[color:var(--muted)] xl:flex 2xl:text-sm"
