@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import Stripe from "stripe";
 
 import { canonicalCategorySlug, CATEGORIES, type CategoryIconName } from "@/lib/categories";
@@ -863,6 +864,7 @@ export async function getCatalogDiagnostics() {
 }
 
 async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
+  const startedAt = Date.now();
   const supabase = getSupabasePublic() || getSupabaseAdmin();
   if (!supabase) {
     console.warn("[catalog] Supabase is not configured; returning an empty catalog");
@@ -893,26 +895,27 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
       });
       return null;
     }
+    const baseQueriesFinishedAt = Date.now();
     const rawCategoryTree = buildCategoryTree(categoryResult.data || []);
     const adminSupabase = getSupabaseAdmin();
-    const localizedCategoryResult = adminSupabase
-      ? await adminSupabase
-        .from("store_settings")
-        .select("value")
-        .eq("key", CATEGORY_LOCALIZATIONS_SETTING_KEY)
-        .maybeSingle()
-      : null;
+    const [localizedCategoryResult, localizedProductResult] = adminSupabase
+      ? await Promise.all([
+        adminSupabase
+          .from("store_settings")
+          .select("value")
+          .eq("key", CATEGORY_LOCALIZATIONS_SETTING_KEY)
+          .maybeSingle(),
+        adminSupabase
+          .from("store_settings")
+          .select("value")
+          .eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY)
+          .maybeSingle(),
+      ])
+      : [null, null];
     const categoryTree = applyCategoryLocalizations(
       rawCategoryTree,
       parseCategoryLocalizations(localizedCategoryResult?.data?.value),
     );
-    const localizedProductResult = adminSupabase
-      ? await adminSupabase
-        .from("store_settings")
-        .select("value")
-        .eq("key", PRODUCT_LOCALIZATIONS_SETTING_KEY)
-        .maybeSingle()
-      : null;
     const productLocalizations = parseProductLocalizations(localizedProductResult?.data?.value);
     if (!productResult.data?.length) {
       console.warn("[catalog] Supabase product query succeeded but returned zero rows", {
@@ -1055,9 +1058,18 @@ async function fetchCatalogFromSupabase(): Promise<CatalogSnapshot | null> {
     } satisfies Product;
       });
     const products = mergeVariantProducts(uniqueProductsByStorefrontIdentity(mappedProducts));
+    console.info("[catalog] storefront load timing", {
+      baseQueriesMs: baseQueriesFinishedAt - startedAt,
+      totalMs: Date.now() - startedAt,
+      products: products.length,
+      categories: categoryResult.data?.length ?? 0,
+      brands: brandResult.data?.length ?? 0,
+      stripePrices: stripePricesAvailable,
+    });
     return { products: enforceEnglishCatalogProducts(products), categories: categoryTree, brands: brandResult.data || [], source: "supabase", matchedRecords: products.length };
   } catch (error) {
     console.error("[catalog] Supabase product fetch threw after retry handling", {
+      totalMs: Date.now() - startedAt,
       errorName: error instanceof Error ? error.name : "unknown",
       errorMessage: error instanceof Error ? error.message : String(error),
       stack: error instanceof Error ? error.stack : undefined,
@@ -1072,10 +1084,20 @@ async function loadCatalogSnapshot(): Promise<CatalogSnapshot> {
   // as a safe read-only fallback when the database is unavailable or empty.
   const managedCatalog = await fetchCatalogFromSupabase();
   if (managedCatalog && managedCatalog.products.length > 0) return managedCatalog;
+  console.warn("[catalog] using bundled storefront fallback snapshot");
   return getCatalogFallbackSnapshot();
 }
 
-// React scopes this memoization to the current server render/request, so the
-// root layout, page and metadata can share one catalog load without persisting
-// stock or price data across separate requests.
+// React scopes this memoization to one server render/request. Keep this live
+// loader for checkout and other flows that must re-read prices and stock.
 export const getCatalogSnapshot = cache(loadCatalogSnapshot);
+
+// Product pages can tolerate a short catalog freshness window; caching this
+// separate accessor prevents every storefront visit from waiting on Supabase
+// and Stripe while keeping the live accessor available for payment validation.
+const getCachedStorefrontCatalogSnapshot = unstable_cache(
+  loadCatalogSnapshot,
+  ["mofu-storefront-catalog-v1"],
+  { revalidate: 60, tags: ["catalog"] },
+);
+export const getStorefrontCatalogSnapshot = cache(getCachedStorefrontCatalogSnapshot);

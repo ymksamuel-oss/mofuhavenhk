@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getCatalogSnapshot } from "@/lib/catalog-server";
+import { getStorefrontCatalogSnapshot } from "@/lib/catalog-server";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/order";
 import { getProductJanCode } from "@/lib/product-identifiers";
 import { getLocalizedProductName } from "@/lib/translateProductName";
 import type { Product } from "@/lib/products";
 
-// Product prices and publication state are managed from the admin panel. Do
-// not serve a stale 24-hour page after a price/catalog correction.
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Product pages use a short ISR window for fast storefront rendering. Checkout
+// and payment validation continue to use the live catalog loader separately.
+export const revalidate = 60;
 const SITE_URL = "https://www.mofuhavenhk.com";
 const SITE_NAME = "Mofu Haven HK";
 const DEFAULT_SHARE_IMAGE = `${SITE_URL}/images/best-partner-plain-pack-series.png`;
@@ -141,7 +140,7 @@ type ProductPageProps = {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = (await getCatalogSnapshot()).products.find((candidate) => candidate.id === id);
+  const product = (await getStorefrontCatalogSnapshot()).products.find((candidate) => candidate.id === id);
   if (!product) return { title: "Product Not Found | Mofu Haven" };
   const name = getLocalizedProductName(product, "en");
   const title = `${name} | Mofu Haven`;
@@ -176,7 +175,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
-  const catalog = await getCatalogSnapshot();
+  const catalog = await getStorefrontCatalogSnapshot();
   const product = catalog.products.find((candidate) => candidate.id === id);
   if (!product) {
     notFound();

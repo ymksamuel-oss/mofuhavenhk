@@ -281,7 +281,7 @@ export function PetMatcherWizard({ variant, showTrigger = true, autoOpen = false
     context.fillText("Mofu Haven HK", 70, 105);
     context.font = "24px sans-serif";
     context.fillStyle = "#A36B42";
-    context.fillText(isZh ? "毛孩專屬日系好物配對" : "A tailored Japanese pet-care match", 72, 145);
+    context.fillText(t("matcherShareTitle"), 72, 145);
     let y = 225;
     context.fillStyle = "#3f342d";
     context.font = "bold 34px sans-serif";
