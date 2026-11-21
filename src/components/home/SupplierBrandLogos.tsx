@@ -16,6 +16,7 @@ export function SupplierBrandLogos() {
           height={600}
           className="max-h-full w-auto max-w-full object-contain"
           sizes="176px"
+          unoptimized
         />
       </div>
       <div className="flex h-24 w-36 shrink-0 items-center justify-center sm:h-28 sm:w-44">

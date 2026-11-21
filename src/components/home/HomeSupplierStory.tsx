@@ -55,6 +55,7 @@ export function HomeSupplierStory() {
                   : "Best Partner 官方貓狗同框圖：金毛幼犬與暖橘色長毛貓咪，呈現國產、無添加、無著色及豐富商品陣容"}
                 fill
                 sizes="(min-width: 1024px) 55vw, 100vw"
+                unoptimized
                 className="h-full w-full object-contain p-2 transition-transform duration-300 hover:scale-105 sm:p-4"
               />
             </div>

@@ -19,6 +19,7 @@ export function BrandLogo({ title = "Mofu Haven" }: BrandLogoProps) {
         height={600}
         className="h-full w-auto object-contain mix-blend-multiply"
         sizes="(max-width: 640px) 79px, 99px"
+        unoptimized
         priority
       />
     </span>

@@ -61,7 +61,7 @@ export function WelcomeEntranceOverlay() {
 
           <figure className="mt-8 overflow-hidden rounded-3xl border border-stone-100 bg-white shadow-[0_18px_45px_-34px_rgba(17,17,17,0.35)] sm:mt-10">
             <div className="relative aspect-[16/9] w-full sm:aspect-[2/1]">
-              <Image src="/images/best-partner-factory.jpg" alt={copy.imageAlt} fill priority sizes="(min-width: 1024px) 900px, 100vw" className="object-cover" />
+              <Image src="/images/best-partner-factory.jpg" alt={copy.imageAlt} fill priority sizes="(min-width: 1024px) 900px, 100vw" unoptimized className="object-cover" />
             </div>
             <figcaption className="px-4 py-4 text-center sm:px-6 sm:py-5">
               <p className="text-sm font-semibold text-stone-800 sm:text-base">{copy.factoryCaption}</p>
