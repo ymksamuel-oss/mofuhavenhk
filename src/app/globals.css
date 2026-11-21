@@ -82,6 +82,12 @@ body {
   padding-top: max(0.35rem, env(safe-area-inset-top, 0px));
 }
 
+@media (max-width: 639px) {
+  .site-header {
+    padding-top: max(0.65rem, env(safe-area-inset-top, 0px));
+  }
+}
+
 /* Native momentum scrolling for horizontal catalog and gallery rows on iOS. */
 .overflow-x-auto,
 .scrollbar-none {

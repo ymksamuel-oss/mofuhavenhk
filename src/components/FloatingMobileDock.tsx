@@ -52,7 +52,7 @@ function ShoppingBagIcon({ className = "" }: IconProps) {
 }
 
 function dockItemClass(active: boolean) {
-  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-0.5 py-1.5 text-center text-[10px] font-medium leading-none tracking-[-0.04em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
+  return `flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-0.5 py-1.5 text-center text-[10px] font-medium leading-none tracking-[-0.055em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 ${active ? "bg-[#E8E8ED]/80 text-black transition-all" : "bg-transparent text-stone-700 transition-all hover:text-black"}`;
 }
 
 export function FloatingMobileDock() {
@@ -130,7 +130,7 @@ export function FloatingMobileDock() {
           ) : null}
         </div>
 
-        <Link href="/matcher" aria-label={t("mobileDockMatcher")} aria-current={isMatcherActive ? "page" : undefined} className={dockItemClass(isMatcherActive)}>
+        <Link href="/matcher" aria-label={t("mobileDockMatcher")} aria-current={isMatcherActive ? "page" : undefined} className={`${dockItemClass(isMatcherActive)} min-w-[4.55rem]`}>
           <CompassIcon className="h-[18px] w-[18px]" />
           <span className="whitespace-nowrap">{t("mobileDockMatcher")}</span>
         </Link>

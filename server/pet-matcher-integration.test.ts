@@ -12,21 +12,30 @@ describe("pet matcher homepage and navigation integration", () => {
     expect(home.indexOf("<CareMatchCard />")).toBeLessThan(home.indexOf("<FAQAccordion />"));
   });
 
-  it("uses the requested Traditional Chinese copy and keeps the CTA touch-sized", () => {
+  it("keeps the Matcher and Care Match copy bound to locale keys", () => {
     const card = source("src/components/home/CareMatchCard.tsx");
-    expect(card).toContain("毛孩有挑食、過敏或潔齒需求？30秒為毛孩量身推薦日本天然原肉零食");
-    expect(card).toContain("開始智能配對 ➔");
+    const header = source("src/components/matcher/MatcherPageHeader.tsx");
+    const translations = source("src/lib/i18n/translations.ts");
+    const wizard = source("src/components/matcher/PetMatcherWizard.tsx");
+    expect(header).toContain('t("matcherHeroTitle")');
+    expect(header).toContain('t("matcherHeroSubtitle")');
+    expect(translations).toContain("Tailored Japanese Pet Essentials Matcher");
+    expect(translations).toContain("Dealing with picky eaters, allergies, or dental care needs?");
+    expect(card).toContain('t("careMatchEyebrow")');
+    expect(card).toContain('t("careMatchTitle")');
+    expect(card).toContain('t("careMatchSubtitle")');
+    expect(card).toContain('t("careMatchCta")');
+    expect(wizard).toContain('t("matcherFloatingCta")');
     expect(card).toContain('id="pet-matcher"');
+    expect(card).toContain('href="/matcher"');
     expect(card).toContain("min-h-12");
-    expect(card).toContain('new Event("mofu:open-matcher")');
   });
 
-  it("sends mobile and desktop Explore Pet World navigation to the auto-open matcher view", () => {
-    const header = source("src/components/Header.tsx");
+  it("exposes the dedicated matcher route as an auto-open matcher view", () => {
     const route = source("src/app/matcher/page.tsx");
     const wizard = source("src/components/matcher/PetMatcherWizard.tsx");
-    expect(header).toContain('const matcherHref = "/matcher"');
-    expect(header).toContain('href={matcherHref}');
+    expect(route).toContain('import { MatcherPageHeader } from "@/components/matcher/MatcherPageHeader"');
+    expect(route).toContain('<MatcherPageHeader />');
     expect(route).toContain("autoOpen");
     expect(wizard).toContain("autoOpen = false");
     expect(wizard).toContain("useState(autoOpen)");
