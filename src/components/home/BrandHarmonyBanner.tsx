@@ -33,6 +33,7 @@ export function BrandHarmonyBanner({ imageSrc = "/images/home-pet-companionship.
               alt={isEn ? imageAlt?.en ?? "Pets sharing a warm moment together" : imageAlt?.zh ?? "貓狗在溫柔日常中互相陪伴"}
               fill
               sizes="(min-width: 1024px) 52vw, 100vw"
+              unoptimized={imageSrc === "/images/home-pet-companionship.webp"}
               className="object-cover"
             />
           </div>

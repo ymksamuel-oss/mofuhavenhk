@@ -74,7 +74,7 @@ export function ProductImage({
       alt={alt}
       fill
       sizes={sizes ?? "(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"}
-      unoptimized={false}
+      unoptimized={activeSrc.startsWith("/images/products/")}
       quality={72}
       decoding="async"
       className={className}
