@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { HK_DISTRICTS } from "@/lib/hkDistricts";
 import { SFExpressPickupSelector } from "@/components/checkout/SFExpressPickupSelector";
 import type { SfPickupPoint } from "@/lib/sf-pickup-points";
-import { addressSchema } from "@/lib/account/validation";
+import { createAccountValidationSchemas } from "@/lib/account/validation";
 
 type AddressType = "home" | "business" | "sf_pickup";
 type AddressRow = {
@@ -62,7 +62,7 @@ export function AddressBookManager() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
-      const validated = addressSchema.safeParse(form);
+      const validated = createAccountValidationSchemas(locale).addressSchema.safeParse(form);
       if (!validated.success) {
         setError(validated.error.issues[0]?.message ?? (en ? "Check the address fields." : "請檢查地址資料。"));
         return;
