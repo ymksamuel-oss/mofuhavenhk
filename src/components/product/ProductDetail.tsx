@@ -31,6 +31,16 @@ import {
 type ProductDetailProps = { product: Product };
 type FamilyChoice = { product: Product; label: { zh: string; en: string } };
 
+function softenHealthClaims(text: string): string {
+  return text
+    .replace(/徹底杜絕[^。\n]*?(?:哽喉|嗆噎)[^。\n。]*/gu, "小塊零食仍須按寵物體型餵食並在旁看顧")
+    .replace(/(?:抗焦慮|治療焦慮|改善分離焦慮|平復分離焦慮)/gu, "作為日常嗅聞與咀嚼活動")
+    .replace(/(?:修護胃腸黏膜|增強免疫|促進腸胃消化|調養犬隻腸道環境|舒緩換牙期牙齦腫脹發癢|刮除牙菌斑|清潔牙垢除口臭|物理刮除厚重牙垢|抗過敏物理除牙石)/gu, "日常營養補充或物理潔齒護理")
+    .replace(/(?:專治挑食|唯一解藥|過敏犬的救星|皮膚敏感犬換肉源第一名|致敏率極低)/gu, "可作為日常餵食選擇")
+    .replace(/(?:repair(?:s|ing)?\s+(?:the\s+)?gastrointestinal\s+mucosa|boosts?\s+immunity|anti-anxiety|cures?\s+anxiety|prevents?\s+choking|eliminates?\s+choking\s+hazards?)/giu, "for everyday nutrition or dental care")
+    .replace(/(?:treats?\s+allerg(?:y|ies)|cures?\s+allerg(?:y|ies)|removes?\s+plaque|prevents?\s+dental\s+disease)/giu, "for everyday feeding or physical dental care");
+}
+
 function FeatureCopy({ item }: { item: string }) {
   const cleanItem = stripProductEmoji(item).replace(/^\d+\s*[.)、]\s*/u, "");
   const separator = cleanItem.search(/[：:—–-]/u);
@@ -43,7 +53,7 @@ function FeatureCopy({ item }: { item: string }) {
 function RichProductContent({ product, locale, sku }: { product: Product; locale: Locale; sku: string }) {
   const { t } = useI18n();
   const [openFeatures, setOpenFeatures] = useState(true);
-  const text = locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "";
+  const text = softenHealthClaims(locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "");
   const rich: RichProductContent = useMemo(() => parseProductContent(text, product, locale), [text, product, locale]);
   const defaultEnglishFeatures = [
     "100% Made in Japan: Carefully selected natural Japanese ingredients with no artificial synthesis.",
@@ -64,7 +74,7 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="flex flex-wrap gap-2 px-4 pt-4 sm:px-5">
-        {[locale === "en" ? "100% Made in Japan" : "100% 日本原裝", locale === "en" ? "Additive-Free" : "無添加", locale === "en" ? "Genuine Official Product" : "原廠正貨保證"].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
+        {[locale === "en" ? "Product details from available packaging data" : "商品資料以已提供的包裝資訊為準", locale === "en" ? (product.inStock === false ? "Out of stock" : "In stock") : (product.inStock === false ? "暫時缺貨" : "現貨")].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
       </div>
       <button type="button" onClick={() => setOpenFeatures((value) => !value)} aria-expanded={openFeatures} className="flex w-full items-center justify-between px-4 py-3 text-left sm:px-5"><span className="font-bold">{locale === "en" ? "Product features" : "商品特色"}</span><span className="text-xl text-stone-400" aria-hidden>{openFeatures ? "−" : "+"}</span></button>
       {openFeatures ? <div className="border-t border-stone-100 px-4 pb-5 pt-3 sm:px-5">
@@ -77,7 +87,7 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
       <div className="px-4 py-4 sm:px-5"><h2 id="product-specifications-title" className="text-lg font-bold">{locale === "en" ? "Specifications & Guaranteed Analysis" : "產品規格與保證營養分析"}</h2><div className="mt-3 divide-y divide-stone-100 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-stone-100">{visibleSpecificationRows.map((row, index) => <div key={`${row.label}-${index}`} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 px-3 py-3 text-[13px] leading-relaxed sm:px-4"><dt className="min-w-0 break-words font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 break-words font-medium text-stone-800">{row.value}</dd></div>)}</div></div>
     </section>
     <section aria-label={locale === "en" ? "Delivery trust information" : "配送信任資訊"} className="grid grid-cols-1 divide-y divide-stone-100 overflow-hidden rounded-2xl border border-[#ead8c8] bg-white shadow-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-      {[{ title: locale === "en" ? "Free SF shipping" : "滿 HK$399 順豐免運", body: locale === "en" ? "Storewide qualifying orders" : "全單達門檻即享" }, { title: locale === "en" ? "Ships in 1–2 days" : "1–2 天現貨發貨", body: locale === "en" ? "Hong Kong in-stock items" : "香港現貨優先寄出" }, { title: locale === "en" ? "Genuine Japan source" : "100% 日本原廠正貨", body: locale === "en" ? "Officially selected products" : "官方來源嚴選" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}
+      {[{ title: locale === "en" ? "Free SF shipping over HK$399" : "全店滿 HK$399 順豐免運", body: locale === "en" ? "Below HK$399: SF collect-on-delivery / standard shipping" : "未滿 HK$399 按順豐到付／標準運費計算" }, { title: locale === "en" ? "In-stock: dispatch in 1–2 working days" : "現貨：1–2 個工作天安排出貨", body: locale === "en" ? "Expected SF delivery adds 1–2 working days (about 2–4 total)" : "順豐寄出後約 1–2 個工作天送達，合計約 2–4 天" }, { title: locale === "en" ? "Japan preorder: about 7–14 working days" : "日本預購：約 7–14 個工作天", body: locale === "en" ? "Air-freighted from Aichi, Japan; mixed orders ship together by default" : "由日本愛知縣空運直送；混合訂單預設到齊後一併寄出" }].map((item) => <div key={item.title} className="flex items-center gap-3 px-4 py-3 sm:block sm:px-3 sm:py-4"><div className="min-w-0"><p className="text-[13px] font-bold leading-relaxed text-stone-800">{item.title}</p><p className="text-[12px] leading-relaxed text-stone-500">{item.body}</p></div></div>)}
     </section>
   </div>;
 }

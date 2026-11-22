@@ -12,6 +12,7 @@ type FAQItem = {
 const FAQ_ITEMS: FAQItem[] = [
   { question: "faqShippingQuestion", answer: "faqShippingAnswer" },
   { question: "faqDeliveryQuestion", answer: "faqDeliveryAnswer" },
+  { question: "faqRemoteQuestion", answer: "faqRemoteAnswer" },
   { question: "faqPaymentQuestion", answer: "faqPaymentAnswer" },
   { question: "faqReturnsQuestion", answer: "faqReturnsAnswer" },
 ];

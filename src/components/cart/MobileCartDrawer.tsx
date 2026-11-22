@@ -167,6 +167,10 @@ export function MobileCartDrawer({
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch] sm:px-5 sm:py-5">
+          <section className="mb-4 rounded-2xl border border-[#ead8c8] bg-[#fffaf5] px-3.5 py-3 text-xs leading-relaxed text-stone-700" aria-label={locale === "en" ? "Shipping information" : "配送資訊"}>
+            <p className="font-bold text-stone-900">{locale === "en" ? "Free SF shipping on orders over HK$399" : "全店滿 HK$399 順豐免運"}</p>
+            <p className="mt-1">{locale === "en" ? "In-stock: dispatch in 1–2 working days; delivery about 2–4 working days total. Japan preorder: about 7–14 working days. Mixed orders ship together by default." : "香港現貨：1–2 個工作天出貨，約 2–4 個工作天送達。日本預購：約 7–14 個工作天。混合訂單預設待到齊後一併寄出。"}</p>
+          </section>
           {items.length === 0 ? (
             <div className="px-1 py-4 text-center">
               <p className="text-sm leading-relaxed text-[color:var(--muted)]">
