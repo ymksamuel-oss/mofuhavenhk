@@ -640,7 +640,7 @@ export const translations = {
       "香港現貨：下單後 1–2 個工作天內安排出貨，順豐寄出後預計 1–2 個工作天送達，合計約 2–4 個工作天。日本預購／直送：由日本愛知縣原廠採購及空運直送，約 7–14 個工作天到港並安排寄出。混合訂單預設待全部到齊後一併寄出；如需先寄現貨，請聯絡 WhatsApp 客服另行安排。",
     faqPaymentQuestion: "\u652f\u63f4\u4e5c\u5622\u4ed8\u6b3e\u65b9\u5f0f？",
     faqPaymentAnswer:
-      "\u5168\u5e97\u4f7f\u7528\u5b98\u65b9\u8a8d\u8b49 Stripe \u5b89\u5168\u652f\u4ed8，\u652f\u63f4 Visa、Mastercard、AMEX、Apple Pay、Google Pay、AlipayHK、WeChat Pay HK \u53ca PayMe。\u5168\u5e97\u4e0d\u8a2d\u624b\u52d5\u8f49\u5e33，\u4ed8\u6b3e\u5373\u6642\u52a0\u5bc6\u8655\u7406，\u5b8c\u6210\u5f8c\u6703\u81ea\u52d5\u78ba\u8a8d\u8a02\u55ae\u53ca\u5bc4\u51fa\u96fb\u5b50\u6536\u64da。\n\n\u6b63\u54c1\u4fdd\u8b49：\u5168\u7dda\u5546\u54c1\u5747\u70ba 100% \u65e5\u672c\u539f\u88dd\u76f4\u9001\u6216\u6b63\u898f\u4ee3\u7406\u6b63\u8ca8，\u7db2\u7ad9\u7167\u7247\u7686\u70ba\u4f9b\u61c9\u5546\u5be6\u7269\u62cd\u651d。\n\n\u91cf\u8ca9\u591a\u4ef6\u512a\u60e0：\u8cb7\u6eff 8 \u4ef6\u4eab 9 \u6298，\u8cb7\u6eff 16 \u4ef6\u4eab 85 \u6298，\u7cfb\u7d71\u6703\u5728\u7d50\u5e33\u6642\u81ea\u52d5\u6298\u62b5。",
+      "結帳支援 Visa、Mastercard、Apple Pay、Google Pay、AlipayHK 及 PayMe。Stripe 會按裝置、瀏覽器、地區及貨幣資格顯示可用的付款方式。",
     faqReturnsQuestion: "\u6536\u5230\u8ca8\u5f8c\u53ef\u4ee5\u9000\u63db\u8ca8\u55ce？",
     faqReturnsAnswer:
       "天然寵物食品基於衛生及食品安全，除商品破損、寄錯或品質問題外，不設無理由退換。請於收貨後 48 小時內透過 WhatsApp 聯絡客服，提供訂單編號及清晰照片／影片，以便跟進。",
@@ -1434,7 +1434,7 @@ export const translations = {
       "Hong Kong in-stock items: dispatch within 1–2 working days; SF delivery is expected in a further 1–2 working days (about 2–4 working days total). Japan preorder/direct items are sourced from the original factory in Aichi, Japan and air-freighted to Hong Kong, usually taking 7–14 working days to arrive and be prepared for dispatch. Mixed orders ship together when all items are ready by default; contact WhatsApp support if you need in-stock items shipped first.",
     faqPaymentQuestion: "Which payment methods do you support?",
     faqPaymentAnswer:
-      "We support a range of secure and convenient online payment methods to suit different customers:\n\n1. Card and mobile payments:\nVisa / Mastercard (all card transactions are encrypted by Stripe for secure payment)\nApple Pay (available on iPhone, iPad and Mac devices)\nGoogle Pay (available on Android devices or the Chrome browser)\n\n2. Major local e-payment methods:\nAlipayHK (Hong Kong)\nPayMe\n\n💡 Friendly note about payment-icon display:\nIf you browse the store on an iPhone or iPad (iOS device), Apple ecosystem restrictions may mean that some non-Apple payment logos, such as Google Pay, do not appear directly on the checkout page. This is normal and does not affect your ability to place an order or complete payment. If you have any questions during payment, please contact us via WhatsApp and we will be happy to help.",
+      "Checkout supports Visa, Mastercard, Apple Pay, Google Pay, AlipayHK and PayMe. Stripe determines availability based on your device, browser, country and currency eligibility.",
     faqReturnsQuestion: "Can I exchange or return an item after delivery?",
     faqReturnsAnswer:
       "For hygiene and food-safety reasons, natural pet food is not eligible for change-of-mind returns. If an item is damaged, incorrect, or has a quality issue, contact us via WhatsApp within 48 hours of receipt with your order number and clear photos or video.",

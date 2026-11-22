@@ -74,7 +74,7 @@ function RichProductContent({ product, locale, sku }: { product: Product; locale
   return <div className="mt-8 space-y-5">
     <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
       <div className="flex flex-wrap gap-2 px-4 pt-4 sm:px-5">
-        {[locale === "en" ? "Product details from available packaging data" : "商品資料以已提供的包裝資訊為準", locale === "en" ? (product.inStock === false ? "Out of stock" : "In stock") : (product.inStock === false ? "暫時缺貨" : "現貨")].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
+        {[locale === "en" ? "Product details from available packaging data" : "商品資料以已提供的包裝資訊為準", (locale === "en" ? product.availability?.en : product.availability?.zh) || (product.inStock === false ? (locale === "en" ? "Out of stock" : "暫時缺貨") : (locale === "en" ? "Available" : "可供訂購"))].map((badge) => <span key={badge} className="rounded-full bg-[#f7eee7] px-3 py-1 text-[11px] font-bold leading-5 text-[#8b573f] ring-1 ring-[#ead8c8]">{badge}</span>)}
       </div>
       <button type="button" onClick={() => setOpenFeatures((value) => !value)} aria-expanded={openFeatures} className="flex w-full items-center justify-between px-4 py-3 text-left sm:px-5"><span className="font-bold">{locale === "en" ? "Product features" : "商品特色"}</span><span className="text-xl text-stone-400" aria-hidden>{openFeatures ? "−" : "+"}</span></button>
       {openFeatures ? <div className="border-t border-stone-100 px-4 pb-5 pt-3 sm:px-5">
