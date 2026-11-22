@@ -24,6 +24,7 @@ import { parseProductPackageFacts } from "@/lib/product-package-facts";
 import {
   parseProductContent,
   productSpecifications,
+  safeProductText,
   stripProductEmoji,
   type RichProductContent,
 } from "@/lib/product-content";
@@ -48,6 +49,91 @@ function FeatureCopy({ item }: { item: string }) {
   const title = cleanItem.slice(0, separator).trim();
   const detail = cleanItem.slice(separator + 1).trim();
   return <><span className="font-semibold text-stone-900">{title}</span><span className="text-stone-500"> — </span><span className="text-stone-600">{detail}</span></>;
+}
+
+function getProductAudience(product: Product, locale: Locale): string {
+  const source = [product.productType, product.categorySlug, ...(product.tags ?? [])].filter(Boolean).join(" ").toLowerCase();
+  if (/(?:all[_ -]?pets|cat[_ -]?dog|犬貓|貓狗|貓犬)/iu.test(source)) return locale === "en" ? "Dogs & cats" : "犬貓適用";
+  if (/(?:cat[_ -]?only|\bcat\b|貓專用|貓用|貓咪專區)/iu.test(source)) return locale === "en" ? "Cats" : "貓用";
+  if (/(?:dog[_ -]?only|\bdog\b|犬專用|犬用|狗用)/iu.test(source)) return locale === "en" ? "Dogs" : "犬用";
+  if (product.categorySlug === "cats") return locale === "en" ? "Cats" : "貓用";
+  if (product.categorySlug === "dogs") return locale === "en" ? "Dogs" : "犬用";
+  return locale === "en" ? "See product label" : "請以商品標示為準";
+}
+
+function getDeliveryType(product: Product, locale: Locale): string {
+  const metadata = product.metadata ?? {};
+  const status = [
+    product.availability?.zh,
+    product.availability?.en,
+    metadata.availability_display_zh,
+    metadata.stock_status_zh,
+    metadata.availability,
+    metadata.stock_status,
+    metadata.fulfillment_type,
+  ].filter(Boolean).join(" ");
+  if (/(?:預購|預訂|直送|pre\s*[- ]?order|direct\s*ship)/iu.test(status)) {
+    return locale === "en" ? "Japan preorder · 7–14 working days" : "日本預購｜7–14 個工作天";
+  }
+  if (product.inStock === true || /(?:香港現貨|本地現貨|in\s*stock)/iu.test(status)) {
+    return locale === "en" ? "Hong Kong stock · dispatch in 1–2 working days" : "香港現貨｜1–2 個工作天出貨";
+  }
+  if (product.inStock === false) return locale === "en" ? "Currently out of stock" : "暫時缺貨";
+  return locale === "en" ? "Delivery type not listed" : "配送類型暫未提供";
+}
+
+function ProductDecisionCard({ product, locale, sku, variantLabel, isFood }: {
+  product: Product;
+  locale: Locale;
+  sku: string;
+  variantLabel?: string;
+  isFood: boolean;
+}) {
+  const description = softenHealthClaims(locale === "zh" ? product.description?.zh || product.description?.[locale] || "" : product.description?.[locale] || product.description?.zh || "");
+  const rich = useMemo(() => parseProductContent(description, product, locale), [description, product, locale]);
+  const packageFacts = useMemo(() => parseProductPackageFacts({
+    description: stripProductEmoji(description),
+    specifications: [...rich.nutrition, ...productSpecifications(product, sku, locale)],
+    fallbackJan: "",
+    locale,
+  }), [description, locale, product, rich.nutrition, sku]);
+  const metadata = product.metadata ?? {};
+  const ingredientMetadata = [
+    metadata[`main_ingredient_${locale}`],
+    metadata[`ingredients_${locale}`],
+    metadata.main_ingredient,
+    metadata.ingredients,
+    metadata.protein_source,
+  ].map((value) => safeProductText(value, locale)).find(Boolean);
+  const ingredients = packageFacts.find((fact) => fact.key === "ingredients")?.value || ingredientMetadata
+    || (locale === "en" ? "Refer to the ingredient list on the package" : "請參閱包裝成分表；目前商品資料未列明");
+  const parsedWeight = packageFacts.find((fact) => fact.key === "netWeight")?.value;
+  const variantWeight = variantLabel && /\d+(?:\.\d+)?\s*(?:g|kg|ml|枚|包|支|片|粒|個|pcs?)/iu.test(variantLabel) ? variantLabel : "";
+  const weight = parsedWeight || product.productSpec || variantWeight
+    || (locale === "en" ? "Not listed in available product data" : "商品資料暫未提供");
+  const unsafeFeedingClaim = /(?:治療|治癒|療效|醫療|預防疾病|修復|cure|treat(?:s|ed|ment)?|prevent|medical\s+claim)/iu;
+  const feedingLine = rich.feeding.find((line) => !unsafeFeedingClaim.test(line));
+  const cautionLine = rich.notes.find((line) => !unsafeFeedingClaim.test(line));
+  const feeding = [
+    feedingLine || (isFood
+      ? locale === "en" ? "Daily treat or food topper; follow package guidance, use a modest portion, and do not replace a complete meal." : "作日常點心或伴糧；按包裝建議少量添加，不取代主食。"
+      : locale === "en" ? "Follow the product instructions and cautions on the package." : "請依商品包裝上的使用方法及注意事項操作。"),
+    cautionLine || (isFood
+      ? locale === "en" ? "Supervise feeding and provide fresh water." : "餵食時請陪同看顧，並提供清水。"
+      : ""),
+  ].filter(Boolean).join(" ");
+  const rows = [
+    { label: locale === "en" ? "Main ingredients / protein source" : "主要原料／蛋白來源", value: ingredients },
+    { label: locale === "en" ? "Suitable for" : "適用對象", value: getProductAudience(product, locale) },
+    { label: locale === "en" ? "Weight / pack size" : "重量／規格", value: weight },
+    { label: locale === "en" ? "Feeding guidance / cautions" : "餵食建議／注意事項", value: feeding },
+    { label: locale === "en" ? "Delivery type" : "配送類型", value: getDeliveryType(product, locale) },
+  ];
+
+  return <section className="mt-5 overflow-hidden rounded-2xl border border-[#ead8c8] bg-[#fffaf5] shadow-sm" aria-labelledby="product-decision-title">
+    <div className="border-b border-[#ead8c8] px-4 py-3 sm:px-5"><h2 id="product-decision-title" className="text-sm font-bold text-stone-900">{locale === "en" ? "Product essentials at a glance" : "產品重點規格"}</h2><p className="mt-1 text-[11px] leading-relaxed text-stone-500">{locale === "en" ? "Product facts are shown only when available in the supplied catalogue or packaging data." : "只列出商品目錄或包裝資料中可核實的資訊。"}</p></div>
+    <dl className="divide-y divide-[#efe2d7] px-4 sm:px-5">{rows.map((row) => <div key={row.label} className="grid grid-cols-[minmax(6.5rem,0.85fr)_minmax(0,1.4fr)] gap-3 py-3 text-[12px] leading-relaxed sm:grid-cols-[minmax(8rem,0.75fr)_minmax(0,1.5fr)]"><dt className="font-semibold text-stone-500">{row.label}</dt><dd className="min-w-0 whitespace-pre-line break-words font-medium text-stone-800">{row.value}</dd></div>)}</dl>
+  </section>;
 }
 
 function RichProductContent({ product, locale, sku }: { product: Product; locale: Locale; sku: string }) {
@@ -206,5 +292,5 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const quantityOptions = isFood ? PET_BUNDLE_QUANTITIES : undefined;
   const discountPercent = selectedOriginalPrice ? Math.round((1 - selectedPrice / selectedOriginalPrice) * 100) : null;
   useEffect(() => { trackMetaEvent("ViewContent", { content_type: "product", content_ids: [sku], content_name: name, content_sku: sku, value: selectedPrice, currency: "HKD" }); }, [name, selectedPrice, sku]);
-  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${selectedProduct.id}-${selectedPriceId}`} images={selectedOption?.image ? [selectedOption.image] : selectedProduct.images} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={selectedProduct.id} className="h-11 w-11 shrink-0 text-xl" /></div><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={selectedProduct.marketReferencePrice} asOf={selectedProduct.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" />{family && familyChoices.length > 1 ? <div className="mt-5 rounded-xl bg-white p-3"><div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{family.selector[locale]}</p><span className="text-xs text-stone-500">{familyChoices.length} {locale === "zh" ? "款可選" : "choices"}</span></div><div className="mt-2 grid gap-2 sm:grid-cols-2">{familyChoices.map((choice) => <button key={choice.product.id} type="button" onClick={() => setSelectedProductId(choice.product.id)} className={`rounded-lg border px-3 py-2 text-left text-xs font-semibold ${choice.product.id === selectedProduct.id ? "border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-600"}`}>{choice.label[locale]}</button>)}</div></div> : null}{selectedProduct.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{selectedProduct.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{selectedProduct.variants!.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{selectedProduct.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-white p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={selectedProduct.id} /></div>}</section></div><RichProductContent product={selectedProduct} locale={locale} sku={barcode} /></main>{selectedProduct.inStock === false ? null : <MobileStickyCartBar product={selectedProduct} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
+  return <div className="min-h-screen bg-[#FFFFFF] text-stone-800"><main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-5 sm:px-6 sm:pb-16 sm:pt-8"><div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-stone-500"><CategoryNavLink href="/menu" className="font-medium hover:text-stone-800">{t("menuTitle")}</CategoryNavLink><span>/</span>{category ? <><CategoryNavLink href={categoryHref(category.slug)} className="font-medium hover:text-stone-800">{t(category.labelKey)}</CategoryNavLink><span>/</span></> : null}<span className="truncate text-stone-700">{name}</span></div><div className="grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10"><div className="relative"><ProductGallery key={`${selectedProduct.id}-${selectedPriceId}`} images={selectedOption?.image ? [selectedOption.image] : selectedProduct.images} fallbackImage={primaryImage} alt={name} priority />{discountPercent ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#111111] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">-{discountPercent}%</span> : null}</div><section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-7"><div className="flex items-start justify-between gap-3"><h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight sm:text-3xl">{name}</h1><WishlistButton productId={selectedProduct.id} className="h-11 w-11 shrink-0 text-xl" /></div><div className="mt-5 flex flex-wrap items-baseline gap-3"><span className="text-2xl font-bold tracking-tight tabular-nums text-[#111111] sm:text-3xl">{formatMoney(selectedPrice, locale)}</span>{selectedOriginalPrice ? <span className="text-base text-stone-400 line-through">{formatMoney(selectedOriginalPrice, locale)}</span> : null}</div>{discountPercent ? <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-stone-500">{t("productDiscountBadge")}</p> : null}<MarketReferencePrice price={selectedProduct.marketReferencePrice} asOf={selectedProduct.marketReferenceAsOf} className="mt-2" /><FreeShippingProgress subtotal={cartSubtotal} className="mt-5" /><ProductDecisionCard product={selectedProduct} locale={locale} sku={sku} variantLabel={selectedOption?.label?.[locale] || selectedOption?.label?.zh} isFood={isFood} />{family && familyChoices.length > 1 ? <div className="mt-5 rounded-xl bg-white p-3"><div className="flex items-center justify-between gap-2"><p className="text-sm font-bold">{family.selector[locale]}</p><span className="text-xs text-stone-500">{familyChoices.length} {locale === "zh" ? "款可選" : "choices"}</span></div><div className="mt-2 grid gap-2 sm:grid-cols-2">{familyChoices.map((choice) => <button key={choice.product.id} type="button" onClick={() => setSelectedProductId(choice.product.id)} className={`rounded-lg border px-3 py-2 text-left text-xs font-semibold ${choice.product.id === selectedProduct.id ? "border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-600"}`}>{choice.label[locale]}</button>)}</div></div> : null}{selectedProduct.variants?.length ? <div className="mt-5"><p className="text-sm font-bold">{selectedProduct.metadata?.variant_selection_label_zh || t("productSpecSelectorTitle")}</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{selectedProduct.variants!.map((variant, index) => <button key={variant.key} type="button" onClick={() => setSelectedSpecIndex(index)} className={`rounded-xl border p-3 text-left text-sm ${selectedSpecIndex === index ? "border-2 border-[#111111] bg-white text-[#111111]" : "border-stone-200 bg-white text-stone-700"}`}><span className="block font-semibold">{variant.label[locale] || variant.label.zh}</span><span className="mt-1 block text-xs text-stone-500">{formatMoney(variant.price, locale)}{variant.unitLabel?.[locale] ? ` · ${variant.unitLabel[locale]}` : ""}</span></button>)}</div></div> : null}{selectedProduct.inStock !== false ? <div ref={purchaseRef} className="mt-6"><p className="mb-2 text-sm font-bold">{t("productPurchaseQuantity")}</p><AddToCartButton productId={selectedProduct.id} priceId={selectedPriceId} size="modal" quantityOptions={quantityOptions} quantity={selectedQty} onQuantityChange={setSelectedQty} showBulkShortcuts showTotal unitPrice={selectedPrice} className="[&>button:last-child]:rounded-full [&>button:last-child]:py-4" /></div> : <div ref={purchaseRef} className="mt-6 rounded-2xl border border-stone-200 bg-white p-4 text-stone-800"><p className="font-bold">{t("productSoldOut")}</p><p className="mt-1 text-sm text-stone-600">{t("productOutOfStockMessage")}</p><BackInStockAlertButton productId={selectedProduct.id} /></div>}</section></div><RichProductContent product={selectedProduct} locale={locale} sku={barcode} /></main>{selectedProduct.inStock === false ? null : <MobileStickyCartBar product={selectedProduct} name={name} price={selectedPrice} image={primaryImage} visible={!purchaseVisible} basketCount={itemCount} basketTotal={cartSubtotal} added={stickyAdded} loading={stickyLoading} locale={locale} onAdd={handleStickyAdd} />}</div>;
 }

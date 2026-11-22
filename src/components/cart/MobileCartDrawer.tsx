@@ -14,6 +14,8 @@ import { useCart } from "@/lib/shop/cart";
 import { useCatalog } from "@/lib/catalog-context";
 import { sanitizeProductTitle } from "@/lib/product-title";
 
+const PREFERRED_ADDON_SKUS = ["4976064026705", "4976064024725", "4976064024688"];
+
 function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartProductIds: string[] }) {
   const { locale } = useI18n();
   const { products } = useCatalog();
@@ -23,17 +25,35 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
   const suggestions = useMemo(() => {
     if (subtotal >= 399) return [];
     const excluded = new Set(cartProductIds);
+    const priorityRank = (product: (typeof products)[number]) => {
+      const sku = product.mofuSku?.trim() || product.metadata?.mofu_sku?.trim() || "";
+      const preferredIndex = PREFERRED_ADDON_SKUS.indexOf(sku);
+      if (preferredIndex >= 0) return preferredIndex;
+      const productText = [product.name.zh, product.name.en, ...(product.tags ?? [])].join(" ");
+      if (/(?:拌糧|撒粉|furikake|meal\s*topper|topping)/iu.test(productText)) return 3;
+      if (product.metadata?.featured === "true") return 4;
+      return 5;
+    };
     return products
-      .filter((product) => product.inStock !== false && !excluded.has(product.id) && product.price >= 49 && product.price <= 69)
-      .sort((a, b) => Number(b.metadata?.featured === "true") - Number(a.metadata?.featured === "true") || a.price - b.price)
-      .slice(0, 2);
+      .filter((product) => {
+        const priceCents = Math.round(product.price * 100);
+        const productText = [product.name.zh, product.name.en, ...(product.tags ?? [])].join(" ");
+        const isSnack = /(?:零食|小食|肉乾|肉條|肉片|魚乾|柴魚|拌糧|撒粉|flakes|treat|snack|furikake|topper|chew|bone)/iu.test(productText);
+        return product.inStock === true
+          && !excluded.has(product.id)
+          && priceCents >= 4990
+          && priceCents <= 6990
+          && isSnack;
+      })
+      .sort((a, b) => priorityRank(a) - priorityRank(b) || a.price - b.price)
+      .slice(0, 3);
   }, [cartProductIds, products, subtotal]);
   if (!suggestions.length) return null;
   return (
     <section className="mb-5 rounded-2xl border border-[#F1F1F1] bg-[#FFFFFF] p-3.5" aria-label={locale === "en" ? "Quick add snacks" : "湊單小零食推薦"}>
       <div className="mb-2.5 flex items-center justify-between gap-2">
-        <p className="text-xs font-bold tracking-wide text-[#8f4d27]">{locale === "en" ? "Quick add to unlock free shipping" : "湊單小零食・一鍵享免運"}</p>
-        <span className="text-[10px] text-stone-500">{locale === "en" ? "HK$49–69" : "HK$49–69"}</span>
+        <p className="text-xs font-bold tracking-wide text-[#8f4d27]">{locale === "en" ? "Small add-ons to reach free shipping" : "小額加購推薦・湊滿 HK$399"}</p>
+        <span className="text-[10px] text-stone-500">HK$49.90–69.90</span>
       </div>
       <div className="grid grid-cols-2 gap-2">
         {suggestions.map((product) => {
@@ -47,6 +67,7 @@ function QuickAddSnacks({ subtotal, cartProductIds }: { subtotal: number; cartPr
               </div>
               <div className="min-w-0 flex-1">
                 <p className="line-clamp-2 text-[11px] font-semibold leading-snug text-stone-700">{name}</p>
+                <p className="mt-1 text-[11px] font-bold tabular-nums text-stone-900">{formatMoney(product.price, locale)}</p>
                 <button type="button" disabled={isAdded || isAdding} onClick={() => { if (isAdded || isAdding) return; setAddingId(product.id); addItem(product.id); setAddedId(product.id); window.setTimeout(() => setAddingId(null), 350); }} className="mt-1.5 min-h-7 rounded-full bg-[#C86A2B] px-2.5 text-[10px] font-bold text-white transition hover:bg-[#9d4f20] active:scale-95 disabled:bg-[#3D5A40]">
                   {isAdded ? (locale === "en" ? "Added ✓" : "已加入 ✓") : isAdding ? (locale === "en" ? "Adding…" : "加入中…") : locale === "en" ? "+ Add" : "+ 加購"}
                 </button>
@@ -167,10 +188,12 @@ export function MobileCartDrawer({
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 [-webkit-overflow-scrolling:touch] sm:px-5 sm:py-5">
+          <FreeShippingProgress subtotal={subtotal} className="mb-4" />
           <section className="mb-4 rounded-2xl border border-[#ead8c8] bg-[#fffaf5] px-3.5 py-3 text-xs leading-relaxed text-stone-700" aria-label={locale === "en" ? "Shipping information" : "配送資訊"}>
             <p className="font-bold text-stone-900">{locale === "en" ? "Free SF shipping on orders over HK$399" : "全店滿 HK$399 順豐免運"}</p>
             <p className="mt-1">{locale === "en" ? "In-stock: dispatch in 1–2 working days; delivery about 2–4 working days total. Japan preorder: about 7–14 working days. Mixed orders ship together by default." : "香港現貨：1–2 個工作天出貨，約 2–4 個工作天送達。日本預購：約 7–14 個工作天。混合訂單預設待到齊後一併寄出。"}</p>
           </section>
+          <QuickAddSnacks subtotal={subtotal} cartProductIds={items.map((item) => item.id)} />
           {items.length === 0 ? (
             <div className="px-1 py-4 text-center">
               <p className="text-sm leading-relaxed text-[color:var(--muted)]">
@@ -188,8 +211,6 @@ export function MobileCartDrawer({
             </div>
           ) : (
             <>
-              <FreeShippingProgress subtotal={subtotal} className="mb-5" />
-              <QuickAddSnacks subtotal={subtotal} cartProductIds={items.map((item) => item.id)} />
               <ul className="space-y-3">
                 {items.map((item) => (
                   <li
