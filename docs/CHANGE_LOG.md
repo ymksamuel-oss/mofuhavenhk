@@ -2,6 +2,18 @@
 
 > 新紀錄放最上方；時間一律為香港時間（HKT）。測試、庫存與部署狀態只記錄已查證內容。
 
+## 2026-11-27 19:21 HKT — Vercel P1 Preview 已 READY；完成 connector 示範
+
+- **分支與 Commit Hash：** `feat/p1-conversion-boost` / `121a96ba`；Vercel deployment ID：`dpl_5wTs982Et4hrpivatMghNR5anFpp`。
+- **改動摘要：**
+  - Vercel `open_deployments` 查得此分支部署為 `READY`，實際 Preview：[開啟 Mofu Haven P1 Preview](https://mofuhavenhk-hrhz39a5q-mofuhavenhk-6259s-projects.vercel.app)。
+  - Vercel `list_projects` 查得專案 `mofuhavenhk`（project ID：`prj_N5bUICNsAw5qchwywvFehuiT48Tq`）。
+  - HTTP 檢查 Preview 網址回應 302 並導向 Vercel SSO；部署已就緒，但匿名訪客不能直接開啟，需有權限的 Vercel 登入。
+  - 這筆紀錄只更新 `docs/CHANGE_LOG.md`；沒有改動網站功能。
+- **安全與測試：** 本次只有文件更新，沒有改動 Stripe 結帳、後端運費或 `products` 資料表。此功能分支的 lint/build 先前均通過；測試仍有 37 項失敗，未合併的 `main` 基線亦有相同失敗。Vercel 對 commit `121a96ba` 回報部署已完成且 `READY`。
+- **部署狀態與連結：** Preview `READY`，部署 commit `121a96ba`；[Preview 網址](https://mofuhavenhk-hrhz39a5q-mofuhavenhk-6259s-projects.vercel.app)（受 Vercel SSO 保護）。GitHub 上另一個 `Vercel – mofuhavenhk-stripe-updated` check 仍顯示 `Account is blocked`；這是不同 check，並不改變 `mofuhavenhk` 此 Preview 的 `READY` 狀態。
+- **待跟進事項：** 如需讓未登入人士也能開啟，需由 Vercel 專案管理者檢查 Preview Deployment Protection；本次沒有更改保護設定。P1 工作仍留在 feature branch，未合併至 `main`。
+
 ## 2026-11-27 18:36 HKT — 同步並推送 main SEO 修改至 P1 分支，建立改動紀錄
 
 - **分支與 Commit Hash：** `feat/p1-conversion-boost` / `10bf7931`（merge）及 `4ce160bc`（改動紀錄）；整合來源為 `main` 的 `9c16c9f5`，P1 原始提交為 `e9d14c93`。已推送至 `origin/feat/p1-conversion-boost`；沒有推送或修改 `main`。
