@@ -2,17 +2,17 @@
 
 > 新紀錄放最上方；時間一律為香港時間（HKT）。測試、庫存與部署狀態只記錄已查證內容。
 
-## 2026-11-27 18:36 HKT — 同步 main SEO 修改至 P1 分支並建立改動紀錄
+## 2026-11-27 18:36 HKT — 同步並推送 main SEO 修改至 P1 分支，建立改動紀錄
 
-- **分支與 Commit Hash：** `feat/p1-conversion-boost` / `10bf7931`；整合來源為 `main` 的 `9c16c9f5`，P1 原始提交為 `e9d14c93`。
+- **分支與 Commit Hash：** `feat/p1-conversion-boost` / `10bf7931`（merge）及 `4ce160bc`（改動紀錄）；整合來源為 `main` 的 `9c16c9f5`，P1 原始提交為 `e9d14c93`。已推送至 `origin/feat/p1-conversion-boost`；沒有推送或修改 `main`。
 - **改動摘要：**
   - 把 `main` 最新 SEO 修改合併入 P1 分支，包含 `/menu` 頁面與商品目錄改善、sitemap、首頁 SEO 資訊及結帳頁 noindex 設定。
   - 整合涉及 `src/app/checkout/layout.tsx`、`src/app/menu/MenuCatalogClient.tsx`、`src/app/menu/page.tsx`、`src/app/page.tsx`、`src/app/sitemap.ts`。
   - 新增本紀錄檔 `docs/CHANGE_LOG.md`，並補錄 P0、SEO、P1 三筆關鍵歷史紀錄。
   - 即時資料庫查詢顯示，購物車空白且未滿 HK$399 時，符合目前 P1 條件的推薦前三項為：`4976064024442` 純野生鹿肉鬆伴糧撒粉（HK$49.90，庫存 20）、`4976064026552` 原肉風乾純馬肉條（HK$49.90，庫存 20）、`4976064023865` 國產純雞里肌一口肉塊（HK$49.90，庫存 20）。同價商品的資料建立時間相同，而程式沒有額外 SKU 排序，因此其先後可能受目錄原始排序影響。
 - **安全與測試：** 沒有改動 Stripe 結帳金額／API、後端運費計算或 `products` 資料表；SEO 只涉及頁面與索引設定。`npm run lint` 通過；`npm run build` 通過；`npm test` 有 12/52 個測試檔失敗（37/210 項失敗、173 項通過）。在未合併的 `origin/main` 獨立 worktree 重跑亦為完全相同的 12 個檔案／37 項失敗，確認是合併前已存在的測試問題，非本次同步新增。
-- **部署狀態與連結：** Preview 尚未提交及觸發部署；Vercel Connector 登入仍待完成，未確認 `BUILDING` 或 `READY`，目前沒有可驗證的 Preview 連結。
-- **待跟進事項：** 完成 lint、test、build；提交並推送至 `feat/p1-conversion-boost`；查驗 Vercel Preview 真正轉為 `READY` 後補上連結。
+- **部署狀態與連結：** 推送後 GitHub 上的 `Vercel – mofuhavenhk` check 仍為 `PENDING`（「Vercel is deploying your app」）；另一個 `Vercel – mofuhavenhk-stripe-updated` check 顯示 `FAILURE`（「Account is blocked.」）。兩個 target 都不是網站 Preview URL；Vercel Connector 仍未登入，尚未確認部署真正 `READY`，目前沒有可驗證的 Preview 網址。
+- **待跟進事項：** 完成 Vercel Connector OAuth，並確認／解除 Vercel check 所報告的帳戶阻擋；再查驗部署真正轉為 `READY`，將可開啟 Preview 網址及時間更新於紀錄。
 
 ## 2026-11-23 23:27:38 HKT — SEO 優化
 
