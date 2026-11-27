@@ -1,4 +1,5 @@
 // Mofu Journal homepage: editorial storytelling with one curated product selection.
+import type { Metadata } from "next";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { WelcomeEntranceOverlay } from "@/components/WelcomeEntranceOverlay";
 import { HomeJournalHero } from "@/components/home/HomeJournalHero";
@@ -12,6 +13,13 @@ import { HomepageFeaturedShowcase } from "@/components/home/HomepageFeaturedShow
 import { CareMatchCard } from "@/components/home/CareMatchCard";
 
 export const revalidate = 86400;
+export const metadata: Metadata = {
+  title: { absolute: "毛毛港 Mofu Haven HK｜日本直送天然寵物零食及用品專門店" },
+  description:
+    "毛毛港 Mofu Haven HK 專營日本寵物零食及用品，精選貓狗天然食品、日本直送寵物食品與日常好物，為香港毛孩帶來安心選擇。",
+  keywords: ["毛毛港", "日本寵物零食", "貓狗天然食品", "日本直送寵物用品", "香港寵物店"],
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   let products: Product[] = [];
