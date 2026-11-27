@@ -4,7 +4,7 @@
 
 ## 2026-11-27 18:36 HKT — 同步 main SEO 修改至 P1 分支並建立改動紀錄
 
-- **分支與 Commit Hash：** `feat/p1-conversion-boost`；整合來源為 `main` 的 `9c16c9f5`，P1 原始提交為 `e9d14c93`；本次整合提交待完成測試後建立。
+- **分支與 Commit Hash：** `feat/p1-conversion-boost` / `10bf7931`；整合來源為 `main` 的 `9c16c9f5`，P1 原始提交為 `e9d14c93`。
 - **改動摘要：**
   - 把 `main` 最新 SEO 修改合併入 P1 分支，包含 `/menu` 頁面與商品目錄改善、sitemap、首頁 SEO 資訊及結帳頁 noindex 設定。
   - 整合涉及 `src/app/checkout/layout.tsx`、`src/app/menu/MenuCatalogClient.tsx`、`src/app/menu/page.tsx`、`src/app/page.tsx`、`src/app/sitemap.ts`。
